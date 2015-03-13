@@ -765,6 +765,7 @@ struct SpaceNode *CTX_wm_space_node(const bContext *C)
 	return NULL;
 }
 
+/*
 struct SpaceLogic *CTX_wm_space_logic(const bContext *C)
 {
 	ScrArea *sa = CTX_wm_area(C);
@@ -772,6 +773,7 @@ struct SpaceLogic *CTX_wm_space_logic(const bContext *C)
 		return sa->spacedata.first;
 	return NULL;
 }
+*/
 
 struct SpaceIpo *CTX_wm_space_graph(const bContext *C)
 {

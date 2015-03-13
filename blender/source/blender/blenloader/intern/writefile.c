@@ -2705,10 +2705,10 @@ static void write_screens(WriteData *wd, ListBase *scrbase)
 					
 					for (path=snode->treepath.first; path; path=path->next)
 						writestruct(wd, DATA, "bNodeTreePath", 1, path);
-				}
+				} /*
 				else if (sl->spacetype==SPACE_LOGIC) {
 					writestruct(wd, DATA, "SpaceLogic", 1, sl);
-				}
+				} */
 				else if (sl->spacetype==SPACE_CONSOLE) {
 					SpaceConsole *con = (SpaceConsole*)sl;
 					ConsoleLine *cl;

@@ -1190,7 +1190,7 @@ typedef enum eSpace_Type {
 	SPACE_SCRIPT   = 14, /* Deprecated */
 	SPACE_TIME     = 15,
 	SPACE_NODE     = 16,
-	SPACE_LOGIC    = 17,
+	//SPACE_LOGIC    = 17,
 	SPACE_CONSOLE  = 18,
 	SPACE_USERPREF = 19,
 	SPACE_CLIP     = 20,

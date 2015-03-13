@@ -152,9 +152,10 @@ const unsigned char *UI_ThemeGetColorPtr(bTheme *btheme, int spacetype, int colo
 				case SPACE_NODE:
 					ts = &btheme->tnode;
 					break;
+				/*
 				case SPACE_LOGIC:
 					ts = &btheme->tlogic;
-					break;
+					break; */
 				case SPACE_CLIP:
 					ts = &btheme->tclip;
 					break;

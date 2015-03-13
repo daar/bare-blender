@@ -5971,12 +5971,12 @@ static void lib_link_screen(FileData *fd, Main *main)
 						
 						sclip->clip = newlibadr_us(fd, sc->id.lib, sclip->clip);
 						sclip->mask_info.mask = newlibadr_us(fd, sc->id.lib, sclip->mask_info.mask);
-					}
+					} /*
 					else if (sl->spacetype == SPACE_LOGIC) {
 						SpaceLogic *slogic = (SpaceLogic *)sl;
 						
 						slogic->gpd = newlibadr_us(fd, sc->id.lib, slogic->gpd);
-					}
+					} */
 				}
 			}
 			sc->id.flag -= LIB_NEED_LINK;
@@ -6323,12 +6323,12 @@ void blo_lib_link_screen_restore(Main *newmain, bScreen *curscreen, Scene *cursc
 					sclip->mask_info.mask = restore_pointer_by_name(newmain, (ID *)sclip->mask_info.mask, USER_REAL);
 					
 					sclip->scopes.ok = 0;
-				}
+				} /*
 				else if (sl->spacetype == SPACE_LOGIC) {
 					SpaceLogic *slogic = (SpaceLogic *)sl;
 					
 					slogic->gpd = restore_pointer_by_name(newmain, (ID *)slogic->gpd, USER_ONE);
-				}
+				} */
 			}
 		}
 	}
@@ -6623,16 +6623,16 @@ static bool direct_link_screen(FileData *fd, bScreen *sc)
 			else if (sl->spacetype == SPACE_TIME) {
 				SpaceTime *stime = (SpaceTime *)sl;
 				BLI_listbase_clear(&stime->caches);
-			}
+			} /*
 			else if (sl->spacetype == SPACE_LOGIC) {
 				SpaceLogic *slogic = (SpaceLogic *)sl;
 				
-				/* XXX: this is new stuff, which shouldn't be directly linking to gpd... */
+				/* XXX: this is new stuff, which shouldn't be directly linking to gpd... * /
 				if (slogic->gpd) {
 					slogic->gpd = newdataadr(fd, slogic->gpd);
 					direct_link_gpencil(fd, slogic->gpd);
 				}
-			}
+			} */
 			else if (sl->spacetype == SPACE_SEQ) {
 				SpaceSeq *sseq = (SpaceSeq *)sl;
 				

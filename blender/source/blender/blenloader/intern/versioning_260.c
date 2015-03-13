@@ -1743,13 +1743,14 @@ void blo_do_versions_260(FileData *fd, Library *UNUSED(lib), Main *main)
 			ScrArea *sa;
 			for (sa = sc->areabase.first; sa; sa = sa->next) {
 				SpaceLink *sl;
+				/*
 				if ( sa->spacetype == SPACE_LOGIC)
 					do_version_logic_264(&sa->regionbase);
 
 				for (sl = sa->spacedata.first; sl; sl = sl->next) {
 					if (sl->spacetype == SPACE_LOGIC)
 						do_version_logic_264(&sl->regionbase);
-				}
+				} */
 			}
 		}
 	}

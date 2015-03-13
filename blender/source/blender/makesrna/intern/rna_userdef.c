@@ -2193,12 +2193,13 @@ static void rna_def_userdef_theme_space_node(BlenderRNA *brna)
 	RNA_def_property_update(prop, 0, "rna_userdef_update");
 }
 
+/*
 static void rna_def_userdef_theme_space_logic(BlenderRNA *brna)
 {
 	StructRNA *srna;
 //	PropertyRNA *prop;
 	
-	/* space_logic */
+	/ * space_logic * /
 	
 	srna = RNA_def_struct(brna, "ThemeLogicEditor", NULL);
 	RNA_def_struct_sdna(srna, "ThemeSpace");
@@ -2207,7 +2208,7 @@ static void rna_def_userdef_theme_space_logic(BlenderRNA *brna)
 	
 	rna_def_userdef_theme_spaces_main(srna);
 	
-}
+} */
 
 
 static void rna_def_userdef_theme_space_buts(BlenderRNA *brna)
@@ -2960,11 +2961,13 @@ static void rna_def_userdef_themes(BlenderRNA *brna)
 	RNA_def_property_struct_type(prop, "ThemeNodeEditor");
 	RNA_def_property_ui_text(prop, "Node Editor", "");
 
+	/*
 	prop = RNA_def_property(srna, "logic_editor", PROP_POINTER, PROP_NONE);
 	RNA_def_property_flag(prop, PROP_NEVER_NULL);
 	RNA_def_property_pointer_sdna(prop, NULL, "tlogic");
 	RNA_def_property_struct_type(prop, "ThemeLogicEditor");
 	RNA_def_property_ui_text(prop, "Logic Editor", "");
+	*/
 	
 	prop = RNA_def_property(srna, "outliner", PROP_POINTER, PROP_NONE);
 	RNA_def_property_flag(prop, PROP_NEVER_NULL);
@@ -3089,7 +3092,7 @@ static void rna_def_userdef_dothemes(BlenderRNA *brna)
 	rna_def_userdef_theme_space_info(brna);
 	rna_def_userdef_theme_space_userpref(brna);
 	rna_def_userdef_theme_space_console(brna);
-	rna_def_userdef_theme_space_logic(brna);
+	//rna_def_userdef_theme_space_logic(brna);
 	rna_def_userdef_theme_space_clip(brna);
 	rna_def_userdef_theme_colorset(brna);
 	rna_def_userdef_themes(brna);

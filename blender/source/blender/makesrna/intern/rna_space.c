@@ -74,7 +74,7 @@ EnumPropertyItem space_type_items[] = {
 	{SPACE_CLIP, "CLIP_EDITOR", ICON_CLIP, "Movie Clip Editor", "Motion tracking tools"},
 	{SPACE_TEXT, "TEXT_EDITOR", ICON_TEXT, "Text Editor", "Edit scripts and in-file documentation"},
 	{SPACE_NODE, "NODE_EDITOR", ICON_NODETREE, "Node Editor", "Editor for node-based shading and compositing tools"},
-	{SPACE_LOGIC, "LOGIC_EDITOR", ICON_LOGIC, "Logic Editor", "Game logic editing"},
+	{0, "", ICON_NONE, NULL, NULL}, //{SPACE_LOGIC, "LOGIC_EDITOR", ICON_LOGIC, "Logic Editor", "Game logic editing"},
 	{0, "", ICON_NONE, NULL, NULL},
 	{SPACE_BUTS, "PROPERTIES", ICON_BUTS, "Properties", "Edit properties of active object and related datablocks"},
 	{SPACE_OUTLINER, "OUTLINER", ICON_OOPS, "Outliner", "Overview of scene graph and all available datablocks"},
@@ -249,8 +249,8 @@ static StructRNA *rna_Space_refine(struct PointerRNA *ptr)
 			return &RNA_SpaceTimeline;
 		case SPACE_NODE:
 			return &RNA_SpaceNodeEditor;
-		case SPACE_LOGIC:
-			return &RNA_SpaceLogicEditor;
+		/*case SPACE_LOGIC:
+			return &RNA_SpaceLogicEditor;*/
 		case SPACE_CONSOLE:
 			return &RNA_SpaceConsole;
 		case SPACE_USERPREF:
@@ -3585,6 +3585,7 @@ static void rna_def_space_node(BlenderRNA *brna)
 	RNA_api_space_node(srna);
 }
 
+/*
 static void rna_def_space_logic(BlenderRNA *brna)
 {
 	StructRNA *srna;
@@ -3594,7 +3595,7 @@ static void rna_def_space_logic(BlenderRNA *brna)
 	RNA_def_struct_sdna(srna, "SpaceLogic");
 	RNA_def_struct_ui_text(srna, "Space Logic Editor", "Logic editor space data");
 
-	/* sensors */
+	/ * sensors * /
 	prop = RNA_def_property(srna, "show_sensors_selected_objects", PROP_BOOLEAN, PROP_NONE);
 	RNA_def_property_boolean_sdna(prop, NULL, "scaflag", BUTS_SENS_SEL);
 	RNA_def_property_ui_text(prop, "Show Selected Object", "Show sensors of all selected objects");
@@ -3615,7 +3616,7 @@ static void rna_def_space_logic(BlenderRNA *brna)
 	RNA_def_property_ui_text(prop, "Show Active States", "Show only sensors connected to active states");
 	RNA_def_property_update(prop, NC_LOGIC, NULL);
 
-	/* controllers */
+	/ * controllers * /
 	prop = RNA_def_property(srna, "show_controllers_selected_objects", PROP_BOOLEAN, PROP_NONE);
 	RNA_def_property_boolean_sdna(prop, NULL, "scaflag", BUTS_CONT_SEL);
 	RNA_def_property_ui_text(prop, "Show Selected Object", "Show controllers of all selected objects");
@@ -3631,7 +3632,7 @@ static void rna_def_space_logic(BlenderRNA *brna)
 	RNA_def_property_ui_text(prop, "Show Linked to Controller", "Show linked objects to sensor/actuator");
 	RNA_def_property_update(prop, NC_LOGIC, NULL);
 
-	/* actuators */
+	/ * actuators * /
 	prop = RNA_def_property(srna, "show_actuators_selected_objects", PROP_BOOLEAN, PROP_NONE);
 	RNA_def_property_boolean_sdna(prop, NULL, "scaflag", BUTS_ACT_SEL);
 	RNA_def_property_ui_text(prop, "Show Selected Object", "Show actuators of all selected objects");
@@ -3652,7 +3653,7 @@ static void rna_def_space_logic(BlenderRNA *brna)
 	RNA_def_property_ui_text(prop, "Show Active States", "Show only actuators connected to active states");
 	RNA_def_property_update(prop, NC_LOGIC, NULL);
 
-}
+} */
 
 static void rna_def_space_clip(BlenderRNA *brna)
 {
@@ -3933,7 +3934,7 @@ void RNA_def_space(BlenderRNA *brna)
 	rna_def_space_userpref(brna);
 	rna_def_node_tree_path(brna);
 	rna_def_space_node(brna);
-	rna_def_space_logic(brna);
+	//rna_def_space_logic(brna);
 	rna_def_space_clip(brna);
 }
 
