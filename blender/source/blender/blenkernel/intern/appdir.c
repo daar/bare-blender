@@ -740,9 +740,13 @@ static void BLI_where_is_temp(char *fullname, char *basename, const size_t maxle
 		const size_t ln = strlen(tmp_name) + 1;
 		if (ln <= maxlen) {
 #ifdef WIN32
+#ifdef __MINGW32__
+			_mktemp(tmp_name);
+#else
 			if (_mktemp_s(tmp_name, ln) == 0) {
 				BLI_dir_create_recursive(tmp_name);
 			}
+#endif
 #else
 			mkdtemp(tmp_name);
 #endif

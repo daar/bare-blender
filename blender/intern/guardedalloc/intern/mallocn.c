@@ -66,7 +66,11 @@ const char *(*MEM_name_ptr)(void *vmemh) = MEM_lockfree_name_ptr;
 void *aligned_malloc(size_t size, size_t alignment)
 {
 #ifdef _WIN32
+#ifdef __MINGW32__
+	return __mingw_aligned_malloc(size, alignment);
+#else
 	return _aligned_malloc(size, alignment);
+#endif
 #elif defined(__APPLE__)
 	/* On Mac OS X, both the heap and the stack are guaranteed 16-byte aligned so
 	 * they work natively with SSE types with no further work.
@@ -92,7 +96,11 @@ void *aligned_malloc(size_t size, size_t alignment)
 void aligned_free(void *ptr)
 {
 #ifdef _WIN32
+#ifdef __MINGW32__
+	__mingw_aligned_free(ptr);
+#else
 	_aligned_free(ptr);
+#endif
 #else
 	free(ptr);
 #endif

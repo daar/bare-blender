@@ -40,7 +40,11 @@
 
 static void local_hacks_do(void)
 {
+#ifdef __MINGW32__
+	_putenv("OMP_WAIT_POLICY=PASSIVE");
+#else
 	_putenv_s("OMP_WAIT_POLICY", "PASSIVE");
+#endif
 }
 
 int main(int argc, const char **UNUSED(argv_c))
