@@ -67,14 +67,14 @@ EnumPropertyItem space_type_items[] = {
 	{SPACE_TIME, "TIMELINE", ICON_TIME, "Timeline", "Timeline and playback controls"},
 	{SPACE_IPO, "GRAPH_EDITOR", ICON_IPO, "Graph Editor", "Edit drivers and keyframe interpolation"},
 	{SPACE_ACTION, "DOPESHEET_EDITOR", ICON_ACTION, "Dope Sheet", "Adjust timing of keyframes"},
-	{SPACE_NLA, "NLA_EDITOR", ICON_NLA, "NLA Editor", "Combine and layer Actions"},
+	//{SPACE_NLA, "NLA_EDITOR", ICON_NLA, "NLA Editor", "Combine and layer Actions"},
 	{0, "", ICON_NONE, NULL, NULL},
 	{SPACE_IMAGE, "IMAGE_EDITOR", ICON_IMAGE_COL, "UV/Image Editor", "View and edit images and UV Maps"},
 	{SPACE_SEQ, "SEQUENCE_EDITOR", ICON_SEQUENCE, "Video Sequence Editor", "Video editing tools"},
 	{SPACE_CLIP, "CLIP_EDITOR", ICON_CLIP, "Movie Clip Editor", "Motion tracking tools"},
 	{SPACE_TEXT, "TEXT_EDITOR", ICON_TEXT, "Text Editor", "Edit scripts and in-file documentation"},
 	{SPACE_NODE, "NODE_EDITOR", ICON_NODETREE, "Node Editor", "Editor for node-based shading and compositing tools"},
-	{0, "", ICON_NONE, NULL, NULL}, //{SPACE_LOGIC, "LOGIC_EDITOR", ICON_LOGIC, "Logic Editor", "Game logic editing"},
+	//{SPACE_LOGIC, "LOGIC_EDITOR", ICON_LOGIC, "Logic Editor", "Game logic editing"},
 	{0, "", ICON_NONE, NULL, NULL},
 	{SPACE_BUTS, "PROPERTIES", ICON_BUTS, "Properties", "Edit properties of active object and related datablocks"},
 	{SPACE_OUTLINER, "OUTLINER", ICON_OOPS, "Outliner", "Overview of scene graph and all available datablocks"},
@@ -243,8 +243,8 @@ static StructRNA *rna_Space_refine(struct PointerRNA *ptr)
 			return &RNA_SpaceTextEditor;
 		case SPACE_ACTION:
 			return &RNA_SpaceDopeSheetEditor;
-		case SPACE_NLA:
-			return &RNA_SpaceNLA;
+/* 		case SPACE_NLA:
+			return &RNA_SpaceNLA; */
 		case SPACE_TIME:
 			return &RNA_SpaceTimeline;
 		case SPACE_NODE:
@@ -2989,52 +2989,52 @@ static void rna_def_space_graph(BlenderRNA *brna)
 	RNA_def_property_update(prop, NC_SPACE | ND_SPACE_GRAPH, NULL);
 }
 
-static void rna_def_space_nla(BlenderRNA *brna)
-{
-	StructRNA *srna;
-	PropertyRNA *prop;
+// static void rna_def_space_nla(BlenderRNA *brna)
+// {
+	// StructRNA *srna;
+	// PropertyRNA *prop;
 	
-	srna = RNA_def_struct(brna, "SpaceNLA", "Space");
-	RNA_def_struct_sdna(srna, "SpaceNla");
-	RNA_def_struct_ui_text(srna, "Space Nla Editor", "NLA editor space data");
+	// srna = RNA_def_struct(brna, "SpaceNLA", "Space");
+	// RNA_def_struct_sdna(srna, "SpaceNla");
+	// RNA_def_struct_ui_text(srna, "Space Nla Editor", "NLA editor space data");
 	
-	/* display */
-	prop = RNA_def_property(srna, "show_seconds", PROP_BOOLEAN, PROP_NONE);
-	RNA_def_property_boolean_sdna(prop, NULL, "flag", SNLA_DRAWTIME);
-	RNA_def_property_ui_text(prop, "Show Seconds", "Show timing in seconds not frames");
-	RNA_def_property_update(prop, NC_SPACE | ND_SPACE_NLA, NULL);
+	// /* display */
+	// prop = RNA_def_property(srna, "show_seconds", PROP_BOOLEAN, PROP_NONE);
+	// RNA_def_property_boolean_sdna(prop, NULL, "flag", SNLA_DRAWTIME);
+	// RNA_def_property_ui_text(prop, "Show Seconds", "Show timing in seconds not frames");
+	// RNA_def_property_update(prop, NC_SPACE | ND_SPACE_NLA, NULL);
 	
-	prop = RNA_def_property(srna, "show_frame_indicator", PROP_BOOLEAN, PROP_NONE);
-	RNA_def_property_boolean_negative_sdna(prop, NULL, "flag", SNLA_NODRAWCFRANUM);
-	RNA_def_property_ui_text(prop, "Show Frame Number Indicator",
-	                         "Show frame number beside the current frame indicator line");
-	RNA_def_property_update(prop, NC_SPACE | ND_SPACE_NLA, NULL);
+	// prop = RNA_def_property(srna, "show_frame_indicator", PROP_BOOLEAN, PROP_NONE);
+	// RNA_def_property_boolean_negative_sdna(prop, NULL, "flag", SNLA_NODRAWCFRANUM);
+	// RNA_def_property_ui_text(prop, "Show Frame Number Indicator",
+	                         // "Show frame number beside the current frame indicator line");
+	// RNA_def_property_update(prop, NC_SPACE | ND_SPACE_NLA, NULL);
 	
-	prop = RNA_def_property(srna, "show_strip_curves", PROP_BOOLEAN, PROP_NONE);
-	RNA_def_property_boolean_negative_sdna(prop, NULL, "flag", SNLA_NOSTRIPCURVES);
-	RNA_def_property_ui_text(prop, "Show Control F-Curves", "Show influence F-Curves on strips");
-	RNA_def_property_update(prop, NC_SPACE | ND_SPACE_NLA, NULL);
+	// prop = RNA_def_property(srna, "show_strip_curves", PROP_BOOLEAN, PROP_NONE);
+	// RNA_def_property_boolean_negative_sdna(prop, NULL, "flag", SNLA_NOSTRIPCURVES);
+	// RNA_def_property_ui_text(prop, "Show Control F-Curves", "Show influence F-Curves on strips");
+	// RNA_def_property_update(prop, NC_SPACE | ND_SPACE_NLA, NULL);
 	
-	/* editing */
-	prop = RNA_def_property(srna, "use_realtime_update", PROP_BOOLEAN, PROP_NONE);
-	RNA_def_property_boolean_negative_sdna(prop, NULL, "flag", SNLA_NOREALTIMEUPDATES);
-	RNA_def_property_ui_text(prop, "Realtime Updates",
-	                         "When transforming strips, changes to the animation data are flushed to other views");
-	RNA_def_property_update(prop, NC_SPACE | ND_SPACE_NLA, NULL);
+	// /* editing */
+	// prop = RNA_def_property(srna, "use_realtime_update", PROP_BOOLEAN, PROP_NONE);
+	// RNA_def_property_boolean_negative_sdna(prop, NULL, "flag", SNLA_NOREALTIMEUPDATES);
+	// RNA_def_property_ui_text(prop, "Realtime Updates",
+	                         // "When transforming strips, changes to the animation data are flushed to other views");
+	// RNA_def_property_update(prop, NC_SPACE | ND_SPACE_NLA, NULL);
 
-	/* dopesheet */
-	prop = RNA_def_property(srna, "dopesheet", PROP_POINTER, PROP_NONE);
-	RNA_def_property_struct_type(prop, "DopeSheet");
-	RNA_def_property_pointer_sdna(prop, NULL, "ads");
-	RNA_def_property_ui_text(prop, "Dope Sheet", "Settings for filtering animation data");
+	// /* dopesheet */
+	// prop = RNA_def_property(srna, "dopesheet", PROP_POINTER, PROP_NONE);
+	// RNA_def_property_struct_type(prop, "DopeSheet");
+	// RNA_def_property_pointer_sdna(prop, NULL, "ads");
+	// RNA_def_property_ui_text(prop, "Dope Sheet", "Settings for filtering animation data");
 
-	/* autosnap */
-	prop = RNA_def_property(srna, "auto_snap", PROP_ENUM, PROP_NONE);
-	RNA_def_property_enum_sdna(prop, NULL, "autosnap");
-	RNA_def_property_enum_items(prop, autosnap_items);
-	RNA_def_property_ui_text(prop, "Auto Snap", "Automatic time snapping settings for transformations");
-	RNA_def_property_update(prop, NC_SPACE | ND_SPACE_NLA, NULL);
-}
+	// /* autosnap */
+	// prop = RNA_def_property(srna, "auto_snap", PROP_ENUM, PROP_NONE);
+	// RNA_def_property_enum_sdna(prop, NULL, "autosnap");
+	// RNA_def_property_enum_items(prop, autosnap_items);
+	// RNA_def_property_ui_text(prop, "Auto Snap", "Automatic time snapping settings for transformations");
+	// RNA_def_property_update(prop, NC_SPACE | ND_SPACE_NLA, NULL);
+// }
 
 static void rna_def_space_time(BlenderRNA *brna)
 {
@@ -3926,7 +3926,7 @@ void RNA_def_space(BlenderRNA *brna)
 	rna_def_space_buttons(brna);
 	rna_def_space_dopesheet(brna);
 	rna_def_space_graph(brna);
-	rna_def_space_nla(brna);
+	//rna_def_space_nla(brna);
 	rna_def_space_time(brna);
 	rna_def_space_console(brna);
 	rna_def_console_line(brna);

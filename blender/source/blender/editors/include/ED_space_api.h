@@ -50,7 +50,7 @@ void ED_spacetype_buttons(void);
 void ED_spacetype_info(void);
 void ED_spacetype_file(void);
 void ED_spacetype_action(void);
-void ED_spacetype_nla(void);
+//void ED_spacetype_nla(void);
 void ED_spacetype_script(void);
 void ED_spacetype_text(void);
 void ED_spacetype_sequencer(void);

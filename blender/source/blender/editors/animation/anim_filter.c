@@ -308,13 +308,13 @@ bool ANIM_animdata_context_getdata(bAnimContext *ac)
 				SpaceIpo *sipo = (SpaceIpo *)sl;
 				ok = graphedit_get_context(ac, sipo);
 				break;
-			}
+			} /*
 			case SPACE_NLA:
 			{
 				SpaceNla *snla = (SpaceNla *)sl;
 				ok = nlaedit_get_context(ac, snla);
 				break;
-			}
+			} */
 		}
 	}
 	

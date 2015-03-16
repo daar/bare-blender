@@ -218,8 +218,10 @@ int ED_operator_animview_active(bContext *C)
 {
 	if (ED_operator_areaactive(C)) {
 		SpaceLink *sl = (SpaceLink *)CTX_wm_space_data(C);
+		/*
 		if (sl && (ELEM(sl->spacetype, SPACE_SEQ, SPACE_ACTION, SPACE_NLA, SPACE_IPO, SPACE_TIME)))
 			return true;
+		*/
 	}
 
 	CTX_wm_operator_poll_msg_set(C, "expected a timeline/animation area to be active");
@@ -304,10 +306,12 @@ int ED_operator_image_active(bContext *C)
 	return ed_spacetype_test(C, SPACE_IMAGE);
 }
 
+/*
 int ED_operator_nla_active(bContext *C)
 {
 	return ed_spacetype_test(C, SPACE_NLA);
 }
+*/
 
 /* int ED_operator_logic_active(bContext *C)
 {
@@ -3301,12 +3305,14 @@ static int match_region_with_redraws(int spacetype, int regiontype, int redraws)
 				if (redraws & TIME_ALL_3D_WIN)
 					return 1;
 				break;
+			/*
 			case SPACE_IPO:
 			case SPACE_ACTION:
 			case SPACE_NLA:
 				if (redraws & TIME_ALL_ANIM_WIN)
 					return 1;
 				break;
+			*/
 			case SPACE_TIME:
 				/* if only 1 window or 3d windows, we do timeline too */
 				if (redraws & (TIME_ALL_ANIM_WIN | TIME_REGION | TIME_ALL_3D_WIN))
@@ -3336,6 +3342,7 @@ static int match_region_with_redraws(int spacetype, int regiontype, int redraws)
 		}
 	}
 	else if (regiontype == RGN_TYPE_CHANNELS) {
+	/*
 		switch (spacetype) {
 			case SPACE_IPO:
 			case SPACE_ACTION:
@@ -3344,6 +3351,7 @@ static int match_region_with_redraws(int spacetype, int regiontype, int redraws)
 					return 1;
 				break;
 		}
+		*/
 	}
 	else if (regiontype == RGN_TYPE_UI) {
 		if (spacetype == SPACE_CLIP) {

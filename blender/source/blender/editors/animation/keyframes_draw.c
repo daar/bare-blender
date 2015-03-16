@@ -896,9 +896,9 @@ void fcurve_to_keylist(AnimData *adt, FCurve *fcu, DLRBT_Tree *keys, DLRBT_Tree 
 	unsigned int v;
 
 	if (fcu && fcu->totvert && fcu->bezt) {
-		/* apply NLA-mapping (if applicable) */
-		if (adt)
-			ANIM_nla_mapping_apply_fcurve(adt, fcu, 0, 0);
+		// /* apply NLA-mapping (if applicable) */
+		// if (adt)
+			// ANIM_nla_mapping_apply_fcurve(adt, fcu, 0, 0);
 		
 		/* loop through beztriples, making ActKeysColumns and ActKeyBlocks */
 		for (v = 0, bezt = fcu->bezt; v < fcu->totvert; v++, bezt++) {
@@ -913,8 +913,8 @@ void fcurve_to_keylist(AnimData *adt, FCurve *fcu, DLRBT_Tree *keys, DLRBT_Tree 
 			set_touched_actkeyblock(blocks->root);
 		
 		/* unapply NLA-mapping if applicable */
-		if (adt)
-			ANIM_nla_mapping_apply_fcurve(adt, fcu, 1, 0);
+		// if (adt)
+			// ANIM_nla_mapping_apply_fcurve(adt, fcu, 1, 0);
 	}
 }
 

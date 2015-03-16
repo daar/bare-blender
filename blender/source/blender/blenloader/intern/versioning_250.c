@@ -170,7 +170,8 @@ static void area_add_window_regions(ScrArea *sa, SpaceLink *sl, ListBase *lb)
 				ar->v2d.scroll = V2D_SCROLL_BOTTOM;
 				ar->v2d.flag = V2D_VIEWSYNC_AREA_VERTICAL;
 				break;
-
+			
+			/*
 			case SPACE_NLA:
 				ar = MEM_callocN(sizeof(ARegion), "area region from do_versions");
 				BLI_addtail(lb, ar);
@@ -179,7 +180,7 @@ static void area_add_window_regions(ScrArea *sa, SpaceLink *sl, ListBase *lb)
 				ar->v2d.scroll = V2D_SCROLL_BOTTOM;
 				ar->v2d.flag = V2D_VIEWSYNC_AREA_VERTICAL;
 
-				/* for some reason, some files still don't get this auto */
+				/ * for some reason, some files still don't get this auto * /
 				ar = MEM_callocN(sizeof(ARegion), "area region from do_versions");
 				BLI_addtail(lb, ar);
 				ar->regiontype = RGN_TYPE_UI;
@@ -187,7 +188,7 @@ static void area_add_window_regions(ScrArea *sa, SpaceLink *sl, ListBase *lb)
 				ar->v2d.scroll = V2D_SCROLL_RIGHT;
 				ar->v2d.flag = RGN_FLAG_HIDDEN;
 				break;
-
+			*/
 			case SPACE_NODE:
 				ar = MEM_callocN(sizeof(ARegion), "nodetree area for node");
 				BLI_addtail(lb, ar);
@@ -318,6 +319,7 @@ static void area_add_window_regions(ScrArea *sa, SpaceLink *sl, ListBase *lb)
 					//ar->v2d.flag |= V2D_IS_INITIALISED;
 					break;
 				}
+			/*
 			case SPACE_NLA:
 				{
 					SpaceNla *snla = (SpaceNla *)sl;
@@ -332,6 +334,7 @@ static void area_add_window_regions(ScrArea *sa, SpaceLink *sl, ListBase *lb)
 					ar->v2d.flag |= V2D_VIEWSYNC_AREA_VERTICAL;
 					break;
 				}
+			*/
 			case SPACE_ACTION:
 				{
 					SpaceAction *saction = (SpaceAction *) sl;
@@ -1703,7 +1706,7 @@ void blo_do_versions_250(FileData *fd, Library *lib, Main *main)
 						regionbase = &sa->regionbase;
 					else
 						regionbase = &sl->regionbase;
-
+					/*
 					if (ELEM(sl->spacetype, SPACE_ACTION, SPACE_NLA)) {
 						for (ar = (ARegion*) regionbase->first; ar; ar = ar->next) {
 							if (ar->regiontype == RGN_TYPE_WINDOW) {
@@ -1711,7 +1714,7 @@ void blo_do_versions_250(FileData *fd, Library *lib, Main *main)
 								ar->v2d.cur.ymin = ar->v2d.tot.ymin = (float)(-sa->winy) / 3.0f;
 							}
 						}
-					}
+					} */
 				}
 			}
 		}

@@ -380,9 +380,10 @@ static bool acf_generic_dataexpand_setting_valid(bAnimContext *ac, bAnimListElem
 			return true;
 			
 		/* mute is only supported for NLA */
+		/*
 		case ACHANNEL_SETTING_MUTE:
 			return ((ac) && (ac->spacetype == SPACE_NLA));
-			
+		*/	
 		/* select is ok for most "ds*" channels (e.g. dsmat) */
 		case ACHANNEL_SETTING_SELECT:
 			return true;
@@ -514,9 +515,10 @@ static bool acf_scene_setting_valid(bAnimContext *ac, bAnimListElem *UNUSED(ale)
 {
 	switch (setting) {
 		/* muted only in NLA */
+		/*
 		case ACHANNEL_SETTING_MUTE: 
 			return ((ac) && (ac->spacetype == SPACE_NLA));
-			
+		*/	
 		/* visible only in Graph Editor */
 		case ACHANNEL_SETTING_VISIBLE: 
 			return ((ac) && (ac->spacetype == SPACE_IPO));
@@ -667,9 +669,10 @@ static bool acf_object_setting_valid(bAnimContext *ac, bAnimListElem *ale, eAnim
 	
 	switch (setting) {
 		/* muted only in NLA */
+		/*
 		case ACHANNEL_SETTING_MUTE: 
 			return ((ac) && (ac->spacetype == SPACE_NLA));
-			
+		*/	
 		/* visible only in Graph Editor */
 		case ACHANNEL_SETTING_VISIBLE: 
 			return ((ac) && (ac->spacetype == SPACE_IPO) && (ob->adt));
@@ -2885,310 +2888,310 @@ static bAnimChannelType ACF_MASKLAYER =
 /* NLA Track ----------------------------------------------- */
 
 /* get backdrop color for nla track channels */
-static void acf_nlatrack_color(bAnimContext *UNUSED(ac), bAnimListElem *ale, float r_color[3])
-{
-	NlaTrack *nlt = (NlaTrack *)ale->data;
-	AnimData *adt = ale->adt;
-	bool nonSolo = false;
+// static void acf_nlatrack_color(bAnimContext *UNUSED(ac), bAnimListElem *ale, float r_color[3])
+// {
+	// NlaTrack *nlt = (NlaTrack *)ale->data;
+	// AnimData *adt = ale->adt;
+	// bool nonSolo = false;
 	
-	/* is track enabled for solo drawing? */
-	if ((adt) && (adt->flag & ADT_NLA_SOLO_TRACK)) {
-		if ((nlt->flag & NLATRACK_SOLO) == 0) {
-			/* tag for special non-solo handling */
-			nonSolo = true;
-		}
-	}
+	// /* is track enabled for solo drawing? */
+	// if ((adt) && (adt->flag & ADT_NLA_SOLO_TRACK)) {
+		// if ((nlt->flag & NLATRACK_SOLO) == 0) {
+			// /* tag for special non-solo handling */
+			// nonSolo = true;
+		// }
+	// }
 	
-	/* set color for nla track */
-	UI_GetThemeColorShade3fv(TH_HEADER, ((nonSolo == false) ? 20 : -20), r_color);
-}
+	// /* set color for nla track */
+	// UI_GetThemeColorShade3fv(TH_HEADER, ((nonSolo == false) ? 20 : -20), r_color);
+// }
 
-/* name for nla track entries */
-static void acf_nlatrack_name(bAnimListElem *ale, char *name)
-{
-	NlaTrack *nlt = (NlaTrack *)ale->data;
+// /* name for nla track entries */
+// static void acf_nlatrack_name(bAnimListElem *ale, char *name)
+// {
+	// NlaTrack *nlt = (NlaTrack *)ale->data;
 	
-	if (nlt && name)
-		BLI_strncpy(name, nlt->name, ANIM_CHAN_NAME_SIZE);
-}
+	// if (nlt && name)
+		// BLI_strncpy(name, nlt->name, ANIM_CHAN_NAME_SIZE);
+// }
 
-/* name property for nla track entries */
-static bool acf_nlatrack_name_prop(bAnimListElem *ale, PointerRNA *ptr, PropertyRNA **prop)
-{
-	if (ale->data) {
-		RNA_pointer_create(ale->id, &RNA_NlaTrack, ale->data, ptr);
-		*prop = RNA_struct_name_property(ptr->type);
+// /* name property for nla track entries */
+// static bool acf_nlatrack_name_prop(bAnimListElem *ale, PointerRNA *ptr, PropertyRNA **prop)
+// {
+	// if (ale->data) {
+		// RNA_pointer_create(ale->id, &RNA_NlaTrack, ale->data, ptr);
+		// *prop = RNA_struct_name_property(ptr->type);
 		
-		return (*prop != NULL);
-	}
+		// return (*prop != NULL);
+	// }
 	
-	return false;
-}
+	// return false;
+// }
 
-/* check if some setting exists for this channel */
-static bool acf_nlatrack_setting_valid(bAnimContext *UNUSED(ac), bAnimListElem *ale, eAnimChannel_Settings setting)
-{
-	NlaTrack *nlt = (NlaTrack *)ale->data;
-	AnimData *adt = ale->adt;
+// /* check if some setting exists for this channel */
+// static bool acf_nlatrack_setting_valid(bAnimContext *UNUSED(ac), bAnimListElem *ale, eAnimChannel_Settings setting)
+// {
+	// NlaTrack *nlt = (NlaTrack *)ale->data;
+	// AnimData *adt = ale->adt;
 	
-	/* visibility of settings depends on various states... */
-	switch (setting) {
-		/* always supported */
-		case ACHANNEL_SETTING_SELECT:
-		case ACHANNEL_SETTING_SOLO:
-			return true;
+	// /* visibility of settings depends on various states... */
+	// switch (setting) {
+		// /* always supported */
+		// case ACHANNEL_SETTING_SELECT:
+		// case ACHANNEL_SETTING_SOLO:
+			// return true;
 		
-		/* conditionally supported... */
-		case ACHANNEL_SETTING_PROTECT:
-		case ACHANNEL_SETTING_MUTE:
-			/* if this track is active and we're tweaking it, don't draw these toggles */
-			if (((nlt->flag & NLATRACK_ACTIVE) && (nlt->flag & NLATRACK_DISABLED)) == 0) {
-				/* is track enabled for solo drawing? */
-				if ((adt) && (adt->flag & ADT_NLA_SOLO_TRACK)) {
-					if (nlt->flag & NLATRACK_SOLO) {
-						/* ok - we've got a solo track, and this is it */
-						return true;
-					}
-					else {
-						/* not ok - we've got a solo track, but this isn't it, so make it more obvious */
-						return false;
-					}
-				}
+		// /* conditionally supported... */
+		// case ACHANNEL_SETTING_PROTECT:
+		// case ACHANNEL_SETTING_MUTE:
+			// /* if this track is active and we're tweaking it, don't draw these toggles */
+			// if (((nlt->flag & NLATRACK_ACTIVE) && (nlt->flag & NLATRACK_DISABLED)) == 0) {
+				// /* is track enabled for solo drawing? */
+				// if ((adt) && (adt->flag & ADT_NLA_SOLO_TRACK)) {
+					// if (nlt->flag & NLATRACK_SOLO) {
+						// /* ok - we've got a solo track, and this is it */
+						// return true;
+					// }
+					// else {
+						// /* not ok - we've got a solo track, but this isn't it, so make it more obvious */
+						// return false;
+					// }
+				// }
 				
 				
-				/* ok - no tracks are solo'd, and this isn't being tweaked */
-				return true;
-			}
-			else {
-				/* unsupported - this track is being tweaked */
-				return false;
-			}
+				// /* ok - no tracks are solo'd, and this isn't being tweaked */
+				// return true;
+			// }
+			// else {
+				// /* unsupported - this track is being tweaked */
+				// return false;
+			// }
 		
-		/* unsupported */
-		default:
-			return false;
-	}
-}
+		// /* unsupported */
+		// default:
+			// return false;
+	// }
+// }
 
-/* get the appropriate flag(s) for the setting when it is valid  */
-static int acf_nlatrack_setting_flag(bAnimContext *UNUSED(ac), eAnimChannel_Settings setting, bool *neg)
-{
-	/* clear extra return data first */
-	*neg = false;
+// /* get the appropriate flag(s) for the setting when it is valid  */
+// static int acf_nlatrack_setting_flag(bAnimContext *UNUSED(ac), eAnimChannel_Settings setting, bool *neg)
+// {
+	// /* clear extra return data first */
+	// *neg = false;
 	
-	switch (setting) {
-		case ACHANNEL_SETTING_SELECT: /* selected */
-			return NLATRACK_SELECTED;
+	// switch (setting) {
+		// case ACHANNEL_SETTING_SELECT: /* selected */
+			// return NLATRACK_SELECTED;
 			
-		case ACHANNEL_SETTING_MUTE: /* muted */
-			return NLATRACK_MUTED;
+		// case ACHANNEL_SETTING_MUTE: /* muted */
+			// return NLATRACK_MUTED;
 			
-		case ACHANNEL_SETTING_PROTECT: /* protected */
-			return NLATRACK_PROTECTED;
+		// case ACHANNEL_SETTING_PROTECT: /* protected */
+			// return NLATRACK_PROTECTED;
 			
-		case ACHANNEL_SETTING_SOLO: /* solo */
-			return NLATRACK_SOLO;
+		// case ACHANNEL_SETTING_SOLO: /* solo */
+			// return NLATRACK_SOLO;
 			
-		default: /* unsupported */
-			return 0;
-	}
-}
+		// default: /* unsupported */
+			// return 0;
+	// }
+// }
 
-/* get pointer to the setting */
-static void *acf_nlatrack_setting_ptr(bAnimListElem *ale, eAnimChannel_Settings UNUSED(setting), short *type)
-{
-	NlaTrack *nlt = (NlaTrack *)ale->data;
-	return GET_ACF_FLAG_PTR(nlt->flag, type);
-}
+// /* get pointer to the setting */
+// static void *acf_nlatrack_setting_ptr(bAnimListElem *ale, eAnimChannel_Settings UNUSED(setting), short *type)
+// {
+	// NlaTrack *nlt = (NlaTrack *)ale->data;
+	// return GET_ACF_FLAG_PTR(nlt->flag, type);
+// }
 
-/* nla track type define */
-static bAnimChannelType ACF_NLATRACK = 
-{
-	"NLA Track",                    /* type name */
-	ACHANNEL_ROLE_CHANNEL,          /* role */
+// /* nla track type define */
+// static bAnimChannelType ACF_NLATRACK = 
+// {
+	// "NLA Track",                    /* type name */
+	// ACHANNEL_ROLE_CHANNEL,          /* role */
 	
-	acf_nlatrack_color,             /* backdrop color */
-	acf_generic_channel_backdrop,   /* backdrop */
-	acf_generic_indention_flexible, /* indent level */
-	acf_generic_group_offset,       /* offset */           // XXX?
+	// acf_nlatrack_color,             /* backdrop color */
+	// acf_generic_channel_backdrop,   /* backdrop */
+	// acf_generic_indention_flexible, /* indent level */
+	// acf_generic_group_offset,       /* offset */           // XXX?
 	
-	acf_nlatrack_name,              /* name */
-	acf_nlatrack_name_prop,         /* name prop */
-	NULL,                           /* icon */
+	// acf_nlatrack_name,              /* name */
+	// acf_nlatrack_name_prop,         /* name prop */
+	// NULL,                           /* icon */
 	
-	acf_nlatrack_setting_valid,     /* has setting */
-	acf_nlatrack_setting_flag,      /* flag for setting */
-	acf_nlatrack_setting_ptr        /* pointer for setting */
-};
+	// acf_nlatrack_setting_valid,     /* has setting */
+	// acf_nlatrack_setting_flag,      /* flag for setting */
+	// acf_nlatrack_setting_ptr        /* pointer for setting */
+// };
 
-/* NLA Action ----------------------------------------------- */
+// /* NLA Action ----------------------------------------------- */
 
-/* icon for action depends on whether it's in tweaking mode */
-static int acf_nlaaction_icon(bAnimListElem *ale)
-{
-	AnimData *adt = ale->adt;
+// /* icon for action depends on whether it's in tweaking mode */
+// static int acf_nlaaction_icon(bAnimListElem *ale)
+// {
+	// AnimData *adt = ale->adt;
 	
-	/* indicate tweaking-action state by changing the icon... */
-	if ((adt) && (adt->flag & ADT_NLA_EDIT_ON)) {
-		return ICON_ACTION_TWEAK;
-	}
-	else {
-		return ICON_ACTION;
-	}
-}
+	// /* indicate tweaking-action state by changing the icon... */
+	// if ((adt) && (adt->flag & ADT_NLA_EDIT_ON)) {
+		// return ICON_ACTION_TWEAK;
+	// }
+	// else {
+		// return ICON_ACTION;
+	// }
+// }
 
-/* Backdrop color for nla action channel 
- * Although this can't be used directly for NLA Action drawing,
- * it is still needed for use behind the RHS toggles
- */
-static void acf_nlaaction_color(bAnimContext *UNUSED(ac), bAnimListElem *ale, float r_color[3])
-{
-	float color[4];
+// /* Backdrop color for nla action channel 
+ // * Although this can't be used directly for NLA Action drawing,
+ // * it is still needed for use behind the RHS toggles
+ // */
+// static void acf_nlaaction_color(bAnimContext *UNUSED(ac), bAnimListElem *ale, float r_color[3])
+// {
+	// float color[4];
 	
-	/* Action Line
-	 *   The alpha values action_get_color returns are only useful for drawing 
-	 *   strips backgrounds but here we're doing channel list backgrounds instead
-	 *   so we ignore that and use our own when needed
-	 */
-	nla_action_get_color(ale->adt, (bAction *)ale->data, color);
+	// /* Action Line
+	 // *   The alpha values action_get_color returns are only useful for drawing 
+	 // *   strips backgrounds but here we're doing channel list backgrounds instead
+	 // *   so we ignore that and use our own when needed
+	 // */
+	// nla_action_get_color(ale->adt, (bAction *)ale->data, color);
 	
-	/* NOTE: since the return types only allow rgb, we cannot do the alpha-blending we'd
-	 * like for the solo-drawing case. Hence, this method isn't actually used for drawing
-	 * most of the channel...
-	 */
-	copy_v3_v3(r_color, color);
-}
+	// /* NOTE: since the return types only allow rgb, we cannot do the alpha-blending we'd
+	 // * like for the solo-drawing case. Hence, this method isn't actually used for drawing
+	 // * most of the channel...
+	 // */
+	// copy_v3_v3(r_color, color);
+// }
  
-/* backdrop for nla action channel */
-static void acf_nlaaction_backdrop(bAnimContext *ac, bAnimListElem *ale, float yminc, float ymaxc)
-{
-	bAnimChannelType *acf = ANIM_channel_get_typeinfo(ale);
-	View2D *v2d = &ac->ar->v2d;
-	AnimData *adt = ale->adt;
-	short offset = (acf->get_offset) ? acf->get_offset(ac, ale) : 0;
-	float color[4];
+// /* backdrop for nla action channel */
+// static void acf_nlaaction_backdrop(bAnimContext *ac, bAnimListElem *ale, float yminc, float ymaxc)
+// {
+	// bAnimChannelType *acf = ANIM_channel_get_typeinfo(ale);
+	// View2D *v2d = &ac->ar->v2d;
+	// AnimData *adt = ale->adt;
+	// short offset = (acf->get_offset) ? acf->get_offset(ac, ale) : 0;
+	// float color[4];
 	
-	/* Action Line
-	 *   The alpha values action_get_color returns are only useful for drawing 
-	 *   strips backgrounds but here we're doing channel list backgrounds instead
-	 *   so we ignore that and use our own when needed
-	 */
-	nla_action_get_color(adt, (bAction *)ale->data, color);
+	// /* Action Line
+	 // *   The alpha values action_get_color returns are only useful for drawing 
+	 // *   strips backgrounds but here we're doing channel list backgrounds instead
+	 // *   so we ignore that and use our own when needed
+	 // */
+	// nla_action_get_color(adt, (bAction *)ale->data, color);
 	
-	if (adt && (adt->flag & ADT_NLA_EDIT_ON)) {
-		/* Yes, the color vector has 4 components, BUT we only want to be using 3 of them! */
-		glColor3fv(color);
-	}
-	else {
-		float alpha = (adt && (adt->flag & ADT_NLA_SOLO_TRACK)) ? 0.3f : 1.0f;
-		glColor4f(color[0], color[1], color[2], alpha);
-	}
+	// if (adt && (adt->flag & ADT_NLA_EDIT_ON)) {
+		// /* Yes, the color vector has 4 components, BUT we only want to be using 3 of them! */
+		// glColor3fv(color);
+	// }
+	// else {
+		// float alpha = (adt && (adt->flag & ADT_NLA_SOLO_TRACK)) ? 0.3f : 1.0f;
+		// glColor4f(color[0], color[1], color[2], alpha);
+	// }
 	
-	/* only on top left corner, to show that this channel sits on top of the preceding ones 
-	 * while still linking into the action line strip to the right
-	 */
-	UI_draw_roundbox_corner_set(UI_CNR_TOP_LEFT);
+	// /* only on top left corner, to show that this channel sits on top of the preceding ones 
+	 // * while still linking into the action line strip to the right
+	 // */
+	// UI_draw_roundbox_corner_set(UI_CNR_TOP_LEFT);
 	
-	/* draw slightly shifted up vertically to look like it has more separation from other channels,
-	 * but we then need to slightly shorten it so that it doesn't look like it overlaps
-	 */
-	UI_draw_roundbox_gl_mode(GL_POLYGON, offset,  yminc + NLACHANNEL_SKIP, (float)v2d->cur.xmax, ymaxc + NLACHANNEL_SKIP - 1, 8);
-}
+	// /* draw slightly shifted up vertically to look like it has more separation from other channels,
+	 // * but we then need to slightly shorten it so that it doesn't look like it overlaps
+	 // */
+	// UI_draw_roundbox_gl_mode(GL_POLYGON, offset,  yminc + NLACHANNEL_SKIP, (float)v2d->cur.xmax, ymaxc + NLACHANNEL_SKIP - 1, 8);
+// }
 
-/* name for nla action entries */
-static void acf_nlaaction_name(bAnimListElem *ale, char *name)
-{
-	bAction *act = (bAction *)ale->data;
+// /* name for nla action entries */
+// static void acf_nlaaction_name(bAnimListElem *ale, char *name)
+// {
+	// bAction *act = (bAction *)ale->data;
 	
-	if (name) {
-		if (act) {
-			// TODO: add special decoration when doing this in tweaking mode?
-			BLI_strncpy(name, act->id.name + 2, ANIM_CHAN_NAME_SIZE);
-		}
-		else {
-			BLI_strncpy(name, "<No Action>", ANIM_CHAN_NAME_SIZE);
-		}
-	}
-}
+	// if (name) {
+		// if (act) {
+			// // TODO: add special decoration when doing this in tweaking mode?
+			// BLI_strncpy(name, act->id.name + 2, ANIM_CHAN_NAME_SIZE);
+		// }
+		// else {
+			// BLI_strncpy(name, "<No Action>", ANIM_CHAN_NAME_SIZE);
+		// }
+	// }
+// }
 
-/* name property for nla action entries */
-static bool acf_nlaaction_name_prop(bAnimListElem *ale, PointerRNA *ptr, PropertyRNA **prop)
-{
-	if (ale->data) {
-		RNA_pointer_create(ale->id, &RNA_Action, ale->data, ptr);
-		*prop = RNA_struct_name_property(ptr->type);
+// /* name property for nla action entries */
+// static bool acf_nlaaction_name_prop(bAnimListElem *ale, PointerRNA *ptr, PropertyRNA **prop)
+// {
+	// if (ale->data) {
+		// RNA_pointer_create(ale->id, &RNA_Action, ale->data, ptr);
+		// *prop = RNA_struct_name_property(ptr->type);
 		
-		return (*prop != NULL);
-	}
+		// return (*prop != NULL);
+	// }
 	
-	return false;
-}
+	// return false;
+// }
 
-/* check if some setting exists for this channel */
-static bool acf_nlaaction_setting_valid(bAnimContext *UNUSED(ac), bAnimListElem *ale, eAnimChannel_Settings setting)
-{
-	AnimData *adt = ale->adt;
+// /* check if some setting exists for this channel */
+// static bool acf_nlaaction_setting_valid(bAnimContext *UNUSED(ac), bAnimListElem *ale, eAnimChannel_Settings setting)
+// {
+	// AnimData *adt = ale->adt;
 	
-	/* visibility of settings depends on various states... */
-	switch (setting) {
-		/* conditionally supported */
-		case ACHANNEL_SETTING_PINNED: /* pinned - map/unmap */
-			if ((adt) && (adt->flag & ADT_NLA_EDIT_ON)) {
-				/* this should only appear in tweakmode */
-				return true;
-			}
-			else {
-				return false;
-			}
+	// /* visibility of settings depends on various states... */
+	// switch (setting) {
+		// /* conditionally supported */
+		// case ACHANNEL_SETTING_PINNED: /* pinned - map/unmap */
+			// if ((adt) && (adt->flag & ADT_NLA_EDIT_ON)) {
+				// /* this should only appear in tweakmode */
+				// return true;
+			// }
+			// else {
+				// return false;
+			// }
 		
-		/* unsupported */
-		default:
-			return false;
-	}
-}
+		// /* unsupported */
+		// default:
+			// return false;
+	// }
+// }
 
-/* get the appropriate flag(s) for the setting when it is valid  */
-static int acf_nlaaction_setting_flag(bAnimContext *UNUSED(ac), eAnimChannel_Settings setting, bool *neg)
-{
-	/* clear extra return data first */
-	*neg = false;
+// /* get the appropriate flag(s) for the setting when it is valid  */
+// static int acf_nlaaction_setting_flag(bAnimContext *UNUSED(ac), eAnimChannel_Settings setting, bool *neg)
+// {
+	// /* clear extra return data first */
+	// *neg = false;
 	
-	switch (setting) {
-		case ACHANNEL_SETTING_PINNED: /* pinned - map/unmap */
-			*neg = true; // XXX
-			return ADT_NLA_EDIT_NOMAP;
+	// switch (setting) {
+		// case ACHANNEL_SETTING_PINNED: /* pinned - map/unmap */
+			// *neg = true; // XXX
+			// return ADT_NLA_EDIT_NOMAP;
 			
-		default: /* unsupported */
-			return 0;
-	}
-}
+		// default: /* unsupported */
+			// return 0;
+	// }
+// }
 
-/* get pointer to the setting */
-static void *acf_nlaaction_setting_ptr(bAnimListElem *ale, eAnimChannel_Settings UNUSED(setting), short *type)
-{
-	AnimData *adt = ale->adt;
-	return GET_ACF_FLAG_PTR(adt->flag, type);
-}
+// /* get pointer to the setting */
+// static void *acf_nlaaction_setting_ptr(bAnimListElem *ale, eAnimChannel_Settings UNUSED(setting), short *type)
+// {
+	// AnimData *adt = ale->adt;
+	// return GET_ACF_FLAG_PTR(adt->flag, type);
+// }
 
-/* nla action type define */
-static bAnimChannelType ACF_NLAACTION = 
-{
-	"NLA Active Action",            /* type name */
-	ACHANNEL_ROLE_CHANNEL,          /* role */
+// /* nla action type define */
+// static bAnimChannelType ACF_NLAACTION = 
+// {
+	// "NLA Active Action",            /* type name */
+	// ACHANNEL_ROLE_CHANNEL,          /* role */
 	
-	acf_nlaaction_color,            /* backdrop color (NOTE: the backdrop handles this too, since it needs special hacks) */
-	acf_nlaaction_backdrop,         /* backdrop */
-	acf_generic_indention_flexible, /* indent level */
-	acf_generic_group_offset,       /* offset */           // XXX?
+	// acf_nlaaction_color,            /* backdrop color (NOTE: the backdrop handles this too, since it needs special hacks) */
+	// acf_nlaaction_backdrop,         /* backdrop */
+	// acf_generic_indention_flexible, /* indent level */
+	// acf_generic_group_offset,       /* offset */           // XXX?
 	
-	acf_nlaaction_name,             /* name */
-	acf_nlaaction_name_prop,        /* name prop */
-	acf_nlaaction_icon,             /* icon */
+	// acf_nlaaction_name,             /* name */
+	// acf_nlaaction_name_prop,        /* name prop */
+	// acf_nlaaction_icon,             /* icon */
 	
-	acf_nlaaction_setting_valid,     /* has setting */
-	acf_nlaaction_setting_flag,      /* flag for setting */
-	acf_nlaaction_setting_ptr        /* pointer for setting */
-};
+	// acf_nlaaction_setting_valid,     /* has setting */
+	// acf_nlaaction_setting_flag,      /* flag for setting */
+	// acf_nlaaction_setting_ptr        /* pointer for setting */
+// };
 
 
 /* *********************************************** */
@@ -3249,8 +3252,8 @@ static void ANIM_init_channel_typeinfo_data(void)
 		animchannelTypeInfo[type++] = &ACF_MASKDATA;     /* Mask Datablock */
 		animchannelTypeInfo[type++] = &ACF_MASKLAYER;    /* Mask Layer */
 		
-		animchannelTypeInfo[type++] = &ACF_NLATRACK;     /* NLA Track */
-		animchannelTypeInfo[type++] = &ACF_NLAACTION;    /* NLA Action */
+		//animchannelTypeInfo[type++] = &ACF_NLATRACK;     /* NLA Track */
+		//animchannelTypeInfo[type++] = &ACF_NLAACTION;    /* NLA Action */
 	}
 } 
 
@@ -3505,11 +3508,11 @@ void ANIM_channel_draw(bAnimContext *ac, bAnimListElem *ale, float yminc, float 
 			
 			/* icon is drawn as widget now... */
 			offset += ICON_WIDTH; 
-		}
+		} /*
 		else if ((ac->spacetype == SPACE_NLA) && acf->has_setting(ac, ale, ACHANNEL_SETTING_SOLO)) {
-			/* just skip - drawn as widget now */
+			/ * just skip - drawn as widget now * /
 			offset += ICON_WIDTH; 
-		}
+		} */
 		else if (ale->type == ANIMTYPE_GPLAYER) {
 			/* just skip - drawn as a widget */
 			offset += ICON_WIDTH;
@@ -3829,10 +3832,10 @@ static void draw_setting_widget(bAnimContext *ac, bAnimListElem *ale, bAnimChann
 			
 			if (ale->type == ANIMTYPE_FCURVE) {
 				tooltip = TIP_("Does F-Curve contribute to result");
-			}
+			} /*
 			else if ((ac) && (ac->spacetype == SPACE_NLA) && (ale->type != ANIMTYPE_NLATRACK)) {
 				tooltip = TIP_("Temporarily disable NLA stack evaluation (i.e. only the active action is evaluated)");
-			}
+			} */
 			else {
 				tooltip = TIP_("Do channels contribute to result (toggle channel muting)");
 			}
@@ -3956,12 +3959,12 @@ void ANIM_channel_draw_widgets(bContext *C, bAnimContext *ac, bAnimListElem *ale
 			/* visibility toggle  */
 			draw_setting_widget(ac, ale, acf, block, offset, ymid, ACHANNEL_SETTING_VISIBLE);
 			offset += ICON_WIDTH; 
-		}
+		} /*
 		else if ((ac->spacetype == SPACE_NLA) && acf->has_setting(ac, ale, ACHANNEL_SETTING_SOLO)) {
-			/* 'solo' setting for NLA Tracks */
+			/ * 'solo' setting for NLA Tracks * /
 			draw_setting_widget(ac, ale, acf, block, offset, ymid, ACHANNEL_SETTING_SOLO);
 			offset += ICON_WIDTH; 
-		}
+		} */
 		else if (ale->type == ANIMTYPE_GPLAYER) {
 			/* color swatch for layer color */
 			bGPDlayer *gpl = (bGPDlayer *)ale->data;

@@ -1419,11 +1419,11 @@ void blo_do_versions_pre250(FileData *fd, Library *lib, Main *main)
 					if (sl->spacetype == SPACE_ACTION) {
 						SpaceAction *sac = (SpaceAction *) sl;
 						sac->v2d.max[0] = 32000;
-					}
+					} /*
 					else if (sl->spacetype == SPACE_NLA) {
 						SpaceNla *sla = (SpaceNla *) sl;
 						sla->v2d.max[0] = 32000;
-					}
+					} */
 				}
 			}
 		}
@@ -1731,10 +1731,11 @@ void blo_do_versions_pre250(FileData *fd, Library *lib, Main *main)
 						sl->blockscale = 0.7f;
 
 					/* added: 5x better zoom in for nla */
+					/*
 					if (sl->spacetype == SPACE_NLA) {
 						SpaceNla *snla = (SpaceNla *) sl;
 						snla->v2d.maxzoom = 50;
-					}
+					} */
 				}
 			}
 		}
@@ -3519,12 +3520,13 @@ void blo_do_versions_pre250(FileData *fd, Library *lib, Main *main)
 								sipo->autosnap = SACTSNAP_FRAME;
 							}
 							break;
+						/*
 						case SPACE_NLA:
 							{
 								SpaceNla *snla = (SpaceNla *)sl;
 								snla->autosnap = SACTSNAP_FRAME;
 							}
-							break;
+							break; */
 					}
 				}
 			}

@@ -88,7 +88,7 @@ void ED_spacetypes_init(void)
 	ED_spacetype_info();
 	ED_spacetype_file();
 	ED_spacetype_action();
-	ED_spacetype_nla();
+	//ED_spacetype_nla();
 	ED_spacetype_script();
 	ED_spacetype_text();
 	ED_spacetype_sequencer();

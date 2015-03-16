@@ -310,7 +310,7 @@ void draw_channel_strips(bAnimContext *ac, SpaceAction *saction, ARegion *ar)
 		{
 			/* check if anything to show for this channel */
 			if (ale->datatype != ALE_NONE) {
-				adt = ANIM_nla_mapping_get(ac, ale);
+				// adt = ANIM_nla_mapping_get(ac, ale);
 				
 				/* draw 'keyframes' for each specific datatype */
 				switch (ale->datatype) {
@@ -323,15 +323,15 @@ void draw_channel_strips(bAnimContext *ac, SpaceAction *saction, ARegion *ar)
 					case ALE_OB:
 						draw_object_channel(v2d, ads, ale->key_data, y);
 						break;
-					case ALE_ACT:
-						draw_action_channel(v2d, adt, ale->key_data, y);
-						break;
-					case ALE_GROUP:
-						draw_agroup_channel(v2d, adt, ale->data, y);
-						break;
-					case ALE_FCURVE:
-						draw_fcurve_channel(v2d, adt, ale->key_data, y);
-						break;
+					// case ALE_ACT:
+						// draw_action_channel(v2d, adt, ale->key_data, y);
+						// break;
+					// case ALE_GROUP:
+						// draw_agroup_channel(v2d, adt, ale->data, y);
+						// break;
+					// case ALE_FCURVE:
+						// draw_fcurve_channel(v2d, adt, ale->key_data, y);
+						// break;
 					case ALE_GPFRAME:
 						draw_gpl_channel(v2d, ads, ale->data, y);
 						break;

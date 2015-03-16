@@ -303,9 +303,10 @@ void convertViewVec(TransInfo *t, float r_vec[3], int dx, int dy)
 		r_vec[0] *= aspx;
 		r_vec[1] *= aspy;
 	}
+	/*
 	else if (ELEM(t->spacetype, SPACE_IPO, SPACE_NLA)) {
 		convertViewVec2D(t->view, r_vec, dx, dy);
-	}
+	} */
 	else if (ELEM(t->spacetype, SPACE_NODE, SPACE_SEQ)) {
 		convertViewVec2D(&t->ar->v2d, r_vec, dx, dy);
 	}
@@ -405,13 +406,14 @@ void projectIntViewEx(TransInfo *t, const float vec[3], int adr[2], const eV3DPr
 		adr[0] = out[0];
 		adr[1] = out[1];
 	}
+	/*
 	else if (ELEM(t->spacetype, SPACE_IPO, SPACE_NLA)) {
 		int out[2] = {0, 0};
 
 		UI_view2d_view_to_region((View2D *)t->view, vec[0], vec[1], &out[0], &out[1]);
 		adr[0] = out[0];
 		adr[1] = out[1];
-	}
+	} */
 	else if (t->spacetype == SPACE_SEQ) { /* XXX not tested yet, but should work */
 		int out[2] = {0, 0};
 
@@ -614,10 +616,10 @@ static void viewRedrawForce(const bContext *C, TransInfo *t)
 	else if (t->spacetype == SPACE_IPO) {
 		//SpaceIpo *sipo = (SpaceIpo *)t->sa->spacedata.first;
 		WM_event_add_notifier(C, NC_ANIMATION | ND_KEYFRAME | NA_EDITED, NULL);
-	}
+	} /*
 	else if (t->spacetype == SPACE_NLA) {
 		WM_event_add_notifier(C, NC_ANIMATION | ND_NLA | NA_EDITED, NULL);
-	}
+	} */
 	else if (t->spacetype == SPACE_NODE) {
 		//ED_area_tag_redraw(t->sa);
 		WM_event_add_notifier(C, NC_SPACE | ND_SPACE_NODE_VIEW, NULL);
@@ -687,7 +689,7 @@ static void viewRedrawPost(bContext *C, TransInfo *t)
 	else if (t->spacetype == SPACE_IMAGE) {
 		allqueue(REDRAWIMAGE, 0);
 		allqueue(REDRAWVIEW3D, 0);
-	}
+	} /*
 	else if (ELEM(t->spacetype, SPACE_ACTION, SPACE_NLA, SPACE_IPO)) {
 		allqueue(REDRAWVIEW3D, 0);
 		allqueue(REDRAWACTION, 0);
@@ -695,7 +697,7 @@ static void viewRedrawPost(bContext *C, TransInfo *t)
 		allqueue(REDRAWIPO, 0);
 		allqueue(REDRAWTIME, 0);
 		allqueue(REDRAWBUTSOBJECT, 0);
-	}
+	} */
 
 	scrarea_queue_headredraw(curarea);
 #endif
@@ -2196,10 +2198,12 @@ bool initTransform(bContext *C, TransInfo *t, wmOperator *op, const wmEvent *eve
 			/* same as TFM_TIME_EXTEND, but we need the mode info for later
 			 * so that duplicate-culling will work properly
 			 */
+			 /*
 			if (ELEM(t->spacetype, SPACE_IPO, SPACE_NLA))
 				initTranslation(t);
-			else
+			else 
 				initTimeTranslate(t);
+			*/
 			t->mode = mode;
 			break;
 		case TFM_TIME_EXTEND:
@@ -2208,10 +2212,12 @@ bool initTransform(bContext *C, TransInfo *t, wmOperator *op, const wmEvent *eve
 			 * (for Graph/NLA Editors only since they uses 'standard' transforms to get 2D movement)
 			 * depending on which editor this was called from
 			 */
+			 /*
 			if (ELEM(t->spacetype, SPACE_IPO, SPACE_NLA))
 				initTranslation(t);
 			else
 				initTimeTranslate(t);
+				*/
 			break;
 		case TFM_BAKE_TIME:
 			initBakeTime(t);
@@ -7228,13 +7234,13 @@ static short getAnimEdit_SnapMode(TransInfo *t)
 		
 		if (sipo)
 			autosnap = sipo->autosnap;
-	}
+	} /*
 	else if (t->spacetype == SPACE_NLA) {
 		SpaceNla *snla = (SpaceNla *)t->sa->spacedata.first;
 		
 		if (snla)
 			autosnap = snla->autosnap;
-	}
+	} */
 	else {
 		autosnap = SACTSNAP_OFF;
 	}
@@ -7410,12 +7416,12 @@ static void applyTimeTranslateValue(TransInfo *t, float UNUSED(sval))
 		 * whose active action is where this keyframe comes from
 		 * (this is only valid when not in NLA)
 		 */
-		AnimData *adt = (t->spacetype != SPACE_NLA) ? td->extra : NULL;
+		//AnimData *adt = (t->spacetype != SPACE_NLA) ? td->extra : NULL;
 
 		/* valprev = *td->val; */ /* UNUSED */
 
 		/* check if any need to apply nla-mapping */
-		if (adt && (t->spacetype != SPACE_SEQ)) {
+/* 		if (adt && (t->spacetype != SPACE_SEQ)) {
 			deltax = t->values[0];
 
 			if (autosnap == SACTSNAP_TSTEP) {
@@ -7440,10 +7446,10 @@ static void applyTimeTranslateValue(TransInfo *t, float UNUSED(sval))
 			}
 
 			*(td->val) = td->ival + val;
-		}
+		} */
 
 		/* apply nearest snapping */
-		doAnimEdit_SnapFrame(t, td, td2d, adt, autosnap);
+		// doAnimEdit_SnapFrame(t, td, td2d, adt, autosnap);
 	}
 }
 
@@ -7560,13 +7566,13 @@ static void applyTimeSlideValue(TransInfo *t, float sval)
 		 * whose active action is where this keyframe comes from
 		 * (this is only valid when not in NLA)
 		 */
-		AnimData *adt = (t->spacetype != SPACE_NLA) ? td->extra : NULL;
+		//AnimData *adt = (t->spacetype != SPACE_NLA) ? td->extra : NULL;
 		float cval = t->values[0];
 
 		/* apply NLA-mapping to necessary values */
-		if (adt)
+/* 		if (adt)
 			cval = BKE_nla_tweakedit_remap(adt, cval, NLATIME_CONVERT_UNMAP);
-
+ */
 		/* only apply to data if in range */
 		if ((sval > minx) && (sval < maxx)) {
 			float cvalc = CLAMPIS(cval, minx, maxx);
@@ -7629,9 +7635,10 @@ static void initTimeScale(TransInfo *t)
 	/* this tool is only really available in the Action Editor
 	 * AND NLA Editor (for strip scaling)
 	 */
+	/*
 	if (ELEM(t->spacetype, SPACE_ACTION, SPACE_NLA) == 0) {
 		t->state = TRANS_CANCEL;
-	}
+	} */
 
 	t->mode = TFM_TIME_SCALE;
 	t->transform = applyTimeScale;
@@ -7691,8 +7698,8 @@ static void applyTimeScaleValue(TransInfo *t)
 		/* it is assumed that td->extra is a pointer to the AnimData,
 		 * whose active action is where this keyframe comes from
 		 * (this is only valid when not in NLA)
-		 */
-		AnimData *adt = (t->spacetype != SPACE_NLA) ? td->extra : NULL;
+		 */ 
+		//AnimData *adt = (t->spacetype != SPACE_NLA) ? td->extra : NULL;
 		float startx = CFRA;
 		float fac = t->values[0];
 
@@ -7704,14 +7711,14 @@ static void applyTimeScaleValue(TransInfo *t)
 		}
 
 		/* check if any need to apply nla-mapping */
-		if (adt)
+/* 		if (adt)
 			startx = BKE_nla_tweakedit_remap(adt, startx, NLATIME_CONVERT_UNMAP);
-
+ */
 		/* now, calculate the new value */
 		*(td->val) = ((td->ival - startx) * fac) + startx;
 
 		/* apply nearest snapping */
-		doAnimEdit_SnapFrame(t, td, td2d, adt, autosnap);
+		// doAnimEdit_SnapFrame(t, td, td2d, adt, autosnap);
 	}
 }
 

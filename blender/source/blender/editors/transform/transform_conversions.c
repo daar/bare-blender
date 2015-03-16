@@ -3286,14 +3286,14 @@ static void posttrans_action_clean(bAnimContext *ac, bAction *act)
 	 *      - all keyframes are converted in/out of global time
 	 */
 	for (ale = anim_data.first; ale; ale = ale->next) {
-		AnimData *adt = ANIM_nla_mapping_get(ac, ale);
+		// AnimData *adt = ANIM_nla_mapping_get(ac, ale);
 		
-		if (adt) {
-			ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 0, 1);
-			posttrans_fcurve_clean(ale->key_data, false); /* only use handles in graph editor */
-			ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 1, 1);
-		}
-		else
+		// if (adt) {
+			// ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 0, 1);
+			// posttrans_fcurve_clean(ale->key_data, false); /* only use handles in graph editor */
+			// ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 1, 1);
+		// }
+		// else
 			posttrans_fcurve_clean(ale->key_data, false);  /* only use handles in graph editor */
 	}
 
@@ -3550,14 +3550,14 @@ static void createTransActionData(bContext *C, TransInfo *t)
 	
 	/* loop 1: fully select ipo-keys and count how many BezTriples are selected */
 	for (ale = anim_data.first; ale; ale = ale->next) {
-		AnimData *adt = ANIM_nla_mapping_get(&ac, ale);
+		//AnimData *adt = ANIM_nla_mapping_get(&ac, ale);
 		
 		/* convert current-frame to action-time (slightly less accurate, especially under
 		 * higher scaling ratios, but is faster than converting all points)
 		 */
-		if (adt)
+/* 		if (adt)
 			cfra = BKE_nla_tweakedit_remap(adt, (float)CFRA, NLATIME_CONVERT_UNMAP);
-		else
+		else */
 			cfra = (float)CFRA;
 		
 		if (ale->type == ANIMTYPE_FCURVE)
@@ -3621,18 +3621,18 @@ static void createTransActionData(bContext *C, TransInfo *t)
 			tfd += i;
 		}
 		else {
-			AnimData *adt = ANIM_nla_mapping_get(&ac, ale);
+			//AnimData *adt = ANIM_nla_mapping_get(&ac, ale);
 			FCurve *fcu = (FCurve *)ale->key_data;
 			
 			/* convert current-frame to action-time (slightly less accurate, especially under
 			 * higher scaling ratios, but is faster than converting all points)
 			 */
-			if (adt)
+			/* if (adt)
 				cfra = BKE_nla_tweakedit_remap(adt, (float)CFRA, NLATIME_CONVERT_UNMAP);
-			else
+			else */
 				cfra = (float)CFRA;
 			
-			td = ActionFCurveToTransData(td, &td2d, fcu, adt, t->frame_side, cfra);
+			//td = ActionFCurveToTransData(td, &td2d, fcu, adt, t->frame_side, cfra);
 		}
 	}
 	
@@ -3812,7 +3812,7 @@ static void createTransGraphEditData(bContext *C, TransInfo *t)
 	
 	/* loop 1: count how many BezTriples (specifically their verts) are selected (or should be edited) */
 	for (ale = anim_data.first; ale; ale = ale->next) {
-		AnimData *adt = ANIM_nla_mapping_get(&ac, ale);
+		//AnimData *adt = ANIM_nla_mapping_get(&ac, ale);
 		FCurve *fcu = (FCurve *)ale->key_data;
 		float cfra;
 
@@ -3823,9 +3823,9 @@ static void createTransGraphEditData(bContext *C, TransInfo *t)
 		/* convert current-frame to action-time (slightly less accurate, especially under
 		 * higher scaling ratios, but is faster than converting all points)
 		 */
-		if (adt)
+/* 		if (adt)
 			cfra = BKE_nla_tweakedit_remap(adt, (float)CFRA, NLATIME_CONVERT_UNMAP);
-		else
+		else */
 			cfra = (float)CFRA;
 
 		/* only include BezTriples whose 'keyframe' occurs on the same side of the current frame as mouse */
@@ -3894,7 +3894,7 @@ static void createTransGraphEditData(bContext *C, TransInfo *t)
 	
 	/* loop 2: build transdata arrays */
 	for (ale = anim_data.first; ale; ale = ale->next) {
-		AnimData *adt = ANIM_nla_mapping_get(&ac, ale);
+		//AnimData *adt = ANIM_nla_mapping_get(&ac, ale);
 		FCurve *fcu = (FCurve *)ale->key_data;
 		bool intvals = (fcu->flag & FCURVE_INT_VALUES) != 0;
 		float unit_scale;
@@ -3907,9 +3907,9 @@ static void createTransGraphEditData(bContext *C, TransInfo *t)
 		/* convert current-frame to action-time (slightly less accurate, especially under
 		 * higher scaling ratios, but is faster than converting all points)
 		 */
-		if (adt)
+/* 		if (adt)
 			cfra = BKE_nla_tweakedit_remap(adt, (float)CFRA, NLATIME_CONVERT_UNMAP);
-		else
+		else */
 			cfra = (float)CFRA;
 
 		unit_scale = ANIM_unit_mapping_get_factor(ac.scene, ale->id, ale->key_data, anim_map_flag);
@@ -3930,7 +3930,7 @@ static void createTransGraphEditData(bContext *C, TransInfo *t)
 				if (!is_translation_mode || !(sel2)) {
 					if (sel1) {
 						hdata = initTransDataCurveHandles(td, bezt);
-						bezt_to_transdata(td++, td2d++, tdg++, adt, bezt, 0, sel1, true, intvals, mtx, smtx, unit_scale);
+						//bezt_to_transdata(td++, td2d++, tdg++, adt, bezt, 0, sel1, true, intvals, mtx, smtx, unit_scale);
 					}
 					else {
 						/* h1 = 0; */ /* UNUSED */
@@ -3939,7 +3939,7 @@ static void createTransGraphEditData(bContext *C, TransInfo *t)
 					if (sel3) {
 						if (hdata == NULL)
 							hdata = initTransDataCurveHandles(td, bezt);
-						bezt_to_transdata(td++, td2d++, tdg++, adt, bezt, 2, sel3, true, intvals, mtx, smtx, unit_scale);
+						//bezt_to_transdata(td++, td2d++, tdg++, adt, bezt, 2, sel3, true, intvals, mtx, smtx, unit_scale);
 					}
 					else {
 						/* h2 = 0; */ /* UNUSED */
@@ -3960,7 +3960,7 @@ static void createTransGraphEditData(bContext *C, TransInfo *t)
 							hdata = initTransDataCurveHandles(td, bezt);
 					}
 					
-					bezt_to_transdata(td++, td2d++, tdg++, adt, bezt, 1, sel2, false, intvals, mtx, smtx, unit_scale);
+					//bezt_to_transdata(td++, td2d++, tdg++, adt, bezt, 1, sel2, false, intvals, mtx, smtx, unit_scale);
 					
 				}
 				/* special hack (must be done after initTransDataCurveHandles(), as that stores handle settings to restore...):
@@ -5683,7 +5683,7 @@ void special_aftertrans_update(bContext *C, TransInfo *t)
 			
 			/* these should all be F-Curves */
 			for (ale = anim_data.first; ale; ale = ale->next) {
-				AnimData *adt = ANIM_nla_mapping_get(&ac, ale);
+				//AnimData *adt = ANIM_nla_mapping_get(&ac, ale);
 				FCurve *fcu = (FCurve *)ale->key_data;
 				
 				/* 3 cases here for curve cleanups:
@@ -5694,12 +5694,12 @@ void special_aftertrans_update(bContext *C, TransInfo *t)
 				if ((saction->flag & SACTION_NOTRANSKEYCULL) == 0 &&
 				    ((canceled == 0) || (duplicate)) )
 				{
-					if (adt) {
-						ANIM_nla_mapping_apply_fcurve(adt, fcu, 0, 1);
-						posttrans_fcurve_clean(fcu, false); /* only use handles in graph editor */
-						ANIM_nla_mapping_apply_fcurve(adt, fcu, 1, 1);
-					}
-					else
+					// if (adt) {
+						// ANIM_nla_mapping_apply_fcurve(adt, fcu, 0, 1);
+						// posttrans_fcurve_clean(fcu, false); /* only use handles in graph editor */
+						// ANIM_nla_mapping_apply_fcurve(adt, fcu, 1, 1);
+					// }
+					// else
 						posttrans_fcurve_clean(fcu, false);  /* only use handles in graph editor */
 				}
 			}
@@ -5815,7 +5815,7 @@ void special_aftertrans_update(bContext *C, TransInfo *t)
 			ANIM_animdata_filter(&ac, &anim_data, filter, ac.data, ac.datatype);
 			
 			for (ale = anim_data.first; ale; ale = ale->next) {
-				AnimData *adt = ANIM_nla_mapping_get(&ac, ale);
+				//AnimData *adt = ANIM_nla_mapping_get(&ac, ale);
 				FCurve *fcu = (FCurve *)ale->key_data;
 				
 				/* 3 cases here for curve cleanups:
@@ -5826,12 +5826,12 @@ void special_aftertrans_update(bContext *C, TransInfo *t)
 				if ((sipo->flag & SIPO_NOTRANSKEYCULL) == 0 &&
 				    ((canceled == 0) || (duplicate)))
 				{
-					if (adt) {
+			/* 		if (adt) {
 						ANIM_nla_mapping_apply_fcurve(adt, fcu, 0, 0);
 						posttrans_fcurve_clean(fcu, use_handle);
 						ANIM_nla_mapping_apply_fcurve(adt, fcu, 1, 0);
 					}
-					else
+					else */
 						posttrans_fcurve_clean(fcu, use_handle);
 				}
 			}
@@ -5848,38 +5848,38 @@ void special_aftertrans_update(bContext *C, TransInfo *t)
 		if (!canceled)
 			ANIM_editkeyframes_refresh(&ac);
 	}
-	else if (t->spacetype == SPACE_NLA) {
-		bAnimContext ac;
+	// else if (t->spacetype == SPACE_NLA) {
+		// bAnimContext ac;
 		
-		/* initialize relevant anim-context 'context' data */
-		if (ANIM_animdata_get_context(C, &ac) == 0)
-			return;
+		// /* initialize relevant anim-context 'context' data */
+		// if (ANIM_animdata_get_context(C, &ac) == 0)
+			// return;
 			
-		if (ac.datatype) {
-			ListBase anim_data = {NULL, NULL};
-			bAnimListElem *ale;
-			short filter = (ANIMFILTER_DATA_VISIBLE | ANIMFILTER_FOREDIT);
+		// if (ac.datatype) {
+			// ListBase anim_data = {NULL, NULL};
+			// bAnimListElem *ale;
+			// short filter = (ANIMFILTER_DATA_VISIBLE | ANIMFILTER_FOREDIT);
 			
-			/* get channels to work on */
-			ANIM_animdata_filter(&ac, &anim_data, filter, ac.data, ac.datatype);
+			// /* get channels to work on */
+			// ANIM_animdata_filter(&ac, &anim_data, filter, ac.data, ac.datatype);
 			
-			for (ale = anim_data.first; ale; ale = ale->next) {
-				NlaTrack *nlt = (NlaTrack *)ale->data;
+			// for (ale = anim_data.first; ale; ale = ale->next) {
+				// NlaTrack *nlt = (NlaTrack *)ale->data;
 				
-				/* make sure strips are in order again */
-				BKE_nlatrack_sort_strips(nlt);
+				// /* make sure strips are in order again */
+				// BKE_nlatrack_sort_strips(nlt);
 				
-				/* remove the temp metas */
-				BKE_nlastrips_clear_metas(&nlt->strips, 0, 1);
-			}
+				// /* remove the temp metas */
+				// BKE_nlastrips_clear_metas(&nlt->strips, 0, 1);
+			// }
 			
-			/* free temp memory */
-			ANIM_animdata_freelist(&anim_data);
+			// /* free temp memory */
+			// ANIM_animdata_freelist(&anim_data);
 			
-			/* perform after-transfrom validation */
-			ED_nla_postop_refresh(&ac);
-		}
-	}
+			// /* perform after-transfrom validation */
+			// ED_nla_postop_refresh(&ac);
+		// }
+	// }
 	else if (t->obedit) {
 		if (t->obedit->type == OB_MESH) {
 			BMEditMesh *em = BKE_editmesh_from_object(t->obedit);
@@ -7577,10 +7577,10 @@ void createTransData(bContext *C, TransInfo *t)
 		t->flag |= T_POINTS | T_2D_EDIT;
 		createTransActionData(C, t);
 	}
-	else if (t->spacetype == SPACE_NLA) {
+	/* else if (t->spacetype == SPACE_NLA) {
 		t->flag |= T_POINTS | T_2D_EDIT;
 		createTransNlaData(C, t);
-	}
+	} */
 	else if (t->spacetype == SPACE_SEQ) {
 		t->flag |= T_POINTS | T_2D_EDIT;
 		t->num.flag |= NUM_NO_FRACTION; /* sequencer has no use for floating point transformations */

@@ -119,9 +119,11 @@ const unsigned char *UI_ThemeGetColorPtr(bTheme *btheme, int spacetype, int colo
 				case SPACE_FILE:
 					ts = &btheme->tfile;
 					break;
+				/*
 				case SPACE_NLA:
 					ts = &btheme->tnla;
 					break;
+				*/
 				case SPACE_ACTION:
 					ts = &btheme->tact;
 					break;

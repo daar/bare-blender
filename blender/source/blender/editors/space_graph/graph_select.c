@@ -270,16 +270,16 @@ static void borderselect_graphkeys(
 
 	/* loop over data, doing border select */
 	for (ale = anim_data.first; ale; ale = ale->next) {
-		AnimData *adt = ANIM_nla_mapping_get(ac, ale);
+		// AnimData *adt = ANIM_nla_mapping_get(ac, ale);
 		FCurve *fcu = (FCurve *)ale->key_data;
 		float unit_scale = ANIM_unit_mapping_get_factor(ac->scene, ale->id, fcu, mapping_flag);
 
 		/* apply NLA mapping to all the keyframes, since it's easier than trying to
 		 * guess when a callback might use something different
 		 */
-		if (adt)
+/* 		if (adt)
 			ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 0, incl_handles == 0);
-
+ */
 		scaled_rectf.xmin = rectf.xmin;
 		scaled_rectf.xmax = rectf.xmax;
 		scaled_rectf.ymin = rectf.ymin / unit_scale;
@@ -312,9 +312,9 @@ static void borderselect_graphkeys(
 		}
 		
 		/* un-apply NLA mapping from all the keyframes */
-		if (adt)
+/* 		if (adt)
 			ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 1, incl_handles == 0);
-	}
+ */	}
 	
 	/* cleanup */
 	ANIM_animdata_freelist(&anim_data);
@@ -616,14 +616,14 @@ static void markers_selectkeys_between(bAnimContext *ac)
 	
 	/* select keys in-between */
 	for (ale = anim_data.first; ale; ale = ale->next) {
-		AnimData *adt = ANIM_nla_mapping_get(ac, ale);
+/* 		AnimData *adt = ANIM_nla_mapping_get(ac, ale);
 
 		if (adt) {
 			ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 0, 1);
 			ANIM_fcurve_keyframes_loop(&ked, ale->key_data, ok_cb, select_cb, NULL);
 			ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 1, 1);
 		}
-		else {
+		else */ {
 			ANIM_fcurve_keyframes_loop(&ked, ale->key_data, ok_cb, select_cb, NULL);
 		}
 	}
@@ -687,18 +687,18 @@ static void columnselect_graph_keys(bAnimContext *ac, short mode)
 	ANIM_animdata_filter(ac, &anim_data, filter, ac->data, ac->datatype);
 	
 	for (ale = anim_data.first; ale; ale = ale->next) {
-		AnimData *adt = ANIM_nla_mapping_get(ac, ale);
+		/* AnimData *adt = ANIM_nla_mapping_get(ac, ale); */
 		
 		/* loop over cfraelems (stored in the KeyframeEditData->list)
 		 *	- we need to do this here, as we can apply fewer NLA-mapping conversions
 		 */
-		for (ce = ked.list.first; ce; ce = ce->next) {
-			/* set frame for validation callback to refer to */
-			ked.f1 = BKE_nla_tweakedit_remap(adt, ce->cfra, NLATIME_CONVERT_UNMAP);
+		// for (ce = ked.list.first; ce; ce = ce->next) {
+			// /* set frame for validation callback to refer to */
+			// ked.f1 = BKE_nla_tweakedit_remap(adt, ce->cfra, NLATIME_CONVERT_UNMAP);
 
-			/* select elements with frame number matching cfraelem */
-			ANIM_fcurve_keyframes_loop(&ked, ale->key_data, ok_cb, select_cb, NULL);
-		}
+			// /* select elements with frame number matching cfraelem */
+			// ANIM_fcurve_keyframes_loop(&ked, ale->key_data, ok_cb, select_cb, NULL);
+		// }
 	}
 	
 	/* free elements */
@@ -968,14 +968,14 @@ static void graphkeys_select_leftright(bAnimContext *ac, short leftright, short 
 		
 	/* select keys */
 	for (ale = anim_data.first; ale; ale = ale->next) {
-		AnimData *adt = ANIM_nla_mapping_get(ac, ale);
+/* 		AnimData *adt = ANIM_nla_mapping_get(ac, ale);
 		
 		if (adt) {
 			ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 0, 1);
 			ANIM_fcurve_keyframes_loop(&ked, ale->key_data, ok_cb, select_cb, NULL);
 			ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 1, 1);
 		}
-		else
+		else */
 			ANIM_fcurve_keyframes_loop(&ked, ale->key_data, ok_cb, select_cb, NULL);
 	}
 
@@ -1188,13 +1188,13 @@ static void get_nearest_fcurve_verts_list(bAnimContext *ac, const int mval[2], L
 	
 	for (ale = anim_data.first; ale; ale = ale->next) {
 		FCurve *fcu = (FCurve *)ale->key_data;
-		AnimData *adt = ANIM_nla_mapping_get(ac, ale);
+		// AnimData *adt = ANIM_nla_mapping_get(ac, ale);
 		float unit_scale = ANIM_unit_mapping_get_factor(ac->scene, ale->id, fcu, mapping_flag);
 
 		/* apply NLA mapping to all the keyframes */
-		if (adt)
+/* 		if (adt)
 			ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 0, 0);
-
+ */
 		if (fcu->bezt) {
 			BezTriple *bezt1 = fcu->bezt, *prevbezt = NULL;
 			int i;
@@ -1223,9 +1223,9 @@ static void get_nearest_fcurve_verts_list(bAnimContext *ac, const int mval[2], L
 		}
 		
 		/* un-apply NLA mapping from all the keyframes */
-		if (adt)
+/* 		if (adt)
 			ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 1, 0);
-	}
+ */	}
 	
 	/* free channels */
 	ANIM_animdata_freelist(&anim_data);
@@ -1466,12 +1466,12 @@ static void graphkeys_mselect_column(bAnimContext *ac, const int mval[2], short 
 	ANIM_animdata_filter(ac, &anim_data, filter, ac->data, ac->datatype);
 	
 	for (ale = anim_data.first; ale; ale = ale->next) {
-		AnimData *adt = ANIM_nla_mapping_get(ac, ale);
+		/* AnimData *adt = ANIM_nla_mapping_get(ac, ale); */
 		
 		/* set frame for validation callback to refer to */
-		if (adt)
+/* 		if (adt)
 			ked.f1 = BKE_nla_tweakedit_remap(adt, selx, NLATIME_CONVERT_UNMAP);
-		else
+		else */
 			ked.f1 = selx;
 		
 		/* select elements with frame number matching cfra */

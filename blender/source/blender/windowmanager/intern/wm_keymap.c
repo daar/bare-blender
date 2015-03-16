@@ -1650,10 +1650,10 @@ wmKeyMap *WM_keymap_guess_opname(const bContext *C, const char *opname)
 			case SPACE_ACTION:
 				km = WM_keymap_find_all(C, "Dopesheet", sl->spacetype, 0);
 				break;
-			case SPACE_NLA:
+/* 			case SPACE_NLA:
 				km = WM_keymap_find_all(C, "NLA Editor", sl->spacetype, 0);
 				break;
-			case SPACE_IMAGE:
+ */			case SPACE_IMAGE:
 				km = WM_keymap_find_all(C, "UV Editor", sl->spacetype, 0);
 				break;
 			case SPACE_NODE:

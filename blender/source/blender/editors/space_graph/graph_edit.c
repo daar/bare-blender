@@ -106,7 +106,7 @@ void get_graph_keyframe_extents(bAnimContext *ac, float *xmin, float *xmax, floa
 		
 		/* go through channels, finding max extents */
 		for (ale = anim_data.first; ale; ale = ale->next) {
-			AnimData *adt = ANIM_nla_mapping_get(ac, ale);
+			// AnimData *adt = ANIM_nla_mapping_get(ac, ale);
 			FCurve *fcu = (FCurve *)ale->key_data;
 			float txmin, txmax, tymin, tymax;
 			float unitFac;
@@ -116,10 +116,10 @@ void get_graph_keyframe_extents(bAnimContext *ac, float *xmin, float *xmax, floa
 				short mapping_flag = ANIM_get_normalization_flags(ac);
 
 				/* apply NLA scaling */
-				if (adt) {
+/* 				if (adt) {
 					txmin = BKE_nla_tweakedit_remap(adt, txmin, NLATIME_CONVERT_MAP);
 					txmax = BKE_nla_tweakedit_remap(adt, txmax, NLATIME_CONVERT_MAP);
-				}
+				} */
 				
 				/* apply unit corrections */
 				unitFac = ANIM_unit_mapping_get_factor(ac->scene, ale->id, fcu, mapping_flag);
@@ -324,7 +324,7 @@ static void create_ghost_curves(bAnimContext *ac, int start, int end)
 	for (ale = anim_data.first; ale; ale = ale->next) {
 		FCurve *fcu = (FCurve *)ale->key_data;
 		FCurve *gcu = MEM_callocN(sizeof(FCurve), "Ghost FCurve");
-		AnimData *adt = ANIM_nla_mapping_get(ac, ale);
+		// AnimData *adt = ANIM_nla_mapping_get(ac, ale);
 		ChannelDriver *driver = fcu->driver;
 		FPoint *fpt;
 		float unitFac;
@@ -345,12 +345,12 @@ static void create_ghost_curves(bAnimContext *ac, int start, int end)
 		gcu->totvert = end - start + 1;
 		
 		/* use the sampling callback at 1-frame intervals from start to end frames */
-		for (cfra = start; cfra <= end; cfra++, fpt++) {
+/* 		for (cfra = start; cfra <= end; cfra++, fpt++) {
 			float cfrae = BKE_nla_tweakedit_remap(adt, cfra, NLATIME_CONVERT_UNMAP);
 			
 			fpt->vec[0] = cfrae;
 			fpt->vec[1] = fcurve_samplingcb_evalcurve(fcu, NULL, cfrae) * unitFac;
-		}
+		} */
 		
 		/* set color of ghost curve 
 		 *	- make the color slightly darker
@@ -488,14 +488,14 @@ static void insert_graph_keys(bAnimContext *ac, short mode)
 	
 	/* insert keyframes */
 	for (ale = anim_data.first; ale; ale = ale->next) {
-		AnimData *adt = ANIM_nla_mapping_get(ac, ale);
+		//AnimData *adt = ANIM_nla_mapping_get(ac, ale);
 		FCurve *fcu = (FCurve *)ale->key_data;
 		float cfra;
 		
 		/* adjust current frame for NLA-mapping */
-		if (adt)
+/* 		if (adt)
 			cfra = BKE_nla_tweakedit_remap(adt, (float)CFRA, NLATIME_CONVERT_UNMAP);
-		else 
+		else  */
 			cfra = (float)CFRA;
 			
 		/* if there's an id */
@@ -588,9 +588,9 @@ static int graphkeys_click_insert_exec(bContext *C, wmOperator *op)
 		val = RNA_float_get(op->ptr, "value");
 		
 		/* apply inverse NLA-mapping to frame to get correct time in un-scaled action */
-		adt = ANIM_nla_mapping_get(&ac, ale);
+/* 		adt = ANIM_nla_mapping_get(&ac, ale);
 		frame = BKE_nla_tweakedit_remap(adt, frame, NLATIME_CONVERT_UNMAP);
-		
+ */		
 		/* apply inverse unit-mapping to value to get correct value for F-Curves */
 		val *= ANIM_unit_mapping_get_factor(ac.scene, ale->id, fcu, mapping_flag | ANIM_UNITCONV_RESTORE);
 		
@@ -1869,19 +1869,19 @@ static int graphkeys_framejump_exec(bContext *C, wmOperator *UNUSED(op))
 	ANIM_animdata_filter(&ac, &anim_data, filter, ac.data, ac.datatype);
 	
 	for (ale = anim_data.first; ale; ale = ale->next) {
-		AnimData *adt = ANIM_nla_mapping_get(&ac, ale);
+		// AnimData *adt = ANIM_nla_mapping_get(&ac, ale);
 		short mapping_flag = ANIM_get_normalization_flags(&ac);
 		KeyframeEditData current_ked;
 		float unit_scale = ANIM_unit_mapping_get_factor(ac.scene, ale->id, ale->key_data, mapping_flag | ANIM_UNITCONV_ONLYKEYS);
 
 		memset(&current_ked, 0, sizeof(current_ked));
 
-		if (adt) {
+/* 		if (adt) {
 			ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 0, 1); 
 			ANIM_fcurve_keyframes_loop(&current_ked, ale->key_data, NULL, bezt_calc_average, NULL);
 			ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 1, 1); 
 		}
-		else
+		else */
 			ANIM_fcurve_keyframes_loop(&current_ked, ale->key_data, NULL, bezt_calc_average, NULL);
 
 		ked.f1 += current_ked.f1;
@@ -1974,7 +1974,7 @@ static void snap_graph_keys(bAnimContext *ac, short mode)
 	
 	/* snap keyframes */
 	for (ale = anim_data.first; ale; ale = ale->next) {
-		AnimData *adt = ANIM_nla_mapping_get(ac, ale);
+		// AnimData *adt = ANIM_nla_mapping_get(ac, ale);
 		
 		/* normalise cursor value (for normalised F-Curves display) */
 		if (mode == GRAPHKEYS_SNAP_VALUE) {
@@ -1985,12 +1985,12 @@ static void snap_graph_keys(bAnimContext *ac, short mode)
 		}
 		
 		/* perform snapping */
-		if (adt) {
+/* 		if (adt) {
 			ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 0, 1); 
 			ANIM_fcurve_keyframes_loop(&ked, ale->key_data, NULL, edit_cb, calchandles_fcurve);
 			ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 1, 1);
 		}
-		else 
+		else  */
 			ANIM_fcurve_keyframes_loop(&ked, ale->key_data, NULL, edit_cb, calchandles_fcurve);
 
 		ale->update |= ANIM_UPDATE_DEFAULT;
@@ -2101,7 +2101,7 @@ static void mirror_graph_keys(bAnimContext *ac, short mode)
 	
 	/* mirror keyframes */
 	for (ale = anim_data.first; ale; ale = ale->next) {
-		AnimData *adt = ANIM_nla_mapping_get(ac, ale);
+		// AnimData *adt = ANIM_nla_mapping_get(ac, ale);
 		
 		/* apply unit corrections */
 		if (mode == GRAPHKEYS_MIRROR_VALUE) {
@@ -2112,12 +2112,12 @@ static void mirror_graph_keys(bAnimContext *ac, short mode)
 		}
 		
 		/* perform actual mirroring */
-		if (adt) {
+/* 		if (adt) {
 			ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 0, 1); 
 			ANIM_fcurve_keyframes_loop(&ked, ale->key_data, NULL, edit_cb, calchandles_fcurve);
 			ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 1, 1);
 		}
-		else 
+		else  */
 			ANIM_fcurve_keyframes_loop(&ked, ale->key_data, NULL, edit_cb, calchandles_fcurve);
 
 		ale->update |= ANIM_UPDATE_DEFAULT;

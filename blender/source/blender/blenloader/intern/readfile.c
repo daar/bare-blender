@@ -5878,7 +5878,7 @@ static void lib_link_screen(FileData *fd, Main *main)
 						 */
 						sseq->gpd = newlibadr_us(fd, sc->id.lib, sseq->gpd);
 
-					}
+					}/*
 					else if (sl->spacetype == SPACE_NLA) {
 						SpaceNla *snla= (SpaceNla *)sl;
 						bDopeSheet *ads= snla->ads;
@@ -5887,7 +5887,7 @@ static void lib_link_screen(FileData *fd, Main *main)
 							ads->source = newlibadr(fd, sc->id.lib, ads->source);
 							ads->filter_grp = newlibadr(fd, sc->id.lib, ads->filter_grp);
 						}
-					}
+					} */
 					else if (sl->spacetype == SPACE_TEXT) {
 						SpaceText *st= (SpaceText *)sl;
 						
@@ -6225,7 +6225,7 @@ void blo_lib_link_screen_restore(Main *newmain, bScreen *curscreen, Scene *cursc
 					 * so assume that here we're doing for undo only...
 					 */
 					sseq->gpd = restore_pointer_by_name(newmain, (ID *)sseq->gpd, USER_ONE);
-				}
+				} /*
 				else if (sl->spacetype == SPACE_NLA) {
 					SpaceNla *snla = (SpaceNla *)sl;
 					bDopeSheet *ads = snla->ads;
@@ -6236,7 +6236,7 @@ void blo_lib_link_screen_restore(Main *newmain, bScreen *curscreen, Scene *cursc
 						if (ads->filter_grp)
 							ads->filter_grp = restore_pointer_by_name(newmain, (ID *)ads->filter_grp, USER_IGNORE);
 					}
-				}
+				} */
 				else if (sl->spacetype == SPACE_TEXT) {
 					SpaceText *st = (SpaceText *)sl;
 					
@@ -6544,12 +6544,12 @@ static bool direct_link_screen(FileData *fd, bScreen *sc)
 				
 				sipo->ads = newdataadr(fd, sipo->ads);
 				BLI_listbase_clear(&sipo->ghostCurves);
-			}
+			} /*
 			else if (sl->spacetype == SPACE_NLA) {
 				SpaceNla *snla = (SpaceNla *)sl;
 				
 				snla->ads = newdataadr(fd, snla->ads);
-			}
+			} */
 			else if (sl->spacetype == SPACE_OUTLINER) {
 				SpaceOops *soops = (SpaceOops *) sl;
 				

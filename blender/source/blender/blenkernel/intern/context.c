@@ -741,6 +741,7 @@ struct SpaceOops *CTX_wm_space_outliner(const bContext *C)
 	return NULL;
 }
 
+/*
 struct SpaceNla *CTX_wm_space_nla(const bContext *C)
 {
 	ScrArea *sa = CTX_wm_area(C);
@@ -748,6 +749,7 @@ struct SpaceNla *CTX_wm_space_nla(const bContext *C)
 		return sa->spacedata.first;
 	return NULL;
 }
+*/
 
 struct SpaceTime *CTX_wm_space_time(const bContext *C)
 {

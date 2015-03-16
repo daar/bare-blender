@@ -250,7 +250,7 @@ static bool get_keyframe_extents(bAnimContext *ac, float *min, float *max, const
 	if (anim_data.first) {
 		/* go through channels, finding max extents */
 		for (ale = anim_data.first; ale; ale = ale->next) {
-			AnimData *adt = ANIM_nla_mapping_get(ac, ale);
+			// AnimData *adt = ANIM_nla_mapping_get(ac, ale);
 			if (ale->datatype == ALE_GPFRAME) {
 				bGPDlayer *gpl = ale->data;
 				bGPDframe *gpf;
@@ -285,10 +285,10 @@ static bool get_keyframe_extents(bAnimContext *ac, float *min, float *max, const
 				/* get range and apply necessary scaling before processing */
 				if (calc_fcurve_range(fcu, &tmin, &tmax, onlySel, true)) {
 
-					if (adt) {
+/* 					if (adt) {
 						tmin = BKE_nla_tweakedit_remap(adt, tmin, NLATIME_CONVERT_MAP);
 						tmax = BKE_nla_tweakedit_remap(adt, tmax, NLATIME_CONVERT_MAP);
-					}
+					} */
 
 					/* try to set cur using these values, if they're more extreme than previously set values */
 					*min = min_ff(*min, tmin);
@@ -702,14 +702,14 @@ static void insert_action_keys(bAnimContext *ac, short mode)
 	
 	/* insert keyframes */
 	for (ale = anim_data.first; ale; ale = ale->next) {
-		AnimData *adt = ANIM_nla_mapping_get(ac, ale);
+		// AnimData *adt = ANIM_nla_mapping_get(ac, ale);
 		FCurve *fcu = (FCurve *)ale->key_data;
 		float cfra;
 		
 		/* adjust current frame for NLA-scaling */
-		if (adt)
-			cfra = BKE_nla_tweakedit_remap(adt, (float)CFRA, NLATIME_CONVERT_UNMAP);
-		else 
+		// if (adt)
+			// cfra = BKE_nla_tweakedit_remap(adt, (float)CFRA, NLATIME_CONVERT_UNMAP);
+		// else 
 			cfra = (float)CFRA;
 			
 		/* if there's an id */
@@ -1471,16 +1471,16 @@ static int actkeys_framejump_exec(bContext *C, wmOperator *UNUSED(op))
 	filter = (ANIMFILTER_DATA_VISIBLE | ANIMFILTER_LIST_VISIBLE /*| ANIMFILTER_CURVESONLY */ | ANIMFILTER_NODUPLIS);
 	ANIM_animdata_filter(&ac, &anim_data, filter, ac.data, ac.datatype);
 	
-	for (ale = anim_data.first; ale; ale = ale->next) {
-		AnimData *adt = ANIM_nla_mapping_get(&ac, ale);
-		if (adt) {
-			ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 0, 1); 
-			ANIM_fcurve_keyframes_loop(&ked, ale->key_data, NULL, bezt_calc_average, NULL);
-			ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 1, 1);
-		}
-		else
-			ANIM_fcurve_keyframes_loop(&ked, ale->key_data, NULL, bezt_calc_average, NULL);
-	}
+	// for (ale = anim_data.first; ale; ale = ale->next) {
+		// AnimData *adt = ANIM_nla_mapping_get(&ac, ale);
+		// if (adt) {
+			// ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 0, 1); 
+			// ANIM_fcurve_keyframes_loop(&ked, ale->key_data, NULL, bezt_calc_average, NULL);
+			// ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 1, 1);
+		// }
+		// else
+			// ANIM_fcurve_keyframes_loop(&ked, ale->key_data, NULL, bezt_calc_average, NULL);
+	// }
 	
 	ANIM_animdata_freelist(&anim_data);
 	
@@ -1555,7 +1555,7 @@ static void snap_action_keys(bAnimContext *ac, short mode)
 	
 	/* snap keyframes */
 	for (ale = anim_data.first; ale; ale = ale->next) {
-		AnimData *adt = ANIM_nla_mapping_get(ac, ale);
+		//AnimData *adt = ANIM_nla_mapping_get(ac, ale);
 		
 		if (ale->type == ANIMTYPE_GPLAYER) {
 			ED_gplayer_snap_frames(ale->data, ac->scene, mode);
@@ -1563,11 +1563,11 @@ static void snap_action_keys(bAnimContext *ac, short mode)
 		else if (ale->type == ANIMTYPE_MASKLAYER) {
 			ED_masklayer_snap_frames(ale->data, ac->scene, mode);
 		}
-		else if (adt) {
+/* 		else if (adt) {
 			ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 0, 1); 
 			ANIM_fcurve_keyframes_loop(&ked, ale->key_data, NULL, edit_cb, calchandles_fcurve);
 			ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 1, 1);
-		}
+		} */
 		else {
 			ANIM_fcurve_keyframes_loop(&ked, ale->key_data, NULL, edit_cb, calchandles_fcurve);
 		}
@@ -1669,17 +1669,17 @@ static void mirror_action_keys(bAnimContext *ac, short mode)
 	
 	/* mirror keyframes */
 	for (ale = anim_data.first; ale; ale = ale->next) {
-		AnimData *adt = ANIM_nla_mapping_get(ac, ale);
+		// AnimData *adt = ANIM_nla_mapping_get(ac, ale);
 		
-		if (adt) {
-			ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 0, 1); 
-			ANIM_fcurve_keyframes_loop(&ked, ale->key_data, NULL, edit_cb, calchandles_fcurve);
-			ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 1, 1);
-		}
-		//else if (ale->type == ACTTYPE_GPLAYER)
-		//	snap_gplayer_frames(ale->data, mode);
-		else 
-			ANIM_fcurve_keyframes_loop(&ked, ale->key_data, NULL, edit_cb, calchandles_fcurve);
+		// if (adt) {
+			// ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 0, 1); 
+			// ANIM_fcurve_keyframes_loop(&ked, ale->key_data, NULL, edit_cb, calchandles_fcurve);
+			// ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 1, 1);
+		// }
+		// //else if (ale->type == ACTTYPE_GPLAYER)
+		// //	snap_gplayer_frames(ale->data, mode);
+		// else 
+			// ANIM_fcurve_keyframes_loop(&ked, ale->key_data, NULL, edit_cb, calchandles_fcurve);
 
 		ale->update |= ANIM_UPDATE_DEFAULT;
 	}

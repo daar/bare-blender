@@ -568,22 +568,22 @@ void getcolor_fcurve_rainbow(int cur, int tot, float out[3]);
  */
 
 /* Get color to use for NLA Action channel's background */
-void nla_action_get_color(struct AnimData *adt, struct bAction *act, float color[4]);
+//void nla_action_get_color(struct AnimData *adt, struct bAction *act, float color[4]);
 
 /* ----------------- NLA-Mapping ----------------------- */
 /* anim_draw.c */
 
 /* Obtain the AnimData block providing NLA-scaling for the given channel if applicable */
-struct AnimData *ANIM_nla_mapping_get(bAnimContext *ac, bAnimListElem *ale);
+//struct AnimData *ANIM_nla_mapping_get(bAnimContext *ac, bAnimListElem *ale);
 
 /* Apply/Unapply NLA mapping to all keyframes in the nominated F-Curve */
-void ANIM_nla_mapping_apply_fcurve(struct AnimData *adt, struct FCurve *fcu, bool restore, bool only_keys);
+//void ANIM_nla_mapping_apply_fcurve(struct AnimData *adt, struct FCurve *fcu, bool restore, bool only_keys);
 
 /* ..... */
 
 /* Perform auto-blending/extend refreshes after some operations */
 // NOTE: defined in space_nla/nla_edit.c, not in animation/
-void ED_nla_postop_refresh(bAnimContext *ac);
+//void ED_nla_postop_refresh(bAnimContext *ac);
 
 /* ------------- Unit Conversion Mappings ------------- */
 /* anim_draw.c */

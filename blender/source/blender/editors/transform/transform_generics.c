@@ -969,10 +969,10 @@ void recalcData(TransInfo *t)
 	}
 	else if (t->spacetype == SPACE_ACTION) {
 		recalcData_actedit(t);
-	}
+	} /*
 	else if (t->spacetype == SPACE_NLA) {
 		recalcData_nla(t);
-	}
+	} */
 	else if (t->spacetype == SPACE_SEQ) {
 		recalcData_sequencer(t);
 	}

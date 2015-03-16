@@ -633,6 +633,7 @@ typedef struct MarkerMove {
 
 static bool ed_marker_move_use_time(MarkerMove *mm)
 {
+/*
 	if (((mm->slink->spacetype == SPACE_TIME) && !(((SpaceTime *)mm->slink)->flag & TIME_DRAWFRAMES)) ||
 	    ((mm->slink->spacetype == SPACE_SEQ) && !(((SpaceSeq *)mm->slink)->flag & SEQ_DRAWFRAMES)) ||
 	    ((mm->slink->spacetype == SPACE_ACTION) && (((SpaceAction *)mm->slink)->flag & SACTION_DRAWTIME)) ||
@@ -641,7 +642,7 @@ static bool ed_marker_move_use_time(MarkerMove *mm)
 	{
 		return true;
 	}
-
+*/
 	return false;
 }
 
