@@ -2908,252 +2908,252 @@ static bool FrameOnMouseSide(char side, float frame, float cframe)
 
 /* ********************* NLA EDITOR ************************* */
 
-static void createTransNlaData(bContext *C, TransInfo *t)
-{
-	Scene *scene = t->scene;
-	SpaceNla *snla = NULL;
-	TransData *td = NULL;
-	TransDataNla *tdn = NULL;
+// static void createTransNlaData(bContext *C, TransInfo *t)
+// {
+	// Scene *scene = t->scene;
+	// SpaceNla *snla = NULL;
+	// TransData *td = NULL;
+	// TransDataNla *tdn = NULL;
 	
-	bAnimContext ac;
-	ListBase anim_data = {NULL, NULL};
-	bAnimListElem *ale;
-	int filter;
+	// bAnimContext ac;
+	// ListBase anim_data = {NULL, NULL};
+	// bAnimListElem *ale;
+	// int filter;
 	
-	int count = 0;
+	// int count = 0;
 	
-	/* determine what type of data we are operating on */
-	if (ANIM_animdata_get_context(C, &ac) == 0)
-		return;
-	snla = (SpaceNla *)ac.sl;
+	// /* determine what type of data we are operating on */
+	// if (ANIM_animdata_get_context(C, &ac) == 0)
+		// return;
+	// snla = (SpaceNla *)ac.sl;
 	
-	/* filter data */
-	filter = (ANIMFILTER_DATA_VISIBLE | ANIMFILTER_LIST_VISIBLE | ANIMFILTER_FOREDIT);
-	ANIM_animdata_filter(&ac, &anim_data, filter, ac.data, ac.datatype);
+	// /* filter data */
+	// filter = (ANIMFILTER_DATA_VISIBLE | ANIMFILTER_LIST_VISIBLE | ANIMFILTER_FOREDIT);
+	// ANIM_animdata_filter(&ac, &anim_data, filter, ac.data, ac.datatype);
 	
-	/* which side of the current frame should be allowed */
-	if (t->mode == TFM_TIME_EXTEND) {
-		/* only side on which mouse is gets transformed */
-		float xmouse, ymouse;
+	// /* which side of the current frame should be allowed */
+	// if (t->mode == TFM_TIME_EXTEND) {
+		// /* only side on which mouse is gets transformed */
+		// float xmouse, ymouse;
 		
-		UI_view2d_region_to_view(&ac.ar->v2d, t->imval[0], t->imval[1], &xmouse, &ymouse);
-		t->frame_side = (xmouse > CFRA) ? 'R' : 'L';
-	}
-	else {
-		/* normal transform - both sides of current frame are considered */
-		t->frame_side = 'B';
-	}
+		// UI_view2d_region_to_view(&ac.ar->v2d, t->imval[0], t->imval[1], &xmouse, &ymouse);
+		// t->frame_side = (xmouse > CFRA) ? 'R' : 'L';
+	// }
+	// else {
+		// /* normal transform - both sides of current frame are considered */
+		// t->frame_side = 'B';
+	// }
 	
-	/* loop 1: count how many strips are selected (consider each strip as 2 points) */
-	for (ale = anim_data.first; ale; ale = ale->next) {
-		NlaTrack *nlt = (NlaTrack *)ale->data;
-		NlaStrip *strip;
+	// /* loop 1: count how many strips are selected (consider each strip as 2 points) */
+	// for (ale = anim_data.first; ale; ale = ale->next) {
+		// NlaTrack *nlt = (NlaTrack *)ale->data;
+		// NlaStrip *strip;
 		
-		/* make some meta-strips for chains of selected strips */
-		BKE_nlastrips_make_metas(&nlt->strips, 1);
+		// /* make some meta-strips for chains of selected strips */
+		// BKE_nlastrips_make_metas(&nlt->strips, 1);
 		
-		/* only consider selected strips */
-		for (strip = nlt->strips.first; strip; strip = strip->next) {
-			// TODO: we can make strips have handles later on...
-			/* transition strips can't get directly transformed */
-			if (strip->type != NLASTRIP_TYPE_TRANSITION) {
-				if (strip->flag & NLASTRIP_FLAG_SELECT) {
-					if (FrameOnMouseSide(t->frame_side, strip->start, (float)CFRA)) count++;
-					if (FrameOnMouseSide(t->frame_side, strip->end, (float)CFRA)) count++;
-				}
-			}
-		}
-	}
+		// /* only consider selected strips */
+		// for (strip = nlt->strips.first; strip; strip = strip->next) {
+			// // TODO: we can make strips have handles later on...
+			// /* transition strips can't get directly transformed */
+			// if (strip->type != NLASTRIP_TYPE_TRANSITION) {
+				// if (strip->flag & NLASTRIP_FLAG_SELECT) {
+					// if (FrameOnMouseSide(t->frame_side, strip->start, (float)CFRA)) count++;
+					// if (FrameOnMouseSide(t->frame_side, strip->end, (float)CFRA)) count++;
+				// }
+			// }
+		// }
+	// }
 	
-	/* stop if trying to build list if nothing selected */
-	if (count == 0) {
-		/* clear temp metas that may have been created but aren't needed now 
-		 * because they fell on the wrong side of CFRA
-		 */
-		for (ale = anim_data.first; ale; ale = ale->next) {
-			NlaTrack *nlt = (NlaTrack *)ale->data;
-			BKE_nlastrips_clear_metas(&nlt->strips, 0, 1);
-		}
+	// /* stop if trying to build list if nothing selected */
+	// if (count == 0) {
+		// /* clear temp metas that may have been created but aren't needed now 
+		 // * because they fell on the wrong side of CFRA
+		 // */
+		// for (ale = anim_data.first; ale; ale = ale->next) {
+			// NlaTrack *nlt = (NlaTrack *)ale->data;
+			// BKE_nlastrips_clear_metas(&nlt->strips, 0, 1);
+		// }
 		
-		/* cleanup temp list */
-		ANIM_animdata_freelist(&anim_data);
-		return;
-	}
+		// /* cleanup temp list */
+		// ANIM_animdata_freelist(&anim_data);
+		// return;
+	// }
 	
-	/* allocate memory for data */
-	t->total = count;
+	// /* allocate memory for data */
+	// t->total = count;
 	
-	t->data = MEM_callocN(t->total * sizeof(TransData), "TransData(NLA Editor)");
-	td = t->data;
-	t->customData = MEM_callocN(t->total * sizeof(TransDataNla), "TransDataNla (NLA Editor)");
-	tdn = t->customData;
-	t->flag |= T_FREE_CUSTOMDATA;
+	// t->data = MEM_callocN(t->total * sizeof(TransData), "TransData(NLA Editor)");
+	// td = t->data;
+	// t->customData = MEM_callocN(t->total * sizeof(TransDataNla), "TransDataNla (NLA Editor)");
+	// tdn = t->customData;
+	// t->flag |= T_FREE_CUSTOMDATA;
 	
-	/* loop 2: build transdata array */
-	for (ale = anim_data.first; ale; ale = ale->next) {
-		/* only if a real NLA-track */
-		if (ale->type == ANIMTYPE_NLATRACK) {
-			AnimData *adt = ale->adt;
-			NlaTrack *nlt = (NlaTrack *)ale->data;
-			NlaStrip *strip;
+	// /* loop 2: build transdata array */
+	// for (ale = anim_data.first; ale; ale = ale->next) {
+		// /* only if a real NLA-track */
+		// if (ale->type == ANIMTYPE_NLATRACK) {
+			// AnimData *adt = ale->adt;
+			// NlaTrack *nlt = (NlaTrack *)ale->data;
+			// NlaStrip *strip;
 			
-			/* only consider selected strips */
-			for (strip = nlt->strips.first; strip; strip = strip->next) {
-				// TODO: we can make strips have handles later on...
-				/* transition strips can't get directly transformed */
-				if (strip->type != NLASTRIP_TYPE_TRANSITION) {
-					if (strip->flag & NLASTRIP_FLAG_SELECT) {
-						/* our transform data is constructed as follows:
-						 *	- only the handles on the right side of the current-frame get included
-						 *	- td structs are transform-elements operated on by the transform system
-						 *	  and represent a single handle. The storage/pointer used (val or loc) depends on
-						 *	  whether we're scaling or transforming. Ultimately though, the handles
-						 *    the td writes to will simply be a dummy in tdn
-						 *	- for each strip being transformed, a single tdn struct is used, so in some
-						 *	  cases, there will need to be 1 of these tdn elements in the array skipped...
-						 */
-						float center[3], yval;
+			// /* only consider selected strips */
+			// for (strip = nlt->strips.first; strip; strip = strip->next) {
+				// // TODO: we can make strips have handles later on...
+				// /* transition strips can't get directly transformed */
+				// if (strip->type != NLASTRIP_TYPE_TRANSITION) {
+					// if (strip->flag & NLASTRIP_FLAG_SELECT) {
+						// /* our transform data is constructed as follows:
+						 // *	- only the handles on the right side of the current-frame get included
+						 // *	- td structs are transform-elements operated on by the transform system
+						 // *	  and represent a single handle. The storage/pointer used (val or loc) depends on
+						 // *	  whether we're scaling or transforming. Ultimately though, the handles
+						 // *    the td writes to will simply be a dummy in tdn
+						 // *	- for each strip being transformed, a single tdn struct is used, so in some
+						 // *	  cases, there will need to be 1 of these tdn elements in the array skipped...
+						 // */
+						// float center[3], yval;
 						
-						/* firstly, init tdn settings */
-						tdn->id = ale->id;
-						tdn->oldTrack = tdn->nlt = nlt;
-						tdn->strip = strip;
-						tdn->trackIndex = BLI_findindex(&adt->nla_tracks, nlt);
+						// /* firstly, init tdn settings */
+						// tdn->id = ale->id;
+						// tdn->oldTrack = tdn->nlt = nlt;
+						// tdn->strip = strip;
+						// tdn->trackIndex = BLI_findindex(&adt->nla_tracks, nlt);
 						
-						yval = (float)(tdn->trackIndex * NLACHANNEL_STEP(snla));
+						// yval = (float)(tdn->trackIndex * NLACHANNEL_STEP(snla));
 						
-						tdn->h1[0] = strip->start;
-						tdn->h1[1] = yval;
-						tdn->h2[0] = strip->end;
-						tdn->h2[1] = yval;
+						// tdn->h1[0] = strip->start;
+						// tdn->h1[1] = yval;
+						// tdn->h2[0] = strip->end;
+						// tdn->h2[1] = yval;
 						
-						center[0] = (float)CFRA;
-						center[1] = yval;
-						center[2] = 0.0f;
+						// center[0] = (float)CFRA;
+						// center[1] = yval;
+						// center[2] = 0.0f;
 						
-						/* set td's based on which handles are applicable */
-						if (FrameOnMouseSide(t->frame_side, strip->start, (float)CFRA)) {
-							/* just set tdn to assume that it only has one handle for now */
-							tdn->handle = -1;
+						// /* set td's based on which handles are applicable */
+						// if (FrameOnMouseSide(t->frame_side, strip->start, (float)CFRA)) {
+							// /* just set tdn to assume that it only has one handle for now */
+							// tdn->handle = -1;
 							
-							/* now, link the transform data up to this data */
-							if (ELEM(t->mode, TFM_TRANSLATION, TFM_TIME_EXTEND)) {
-								td->loc = tdn->h1;
-								copy_v3_v3(td->iloc, tdn->h1);
+							// /* now, link the transform data up to this data */
+							// if (ELEM(t->mode, TFM_TRANSLATION, TFM_TIME_EXTEND)) {
+								// td->loc = tdn->h1;
+								// copy_v3_v3(td->iloc, tdn->h1);
 								
-								/* store all the other gunk that is required by transform */
-								copy_v3_v3(td->center, center);
-								memset(td->axismtx, 0, sizeof(td->axismtx));
-								td->axismtx[2][2] = 1.0f;
+								// /* store all the other gunk that is required by transform */
+								// copy_v3_v3(td->center, center);
+								// memset(td->axismtx, 0, sizeof(td->axismtx));
+								// td->axismtx[2][2] = 1.0f;
 								
-								td->ext = NULL; td->val = NULL;
+								// td->ext = NULL; td->val = NULL;
 								
-								td->flag |= TD_SELECTED;
-								td->dist = 0.0f;
+								// td->flag |= TD_SELECTED;
+								// td->dist = 0.0f;
 								
-								unit_m3(td->mtx);
-								unit_m3(td->smtx);
-							}
-							else {
-								/* time scaling only needs single value */
-								td->val = &tdn->h1[0];
-								td->ival = tdn->h1[0];
-							}
+								// unit_m3(td->mtx);
+								// unit_m3(td->smtx);
+							// }
+							// else {
+								// /* time scaling only needs single value */
+								// td->val = &tdn->h1[0];
+								// td->ival = tdn->h1[0];
+							// }
 							
-							td->extra = tdn;
-							td++;
-						}
-						if (FrameOnMouseSide(t->frame_side, strip->end, (float)CFRA)) {
-							/* if tdn is already holding the start handle, then we're doing both, otherwise, only end */
-							tdn->handle = (tdn->handle) ? 2 : 1;
+							// td->extra = tdn;
+							// td++;
+						// }
+						// if (FrameOnMouseSide(t->frame_side, strip->end, (float)CFRA)) {
+							// /* if tdn is already holding the start handle, then we're doing both, otherwise, only end */
+							// tdn->handle = (tdn->handle) ? 2 : 1;
 							
-							/* now, link the transform data up to this data */
-							if (ELEM(t->mode, TFM_TRANSLATION, TFM_TIME_EXTEND)) {
-								td->loc = tdn->h2;
-								copy_v3_v3(td->iloc, tdn->h2);
+							// /* now, link the transform data up to this data */
+							// if (ELEM(t->mode, TFM_TRANSLATION, TFM_TIME_EXTEND)) {
+								// td->loc = tdn->h2;
+								// copy_v3_v3(td->iloc, tdn->h2);
 								
-								/* store all the other gunk that is required by transform */
-								copy_v3_v3(td->center, center);
-								memset(td->axismtx, 0, sizeof(td->axismtx));
-								td->axismtx[2][2] = 1.0f;
+								// /* store all the other gunk that is required by transform */
+								// copy_v3_v3(td->center, center);
+								// memset(td->axismtx, 0, sizeof(td->axismtx));
+								// td->axismtx[2][2] = 1.0f;
 								
-								td->ext = NULL; td->val = NULL;
+								// td->ext = NULL; td->val = NULL;
 								
-								td->flag |= TD_SELECTED;
-								td->dist = 0.0f;
+								// td->flag |= TD_SELECTED;
+								// td->dist = 0.0f;
 								
-								unit_m3(td->mtx);
-								unit_m3(td->smtx);
-							}
-							else {
-								/* time scaling only needs single value */
-								td->val = &tdn->h2[0];
-								td->ival = tdn->h2[0];
-							}
+								// unit_m3(td->mtx);
+								// unit_m3(td->smtx);
+							// }
+							// else {
+								// /* time scaling only needs single value */
+								// td->val = &tdn->h2[0];
+								// td->ival = tdn->h2[0];
+							// }
 							
-							td->extra = tdn;
-							td++;
-						}
+							// td->extra = tdn;
+							// td++;
+						// }
 						
-						/* if both handles were used, skip the next tdn (i.e. leave it blank) since the counting code is dumb...
-						 * otherwise, just advance to the next one...
-						 */
-						if (tdn->handle == 2)
-							tdn += 2;
-						else
-							tdn++;
-					}
-				}
-			}
-		}
-	}
+						// /* if both handles were used, skip the next tdn (i.e. leave it blank) since the counting code is dumb...
+						 // * otherwise, just advance to the next one...
+						 // */
+						// if (tdn->handle == 2)
+							// tdn += 2;
+						// else
+							// tdn++;
+					// }
+				// }
+			// }
+		// }
+	// }
 	
-	/* cleanup temp list */
-	ANIM_animdata_freelist(&anim_data);
-}
+	// /* cleanup temp list */
+	// ANIM_animdata_freelist(&anim_data);
+// }
 
 /* ********************* ACTION EDITOR ****************** */
 
-static int gpf_cmp_frame(void *thunk, const void *a, const void *b)
-{
-	const bGPDframe *frame_a = a;
-	const bGPDframe *frame_b = b;
+// static int gpf_cmp_frame(void *thunk, const void *a, const void *b)
+// {
+	// const bGPDframe *frame_a = a;
+	// const bGPDframe *frame_b = b;
 
-	if (frame_a->framenum < frame_b->framenum) return -1;
-	if (frame_a->framenum > frame_b->framenum) return  1;
-	*((bool *)thunk) = true;
-	/* selected last */
-	if ((frame_a->flag & GP_FRAME_SELECT) &&
-	    ((frame_b->flag & GP_FRAME_SELECT) == 0))
-	{
-		return  1;
-	}
-	return 0;
-}
+	// if (frame_a->framenum < frame_b->framenum) return -1;
+	// if (frame_a->framenum > frame_b->framenum) return  1;
+	// *((bool *)thunk) = true;
+	// /* selected last */
+	// if ((frame_a->flag & GP_FRAME_SELECT) &&
+	    // ((frame_b->flag & GP_FRAME_SELECT) == 0))
+	// {
+		// return  1;
+	// }
+	// return 0;
+// }
 
-static int masklay_shape_cmp_frame(void *thunk, const void *a, const void *b)
-{
-	const MaskLayerShape *frame_a = a;
-	const MaskLayerShape *frame_b = b;
+// static int masklay_shape_cmp_frame(void *thunk, const void *a, const void *b)
+// {
+	// const MaskLayerShape *frame_a = a;
+	// const MaskLayerShape *frame_b = b;
 
-	if (frame_a->frame < frame_b->frame) return -1;
-	if (frame_a->frame > frame_b->frame) return  1;
-	*((bool *)thunk) = true;
-	/* selected last */
-	if ((frame_a->flag & MASK_SHAPE_SELECT) &&
-	    ((frame_b->flag & MASK_SHAPE_SELECT) == 0))
-	{
-		return 1;
-	}
-	return 0;
-}
+	// if (frame_a->frame < frame_b->frame) return -1;
+	// if (frame_a->frame > frame_b->frame) return  1;
+	// *((bool *)thunk) = true;
+	// /* selected last */
+	// if ((frame_a->flag & MASK_SHAPE_SELECT) &&
+	    // ((frame_b->flag & MASK_SHAPE_SELECT) == 0))
+	// {
+		// return 1;
+	// }
+	// return 0;
+// }
 
 /* Called by special_aftertrans_update to make sure selected gp-frames replace
  * any other gp-frames which may reside on that frame (that are not selected).
  * It also makes sure gp-frames are still stored in chronological order after
  * transform.
  */
-static void posttrans_gpd_clean(bGPdata *gpd)
+/* static void posttrans_gpd_clean(bGPdata *gpd)
 {
 	bGPDlayer *gpl;
 	
@@ -3178,9 +3178,9 @@ static void posttrans_gpd_clean(bGPdata *gpd)
 		}
 #endif
 	}
-}
+} */
 
-static void posttrans_mask_clean(Mask *mask)
+/* static void posttrans_mask_clean(Mask *mask)
 {
 	MaskLayer *masklay;
 
@@ -3205,7 +3205,7 @@ static void posttrans_mask_clean(Mask *mask)
 		}
 #endif
 	}
-}
+} */
 
 /* Called during special_aftertrans_update to make sure selected keyframes replace
  * any other keyframes which may reside on that frame (that is not selected).
@@ -3272,113 +3272,113 @@ static void posttrans_fcurve_clean(FCurve *fcu, const short use_handle)
  * any other keyframes which may reside on that frame (that is not selected).
  * remake_action_ipos should have already been called
  */
-static void posttrans_action_clean(bAnimContext *ac, bAction *act)
-{
-	ListBase anim_data = {NULL, NULL};
-	bAnimListElem *ale;
-	int filter;
+// static void posttrans_action_clean(bAnimContext *ac, bAction *act)
+// {
+	// ListBase anim_data = {NULL, NULL};
+	// bAnimListElem *ale;
+	// int filter;
 
-	/* filter data */
-	filter = (ANIMFILTER_DATA_VISIBLE | ANIMFILTER_FOREDIT /*| ANIMFILTER_CURVESONLY*/);
-	ANIM_animdata_filter(ac, &anim_data, filter, act, ANIMCONT_ACTION);
+	// /* filter data */
+	// filter = (ANIMFILTER_DATA_VISIBLE | ANIMFILTER_FOREDIT /*| ANIMFILTER_CURVESONLY*/);
+	// ANIM_animdata_filter(ac, &anim_data, filter, act, ANIMCONT_ACTION);
 
-	/* loop through relevant data, removing keyframes as appropriate
-	 *      - all keyframes are converted in/out of global time
-	 */
-	for (ale = anim_data.first; ale; ale = ale->next) {
-		// AnimData *adt = ANIM_nla_mapping_get(ac, ale);
+	// /* loop through relevant data, removing keyframes as appropriate
+	 // *      - all keyframes are converted in/out of global time
+	 // */
+	// for (ale = anim_data.first; ale; ale = ale->next) {
+		// // AnimData *adt = ANIM_nla_mapping_get(ac, ale);
 		
-		// if (adt) {
-			// ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 0, 1);
-			// posttrans_fcurve_clean(ale->key_data, false); /* only use handles in graph editor */
-			// ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 1, 1);
-		// }
-		// else
-			posttrans_fcurve_clean(ale->key_data, false);  /* only use handles in graph editor */
-	}
+		// // if (adt) {
+			// // ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 0, 1);
+			// // posttrans_fcurve_clean(ale->key_data, false); /* only use handles in graph editor */
+			// // ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 1, 1);
+		// // }
+		// // else
+			// posttrans_fcurve_clean(ale->key_data, false);  /* only use handles in graph editor */
+	// }
 
-	/* free temp data */
-	ANIM_animdata_freelist(&anim_data);
-}
+	// /* free temp data */
+	// ANIM_animdata_freelist(&anim_data);
+// }
 
 /* ----------------------------- */
 
 /* fully select selected beztriples, but only include if it's on the right side of cfra */
-static int count_fcurve_keys(FCurve *fcu, char side, float cfra)
-{
-	BezTriple *bezt;
-	int i, count = 0;
+// static int count_fcurve_keys(FCurve *fcu, char side, float cfra)
+// {
+	// BezTriple *bezt;
+	// int i, count = 0;
 
-	if (ELEM(NULL, fcu, fcu->bezt))
-		return count;
+	// if (ELEM(NULL, fcu, fcu->bezt))
+		// return count;
 
-	/* only include points that occur on the right side of cfra */
-	for (i = 0, bezt = fcu->bezt; i < fcu->totvert; i++, bezt++) {
-		if (bezt->f2 & SELECT) {
-			/* no need to adjust the handle selection since they are assumed
-			 * selected (like graph editor with SIPO_NOHANDLES) */
-			if (FrameOnMouseSide(side, bezt->vec[1][0], cfra)) {
-				count += 1;
-			}
-		}
-	}
+	// /* only include points that occur on the right side of cfra */
+	// for (i = 0, bezt = fcu->bezt; i < fcu->totvert; i++, bezt++) {
+		// if (bezt->f2 & SELECT) {
+			// /* no need to adjust the handle selection since they are assumed
+			 // * selected (like graph editor with SIPO_NOHANDLES) */
+			// if (FrameOnMouseSide(side, bezt->vec[1][0], cfra)) {
+				// count += 1;
+			// }
+		// }
+	// }
 
-	return count;
-}
-
-/* fully select selected beztriples, but only include if it's on the right side of cfra */
-static int count_gplayer_frames(bGPDlayer *gpl, char side, float cfra)
-{
-	bGPDframe *gpf;
-	int count = 0;
-	
-	if (gpl == NULL)
-		return count;
-	
-	/* only include points that occur on the right side of cfra */
-	for (gpf = gpl->frames.first; gpf; gpf = gpf->next) {
-		if (gpf->flag & GP_FRAME_SELECT) {
-			if (FrameOnMouseSide(side, (float)gpf->framenum, cfra))
-				count++;
-		}
-	}
-	
-	return count;
-}
+	// return count;
+// }
 
 /* fully select selected beztriples, but only include if it's on the right side of cfra */
-static int count_masklayer_frames(MaskLayer *masklay, char side, float cfra)
-{
-	MaskLayerShape *masklayer_shape;
-	int count = 0;
+// static int count_gplayer_frames(bGPDlayer *gpl, char side, float cfra)
+// {
+	// bGPDframe *gpf;
+	// int count = 0;
+	
+	// if (gpl == NULL)
+		// return count;
+	
+	// /* only include points that occur on the right side of cfra */
+	// for (gpf = gpl->frames.first; gpf; gpf = gpf->next) {
+		// if (gpf->flag & GP_FRAME_SELECT) {
+			// if (FrameOnMouseSide(side, (float)gpf->framenum, cfra))
+				// count++;
+		// }
+	// }
+	
+	// return count;
+// }
 
-	if (masklay == NULL)
-		return count;
+/* fully select selected beztriples, but only include if it's on the right side of cfra */
+// static int count_masklayer_frames(MaskLayer *masklay, char side, float cfra)
+// {
+	// MaskLayerShape *masklayer_shape;
+	// int count = 0;
 
-	/* only include points that occur on the right side of cfra */
-	for (masklayer_shape = masklay->splines_shapes.first; masklayer_shape; masklayer_shape = masklayer_shape->next) {
-		if (masklayer_shape->flag & MASK_SHAPE_SELECT) {
-			if (FrameOnMouseSide(side, (float)masklayer_shape->frame, cfra))
-				count++;
-		}
-	}
+	// if (masklay == NULL)
+		// return count;
 
-	return count;
-}
+	// /* only include points that occur on the right side of cfra */
+	// for (masklayer_shape = masklay->splines_shapes.first; masklayer_shape; masklayer_shape = masklayer_shape->next) {
+		// if (masklayer_shape->flag & MASK_SHAPE_SELECT) {
+			// if (FrameOnMouseSide(side, (float)masklayer_shape->frame, cfra))
+				// count++;
+		// }
+	// }
+
+	// return count;
+// }
 
 
 /* This function assigns the information to transdata */
-static void TimeToTransData(TransData *td, float *time, AnimData *adt)
-{
-	/* memory is calloc'ed, so that should zero everything nicely for us */
-	td->val = time;
-	td->ival = *(time);
+// static void TimeToTransData(TransData *td, float *time, AnimData *adt)
+// {
+	// /* memory is calloc'ed, so that should zero everything nicely for us */
+	// td->val = time;
+	// td->ival = *(time);
 
-	/* store the AnimData where this keyframe exists as a keyframe of the
-	 * active action as td->extra.
-	 */
-	td->extra = adt;
-}
+	// /* store the AnimData where this keyframe exists as a keyframe of the
+	 // * active action as td->extra.
+	 // */
+	// td->extra = adt;
+// }
 
 /* This function advances the address to which td points to, so it must return
  * the new address so that the next time new transform data is added, it doesn't
@@ -3387,40 +3387,40 @@ static void TimeToTransData(TransData *td, float *time, AnimData *adt)
  * The 'side' argument is needed for the extend mode. 'B' = both sides, 'R'/'L' mean only data
  * on the named side are used.
  */
-static TransData *ActionFCurveToTransData(TransData *td, TransData2D **td2dv, FCurve *fcu, AnimData *adt, char side, float cfra)
-{
-	BezTriple *bezt;
-	TransData2D *td2d = *td2dv;
-	int i;
+// static TransData *ActionFCurveToTransData(TransData *td, TransData2D **td2dv, FCurve *fcu, AnimData *adt, char side, float cfra)
+// {
+	// BezTriple *bezt;
+	// TransData2D *td2d = *td2dv;
+	// int i;
 
-	if (ELEM(NULL, fcu, fcu->bezt))
-		return td;
+	// if (ELEM(NULL, fcu, fcu->bezt))
+		// return td;
 
-	for (i = 0, bezt = fcu->bezt; i < fcu->totvert; i++, bezt++) {
-		/* only add selected keyframes (for now, proportional edit is not enabled) */
-		if (bezt->f2 & SELECT) { /* note this MUST match count_fcurve_keys(), so can't use BEZSELECTED() macro */
-			/* only add if on the right 'side' of the current frame */
-			if (FrameOnMouseSide(side, bezt->vec[1][0], cfra)) {
-				TimeToTransData(td, bezt->vec[1], adt);
+	// for (i = 0, bezt = fcu->bezt; i < fcu->totvert; i++, bezt++) {
+		// /* only add selected keyframes (for now, proportional edit is not enabled) */
+		// if (bezt->f2 & SELECT) { /* note this MUST match count_fcurve_keys(), so can't use BEZSELECTED() macro */
+			// /* only add if on the right 'side' of the current frame */
+			// if (FrameOnMouseSide(side, bezt->vec[1][0], cfra)) {
+				// TimeToTransData(td, bezt->vec[1], adt);
 				
-				/*set flags to move handles as necessary*/
-				td->flag |= TD_MOVEHANDLE1 | TD_MOVEHANDLE2;
-				td2d->h1 = bezt->vec[0];
-				td2d->h2 = bezt->vec[2];
+				// /*set flags to move handles as necessary*/
+				// td->flag |= TD_MOVEHANDLE1 | TD_MOVEHANDLE2;
+				// td2d->h1 = bezt->vec[0];
+				// td2d->h2 = bezt->vec[2];
 				
-				copy_v2_v2(td2d->ih1, td2d->h1);
-				copy_v2_v2(td2d->ih2, td2d->h2);
+				// copy_v2_v2(td2d->ih1, td2d->h1);
+				// copy_v2_v2(td2d->ih2, td2d->h2);
 				
-				td++;
-				td2d++;
-			}
-		}
-	}
+				// td++;
+				// td2d++;
+			// }
+		// }
+	// }
 	
-	*td2dv = td2d;
+	// *td2dv = td2d;
 	
-	return td;
-}
+	// return td;
+// }
 
 /* helper struct for gp-frame transforms (only used here) */
 typedef struct tGPFtransdata {
@@ -3453,217 +3453,217 @@ void flushTransIntFrameActionData(TransInfo *t)
  * The 'side' argument is needed for the extend mode. 'B' = both sides, 'R'/'L' mean only data
  * on the named side are used.
  */
-static int GPLayerToTransData(TransData *td, tGPFtransdata *tfd, bGPDlayer *gpl, char side, float cfra)
-{
-	bGPDframe *gpf;
-	int count = 0;
+// static int GPLayerToTransData(TransData *td, tGPFtransdata *tfd, bGPDlayer *gpl, char side, float cfra)
+// {
+	// bGPDframe *gpf;
+	// int count = 0;
 	
-	/* check for select frames on right side of current frame */
-	for (gpf = gpl->frames.first; gpf; gpf = gpf->next) {
-		if (gpf->flag & GP_FRAME_SELECT) {
-			if (FrameOnMouseSide(side, (float)gpf->framenum, cfra)) {
-				/* memory is calloc'ed, so that should zero everything nicely for us */
-				td->val = &tfd->val;
-				td->ival = (float)gpf->framenum;
+	// /* check for select frames on right side of current frame */
+	// for (gpf = gpl->frames.first; gpf; gpf = gpf->next) {
+		// if (gpf->flag & GP_FRAME_SELECT) {
+			// if (FrameOnMouseSide(side, (float)gpf->framenum, cfra)) {
+				// /* memory is calloc'ed, so that should zero everything nicely for us */
+				// td->val = &tfd->val;
+				// td->ival = (float)gpf->framenum;
 				
-				tfd->val = (float)gpf->framenum;
-				tfd->sdata = &gpf->framenum;
+				// tfd->val = (float)gpf->framenum;
+				// tfd->sdata = &gpf->framenum;
 				
-				/* advance td now */
-				td++;
-				tfd++;
-				count++;
-			}
-		}
-	}
+				// /* advance td now */
+				// td++;
+				// tfd++;
+				// count++;
+			// }
+		// }
+	// }
 	
-	return count;
-}
+	// return count;
+// }
 
 /* refer to comment above #GPLayerToTransData, this is the same but for masks */
-static int MaskLayerToTransData(TransData *td, tGPFtransdata *tfd, MaskLayer *masklay, char side, float cfra)
-{
-	MaskLayerShape *masklay_shape;
-	int count = 0;
+// static int MaskLayerToTransData(TransData *td, tGPFtransdata *tfd, MaskLayer *masklay, char side, float cfra)
+// {
+	// MaskLayerShape *masklay_shape;
+	// int count = 0;
 
-	/* check for select frames on right side of current frame */
-	for (masklay_shape = masklay->splines_shapes.first; masklay_shape; masklay_shape = masklay_shape->next) {
-		if (masklay_shape->flag & MASK_SHAPE_SELECT) {
-			if (FrameOnMouseSide(side, (float)masklay_shape->frame, cfra)) {
-				/* memory is calloc'ed, so that should zero everything nicely for us */
-				td->val = &tfd->val;
-				td->ival = (float)masklay_shape->frame;
+	// /* check for select frames on right side of current frame */
+	// for (masklay_shape = masklay->splines_shapes.first; masklay_shape; masklay_shape = masklay_shape->next) {
+		// if (masklay_shape->flag & MASK_SHAPE_SELECT) {
+			// if (FrameOnMouseSide(side, (float)masklay_shape->frame, cfra)) {
+				// /* memory is calloc'ed, so that should zero everything nicely for us */
+				// td->val = &tfd->val;
+				// td->ival = (float)masklay_shape->frame;
 
-				tfd->val = (float)masklay_shape->frame;
-				tfd->sdata = &masklay_shape->frame;
+				// tfd->val = (float)masklay_shape->frame;
+				// tfd->sdata = &masklay_shape->frame;
 
-				/* advance td now */
-				td++;
-				tfd++;
-				count++;
-			}
-		}
-	}
+				// /* advance td now */
+				// td++;
+				// tfd++;
+				// count++;
+			// }
+		// }
+	// }
 
-	return count;
-}
+	// return count;
+// }
 
 
-static void createTransActionData(bContext *C, TransInfo *t)
-{
-	Scene *scene = t->scene;
-	TransData *td = NULL;
-	TransData2D *td2d = NULL;
-	tGPFtransdata *tfd = NULL;
+// static void createTransActionData(bContext *C, TransInfo *t)
+// {
+	// Scene *scene = t->scene;
+	// TransData *td = NULL;
+	// TransData2D *td2d = NULL;
+	// tGPFtransdata *tfd = NULL;
 	
-	bAnimContext ac;
-	ListBase anim_data = {NULL, NULL};
-	bAnimListElem *ale;
-	int filter;
+	// bAnimContext ac;
+	// ListBase anim_data = {NULL, NULL};
+	// bAnimListElem *ale;
+	// int filter;
 	
-	int count = 0;
-	float cfra;
+	// int count = 0;
+	// float cfra;
 	
-	/* determine what type of data we are operating on */
-	if (ANIM_animdata_get_context(C, &ac) == 0)
-		return;
+	// /* determine what type of data we are operating on */
+	// if (ANIM_animdata_get_context(C, &ac) == 0)
+		// return;
 	
-	/* filter data */
-	if (ELEM(ac.datatype, ANIMCONT_GPENCIL, ANIMCONT_MASK))
-		filter = (ANIMFILTER_DATA_VISIBLE | ANIMFILTER_FOREDIT);
-	else
-		filter = (ANIMFILTER_DATA_VISIBLE | ANIMFILTER_FOREDIT /*| ANIMFILTER_CURVESONLY*/);
-	ANIM_animdata_filter(&ac, &anim_data, filter, ac.data, ac.datatype);
+	// /* filter data */
+	// if (ELEM(ac.datatype, ANIMCONT_GPENCIL, ANIMCONT_MASK))
+		// filter = (ANIMFILTER_DATA_VISIBLE | ANIMFILTER_FOREDIT);
+	// else
+		// filter = (ANIMFILTER_DATA_VISIBLE | ANIMFILTER_FOREDIT /*| ANIMFILTER_CURVESONLY*/);
+	// ANIM_animdata_filter(&ac, &anim_data, filter, ac.data, ac.datatype);
 	
-	/* which side of the current frame should be allowed */
-	if (t->mode == TFM_TIME_EXTEND) {
-		/* only side on which mouse is gets transformed */
-		float xmouse, ymouse;
+	// /* which side of the current frame should be allowed */
+	// if (t->mode == TFM_TIME_EXTEND) {
+		// /* only side on which mouse is gets transformed */
+		// float xmouse, ymouse;
 		
-		UI_view2d_region_to_view(&ac.ar->v2d, t->imval[0], t->imval[1], &xmouse, &ymouse);
-		t->frame_side = (xmouse > CFRA) ? 'R' : 'L'; // XXX use t->frame_side
-	}
-	else {
-		/* normal transform - both sides of current frame are considered */
-		t->frame_side = 'B';
-	}
+		// UI_view2d_region_to_view(&ac.ar->v2d, t->imval[0], t->imval[1], &xmouse, &ymouse);
+		// t->frame_side = (xmouse > CFRA) ? 'R' : 'L'; // XXX use t->frame_side
+	// }
+	// else {
+		// /* normal transform - both sides of current frame are considered */
+		// t->frame_side = 'B';
+	// }
 	
-	/* loop 1: fully select ipo-keys and count how many BezTriples are selected */
-	for (ale = anim_data.first; ale; ale = ale->next) {
-		//AnimData *adt = ANIM_nla_mapping_get(&ac, ale);
+	// /* loop 1: fully select ipo-keys and count how many BezTriples are selected */
+	// for (ale = anim_data.first; ale; ale = ale->next) {
+		// //AnimData *adt = ANIM_nla_mapping_get(&ac, ale);
 		
-		/* convert current-frame to action-time (slightly less accurate, especially under
-		 * higher scaling ratios, but is faster than converting all points)
-		 */
-/* 		if (adt)
-			cfra = BKE_nla_tweakedit_remap(adt, (float)CFRA, NLATIME_CONVERT_UNMAP);
-		else */
-			cfra = (float)CFRA;
+		// /* convert current-frame to action-time (slightly less accurate, especially under
+		 // * higher scaling ratios, but is faster than converting all points)
+		 // */
+// /* 		if (adt)
+			// cfra = BKE_nla_tweakedit_remap(adt, (float)CFRA, NLATIME_CONVERT_UNMAP);
+		// else */
+			// cfra = (float)CFRA;
 		
-		if (ale->type == ANIMTYPE_FCURVE)
-			count += count_fcurve_keys(ale->key_data, t->frame_side, cfra);
-		else if (ale->type == ANIMTYPE_GPLAYER)
-			count += count_gplayer_frames(ale->data, t->frame_side, cfra);
-		else if (ale->type == ANIMTYPE_MASKLAYER)
-			count += count_masklayer_frames(ale->data, t->frame_side, cfra);
-		else
-			BLI_assert(0);
-	}
+		// if (ale->type == ANIMTYPE_FCURVE)
+			// count += count_fcurve_keys(ale->key_data, t->frame_side, cfra);
+		// else if (ale->type == ANIMTYPE_GPLAYER)
+			// count += count_gplayer_frames(ale->data, t->frame_side, cfra);
+		// else if (ale->type == ANIMTYPE_MASKLAYER)
+			// count += count_masklayer_frames(ale->data, t->frame_side, cfra);
+		// else
+			// BLI_assert(0);
+	// }
 	
-	/* stop if trying to build list if nothing selected */
-	if (count == 0) {
-		/* cleanup temp list */
-		ANIM_animdata_freelist(&anim_data);
-		return;
-	}
+	// /* stop if trying to build list if nothing selected */
+	// if (count == 0) {
+		// /* cleanup temp list */
+		// ANIM_animdata_freelist(&anim_data);
+		// return;
+	// }
 	
-	/* allocate memory for data */
-	t->total = count;
+	// /* allocate memory for data */
+	// t->total = count;
 	
-	t->data = MEM_callocN(t->total * sizeof(TransData), "TransData(Action Editor)");
-	t->data2d = MEM_callocN(t->total * sizeof(TransData2D), "transdata2d");
-	td = t->data;
-	td2d = t->data2d;
+	// t->data = MEM_callocN(t->total * sizeof(TransData), "TransData(Action Editor)");
+	// t->data2d = MEM_callocN(t->total * sizeof(TransData2D), "transdata2d");
+	// td = t->data;
+	// td2d = t->data2d;
 	
-	if (ELEM(ac.datatype, ANIMCONT_GPENCIL, ANIMCONT_MASK)) {
-		if (t->mode == TFM_TIME_SLIDE) {
-			t->customData = MEM_callocN((sizeof(float) * 2) + (sizeof(tGPFtransdata) * count), "TimeSlide + tGPFtransdata");
-			t->flag |= T_FREE_CUSTOMDATA;
-			tfd = (tGPFtransdata *)((float *)(t->customData) + 2);
-		}
-		else {
-			t->customData = MEM_callocN(sizeof(tGPFtransdata) * count, "tGPFtransdata");
-			t->flag |= T_FREE_CUSTOMDATA;
-			tfd = (tGPFtransdata *)(t->customData);
-		}
-	}
-	else if (t->mode == TFM_TIME_SLIDE) {
-		t->customData = MEM_callocN(sizeof(float) * 2, "TimeSlide Min/Max");
-		t->flag |= T_FREE_CUSTOMDATA;
-	}
+	// if (ELEM(ac.datatype, ANIMCONT_GPENCIL, ANIMCONT_MASK)) {
+		// if (t->mode == TFM_TIME_SLIDE) {
+			// t->customData = MEM_callocN((sizeof(float) * 2) + (sizeof(tGPFtransdata) * count), "TimeSlide + tGPFtransdata");
+			// t->flag |= T_FREE_CUSTOMDATA;
+			// tfd = (tGPFtransdata *)((float *)(t->customData) + 2);
+		// }
+		// else {
+			// t->customData = MEM_callocN(sizeof(tGPFtransdata) * count, "tGPFtransdata");
+			// t->flag |= T_FREE_CUSTOMDATA;
+			// tfd = (tGPFtransdata *)(t->customData);
+		// }
+	// }
+	// else if (t->mode == TFM_TIME_SLIDE) {
+		// t->customData = MEM_callocN(sizeof(float) * 2, "TimeSlide Min/Max");
+		// t->flag |= T_FREE_CUSTOMDATA;
+	// }
 	
-	/* loop 2: build transdata array */
-	for (ale = anim_data.first; ale; ale = ale->next) {
-		if (ale->type == ANIMTYPE_GPLAYER) {
-			bGPDlayer *gpl = (bGPDlayer *)ale->data;
-			int i;
+	// /* loop 2: build transdata array */
+	// for (ale = anim_data.first; ale; ale = ale->next) {
+		// if (ale->type == ANIMTYPE_GPLAYER) {
+			// bGPDlayer *gpl = (bGPDlayer *)ale->data;
+			// int i;
 			
-			i = GPLayerToTransData(td, tfd, gpl, t->frame_side, cfra);
-			td += i;
-			tfd += i;
-		}
-		else if (ale->type == ANIMTYPE_MASKLAYER) {
-			MaskLayer *masklay = (MaskLayer *)ale->data;
-			int i;
+			// i = GPLayerToTransData(td, tfd, gpl, t->frame_side, cfra);
+			// td += i;
+			// tfd += i;
+		// }
+		// else if (ale->type == ANIMTYPE_MASKLAYER) {
+			// MaskLayer *masklay = (MaskLayer *)ale->data;
+			// int i;
 
-			i = MaskLayerToTransData(td, tfd, masklay, t->frame_side, cfra);
-			td += i;
-			tfd += i;
-		}
-		else {
-			//AnimData *adt = ANIM_nla_mapping_get(&ac, ale);
-			FCurve *fcu = (FCurve *)ale->key_data;
+			// i = MaskLayerToTransData(td, tfd, masklay, t->frame_side, cfra);
+			// td += i;
+			// tfd += i;
+		// }
+		// else {
+			// //AnimData *adt = ANIM_nla_mapping_get(&ac, ale);
+			// FCurve *fcu = (FCurve *)ale->key_data;
 			
-			/* convert current-frame to action-time (slightly less accurate, especially under
-			 * higher scaling ratios, but is faster than converting all points)
-			 */
-			/* if (adt)
-				cfra = BKE_nla_tweakedit_remap(adt, (float)CFRA, NLATIME_CONVERT_UNMAP);
-			else */
-				cfra = (float)CFRA;
+			// /* convert current-frame to action-time (slightly less accurate, especially under
+			 // * higher scaling ratios, but is faster than converting all points)
+			 // */
+			// /* if (adt)
+				// cfra = BKE_nla_tweakedit_remap(adt, (float)CFRA, NLATIME_CONVERT_UNMAP);
+			// else */
+				// cfra = (float)CFRA;
 			
-			//td = ActionFCurveToTransData(td, &td2d, fcu, adt, t->frame_side, cfra);
-		}
-	}
+			// //td = ActionFCurveToTransData(td, &td2d, fcu, adt, t->frame_side, cfra);
+		// }
+	// }
 	
-	/* check if we're supposed to be setting minx/maxx for TimeSlide */
-	if (t->mode == TFM_TIME_SLIDE) {
-		float min = 999999999.0f, max = -999999999.0f;
-		int i;
+	// /* check if we're supposed to be setting minx/maxx for TimeSlide */
+	// if (t->mode == TFM_TIME_SLIDE) {
+		// float min = 999999999.0f, max = -999999999.0f;
+		// int i;
 		
-		td = t->data;
-		for (i = 0; i < count; i++, td++) {
-			if (min > *(td->val)) min = *(td->val);
-			if (max < *(td->val)) max = *(td->val);
-		}
+		// td = t->data;
+		// for (i = 0; i < count; i++, td++) {
+			// if (min > *(td->val)) min = *(td->val);
+			// if (max < *(td->val)) max = *(td->val);
+		// }
 		
-		if (min == max) {
-			/* just use the current frame ranges */
-			min = (float)PSFRA;
-			max = (float)PEFRA;
-		}
+		// if (min == max) {
+			// /* just use the current frame ranges */
+			// min = (float)PSFRA;
+			// max = (float)PEFRA;
+		// }
 		
-		/* minx/maxx values used by TimeSlide are stored as a
-		 * calloced 2-float array in t->customData. This gets freed
-		 * in postTrans (T_FREE_CUSTOMDATA).
-		 */
-		*((float *)(t->customData)) = min;
-		*((float *)(t->customData) + 1) = max;
-	}
+		// /* minx/maxx values used by TimeSlide are stored as a
+		 // * calloced 2-float array in t->customData. This gets freed
+		 // * in postTrans (T_FREE_CUSTOMDATA).
+		 // */
+		// *((float *)(t->customData)) = min;
+		// *((float *)(t->customData) + 1) = max;
+	// }
 
-	/* cleanup temp list */
-	ANIM_animdata_freelist(&anim_data);
-}
+	// /* cleanup temp list */
+	// ANIM_animdata_freelist(&anim_data);
+// }
 
 /* ********************* GRAPH EDITOR ************************* */
 
@@ -5663,140 +5663,79 @@ void special_aftertrans_update(bContext *C, TransInfo *t)
 			special_aftertrans_update__mask(C, t);
 		}
 	}
-	else if (t->spacetype == SPACE_ACTION) {
-		SpaceAction *saction = (SpaceAction *)t->sa->spacedata.first;
-		bAnimContext ac;
+	// else if (t->spacetype == SPACE_ACTION) {
+		// SpaceAction *saction = (SpaceAction *)t->sa->spacedata.first;
+		// bAnimContext ac;
 		
-		/* initialize relevant anim-context 'context' data */
-		if (ANIM_animdata_get_context(C, &ac) == 0)
-			return;
+		// /* initialize relevant anim-context 'context' data */
+		// if (ANIM_animdata_get_context(C, &ac) == 0)
+			// return;
 			
-		ob = ac.obact;
+		// ob = ac.obact;
 		
-		if (ELEM(ac.datatype, ANIMCONT_DOPESHEET, ANIMCONT_SHAPEKEY)) {
-			ListBase anim_data = {NULL, NULL};
-			bAnimListElem *ale;
-			short filter = (ANIMFILTER_DATA_VISIBLE | ANIMFILTER_FOREDIT /*| ANIMFILTER_CURVESONLY*/);
+		// if (ELEM(ac.datatype, ANIMCONT_DOPESHEET, ANIMCONT_SHAPEKEY)) {
+			// ListBase anim_data = {NULL, NULL};
+			// bAnimListElem *ale;
+			// short filter = (ANIMFILTER_DATA_VISIBLE | ANIMFILTER_FOREDIT /*| ANIMFILTER_CURVESONLY*/);
 			
-			/* get channels to work on */
-			ANIM_animdata_filter(&ac, &anim_data, filter, ac.data, ac.datatype);
+			// /* get channels to work on */
+			// ANIM_animdata_filter(&ac, &anim_data, filter, ac.data, ac.datatype);
 			
-			/* these should all be F-Curves */
-			for (ale = anim_data.first; ale; ale = ale->next) {
-				//AnimData *adt = ANIM_nla_mapping_get(&ac, ale);
-				FCurve *fcu = (FCurve *)ale->key_data;
+			// /* these should all be F-Curves */
+			// for (ale = anim_data.first; ale; ale = ale->next) {
+				// //AnimData *adt = ANIM_nla_mapping_get(&ac, ale);
+				// FCurve *fcu = (FCurve *)ale->key_data;
 				
-				/* 3 cases here for curve cleanups:
-				 * 1) NOTRANSKEYCULL on     -> cleanup of duplicates shouldn't be done
-				 * 2) canceled == 0        -> user confirmed the transform, so duplicates should be removed
-				 * 3) canceled + duplicate -> user canceled the transform, but we made duplicates, so get rid of these
-				 */
-				if ((saction->flag & SACTION_NOTRANSKEYCULL) == 0 &&
-				    ((canceled == 0) || (duplicate)) )
-				{
-					// if (adt) {
-						// ANIM_nla_mapping_apply_fcurve(adt, fcu, 0, 1);
-						// posttrans_fcurve_clean(fcu, false); /* only use handles in graph editor */
-						// ANIM_nla_mapping_apply_fcurve(adt, fcu, 1, 1);
-					// }
-					// else
-						posttrans_fcurve_clean(fcu, false);  /* only use handles in graph editor */
-				}
-			}
+				// /* 3 cases here for curve cleanups:
+				 // * 1) NOTRANSKEYCULL on     -> cleanup of duplicates shouldn't be done
+				 // * 2) canceled == 0        -> user confirmed the transform, so duplicates should be removed
+				 // * 3) canceled + duplicate -> user canceled the transform, but we made duplicates, so get rid of these
+				 // */
+				// if ((saction->flag & SACTION_NOTRANSKEYCULL) == 0 &&
+				    // ((canceled == 0) || (duplicate)) )
+				// {
+					// // if (adt) {
+						// // ANIM_nla_mapping_apply_fcurve(adt, fcu, 0, 1);
+						// // posttrans_fcurve_clean(fcu, false); /* only use handles in graph editor */
+						// // ANIM_nla_mapping_apply_fcurve(adt, fcu, 1, 1);
+					// // }
+					// // else
+						// posttrans_fcurve_clean(fcu, false);  /* only use handles in graph editor */
+				// }
+			// }
 			
-			/* free temp memory */
-			ANIM_animdata_freelist(&anim_data);
-		}
-		else if (ac.datatype == ANIMCONT_ACTION) { // TODO: just integrate into the above...
-			/* Depending on the lock status, draw necessary views */
-			// fixme... some of this stuff is not good
-			if (ob) {
-				if (ob->pose || BKE_key_from_object(ob))
-					DAG_id_tag_update(&ob->id, OB_RECALC_OB | OB_RECALC_DATA | OB_RECALC_TIME);
-				else
-					DAG_id_tag_update(&ob->id, OB_RECALC_OB);
-			}
-			
-			/* 3 cases here for curve cleanups:
-			 * 1) NOTRANSKEYCULL on     -> cleanup of duplicates shouldn't be done
-			 * 2) canceled == 0        -> user confirmed the transform, so duplicates should be removed
-			 * 3) canceled + duplicate -> user canceled the transform, but we made duplicates, so get rid of these
-			 */
-			if ((saction->flag & SACTION_NOTRANSKEYCULL) == 0 &&
-			    ((canceled == 0) || (duplicate)))
-			{
-				posttrans_action_clean(&ac, (bAction *)ac.data);
-			}
-		}
-		else if (ac.datatype == ANIMCONT_GPENCIL) {
-			/* remove duplicate frames and also make sure points are in order! */
-			/* 3 cases here for curve cleanups:
-			 * 1) NOTRANSKEYCULL on     -> cleanup of duplicates shouldn't be done
-			 * 2) canceled == 0        -> user confirmed the transform, so duplicates should be removed
-			 * 3) canceled + duplicate -> user canceled the transform, but we made duplicates, so get rid of these
-			 */
-			if ((saction->flag & SACTION_NOTRANSKEYCULL) == 0 &&
-			    ((canceled == 0) || (duplicate)))
-			{
-				bGPdata *gpd;
-				
-				// XXX: BAD! this get gpencil datablocks directly from main db...
-				// but that's how this currently works :/
-				for (gpd = G.main->gpencil.first; gpd; gpd = gpd->id.next) {
-					if (ID_REAL_USERS(gpd))
-						posttrans_gpd_clean(gpd);
-				}
-			}
-		}
-		else if (ac.datatype == ANIMCONT_MASK) {
-			/* remove duplicate frames and also make sure points are in order! */
-			/* 3 cases here for curve cleanups:
-			 * 1) NOTRANSKEYCULL on     -> cleanup of duplicates shouldn't be done
-			 * 2) canceled == 0        -> user confirmed the transform, so duplicates should be removed
-			 * 3) canceled + duplicate -> user canceled the transform, but we made duplicates, so get rid of these
-			 */
-			if ((saction->flag & SACTION_NOTRANSKEYCULL) == 0 &&
-			    ((canceled == 0) || (duplicate)))
-			{
-				Mask *mask;
-
-				// XXX: BAD! this get gpencil datablocks directly from main db...
-				// but that's how this currently works :/
-				for (mask = G.main->mask.first; mask; mask = mask->id.next) {
-					if (ID_REAL_USERS(mask))
-						posttrans_mask_clean(mask);
-				}
-			}
-		}
+			// /* free temp memory */
+			// ANIM_animdata_freelist(&anim_data);
+		// }
 		
-		/* marker transform, not especially nice but we may want to move markers
-		 * at the same time as keyframes in the dope sheet. 
-		 */
-		if ((saction->flag & SACTION_MARKERS_MOVE) && (canceled == 0)) {
-			if (t->mode == TFM_TIME_TRANSLATE) {
-#if 0
-				if (ELEM(t->frame_side, 'L', 'R')) { /* TFM_TIME_EXTEND */
-					/* same as below */
-					ED_markers_post_apply_transform(ED_context_get_markers(C), t->scene, t->mode, t->values[0], t->frame_side);
-				}
-				else /* TFM_TIME_TRANSLATE */
-#endif
-				{
-					ED_markers_post_apply_transform(ED_context_get_markers(C), t->scene, t->mode, t->values[0], t->frame_side);
-				}
-			}
-			else if (t->mode == TFM_TIME_SCALE) {
-				ED_markers_post_apply_transform(ED_context_get_markers(C), t->scene, t->mode, t->values[0], t->frame_side);
-			}
-		}
+		// /* marker transform, not especially nice but we may want to move markers
+		 // * at the same time as keyframes in the dope sheet. 
+		 // */
+		// if ((saction->flag & SACTION_MARKERS_MOVE) && (canceled == 0)) {
+			// if (t->mode == TFM_TIME_TRANSLATE) {
+// #if 0
+				// if (ELEM(t->frame_side, 'L', 'R')) { /* TFM_TIME_EXTEND */
+					// /* same as below */
+					// ED_markers_post_apply_transform(ED_context_get_markers(C), t->scene, t->mode, t->values[0], t->frame_side);
+				// }
+				// else /* TFM_TIME_TRANSLATE */
+// #endif
+				// {
+					// ED_markers_post_apply_transform(ED_context_get_markers(C), t->scene, t->mode, t->values[0], t->frame_side);
+				// }
+			// }
+			// else if (t->mode == TFM_TIME_SCALE) {
+				// ED_markers_post_apply_transform(ED_context_get_markers(C), t->scene, t->mode, t->values[0], t->frame_side);
+			// }
+		// }
 		
-		/* make sure all F-Curves are set correctly */
-		if (!ELEM(ac.datatype, ANIMCONT_GPENCIL, ANIMCONT_MASK))
-			ANIM_editkeyframes_refresh(&ac);
+		// /* make sure all F-Curves are set correctly */
+		// if (!ELEM(ac.datatype, ANIMCONT_GPENCIL, ANIMCONT_MASK))
+			// ANIM_editkeyframes_refresh(&ac);
 		
-		/* clear flag that was set for time-slide drawing */
-		saction->flag &= ~SACTION_MOVING;
-	}
+		// /* clear flag that was set for time-slide drawing */
+		// saction->flag &= ~SACTION_MOVING;
+	// }
 	else if (t->spacetype == SPACE_IPO) {
 		SpaceIpo *sipo = (SpaceIpo *)t->sa->spacedata.first;
 		bAnimContext ac;
@@ -7573,10 +7512,10 @@ void createTransData(bContext *C, TransInfo *t)
 			}
 		}
 	}
-	else if (t->spacetype == SPACE_ACTION) {
+	/* else if (t->spacetype == SPACE_ACTION) {
 		t->flag |= T_POINTS | T_2D_EDIT;
 		createTransActionData(C, t);
-	}
+	} */
 	/* else if (t->spacetype == SPACE_NLA) {
 		t->flag |= T_POINTS | T_2D_EDIT;
 		createTransNlaData(C, t);

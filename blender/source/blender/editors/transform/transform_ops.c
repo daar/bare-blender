@@ -1049,7 +1049,7 @@ void transform_keymap_for_space(wmKeyConfig *keyconf, wmKeyMap *keymap, int spac
 			WM_keymap_add_item(keymap, OP_SKIN_RESIZE, AKEY, KM_PRESS, KM_CTRL, 0);
 
 			break;
-		case SPACE_ACTION:
+		/* case SPACE_ACTION:
 			kmi = WM_keymap_add_item(keymap, "TRANSFORM_OT_transform", GKEY, KM_PRESS, 0, 0);
 			RNA_enum_set(kmi->ptr, "mode", TFM_TIME_TRANSLATE);
 			
@@ -1064,7 +1064,7 @@ void transform_keymap_for_space(wmKeyConfig *keyconf, wmKeyMap *keymap, int spac
 			
 			kmi = WM_keymap_add_item(keymap, "TRANSFORM_OT_transform", TKEY, KM_PRESS, KM_SHIFT, 0);
 			RNA_enum_set(kmi->ptr, "mode", TFM_TIME_SLIDE);
-			break;
+			break; */
 		case SPACE_IPO:
 			WM_keymap_add_item(keymap, OP_TRANSLATION, GKEY, KM_PRESS, 0, 0);
 			

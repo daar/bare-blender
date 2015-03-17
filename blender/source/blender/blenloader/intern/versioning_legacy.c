@@ -1416,10 +1416,10 @@ void blo_do_versions_pre250(FileData *fd, Library *lib, Main *main)
 				SpaceLink *sl;
 
 				for (sl = sa->spacedata.first; sl; sl = sl->next) {
-					if (sl->spacetype == SPACE_ACTION) {
+					/* if (sl->spacetype == SPACE_ACTION) {
 						SpaceAction *sac = (SpaceAction *) sl;
 						sac->v2d.max[0] = 32000;
-					} /*
+					} */ /*
 					else if (sl->spacetype == SPACE_NLA) {
 						SpaceNla *sla = (SpaceNla *) sl;
 						sla->v2d.max[0] = 32000;
@@ -1565,10 +1565,10 @@ void blo_do_versions_pre250(FileData *fd, Library *lib, Main *main)
 					if (sl->blockscale == 0.0f)
 						sl->blockscale = 0.7f;
 					/* added: 5x better zoom in for action */
-					if (sl->spacetype == SPACE_ACTION) {
+					/* if (sl->spacetype == SPACE_ACTION) {
 						SpaceAction *sac = (SpaceAction *)sl;
 						sac->v2d.maxzoom = 50;
-					}
+					} */
 				}
 			}
 		}
@@ -2625,7 +2625,7 @@ void blo_do_versions_pre250(FileData *fd, Library *lib, Main *main)
 					SpaceLink *sl;
 
 					for (sl = sa->spacedata.first; sl; sl = sl->next) {
-						if (sl->spacetype == SPACE_ACTION) {
+						/* if (sl->spacetype == SPACE_ACTION) {
 							SpaceAction *saction = (SpaceAction*) sl;
 
 							saction->v2d.tot.ymin = -1000.0;
@@ -2633,7 +2633,7 @@ void blo_do_versions_pre250(FileData *fd, Library *lib, Main *main)
 
 							saction->v2d.cur.ymin = -75.0;
 							saction->v2d.cur.ymax = 5.0;
-						}
+						} */
 					}
 					sa = sa->next;
 				}
@@ -3506,14 +3506,14 @@ void blo_do_versions_pre250(FileData *fd, Library *lib, Main *main)
 
 				for (sl = sa->spacedata.first; sl; sl = sl->next) {
 					switch (sl->spacetype) {
-						case SPACE_ACTION:
+						/* case SPACE_ACTION:
 							{
 								SpaceAction *sact = (SpaceAction *)sl;
 
 								sact->mode = SACTCONT_DOPESHEET;
 								sact->autosnap = SACTSNAP_FRAME;
 							}
-							break;
+							break; */
 						case SPACE_IPO:
 							{
 								SpaceIpo *sipo = (SpaceIpo *)sl;

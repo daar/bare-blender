@@ -256,10 +256,10 @@ int ED_operator_file_active(bContext *C)
 	return ed_spacetype_test(C, SPACE_FILE);
 }
 
-int ED_operator_action_active(bContext *C)
+/* int ED_operator_action_active(bContext *C)
 {
 	return ed_spacetype_test(C, SPACE_ACTION);
-}
+} */
 
 int ED_operator_buttons_active(bContext *C)
 {

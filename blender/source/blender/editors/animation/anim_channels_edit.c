@@ -1336,15 +1336,15 @@ static int animchannels_grouping_poll(bContext *C)
 	
 	switch (sa->spacetype) {
 		/* supported... */
-		case SPACE_ACTION:
-		{
-			SpaceAction *saction = (SpaceAction *)sl;
+		// case SPACE_ACTION:
+		// {
+			// SpaceAction *saction = (SpaceAction *)sl;
 			
-			/* dopesheet and action only - all others are for other datatypes or have no groups */
-			if (ELEM(saction->mode, SACTCONT_ACTION, SACTCONT_DOPESHEET) == 0)
-				return 0;
-		}
-			break;
+			// /* dopesheet and action only - all others are for other datatypes or have no groups */
+			// if (ELEM(saction->mode, SACTCONT_ACTION, SACTCONT_DOPESHEET) == 0)
+				// return 0;
+		// }
+			// break;
 			
 		case SPACE_IPO:
 		{
@@ -2084,8 +2084,8 @@ static int animchannels_enable_poll(bContext *C)
 		return 0;
 		
 	/* animation editor test - Action/Dopesheet/etc. and Graph only */
-	if (ELEM(sa->spacetype, SPACE_ACTION, SPACE_IPO) == 0)
-		return 0;
+	/* if (ELEM(sa->spacetype, SPACE_ACTION, SPACE_IPO) == 0)
+		return 0; */
 		
 	return 1;
 }

@@ -667,7 +667,7 @@ void ED_keymap_anim(struct wmKeyConfig *keyconf);
 /* space_graph */
 void ED_operatormacros_graph(void);
 /* space_action */
-void ED_operatormacros_action(void);
+//void ED_operatormacros_action(void);
 
 /* ************************************************ */
 

@@ -155,12 +155,12 @@ static bool acf_show_channel_colors(bAnimContext *ac)
 	
 	if (ac->sl) {
 		switch (ac->spacetype) {
-			case SPACE_ACTION:
+			/* case SPACE_ACTION:
 			{
 				SpaceAction *saction = (SpaceAction *)ac->sl;
 				showGroupColors = !(saction->flag & SACTION_NODRAWGCOLORS);
 			}
-				break;
+				break; */
 			case SPACE_IPO:
 			{
 				SpaceIpo *sipo = (SpaceIpo *)ac->sl;
@@ -468,18 +468,18 @@ static void *acf_summary_setting_ptr(bAnimListElem *ale, eAnimChannel_Settings s
 	/* if data is valid, return pointer to active dopesheet's relevant flag 
 	 *	- this is restricted to DopeSheet/Action Editor only
 	 */
-	if ((ac->sl) && (ac->spacetype == SPACE_ACTION) && (setting == ACHANNEL_SETTING_EXPAND)) {
-		SpaceAction *saction = (SpaceAction *)ac->sl;
-		bDopeSheet *ads = &saction->ads;
+	// if ((ac->sl) && (ac->spacetype == SPACE_ACTION) && (setting == ACHANNEL_SETTING_EXPAND)) {
+		// SpaceAction *saction = (SpaceAction *)ac->sl;
+		// bDopeSheet *ads = &saction->ads;
 		
-		/* return pointer to DopeSheet's flag */
-		return GET_ACF_FLAG_PTR(ads->flag, type);
-	}
-	else {
+		// /* return pointer to DopeSheet's flag */
+		// return GET_ACF_FLAG_PTR(ads->flag, type);
+	// }
+	// else {
 		/* can't return anything useful - unsupported */
 		*type = 0;
 		return NULL;
-	}
+	//}
 }
 
 /* all animation summary (DopeSheet only) type define */
@@ -3564,22 +3564,22 @@ void ANIM_channel_draw(bAnimContext *ac, bAnimListElem *ale, float yminc, float 
 		glColor3fv(color);
 		
 		/* check if we need to show the sliders */
-		if ((ac->sl) && ELEM(ac->spacetype, SPACE_ACTION, SPACE_IPO)) {
-			switch (ac->spacetype) {
-				case SPACE_ACTION:
-				{
-					SpaceAction *saction = (SpaceAction *)ac->sl;
-					draw_sliders = (saction->flag & SACTION_SLIDERS);
-					break;
-				}
-				case SPACE_IPO:
-				{
-					SpaceIpo *sipo = (SpaceIpo *)ac->sl;
-					draw_sliders = (sipo->flag & SIPO_SLIDERS);
-					break;
-				}
-			}
-		}
+		// if ((ac->sl) && ELEM(ac->spacetype, SPACE_ACTION, SPACE_IPO)) {
+			// switch (ac->spacetype) {
+				// case SPACE_ACTION:
+				// {
+					// SpaceAction *saction = (SpaceAction *)ac->sl;
+					// draw_sliders = (saction->flag & SACTION_SLIDERS);
+					// break;
+				// }
+				// case SPACE_IPO:
+				// {
+					// SpaceIpo *sipo = (SpaceIpo *)ac->sl;
+					// draw_sliders = (sipo->flag & SIPO_SLIDERS);
+					// break;
+				// }
+			// }
+		// }
 
 		/* check if there's enough space for the toggles if the sliders are drawn too */
 		if (!(draw_sliders) || (BLI_rcti_size_x(&v2d->mask) > ACHANNEL_BUTTON_WIDTH / 2) ) {
@@ -4027,7 +4027,7 @@ void ANIM_channel_draw_widgets(bContext *C, bAnimContext *ac, bAnimListElem *ale
 		short draw_sliders = 0;
 		
 		/* check if we need to show the sliders */
-		if ((ac->sl) && ELEM(ac->spacetype, SPACE_ACTION, SPACE_IPO)) {
+		/* if ((ac->sl) && ELEM(ac->spacetype, SPACE_ACTION, SPACE_IPO)) {
 			switch (ac->spacetype) {
 				case SPACE_ACTION:
 				{
@@ -4042,7 +4042,7 @@ void ANIM_channel_draw_widgets(bContext *C, bAnimContext *ac, bAnimListElem *ale
 					break;
 				}
 			}
-		}
+		} */
 		
 		/* check if there's enough space for the toggles if the sliders are drawn too */
 		if (!(draw_sliders) || (BLI_rcti_size_x(&v2d->mask) > ACHANNEL_BUTTON_WIDTH / 2) ) {

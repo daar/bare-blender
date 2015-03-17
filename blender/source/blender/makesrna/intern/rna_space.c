@@ -66,7 +66,7 @@ EnumPropertyItem space_type_items[] = {
 	{0, "", ICON_NONE, NULL, NULL},
 	{SPACE_TIME, "TIMELINE", ICON_TIME, "Timeline", "Timeline and playback controls"},
 	{SPACE_IPO, "GRAPH_EDITOR", ICON_IPO, "Graph Editor", "Edit drivers and keyframe interpolation"},
-	{SPACE_ACTION, "DOPESHEET_EDITOR", ICON_ACTION, "Dope Sheet", "Adjust timing of keyframes"},
+	//{SPACE_ACTION, "DOPESHEET_EDITOR", ICON_ACTION, "Dope Sheet", "Adjust timing of keyframes"},
 	//{SPACE_NLA, "NLA_EDITOR", ICON_NLA, "NLA Editor", "Combine and layer Actions"},
 	{0, "", ICON_NONE, NULL, NULL},
 	{SPACE_IMAGE, "IMAGE_EDITOR", ICON_IMAGE_COL, "UV/Image Editor", "View and edit images and UV Maps"},
@@ -241,8 +241,8 @@ static StructRNA *rna_Space_refine(struct PointerRNA *ptr)
 			return &RNA_SpaceSequenceEditor;
 		case SPACE_TEXT:
 			return &RNA_SpaceTextEditor;
-		case SPACE_ACTION:
-			return &RNA_SpaceDopeSheetEditor;
+		/* case SPACE_ACTION:
+			return &RNA_SpaceDopeSheetEditor; */
 /* 		case SPACE_NLA:
 			return &RNA_SpaceNLA; */
 		case SPACE_TIME:

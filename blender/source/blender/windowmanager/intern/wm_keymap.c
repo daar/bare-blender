@@ -1647,9 +1647,9 @@ wmKeyMap *WM_keymap_guess_opname(const bContext *C, const char *opname)
 			case SPACE_IPO:
 				km = WM_keymap_find_all(C, "Graph Editor", sl->spacetype, 0);
 				break;
-			case SPACE_ACTION:
+			/* case SPACE_ACTION:
 				km = WM_keymap_find_all(C, "Dopesheet", sl->spacetype, 0);
-				break;
+				break; */
 /* 			case SPACE_NLA:
 				km = WM_keymap_find_all(C, "NLA Editor", sl->spacetype, 0);
 				break;

@@ -785,14 +785,14 @@ struct SpaceIpo *CTX_wm_space_graph(const bContext *C)
 	return NULL;
 }
 
-struct SpaceAction *CTX_wm_space_action(const bContext *C)
+/* struct SpaceAction *CTX_wm_space_action(const bContext *C)
 {
 	ScrArea *sa = CTX_wm_area(C);
 	if (sa && sa->spacetype == SPACE_ACTION)
 		return sa->spacedata.first;
 	return NULL;
 }
-
+ */
 struct SpaceInfo *CTX_wm_space_info(const bContext *C)
 {
 	ScrArea *sa = CTX_wm_area(C);

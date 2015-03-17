@@ -5848,7 +5848,7 @@ static void lib_link_screen(FileData *fd, Main *main)
 					else if (sl->spacetype == SPACE_FILE) {
 						;
 					}
-					else if (sl->spacetype == SPACE_ACTION) {
+					/* else if (sl->spacetype == SPACE_ACTION) {
 						SpaceAction *saction = (SpaceAction *)sl;
 						bDopeSheet *ads = &saction->ads;
 						
@@ -5858,7 +5858,7 @@ static void lib_link_screen(FileData *fd, Main *main)
 						}
 						
 						saction->action = newlibadr(fd, sc->id.lib, saction->action);
-					}
+					} */
 					else if (sl->spacetype == SPACE_IMAGE) {
 						SpaceImage *sima = (SpaceImage *)sl;
 						
@@ -6182,22 +6182,22 @@ void blo_lib_link_screen_restore(Main *newmain, bScreen *curscreen, Scene *cursc
 					SpaceFile *sfile = (SpaceFile *)sl;
 					sfile->op = NULL;
 				}
-				else if (sl->spacetype == SPACE_ACTION) {
-					SpaceAction *saction = (SpaceAction *)sl;
+				// else if (sl->spacetype == SPACE_ACTION) {
+					// SpaceAction *saction = (SpaceAction *)sl;
 					
-					saction->action = restore_pointer_by_name(newmain, (ID *)saction->action, USER_ONE);
-					saction->ads.source = restore_pointer_by_name(newmain, (ID *)saction->ads.source, USER_ONE);
+					// saction->action = restore_pointer_by_name(newmain, (ID *)saction->action, USER_ONE);
+					// saction->ads.source = restore_pointer_by_name(newmain, (ID *)saction->ads.source, USER_ONE);
 					
-					if (saction->ads.filter_grp)
-						saction->ads.filter_grp = restore_pointer_by_name(newmain, (ID *)saction->ads.filter_grp, USER_IGNORE);
+					// if (saction->ads.filter_grp)
+						// saction->ads.filter_grp = restore_pointer_by_name(newmain, (ID *)saction->ads.filter_grp, USER_IGNORE);
 						
 					
-					/* force recalc of list of channels, potentially updating the active action 
-					 * while we're at it (as it can only be updated that way) [#28962] 
-					 */
-					saction->flag |= SACTION_TEMP_NEEDCHANSYNC;
-				}
-				else if (sl->spacetype == SPACE_IMAGE) {
+					// /* force recalc of list of channels, potentially updating the active action 
+					 // * while we're at it (as it can only be updated that way) [#28962] 
+					 // */
+					// saction->flag |= SACTION_TEMP_NEEDCHANSYNC;
+				// } 
+				/*else */if (sl->spacetype == SPACE_IMAGE) {
 					SpaceImage *sima = (SpaceImage *)sl;
 					
 					sima->image = restore_pointer_by_name(newmain, (ID *)sima->image, USER_REAL);

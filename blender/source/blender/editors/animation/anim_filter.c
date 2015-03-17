@@ -102,114 +102,114 @@
 
 /* Get shapekey data being edited (for Action Editor -> ShapeKey mode) */
 /* Note: there's a similar function in key.c (BKE_key_from_object) */
-static Key *actedit_get_shapekeys(bAnimContext *ac)
-{
-	Scene *scene = ac->scene;
-	Object *ob;
-	Key *key;
+// static Key *actedit_get_shapekeys(bAnimContext *ac)
+// {
+	// Scene *scene = ac->scene;
+	// Object *ob;
+	// Key *key;
 	
-	ob = OBACT;
-	if (ob == NULL) 
-		return NULL;
+	// ob = OBACT;
+	// if (ob == NULL) 
+		// return NULL;
 	
-	/* XXX pinning is not available in 'ShapeKey' mode... */
-	//if (saction->pin) return NULL;
+	// /* XXX pinning is not available in 'ShapeKey' mode... */
+	// //if (saction->pin) return NULL;
 	
-	/* shapekey data is stored with geometry data */
-	key = BKE_key_from_object(ob);
+	// /* shapekey data is stored with geometry data */
+	// key = BKE_key_from_object(ob);
 	
-	if (key) {
-		if (key->type == KEY_RELATIVE)
-			return key;
-	}
+	// if (key) {
+		// if (key->type == KEY_RELATIVE)
+			// return key;
+	// }
 	
-	return NULL;
-}
+	// return NULL;
+// }
 
 /* Get data being edited in Action Editor (depending on current 'mode') */
-static bool actedit_get_context(bAnimContext *ac, SpaceAction *saction)
-{
-	/* get dopesheet */
-	ac->ads = &saction->ads;
+// static bool actedit_get_context(bAnimContext *ac, SpaceAction *saction)
+// {
+	// /* get dopesheet */
+	// ac->ads = &saction->ads;
 	
-	/* sync settings with current view status, then return appropriate data */
-	switch (saction->mode) {
-		case SACTCONT_ACTION: /* 'Action Editor' */
-			/* if not pinned, sync with active object */
-			if (/*saction->pin == 0*/ true) {
-				if (ac->obact && ac->obact->adt)
-					saction->action = ac->obact->adt->action;
-				else
-					saction->action = NULL;
-			}
+	// /* sync settings with current view status, then return appropriate data */
+	// switch (saction->mode) {
+		// case SACTCONT_ACTION: /* 'Action Editor' */
+			// /* if not pinned, sync with active object */
+			// if (/*saction->pin == 0*/ true) {
+				// if (ac->obact && ac->obact->adt)
+					// saction->action = ac->obact->adt->action;
+				// else
+					// saction->action = NULL;
+			// }
 			
-			ac->datatype = ANIMCONT_ACTION;
-			ac->data = saction->action;
+			// ac->datatype = ANIMCONT_ACTION;
+			// ac->data = saction->action;
 			
-			ac->mode = saction->mode;
-			return true;
+			// ac->mode = saction->mode;
+			// return true;
 			
-		case SACTCONT_SHAPEKEY: /* 'ShapeKey Editor' */
-			ac->datatype = ANIMCONT_SHAPEKEY;
-			ac->data = actedit_get_shapekeys(ac);
+		// case SACTCONT_SHAPEKEY: /* 'ShapeKey Editor' */
+			// ac->datatype = ANIMCONT_SHAPEKEY;
+			// ac->data = actedit_get_shapekeys(ac);
 			
-			/* if not pinned, sync with active object */
-			if (/*saction->pin == 0*/ true) {
-				Key *key = (Key *)ac->data;
+			// /* if not pinned, sync with active object */
+			// if (/*saction->pin == 0*/ true) {
+				// Key *key = (Key *)ac->data;
 				
-				if (key && key->adt)
-					saction->action = key->adt->action;
-				else
-					saction->action = NULL;
-			}
+				// if (key && key->adt)
+					// saction->action = key->adt->action;
+				// else
+					// saction->action = NULL;
+			// }
 			
-			ac->mode = saction->mode;
-			return true;
+			// ac->mode = saction->mode;
+			// return true;
 		
-		case SACTCONT_GPENCIL: /* Grease Pencil */ /* XXX review how this mode is handled... */
-			/* update scene-pointer (no need to check for pinning yet, as not implemented) */
-			saction->ads.source = (ID *)ac->scene;
+		// case SACTCONT_GPENCIL: /* Grease Pencil */ /* XXX review how this mode is handled... */
+			// /* update scene-pointer (no need to check for pinning yet, as not implemented) */
+			// saction->ads.source = (ID *)ac->scene;
 			
-			ac->datatype = ANIMCONT_GPENCIL;
-			ac->data = &saction->ads;
+			// ac->datatype = ANIMCONT_GPENCIL;
+			// ac->data = &saction->ads;
 			
-			ac->mode = saction->mode;
-			return true;
+			// ac->mode = saction->mode;
+			// return true;
 			
-		case SACTCONT_MASK: /* Mask */ /* XXX review how this mode is handled... */
-		{
-			/* TODO, other methods to get the mask */
-			// Sequence *seq = BKE_sequencer_active_get(ac->scene);
-			//MovieClip *clip = ac->scene->clip;
-//			struct Mask *mask = seq ? seq->mask : NULL;
+		// case SACTCONT_MASK: /* Mask */ /* XXX review how this mode is handled... */
+		// {
+			// /* TODO, other methods to get the mask */
+			// // Sequence *seq = BKE_sequencer_active_get(ac->scene);
+			// //MovieClip *clip = ac->scene->clip;
+// //			struct Mask *mask = seq ? seq->mask : NULL;
 			
-			/* update scene-pointer (no need to check for pinning yet, as not implemented) */
-			saction->ads.source = (ID *)ac->scene;
+			// /* update scene-pointer (no need to check for pinning yet, as not implemented) */
+			// saction->ads.source = (ID *)ac->scene;
 			
-			ac->datatype = ANIMCONT_MASK;
-			ac->data = &saction->ads;
+			// ac->datatype = ANIMCONT_MASK;
+			// ac->data = &saction->ads;
 			
-			ac->mode = saction->mode;
-			return true;
-		}
-		case SACTCONT_DOPESHEET: /* DopeSheet */
-			/* update scene-pointer (no need to check for pinning yet, as not implemented) */
-			saction->ads.source = (ID *)ac->scene;
+			// ac->mode = saction->mode;
+			// return true;
+		// }
+		// case SACTCONT_DOPESHEET: /* DopeSheet */
+			// /* update scene-pointer (no need to check for pinning yet, as not implemented) */
+			// saction->ads.source = (ID *)ac->scene;
 			
-			ac->datatype = ANIMCONT_DOPESHEET;
-			ac->data = &saction->ads;
+			// ac->datatype = ANIMCONT_DOPESHEET;
+			// ac->data = &saction->ads;
 			
-			ac->mode = saction->mode;
-			return true;
+			// ac->mode = saction->mode;
+			// return true;
 		
-		default: /* unhandled yet */
-			ac->datatype = ANIMCONT_NONE;
-			ac->data = NULL;
+		// default: /* unhandled yet */
+			// ac->datatype = ANIMCONT_NONE;
+			// ac->data = NULL;
 			
-			ac->mode = -1;
-			return false;
-	}
-}
+			// ac->mode = -1;
+			// return false;
+	// }
+// }
 
 /* ----------- Private Stuff - Graph Editor ------------- */
 
@@ -265,23 +265,23 @@ static bool graphedit_get_context(bAnimContext *ac, SpaceIpo *sipo)
 /* ----------- Private Stuff - NLA Editor ------------- */
 
 /* Get data being edited in Graph Editor (depending on current 'mode') */
-static bool nlaedit_get_context(bAnimContext *ac, SpaceNla *snla)
-{
-	/* init dopesheet data if non-existent (i.e. for old files) */
-	if (snla->ads == NULL)
-		snla->ads = MEM_callocN(sizeof(bDopeSheet), "NlaEdit DopeSheet");
-	ac->ads = snla->ads;
+// static bool nlaedit_get_context(bAnimContext *ac, SpaceNla *snla)
+// {
+	// /* init dopesheet data if non-existent (i.e. for old files) */
+	// if (snla->ads == NULL)
+		// snla->ads = MEM_callocN(sizeof(bDopeSheet), "NlaEdit DopeSheet");
+	// ac->ads = snla->ads;
 	
-	/* sync settings with current view status, then return appropriate data */
-	/* update scene-pointer (no need to check for pinning yet, as not implemented) */
-	snla->ads->source = (ID *)ac->scene;
-	snla->ads->filterflag |= ADS_FILTER_ONLYNLA;
+	// /* sync settings with current view status, then return appropriate data */
+	// /* update scene-pointer (no need to check for pinning yet, as not implemented) */
+	// snla->ads->source = (ID *)ac->scene;
+	// snla->ads->filterflag |= ADS_FILTER_ONLYNLA;
 	
-	ac->datatype = ANIMCONT_NLA;
-	ac->data = snla->ads;
+	// ac->datatype = ANIMCONT_NLA;
+	// ac->data = snla->ads;
 	
-	return true;
-}
+	// return true;
+// }
 
 /* ----------- Public API --------------- */
 
@@ -297,12 +297,12 @@ bool ANIM_animdata_context_getdata(bAnimContext *ac)
 	/* context depends on editor we are currently in */
 	if (sl) {
 		switch (ac->spacetype) {
-			case SPACE_ACTION:
+			/* case SPACE_ACTION:
 			{
 				SpaceAction *saction = (SpaceAction *)sl;
 				ok = actedit_get_context(ac, saction);
 				break;
-			}
+			} */
 			case SPACE_IPO:
 			{
 				SpaceIpo *sipo = (SpaceIpo *)sl;
@@ -2575,11 +2575,11 @@ static short animdata_filter_dopesheet_summary(bAnimContext *ac, ListBase *anim_
 	 *	  since all the other Animation Editors won't have this concept
 	 *	  being applicable.
 	 */
-	if ((ac && ac->sl) && (ac->spacetype == SPACE_ACTION)) {
+	/* if ((ac && ac->sl) && (ac->spacetype == SPACE_ACTION)) {
 		SpaceAction *saction = (SpaceAction *)ac->sl;
 		ads = &saction->ads;
 	}
-	else {
+	else */ {
 		/* invalid space type - skip this summary channels */
 		return 1;
 	}

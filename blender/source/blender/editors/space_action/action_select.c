@@ -235,7 +235,7 @@ static void borderselect_action(bAnimContext *ac, const rcti rect, short mode, s
 	
 	/* loop over data, doing border select */
 	for (ale = anim_data.first; ale; ale = ale->next) {
-		// AnimData *adt = ANIM_nla_mapping_get(ac, ale);
+		AnimData *adt = ANIM_nla_mapping_get(ac, ale);
 		
 		/* get new vertical minimum extent of channel */
 		ymin = ymax - ACHANNEL_STEP;
@@ -243,14 +243,14 @@ static void borderselect_action(bAnimContext *ac, const rcti rect, short mode, s
 		/* set horizontal range (if applicable) */
 		if (ELEM(mode, ACTKEYS_BORDERSEL_FRAMERANGE, ACTKEYS_BORDERSEL_ALLKEYS)) {
 			/* if channel is mapped in NLA, apply correction */
-/* 			if (adt) {
+			if (adt) {
 				ked.f1 = BKE_nla_tweakedit_remap(adt, rectf.xmin, NLATIME_CONVERT_UNMAP);
 				ked.f2 = BKE_nla_tweakedit_remap(adt, rectf.xmax, NLATIME_CONVERT_UNMAP);
 			}
-			else { */
+			else {
 				ked.f1 = rectf.xmin;
 				ked.f2 = rectf.xmax;
-			// } 
+			}
 		}
 		
 		/* perform vertical suitability check (if applicable) */
@@ -423,14 +423,14 @@ static void markers_selectkeys_between(bAnimContext *ac)
 	
 	/* select keys in-between */
 	for (ale = anim_data.first; ale; ale = ale->next) {
-		// AnimData *adt = ANIM_nla_mapping_get(ac, ale);
+		AnimData *adt = ANIM_nla_mapping_get(ac, ale);
 		
-		/* if (adt) {
+		if (adt) {
 			ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 0, 1);
 			ANIM_fcurve_keyframes_loop(&ked, ale->key_data, ok_cb, select_cb, NULL);
 			ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 1, 1);
 		}
-		else  */if (ale->type == ANIMTYPE_GPLAYER) {
+		else if (ale->type == ANIMTYPE_GPLAYER) {
 			ED_gplayer_frames_select_border(ale->data, min, max, SELECT_ADD);
 		}
 		else if (ale->type == ANIMTYPE_MASKLAYER) {
@@ -510,16 +510,16 @@ static void columnselect_action_keys(bAnimContext *ac, short mode)
 	ANIM_animdata_filter(ac, &anim_data, filter, ac->data, ac->datatype);
 	
 	for (ale = anim_data.first; ale; ale = ale->next) {
-		//AnimData *adt = ANIM_nla_mapping_get(ac, ale);
+		AnimData *adt = ANIM_nla_mapping_get(ac, ale);
 		
 		/* loop over cfraelems (stored in the KeyframeEditData->list)
 		 *	- we need to do this here, as we can apply fewer NLA-mapping conversions
 		 */
 		for (ce = ked.list.first; ce; ce = ce->next) {
 			/* set frame for validation callback to refer to */
-		/* 	if (adt)
+			if (adt)
 				ked.f1 = BKE_nla_tweakedit_remap(adt, ce->cfra, NLATIME_CONVERT_UNMAP);
-			else */
+			else
 				ked.f1 = ce->cfra;
 			
 			/* select elements with frame number matching cfraelem */
@@ -800,7 +800,7 @@ static void actkeys_select_leftright(bAnimContext *ac, short leftright, short se
 	ANIM_animdata_filter(ac, &anim_data, filter, ac->data, ac->datatype);
 		
 	/* select keys */
-	for (ale = anim_data.first; ale; ale = ale->next) {/* 
+	for (ale = anim_data.first; ale; ale = ale->next) {
 		AnimData *adt = ANIM_nla_mapping_get(ac, ale);
 		
 		if (adt) {
@@ -808,7 +808,7 @@ static void actkeys_select_leftright(bAnimContext *ac, short leftright, short se
 			ANIM_fcurve_keyframes_loop(&ked, ale->key_data, ok_cb, select_cb, NULL);
 			ANIM_nla_mapping_apply_fcurve(adt, ale->key_data, 1, 1);
 		}
-		else  */if (ale->type == ANIMTYPE_GPLAYER)
+		else if (ale->type == ANIMTYPE_GPLAYER)
 			ED_gplayer_frames_select_border(ale->data, ked.f1, ked.f2, select_mode);
 		else if (ale->type == ANIMTYPE_MASKLAYER)
 			ED_masklayer_frames_select_border(ale->data, ked.f1, ked.f2, select_mode);
@@ -1010,12 +1010,12 @@ static void actkeys_mselect_column(bAnimContext *ac, short select_mode, float se
 	ANIM_animdata_filter(ac, &anim_data, filter, ac->data, ac->datatype);
 	
 	for (ale = anim_data.first; ale; ale = ale->next) {
-		// AnimData *adt = ANIM_nla_mapping_get(ac, ale);
+		AnimData *adt = ANIM_nla_mapping_get(ac, ale);
 		
-		// /* set frame for validation callback to refer to */
-		// if (adt)
-			// ked.f1 = BKE_nla_tweakedit_remap(adt, selx, NLATIME_CONVERT_UNMAP);
-		// else
+		/* set frame for validation callback to refer to */
+		if (adt)
+			ked.f1 = BKE_nla_tweakedit_remap(adt, selx, NLATIME_CONVERT_UNMAP);
+		else
 			ked.f1 = selx;
 		
 		/* select elements with frame number matching cfra */
@@ -1118,7 +1118,7 @@ static void mouse_action_keys(bAnimContext *ac, const int mval[2], short select_
 	}
 	else {
 		/* found match - must return here... */
-		//AnimData *adt = ANIM_nla_mapping_get(ac, ale);
+		AnimData *adt = ANIM_nla_mapping_get(ac, ale);
 		ActKeyColumn *ak, *akn = NULL;
 		
 		/* make list of keyframes */
@@ -1138,7 +1138,7 @@ static void mouse_action_keys(bAnimContext *ac, const int mval[2], short select_
 					ob_to_keylist(ads, ob, &anim_keys, NULL);
 					break;
 				}
-				/* case ALE_ACT:
+				case ALE_ACT:
 				{
 					bAction *act = (bAction *)ale->key_data;
 					action_to_keylist(adt, act, &anim_keys, NULL);
@@ -1149,18 +1149,18 @@ static void mouse_action_keys(bAnimContext *ac, const int mval[2], short select_
 					FCurve *fcu = (FCurve *)ale->key_data;
 					fcurve_to_keylist(adt, fcu, &anim_keys, NULL);
 					break;
-				} */
+				}
 			}
 		}
 		else if (ale->type == ANIMTYPE_SUMMARY) {
 			/* dopesheet summary covers everything */
 			summary_to_keylist(ac, &anim_keys, NULL);
 		}
-		/* else if (ale->type == ANIMTYPE_GROUP) {
+		else if (ale->type == ANIMTYPE_GROUP) {
 			// TODO: why don't we just give groups key_data too?
 			bActionGroup *agrp = (bActionGroup *)ale->data;
 			agroup_to_keylist(adt, agrp, &anim_keys, NULL);
-		} */
+		}
 		else if (ale->type == ANIMTYPE_GPLAYER) {
 			// TODO: why don't we just give gplayers key_data too?
 			bGPDlayer *gpl = (bGPDlayer *)ale->data;
@@ -1174,18 +1174,17 @@ static void mouse_action_keys(bAnimContext *ac, const int mval[2], short select_
 
 		/* start from keyframe at root of BST, traversing until we find one within the range that was clicked on */
 		for (ak = anim_keys.root; ak; ak = akn) {
-			// if (IN_RANGE(ak->cfra, rectf.xmin, rectf.xmax)) {
-				// /* set the frame to use, and apply inverse-correction for NLA-mapping 
-				 // * so that the frame will get selected by the selection functions without
-				 // * requiring to map each frame once again...
-				 // */
-				// selx = BKE_nla_tweakedit_remap(adt, ak->cfra, NLATIME_CONVERT_UNMAP);
-				// frame = ak->cfra;
-				// found = true;
-				// break;
-			// }
-			// else 
-			if (ak->cfra < rectf.xmin)
+			if (IN_RANGE(ak->cfra, rectf.xmin, rectf.xmax)) {
+				/* set the frame to use, and apply inverse-correction for NLA-mapping 
+				 * so that the frame will get selected by the selection functions without
+				 * requiring to map each frame once again...
+				 */
+				selx = BKE_nla_tweakedit_remap(adt, ak->cfra, NLATIME_CONVERT_UNMAP);
+				frame = ak->cfra;
+				found = true;
+				break;
+			}
+			else if (ak->cfra < rectf.xmin)
 				akn = ak->right;
 			else
 				akn = ak->left;

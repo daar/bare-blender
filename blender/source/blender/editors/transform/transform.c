@@ -387,25 +387,25 @@ void projectIntViewEx(TransInfo *t, const float vec[3], int adr[2], const eV3DPr
 			UI_view2d_view_to_region(t->view, v[0], v[1], &adr[0], &adr[1]);
 		}
 	}
-	else if (t->spacetype == SPACE_ACTION) {
-		int out[2] = {0, 0};
-#if 0
-		SpaceAction *sact = t->sa->spacedata.first;
+	// else if (t->spacetype == SPACE_ACTION) {
+		// int out[2] = {0, 0}; 
+// #if 0
+		// SpaceAction *sact = t->sa->spacedata.first;
 
-		if (sact->flag & SACTION_DRAWTIME) {
-			//vec[0] = vec[0]/((t->scene->r.frs_sec / t->scene->r.frs_sec_base));
-			/* same as below */
-			UI_view2d_view_to_region((View2D *)t->view, vec[0], vec[1], &out[0], &out[1]);
-		}
-		else
-#endif
-		{
-			UI_view2d_view_to_region((View2D *)t->view, vec[0], vec[1], &out[0], &out[1]);
-		}
+		// if (sact->flag & SACTION_DRAWTIME) {
+			// //vec[0] = vec[0]/((t->scene->r.frs_sec / t->scene->r.frs_sec_base));
+			// /* same as below */
+			// UI_view2d_view_to_region((View2D *)t->view, vec[0], vec[1], &out[0], &out[1]);
+		// }
+		// else
+// #endif
+		// {
+			// UI_view2d_view_to_region((View2D *)t->view, vec[0], vec[1], &out[0], &out[1]);
+		// }
 
-		adr[0] = out[0];
-		adr[1] = out[1];
-	}
+		// adr[0] = out[0];
+		// adr[1] = out[1];
+	// }
 	/*
 	else if (ELEM(t->spacetype, SPACE_IPO, SPACE_NLA)) {
 		int out[2] = {0, 0};
@@ -609,10 +609,10 @@ static void viewRedrawForce(const bContext *C, TransInfo *t)
 
 		}
 	}
-	else if (t->spacetype == SPACE_ACTION) {
+	// else if (t->spacetype == SPACE_ACTION) {
 		//SpaceAction *saction = (SpaceAction *)t->sa->spacedata.first;
-		WM_event_add_notifier(C, NC_ANIMATION | ND_KEYFRAME | NA_EDITED, NULL);
-	}
+		// WM_event_add_notifier(C, NC_ANIMATION | ND_KEYFRAME | NA_EDITED, NULL);
+	// }
 	else if (t->spacetype == SPACE_IPO) {
 		//SpaceIpo *sipo = (SpaceIpo *)t->sa->spacedata.first;
 		WM_event_add_notifier(C, NC_ANIMATION | ND_KEYFRAME | NA_EDITED, NULL);
@@ -4046,13 +4046,13 @@ static void applyTrackball(TransInfo *t, const int UNUSED(mval[2]))
 
 static void initTranslation(TransInfo *t)
 {
-	if (t->spacetype == SPACE_ACTION) {
-		/* this space uses time translate */
-		BKE_report(t->reports, RPT_ERROR, 
-		           "Use 'Time_Translate' transform mode instead of 'Translation' mode "
-		           "for translating keyframes in Dope Sheet Editor");
-		t->state = TRANS_CANCEL;
-	}
+	// if (t->spacetype == SPACE_ACTION) {
+		// /* this space uses time translate */
+		// BKE_report(t->reports, RPT_ERROR, 
+		           // "Use 'Time_Translate' transform mode instead of 'Translation' mode "
+		           // "for translating keyframes in Dope Sheet Editor");
+		// t->state = TRANS_CANCEL;
+	// }
 
 	t->mode = TFM_TRANSLATION;
 	t->transform = applyTranslation;
@@ -7223,13 +7223,13 @@ static short getAnimEdit_SnapMode(TransInfo *t)
 {
 	short autosnap = SACTSNAP_OFF;
 	
-	if (t->spacetype == SPACE_ACTION) {
+	/* if (t->spacetype == SPACE_ACTION) {
 		SpaceAction *saction = (SpaceAction *)t->sa->spacedata.first;
 		
 		if (saction)
 			autosnap = saction->autosnap;
 	}
-	else if (t->spacetype == SPACE_IPO) {
+	else */ if (t->spacetype == SPACE_IPO) {
 		SpaceIpo *sipo = (SpaceIpo *)t->sa->spacedata.first;
 		
 		if (sipo)
@@ -7261,66 +7261,66 @@ static short getAnimEdit_SnapMode(TransInfo *t)
 /* This function is used by Animation Editor specific transform functions to do
  * the Snap Keyframe to Nearest Frame/Marker
  */
-static void doAnimEdit_SnapFrame(TransInfo *t, TransData *td, TransData2D *td2d, AnimData *adt, short autosnap)
-{
-	/* snap key to nearest frame or second? */
-	if (ELEM(autosnap, SACTSNAP_FRAME, SACTSNAP_SECOND)) {
-		const Scene *scene = t->scene;
-		const double secf = FPS;
-		double val;
+// static void doAnimEdit_SnapFrame(TransInfo *t, TransData *td, TransData2D *td2d, AnimData *adt, short autosnap)
+// {
+	// /* snap key to nearest frame or second? */
+	// if (ELEM(autosnap, SACTSNAP_FRAME, SACTSNAP_SECOND)) {
+		// const Scene *scene = t->scene;
+		// const double secf = FPS;
+		// double val;
 		
-		/* convert frame to nla-action time (if needed) */
-		if (adt)
-			val = BKE_nla_tweakedit_remap(adt, *(td->val), NLATIME_CONVERT_MAP);
-		else
-			val = *(td->val);
+		// /* convert frame to nla-action time (if needed) */
+		// if (adt)
+			// val = BKE_nla_tweakedit_remap(adt, *(td->val), NLATIME_CONVERT_MAP);
+		// else
+			// val = *(td->val);
 		
-		/* do the snapping to nearest frame/second */
-		if (autosnap == SACTSNAP_FRAME) {
-			val = floorf(val + 0.5);
-		}
-		else if (autosnap == SACTSNAP_SECOND) {
-			val = (float)(floor((val / secf) + 0.5) * secf);
-		}
+		// /* do the snapping to nearest frame/second */
+		// if (autosnap == SACTSNAP_FRAME) {
+			// val = floorf(val + 0.5);
+		// }
+		// else if (autosnap == SACTSNAP_SECOND) {
+			// val = (float)(floor((val / secf) + 0.5) * secf);
+		// }
 		
-		/* convert frame out of nla-action time */
-		if (adt)
-			*(td->val) = BKE_nla_tweakedit_remap(adt, val, NLATIME_CONVERT_UNMAP);
-		else
-			*(td->val) = val;
-	}
-	/* snap key to nearest marker? */
-	else if (autosnap == SACTSNAP_MARKER) {
-		float val;
+		// /* convert frame out of nla-action time */
+		// if (adt)
+			// *(td->val) = BKE_nla_tweakedit_remap(adt, val, NLATIME_CONVERT_UNMAP);
+		// else
+			// *(td->val) = val;
+	// }
+	// /* snap key to nearest marker? */
+	// else if (autosnap == SACTSNAP_MARKER) {
+		// float val;
 		
-		/* convert frame to nla-action time (if needed) */
-		if (adt)
-			val = BKE_nla_tweakedit_remap(adt, *(td->val), NLATIME_CONVERT_MAP);
-		else
-			val = *(td->val);
+		// /* convert frame to nla-action time (if needed) */
+		// if (adt)
+			// val = BKE_nla_tweakedit_remap(adt, *(td->val), NLATIME_CONVERT_MAP);
+		// else
+			// val = *(td->val);
 		
-		/* snap to nearest marker */
-		// TODO: need some more careful checks for where data comes from
-		val = (float)ED_markers_find_nearest_marker_time(&t->scene->markers, val);
+		// /* snap to nearest marker */
+		// // TODO: need some more careful checks for where data comes from
+		// val = (float)ED_markers_find_nearest_marker_time(&t->scene->markers, val);
 		
-		/* convert frame out of nla-action time */
-		if (adt)
-			*(td->val) = BKE_nla_tweakedit_remap(adt, val, NLATIME_CONVERT_UNMAP);
-		else
-			*(td->val) = val;
-	}
+		// /* convert frame out of nla-action time */
+		// if (adt)
+			// *(td->val) = BKE_nla_tweakedit_remap(adt, val, NLATIME_CONVERT_UNMAP);
+		// else
+			// *(td->val) = val;
+	// }
 	
-	/* if the handles are to be moved too (as side-effect of keyframes moving, to keep the general effect) 
-	 * offset them by the same amount so that the general angles are maintained (i.e. won't change while 
-	 * handles are free-to-roam and keyframes are snap-locked)
-	 */
-	if ((td->flag & TD_MOVEHANDLE1) && td2d->h1) {
-		td2d->h1[0] = td2d->ih1[0] + *td->val - td->ival;
-	}
-	if ((td->flag & TD_MOVEHANDLE2) && td2d->h2) {
-		td2d->h2[0] = td2d->ih2[0] + *td->val - td->ival;
-	}
-}
+	// /* if the handles are to be moved too (as side-effect of keyframes moving, to keep the general effect) 
+	 // * offset them by the same amount so that the general angles are maintained (i.e. won't change while 
+	 // * handles are free-to-roam and keyframes are snap-locked)
+	 // */
+	// if ((td->flag & TD_MOVEHANDLE1) && td2d->h1) {
+		// td2d->h1[0] = td2d->ih1[0] + *td->val - td->ival;
+	// }
+	// if ((td->flag & TD_MOVEHANDLE2) && td2d->h2) {
+		// td2d->h2[0] = td2d->ih2[0] + *td->val - td->ival;
+	// }
+// }
 /** \} */
 
 
@@ -7333,9 +7333,9 @@ static void doAnimEdit_SnapFrame(TransInfo *t, TransData *td, TransData2D *td2d,
 static void initTimeTranslate(TransInfo *t)
 {
 	/* this tool is only really available in the Action Editor... */
-	if (!ELEM(t->spacetype, SPACE_ACTION, SPACE_SEQ)) {
+	/* if (!ELEM(t->spacetype, SPACE_ACTION, SPACE_SEQ)) {
 		t->state = TRANS_CANCEL;
-	}
+	} */
 
 	t->mode = TFM_TIME_TRANSLATE;
 	t->transform = applyTimeTranslate;
@@ -7490,15 +7490,15 @@ static void applyTimeTranslate(TransInfo *t, const int mval[2])
 static void initTimeSlide(TransInfo *t)
 {
 	/* this tool is only really available in the Action Editor... */
-	if (t->spacetype == SPACE_ACTION) {
-		SpaceAction *saction = (SpaceAction *)t->sa->spacedata.first;
+	// if (t->spacetype == SPACE_ACTION) {
+		// SpaceAction *saction = (SpaceAction *)t->sa->spacedata.first;
 
-		/* set flag for drawing stuff */
-		saction->flag |= SACTION_MOVING;
-	}
-	else {
+		// /* set flag for drawing stuff */
+		// saction->flag |= SACTION_MOVING;
+	// }
+	// else {
 		t->state = TRANS_CANCEL;
-	}
+	//}
 
 
 	t->mode = TFM_TIME_SLIDE;
@@ -7553,12 +7553,12 @@ static void applyTimeSlideValue(TransInfo *t, float sval)
 	float maxx = *((float *)(t->customData) + 1);
 
 	/* set value for drawing black line */
-	if (t->spacetype == SPACE_ACTION) {
+	/* if (t->spacetype == SPACE_ACTION) {
 		SpaceAction *saction = (SpaceAction *)t->sa->spacedata.first;
 		float cvalf = t->values[0];
 
 		saction->timeslide = cvalf;
-	}
+	} */
 
 	/* it doesn't matter whether we apply to t->data or t->data2d, but t->data2d is more convenient */
 	for (i = 0; i < t->total; i++, td++) {

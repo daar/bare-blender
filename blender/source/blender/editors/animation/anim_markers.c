@@ -78,18 +78,18 @@ static ListBase *context_get_markers(Scene *scene, ScrArea *sa)
 {
 	/* local marker sets... */
 	if (sa) {
-		if (sa->spacetype == SPACE_ACTION) {
-			SpaceAction *saction = (SpaceAction *)sa->spacedata.first;
+		// if (sa->spacetype == SPACE_ACTION) {
+			// SpaceAction *saction = (SpaceAction *)sa->spacedata.first;
 			
-			/* local markers can only be shown when there's only a single active action to grab them from 
-			 * - flag only takes effect when there's an action, otherwise it can get too confusing?
-			 */
-			if (ELEM(saction->mode, SACTCONT_ACTION, SACTCONT_SHAPEKEY) && (saction->action)) {
-				if (saction->flag & SACTION_POSEMARKERS_SHOW) {
-					return &saction->action->markers;
-				}
-			}
-		}
+			// /* local markers can only be shown when there's only a single active action to grab them from 
+			 // * - flag only takes effect when there's an action, otherwise it can get too confusing?
+			 // */
+			// if (ELEM(saction->mode, SACTCONT_ACTION, SACTCONT_SHAPEKEY) && (saction->action)) {
+				// if (saction->flag & SACTION_POSEMARKERS_SHOW) {
+					// return &saction->action->markers;
+				// }
+			// }
+		// }
 	}
 	
 	/* default to using the scene's markers */

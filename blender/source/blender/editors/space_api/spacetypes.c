@@ -87,7 +87,7 @@ void ED_spacetypes_init(void)
 	ED_spacetype_buttons();
 	ED_spacetype_info();
 	ED_spacetype_file();
-	ED_spacetype_action();
+	//ED_spacetype_action();
 	//ED_spacetype_nla();
 	ED_spacetype_script();
 	ED_spacetype_text();
@@ -147,7 +147,7 @@ void ED_spacemacros_init(void)
 	ED_operatormacros_object();
 	ED_operatormacros_file();
 	ED_operatormacros_graph();
-	ED_operatormacros_action();
+	//ED_operatormacros_action();
 	ED_operatormacros_clip();
 	ED_operatormacros_curve();
 	ED_operatormacros_mask();
