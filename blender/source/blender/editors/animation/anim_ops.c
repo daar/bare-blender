@@ -96,9 +96,9 @@ static void change_frame_apply(bContext *C, wmOperator *op)
 	int frame = RNA_int_get(op->ptr, "frame");
 	bool do_snap = RNA_boolean_get(op->ptr, "snap");
 
-	if (do_snap && CTX_wm_space_seq(C)) {
+	/* if (do_snap && CTX_wm_space_seq(C)) {
 		frame = BKE_sequencer_find_next_prev_edit(scene, frame, SEQ_SIDE_BOTH, true, false, false);
-	}
+	} */
 
 	/* set the new frame number */
 	CFRA = frame;

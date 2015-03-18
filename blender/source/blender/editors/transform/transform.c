@@ -307,9 +307,9 @@ void convertViewVec(TransInfo *t, float r_vec[3], int dx, int dy)
 	else if (ELEM(t->spacetype, SPACE_IPO, SPACE_NLA)) {
 		convertViewVec2D(t->view, r_vec, dx, dy);
 	} */
-	else if (ELEM(t->spacetype, SPACE_NODE, SPACE_SEQ)) {
+	/* else if (ELEM(t->spacetype, SPACE_NODE, SPACE_SEQ)) {
 		convertViewVec2D(&t->ar->v2d, r_vec, dx, dy);
-	}
+	} */
 	else if (t->spacetype == SPACE_CLIP) {
 		float aspx, aspy;
 
@@ -414,13 +414,13 @@ void projectIntViewEx(TransInfo *t, const float vec[3], int adr[2], const eV3DPr
 		adr[0] = out[0];
 		adr[1] = out[1];
 	} */
-	else if (t->spacetype == SPACE_SEQ) { /* XXX not tested yet, but should work */
-		int out[2] = {0, 0};
+	// else if (t->spacetype == SPACE_SEQ) { /* XXX not tested yet, but should work */
+		// int out[2] = {0, 0};
 
-		UI_view2d_view_to_region((View2D *)t->view, vec[0], vec[1], &out[0], &out[1]);
-		adr[0] = out[0];
-		adr[1] = out[1];
-	}
+		// UI_view2d_view_to_region((View2D *)t->view, vec[0], vec[1], &out[0], &out[1]);
+		// adr[0] = out[0];
+		// adr[1] = out[1];
+	// }
 	else if (t->spacetype == SPACE_CLIP) {
 		SpaceClip *sc = t->sa->spacedata.first;
 
@@ -624,9 +624,9 @@ static void viewRedrawForce(const bContext *C, TransInfo *t)
 		//ED_area_tag_redraw(t->sa);
 		WM_event_add_notifier(C, NC_SPACE | ND_SPACE_NODE_VIEW, NULL);
 	}
-	else if (t->spacetype == SPACE_SEQ) {
-		WM_event_add_notifier(C, NC_SCENE | ND_SEQUENCER, NULL);
-	}
+	// else if (t->spacetype == SPACE_SEQ) {
+		// WM_event_add_notifier(C, NC_SCENE | ND_SEQUENCER, NULL);
+	// }
 	else if (t->spacetype == SPACE_IMAGE) {
 		if (t->options & CTX_MASK) {
 			Mask *mask = CTX_data_edit_mask(C);
@@ -1446,12 +1446,12 @@ int transformEvent(TransInfo *t, const wmEvent *event)
 				break;
 			case LEFTALTKEY:
 			case RIGHTALTKEY:
-				if (ELEM(t->spacetype, SPACE_SEQ, SPACE_VIEW3D)) {
-					t->flag |= T_ALT_TRANSFORM;
-					t->redraw |= TREDRAW_HARD;
-					handled = true;
-				}
-				break;
+				// if (ELEM(t->spacetype, SPACE_SEQ, SPACE_VIEW3D)) {
+					// t->flag |= T_ALT_TRANSFORM;
+					// t->redraw |= TREDRAW_HARD;
+					// handled = true;
+				// }
+				// break;
 			default:
 				break;
 		}
@@ -1478,11 +1478,11 @@ int transformEvent(TransInfo *t, const wmEvent *event)
 				break;
 			case LEFTALTKEY:
 			case RIGHTALTKEY:
-				if (ELEM(t->spacetype, SPACE_SEQ, SPACE_VIEW3D)) {
+				/* if (ELEM(t->spacetype, SPACE_SEQ, SPACE_VIEW3D)) {
 					t->flag &= ~T_ALT_TRANSFORM;
 					t->redraw |= TREDRAW_HARD;
 					handled = true;
-				}
+				} */
 				break;
 			default:
 				break;

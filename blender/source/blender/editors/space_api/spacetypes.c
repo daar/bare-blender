@@ -64,7 +64,7 @@
 //#include "ED_logic.h"
 #include "ED_clip.h"
 #include "ED_mask.h"
-#include "ED_sequencer.h"
+//#include "ED_sequencer.h"
 
 #include "io_ops.h"
 
@@ -91,7 +91,7 @@ void ED_spacetypes_init(void)
 	//ED_spacetype_nla();
 	ED_spacetype_script();
 	ED_spacetype_text();
-	ED_spacetype_sequencer();
+	//ED_spacetype_sequencer();
 	//ED_spacetype_logic();
 	ED_spacetype_console();
 	ED_spacetype_userpref();
@@ -151,7 +151,7 @@ void ED_spacemacros_init(void)
 	ED_operatormacros_clip();
 	ED_operatormacros_curve();
 	ED_operatormacros_mask();
-	ED_operatormacros_sequencer();
+	//ED_operatormacros_sequencer();
 	ED_operatormacros_paint();
 	ED_operatormacros_gpencil();
 

@@ -5870,15 +5870,16 @@ static void lib_link_screen(FileData *fd, Main *main)
 						 */
 						sima->gpd = newlibadr_us(fd, sc->id.lib, sima->gpd);
 					}
-					else if (sl->spacetype == SPACE_SEQ) {
-						SpaceSeq *sseq = (SpaceSeq *)sl;
+					// else if (sl->spacetype == SPACE_SEQ) {
+						// SpaceSeq *sseq = (SpaceSeq *)sl;
 						
-						/* NOTE: pre-2.5, this was local data not lib data, but now we need this as lib data
-						 * so fingers crossed this works fine!
-						 */
-						sseq->gpd = newlibadr_us(fd, sc->id.lib, sseq->gpd);
+						// /* NOTE: pre-2.5, this was local data not lib data, but now we need this as lib data
+						 // * so fingers crossed this works fine!
+						 // */
+						// sseq->gpd = newlibadr_us(fd, sc->id.lib, sseq->gpd);
 
-					}/*
+					// }
+					/*
 					else if (sl->spacetype == SPACE_NLA) {
 						SpaceNla *snla= (SpaceNla *)sl;
 						bDopeSheet *ads= snla->ads;
@@ -6218,14 +6219,15 @@ void blo_lib_link_screen_restore(Main *newmain, bScreen *curscreen, Scene *cursc
 					sima->gpd = restore_pointer_by_name(newmain, (ID *)sima->gpd, USER_ONE);
 					sima->mask_info.mask = restore_pointer_by_name(newmain, (ID *)sima->mask_info.mask, USER_REAL);
 				}
-				else if (sl->spacetype == SPACE_SEQ) {
-					SpaceSeq *sseq = (SpaceSeq *)sl;
+				// else if (sl->spacetype == SPACE_SEQ) {
+					// SpaceSeq *sseq = (SpaceSeq *)sl;
 					
-					/* NOTE: pre-2.5, this was local data not lib data, but now we need this as lib data
-					 * so assume that here we're doing for undo only...
-					 */
-					sseq->gpd = restore_pointer_by_name(newmain, (ID *)sseq->gpd, USER_ONE);
-				} /*
+					// /* NOTE: pre-2.5, this was local data not lib data, but now we need this as lib data
+					 // * so assume that here we're doing for undo only...
+					 // */
+					// sseq->gpd = restore_pointer_by_name(newmain, (ID *)sseq->gpd, USER_ONE);
+				// }
+				/*
 				else if (sl->spacetype == SPACE_NLA) {
 					SpaceNla *snla = (SpaceNla *)sl;
 					bDopeSheet *ads = snla->ads;
@@ -6633,30 +6635,30 @@ static bool direct_link_screen(FileData *fd, bScreen *sc)
 					direct_link_gpencil(fd, slogic->gpd);
 				}
 			} */
-			else if (sl->spacetype == SPACE_SEQ) {
-				SpaceSeq *sseq = (SpaceSeq *)sl;
+			// else if (sl->spacetype == SPACE_SEQ) {
+				// SpaceSeq *sseq = (SpaceSeq *)sl;
 				
-				/* grease pencil data is not a direct data and can't be linked from direct_link*
-				 * functions, it should be linked from lib_link* functions instead
-				 *
-				 * otherwise it'll lead to lost grease data on open because it'll likely be
-				 * read from file after all other users of grease pencil and newdataadr would
-				 * simple return NULL here (sergey)
-				 */
-#if 0
-				if (sseq->gpd) {
-					sseq->gpd = newdataadr(fd, sseq->gpd);
-					direct_link_gpencil(fd, sseq->gpd);
-				}
-#endif
-				sseq->scopes.reference_ibuf = NULL;
-				sseq->scopes.zebra_ibuf = NULL;
-				sseq->scopes.waveform_ibuf = NULL;
-				sseq->scopes.sep_waveform_ibuf = NULL;
-				sseq->scopes.vector_ibuf = NULL;
-				sseq->scopes.histogram_ibuf = NULL;
+				// /* grease pencil data is not a direct data and can't be linked from direct_link*
+				 // * functions, it should be linked from lib_link* functions instead
+				 // *
+				 // * otherwise it'll lead to lost grease data on open because it'll likely be
+				 // * read from file after all other users of grease pencil and newdataadr would
+				 // * simple return NULL here (sergey)
+				 // */
+// #if 0
+				// if (sseq->gpd) {
+					// sseq->gpd = newdataadr(fd, sseq->gpd);
+					// direct_link_gpencil(fd, sseq->gpd);
+				// }
+// #endif
+				// sseq->scopes.reference_ibuf = NULL;
+				// sseq->scopes.zebra_ibuf = NULL;
+				// sseq->scopes.waveform_ibuf = NULL;
+				// sseq->scopes.sep_waveform_ibuf = NULL;
+				// sseq->scopes.vector_ibuf = NULL;
+				// sseq->scopes.histogram_ibuf = NULL;
 
-			}
+			// }
 			else if (sl->spacetype == SPACE_BUTS) {
 				SpaceButs *sbuts = (SpaceButs *)sl;
 				

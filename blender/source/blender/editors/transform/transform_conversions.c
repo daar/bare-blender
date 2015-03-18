@@ -5617,27 +5617,27 @@ void special_aftertrans_update(bContext *C, TransInfo *t)
 	if (t->options & CTX_GPENCIL_STROKES) {
 		/* pass */
 	}
-	else if (t->spacetype == SPACE_SEQ) {
-		/* freeSeqData in transform_conversions.c does this
-		 * keep here so the else at the end wont run... */
+	// else if (t->spacetype == SPACE_SEQ) {
+		// /* freeSeqData in transform_conversions.c does this
+		 // * keep here so the else at the end wont run... */
 
-		SpaceSeq *sseq = (SpaceSeq *)t->sa->spacedata.first;
+		// SpaceSeq *sseq = (SpaceSeq *)t->sa->spacedata.first;
 
-		/* marker transform, not especially nice but we may want to move markers
-		 * at the same time as keyframes in the dope sheet. */
-		if ((sseq->flag & SEQ_MARKER_TRANS) && (canceled == 0)) {
-			/* cant use TFM_TIME_EXTEND
-			 * for some reason EXTEND is changed into TRANSLATE, so use frame_side instead */
+		// /* marker transform, not especially nice but we may want to move markers
+		 // * at the same time as keyframes in the dope sheet. */
+		// if ((sseq->flag & SEQ_MARKER_TRANS) && (canceled == 0)) {
+			// /* cant use TFM_TIME_EXTEND
+			 // * for some reason EXTEND is changed into TRANSLATE, so use frame_side instead */
 
-			if (t->mode == TFM_SEQ_SLIDE) {
-				if (t->frame_side == 'B')
-					ED_markers_post_apply_transform(&t->scene->markers, t->scene, TFM_TIME_TRANSLATE, t->values[0], t->frame_side);
-			}
-			else if (ELEM(t->frame_side, 'L', 'R')) {
-				ED_markers_post_apply_transform(&t->scene->markers, t->scene, TFM_TIME_EXTEND, t->values[0], t->frame_side);
-			}
-		}
-	}
+			// if (t->mode == TFM_SEQ_SLIDE) {
+				// if (t->frame_side == 'B')
+					// ED_markers_post_apply_transform(&t->scene->markers, t->scene, TFM_TIME_TRANSLATE, t->values[0], t->frame_side);
+			// }
+			// else if (ELEM(t->frame_side, 'L', 'R')) {
+				// ED_markers_post_apply_transform(&t->scene->markers, t->scene, TFM_TIME_EXTEND, t->values[0], t->frame_side);
+			// }
+		// }
+	// }
 	else if (t->spacetype == SPACE_IMAGE) {
 		if (t->options & CTX_MASK) {
 			special_aftertrans_update__mask(C, t);
@@ -5944,10 +5944,10 @@ void special_aftertrans_update(bContext *C, TransInfo *t)
 
 int special_transform_moving(TransInfo *t)
 {
-	if (t->spacetype == SPACE_SEQ) {
+	/* if (t->spacetype == SPACE_SEQ) {
 		return G_TRANSFORM_SEQ;
 	}
-	else if (t->spacetype == SPACE_IPO) {
+	else */ if (t->spacetype == SPACE_IPO) {
 		return G_TRANSFORM_FCURVES;
 	}
 	else if (t->obedit || ((t->flag & T_POSE) && (t->poseobj))) {
@@ -7520,11 +7520,11 @@ void createTransData(bContext *C, TransInfo *t)
 		t->flag |= T_POINTS | T_2D_EDIT;
 		createTransNlaData(C, t);
 	} */
-	else if (t->spacetype == SPACE_SEQ) {
-		t->flag |= T_POINTS | T_2D_EDIT;
-		t->num.flag |= NUM_NO_FRACTION; /* sequencer has no use for floating point transformations */
-		createTransSeqData(C, t);
-	}
+	// else if (t->spacetype == SPACE_SEQ) {
+		// t->flag |= T_POINTS | T_2D_EDIT;
+		// t->num.flag |= NUM_NO_FRACTION; /* sequencer has no use for floating point transformations */
+		// createTransSeqData(C, t);
+	// }
 	else if (t->spacetype == SPACE_IPO) {
 		t->flag |= T_POINTS | T_2D_EDIT;
 		createTransGraphEditData(C, t);

@@ -1181,7 +1181,7 @@ typedef enum eSpace_Type {
 	SPACE_FILE     = 5,
 	SPACE_IMAGE    = 6,
 	SPACE_INFO     = 7,
-	SPACE_SEQ      = 8,
+	// SPACE_SEQ      = 8,
 	SPACE_TEXT     = 9,
 	SPACE_IMASEL   = 10, /* deprecated */
 	SPACE_SOUND    = 11, /* Deprecated */

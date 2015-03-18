@@ -973,9 +973,9 @@ void recalcData(TransInfo *t)
 	else if (t->spacetype == SPACE_NLA) {
 		recalcData_nla(t);
 	} */
-	else if (t->spacetype == SPACE_SEQ) {
+	/* else if (t->spacetype == SPACE_SEQ) {
 		recalcData_sequencer(t);
-	}
+	} */
 	else if (t->spacetype == SPACE_IPO) {
 		recalcData_graphedit(t);
 	}

@@ -1659,9 +1659,9 @@ wmKeyMap *WM_keymap_guess_opname(const bContext *C, const char *opname)
 			case SPACE_NODE:
 				km = WM_keymap_find_all(C, "Node Editor", sl->spacetype, 0);
 				break;
-			case SPACE_SEQ:
+			/* case SPACE_SEQ:
 				km = WM_keymap_find_all(C, "Sequencer", sl->spacetype, 0);
-				break;
+				break; */
 		}
 	}
 	

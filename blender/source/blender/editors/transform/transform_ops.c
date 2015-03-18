@@ -79,7 +79,7 @@ static char OP_EDGE_SLIDE[] = "TRANSFORM_OT_edge_slide";
 static char OP_VERT_SLIDE[] = "TRANSFORM_OT_vert_slide";
 static char OP_EDGE_CREASE[] = "TRANSFORM_OT_edge_crease";
 static char OP_EDGE_BWEIGHT[] = "TRANSFORM_OT_edge_bevelweight";
-static char OP_SEQ_SLIDE[] = "TRANSFORM_OT_seq_slide";
+// static char OP_SEQ_SLIDE[] = "TRANSFORM_OT_seq_slide";
 
 static void TRANSFORM_OT_translate(struct wmOperatorType *ot);
 static void TRANSFORM_OT_rotate(struct wmOperatorType *ot);
@@ -97,7 +97,7 @@ static void TRANSFORM_OT_edge_slide(struct wmOperatorType *ot);
 static void TRANSFORM_OT_vert_slide(struct wmOperatorType *ot);
 static void TRANSFORM_OT_edge_crease(struct wmOperatorType *ot);
 static void TRANSFORM_OT_edge_bevelweight(struct wmOperatorType *ot);
-static void TRANSFORM_OT_seq_slide(struct wmOperatorType *ot);
+// static void TRANSFORM_OT_seq_slide(struct wmOperatorType *ot);
 
 static TransformModeItem transform_modes[] =
 {
@@ -117,7 +117,7 @@ static TransformModeItem transform_modes[] =
 	{OP_VERT_SLIDE, TFM_VERT_SLIDE, TRANSFORM_OT_vert_slide},
 	{OP_EDGE_CREASE, TFM_CREASE, TRANSFORM_OT_edge_crease},
 	{OP_EDGE_BWEIGHT, TFM_BWEIGHT, TRANSFORM_OT_edge_bevelweight},
-	{OP_SEQ_SLIDE, TFM_SEQ_SLIDE, TRANSFORM_OT_seq_slide},
+	// {OP_SEQ_SLIDE, TFM_SEQ_SLIDE, TRANSFORM_OT_seq_slide},
 	{NULL, 0}
 };
 
@@ -932,25 +932,25 @@ static void TRANSFORM_OT_edge_bevelweight(struct wmOperatorType *ot)
 	Transform_Properties(ot, P_SNAP);
 }
 
-static void TRANSFORM_OT_seq_slide(struct wmOperatorType *ot)
-{
-	/* identifiers */
-	ot->name   = "Sequence Slide";
-	ot->description = "Slide a sequence strip in time";
-	ot->idname = OP_SEQ_SLIDE;
-	ot->flag = OPTYPE_REGISTER | OPTYPE_UNDO | OPTYPE_BLOCKING;
+// static void TRANSFORM_OT_seq_slide(struct wmOperatorType *ot)
+// {
+	// /* identifiers */
+	// ot->name   = "Sequence Slide";
+	// ot->description = "Slide a sequence strip in time";
+	// ot->idname = OP_SEQ_SLIDE;
+	// ot->flag = OPTYPE_REGISTER | OPTYPE_UNDO | OPTYPE_BLOCKING;
 
-	/* api callbacks */
-	ot->invoke = transform_invoke;
-	ot->exec   = transform_exec;
-	ot->modal  = transform_modal;
-	ot->cancel = transform_cancel;
-	ot->poll   = ED_operator_sequencer_active;
+	// /* api callbacks */
+	// ot->invoke = transform_invoke;
+	// ot->exec   = transform_exec;
+	// ot->modal  = transform_modal;
+	// ot->cancel = transform_cancel;
+	// ot->poll   = ED_operator_sequencer_active;
 
-	RNA_def_float_vector_xyz(ot->srna, "value", 2, NULL, -FLT_MAX, FLT_MAX, "Vector", "", -FLT_MAX, FLT_MAX);
+	// RNA_def_float_vector_xyz(ot->srna, "value", 2, NULL, -FLT_MAX, FLT_MAX, "Vector", "", -FLT_MAX, FLT_MAX);
 
-	Transform_Properties(ot, P_SNAP);
-}
+	// Transform_Properties(ot, P_SNAP);
+// }
 
 static void TRANSFORM_OT_transform(struct wmOperatorType *ot)
 {
@@ -1114,14 +1114,14 @@ void transform_keymap_for_space(wmKeyConfig *keyconf, wmKeyMap *keymap, int spac
 			WM_keymap_add_item(keymap, "NODE_OT_move_detach_links_release", EVT_TWEAK_A, KM_ANY, KM_ALT, 0);
 			WM_keymap_add_item(keymap, "NODE_OT_move_detach_links", EVT_TWEAK_S, KM_ANY, KM_ALT, 0);
 			break;
-		case SPACE_SEQ:
+		/* case SPACE_SEQ:
 			WM_keymap_add_item(keymap, OP_SEQ_SLIDE, GKEY, KM_PRESS, 0, 0);
 
 			WM_keymap_add_item(keymap, OP_SEQ_SLIDE, EVT_TWEAK_S, KM_ANY, 0, 0);
 
 			kmi = WM_keymap_add_item(keymap, "TRANSFORM_OT_transform", EKEY, KM_PRESS, 0, 0);
 			RNA_enum_set(kmi->ptr, "mode", TFM_TIME_EXTEND);
-			break;
+			break; */
 		case SPACE_IMAGE:
 			WM_keymap_add_item(keymap, OP_TRANSLATION, GKEY, KM_PRESS, 0, 0);
 

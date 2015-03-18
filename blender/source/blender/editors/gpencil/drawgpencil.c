@@ -1139,20 +1139,20 @@ void ED_gpencil_draw_2dimage(const bContext *C)
 			dflag |= GP_DRAWDATA_ONLYV2D | GP_DRAWDATA_IEDITHACK;
 			break;
 		}
-		case SPACE_SEQ: /* sequence */
-		{
-			/* just draw using standard scaling (settings here are currently ignored anyways) */
-			offsx = 0;
-			offsy = 0;
-			sizex = ar->winx;
-			sizey = ar->winy;
+		// case SPACE_SEQ: /* sequence */
+		// {
+			// /* just draw using standard scaling (settings here are currently ignored anyways) */
+			// offsx = 0;
+			// offsy = 0;
+			// sizex = ar->winx;
+			// sizey = ar->winy;
 			
-			/* NOTE: I2D was used in 2.4x, but the old settings for that have been deprecated 
-			 * and everything moved to standard View2d 
-			 */
-			dflag |= GP_DRAWDATA_ONLYV2D;
-			break;
-		}
+			// /* NOTE: I2D was used in 2.4x, but the old settings for that have been deprecated 
+			 // * and everything moved to standard View2d 
+			 // */
+			// dflag |= GP_DRAWDATA_ONLYV2D;
+			// break;
+		// }
 		default: /* for spacetype not yet handled */
 			offsx = 0;
 			offsy = 0;

@@ -187,7 +187,7 @@ static void screen_opengl_render_apply(OGLRender *oglrender)
 			glTranslatef(sizex / 2, sizey / 2, 0.0f);
 
 			G.f |= G_RENDER_OGL;
-			ED_gpencil_draw_ex(scene, gpd, sizex, sizey, scene->r.cfra, SPACE_SEQ);
+			// ED_gpencil_draw_ex(scene, gpd, sizex, sizey, scene->r.cfra, SPACE_SEQ);
 			G.f &= ~G_RENDER_OGL;
 
 			gp_rect = MEM_mallocN(sizex * sizey * sizeof(unsigned char) * 4, "offscreen rect");
@@ -425,9 +425,9 @@ static bool screen_opengl_render_init(bContext *C, wmOperator *op)
 	oglrender->write_still = is_write_still && !is_animation;
 
 	oglrender->is_sequencer = is_sequencer;
-	if (is_sequencer) {
+/* 	if (is_sequencer) {
 		oglrender->sseq = CTX_wm_space_seq(C);
-	}
+	} */
 
 
 	oglrender->prevsa = prevsa;

@@ -725,14 +725,14 @@ struct SpaceFile *CTX_wm_space_file(const bContext *C)
 	return NULL;
 }
 
-struct SpaceSeq *CTX_wm_space_seq(const bContext *C)
+/* struct SpaceSeq *CTX_wm_space_seq(const bContext *C)
 {
 	ScrArea *sa = CTX_wm_area(C);
 	if (sa && sa->spacetype == SPACE_SEQ)
 		return sa->spacedata.first;
 	return NULL;
 }
-
+ */
 /* struct SpaceOops *CTX_wm_space_outliner(const bContext *C)
 {
 	ScrArea *sa = CTX_wm_area(C);

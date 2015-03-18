@@ -2349,103 +2349,103 @@ static void rna_def_userdef_theme_space_image(BlenderRNA *brna)
 	rna_def_userdef_theme_spaces_paint_curves(srna);
 }
 
-static void rna_def_userdef_theme_space_seq(BlenderRNA *brna)
-{
-	StructRNA *srna;
-	PropertyRNA *prop;
+// static void rna_def_userdef_theme_space_seq(BlenderRNA *brna)
+// {
+	// StructRNA *srna;
+	// PropertyRNA *prop;
 
-	/* space_seq */
+	// /* space_seq */
 
-	srna = RNA_def_struct(brna, "ThemeSequenceEditor", NULL);
-	RNA_def_struct_sdna(srna, "ThemeSpace");
-	RNA_def_struct_clear_flag(srna, STRUCT_UNDO);
-	RNA_def_struct_ui_text(srna, "Theme Sequence Editor", "Theme settings for the Sequence Editor");
+	// srna = RNA_def_struct(brna, "ThemeSequenceEditor", NULL);
+	// RNA_def_struct_sdna(srna, "ThemeSpace");
+	// RNA_def_struct_clear_flag(srna, STRUCT_UNDO);
+	// RNA_def_struct_ui_text(srna, "Theme Sequence Editor", "Theme settings for the Sequence Editor");
 
-	rna_def_userdef_theme_spaces_main(srna);
+	// rna_def_userdef_theme_spaces_main(srna);
 
-	prop = RNA_def_property(srna, "grid", PROP_FLOAT, PROP_COLOR_GAMMA);
-	RNA_def_property_array(prop, 3);
-	RNA_def_property_ui_text(prop, "Grid", "");
-	RNA_def_property_update(prop, 0, "rna_userdef_update");
+	// prop = RNA_def_property(srna, "grid", PROP_FLOAT, PROP_COLOR_GAMMA);
+	// RNA_def_property_array(prop, 3);
+	// RNA_def_property_ui_text(prop, "Grid", "");
+	// RNA_def_property_update(prop, 0, "rna_userdef_update");
 
-	prop = RNA_def_property(srna, "window_sliders", PROP_FLOAT, PROP_COLOR_GAMMA);
-	RNA_def_property_float_sdna(prop, NULL, "shade1");
-	RNA_def_property_array(prop, 3);
-	RNA_def_property_ui_text(prop, "Window Sliders", "");
-	RNA_def_property_update(prop, 0, "rna_userdef_update");
+	// prop = RNA_def_property(srna, "window_sliders", PROP_FLOAT, PROP_COLOR_GAMMA);
+	// RNA_def_property_float_sdna(prop, NULL, "shade1");
+	// RNA_def_property_array(prop, 3);
+	// RNA_def_property_ui_text(prop, "Window Sliders", "");
+	// RNA_def_property_update(prop, 0, "rna_userdef_update");
 
-	prop = RNA_def_property(srna, "movie_strip", PROP_FLOAT, PROP_COLOR_GAMMA);
-	RNA_def_property_float_sdna(prop, NULL, "movie");
-	RNA_def_property_array(prop, 3);
-	RNA_def_property_ui_text(prop, "Movie Strip", "");
-	RNA_def_property_update(prop, 0, "rna_userdef_update");
+	// prop = RNA_def_property(srna, "movie_strip", PROP_FLOAT, PROP_COLOR_GAMMA);
+	// RNA_def_property_float_sdna(prop, NULL, "movie");
+	// RNA_def_property_array(prop, 3);
+	// RNA_def_property_ui_text(prop, "Movie Strip", "");
+	// RNA_def_property_update(prop, 0, "rna_userdef_update");
 
-	prop = RNA_def_property(srna, "movieclip_strip", PROP_FLOAT, PROP_COLOR_GAMMA);
-	RNA_def_property_float_sdna(prop, NULL, "movieclip");
-	RNA_def_property_array(prop, 3);
-	RNA_def_property_ui_text(prop, "Clip Strip", "");
-	RNA_def_property_update(prop, 0, "rna_userdef_update");
+	// prop = RNA_def_property(srna, "movieclip_strip", PROP_FLOAT, PROP_COLOR_GAMMA);
+	// RNA_def_property_float_sdna(prop, NULL, "movieclip");
+	// RNA_def_property_array(prop, 3);
+	// RNA_def_property_ui_text(prop, "Clip Strip", "");
+	// RNA_def_property_update(prop, 0, "rna_userdef_update");
 
-	prop = RNA_def_property(srna, "image_strip", PROP_FLOAT, PROP_COLOR_GAMMA);
-	RNA_def_property_float_sdna(prop, NULL, "image");
-	RNA_def_property_array(prop, 3);
-	RNA_def_property_ui_text(prop, "Image Strip", "");
-	RNA_def_property_update(prop, 0, "rna_userdef_update");
+	// prop = RNA_def_property(srna, "image_strip", PROP_FLOAT, PROP_COLOR_GAMMA);
+	// RNA_def_property_float_sdna(prop, NULL, "image");
+	// RNA_def_property_array(prop, 3);
+	// RNA_def_property_ui_text(prop, "Image Strip", "");
+	// RNA_def_property_update(prop, 0, "rna_userdef_update");
 
-	prop = RNA_def_property(srna, "scene_strip", PROP_FLOAT, PROP_COLOR_GAMMA);
-	RNA_def_property_float_sdna(prop, NULL, "scene");
-	RNA_def_property_array(prop, 3);
-	RNA_def_property_ui_text(prop, "Scene Strip", "");
-	RNA_def_property_update(prop, 0, "rna_userdef_update");
+	// prop = RNA_def_property(srna, "scene_strip", PROP_FLOAT, PROP_COLOR_GAMMA);
+	// RNA_def_property_float_sdna(prop, NULL, "scene");
+	// RNA_def_property_array(prop, 3);
+	// RNA_def_property_ui_text(prop, "Scene Strip", "");
+	// RNA_def_property_update(prop, 0, "rna_userdef_update");
 
-	prop = RNA_def_property(srna, "audio_strip", PROP_FLOAT, PROP_COLOR_GAMMA);
-	RNA_def_property_float_sdna(prop, NULL, "audio");
-	RNA_def_property_array(prop, 3);
-	RNA_def_property_ui_text(prop, "Audio Strip", "");
-	RNA_def_property_update(prop, 0, "rna_userdef_update");
+	// prop = RNA_def_property(srna, "audio_strip", PROP_FLOAT, PROP_COLOR_GAMMA);
+	// RNA_def_property_float_sdna(prop, NULL, "audio");
+	// RNA_def_property_array(prop, 3);
+	// RNA_def_property_ui_text(prop, "Audio Strip", "");
+	// RNA_def_property_update(prop, 0, "rna_userdef_update");
 
-	prop = RNA_def_property(srna, "effect_strip", PROP_FLOAT, PROP_COLOR_GAMMA);
-	RNA_def_property_float_sdna(prop, NULL, "effect");
-	RNA_def_property_array(prop, 3);
-	RNA_def_property_ui_text(prop, "Effect Strip", "");
-	RNA_def_property_update(prop, 0, "rna_userdef_update");
+	// prop = RNA_def_property(srna, "effect_strip", PROP_FLOAT, PROP_COLOR_GAMMA);
+	// RNA_def_property_float_sdna(prop, NULL, "effect");
+	// RNA_def_property_array(prop, 3);
+	// RNA_def_property_ui_text(prop, "Effect Strip", "");
+	// RNA_def_property_update(prop, 0, "rna_userdef_update");
 
-	prop = RNA_def_property(srna, "transition_strip", PROP_FLOAT, PROP_COLOR_GAMMA);
-	RNA_def_property_float_sdna(prop, NULL, "transition");
-	RNA_def_property_array(prop, 3);
-	RNA_def_property_ui_text(prop, "Transition Strip", "");
-	RNA_def_property_update(prop, 0, "rna_userdef_update");
+	// prop = RNA_def_property(srna, "transition_strip", PROP_FLOAT, PROP_COLOR_GAMMA);
+	// RNA_def_property_float_sdna(prop, NULL, "transition");
+	// RNA_def_property_array(prop, 3);
+	// RNA_def_property_ui_text(prop, "Transition Strip", "");
+	// RNA_def_property_update(prop, 0, "rna_userdef_update");
 
-	prop = RNA_def_property(srna, "meta_strip", PROP_FLOAT, PROP_COLOR_GAMMA);
-	RNA_def_property_float_sdna(prop, NULL, "meta");
-	RNA_def_property_array(prop, 3);
-	RNA_def_property_ui_text(prop, "Meta Strip", "");
-	RNA_def_property_update(prop, 0, "rna_userdef_update");
+	// prop = RNA_def_property(srna, "meta_strip", PROP_FLOAT, PROP_COLOR_GAMMA);
+	// RNA_def_property_float_sdna(prop, NULL, "meta");
+	// RNA_def_property_array(prop, 3);
+	// RNA_def_property_ui_text(prop, "Meta Strip", "");
+	// RNA_def_property_update(prop, 0, "rna_userdef_update");
 
-	prop = RNA_def_property(srna, "frame_current", PROP_FLOAT, PROP_COLOR_GAMMA);
-	RNA_def_property_float_sdna(prop, NULL, "cframe");
-	RNA_def_property_array(prop, 3);
-	RNA_def_property_ui_text(prop, "Current Frame", "");
-	RNA_def_property_update(prop, 0, "rna_userdef_update");
+	// prop = RNA_def_property(srna, "frame_current", PROP_FLOAT, PROP_COLOR_GAMMA);
+	// RNA_def_property_float_sdna(prop, NULL, "cframe");
+	// RNA_def_property_array(prop, 3);
+	// RNA_def_property_ui_text(prop, "Current Frame", "");
+	// RNA_def_property_update(prop, 0, "rna_userdef_update");
 
-	prop = RNA_def_property(srna, "keyframe", PROP_FLOAT, PROP_COLOR_GAMMA);
-	RNA_def_property_float_sdna(prop, NULL, "vertex_select");
-	RNA_def_property_array(prop, 3);
-	RNA_def_property_ui_text(prop, "Keyframe", "");
-	RNA_def_property_update(prop, 0, "rna_userdef_update");
+	// prop = RNA_def_property(srna, "keyframe", PROP_FLOAT, PROP_COLOR_GAMMA);
+	// RNA_def_property_float_sdna(prop, NULL, "vertex_select");
+	// RNA_def_property_array(prop, 3);
+	// RNA_def_property_ui_text(prop, "Keyframe", "");
+	// RNA_def_property_update(prop, 0, "rna_userdef_update");
 
-	prop = RNA_def_property(srna, "draw_action", PROP_FLOAT, PROP_COLOR_GAMMA);
-	RNA_def_property_float_sdna(prop, NULL, "bone_pose");
-	RNA_def_property_array(prop, 3);
-	RNA_def_property_ui_text(prop, "Draw Action", "");
-	RNA_def_property_update(prop, 0, "rna_userdef_update");
+	// prop = RNA_def_property(srna, "draw_action", PROP_FLOAT, PROP_COLOR_GAMMA);
+	// RNA_def_property_float_sdna(prop, NULL, "bone_pose");
+	// RNA_def_property_array(prop, 3);
+	// RNA_def_property_ui_text(prop, "Draw Action", "");
+	// RNA_def_property_update(prop, 0, "rna_userdef_update");
 	
-	prop = RNA_def_property(srna, "preview_back", PROP_FLOAT, PROP_COLOR_GAMMA);
-	RNA_def_property_float_sdna(prop, NULL, "preview_back");
-	RNA_def_property_array(prop, 3);
-	RNA_def_property_ui_text(prop, "Preview Background", "");
-	RNA_def_property_update(prop, 0, "rna_userdef_update");
-}
+	// prop = RNA_def_property(srna, "preview_back", PROP_FLOAT, PROP_COLOR_GAMMA);
+	// RNA_def_property_float_sdna(prop, NULL, "preview_back");
+	// RNA_def_property_array(prop, 3);
+	// RNA_def_property_ui_text(prop, "Preview Background", "");
+	// RNA_def_property_update(prop, 0, "rna_userdef_update");
+// }
 
 // static void rna_def_userdef_theme_space_action(BlenderRNA *brna)
 // {
@@ -2931,11 +2931,11 @@ static void rna_def_userdef_themes(BlenderRNA *brna)
 	RNA_def_property_struct_type(prop, "ThemeImageEditor");
 	RNA_def_property_ui_text(prop, "Image Editor", "");
 
-	prop = RNA_def_property(srna, "sequence_editor", PROP_POINTER, PROP_NONE);
+	/* prop = RNA_def_property(srna, "sequence_editor", PROP_POINTER, PROP_NONE);
 	RNA_def_property_flag(prop, PROP_NEVER_NULL);
 	RNA_def_property_pointer_sdna(prop, NULL, "tseq");
 	RNA_def_property_struct_type(prop, "ThemeSequenceEditor");
-	RNA_def_property_ui_text(prop, "Sequence Editor", "");
+	RNA_def_property_ui_text(prop, "Sequence Editor", ""); */
 
 	prop = RNA_def_property(srna, "properties", PROP_POINTER, PROP_NONE);
 	RNA_def_property_flag(prop, PROP_NEVER_NULL);
@@ -3083,7 +3083,7 @@ static void rna_def_userdef_dothemes(BlenderRNA *brna)
 	//rna_def_userdef_theme_space_nla(brna);
 	//rna_def_userdef_theme_space_action(brna);
 	rna_def_userdef_theme_space_image(brna);
-	rna_def_userdef_theme_space_seq(brna);
+	//rna_def_userdef_theme_space_seq(brna);
 	rna_def_userdef_theme_space_buts(brna);
 	rna_def_userdef_theme_space_text(brna);
 	//rna_def_userdef_theme_space_time(brna);

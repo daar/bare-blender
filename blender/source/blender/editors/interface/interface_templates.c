@@ -3359,12 +3359,12 @@ void uiTemplateRunningJobs(uiLayout *layout, bContext *C)
 
 	UI_block_func_handle_set(block, do_running_jobs, NULL);
 
-	if (sa->spacetype == SPACE_SEQ) {
+	/* if (sa->spacetype == SPACE_SEQ) {
 		if (WM_jobs_test(wm, sa, WM_JOB_TYPE_ANY))
 			owner = sa;
 		handle_event = B_STOPSEQ;
 	}
-	else if (sa->spacetype == SPACE_CLIP) {
+	else */ if (sa->spacetype == SPACE_CLIP) {
 		if (WM_jobs_test(wm, sa, WM_JOB_TYPE_ANY))
 			owner = sa;
 		handle_event = B_STOPCLIP;

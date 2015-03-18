@@ -320,11 +320,11 @@ Mask *ED_mask_new(bContext *C, const char *name)
 				ED_space_clip_set_mask(C, sc, mask);
 				break;
 			}
-			case SPACE_SEQ:
-			{
-				/* do nothing */
-				break;
-			}
+			// case SPACE_SEQ:
+			// {
+				// /* do nothing */
+				// break;
+			// }
 			case SPACE_IMAGE:
 			{
 				SpaceImage *sima = sa->spacedata.first;

@@ -1051,24 +1051,24 @@ static int gp_session_initdata(bContext *C, tGPsdata *p)
 			p->v2d = &ar->v2d;
 			break;
 		}
-		case SPACE_SEQ:
-		{
-			SpaceSeq *sseq = curarea->spacedata.first;
+		// case SPACE_SEQ:
+		// {
+			// SpaceSeq *sseq = curarea->spacedata.first;
 			
-			/* set current area */
-			p->sa = curarea;
-			p->ar = ar;
-			p->v2d = &ar->v2d;
+			// /* set current area */
+			// p->sa = curarea;
+			// p->ar = ar;
+			// p->v2d = &ar->v2d;
 			
-			/* check that gpencil data is allowed to be drawn */
-			if (sseq->mainb == SEQ_DRAW_SEQUENCE) {
-				p->status = GP_STATUS_ERROR;
-				if (G.debug & G_DEBUG)
-					printf("Error: In active view (sequencer), active mode doesn't support Grease Pencil\n");
-				return 0;
-			}
-			break;
-		}
+			// /* check that gpencil data is allowed to be drawn */
+			// if (sseq->mainb == SEQ_DRAW_SEQUENCE) {
+				// p->status = GP_STATUS_ERROR;
+				// if (G.debug & G_DEBUG)
+					// printf("Error: In active view (sequencer), active mode doesn't support Grease Pencil\n");
+				// return 0;
+			// }
+			// break;
+		// }
 		case SPACE_IMAGE:
 		{
 			/* SpaceImage *sima = curarea->spacedata.first; */
@@ -1271,11 +1271,11 @@ static void gp_paint_initstroke(tGPsdata *p, short paintmode)
 				p->gpd->sbuffer_sflag |= GP_STROKE_2DSPACE;
 				break;
 			}
-			case SPACE_SEQ:
+			/* case SPACE_SEQ:
 			{
 				p->gpd->sbuffer_sflag |= GP_STROKE_2DSPACE;
 				break;
-			}
+			} */
 			case SPACE_IMAGE:
 			{
 				SpaceImage *sima = (SpaceImage *)p->sa->spacedata.first;

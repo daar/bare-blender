@@ -441,10 +441,10 @@ void paste_gpdata(Scene *scene)
 									stroke_ok = 1;
 								break;
 								
-							case SPACE_SEQ: /* Sequence Editor: either screen-aligned or view-aligned */
-								if ((gps->flag == 0) || (gps->flag & GP_STROKE_2DIMAGE))
-									stroke_ok = 1;
-								break;
+							// case SPACE_SEQ: /* Sequence Editor: either screen-aligned or view-aligned */
+								// if ((gps->flag == 0) || (gps->flag & GP_STROKE_2DIMAGE))
+									// stroke_ok = 1;
+								// break;
 						}
 					}
 					else

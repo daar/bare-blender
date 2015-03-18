@@ -1833,12 +1833,12 @@ void blo_do_versions_260(FileData *fd, Library *UNUSED(lib), Main *main)
 							v3d->flag2 |= V3D_SHOW_GPENCIL;
 							break;
 						}
-						case SPACE_SEQ:
+						/* case SPACE_SEQ:
 						{
 							SpaceSeq *sseq = (SpaceSeq *)sl;
 							sseq->flag |= SEQ_SHOW_GPENCIL;
 							break;
-						}
+						} */
 						case SPACE_IMAGE:
 						{
 							SpaceImage *sima = (SpaceImage *)sl;

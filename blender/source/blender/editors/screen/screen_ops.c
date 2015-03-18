@@ -72,7 +72,7 @@
 #include "ED_object.h"
 #include "ED_screen.h"
 #include "ED_screen_types.h"
-#include "ED_sequencer.h"
+//#include "ED_sequencer.h"
 #include "ED_util.h"
 #include "ED_view3d.h"
 
@@ -291,15 +291,15 @@ int ED_operator_graphedit_active(bContext *C)
 	return ed_spacetype_test(C, SPACE_IPO);
 }
 
-int ED_operator_sequencer_active(bContext *C)
-{
-	return ed_spacetype_test(C, SPACE_SEQ);
-}
+// int ED_operator_sequencer_active(bContext *C)
+// {
+	// return ed_spacetype_test(C, SPACE_SEQ);
+// }
 
-int ED_operator_sequencer_active_editable(bContext *C)
-{
-	return ed_spacetype_test(C, SPACE_SEQ) && ED_operator_scene_editable(C);
-}
+// int ED_operator_sequencer_active_editable(bContext *C)
+// {
+	// return ed_spacetype_test(C, SPACE_SEQ) && ED_operator_scene_editable(C);
+// }
 
 int ED_operator_image_active(bContext *C)
 {
@@ -554,12 +554,12 @@ int ED_operator_mask(bContext *C)
 				SpaceClip *sc = sa->spacedata.first;
 				return ED_space_clip_check_show_maskedit(sc);
 			}
-			case SPACE_SEQ:
+			/* case SPACE_SEQ:
 			{
 				SpaceSeq *sseq = sa->spacedata.first;
 				Scene *scene = CTX_data_scene(C);
 				return ED_space_sequencer_check_show_maskedit(sseq, scene);
-			}
+			} */
 			case SPACE_IMAGE:
 			{
 				SpaceImage *sima = sa->spacedata.first;
@@ -3322,10 +3322,10 @@ static int match_region_with_redraws(int spacetype, int regiontype, int redraws)
 				if (redraws & TIME_ALL_BUTS_WIN)
 					return 1;
 				break;
-			case SPACE_SEQ:
-				if (redraws & (TIME_SEQ | TIME_ALL_ANIM_WIN))
-					return 1;
-				break;
+			// case SPACE_SEQ:
+				// if (redraws & (TIME_SEQ | TIME_ALL_ANIM_WIN))
+					// return 1;
+				// break;
 			case SPACE_NODE:
 				if (redraws & (TIME_NODES))
 					return 1;
@@ -3372,10 +3372,10 @@ static int match_region_with_redraws(int spacetype, int regiontype, int redraws)
 	}
 	else if (regiontype == RGN_TYPE_PREVIEW) {
 		switch (spacetype) {
-			case SPACE_SEQ:
+			/* case SPACE_SEQ:
 				if (redraws & (TIME_SEQ | TIME_ALL_ANIM_WIN))
 					return 1;
-				break;
+				break; */
 			case SPACE_CLIP:
 				return 1;
 		}

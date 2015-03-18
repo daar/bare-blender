@@ -2664,9 +2664,9 @@ static void write_screens(WriteData *wd, ListBase *scrbase)
 					if (sfile->params)
 						writestruct(wd, DATA, "FileSelectParams", 1, sfile->params);
 				}
-				else if (sl->spacetype==SPACE_SEQ) {
+				/* else if (sl->spacetype==SPACE_SEQ) {
 					writestruct(wd, DATA, "SpaceSeq", 1, sl);
-				}
+				} */
 				/* else if (sl->spacetype==SPACE_OUTLINER) {
 					SpaceOops *so= (SpaceOops *)sl;
 					write_soops(wd, so, &tmp_mem_list);

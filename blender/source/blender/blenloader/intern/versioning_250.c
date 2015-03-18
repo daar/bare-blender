@@ -210,7 +210,7 @@ static void area_add_window_regions(ScrArea *sa, SpaceLink *sl, ListBase *lb)
 				ar->regiontype = RGN_TYPE_UI;
 				ar->alignment = RGN_ALIGN_TOP;
 				break;
-			case SPACE_SEQ:
+			/* case SPACE_SEQ:
 				ar_main = (ARegion*) lb->first;
 				for (; ar_main; ar_main = ar_main->next) {
 					if (ar_main->regiontype == RGN_TYPE_WINDOW)
@@ -219,7 +219,7 @@ static void area_add_window_regions(ScrArea *sa, SpaceLink *sl, ListBase *lb)
 				ar = MEM_callocN(sizeof(ARegion), "preview area for sequencer");
 				BLI_insertlinkbefore(lb, ar_main, ar);
 				sequencer_init_preview_region(ar);
-				break;
+				break; */
 			case SPACE_VIEW3D:
 				/* toolbar */
 				ar = MEM_callocN(sizeof(ARegion), "toolbar for view3d");
@@ -369,7 +369,7 @@ static void area_add_window_regions(ScrArea *sa, SpaceLink *sl, ListBase *lb)
 						// saction->action = NULL;
 					// break;
 				// }
-			case SPACE_SEQ:
+			/* case SPACE_SEQ:
 				{
 					SpaceSeq *sseq = (SpaceSeq *)sl;
 					memcpy(&ar->v2d, &sseq->v2d, sizeof(View2D));
@@ -379,7 +379,7 @@ static void area_add_window_regions(ScrArea *sa, SpaceLink *sl, ListBase *lb)
 					ar->v2d.align = V2D_ALIGN_NO_NEG_Y;
 					ar->v2d.flag |= V2D_IS_INITIALISED;
 					break;
-				}
+				} */
 			case SPACE_NODE:
 				{
 					SpaceNode *snode = (SpaceNode *)sl;
@@ -498,13 +498,13 @@ static void do_versions_gpencil_2_50(Main *main, bScreen *screen)
 					snode->gpd = NULL;
 				}
 			}
-			else if (sl->spacetype == SPACE_SEQ) {
-				SpaceSeq *sseq = (SpaceSeq *) sl;
-				if (sseq->gpd) {
-					versions_gpencil_add_main(&main->gpencil, (ID *)sseq->gpd, "GPencil Node");
-					sseq->gpd = NULL;
-				}
-			}
+			// else if (sl->spacetype == SPACE_SEQ) {
+				// SpaceSeq *sseq = (SpaceSeq *) sl;
+				// if (sseq->gpd) {
+					// versions_gpencil_add_main(&main->gpencil, (ID *)sseq->gpd, "GPencil Node");
+					// sseq->gpd = NULL;
+				// }
+			// }
 			else if (sl->spacetype == SPACE_IMAGE) {
 				SpaceImage *sima = (SpaceImage *) sl;
 #if 0			/* see comment on r28002 */
@@ -1493,28 +1493,28 @@ void blo_do_versions_250(FileData *fd, Library *lib, Main *main)
 		for (screen = main->screen.first; screen; screen = screen->id.next) {
 			for (sa = screen->areabase.first; sa; sa = sa->next) {
 				for (sl = sa->spacedata.first; sl; sl = sl->next) {
-					if (sl->spacetype != SPACE_SEQ) {
-						ARegion *ar;
-						ListBase *regionbase;
+					// if (sl->spacetype != SPACE_SEQ) {
+						// ARegion *ar;
+						// ListBase *regionbase;
 
-						if (sl == sa->spacedata.first) {
-							regionbase = &sa->regionbase;
-						}
-						else {
-							regionbase = &sl->regionbase;
-						}
+						// if (sl == sa->spacedata.first) {
+							// regionbase = &sa->regionbase;
+						// }
+						// else {
+							// regionbase = &sl->regionbase;
+						// }
 
-						for (ar = regionbase->first; ar; ar = ar->next) {
-							if (ar->regiontype == RGN_TYPE_PREVIEW)
-								break;
-						}
+						// for (ar = regionbase->first; ar; ar = ar->next) {
+							// if (ar->regiontype == RGN_TYPE_PREVIEW)
+								// break;
+						// }
 
-						if (ar && (ar->regiontype == RGN_TYPE_PREVIEW)) {
-							SpaceType *st = BKE_spacetype_from_id(SPACE_SEQ);
-							BKE_area_region_free(st, ar);
-							BLI_freelinkN(regionbase, ar);
-						}
-					}
+						// if (ar && (ar->regiontype == RGN_TYPE_PREVIEW)) {
+							// SpaceType *st = BKE_spacetype_from_id(SPACE_SEQ);
+							// BKE_area_region_free(st, ar);
+							// BLI_freelinkN(regionbase, ar);
+						// }
+					// }
 				}
 			}
 		}
@@ -1530,7 +1530,7 @@ void blo_do_versions_250(FileData *fd, Library *lib, Main *main)
 			for (screen = main->screen.first; screen; screen = screen->id.next) {
 				for (sa = screen->areabase.first; sa; sa = sa->next) {
 					for (sl = sa->spacedata.first; sl; sl = sl->next) {
-						if (sl->spacetype == SPACE_SEQ) {
+						/* if (sl->spacetype == SPACE_SEQ) {
 							ARegion *ar;
 							ARegion *ar_main;
 							ListBase *regionbase;
@@ -1556,7 +1556,7 @@ void blo_do_versions_250(FileData *fd, Library *lib, Main *main)
 							ar = MEM_callocN(sizeof(ARegion), "preview area for sequencer");
 							BLI_insertlinkbefore(regionbase, ar_main, ar);
 							sequencer_init_preview_region(ar);
-						}
+						} */
 					}
 				}
 			}
@@ -1799,7 +1799,7 @@ void blo_do_versions_250(FileData *fd, Library *lib, Main *main)
 			for (screen = main->screen.first; screen; screen = screen->id.next) {
 				for (sa = screen->areabase.first; sa; sa = sa->next) {
 					for (sl = sa->spacedata.first; sl; sl = sl->next) {
-						if (sl->spacetype == SPACE_SEQ) {
+						/* if (sl->spacetype == SPACE_SEQ) {
 							ARegion *ar_preview;
 							ListBase *regionbase;
 
@@ -1818,7 +1818,7 @@ void blo_do_versions_250(FileData *fd, Library *lib, Main *main)
 							if (ar_preview && (ar_preview->regiontype == RGN_TYPE_PREVIEW)) {
 								sequencer_init_preview_region(ar_preview);
 							}
-						}
+						} */
 					}
 				}
 			}
@@ -2608,7 +2608,7 @@ void blo_do_versions_250(FileData *fd, Library *lib, Main *main)
 				/* add regions */
 				for (sa = screen->areabase.first; sa; sa = sa->next) {
 					SpaceLink *sl = sa->spacedata.first;
-					if (sl->spacetype == SPACE_SEQ) {
+					/* if (sl->spacetype == SPACE_SEQ) {
 						ARegion *ar;
 						for (ar = sa->regionbase.first; ar; ar = ar->next) {
 							if (ar->regiontype == RGN_TYPE_WINDOW) {
@@ -2616,9 +2616,9 @@ void blo_do_versions_250(FileData *fd, Library *lib, Main *main)
 									ar->v2d.min[1] = 0.5f;
 							}
 						}
-					}
+					} */
 					for (sl = sa->spacedata.first; sl; sl = sl->next) {
-						if (sl->spacetype == SPACE_SEQ) {
+						/* if (sl->spacetype == SPACE_SEQ) {
 							ARegion *ar;
 							for (ar = sl->regionbase.first; ar; ar = ar->next) {
 								if (ar->regiontype == RGN_TYPE_WINDOW) {
@@ -2626,7 +2626,7 @@ void blo_do_versions_250(FileData *fd, Library *lib, Main *main)
 										ar->v2d.min[1] = 0.5f;
 								}
 							}
-						}
+						} */
 					}
 				}
 			}

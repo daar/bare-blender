@@ -164,7 +164,7 @@ static eSpace_Type rna_Space_refine_reverse(StructRNA *srna)
 	if (srna == &RNA_SpaceFileBrowser)      return SPACE_FILE;
 	if (srna == &RNA_SpaceImageEditor)      return SPACE_IMAGE;
 	if (srna == &RNA_SpaceInfo)             return SPACE_INFO;
-	if (srna == &RNA_SpaceSequenceEditor)   return SPACE_SEQ;
+	// if (srna == &RNA_SpaceSequenceEditor)   return SPACE_SEQ;
 	if (srna == &RNA_SpaceTextEditor)       return SPACE_TEXT;
 	//if (srna == &RNA_SpaceDopeSheetEditor)  return SPACE_ACTION;
 	//if (srna == &RNA_SpaceNLA)              return SPACE_NLA;
