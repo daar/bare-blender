@@ -99,29 +99,29 @@ bGPdata **ED_gpencil_data_get_pointers_direct(ID *screen_id, Scene *scene, ScrAr
 		SpaceLink *sl = sa->spacedata.first;
 		
 		switch (sa->spacetype) {
-			case SPACE_VIEW3D: /* 3D-View */
-			case SPACE_TIME: /* Timeline - XXX: this is a hack to get it to show GP keyframes for 3D view */
-			{
-				BLI_assert(scene && ELEM(scene->toolsettings->gpencil_src,
-				                         GP_TOOL_SOURCE_SCENE, GP_TOOL_SOURCE_OBJECT));
+			// case SPACE_VIEW3D: /* 3D-View */
+			// case SPACE_TIME: /* Timeline - XXX: this is a hack to get it to show GP keyframes for 3D view */
+			// {
+				// BLI_assert(scene && ELEM(scene->toolsettings->gpencil_src,
+				                         // GP_TOOL_SOURCE_SCENE, GP_TOOL_SOURCE_OBJECT));
 				
-				if (scene->toolsettings->gpencil_src == GP_TOOL_SOURCE_OBJECT) {
-					/* legacy behaviour for usage with old addons requiring object-linked to objects */
+				// if (scene->toolsettings->gpencil_src == GP_TOOL_SOURCE_OBJECT) {
+					// /* legacy behaviour for usage with old addons requiring object-linked to objects */
 					
-					/* just in case no active/selected object... */
-					if (ob && (ob->flag & SELECT)) {
-						/* for now, as long as there's an object, default to using that in 3D-View */
-						if (ptr) RNA_id_pointer_create(&ob->id, ptr);
-						return &ob->gpd;
-					}
-					/* else: defaults to scene... */
-				}
-				else {
-					if (ptr) RNA_id_pointer_create(&scene->id, ptr);
-					return &scene->gpd;
-				}
-				break;
-			}
+					// /* just in case no active/selected object... */
+					// if (ob && (ob->flag & SELECT)) {
+						// /* for now, as long as there's an object, default to using that in 3D-View */
+						// if (ptr) RNA_id_pointer_create(&ob->id, ptr);
+						// return &ob->gpd;
+					// }
+					// /* else: defaults to scene... */
+				// }
+				// else {
+					// if (ptr) RNA_id_pointer_create(&scene->id, ptr);
+					// return &scene->gpd;
+				// }
+				// break;
+			// }
 			case SPACE_NODE: /* Nodes Editor */
 			{
 				SpaceNode *snode = (SpaceNode *)sl;

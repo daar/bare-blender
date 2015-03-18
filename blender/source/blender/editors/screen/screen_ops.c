@@ -228,10 +228,10 @@ int ED_operator_animview_active(bContext *C)
 	return 0;
 }
 
-int ED_operator_timeline_active(bContext *C)
+/* int ED_operator_timeline_active(bContext *C)
 {
 	return ed_spacetype_test(C, SPACE_TIME);
-}
+} */
 
 int ED_operator_outliner_active(bContext *C)
 {
@@ -3286,12 +3286,12 @@ static void SCREEN_OT_header_toolbox(wmOperatorType *ot)
 
 static int match_area_with_refresh(int spacetype, int refresh)
 {
-	switch (spacetype) {
+/* 	switch (spacetype) {
 		case SPACE_TIME:
 			if (refresh & SPACE_TIME)
 				return 1;
 			break;
-	}
+	} */
 	
 	return 0;
 }
@@ -3313,11 +3313,11 @@ static int match_region_with_redraws(int spacetype, int regiontype, int redraws)
 					return 1;
 				break;
 			*/
-			case SPACE_TIME:
-				/* if only 1 window or 3d windows, we do timeline too */
-				if (redraws & (TIME_ALL_ANIM_WIN | TIME_REGION | TIME_ALL_3D_WIN))
-					return 1;
-				break;
+			// case SPACE_TIME:
+				// /* if only 1 window or 3d windows, we do timeline too */
+				// if (redraws & (TIME_ALL_ANIM_WIN | TIME_REGION | TIME_ALL_3D_WIN))
+					// return 1;
+				// break;
 			case SPACE_BUTS:
 				if (redraws & TIME_ALL_BUTS_WIN)
 					return 1;
@@ -3367,8 +3367,8 @@ static int match_region_with_redraws(int spacetype, int regiontype, int redraws)
 			return 1;
 	}
 	else if (regiontype == RGN_TYPE_HEADER) {
-		if (spacetype == SPACE_TIME)
-			return 1;
+		/* if (spacetype == SPACE_TIME)
+			return 1; */
 	}
 	else if (regiontype == RGN_TYPE_PREVIEW) {
 		switch (spacetype) {
@@ -3556,19 +3556,19 @@ int ED_screen_animation_play(bContext *C, int sync, int mode)
 		sound_stop_scene(scene);
 	}
 	else {
-		int refresh = SPACE_TIME; /* these settings are currently only available from a menu in the TimeLine */
+		// int refresh = SPACE_TIME; /* these settings are currently only available from a menu in the TimeLine */
 		
-		if (mode == 1)  /* XXX only play audio forwards!? */
-			sound_play_scene(scene);
+		// if (mode == 1)  /* XXX only play audio forwards!? */
+			// sound_play_scene(scene);
 		
-		ED_screen_animation_timer(C, screen->redraws_flag, refresh, sync, mode);
+		// ED_screen_animation_timer(C, screen->redraws_flag, refresh, sync, mode);
 		
-		if (screen->animtimer) {
-			wmTimer *wt = screen->animtimer;
-			ScreenAnimData *sad = wt->customdata;
+		// if (screen->animtimer) {
+			// wmTimer *wt = screen->animtimer;
+			// ScreenAnimData *sad = wt->customdata;
 			
-			sad->ar = CTX_wm_region(C);
-		}
+			// sad->ar = CTX_wm_region(C);
+		// }
 	}
 
 	return OPERATOR_FINISHED;

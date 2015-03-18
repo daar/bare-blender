@@ -709,44 +709,44 @@ static SpaceLink *time_duplicate(SpaceLink *sl)
 
 /* only called once, from space_api/spacetypes.c */
 /* it defines all callbacks to maintain spaces */
-void ED_spacetype_time(void)
-{
-	SpaceType *st = MEM_callocN(sizeof(SpaceType), "spacetype time");
-	ARegionType *art;
+// void ED_spacetype_time(void)
+// {
+	// SpaceType *st = MEM_callocN(sizeof(SpaceType), "spacetype time");
+	// ARegionType *art;
 	
-	st->spaceid = SPACE_TIME;
-	strncpy(st->name, "Timeline", BKE_ST_MAXNAME);
+	// st->spaceid = SPACE_TIME;
+	// strncpy(st->name, "Timeline", BKE_ST_MAXNAME);
 	
-	st->new = time_new;
-	st->free = time_free;
-	st->init = time_init;
-	st->duplicate = time_duplicate;
-	st->operatortypes = time_operatortypes;
-	st->keymap = NULL;
-	st->listener = time_listener;
-	st->refresh = time_refresh;
+	// st->new = time_new;
+	// st->free = time_free;
+	// st->init = time_init;
+	// st->duplicate = time_duplicate;
+	// st->operatortypes = time_operatortypes;
+	// st->keymap = NULL;
+	// st->listener = time_listener;
+	// st->refresh = time_refresh;
 	
-	/* regions: main window */
-	art = MEM_callocN(sizeof(ARegionType), "spacetype time region");
-	art->regionid = RGN_TYPE_WINDOW;
-	art->keymapflag = ED_KEYMAP_VIEW2D | ED_KEYMAP_MARKERS | ED_KEYMAP_ANIMATION | ED_KEYMAP_FRAMES;
+	// /* regions: main window */
+	// art = MEM_callocN(sizeof(ARegionType), "spacetype time region");
+	// art->regionid = RGN_TYPE_WINDOW;
+	// art->keymapflag = ED_KEYMAP_VIEW2D | ED_KEYMAP_MARKERS | ED_KEYMAP_ANIMATION | ED_KEYMAP_FRAMES;
 	
-	art->init = time_main_area_init;
-	art->draw = time_main_area_draw;
-	art->listener = time_main_area_listener;
-	art->keymap = time_keymap;
-	BLI_addhead(&st->regiontypes, art);
+	// art->init = time_main_area_init;
+	// art->draw = time_main_area_draw;
+	// art->listener = time_main_area_listener;
+	// art->keymap = time_keymap;
+	// BLI_addhead(&st->regiontypes, art);
 	
-	/* regions: header */
-	art = MEM_callocN(sizeof(ARegionType), "spacetype time region");
-	art->regionid = RGN_TYPE_HEADER;
-	art->prefsizey = HEADERY;
-	art->keymapflag = ED_KEYMAP_UI | ED_KEYMAP_VIEW2D | ED_KEYMAP_FRAMES | ED_KEYMAP_HEADER;
+	// /* regions: header */
+	// art = MEM_callocN(sizeof(ARegionType), "spacetype time region");
+	// art->regionid = RGN_TYPE_HEADER;
+	// art->prefsizey = HEADERY;
+	// art->keymapflag = ED_KEYMAP_UI | ED_KEYMAP_VIEW2D | ED_KEYMAP_FRAMES | ED_KEYMAP_HEADER;
 	
-	art->init = time_header_area_init;
-	art->draw = time_header_area_draw;
-	art->listener = time_header_area_listener;
-	BLI_addhead(&st->regiontypes, art);
+	// art->init = time_header_area_init;
+	// art->draw = time_header_area_draw;
+	// art->listener = time_header_area_listener;
+	// BLI_addhead(&st->regiontypes, art);
 		
-	BKE_spacetype_register(st);
-}
+	// BKE_spacetype_register(st);
+// }

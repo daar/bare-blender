@@ -41,7 +41,7 @@ void ED_spacemacros_init(void);
 
 /* calls for registering default spaces */
 void ED_spacetype_outliner(void);
-void ED_spacetype_time(void);
+//void ED_spacetype_time(void);
 void ED_spacetype_view3d(void);
 void ED_spacetype_ipo(void);
 void ED_spacetype_image(void);
@@ -49,7 +49,7 @@ void ED_spacetype_node(void);
 void ED_spacetype_buttons(void);
 void ED_spacetype_info(void);
 void ED_spacetype_file(void);
-void ED_spacetype_action(void);
+//void ED_spacetype_action(void);
 //void ED_spacetype_nla(void);
 void ED_spacetype_script(void);
 void ED_spacetype_text(void);

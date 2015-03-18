@@ -288,7 +288,7 @@ static void area_add_window_regions(ScrArea *sa, SpaceLink *sl, ListBase *lb)
 					//ar->v2d.flag |= V2D_IS_INITIALISED;
 				}
 				break;
-			case SPACE_TIME:
+			/* case SPACE_TIME:
 				{
 					SpaceTime *stime = (SpaceTime *)sl;
 					memcpy(&ar->v2d, &stime->v2d, sizeof(View2D));
@@ -300,7 +300,7 @@ static void area_add_window_regions(ScrArea *sa, SpaceLink *sl, ListBase *lb)
 					ar->v2d.tot.ymin = ar->v2d.cur.ymin = -10.0;
 					ar->v2d.min[1] = ar->v2d.max[1] = 20.0;
 				}
-				break;
+				break; */
 			case SPACE_IPO:
 				{
 					SpaceIpo *sipo = (SpaceIpo *)sl;
@@ -1967,14 +1967,14 @@ void blo_do_versions_250(FileData *fd, Library *lib, Main *main)
 							}
 						}
 					}
-					else if (sl->spacetype == SPACE_TIME) {
-						SpaceTime *stime = (SpaceTime *) sl;
+					// else if (sl->spacetype == SPACE_TIME) {
+						// SpaceTime *stime = (SpaceTime *) sl;
 
-						/* enable all cache display */
-						stime->cache_display |= TIME_CACHE_DISPLAY;
-						stime->cache_display |= (TIME_CACHE_SOFTBODY|TIME_CACHE_PARTICLES);
-						stime->cache_display |= (TIME_CACHE_CLOTH|TIME_CACHE_SMOKE|TIME_CACHE_DYNAMICPAINT);
-					}
+						// /* enable all cache display */
+						// stime->cache_display |= TIME_CACHE_DISPLAY;
+						// stime->cache_display |= (TIME_CACHE_SOFTBODY|TIME_CACHE_PARTICLES);
+						// stime->cache_display |= (TIME_CACHE_CLOTH|TIME_CACHE_SMOKE|TIME_CACHE_DYNAMICPAINT);
+					// }
 				}
 			}
 		}

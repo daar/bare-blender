@@ -64,7 +64,7 @@ EnumPropertyItem space_type_items[] = {
 	{SPACE_EMPTY, "EMPTY", ICON_NONE, "Empty", ""},
 	{SPACE_VIEW3D, "VIEW_3D", ICON_VIEW3D, "3D View", "3D viewport"},
 	{0, "", ICON_NONE, NULL, NULL},
-	{SPACE_TIME, "TIMELINE", ICON_TIME, "Timeline", "Timeline and playback controls"},
+	//{SPACE_TIME, "TIMELINE", ICON_TIME, "Timeline", "Timeline and playback controls"},
 	{SPACE_IPO, "GRAPH_EDITOR", ICON_IPO, "Graph Editor", "Edit drivers and keyframe interpolation"},
 	//{SPACE_ACTION, "DOPESHEET_EDITOR", ICON_ACTION, "Dope Sheet", "Adjust timing of keyframes"},
 	//{SPACE_NLA, "NLA_EDITOR", ICON_NLA, "NLA Editor", "Combine and layer Actions"},
@@ -245,8 +245,8 @@ static StructRNA *rna_Space_refine(struct PointerRNA *ptr)
 			return &RNA_SpaceDopeSheetEditor; */
 /* 		case SPACE_NLA:
 			return &RNA_SpaceNLA; */
-		case SPACE_TIME:
-			return &RNA_SpaceTimeline;
+		/* case SPACE_TIME:
+			return &RNA_SpaceTimeline; */
 		case SPACE_NODE:
 			return &RNA_SpaceNodeEditor;
 		/*case SPACE_LOGIC:
@@ -302,54 +302,54 @@ static void rna_area_region_from_regiondata(PointerRNA *ptr, ScrArea **r_sa, ARe
 	area_region_from_regiondata(sc, regiondata, r_sa, r_ar);
 }
 
-static int rna_Space_view2d_sync_get(PointerRNA *ptr)
-{
-	ScrArea *sa;
-	ARegion *ar;
+// static int rna_Space_view2d_sync_get(PointerRNA *ptr)
+// {
+	// ScrArea *sa;
+	// ARegion *ar;
 
-	sa = rna_area_from_space(ptr); /* can be NULL */
-	ar = BKE_area_find_region_type(sa, RGN_TYPE_WINDOW);
-	if (ar) {
-		View2D *v2d = &ar->v2d;
-		return (v2d->flag & V2D_VIEWSYNC_SCREEN_TIME) != 0;
-	}
+	// sa = rna_area_from_space(ptr); /* can be NULL */
+	// ar = BKE_area_find_region_type(sa, RGN_TYPE_WINDOW);
+	// if (ar) {
+		// View2D *v2d = &ar->v2d;
+		// return (v2d->flag & V2D_VIEWSYNC_SCREEN_TIME) != 0;
+	// }
 
-	return false;
-}
+	// return false;
+// }
 
-static void rna_Space_view2d_sync_set(PointerRNA *ptr, int value)
-{
-	ScrArea *sa;
-	ARegion *ar;
+// static void rna_Space_view2d_sync_set(PointerRNA *ptr, int value)
+// {
+	// ScrArea *sa;
+	// ARegion *ar;
 
-	sa = rna_area_from_space(ptr); /* can be NULL */
-	ar = BKE_area_find_region_type(sa, RGN_TYPE_WINDOW);
-	if (ar) {
-		View2D *v2d = &ar->v2d;
-		if (value) {
-			v2d->flag |= V2D_VIEWSYNC_SCREEN_TIME;
-		}
-		else {
-			v2d->flag &= ~V2D_VIEWSYNC_SCREEN_TIME;
-		}
-	}
-}
+	// sa = rna_area_from_space(ptr); /* can be NULL */
+	// ar = BKE_area_find_region_type(sa, RGN_TYPE_WINDOW);
+	// if (ar) {
+		// View2D *v2d = &ar->v2d;
+		// if (value) {
+			// v2d->flag |= V2D_VIEWSYNC_SCREEN_TIME;
+		// }
+		// else {
+			// v2d->flag &= ~V2D_VIEWSYNC_SCREEN_TIME;
+		// }
+	// }
+// }
 
-static void rna_Space_view2d_sync_update(Main *UNUSED(bmain), Scene *UNUSED(scene), PointerRNA *ptr)
-{
-	ScrArea *sa;
-	ARegion *ar;
+// static void rna_Space_view2d_sync_update(Main *UNUSED(bmain), Scene *UNUSED(scene), PointerRNA *ptr)
+// {
+	// ScrArea *sa;
+	// ARegion *ar;
 
-	sa = rna_area_from_space(ptr); /* can be NULL */
-	ar = BKE_area_find_region_type(sa, RGN_TYPE_WINDOW);
+	// sa = rna_area_from_space(ptr); /* can be NULL */
+	// ar = BKE_area_find_region_type(sa, RGN_TYPE_WINDOW);
 
-	if (ar) {
-		bScreen *sc = (bScreen *)ptr->id.data;
-		View2D *v2d = &ar->v2d;
+	// if (ar) {
+		// bScreen *sc = (bScreen *)ptr->id.data;
+		// View2D *v2d = &ar->v2d;
 
-		UI_view2d_sync(sc, sa, v2d, V2D_LOCK_SET);
-	}
-}
+		// UI_view2d_sync(sc, sa, v2d, V2D_LOCK_SET);
+	// }
+// }
 
 static PointerRNA rna_CurrentOrientation_get(PointerRNA *ptr)
 {
@@ -1402,11 +1402,11 @@ static void rna_def_space(BlenderRNA *brna)
 	RNA_def_property_ui_text(prop, "Type", "Space data type");
 
 	/* access to V2D_VIEWSYNC_SCREEN_TIME */
-	prop = RNA_def_property(srna, "show_locked_time", PROP_BOOLEAN, PROP_NONE);
+/* 	prop = RNA_def_property(srna, "show_locked_time", PROP_BOOLEAN, PROP_NONE);
 	RNA_def_property_boolean_funcs(prop, "rna_Space_view2d_sync_get", "rna_Space_view2d_sync_set");
 	RNA_def_property_ui_text(prop, "Lock Time to Other Windows", "");
 	RNA_def_property_update(prop, NC_SPACE | ND_SPACE_TIME, "rna_Space_view2d_sync_update");
-}
+ */}
 
 /* for all spaces that use a mask */
 static void rna_def_space_mask_info(StructRNA *srna, int noteflag, const char *mask_set_func)
@@ -3036,63 +3036,63 @@ static void rna_def_space_graph(BlenderRNA *brna)
 	// RNA_def_property_update(prop, NC_SPACE | ND_SPACE_NLA, NULL);
 // }
 
-static void rna_def_space_time(BlenderRNA *brna)
-{
-	StructRNA *srna;
-	PropertyRNA *prop;
+// static void rna_def_space_time(BlenderRNA *brna)
+// {
+	// StructRNA *srna;
+	// PropertyRNA *prop;
 	
-	srna = RNA_def_struct(brna, "SpaceTimeline", "Space");
-	RNA_def_struct_sdna(srna, "SpaceTime");
-	RNA_def_struct_ui_text(srna, "Space Timeline Editor", "Timeline editor space data");
+	// srna = RNA_def_struct(brna, "SpaceTimeline", "Space");
+	// RNA_def_struct_sdna(srna, "SpaceTime");
+	// RNA_def_struct_ui_text(srna, "Space Timeline Editor", "Timeline editor space data");
 	
-	/* view settings */
-	prop = RNA_def_property(srna, "show_frame_indicator", PROP_BOOLEAN, PROP_NONE);
-	RNA_def_property_boolean_sdna(prop, NULL, "flag", TIME_CFRA_NUM);
-	RNA_def_property_ui_text(prop, "Show Frame Number Indicator",
-	                         "Show frame number beside the current frame indicator line");
-	RNA_def_property_update(prop, NC_SPACE | ND_SPACE_TIME, NULL);
+	// /* view settings */
+	// prop = RNA_def_property(srna, "show_frame_indicator", PROP_BOOLEAN, PROP_NONE);
+	// RNA_def_property_boolean_sdna(prop, NULL, "flag", TIME_CFRA_NUM);
+	// RNA_def_property_ui_text(prop, "Show Frame Number Indicator",
+	                         // "Show frame number beside the current frame indicator line");
+	// RNA_def_property_update(prop, NC_SPACE | ND_SPACE_TIME, NULL);
 	
-	prop = RNA_def_property(srna, "show_seconds", PROP_BOOLEAN, PROP_NONE);
-	RNA_def_property_boolean_negative_sdna(prop, NULL, "flag", TIME_DRAWFRAMES);
-	RNA_def_property_ui_text(prop, "Show Seconds", "Show timing in seconds not frames");
-	RNA_def_property_update(prop, NC_SPACE | ND_SPACE_TIME, NULL);
+	// prop = RNA_def_property(srna, "show_seconds", PROP_BOOLEAN, PROP_NONE);
+	// RNA_def_property_boolean_negative_sdna(prop, NULL, "flag", TIME_DRAWFRAMES);
+	// RNA_def_property_ui_text(prop, "Show Seconds", "Show timing in seconds not frames");
+	// RNA_def_property_update(prop, NC_SPACE | ND_SPACE_TIME, NULL);
 	
-	/* displaying cache status */
-	prop = RNA_def_property(srna, "show_cache", PROP_BOOLEAN, PROP_NONE);
-	RNA_def_property_boolean_sdna(prop, NULL, "cache_display", TIME_CACHE_DISPLAY);
-	RNA_def_property_ui_text(prop, "Show Cache", "Show the status of cached frames in the timeline");
-	RNA_def_property_update(prop, NC_SPACE | ND_SPACE_TIME, NULL);
+	// /* displaying cache status */
+	// prop = RNA_def_property(srna, "show_cache", PROP_BOOLEAN, PROP_NONE);
+	// RNA_def_property_boolean_sdna(prop, NULL, "cache_display", TIME_CACHE_DISPLAY);
+	// RNA_def_property_ui_text(prop, "Show Cache", "Show the status of cached frames in the timeline");
+	// RNA_def_property_update(prop, NC_SPACE | ND_SPACE_TIME, NULL);
 	
-	prop = RNA_def_property(srna, "cache_softbody", PROP_BOOLEAN, PROP_NONE);
-	RNA_def_property_boolean_sdna(prop, NULL, "cache_display", TIME_CACHE_SOFTBODY);
-	RNA_def_property_ui_text(prop, "Softbody", "Show the active object's softbody point cache");
-	RNA_def_property_update(prop, NC_SPACE | ND_SPACE_TIME, NULL);
+	// prop = RNA_def_property(srna, "cache_softbody", PROP_BOOLEAN, PROP_NONE);
+	// RNA_def_property_boolean_sdna(prop, NULL, "cache_display", TIME_CACHE_SOFTBODY);
+	// RNA_def_property_ui_text(prop, "Softbody", "Show the active object's softbody point cache");
+	// RNA_def_property_update(prop, NC_SPACE | ND_SPACE_TIME, NULL);
 	
-	prop = RNA_def_property(srna, "cache_particles", PROP_BOOLEAN, PROP_NONE);
-	RNA_def_property_boolean_sdna(prop, NULL, "cache_display", TIME_CACHE_PARTICLES);
-	RNA_def_property_ui_text(prop, "Particles", "Show the active object's particle point cache");
-	RNA_def_property_update(prop, NC_SPACE | ND_SPACE_TIME, NULL);
+	// prop = RNA_def_property(srna, "cache_particles", PROP_BOOLEAN, PROP_NONE);
+	// RNA_def_property_boolean_sdna(prop, NULL, "cache_display", TIME_CACHE_PARTICLES);
+	// RNA_def_property_ui_text(prop, "Particles", "Show the active object's particle point cache");
+	// RNA_def_property_update(prop, NC_SPACE | ND_SPACE_TIME, NULL);
 	
-	prop = RNA_def_property(srna, "cache_cloth", PROP_BOOLEAN, PROP_NONE);
-	RNA_def_property_boolean_sdna(prop, NULL, "cache_display", TIME_CACHE_CLOTH);
-	RNA_def_property_ui_text(prop, "Cloth", "Show the active object's cloth point cache");
-	RNA_def_property_update(prop, NC_SPACE | ND_SPACE_TIME, NULL);
+	// prop = RNA_def_property(srna, "cache_cloth", PROP_BOOLEAN, PROP_NONE);
+	// RNA_def_property_boolean_sdna(prop, NULL, "cache_display", TIME_CACHE_CLOTH);
+	// RNA_def_property_ui_text(prop, "Cloth", "Show the active object's cloth point cache");
+	// RNA_def_property_update(prop, NC_SPACE | ND_SPACE_TIME, NULL);
 	
-	prop = RNA_def_property(srna, "cache_smoke", PROP_BOOLEAN, PROP_NONE);
-	RNA_def_property_boolean_sdna(prop, NULL, "cache_display", TIME_CACHE_SMOKE);
-	RNA_def_property_ui_text(prop, "Smoke", "Show the active object's smoke cache");
-	RNA_def_property_update(prop, NC_SPACE | ND_SPACE_TIME, NULL);
+	// prop = RNA_def_property(srna, "cache_smoke", PROP_BOOLEAN, PROP_NONE);
+	// RNA_def_property_boolean_sdna(prop, NULL, "cache_display", TIME_CACHE_SMOKE);
+	// RNA_def_property_ui_text(prop, "Smoke", "Show the active object's smoke cache");
+	// RNA_def_property_update(prop, NC_SPACE | ND_SPACE_TIME, NULL);
 		
-	prop = RNA_def_property(srna, "cache_dynamicpaint", PROP_BOOLEAN, PROP_NONE);
-	RNA_def_property_boolean_sdna(prop, NULL, "cache_display", TIME_CACHE_DYNAMICPAINT);
-	RNA_def_property_ui_text(prop, "Dynamic Paint", "Show the active object's Dynamic Paint cache");
-	RNA_def_property_update(prop, NC_SPACE | ND_SPACE_TIME, NULL);
+	// prop = RNA_def_property(srna, "cache_dynamicpaint", PROP_BOOLEAN, PROP_NONE);
+	// RNA_def_property_boolean_sdna(prop, NULL, "cache_display", TIME_CACHE_DYNAMICPAINT);
+	// RNA_def_property_ui_text(prop, "Dynamic Paint", "Show the active object's Dynamic Paint cache");
+	// RNA_def_property_update(prop, NC_SPACE | ND_SPACE_TIME, NULL);
 	
-	prop = RNA_def_property(srna, "cache_rigidbody", PROP_BOOLEAN, PROP_NONE);
-	RNA_def_property_boolean_sdna(prop, NULL, "cache_display", TIME_CACHE_RIGIDBODY);
-	RNA_def_property_ui_text(prop, "Rigid Body", "Show the active object's Rigid Body cache");
-	RNA_def_property_update(prop, NC_SPACE | ND_SPACE_TIME, NULL);
-}
+	// prop = RNA_def_property(srna, "cache_rigidbody", PROP_BOOLEAN, PROP_NONE);
+	// RNA_def_property_boolean_sdna(prop, NULL, "cache_display", TIME_CACHE_RIGIDBODY);
+	// RNA_def_property_ui_text(prop, "Rigid Body", "Show the active object's Rigid Body cache");
+	// RNA_def_property_update(prop, NC_SPACE | ND_SPACE_TIME, NULL);
+// }
 
 static void rna_def_console_line(BlenderRNA *brna)
 {
@@ -3927,7 +3927,7 @@ void RNA_def_space(BlenderRNA *brna)
 	rna_def_space_dopesheet(brna);
 	rna_def_space_graph(brna);
 	//rna_def_space_nla(brna);
-	rna_def_space_time(brna);
+	//rna_def_space_time(brna);
 	rna_def_space_console(brna);
 	rna_def_console_line(brna);
 	rna_def_space_info(brna);

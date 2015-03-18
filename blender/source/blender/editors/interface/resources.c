@@ -148,9 +148,9 @@ const unsigned char *UI_ThemeGetColorPtr(bTheme *btheme, int spacetype, int colo
 				case SPACE_CONSOLE:
 					ts = &btheme->tconsole;
 					break;
-				case SPACE_TIME:
+				/* case SPACE_TIME:
 					ts = &btheme->ttime;
-					break;
+					break; */
 				case SPACE_NODE:
 					ts = &btheme->tnode;
 					break;

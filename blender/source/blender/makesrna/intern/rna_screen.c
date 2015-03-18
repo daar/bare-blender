@@ -99,13 +99,13 @@ static void rna_Screen_scene_update(bContext *C, PointerRNA *ptr)
 	}
 }
 
-static void rna_Screen_redraw_update(Main *UNUSED(bmain), Scene *UNUSED(scene), PointerRNA *ptr)
-{
-	bScreen *screen = (bScreen *)ptr->data;
+// static void rna_Screen_redraw_update(Main *UNUSED(bmain), Scene *UNUSED(scene), PointerRNA *ptr)
+// {
+	// bScreen *screen = (bScreen *)ptr->data;
 
-	/* the settings for this are currently only available from a menu in the TimeLine, hence refresh=SPACE_TIME */
-	ED_screen_animation_timer_update(screen, screen->redraws_flag, SPACE_TIME);
-}
+	// /* the settings for this are currently only available from a menu in the TimeLine, hence refresh=SPACE_TIME */
+	// ED_screen_animation_timer_update(screen, screen->redraws_flag, SPACE_TIME);
+// }
 
 
 static int rna_Screen_is_animation_playing_get(PointerRNA *UNUSED(ptr))
@@ -403,7 +403,7 @@ static void rna_def_screen(BlenderRNA *brna)
 	RNA_def_property_ui_text(prop, "Maximize", "An area is maximized, filling this screen");
 
 	/* Define Anim Playback Areas */
-	prop = RNA_def_property(srna, "use_play_top_left_3d_editor", PROP_BOOLEAN, PROP_NONE);
+/* 	prop = RNA_def_property(srna, "use_play_top_left_3d_editor", PROP_BOOLEAN, PROP_NONE);
 	RNA_def_property_boolean_sdna(prop, NULL, "redraws_flag", TIME_REGION);
 	RNA_def_property_ui_text(prop, "Top-Left 3D Editor", "");
 	RNA_def_property_update(prop, NC_SPACE | ND_SPACE_TIME, "rna_Screen_redraw_update");
@@ -442,7 +442,7 @@ static void rna_def_screen(BlenderRNA *brna)
 	RNA_def_property_boolean_sdna(prop, NULL, "redraws_flag", TIME_CLIPS);
 	RNA_def_property_ui_text(prop, "Clip Editors", "");
 	RNA_def_property_update(prop, NC_SPACE | ND_SPACE_TIME, "rna_Screen_redraw_update");
-}
+ */}
 
 void RNA_def_screen(BlenderRNA *brna)
 {

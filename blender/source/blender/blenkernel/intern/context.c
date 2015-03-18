@@ -751,13 +751,13 @@ struct SpaceNla *CTX_wm_space_nla(const bContext *C)
 }
 */
 
-struct SpaceTime *CTX_wm_space_time(const bContext *C)
+/* struct SpaceTime *CTX_wm_space_time(const bContext *C)
 {
 	ScrArea *sa = CTX_wm_area(C);
 	if (sa && sa->spacetype == SPACE_TIME)
 		return sa->spacedata.first;
 	return NULL;
-}
+} */
 
 struct SpaceNode *CTX_wm_space_node(const bContext *C)
 {

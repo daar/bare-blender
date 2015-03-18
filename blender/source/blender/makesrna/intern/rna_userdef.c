@@ -2227,31 +2227,31 @@ static void rna_def_userdef_theme_space_buts(BlenderRNA *brna)
 
 }
 
-static void rna_def_userdef_theme_space_time(BlenderRNA *brna)
-{
-	StructRNA *srna;
-	PropertyRNA *prop;
+// static void rna_def_userdef_theme_space_time(BlenderRNA *brna)
+// {
+	// StructRNA *srna;
+	// PropertyRNA *prop;
 
-	/* space_time */
+	// /* space_time */
 
-	srna = RNA_def_struct(brna, "ThemeTimeline", NULL);
-	RNA_def_struct_sdna(srna, "ThemeSpace");
-	RNA_def_struct_clear_flag(srna, STRUCT_UNDO);
-	RNA_def_struct_ui_text(srna, "Theme Timeline", "Theme settings for the Timeline");
+	// srna = RNA_def_struct(brna, "ThemeTimeline", NULL);
+	// RNA_def_struct_sdna(srna, "ThemeSpace");
+	// RNA_def_struct_clear_flag(srna, STRUCT_UNDO);
+	// RNA_def_struct_ui_text(srna, "Theme Timeline", "Theme settings for the Timeline");
 
-	rna_def_userdef_theme_spaces_main(srna);
+	// rna_def_userdef_theme_spaces_main(srna);
 
-	prop = RNA_def_property(srna, "grid", PROP_FLOAT, PROP_COLOR_GAMMA);
-	RNA_def_property_array(prop, 3);
-	RNA_def_property_ui_text(prop, "Grid", "");
-	RNA_def_property_update(prop, 0, "rna_userdef_update");
+	// prop = RNA_def_property(srna, "grid", PROP_FLOAT, PROP_COLOR_GAMMA);
+	// RNA_def_property_array(prop, 3);
+	// RNA_def_property_ui_text(prop, "Grid", "");
+	// RNA_def_property_update(prop, 0, "rna_userdef_update");
 
-	prop = RNA_def_property(srna, "frame_current", PROP_FLOAT, PROP_COLOR_GAMMA);
-	RNA_def_property_float_sdna(prop, NULL, "cframe");
-	RNA_def_property_array(prop, 3);
-	RNA_def_property_ui_text(prop, "Current Frame", "");
-	RNA_def_property_update(prop, 0, "rna_userdef_update");
-}
+	// prop = RNA_def_property(srna, "frame_current", PROP_FLOAT, PROP_COLOR_GAMMA);
+	// RNA_def_property_float_sdna(prop, NULL, "cframe");
+	// RNA_def_property_array(prop, 3);
+	// RNA_def_property_ui_text(prop, "Current Frame", "");
+	// RNA_def_property_update(prop, 0, "rna_userdef_update");
+// }
 
 static void rna_def_userdef_theme_space_image(BlenderRNA *brna)
 {
@@ -2949,12 +2949,12 @@ static void rna_def_userdef_themes(BlenderRNA *brna)
 	RNA_def_property_struct_type(prop, "ThemeTextEditor");
 	RNA_def_property_ui_text(prop, "Text Editor", "");
 
-	prop = RNA_def_property(srna, "timeline", PROP_POINTER, PROP_NONE);
+/* 	prop = RNA_def_property(srna, "timeline", PROP_POINTER, PROP_NONE);
 	RNA_def_property_flag(prop, PROP_NEVER_NULL);
 	RNA_def_property_pointer_sdna(prop, NULL, "ttime");
 	RNA_def_property_struct_type(prop, "ThemeTimeline");
 	RNA_def_property_ui_text(prop, "Timeline", "");
-
+ */
 	prop = RNA_def_property(srna, "node_editor", PROP_POINTER, PROP_NONE);
 	RNA_def_property_flag(prop, PROP_NEVER_NULL);
 	RNA_def_property_pointer_sdna(prop, NULL, "tnode");
@@ -3086,7 +3086,7 @@ static void rna_def_userdef_dothemes(BlenderRNA *brna)
 	rna_def_userdef_theme_space_seq(brna);
 	rna_def_userdef_theme_space_buts(brna);
 	rna_def_userdef_theme_space_text(brna);
-	rna_def_userdef_theme_space_time(brna);
+	//rna_def_userdef_theme_space_time(brna);
 	rna_def_userdef_theme_space_node(brna);
 	rna_def_userdef_theme_space_outliner(brna);
 	rna_def_userdef_theme_space_info(brna);

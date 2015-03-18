@@ -6620,10 +6620,10 @@ static bool direct_link_screen(FileData *fd, bScreen *sc)
 				st->scroll_accum[0] = 0.0f;
 				st->scroll_accum[1] = 0.0f;
 			}
-			else if (sl->spacetype == SPACE_TIME) {
+			/* else if (sl->spacetype == SPACE_TIME) {
 				SpaceTime *stime = (SpaceTime *)sl;
 				BLI_listbase_clear(&stime->caches);
-			} /*
+			} */ /*
 			else if (sl->spacetype == SPACE_LOGIC) {
 				SpaceLogic *slogic = (SpaceLogic *)sl;
 				
