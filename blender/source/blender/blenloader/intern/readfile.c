@@ -1194,10 +1194,10 @@ static void *newdataadr(FileData *fd, void *adr)		/* only direct databocks */
 	return oldnewmap_lookup_and_inc(fd->datamap, adr, true);
 }
 
-static void *newdataadr_no_us(FileData *fd, void *adr)		/* only direct databocks */
-{
-	return oldnewmap_lookup_and_inc(fd->datamap, adr, false);
-}
+// static void *newdataadr_no_us(FileData *fd, void *adr)		/* only direct databocks */
+// {
+	// return oldnewmap_lookup_and_inc(fd->datamap, adr, false);
+// }
 
 static void *newglobadr(FileData *fd, void *adr)	    /* direct datablocks with global linking */
 {
@@ -5903,24 +5903,24 @@ static void lib_link_screen(FileData *fd, Main *main)
 							}
 						}
 					}
-					else if (sl->spacetype == SPACE_OUTLINER) {
-						SpaceOops *so= (SpaceOops *)sl;
-						so->search_tse.id = newlibadr(fd, NULL, so->search_tse.id);
+					// else if (sl->spacetype == SPACE_OUTLINER) {
+						// SpaceOops *so= (SpaceOops *)sl;
+						// so->search_tse.id = newlibadr(fd, NULL, so->search_tse.id);
 						
-						if (so->treestore) {
-							TreeStoreElem *tselem;
-							BLI_mempool_iter iter;
+						// if (so->treestore) {
+							// TreeStoreElem *tselem;
+							// BLI_mempool_iter iter;
 
-							BLI_mempool_iternew(so->treestore, &iter);
-							while ((tselem = BLI_mempool_iterstep(&iter))) {
-								tselem->id = newlibadr(fd, NULL, tselem->id);
-							}
-							if (so->treehash) {
-								/* rebuild hash table, because it depends on ids too */
-								BKE_treehash_rebuild_from_treestore(so->treehash, so->treestore);
-							}
-						}
-					}
+							// BLI_mempool_iternew(so->treestore, &iter);
+							// while ((tselem = BLI_mempool_iterstep(&iter))) {
+								// tselem->id = newlibadr(fd, NULL, tselem->id);
+							// }
+							// if (so->treehash) {
+								// /* rebuild hash table, because it depends on ids too */
+								// BKE_treehash_rebuild_from_treestore(so->treehash, so->treestore);
+							// }
+						// }
+					// }
 					else if (sl->spacetype == SPACE_NODE) {
 						SpaceNode *snode = (SpaceNode *)sl;
 						bNodeTreePath *path, *path_next;
@@ -6253,25 +6253,25 @@ void blo_lib_link_screen_restore(Main *newmain, bScreen *curscreen, Scene *cursc
 						SCRIPT_SET_NULL(scpt->script);
 					}
 				}
-				else if (sl->spacetype == SPACE_OUTLINER) {
-					SpaceOops *so= (SpaceOops *)sl;
+				// else if (sl->spacetype == SPACE_OUTLINER) {
+					// SpaceOops *so= (SpaceOops *)sl;
 					
-					so->search_tse.id = restore_pointer_by_name(newmain, so->search_tse.id, USER_IGNORE);
+					// so->search_tse.id = restore_pointer_by_name(newmain, so->search_tse.id, USER_IGNORE);
 					
-					if (so->treestore) {
-						TreeStoreElem *tselem;
-						BLI_mempool_iter iter;
+					// if (so->treestore) {
+						// TreeStoreElem *tselem;
+						// BLI_mempool_iter iter;
 
-						BLI_mempool_iternew(so->treestore, &iter);
-						while ((tselem = BLI_mempool_iterstep(&iter))) {
-							tselem->id = restore_pointer_by_name(newmain, tselem->id, USER_IGNORE);
-						}
-						if (so->treehash) {
-							/* rebuild hash table, because it depends on ids too */
-							BKE_treehash_rebuild_from_treestore(so->treehash, so->treestore);
-						}
-					}
-				}
+						// BLI_mempool_iternew(so->treestore, &iter);
+						// while ((tselem = BLI_mempool_iterstep(&iter))) {
+							// tselem->id = restore_pointer_by_name(newmain, tselem->id, USER_IGNORE);
+						// }
+						// if (so->treehash) {
+							// /* rebuild hash table, because it depends on ids too */
+							// BKE_treehash_rebuild_from_treestore(so->treehash, so->treestore);
+						// }
+					// }
+				// }
 				else if (sl->spacetype == SPACE_NODE) {
 					SpaceNode *snode= (SpaceNode *)sl;
 					bNodeTreePath *path, *path_next;
@@ -6550,33 +6550,33 @@ static bool direct_link_screen(FileData *fd, bScreen *sc)
 				
 				snla->ads = newdataadr(fd, snla->ads);
 			} */
-			else if (sl->spacetype == SPACE_OUTLINER) {
-				SpaceOops *soops = (SpaceOops *) sl;
+			// else if (sl->spacetype == SPACE_OUTLINER) {
+				// SpaceOops *soops = (SpaceOops *) sl;
 				
-				/* use newdataadr_no_us and do not free old memory avoiding double
-				 * frees and use of freed memory. this could happen because of a
-				 * bug fixed in revision 58959 where the treestore memory address
-				 * was not unique */
-				TreeStore *ts = newdataadr_no_us(fd, soops->treestore);
-				soops->treestore = NULL;
-				if (ts) {
-					TreeStoreElem *elems = newdataadr_no_us(fd, ts->data);
+				// /* use newdataadr_no_us and do not free old memory avoiding double
+				 // * frees and use of freed memory. this could happen because of a
+				 // * bug fixed in revision 58959 where the treestore memory address
+				 // * was not unique */
+				// TreeStore *ts = newdataadr_no_us(fd, soops->treestore);
+				// soops->treestore = NULL;
+				// if (ts) {
+					// TreeStoreElem *elems = newdataadr_no_us(fd, ts->data);
 					
-					soops->treestore = BLI_mempool_create(sizeof(TreeStoreElem), ts->usedelem,
-					                                      512, BLI_MEMPOOL_ALLOW_ITER);
-					if (ts->usedelem && elems) {
-						int i;
-						for (i = 0; i < ts->usedelem; i++) {
-							TreeStoreElem *new_elem = BLI_mempool_alloc(soops->treestore);
-							*new_elem = elems[i];
-						}
-					}
-					/* we only saved what was used */
-					soops->storeflag |= SO_TREESTORE_CLEANUP;	// at first draw
-				}
-				soops->treehash = NULL;
-				soops->tree.first = soops->tree.last= NULL;
-			}
+					// soops->treestore = BLI_mempool_create(sizeof(TreeStoreElem), ts->usedelem,
+					                                      // 512, BLI_MEMPOOL_ALLOW_ITER);
+					// if (ts->usedelem && elems) {
+						// int i;
+						// for (i = 0; i < ts->usedelem; i++) {
+							// TreeStoreElem *new_elem = BLI_mempool_alloc(soops->treestore);
+							// *new_elem = elems[i];
+						// }
+					// }
+					// /* we only saved what was used */
+					// soops->storeflag |= SO_TREESTORE_CLEANUP;	// at first draw
+				// }
+				// soops->treehash = NULL;
+				// soops->tree.first = soops->tree.last= NULL;
+			// }
 			else if (sl->spacetype == SPACE_IMAGE) {
 				SpaceImage *sima = (SpaceImage *)sl;
 				

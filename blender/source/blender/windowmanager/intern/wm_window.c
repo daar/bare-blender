@@ -587,9 +587,9 @@ void WM_window_open_temp(bContext *C, rcti *position, int type)
 	
 	if (sa->spacetype == SPACE_IMAGE)
 		GHOST_SetTitle(win->ghostwin, IFACE_("Blender Render"));
-	else if (ELEM(sa->spacetype, SPACE_OUTLINER, SPACE_USERPREF))
+	else /* if (ELEM(sa->spacetype, SPACE_OUTLINER, SPACE_USERPREF))
 		GHOST_SetTitle(win->ghostwin, IFACE_("Blender User Preferences"));
-	else if (sa->spacetype == SPACE_FILE)
+	else */ if (sa->spacetype == SPACE_FILE)
 		GHOST_SetTitle(win->ghostwin, IFACE_("Blender File View"));
 	else
 		GHOST_SetTitle(win->ghostwin, "Blender");

@@ -458,45 +458,45 @@ static SpaceLink *outliner_duplicate(SpaceLink *sl)
 }
 
 /* only called once, from space_api/spacetypes.c */
-void ED_spacetype_outliner(void)
-{
-	SpaceType *st = MEM_callocN(sizeof(SpaceType), "spacetype time");
-	ARegionType *art;
+// void ED_spacetype_outliner(void)
+// {
+	// SpaceType *st = MEM_callocN(sizeof(SpaceType), "spacetype time");
+	// ARegionType *art;
 	
-	st->spaceid = SPACE_OUTLINER;
-	strncpy(st->name, "Outliner", BKE_ST_MAXNAME);
+	// st->spaceid = SPACE_OUTLINER;
+	// strncpy(st->name, "Outliner", BKE_ST_MAXNAME);
 	
-	st->new = outliner_new;
-	st->free = outliner_free;
-	st->init = outliner_init;
-	st->duplicate = outliner_duplicate;
-	st->operatortypes = outliner_operatortypes;
-	st->keymap = outliner_keymap;
-	st->dropboxes = outliner_dropboxes;
+	// st->new = outliner_new;
+	// st->free = outliner_free;
+	// st->init = outliner_init;
+	// st->duplicate = outliner_duplicate;
+	// st->operatortypes = outliner_operatortypes;
+	// st->keymap = outliner_keymap;
+	// st->dropboxes = outliner_dropboxes;
 	
-	/* regions: main window */
-	art = MEM_callocN(sizeof(ARegionType), "spacetype outliner region");
-	art->regionid = RGN_TYPE_WINDOW;
-	art->keymapflag = ED_KEYMAP_UI | ED_KEYMAP_VIEW2D | ED_KEYMAP_FRAMES;
+	// /* regions: main window */
+	// art = MEM_callocN(sizeof(ARegionType), "spacetype outliner region");
+	// art->regionid = RGN_TYPE_WINDOW;
+	// art->keymapflag = ED_KEYMAP_UI | ED_KEYMAP_VIEW2D | ED_KEYMAP_FRAMES;
 	
-	art->init = outliner_main_area_init;
-	art->draw = outliner_main_area_draw;
-	art->free = outliner_main_area_free;
-	art->listener = outliner_main_area_listener;
-	BLI_addhead(&st->regiontypes, art);
+	// art->init = outliner_main_area_init;
+	// art->draw = outliner_main_area_draw;
+	// art->free = outliner_main_area_free;
+	// art->listener = outliner_main_area_listener;
+	// BLI_addhead(&st->regiontypes, art);
 	
-	/* regions: header */
-	art = MEM_callocN(sizeof(ARegionType), "spacetype outliner header region");
-	art->regionid = RGN_TYPE_HEADER;
-	art->prefsizey = HEADERY;
-	art->keymapflag = ED_KEYMAP_UI | ED_KEYMAP_VIEW2D | ED_KEYMAP_FRAMES | ED_KEYMAP_HEADER;
+	// /* regions: header */
+	// art = MEM_callocN(sizeof(ARegionType), "spacetype outliner header region");
+	// art->regionid = RGN_TYPE_HEADER;
+	// art->prefsizey = HEADERY;
+	// art->keymapflag = ED_KEYMAP_UI | ED_KEYMAP_VIEW2D | ED_KEYMAP_FRAMES | ED_KEYMAP_HEADER;
 	
-	art->init = outliner_header_area_init;
-	art->draw = outliner_header_area_draw;
-	art->free = outliner_header_area_free;
-	art->listener = outliner_header_area_listener;
-	BLI_addhead(&st->regiontypes, art);
+	// art->init = outliner_header_area_init;
+	// art->draw = outliner_header_area_draw;
+	// art->free = outliner_header_area_free;
+	// art->listener = outliner_header_area_listener;
+	// BLI_addhead(&st->regiontypes, art);
 	
-	BKE_spacetype_register(st);
-}
+	// BKE_spacetype_register(st);
+// }
 

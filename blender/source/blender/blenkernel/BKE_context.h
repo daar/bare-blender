@@ -153,7 +153,7 @@ struct SpaceConsole *CTX_wm_space_console(const bContext *C);
 struct SpaceButs *CTX_wm_space_buts(const bContext *C);
 struct SpaceFile *CTX_wm_space_file(const bContext *C);
 struct SpaceSeq *CTX_wm_space_seq(const bContext *C);
-struct SpaceOops *CTX_wm_space_outliner(const bContext *C);
+//struct SpaceOops *CTX_wm_space_outliner(const bContext *C);
 //struct SpaceNla *CTX_wm_space_nla(const bContext *C);
 //struct SpaceTime *CTX_wm_space_time(const bContext *C);
 struct SpaceNode *CTX_wm_space_node(const bContext *C);

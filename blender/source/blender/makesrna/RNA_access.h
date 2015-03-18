@@ -613,7 +613,7 @@ extern StructRNA RNA_ThemeInfo;
 //extern StructRNA RNA_ThemeLogicEditor;
 // extern StructRNA RNA_ThemeNLAEditor;
 extern StructRNA RNA_ThemeNodeEditor;
-extern StructRNA RNA_ThemeOutliner;
+// extern StructRNA RNA_ThemeOutliner;
 extern StructRNA RNA_ThemeProperties;
 extern StructRNA RNA_ThemeSequenceEditor;
 extern StructRNA RNA_ThemeSpaceGeneric;

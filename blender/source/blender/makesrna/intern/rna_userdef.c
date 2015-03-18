@@ -1775,30 +1775,30 @@ static void rna_def_userdef_theme_space_file(BlenderRNA *brna)
 	RNA_def_property_update(prop, 0, "rna_userdef_update");
 }
 
-static void rna_def_userdef_theme_space_outliner(BlenderRNA *brna)
-{
-	StructRNA *srna;
-	PropertyRNA *prop;
+// static void rna_def_userdef_theme_space_outliner(BlenderRNA *brna)
+// {
+	// StructRNA *srna;
+	// PropertyRNA *prop;
 
-	/* space_outliner */
+	// /* space_outliner */
 
-	srna = RNA_def_struct(brna, "ThemeOutliner", NULL);
-	RNA_def_struct_sdna(srna, "ThemeSpace");
-	RNA_def_struct_clear_flag(srna, STRUCT_UNDO);
-	RNA_def_struct_ui_text(srna, "Theme Outliner", "Theme settings for the Outliner");
+	// srna = RNA_def_struct(brna, "ThemeOutliner", NULL);
+	// RNA_def_struct_sdna(srna, "ThemeSpace");
+	// RNA_def_struct_clear_flag(srna, STRUCT_UNDO);
+	// RNA_def_struct_ui_text(srna, "Theme Outliner", "Theme settings for the Outliner");
 
-	rna_def_userdef_theme_spaces_main(srna);
+	// rna_def_userdef_theme_spaces_main(srna);
 
-	prop = RNA_def_property(srna, "match", PROP_FLOAT, PROP_COLOR_GAMMA);
-	RNA_def_property_array(prop, 3);
-	RNA_def_property_ui_text(prop, "Filter Match", "");
-	RNA_def_property_update(prop, 0, "rna_userdef_update");
+	// prop = RNA_def_property(srna, "match", PROP_FLOAT, PROP_COLOR_GAMMA);
+	// RNA_def_property_array(prop, 3);
+	// RNA_def_property_ui_text(prop, "Filter Match", "");
+	// RNA_def_property_update(prop, 0, "rna_userdef_update");
 
-	prop = RNA_def_property(srna, "selected_highlight", PROP_FLOAT, PROP_COLOR_GAMMA);
-	RNA_def_property_array(prop, 3);
-	RNA_def_property_ui_text(prop, "Selected Highlight", "");
-	RNA_def_property_update(prop, 0, "rna_userdef_update");
-}
+	// prop = RNA_def_property(srna, "selected_highlight", PROP_FLOAT, PROP_COLOR_GAMMA);
+	// RNA_def_property_array(prop, 3);
+	// RNA_def_property_ui_text(prop, "Selected Highlight", "");
+	// RNA_def_property_update(prop, 0, "rna_userdef_update");
+// }
 
 static void rna_def_userdef_theme_space_userpref(BlenderRNA *brna)
 {
@@ -2969,11 +2969,11 @@ static void rna_def_userdef_themes(BlenderRNA *brna)
 	RNA_def_property_ui_text(prop, "Logic Editor", "");
 	*/
 	
-	prop = RNA_def_property(srna, "outliner", PROP_POINTER, PROP_NONE);
+	/* prop = RNA_def_property(srna, "outliner", PROP_POINTER, PROP_NONE);
 	RNA_def_property_flag(prop, PROP_NEVER_NULL);
 	RNA_def_property_pointer_sdna(prop, NULL, "toops");
 	RNA_def_property_struct_type(prop, "ThemeOutliner");
-	RNA_def_property_ui_text(prop, "Outliner", "");
+	RNA_def_property_ui_text(prop, "Outliner", ""); */
 
 	prop = RNA_def_property(srna, "info", PROP_POINTER, PROP_NONE);
 	RNA_def_property_flag(prop, PROP_NEVER_NULL);
@@ -3088,7 +3088,7 @@ static void rna_def_userdef_dothemes(BlenderRNA *brna)
 	rna_def_userdef_theme_space_text(brna);
 	//rna_def_userdef_theme_space_time(brna);
 	rna_def_userdef_theme_space_node(brna);
-	rna_def_userdef_theme_space_outliner(brna);
+	//rna_def_userdef_theme_space_outliner(brna);
 	rna_def_userdef_theme_space_info(brna);
 	rna_def_userdef_theme_space_userpref(brna);
 	rna_def_userdef_theme_space_console(brna);

@@ -2535,48 +2535,48 @@ static void write_uilist(WriteData *wd, uiList *ui_list)
 	}
 }
 
-static void write_soops(WriteData *wd, SpaceOops *so, LinkNode **tmp_mem_list)
-{
-	BLI_mempool *ts = so->treestore;
+// static void write_soops(WriteData *wd, SpaceOops *so, LinkNode **tmp_mem_list)
+// {
+	// BLI_mempool *ts = so->treestore;
 	
-	if (ts) {
-		int elems = BLI_mempool_count(ts);
-		/* linearize mempool to array */
-		TreeStoreElem *data = elems ? BLI_mempool_as_arrayN(ts, "TreeStoreElem") : NULL;
+	// if (ts) {
+		// int elems = BLI_mempool_count(ts);
+		// /* linearize mempool to array */
+		// TreeStoreElem *data = elems ? BLI_mempool_as_arrayN(ts, "TreeStoreElem") : NULL;
 
-		if (data) {
-			TreeStore *ts_flat = MEM_callocN(sizeof(TreeStore), "TreeStore");
+		// if (data) {
+			// TreeStore *ts_flat = MEM_callocN(sizeof(TreeStore), "TreeStore");
 
-			ts_flat->usedelem = elems;
-			ts_flat->totelem = elems;
-			ts_flat->data = data;
+			// ts_flat->usedelem = elems;
+			// ts_flat->totelem = elems;
+			// ts_flat->data = data;
 			
-			/* temporarily replace mempool-treestore by flat-treestore */
-			so->treestore = (BLI_mempool *)ts_flat;
-			writestruct(wd, DATA, "SpaceOops", 1, so);
+			// /* temporarily replace mempool-treestore by flat-treestore */
+			// so->treestore = (BLI_mempool *)ts_flat;
+			// writestruct(wd, DATA, "SpaceOops", 1, so);
 
-			writestruct(wd, DATA, "TreeStore", 1, ts_flat);
-			writestruct(wd, DATA, "TreeStoreElem", elems, data);
+			// writestruct(wd, DATA, "TreeStore", 1, ts_flat);
+			// writestruct(wd, DATA, "TreeStoreElem", elems, data);
 
-			/* we do not free the pointers immediately, because if we have multiple
-			 * outliners in a screen we might get the same address on the next
-			 * malloc, which makes the address no longer unique and so invalid for
-			 * lookups on file read, causing crashes or double frees */
-			BLI_linklist_prepend(tmp_mem_list, ts_flat);
-			BLI_linklist_prepend(tmp_mem_list, data);
-		}
-		else {
-			so->treestore = NULL;
-			writestruct(wd, DATA, "SpaceOops", 1, so);
-		}
+			// /* we do not free the pointers immediately, because if we have multiple
+			 // * outliners in a screen we might get the same address on the next
+			 // * malloc, which makes the address no longer unique and so invalid for
+			 // * lookups on file read, causing crashes or double frees */
+			// BLI_linklist_prepend(tmp_mem_list, ts_flat);
+			// BLI_linklist_prepend(tmp_mem_list, data);
+		// }
+		// else {
+			// so->treestore = NULL;
+			// writestruct(wd, DATA, "SpaceOops", 1, so);
+		// }
 
-		/* restore old treestore */
-		so->treestore = ts;
-	}
-	else {
-		writestruct(wd, DATA, "SpaceOops", 1, so);
-	}
-}
+		// /* restore old treestore */
+		// so->treestore = ts;
+	// }
+	// else {
+		// writestruct(wd, DATA, "SpaceOops", 1, so);
+	// }
+// }
 
 static void write_screens(WriteData *wd, ListBase *scrbase)
 {
@@ -2667,10 +2667,10 @@ static void write_screens(WriteData *wd, ListBase *scrbase)
 				else if (sl->spacetype==SPACE_SEQ) {
 					writestruct(wd, DATA, "SpaceSeq", 1, sl);
 				}
-				else if (sl->spacetype==SPACE_OUTLINER) {
+				/* else if (sl->spacetype==SPACE_OUTLINER) {
 					SpaceOops *so= (SpaceOops *)sl;
 					write_soops(wd, so, &tmp_mem_list);
-				}
+				} */
 				else if (sl->spacetype==SPACE_IMAGE) {
 					SpaceImage *sima= (SpaceImage *)sl;
 					

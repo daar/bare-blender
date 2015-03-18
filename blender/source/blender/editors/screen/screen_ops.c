@@ -233,12 +233,12 @@ int ED_operator_animview_active(bContext *C)
 	return ed_spacetype_test(C, SPACE_TIME);
 } */
 
-int ED_operator_outliner_active(bContext *C)
+/* int ED_operator_outliner_active(bContext *C)
 {
 	return ed_spacetype_test(C, SPACE_OUTLINER);
-}
+} */
 
-int ED_operator_outliner_active_no_editobject(bContext *C)
+/* int ED_operator_outliner_active_no_editobject(bContext *C)
 {
 	if (ed_spacetype_test(C, SPACE_OUTLINER)) {
 		Object *ob = ED_object_active_context(C);
@@ -250,7 +250,7 @@ int ED_operator_outliner_active_no_editobject(bContext *C)
 	}
 	return 0;
 }
-
+ */
 int ED_operator_file_active(bContext *C)
 {
 	return ed_spacetype_test(C, SPACE_FILE);

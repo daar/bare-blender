@@ -77,7 +77,7 @@ EnumPropertyItem space_type_items[] = {
 	//{SPACE_LOGIC, "LOGIC_EDITOR", ICON_LOGIC, "Logic Editor", "Game logic editing"},
 	{0, "", ICON_NONE, NULL, NULL},
 	{SPACE_BUTS, "PROPERTIES", ICON_BUTS, "Properties", "Edit properties of active object and related datablocks"},
-	{SPACE_OUTLINER, "OUTLINER", ICON_OOPS, "Outliner", "Overview of scene graph and all available datablocks"},
+	//{SPACE_OUTLINER, "OUTLINER", ICON_OOPS, "Outliner", "Overview of scene graph and all available datablocks"},
 	{SPACE_USERPREF, "USER_PREFERENCES", ICON_PREFERENCES, "User Preferences", "Edit persistent configuration settings"},
 	{SPACE_INFO, "INFO", ICON_INFO, "Info", "Main menu bar and list of error messages (drag down to expand and display)"},
 	{0, "", ICON_NONE, NULL, NULL},
@@ -227,8 +227,8 @@ static StructRNA *rna_Space_refine(struct PointerRNA *ptr)
 			return &RNA_SpaceView3D;
 		case SPACE_IPO:
 			return &RNA_SpaceGraphEditor;
-		case SPACE_OUTLINER:
-			return &RNA_SpaceOutliner;
+		/* case SPACE_OUTLINER:
+			return &RNA_SpaceOutliner; */
 		case SPACE_BUTS:
 			return &RNA_SpaceProperties;
 		case SPACE_FILE:
@@ -1554,7 +1554,7 @@ static void rna_def_space_image_uv(BlenderRNA *brna)
 	RNA_def_property_update(prop, NC_SPACE | ND_SPACE_IMAGE, NULL);
 }
 
-static void rna_def_space_outliner(BlenderRNA *brna)
+/* static void rna_def_space_outliner(BlenderRNA *brna)
 {
 	StructRNA *srna;
 	PropertyRNA *prop;
@@ -1604,7 +1604,7 @@ static void rna_def_space_outliner(BlenderRNA *brna)
 	RNA_def_property_boolean_negative_sdna(prop, NULL, "flag", SO_HIDE_RESTRICTCOLS);
 	RNA_def_property_ui_text(prop, "Show Restriction Columns", "Show column");
 	RNA_def_property_update(prop, NC_SPACE | ND_SPACE_OUTLINER, NULL);
-}
+} */
 
 static void rna_def_background_image(BlenderRNA *brna)
 {
@@ -3920,7 +3920,7 @@ void RNA_def_space(BlenderRNA *brna)
 	rna_def_space_text(brna);
 	rna_def_fileselect_params(brna);
 	rna_def_space_filebrowser(brna);
-	rna_def_space_outliner(brna);
+	// rna_def_space_outliner(brna);
 	rna_def_background_image(brna);
 	rna_def_space_view3d(brna);
 	rna_def_space_buttons(brna);

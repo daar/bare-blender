@@ -136,9 +136,9 @@ const unsigned char *UI_ThemeGetColorPtr(bTheme *btheme, int spacetype, int colo
 				case SPACE_TEXT:
 					ts = &btheme->text;
 					break;
-				case SPACE_OUTLINER:
+				/* case SPACE_OUTLINER:
 					ts = &btheme->toops;
-					break;
+					break; */
 				case SPACE_INFO:
 					ts = &btheme->tinfo;
 					break;

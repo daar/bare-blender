@@ -1176,7 +1176,7 @@ typedef enum eSpace_Type {
 	SPACE_EMPTY    = 0,
 	SPACE_VIEW3D   = 1,
 	SPACE_IPO      = 2,
-	SPACE_OUTLINER = 3,
+	//SPACE_OUTLINER = 3,
 	SPACE_BUTS     = 4,
 	SPACE_FILE     = 5,
 	SPACE_IMAGE    = 6,

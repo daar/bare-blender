@@ -768,7 +768,7 @@ void BKE_object_unlink(Object *ob)
 						}
 					}
 				}
-				else if (sl->spacetype == SPACE_OUTLINER) {
+				/* else if (sl->spacetype == SPACE_OUTLINER) {
 					SpaceOops *so = (SpaceOops *)sl;
 
 					if (so->treestore) {
@@ -779,7 +779,7 @@ void BKE_object_unlink(Object *ob)
 							if (tselem->id == (ID *)ob) tselem->id = NULL;
 						}
 					}
-				}
+				} */
 				else if (sl->spacetype == SPACE_BUTS) {
 					SpaceButs *sbuts = (SpaceButs *)sl;
 

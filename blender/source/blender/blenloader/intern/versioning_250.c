@@ -273,7 +273,7 @@ static void area_add_window_regions(ScrArea *sa, SpaceLink *sl, ListBase *lb)
 				blo_do_versions_view3d_split_250((View3D *)sl, lb);
 				break;
 
-			case SPACE_OUTLINER:
+			/* case SPACE_OUTLINER:
 				{
 					SpaceOops *soops = (SpaceOops *)sl;
 
@@ -287,7 +287,7 @@ static void area_add_window_regions(ScrArea *sa, SpaceLink *sl, ListBase *lb)
 					ar->v2d.minzoom = ar->v2d.maxzoom = 1.0f;
 					//ar->v2d.flag |= V2D_IS_INITIALISED;
 				}
-				break;
+				break; */
 			/* case SPACE_TIME:
 				{
 					SpaceTime *stime = (SpaceTime *)sl;

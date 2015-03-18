@@ -173,11 +173,11 @@ static void view_pan_apply_ex(bContext *C, v2dViewPanData *vpd, float dx, float 
 	UI_view2d_sync(vpd->sc, vpd->sa, v2d, V2D_LOCK_COPY);
 	
 	/* exceptions */
-	if (vpd->sa->spacetype == SPACE_OUTLINER) {
-		/* don't rebuild full tree, since we're just changing our view */
-		SpaceOops *soops = vpd->sa->spacedata.first;
-		soops->storeflag |= SO_TREESTORE_REDRAW;
-	}
+	// if (vpd->sa->spacetype == SPACE_OUTLINER) {
+		// /* don't rebuild full tree, since we're just changing our view */
+		// SpaceOops *soops = vpd->sa->spacedata.first;
+		// soops->storeflag |= SO_TREESTORE_REDRAW;
+	// }
 }
 
 static void view_pan_apply(bContext *C, wmOperator *op)
