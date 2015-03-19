@@ -161,86 +161,86 @@ void ANIM_draw_previewrange(const bContext *C, View2D *v2d, int end_frame_width)
 
 /* Obtain the AnimData block providing NLA-mapping for the given channel (if applicable) */
 // TODO: do not supply return this if the animdata tells us that there is no mapping to perform
-AnimData *ANIM_nla_mapping_get(bAnimContext *ac, bAnimListElem *ale)
-{
-	/* sanity checks */
-	if (ac == NULL)
-		return NULL;
+// AnimData *ANIM_nla_mapping_get(bAnimContext *ac, bAnimListElem *ale)
+// {
+	// /* sanity checks */
+	// if (ac == NULL)
+		// return NULL;
 	
-	/* abort if rendering - we may get some race condition issues... */
-	if (G.is_rendering) return NULL;
+	// /* abort if rendering - we may get some race condition issues... */
+	// if (G.is_rendering) return NULL;
 	
-	/* handling depends on the type of animation-context we've got */
-	if (ale)
-		return ale->adt;
-	else
-		return NULL;
-}
+	// /* handling depends on the type of animation-context we've got */
+	// if (ale)
+		// return ale->adt;
+	// else
+		// return NULL;
+// }
 
 /* ------------------- */
 
 /* helper function for ANIM_nla_mapping_apply_fcurve() -> "restore", i.e. mapping points back to action-time */
-static short bezt_nlamapping_restore(KeyframeEditData *ked, BezTriple *bezt)
-{
-	/* AnimData block providing scaling is stored in 'data', only_keys option is stored in i1 */
-	AnimData *adt = (AnimData *)ked->data;
-	short only_keys = (short)ked->i1;
+// static short bezt_nlamapping_restore(KeyframeEditData *ked, BezTriple *bezt)
+// {
+	// /* AnimData block providing scaling is stored in 'data', only_keys option is stored in i1 */
+	// AnimData *adt = (AnimData *)ked->data;
+	// short only_keys = (short)ked->i1;
 	
-	/* adjust BezTriple handles only if allowed to */
-	if (only_keys == 0) {
-		bezt->vec[0][0] = BKE_nla_tweakedit_remap(adt, bezt->vec[0][0], NLATIME_CONVERT_UNMAP);
-		bezt->vec[2][0] = BKE_nla_tweakedit_remap(adt, bezt->vec[2][0], NLATIME_CONVERT_UNMAP);
-	}
+	// /* adjust BezTriple handles only if allowed to */
+	// if (only_keys == 0) {
+		// bezt->vec[0][0] = BKE_nla_tweakedit_remap(adt, bezt->vec[0][0], NLATIME_CONVERT_UNMAP);
+		// bezt->vec[2][0] = BKE_nla_tweakedit_remap(adt, bezt->vec[2][0], NLATIME_CONVERT_UNMAP);
+	// }
 	
-	bezt->vec[1][0] = BKE_nla_tweakedit_remap(adt, bezt->vec[1][0], NLATIME_CONVERT_UNMAP);
+	// bezt->vec[1][0] = BKE_nla_tweakedit_remap(adt, bezt->vec[1][0], NLATIME_CONVERT_UNMAP);
 	
-	return 0;
-}
+	// return 0;
+// }
 
 /* helper function for ANIM_nla_mapping_apply_fcurve() -> "apply", i.e. mapping points to NLA-mapped global time */
-static short bezt_nlamapping_apply(KeyframeEditData *ked, BezTriple *bezt)
-{
-	/* AnimData block providing scaling is stored in 'data', only_keys option is stored in i1 */
-	AnimData *adt = (AnimData *)ked->data;
-	short only_keys = (short)ked->i1;
+// static short bezt_nlamapping_apply(KeyframeEditData *ked, BezTriple *bezt)
+// {
+	// /* AnimData block providing scaling is stored in 'data', only_keys option is stored in i1 */
+	// AnimData *adt = (AnimData *)ked->data;
+	// short only_keys = (short)ked->i1;
 	
-	/* adjust BezTriple handles only if allowed to */
-	if (only_keys == 0) {
-		bezt->vec[0][0] = BKE_nla_tweakedit_remap(adt, bezt->vec[0][0], NLATIME_CONVERT_MAP);
-		bezt->vec[2][0] = BKE_nla_tweakedit_remap(adt, bezt->vec[2][0], NLATIME_CONVERT_MAP);
-	}
+	// /* adjust BezTriple handles only if allowed to */
+	// if (only_keys == 0) {
+		// bezt->vec[0][0] = BKE_nla_tweakedit_remap(adt, bezt->vec[0][0], NLATIME_CONVERT_MAP);
+		// bezt->vec[2][0] = BKE_nla_tweakedit_remap(adt, bezt->vec[2][0], NLATIME_CONVERT_MAP);
+	// }
 	
-	bezt->vec[1][0] = BKE_nla_tweakedit_remap(adt, bezt->vec[1][0], NLATIME_CONVERT_MAP);
+	// bezt->vec[1][0] = BKE_nla_tweakedit_remap(adt, bezt->vec[1][0], NLATIME_CONVERT_MAP);
 	
-	return 0;
-}
+	// return 0;
+// }
 
 
 /* Apply/Unapply NLA mapping to all keyframes in the nominated F-Curve 
  *	- restore = whether to map points back to non-mapped time 
  *  - only_keys = whether to only adjust the location of the center point of beztriples
  */
-void ANIM_nla_mapping_apply_fcurve(AnimData *adt, FCurve *fcu, bool restore, bool only_keys)
-{
-	KeyframeEditData ked = {{NULL}};
-	KeyframeEditFunc map_cb;
+// void ANIM_nla_mapping_apply_fcurve(AnimData *adt, FCurve *fcu, bool restore, bool only_keys)
+// {
+	// KeyframeEditData ked = {{NULL}};
+	// KeyframeEditFunc map_cb;
 	
-	/* init edit data 
-	 *	- AnimData is stored in 'data'
-	 *	- only_keys is stored in 'i1'
-	 */
-	ked.data = (void *)adt;
-	ked.i1 = (int)only_keys;
+	// /* init edit data 
+	 // *	- AnimData is stored in 'data'
+	 // *	- only_keys is stored in 'i1'
+	 // */
+	// ked.data = (void *)adt;
+	// ked.i1 = (int)only_keys;
 	
-	/* get editing callback */
-	if (restore)
-		map_cb = bezt_nlamapping_restore;
-	else
-		map_cb = bezt_nlamapping_apply;
+	// /* get editing callback */
+	// if (restore)
+		// map_cb = bezt_nlamapping_restore;
+	// else
+		// map_cb = bezt_nlamapping_apply;
 	
-	/* apply to F-Curve */
-	ANIM_fcurve_keyframes_loop(&ked, fcu, NULL, map_cb, NULL);
-}
+	// /* apply to F-Curve */
+	// ANIM_fcurve_keyframes_loop(&ked, fcu, NULL, map_cb, NULL);
+// }
 
 /* *************************************************** */
 /* UNITS CONVERSION MAPPING (required for drawing and editing keyframes) */
@@ -248,14 +248,14 @@ void ANIM_nla_mapping_apply_fcurve(AnimData *adt, FCurve *fcu, bool restore, boo
 /* Get flags used for normalization in ANIM_unit_mapping_get_factor. */
 short ANIM_get_normalization_flags(bAnimContext *ac)
 {
-	if (ac->sl->spacetype == SPACE_IPO) {
-		SpaceIpo *sipo = (SpaceIpo *) ac->sl;
-		bool use_normalization = (sipo->flag & SIPO_NORMALIZE) != 0;
-		bool freeze_normalization = (sipo->flag & SIPO_NORMALIZE_FREEZE) != 0;
-		return use_normalization
-		    ? (ANIM_UNITCONV_NORMALIZE |  (freeze_normalization ? ANIM_UNITCONV_NORMALIZE_FREEZE : 0))
-		    : 0;
-	}
+	// if (ac->sl->spacetype == SPACE_IPO) {
+		// SpaceIpo *sipo = (SpaceIpo *) ac->sl;
+		// bool use_normalization = (sipo->flag & SIPO_NORMALIZE) != 0;
+		// bool freeze_normalization = (sipo->flag & SIPO_NORMALIZE_FREEZE) != 0;
+		// return use_normalization
+		    // ? (ANIM_UNITCONV_NORMALIZE |  (freeze_normalization ? ANIM_UNITCONV_NORMALIZE_FREEZE : 0))
+		    // : 0;
+	// }
 
 	return 0;
 }

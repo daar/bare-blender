@@ -146,21 +146,21 @@ static void area_add_window_regions(ScrArea *sa, SpaceLink *sl, ListBase *lb)
 	if (sl) {
 		/* first channels for ipo action nla... */
 		switch (sl->spacetype) {
-			case SPACE_IPO:
-				ar = MEM_callocN(sizeof(ARegion), "area region from do_versions");
-				BLI_addtail(lb, ar);
-				ar->regiontype = RGN_TYPE_CHANNELS;
-				ar->alignment = RGN_ALIGN_LEFT;
-				ar->v2d.scroll = (V2D_SCROLL_RIGHT|V2D_SCROLL_BOTTOM);
+			// case SPACE_IPO:
+				// ar = MEM_callocN(sizeof(ARegion), "area region from do_versions");
+				// BLI_addtail(lb, ar);
+				// ar->regiontype = RGN_TYPE_CHANNELS;
+				// ar->alignment = RGN_ALIGN_LEFT;
+				// ar->v2d.scroll = (V2D_SCROLL_RIGHT|V2D_SCROLL_BOTTOM);
 
-				/* for some reason, this doesn't seem to go auto like for NLA... */
-				ar = MEM_callocN(sizeof(ARegion), "area region from do_versions");
-				BLI_addtail(lb, ar);
-				ar->regiontype = RGN_TYPE_UI;
-				ar->alignment = RGN_ALIGN_RIGHT;
-				ar->v2d.scroll = V2D_SCROLL_RIGHT;
-				ar->v2d.flag = RGN_FLAG_HIDDEN;
-				break;
+				// /* for some reason, this doesn't seem to go auto like for NLA... */
+				// ar = MEM_callocN(sizeof(ARegion), "area region from do_versions");
+				// BLI_addtail(lb, ar);
+				// ar->regiontype = RGN_TYPE_UI;
+				// ar->alignment = RGN_ALIGN_RIGHT;
+				// ar->v2d.scroll = V2D_SCROLL_RIGHT;
+				// ar->v2d.flag = RGN_FLAG_HIDDEN;
+				// break;
 
 			/* case SPACE_ACTION:
 				ar = MEM_callocN(sizeof(ARegion), "area region from do_versions");
@@ -301,24 +301,24 @@ static void area_add_window_regions(ScrArea *sa, SpaceLink *sl, ListBase *lb)
 					ar->v2d.min[1] = ar->v2d.max[1] = 20.0;
 				}
 				break; */
-			case SPACE_IPO:
-				{
-					SpaceIpo *sipo = (SpaceIpo *)sl;
-					memcpy(&ar->v2d, &sipo->v2d, sizeof(View2D));
+			// case SPACE_IPO:
+				// {
+					// SpaceIpo *sipo = (SpaceIpo *)sl;
+					// memcpy(&ar->v2d, &sipo->v2d, sizeof(View2D));
 
-					/* init mainarea view2d */
-					ar->v2d.scroll |= (V2D_SCROLL_BOTTOM|V2D_SCROLL_SCALE_HORIZONTAL);
-					ar->v2d.scroll |= (V2D_SCROLL_LEFT|V2D_SCROLL_SCALE_VERTICAL);
+					// /* init mainarea view2d */
+					// ar->v2d.scroll |= (V2D_SCROLL_BOTTOM|V2D_SCROLL_SCALE_HORIZONTAL);
+					// ar->v2d.scroll |= (V2D_SCROLL_LEFT|V2D_SCROLL_SCALE_VERTICAL);
 
-					ar->v2d.min[0] = FLT_MIN;
-					ar->v2d.min[1] = FLT_MIN;
+					// ar->v2d.min[0] = FLT_MIN;
+					// ar->v2d.min[1] = FLT_MIN;
 
-					ar->v2d.max[0] = MAXFRAMEF;
-					ar->v2d.max[1] = FLT_MAX;
+					// ar->v2d.max[0] = MAXFRAMEF;
+					// ar->v2d.max[1] = FLT_MAX;
 
-					//ar->v2d.flag |= V2D_IS_INITIALISED;
-					break;
-				}
+					// //ar->v2d.flag |= V2D_IS_INITIALISED;
+					// break;
+				// }
 			/*
 			case SPACE_NLA:
 				{

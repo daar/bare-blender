@@ -5736,57 +5736,57 @@ void special_aftertrans_update(bContext *C, TransInfo *t)
 		// /* clear flag that was set for time-slide drawing */
 		// saction->flag &= ~SACTION_MOVING;
 	// }
-	else if (t->spacetype == SPACE_IPO) {
-		SpaceIpo *sipo = (SpaceIpo *)t->sa->spacedata.first;
-		bAnimContext ac;
-		const short use_handle = !(sipo->flag & SIPO_NOHANDLES);
+	// else if (t->spacetype == SPACE_IPO) {
+		// SpaceIpo *sipo = (SpaceIpo *)t->sa->spacedata.first;
+		// bAnimContext ac;
+		// const short use_handle = !(sipo->flag & SIPO_NOHANDLES);
 		
-		/* initialize relevant anim-context 'context' data */
-		if (ANIM_animdata_get_context(C, &ac) == 0)
-			return;
+		// /* initialize relevant anim-context 'context' data */
+		// if (ANIM_animdata_get_context(C, &ac) == 0)
+			// return;
 		
-		if (ac.datatype) {
-			ListBase anim_data = {NULL, NULL};
-			bAnimListElem *ale;
-			short filter = (ANIMFILTER_DATA_VISIBLE | ANIMFILTER_FOREDIT | ANIMFILTER_CURVE_VISIBLE);
+		// if (ac.datatype) {
+			// ListBase anim_data = {NULL, NULL};
+			// bAnimListElem *ale;
+			// short filter = (ANIMFILTER_DATA_VISIBLE | ANIMFILTER_FOREDIT | ANIMFILTER_CURVE_VISIBLE);
 			
-			/* get channels to work on */
-			ANIM_animdata_filter(&ac, &anim_data, filter, ac.data, ac.datatype);
+			// /* get channels to work on */
+			// ANIM_animdata_filter(&ac, &anim_data, filter, ac.data, ac.datatype);
 			
-			for (ale = anim_data.first; ale; ale = ale->next) {
-				//AnimData *adt = ANIM_nla_mapping_get(&ac, ale);
-				FCurve *fcu = (FCurve *)ale->key_data;
+			// for (ale = anim_data.first; ale; ale = ale->next) {
+				// //AnimData *adt = ANIM_nla_mapping_get(&ac, ale);
+				// FCurve *fcu = (FCurve *)ale->key_data;
 				
-				/* 3 cases here for curve cleanups:
-				 * 1) NOTRANSKEYCULL on     -> cleanup of duplicates shouldn't be done
-				 * 2) canceled == 0        -> user confirmed the transform, so duplicates should be removed
-				 * 3) canceled + duplicate -> user canceled the transform, but we made duplicates, so get rid of these
-				 */
-				if ((sipo->flag & SIPO_NOTRANSKEYCULL) == 0 &&
-				    ((canceled == 0) || (duplicate)))
-				{
-			/* 		if (adt) {
-						ANIM_nla_mapping_apply_fcurve(adt, fcu, 0, 0);
-						posttrans_fcurve_clean(fcu, use_handle);
-						ANIM_nla_mapping_apply_fcurve(adt, fcu, 1, 0);
-					}
-					else */
-						posttrans_fcurve_clean(fcu, use_handle);
-				}
-			}
+				// /* 3 cases here for curve cleanups:
+				 // * 1) NOTRANSKEYCULL on     -> cleanup of duplicates shouldn't be done
+				 // * 2) canceled == 0        -> user confirmed the transform, so duplicates should be removed
+				 // * 3) canceled + duplicate -> user canceled the transform, but we made duplicates, so get rid of these
+				 // */
+				// if ((sipo->flag & SIPO_NOTRANSKEYCULL) == 0 &&
+				    // ((canceled == 0) || (duplicate)))
+				// {
+			// /* 		if (adt) {
+						// ANIM_nla_mapping_apply_fcurve(adt, fcu, 0, 0);
+						// posttrans_fcurve_clean(fcu, use_handle);
+						// ANIM_nla_mapping_apply_fcurve(adt, fcu, 1, 0);
+					// }
+					// else */
+						// posttrans_fcurve_clean(fcu, use_handle);
+				// }
+			// }
 			
-			/* free temp memory */
-			ANIM_animdata_freelist(&anim_data);
-		}
+			// /* free temp memory */
+			// ANIM_animdata_freelist(&anim_data);
+		// }
 		
-		/* Make sure all F-Curves are set correctly, but not if transform was
-		 * canceled, since then curves were already restored to initial state.
-		 * Note: if the refresh is really needed after cancel then some way
-		 *       has to be added to not update handle types (see bug 22289).
-		 */
-		if (!canceled)
-			ANIM_editkeyframes_refresh(&ac);
-	}
+		// /* Make sure all F-Curves are set correctly, but not if transform was
+		 // * canceled, since then curves were already restored to initial state.
+		 // * Note: if the refresh is really needed after cancel then some way
+		 // *       has to be added to not update handle types (see bug 22289).
+		 // */
+		// if (!canceled)
+			// ANIM_editkeyframes_refresh(&ac);
+	// }
 	// else if (t->spacetype == SPACE_NLA) {
 		// bAnimContext ac;
 		
@@ -5947,10 +5947,10 @@ int special_transform_moving(TransInfo *t)
 	/* if (t->spacetype == SPACE_SEQ) {
 		return G_TRANSFORM_SEQ;
 	}
-	else */ if (t->spacetype == SPACE_IPO) {
+	else */ /* if (t->spacetype == SPACE_IPO) {
 		return G_TRANSFORM_FCURVES;
-	}
-	else if (t->obedit || ((t->flag & T_POSE) && (t->poseobj))) {
+	} 
+	else*/ if (t->obedit || ((t->flag & T_POSE) && (t->poseobj))) {
 		return G_TRANSFORM_EDIT;
 	}
 	else if (t->flag & (T_OBJECT | T_TEXTURE)) {
@@ -7525,17 +7525,17 @@ void createTransData(bContext *C, TransInfo *t)
 		// t->num.flag |= NUM_NO_FRACTION; /* sequencer has no use for floating point transformations */
 		// createTransSeqData(C, t);
 	// }
-	else if (t->spacetype == SPACE_IPO) {
-		t->flag |= T_POINTS | T_2D_EDIT;
-		createTransGraphEditData(C, t);
-#if 0
-		if (t->data && (t->flag & T_PROP_EDIT)) {
-			sort_trans_data(t); // makes selected become first in array
-			set_prop_dist(t, 1);
-			sort_trans_data_dist(t);
-		}
-#endif
-	}
+	// else if (t->spacetype == SPACE_IPO) {
+		// t->flag |= T_POINTS | T_2D_EDIT;
+		// createTransGraphEditData(C, t);
+// #if 0
+		// if (t->data && (t->flag & T_PROP_EDIT)) {
+			// sort_trans_data(t); // makes selected become first in array
+			// set_prop_dist(t, 1);
+			// sort_trans_data_dist(t);
+		// }
+// #endif
+	// }
 	else if (t->spacetype == SPACE_NODE) {
 		t->flag |= T_POINTS | T_2D_EDIT;
 		createTransNodeData(C, t);

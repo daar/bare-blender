@@ -801,10 +801,10 @@ void blo_do_versions_pre250(FileData *fd, Library *lib, Main *main)
 			while (sa) {
 				SpaceLink *sl = sa->spacedata.first;
 				while (sl) {
-					if (sl->spacetype == SPACE_IPO) {
+					/* if (sl->spacetype == SPACE_IPO) {
 						SpaceIpo *sipo = (SpaceIpo*) sl;
 						sipo->v2d.max[0] = 15000.0;
-					}
+					} */
 					sl = sl->next;
 				}
 				sa = sa->next;
@@ -1323,10 +1323,10 @@ void blo_do_versions_pre250(FileData *fd, Library *lib, Main *main)
 				SpaceLink *sl;
 
 				for (sl = sa->spacedata.first; sl; sl = sl->next) {
-					if (sl->spacetype == SPACE_IPO) {
+					/* if (sl->spacetype == SPACE_IPO) {
 						SpaceSeq *sseq = (SpaceSeq*) sl;
 						sseq->v2d.keeptot = 0;
-					}
+					} */
 				}
 			}
 		}
@@ -3514,12 +3514,12 @@ void blo_do_versions_pre250(FileData *fd, Library *lib, Main *main)
 								sact->autosnap = SACTSNAP_FRAME;
 							}
 							break; */
-						case SPACE_IPO:
+						/* case SPACE_IPO:
 							{
 								SpaceIpo *sipo = (SpaceIpo *)sl;
 								sipo->autosnap = SACTSNAP_FRAME;
 							}
-							break;
+							break; */
 						/*
 						case SPACE_NLA:
 							{

@@ -612,68 +612,68 @@ static void graph_refresh(const bContext *C, ScrArea *sa)
 }
 
 /* only called once, from space/spacetypes.c */
-void ED_spacetype_ipo(void)
-{
-	SpaceType *st = MEM_callocN(sizeof(SpaceType), "spacetype ipo");
-	ARegionType *art;
+// void ED_spacetype_ipo(void)
+// {
+	// SpaceType *st = MEM_callocN(sizeof(SpaceType), "spacetype ipo");
+	// ARegionType *art;
 	
-	st->spaceid = SPACE_IPO;
-	strncpy(st->name, "Graph", BKE_ST_MAXNAME);
+	// st->spaceid = SPACE_IPO;
+	// strncpy(st->name, "Graph", BKE_ST_MAXNAME);
 	
-	st->new = graph_new;
-	st->free = graph_free;
-	st->init = graph_init;
-	st->duplicate = graph_duplicate;
-	st->operatortypes = graphedit_operatortypes;
-	st->keymap = graphedit_keymap;
-	st->listener = graph_listener;
-	st->refresh = graph_refresh;
+	// st->new = graph_new;
+	// st->free = graph_free;
+	// st->init = graph_init;
+	// st->duplicate = graph_duplicate;
+	// st->operatortypes = graphedit_operatortypes;
+	// st->keymap = graphedit_keymap;
+	// st->listener = graph_listener;
+	// st->refresh = graph_refresh;
 	
-	/* regions: main window */
-	art = MEM_callocN(sizeof(ARegionType), "spacetype graphedit region");
-	art->regionid = RGN_TYPE_WINDOW;
-	art->init = graph_main_area_init;
-	art->draw = graph_main_area_draw;
-	art->listener = graph_region_listener;
-	art->keymapflag = ED_KEYMAP_VIEW2D | ED_KEYMAP_MARKERS | ED_KEYMAP_ANIMATION | ED_KEYMAP_FRAMES;
+	// /* regions: main window */
+	// art = MEM_callocN(sizeof(ARegionType), "spacetype graphedit region");
+	// art->regionid = RGN_TYPE_WINDOW;
+	// art->init = graph_main_area_init;
+	// art->draw = graph_main_area_draw;
+	// art->listener = graph_region_listener;
+	// art->keymapflag = ED_KEYMAP_VIEW2D | ED_KEYMAP_MARKERS | ED_KEYMAP_ANIMATION | ED_KEYMAP_FRAMES;
 
-	BLI_addhead(&st->regiontypes, art);
+	// BLI_addhead(&st->regiontypes, art);
 	
-	/* regions: header */
-	art = MEM_callocN(sizeof(ARegionType), "spacetype graphedit region");
-	art->regionid = RGN_TYPE_HEADER;
-	art->prefsizey = HEADERY;
-	art->keymapflag = ED_KEYMAP_UI | ED_KEYMAP_VIEW2D | ED_KEYMAP_FRAMES | ED_KEYMAP_HEADER;
-	art->listener = graph_region_listener;
-	art->init = graph_header_area_init;
-	art->draw = graph_header_area_draw;
+	// /* regions: header */
+	// art = MEM_callocN(sizeof(ARegionType), "spacetype graphedit region");
+	// art->regionid = RGN_TYPE_HEADER;
+	// art->prefsizey = HEADERY;
+	// art->keymapflag = ED_KEYMAP_UI | ED_KEYMAP_VIEW2D | ED_KEYMAP_FRAMES | ED_KEYMAP_HEADER;
+	// art->listener = graph_region_listener;
+	// art->init = graph_header_area_init;
+	// art->draw = graph_header_area_draw;
 	
-	BLI_addhead(&st->regiontypes, art);
+	// BLI_addhead(&st->regiontypes, art);
 	
-	/* regions: channels */
-	art = MEM_callocN(sizeof(ARegionType), "spacetype graphedit region");
-	art->regionid = RGN_TYPE_CHANNELS;
-	art->prefsizex = 200 + V2D_SCROLL_WIDTH; /* 200 is the 'standard', but due to scrollers, we want a bit more to fit the lock icons in */
-	art->keymapflag = ED_KEYMAP_UI | ED_KEYMAP_VIEW2D | ED_KEYMAP_FRAMES;
-	art->listener = graph_region_listener;
-	art->init = graph_channel_area_init;
-	art->draw = graph_channel_area_draw;
+	// /* regions: channels */
+	// art = MEM_callocN(sizeof(ARegionType), "spacetype graphedit region");
+	// art->regionid = RGN_TYPE_CHANNELS;
+	// art->prefsizex = 200 + V2D_SCROLL_WIDTH; /* 200 is the 'standard', but due to scrollers, we want a bit more to fit the lock icons in */
+	// art->keymapflag = ED_KEYMAP_UI | ED_KEYMAP_VIEW2D | ED_KEYMAP_FRAMES;
+	// art->listener = graph_region_listener;
+	// art->init = graph_channel_area_init;
+	// art->draw = graph_channel_area_draw;
 	
-	BLI_addhead(&st->regiontypes, art);
+	// BLI_addhead(&st->regiontypes, art);
 	
-	/* regions: UI buttons */
-	art = MEM_callocN(sizeof(ARegionType), "spacetype graphedit region");
-	art->regionid = RGN_TYPE_UI;
-	art->prefsizex = 200;
-	art->keymapflag = ED_KEYMAP_UI;
-	art->listener = graph_region_listener;
-	art->init = graph_buttons_area_init;
-	art->draw = graph_buttons_area_draw;
+	// /* regions: UI buttons */
+	// art = MEM_callocN(sizeof(ARegionType), "spacetype graphedit region");
+	// art->regionid = RGN_TYPE_UI;
+	// art->prefsizex = 200;
+	// art->keymapflag = ED_KEYMAP_UI;
+	// art->listener = graph_region_listener;
+	// art->init = graph_buttons_area_init;
+	// art->draw = graph_buttons_area_draw;
 	
-	BLI_addhead(&st->regiontypes, art);
+	// BLI_addhead(&st->regiontypes, art);
 
-	graph_buttons_register(art);
+	// graph_buttons_register(art);
 	
-	BKE_spacetype_register(st);
-}
+	// BKE_spacetype_register(st);
+// }
 

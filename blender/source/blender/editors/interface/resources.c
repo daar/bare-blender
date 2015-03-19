@@ -113,9 +113,9 @@ const unsigned char *UI_ThemeGetColorPtr(bTheme *btheme, int spacetype, int colo
 				case SPACE_VIEW3D:
 					ts = &btheme->tv3d;
 					break;
-				case SPACE_IPO:
+				/* case SPACE_IPO:
 					ts = &btheme->tipo;
-					break;
+					break; */
 				case SPACE_FILE:
 					ts = &btheme->tfile;
 					break;

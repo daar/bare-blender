@@ -5832,7 +5832,7 @@ static void lib_link_screen(FileData *fd, Main *main)
 							v3d->localvd->camera = newlibadr(fd, sc->id.lib, v3d->localvd->camera);
 						}
 					}
-					else if (sl->spacetype == SPACE_IPO) {
+					/* else if (sl->spacetype == SPACE_IPO) {
 						SpaceIpo *sipo = (SpaceIpo *)sl;
 						bDopeSheet *ads = sipo->ads;
 						
@@ -5840,7 +5840,7 @@ static void lib_link_screen(FileData *fd, Main *main)
 							ads->source = newlibadr(fd, sc->id.lib, ads->source);
 							ads->filter_grp = newlibadr(fd, sc->id.lib, ads->filter_grp);
 						}
-					}
+					} */
 					else if (sl->spacetype == SPACE_BUTS) {
 						SpaceButs *sbuts = (SpaceButs *)sl;
 						sbuts->pinid = newlibadr(fd, sc->id.lib, sbuts->pinid);
@@ -6155,22 +6155,22 @@ void blo_lib_link_screen_restore(Main *newmain, bScreen *curscreen, Scene *cursc
 						}
 					}
 				}
-				else if (sl->spacetype == SPACE_IPO) {
-					SpaceIpo *sipo = (SpaceIpo *)sl;
-					bDopeSheet *ads = sipo->ads;
+				// else if (sl->spacetype == SPACE_IPO) {
+					// SpaceIpo *sipo = (SpaceIpo *)sl;
+					// bDopeSheet *ads = sipo->ads;
 					
-					if (ads) {
-						ads->source = restore_pointer_by_name(newmain, (ID *)ads->source, USER_ONE);
+					// if (ads) {
+						// ads->source = restore_pointer_by_name(newmain, (ID *)ads->source, USER_ONE);
 						
-						if (ads->filter_grp)
-							ads->filter_grp = restore_pointer_by_name(newmain, (ID *)ads->filter_grp, USER_IGNORE);
-					}
+						// if (ads->filter_grp)
+							// ads->filter_grp = restore_pointer_by_name(newmain, (ID *)ads->filter_grp, USER_IGNORE);
+					// }
 					
-					/* force recalc of list of channels (i.e. includes calculating F-Curve colors)
-					 * thus preventing the "black curves" problem post-undo
-					 */
-					sipo->flag |= SIPO_TEMP_NEEDCHANSYNC;
-				}
+					// /* force recalc of list of channels (i.e. includes calculating F-Curve colors)
+					 // * thus preventing the "black curves" problem post-undo
+					 // */
+					// sipo->flag |= SIPO_TEMP_NEEDCHANSYNC;
+				// }
 				else if (sl->spacetype == SPACE_BUTS) {
 					SpaceButs *sbuts = (SpaceButs *)sl;
 					sbuts->pinid = restore_pointer_by_name(newmain, sbuts->pinid, USER_IGNORE);
@@ -6541,12 +6541,12 @@ static bool direct_link_screen(FileData *fd, bScreen *sc)
 				
 				blo_do_versions_view3d_split_250(v3d, &sl->regionbase);
 			}
-			else if (sl->spacetype == SPACE_IPO) {
+			/* else if (sl->spacetype == SPACE_IPO) {
 				SpaceIpo *sipo = (SpaceIpo *)sl;
 				
 				sipo->ads = newdataadr(fd, sipo->ads);
 				BLI_listbase_clear(&sipo->ghostCurves);
-			} /*
+			} */ /*
 			else if (sl->spacetype == SPACE_NLA) {
 				SpaceNla *snla = (SpaceNla *)sl;
 				

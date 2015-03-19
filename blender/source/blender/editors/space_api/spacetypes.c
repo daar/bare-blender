@@ -81,7 +81,7 @@ void ED_spacetypes_init(void)
 	//ED_spacetype_outliner();
 	//ED_spacetype_time();
 	ED_spacetype_view3d();
-	ED_spacetype_ipo();
+	// ED_spacetype_ipo();
 	ED_spacetype_image();
 	ED_spacetype_node();
 	ED_spacetype_buttons();
@@ -146,7 +146,7 @@ void ED_spacemacros_init(void)
 	ED_operatormacros_node();
 	ED_operatormacros_object();
 	ED_operatormacros_file();
-	ED_operatormacros_graph();
+	//ED_operatormacros_graph();
 	//ED_operatormacros_action();
 	ED_operatormacros_clip();
 	ED_operatormacros_curve();

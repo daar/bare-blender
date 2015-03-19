@@ -1664,70 +1664,70 @@ static void rna_def_userdef_theme_space_view3d(BlenderRNA *brna)
 }
 
 
-static void rna_def_userdef_theme_space_graph(BlenderRNA *brna)
-{
-	StructRNA *srna;
-	PropertyRNA *prop;
+// static void rna_def_userdef_theme_space_graph(BlenderRNA *brna)
+// {
+	// StructRNA *srna;
+	// PropertyRNA *prop;
 
-	/* space_graph */
-	srna = RNA_def_struct(brna, "ThemeGraphEditor", NULL);
-	RNA_def_struct_sdna(srna, "ThemeSpace");
-	RNA_def_struct_clear_flag(srna, STRUCT_UNDO);
-	RNA_def_struct_ui_text(srna, "Theme Graph Editor", "Theme settings for the graph editor");
+	// /* space_graph */
+	// srna = RNA_def_struct(brna, "ThemeGraphEditor", NULL);
+	// RNA_def_struct_sdna(srna, "ThemeSpace");
+	// RNA_def_struct_clear_flag(srna, STRUCT_UNDO);
+	// RNA_def_struct_ui_text(srna, "Theme Graph Editor", "Theme settings for the graph editor");
 
-	rna_def_userdef_theme_spaces_main(srna);
-	rna_def_userdef_theme_spaces_list_main(srna);
+	// rna_def_userdef_theme_spaces_main(srna);
+	// rna_def_userdef_theme_spaces_list_main(srna);
 
-	prop = RNA_def_property(srna, "grid", PROP_FLOAT, PROP_COLOR_GAMMA);
-	RNA_def_property_array(prop, 3);
-	RNA_def_property_ui_text(prop, "Grid", "");
-	RNA_def_property_update(prop, 0, "rna_userdef_update");
+	// prop = RNA_def_property(srna, "grid", PROP_FLOAT, PROP_COLOR_GAMMA);
+	// RNA_def_property_array(prop, 3);
+	// RNA_def_property_ui_text(prop, "Grid", "");
+	// RNA_def_property_update(prop, 0, "rna_userdef_update");
 
-	prop = RNA_def_property(srna, "frame_current", PROP_FLOAT, PROP_COLOR_GAMMA);
-	RNA_def_property_float_sdna(prop, NULL, "cframe");
-	RNA_def_property_array(prop, 3);
-	RNA_def_property_ui_text(prop, "Current Frame", "");
-	RNA_def_property_update(prop, 0, "rna_userdef_update");
+	// prop = RNA_def_property(srna, "frame_current", PROP_FLOAT, PROP_COLOR_GAMMA);
+	// RNA_def_property_float_sdna(prop, NULL, "cframe");
+	// RNA_def_property_array(prop, 3);
+	// RNA_def_property_ui_text(prop, "Current Frame", "");
+	// RNA_def_property_update(prop, 0, "rna_userdef_update");
 	
-	prop = RNA_def_property(srna, "window_sliders", PROP_FLOAT, PROP_COLOR_GAMMA);
-	RNA_def_property_float_sdna(prop, NULL, "shade1");
-	RNA_def_property_array(prop, 3);
-	RNA_def_property_ui_text(prop, "Window Sliders", "");
-	RNA_def_property_update(prop, 0, "rna_userdef_update");
+	// prop = RNA_def_property(srna, "window_sliders", PROP_FLOAT, PROP_COLOR_GAMMA);
+	// RNA_def_property_float_sdna(prop, NULL, "shade1");
+	// RNA_def_property_array(prop, 3);
+	// RNA_def_property_ui_text(prop, "Window Sliders", "");
+	// RNA_def_property_update(prop, 0, "rna_userdef_update");
 
-	prop = RNA_def_property(srna, "channels_region", PROP_FLOAT, PROP_COLOR_GAMMA);
-	RNA_def_property_float_sdna(prop, NULL, "shade2");
-	RNA_def_property_array(prop, 3);
-	RNA_def_property_ui_text(prop, "Channels Region", "");
-	RNA_def_property_update(prop, 0, "rna_userdef_update");
+	// prop = RNA_def_property(srna, "channels_region", PROP_FLOAT, PROP_COLOR_GAMMA);
+	// RNA_def_property_float_sdna(prop, NULL, "shade2");
+	// RNA_def_property_array(prop, 3);
+	// RNA_def_property_ui_text(prop, "Channels Region", "");
+	// RNA_def_property_update(prop, 0, "rna_userdef_update");
 	
-	prop = RNA_def_property(srna, "dopesheet_channel", PROP_FLOAT, PROP_COLOR_GAMMA);
-	RNA_def_property_float_sdna(prop, NULL, "ds_channel");
-	RNA_def_property_array(prop, 3);
-	RNA_def_property_ui_text(prop, "Dope Sheet Channel", "");
-	RNA_def_property_update(prop, 0, "rna_userdef_update");
+	// prop = RNA_def_property(srna, "dopesheet_channel", PROP_FLOAT, PROP_COLOR_GAMMA);
+	// RNA_def_property_float_sdna(prop, NULL, "ds_channel");
+	// RNA_def_property_array(prop, 3);
+	// RNA_def_property_ui_text(prop, "Dope Sheet Channel", "");
+	// RNA_def_property_update(prop, 0, "rna_userdef_update");
 	
-	prop = RNA_def_property(srna, "dopesheet_subchannel", PROP_FLOAT, PROP_COLOR_GAMMA);
-	RNA_def_property_float_sdna(prop, NULL, "ds_subchannel");
-	RNA_def_property_array(prop, 3);
-	RNA_def_property_ui_text(prop, "Dope Sheet Sub-Channel", "");
-	RNA_def_property_update(prop, 0, "rna_userdef_update");
+	// prop = RNA_def_property(srna, "dopesheet_subchannel", PROP_FLOAT, PROP_COLOR_GAMMA);
+	// RNA_def_property_float_sdna(prop, NULL, "ds_subchannel");
+	// RNA_def_property_array(prop, 3);
+	// RNA_def_property_ui_text(prop, "Dope Sheet Sub-Channel", "");
+	// RNA_def_property_update(prop, 0, "rna_userdef_update");
 	
-	prop = RNA_def_property(srna, "channel_group", PROP_FLOAT, PROP_COLOR_GAMMA);
-	RNA_def_property_float_sdna(prop, NULL, "group");
-	RNA_def_property_array(prop, 3);
-	RNA_def_property_ui_text(prop, "Channel Group", "");
-	RNA_def_property_update(prop, 0, "rna_userdef_update");
+	// prop = RNA_def_property(srna, "channel_group", PROP_FLOAT, PROP_COLOR_GAMMA);
+	// RNA_def_property_float_sdna(prop, NULL, "group");
+	// RNA_def_property_array(prop, 3);
+	// RNA_def_property_ui_text(prop, "Channel Group", "");
+	// RNA_def_property_update(prop, 0, "rna_userdef_update");
 
-	prop = RNA_def_property(srna, "active_channels_group", PROP_FLOAT, PROP_COLOR_GAMMA);
-	RNA_def_property_float_sdna(prop, NULL, "group_active");
-	RNA_def_property_array(prop, 3);
-	RNA_def_property_ui_text(prop, "Active Channel Group", "");
-	RNA_def_property_update(prop, 0, "rna_userdef_update");
+	// prop = RNA_def_property(srna, "active_channels_group", PROP_FLOAT, PROP_COLOR_GAMMA);
+	// RNA_def_property_float_sdna(prop, NULL, "group_active");
+	// RNA_def_property_array(prop, 3);
+	// RNA_def_property_ui_text(prop, "Active Channel Group", "");
+	// RNA_def_property_update(prop, 0, "rna_userdef_update");
 	
-	rna_def_userdef_theme_spaces_vertex(srna);
-	rna_def_userdef_theme_spaces_curves(srna, false, true, true, true);
-}
+	// rna_def_userdef_theme_spaces_vertex(srna);
+	// rna_def_userdef_theme_spaces_curves(srna, false, true, true, true);
+// }
 
 static void rna_def_userdef_theme_space_file(BlenderRNA *brna)
 {
@@ -2901,11 +2901,11 @@ static void rna_def_userdef_themes(BlenderRNA *brna)
 	RNA_def_property_struct_type(prop, "ThemeView3D");
 	RNA_def_property_ui_text(prop, "3D View", "");
 
-	prop = RNA_def_property(srna, "graph_editor", PROP_POINTER, PROP_NONE);
+/* 	prop = RNA_def_property(srna, "graph_editor", PROP_POINTER, PROP_NONE);
 	RNA_def_property_flag(prop, PROP_NEVER_NULL);
 	RNA_def_property_pointer_sdna(prop, NULL, "tipo");
 	RNA_def_property_struct_type(prop, "ThemeGraphEditor");
-	RNA_def_property_ui_text(prop, "Graph Editor", "");
+	RNA_def_property_ui_text(prop, "Graph Editor", ""); */
 
 	prop = RNA_def_property(srna, "file_browser", PROP_POINTER, PROP_NONE);
 	RNA_def_property_flag(prop, PROP_NEVER_NULL);
@@ -3078,7 +3078,7 @@ static void rna_def_userdef_dothemes(BlenderRNA *brna)
 	rna_def_userdef_theme_space_list_generic(brna);
 	
 	rna_def_userdef_theme_space_view3d(brna);
-	rna_def_userdef_theme_space_graph(brna);
+	// rna_def_userdef_theme_space_graph(brna);
 	rna_def_userdef_theme_space_file(brna);
 	//rna_def_userdef_theme_space_nla(brna);
 	//rna_def_userdef_theme_space_action(brna);

@@ -76,12 +76,12 @@ static int change_frame_poll(bContext *C)
 		if (ELEM(sa->spacetype, SPACE_TIME, SPACE_ACTION, SPACE_NLA, SPACE_SEQ, SPACE_CLIP)) {
 			return true;
 		} 
-		else */ if (sa->spacetype == SPACE_IPO) {
-			/* NOTE: Graph Editor has special version which does some extra stuff.
-			 * No need to show the generic error message for that case though!
-			 */
-			return false;
-		}
+		else */ //if (sa->spacetype == SPACE_IPO) {
+			// /* NOTE: Graph Editor has special version which does some extra stuff.
+			 // * No need to show the generic error message for that case though!
+			 // */
+			// return false;
+		// }
 	}
 	
 	CTX_wm_operator_poll_msg_set(C, "Expected an timeline/animation area to be active");

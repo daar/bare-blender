@@ -195,7 +195,7 @@ static bool transdata_check_local_center(TransInfo *t, short around)
 	return ((around == V3D_LOCAL) && (
 	            (t->flag & (T_OBJECT | T_POSE)) ||
 	            (t->obedit && ELEM(t->obedit->type, OB_MESH, OB_CURVE, OB_MBALL, OB_ARMATURE)) ||
-	            (t->spacetype == SPACE_IPO) ||
+	            //(t->spacetype == SPACE_IPO) ||
 	            (t->options & (CTX_MOVIECLIP | CTX_MASK | CTX_PAINT_CURVE)))
 	        );
 }
@@ -613,10 +613,11 @@ static void viewRedrawForce(const bContext *C, TransInfo *t)
 		//SpaceAction *saction = (SpaceAction *)t->sa->spacedata.first;
 		// WM_event_add_notifier(C, NC_ANIMATION | ND_KEYFRAME | NA_EDITED, NULL);
 	// }
-	else if (t->spacetype == SPACE_IPO) {
-		//SpaceIpo *sipo = (SpaceIpo *)t->sa->spacedata.first;
-		WM_event_add_notifier(C, NC_ANIMATION | ND_KEYFRAME | NA_EDITED, NULL);
-	} /*
+	// else if (t->spacetype == SPACE_IPO) {
+		// //SpaceIpo *sipo = (SpaceIpo *)t->sa->spacedata.first;
+		// WM_event_add_notifier(C, NC_ANIMATION | ND_KEYFRAME | NA_EDITED, NULL);
+	// } 
+	/*
 	else if (t->spacetype == SPACE_NLA) {
 		WM_event_add_notifier(C, NC_ANIMATION | ND_NLA | NA_EDITED, NULL);
 	} */
@@ -4082,11 +4083,11 @@ static void initTranslation(TransInfo *t)
 		t->snap[1] = ED_node_grid_size() * NODE_GRID_STEPS;
 		t->snap[2] = ED_node_grid_size();
 	}
-	else if (t->spacetype == SPACE_IPO) {
+	/* else if (t->spacetype == SPACE_IPO) {
 		t->snap[0] = 0.0f;
 		t->snap[1] = 1.0;
 		t->snap[2] = 0.1f;
-	}
+	} */
 	else {
 		t->snap[0] = 0.0f;
 		t->snap[1] = t->snap[2] = 1.0f;
@@ -7229,19 +7230,19 @@ static short getAnimEdit_SnapMode(TransInfo *t)
 		if (saction)
 			autosnap = saction->autosnap;
 	}
-	else */ if (t->spacetype == SPACE_IPO) {
+	else */ /* if (t->spacetype == SPACE_IPO) {
 		SpaceIpo *sipo = (SpaceIpo *)t->sa->spacedata.first;
 		
 		if (sipo)
 			autosnap = sipo->autosnap;
-	} /*
+	} */ /*
 	else if (t->spacetype == SPACE_NLA) {
 		SpaceNla *snla = (SpaceNla *)t->sa->spacedata.first;
 		
 		if (snla)
 			autosnap = snla->autosnap;
-	} */
-	else {
+	} 
+	else*/ {
 		autosnap = SACTSNAP_OFF;
 	}
 	

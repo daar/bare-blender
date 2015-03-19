@@ -286,10 +286,10 @@ int ED_operator_node_editable(bContext *C)
 	return 0;
 }
 
-int ED_operator_graphedit_active(bContext *C)
+/* int ED_operator_graphedit_active(bContext *C)
 {
 	return ed_spacetype_test(C, SPACE_IPO);
-}
+} */
 
 // int ED_operator_sequencer_active(bContext *C)
 // {

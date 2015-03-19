@@ -214,53 +214,53 @@
 /* ----------- Private Stuff - Graph Editor ------------- */
 
 /* Get data being edited in Graph Editor (depending on current 'mode') */
-static bool graphedit_get_context(bAnimContext *ac, SpaceIpo *sipo)
-{
-	/* init dopesheet data if non-existent (i.e. for old files) */
-	if (sipo->ads == NULL) {
-		sipo->ads = MEM_callocN(sizeof(bDopeSheet), "GraphEdit DopeSheet");
-		sipo->ads->source = (ID *)ac->scene;
-	}
-	ac->ads = sipo->ads;
+// static bool graphedit_get_context(bAnimContext *ac, SpaceIpo *sipo)
+// {
+	// /* init dopesheet data if non-existent (i.e. for old files) */
+	// if (sipo->ads == NULL) {
+		// sipo->ads = MEM_callocN(sizeof(bDopeSheet), "GraphEdit DopeSheet");
+		// sipo->ads->source = (ID *)ac->scene;
+	// }
+	// ac->ads = sipo->ads;
 	
-	/* set settings for Graph Editor - "Selected = Editable" */
-	if (sipo->flag & SIPO_SELCUVERTSONLY)
-		sipo->ads->filterflag |= ADS_FILTER_SELEDIT;
-	else
-		sipo->ads->filterflag &= ~ADS_FILTER_SELEDIT;
+	// /* set settings for Graph Editor - "Selected = Editable" */
+	// if (sipo->flag & SIPO_SELCUVERTSONLY)
+		// sipo->ads->filterflag |= ADS_FILTER_SELEDIT;
+	// else
+		// sipo->ads->filterflag &= ~ADS_FILTER_SELEDIT;
 	
-	/* sync settings with current view status, then return appropriate data */
-	switch (sipo->mode) {
-		case SIPO_MODE_ANIMATION:  /* Animation F-Curve Editor */
-			/* update scene-pointer (no need to check for pinning yet, as not implemented) */
-			sipo->ads->source = (ID *)ac->scene;
-			sipo->ads->filterflag &= ~ADS_FILTER_ONLYDRIVERS;
+	// /* sync settings with current view status, then return appropriate data */
+	// switch (sipo->mode) {
+		// case SIPO_MODE_ANIMATION:  /* Animation F-Curve Editor */
+			// /* update scene-pointer (no need to check for pinning yet, as not implemented) */
+			// sipo->ads->source = (ID *)ac->scene;
+			// sipo->ads->filterflag &= ~ADS_FILTER_ONLYDRIVERS;
 			
-			ac->datatype = ANIMCONT_FCURVES;
-			ac->data = sipo->ads;
+			// ac->datatype = ANIMCONT_FCURVES;
+			// ac->data = sipo->ads;
 			
-			ac->mode = sipo->mode;
-			return true;
+			// ac->mode = sipo->mode;
+			// return true;
 		
-		case SIPO_MODE_DRIVERS:  /* Driver F-Curve Editor */
-			/* update scene-pointer (no need to check for pinning yet, as not implemented) */
-			sipo->ads->source = (ID *)ac->scene;
-			sipo->ads->filterflag |= ADS_FILTER_ONLYDRIVERS;
+		// case SIPO_MODE_DRIVERS:  /* Driver F-Curve Editor */
+			// /* update scene-pointer (no need to check for pinning yet, as not implemented) */
+			// sipo->ads->source = (ID *)ac->scene;
+			// sipo->ads->filterflag |= ADS_FILTER_ONLYDRIVERS;
 			
-			ac->datatype = ANIMCONT_DRIVERS;
-			ac->data = sipo->ads;
+			// ac->datatype = ANIMCONT_DRIVERS;
+			// ac->data = sipo->ads;
 			
-			ac->mode = sipo->mode;
-			return true;
+			// ac->mode = sipo->mode;
+			// return true;
 		
-		default: /* unhandled yet */
-			ac->datatype = ANIMCONT_NONE;
-			ac->data = NULL;
+		// default: /* unhandled yet */
+			// ac->datatype = ANIMCONT_NONE;
+			// ac->data = NULL;
 			
-			ac->mode = -1;
-			return false;
-	}
-}
+			// ac->mode = -1;
+			// return false;
+	// }
+// }
 
 /* ----------- Private Stuff - NLA Editor ------------- */
 
@@ -303,12 +303,12 @@ bool ANIM_animdata_context_getdata(bAnimContext *ac)
 				ok = actedit_get_context(ac, saction);
 				break;
 			} */
-			case SPACE_IPO:
+			/* case SPACE_IPO:
 			{
 				SpaceIpo *sipo = (SpaceIpo *)sl;
 				ok = graphedit_get_context(ac, sipo);
 				break;
-			} /*
+			}  */ /*
 			case SPACE_NLA:
 			{
 				SpaceNla *snla = (SpaceNla *)sl;
@@ -1136,46 +1136,46 @@ static size_t animfilter_act_group(bAnimContext *ac, ListBase *anim_data, bDopeS
 	 *		- Hierarchy matters: this hack should be applied
 	 *		- Hierarchy ignored: cases like [#21276] won't work properly, unless we skip this hack
 	 */
-	if ( ((filter_mode & ANIMFILTER_LIST_VISIBLE) && EXPANDED_AGRP(ac, agrp) == 0) &&     /* care about hierarchy but group isn't expanded */
-	     (filter_mode & (ANIMFILTER_SEL | ANIMFILTER_UNSEL)) )                          /* care about selection status */
-	{
-		/* if the group itself isn't selected appropriately, we shouldn't consider it's children either */
-		if (ANIMCHANNEL_SELOK(SEL_AGRP(agrp)) == 0)
-			return 0;
+	// if ( ((filter_mode & ANIMFILTER_LIST_VISIBLE) && EXPANDED_AGRP(ac, agrp) == 0) &&     /* care about hierarchy but group isn't expanded */
+	     // (filter_mode & (ANIMFILTER_SEL | ANIMFILTER_UNSEL)) )                          /* care about selection status */
+	// {
+		// /* if the group itself isn't selected appropriately, we shouldn't consider it's children either */
+		// if (ANIMCHANNEL_SELOK(SEL_AGRP(agrp)) == 0)
+			// return 0;
 		
-		/* if we're still here, then the selection status of the curves within this group should not matter,
-		 * since this creates too much overhead for animators (i.e. making a slow workflow)
-		 *
-		 * Tools affected by this at time of coding (2010 Feb 09):
-		 *	- inserting keyframes on selected channels only
-		 *	- pasting keyframes
-		 *	- creating ghost curves in Graph Editor
-		 */
-		filter_mode &= ~(ANIMFILTER_SEL | ANIMFILTER_UNSEL | ANIMFILTER_LIST_VISIBLE);
-	}
+		// /* if we're still here, then the selection status of the curves within this group should not matter,
+		 // * since this creates too much overhead for animators (i.e. making a slow workflow)
+		 // *
+		 // * Tools affected by this at time of coding (2010 Feb 09):
+		 // *	- inserting keyframes on selected channels only
+		 // *	- pasting keyframes
+		 // *	- creating ghost curves in Graph Editor
+		 // */
+		// filter_mode &= ~(ANIMFILTER_SEL | ANIMFILTER_UNSEL | ANIMFILTER_LIST_VISIBLE);
+	// }
 	
 	/* add grouped F-Curves */
-	BEGIN_ANIMFILTER_SUBCHANNELS(EXPANDED_AGRP(ac, agrp))
-	{
-		/* special filter so that we can get just the F-Curves within the active group */
-		if (!(filter_mode & ANIMFILTER_ACTGROUPED) || (agrp->flag & AGRP_ACTIVE)) {
-			/* for the Graph Editor, curves may be set to not be visible in the view to lessen clutter,
-			 * but to do this, we need to check that the group doesn't have it's not-visible flag set preventing 
-			 * all its sub-curves to be shown
-			 */
-			if (!(filter_mode & ANIMFILTER_CURVE_VISIBLE) || !(agrp->flag & AGRP_NOTVISIBLE)) {
-				/* group must be editable for its children to be editable (if we care about this) */
-				if (!(filter_mode & ANIMFILTER_FOREDIT) || EDITABLE_AGRP(agrp)) {
-					/* get first F-Curve which can be used here */
-					FCurve *first_fcu = animfilter_fcurve_next(ads, agrp->channels.first, agrp, filter_mode, owner_id);
+	// BEGIN_ANIMFILTER_SUBCHANNELS(EXPANDED_AGRP(ac, agrp))
+	// {
+		// /* special filter so that we can get just the F-Curves within the active group */
+		// if (!(filter_mode & ANIMFILTER_ACTGROUPED) || (agrp->flag & AGRP_ACTIVE)) {
+			// /* for the Graph Editor, curves may be set to not be visible in the view to lessen clutter,
+			 // * but to do this, we need to check that the group doesn't have it's not-visible flag set preventing 
+			 // * all its sub-curves to be shown
+			 // */
+			// if (!(filter_mode & ANIMFILTER_CURVE_VISIBLE) || !(agrp->flag & AGRP_NOTVISIBLE)) {
+				// /* group must be editable for its children to be editable (if we care about this) */
+				// if (!(filter_mode & ANIMFILTER_FOREDIT) || EDITABLE_AGRP(agrp)) {
+					// /* get first F-Curve which can be used here */
+					// FCurve *first_fcu = animfilter_fcurve_next(ads, agrp->channels.first, agrp, filter_mode, owner_id);
 					
-					/* filter list, starting from this F-Curve */
-					tmp_items += animfilter_fcurves(&tmp_data, ads, first_fcu, agrp, filter_mode, owner_id);
-				}
-			}
-		}
-	}
-	END_ANIMFILTER_SUBCHANNELS;
+					// /* filter list, starting from this F-Curve */
+					// tmp_items += animfilter_fcurves(&tmp_data, ads, first_fcu, agrp, filter_mode, owner_id);
+				// }
+			// }
+		// }
+	// }
+	// END_ANIMFILTER_SUBCHANNELS;
 	
 	/* did we find anything? */
 	if (tmp_items) {

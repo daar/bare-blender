@@ -110,36 +110,36 @@ static int graph_panel_poll(const bContext *C, PanelType *UNUSED(pt))
 /* -------------- */
 
 /* Graph Editor View Settings */
-static void graph_panel_view(const bContext *C, Panel *pa)
-{
-	bScreen *sc = CTX_wm_screen(C);
-	SpaceIpo *sipo = CTX_wm_space_graph(C);
-	Scene *scene = CTX_data_scene(C);
-	PointerRNA spaceptr, sceneptr;
-	uiLayout *col, *sub, *row;
+// static void graph_panel_view(const bContext *C, Panel *pa)
+// {
+	// bScreen *sc = CTX_wm_screen(C);
+	// SpaceIpo *sipo = CTX_wm_space_graph(C);
+	// Scene *scene = CTX_data_scene(C);
+	// PointerRNA spaceptr, sceneptr;
+	// uiLayout *col, *sub, *row;
 	
-	/* get RNA pointers for use when creating the UI elements */
-	RNA_id_pointer_create(&scene->id, &sceneptr);
-	RNA_pointer_create(&sc->id, &RNA_SpaceGraphEditor, sipo, &spaceptr);
+	// /* get RNA pointers for use when creating the UI elements */
+	// RNA_id_pointer_create(&scene->id, &sceneptr);
+	// RNA_pointer_create(&sc->id, &RNA_SpaceGraphEditor, sipo, &spaceptr);
 
-	/* 2D-Cursor */
-	col = uiLayoutColumn(pa->layout, false);
-	uiItemR(col, &spaceptr, "show_cursor", 0, NULL, ICON_NONE);
+	// /* 2D-Cursor */
+	// col = uiLayoutColumn(pa->layout, false);
+	// uiItemR(col, &spaceptr, "show_cursor", 0, NULL, ICON_NONE);
 		
-	sub = uiLayoutColumn(col, true);
-	uiLayoutSetActive(sub, RNA_boolean_get(&spaceptr, "show_cursor"));
-	uiItemO(sub, IFACE_("Cursor from Selection"), ICON_NONE, "GRAPH_OT_frame_jump");
+	// sub = uiLayoutColumn(col, true);
+	// uiLayoutSetActive(sub, RNA_boolean_get(&spaceptr, "show_cursor"));
+	// uiItemO(sub, IFACE_("Cursor from Selection"), ICON_NONE, "GRAPH_OT_frame_jump");
 
-	sub = uiLayoutColumn(col, true);
-	uiLayoutSetActive(sub, RNA_boolean_get(&spaceptr, "show_cursor"));
-	row = uiLayoutSplit(sub, 0.7f, true);
-	uiItemR(row, &sceneptr, "frame_current", 0, IFACE_("Cursor X"), ICON_NONE);
-	uiItemEnumO(row, "GRAPH_OT_snap", IFACE_("To Keys"), 0, "type", GRAPHKEYS_SNAP_CFRA);
+	// sub = uiLayoutColumn(col, true);
+	// uiLayoutSetActive(sub, RNA_boolean_get(&spaceptr, "show_cursor"));
+	// row = uiLayoutSplit(sub, 0.7f, true);
+	// uiItemR(row, &sceneptr, "frame_current", 0, IFACE_("Cursor X"), ICON_NONE);
+	// uiItemEnumO(row, "GRAPH_OT_snap", IFACE_("To Keys"), 0, "type", GRAPHKEYS_SNAP_CFRA);
 	
-	row = uiLayoutSplit(sub, 0.7f, true);
-	uiItemR(row, &spaceptr, "cursor_position_y", 0, IFACE_("Cursor Y"), ICON_NONE);
-	uiItemEnumO(row, "GRAPH_OT_snap", IFACE_("To Keys"), 0, "type", GRAPHKEYS_SNAP_VALUE);
-}
+	// row = uiLayoutSplit(sub, 0.7f, true);
+	// uiItemR(row, &spaceptr, "cursor_position_y", 0, IFACE_("Cursor Y"), ICON_NONE);
+	// uiItemEnumO(row, "GRAPH_OT_snap", IFACE_("To Keys"), 0, "type", GRAPHKEYS_SNAP_VALUE);
+// }
 
 /* ******************* active F-Curve ************** */
 

@@ -2641,19 +2641,19 @@ static void write_screens(WriteData *wd, ListBase *scrbase)
 						writestruct(wd, DATA, "BGpic", 1, bgpic);
 					if (v3d->localvd) writestruct(wd, DATA, "View3D", 1, v3d->localvd);
 				}
-				else if (sl->spacetype==SPACE_IPO) {
-					SpaceIpo *sipo= (SpaceIpo *)sl;
-					ListBase tmpGhosts = sipo->ghostCurves;
+				// else if (sl->spacetype==SPACE_IPO) {
+					// SpaceIpo *sipo= (SpaceIpo *)sl;
+					// ListBase tmpGhosts = sipo->ghostCurves;
 					
-					/* temporarily disable ghost curves when saving */
-					sipo->ghostCurves.first= sipo->ghostCurves.last= NULL;
+					// /* temporarily disable ghost curves when saving */
+					// sipo->ghostCurves.first= sipo->ghostCurves.last= NULL;
 					
-					writestruct(wd, DATA, "SpaceIpo", 1, sl);
-					if (sipo->ads) writestruct(wd, DATA, "bDopeSheet", 1, sipo->ads);
+					// writestruct(wd, DATA, "SpaceIpo", 1, sl);
+					// if (sipo->ads) writestruct(wd, DATA, "bDopeSheet", 1, sipo->ads);
 					
-					/* reenable ghost curves */
-					sipo->ghostCurves= tmpGhosts;
-				}
+					// /* reenable ghost curves */
+					// sipo->ghostCurves= tmpGhosts;
+				// }
 				else if (sl->spacetype==SPACE_BUTS) {
 					writestruct(wd, DATA, "SpaceButs", 1, sl);
 				}

@@ -976,9 +976,9 @@ void recalcData(TransInfo *t)
 	/* else if (t->spacetype == SPACE_SEQ) {
 		recalcData_sequencer(t);
 	} */
-	else if (t->spacetype == SPACE_IPO) {
+	/* else if (t->spacetype == SPACE_IPO) {
 		recalcData_graphedit(t);
-	}
+	} */
 	else if (t->spacetype == SPACE_NODE) {
 		flushTransNodes(t);
 	}
@@ -1250,11 +1250,11 @@ void initTransInfo(bContext *C, TransInfo *t, wmOperator *op, const wmEvent *eve
 		t->view = &ar->v2d;
 		t->around = V3D_CENTER;
 	}
-	else if (t->spacetype == SPACE_IPO) {
+	/* else if (t->spacetype == SPACE_IPO) {
 		SpaceIpo *sipo = sa->spacedata.first;
 		t->view = &ar->v2d;
 		t->around = sipo->around;
-	}
+	} */
 	else if (t->spacetype == SPACE_CLIP) {
 		SpaceClip *sclip = sa->spacedata.first;
 		t->view = &ar->v2d;
@@ -1405,8 +1405,8 @@ void postTrans(bContext *C, TransInfo *t)
 	if (t->data) {
 		
 		/* free data malloced per trans-data */
-		if ((t->obedit && ELEM(t->obedit->type, OB_CURVE, OB_SURF)) ||
-		    (t->spacetype == SPACE_IPO))
+		if ((t->obedit && ELEM(t->obedit->type, OB_CURVE, OB_SURF)) /*||
+		    (t->spacetype == SPACE_IPO)*/)
 		{
 			int a;
 			for (a = 0, td = t->data; a < t->total; a++, td++) {
@@ -1786,8 +1786,8 @@ void calculateCenter(TransInfo *t)
 		case V3D_CURSOR:
 			if (ELEM(t->spacetype, SPACE_IMAGE, SPACE_CLIP))
 				calculateCenterCursor2D(t, t->center);
-			else if (t->spacetype == SPACE_IPO)
-				calculateCenterCursorGraph2D(t, t->center);
+			/* else if (t->spacetype == SPACE_IPO)
+				calculateCenterCursorGraph2D(t, t->center); */
 			else
 				calculateCenterCursor(t, t->center);
 			break;

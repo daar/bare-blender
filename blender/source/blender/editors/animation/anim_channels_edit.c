@@ -1178,10 +1178,10 @@ static void rearrange_action_channels(bAnimContext *ac, bAction *act, eRearrange
 		
 		for (agrp = act->groups.first; agrp; agrp = agrp->next) {
 			/* only consider F-Curves if they're visible (group expanded) */
-			if (EXPANDED_AGRP(ac, agrp)) {
+			/* if (EXPANDED_AGRP(ac, agrp)) {
 				rearrange_animchannel_islands(&agrp->channels, rearrange_func, mode, ANIMTYPE_FCURVE,
-				                              &anim_data_visible);
-			}
+				                              &anim_data_visible); 
+			}*/
 		}
 		
 		/* free temp data */
@@ -1346,15 +1346,15 @@ static int animchannels_grouping_poll(bContext *C)
 		// }
 			// break;
 			
-		case SPACE_IPO:
-		{
-			SpaceIpo *sipo = (SpaceIpo *)sl;
+		// case SPACE_IPO:
+		// {
+			// SpaceIpo *sipo = (SpaceIpo *)sl;
 			
-			/* drivers can't have groups... */
-			if (sipo->mode != SIPO_MODE_ANIMATION)
-				return 0;
-		}
-			break;
+			// /* drivers can't have groups... */
+			// if (sipo->mode != SIPO_MODE_ANIMATION)
+				// return 0;
+		// }
+			// break;
 			
 		/* unsupported... */
 		default:
@@ -1705,11 +1705,12 @@ static void setflag_anim_channels(bAnimContext *ac, eAnimChannel_Settings settin
 	 * - but for Graph Editor, this gets used also from main region
 	 *   where hierarchy doesn't apply [#21276]
 	 */
-	if ((ac->spacetype == SPACE_IPO) && (ac->regiontype != RGN_TYPE_CHANNELS)) {
-		/* graph editor (case 2) */
-		filter = (ANIMFILTER_DATA_VISIBLE | ANIMFILTER_LIST_CHANNELS | ANIMFILTER_CURVE_VISIBLE | ANIMFILTER_NODUPLIS);
-	}
-	else {
+	// if ((ac->spacetype == SPACE_IPO) && (ac->regiontype != RGN_TYPE_CHANNELS)) {
+		// /* graph editor (case 2) */
+		// filter = (ANIMFILTER_DATA_VISIBLE | ANIMFILTER_LIST_CHANNELS | ANIMFILTER_CURVE_VISIBLE | ANIMFILTER_NODUPLIS);
+	// }
+	// else 
+	{
 		/* standard case */
 		filter = (ANIMFILTER_DATA_VISIBLE | ANIMFILTER_LIST_VISIBLE | ANIMFILTER_LIST_CHANNELS | ANIMFILTER_NODUPLIS);
 	}

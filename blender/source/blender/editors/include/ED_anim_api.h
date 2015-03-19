@@ -287,9 +287,9 @@ typedef enum eAnimFilter_Flags {
 /* Actions (also used for Dopesheet) */
 /* Action Channel Group */
 #define EDITABLE_AGRP(agrp) ((agrp->flag & AGRP_PROTECTED) == 0)
-#define EXPANDED_AGRP(ac, agrp) \
-	( ((!(ac) || ((ac)->spacetype != SPACE_IPO)) && (agrp->flag & AGRP_EXPANDED)) || \
-	  (( (ac) && ((ac)->spacetype == SPACE_IPO)) && (agrp->flag & AGRP_EXPANDED_G)) )
+// #define EXPANDED_AGRP(ac, agrp) \
+	// ( ((!(ac) || ((ac)->spacetype != SPACE_IPO)) && (agrp->flag & AGRP_EXPANDED)) || \
+	  // (( (ac) && ((ac)->spacetype == SPACE_IPO)) && (agrp->flag & AGRP_EXPANDED_G)) )
 #define SEL_AGRP(agrp) ((agrp->flag & AGRP_SELECTED) || (agrp->flag & AGRP_ACTIVE))
 /* F-Curve Channels */
 #define EDITABLE_FCU(fcu) ((fcu->flag & FCURVE_PROTECTED) == 0)
@@ -665,7 +665,7 @@ void ED_operatortypes_anim(void);
 void ED_keymap_anim(struct wmKeyConfig *keyconf);
 	
 /* space_graph */
-void ED_operatormacros_graph(void);
+// void ED_operatormacros_graph(void);
 /* space_action */
 //void ED_operatormacros_action(void);
 

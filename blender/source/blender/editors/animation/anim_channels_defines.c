@@ -161,12 +161,12 @@ static bool acf_show_channel_colors(bAnimContext *ac)
 				showGroupColors = !(saction->flag & SACTION_NODRAWGCOLORS);
 			}
 				break; */
-			case SPACE_IPO:
+			/* case SPACE_IPO:
 			{
 				SpaceIpo *sipo = (SpaceIpo *)ac->sl;
 				showGroupColors = !(sipo->flag & SIPO_NODRAWGCOLORS);
 			}
-				break;
+				break; */
 		}
 	}
 	
@@ -520,8 +520,8 @@ static bool acf_scene_setting_valid(bAnimContext *ac, bAnimListElem *UNUSED(ale)
 			return ((ac) && (ac->spacetype == SPACE_NLA));
 		*/	
 		/* visible only in Graph Editor */
-		case ACHANNEL_SETTING_VISIBLE: 
-			return ((ac) && (ac->spacetype == SPACE_IPO));
+		/* case ACHANNEL_SETTING_VISIBLE: 
+			return ((ac) && (ac->spacetype == SPACE_IPO)); */
 		
 		/* only select and expand supported otherwise */
 		case ACHANNEL_SETTING_SELECT:
@@ -674,8 +674,8 @@ static bool acf_object_setting_valid(bAnimContext *ac, bAnimListElem *ale, eAnim
 			return ((ac) && (ac->spacetype == SPACE_NLA));
 		*/	
 		/* visible only in Graph Editor */
-		case ACHANNEL_SETTING_VISIBLE: 
-			return ((ac) && (ac->spacetype == SPACE_IPO) && (ob->adt));
+		/* case ACHANNEL_SETTING_VISIBLE: 
+			return ((ac) && (ac->spacetype == SPACE_IPO) && (ob->adt)); */
 		
 		/* only select and expand supported otherwise */
 		case ACHANNEL_SETTING_SELECT:
@@ -836,8 +836,8 @@ static bool acf_group_setting_valid(bAnimContext *ac, bAnimListElem *UNUSED(ale)
 			return false;
 		
 		/* conditionally supported */
-		case ACHANNEL_SETTING_VISIBLE: /* Only available in Graph Editor */
-			return (ac->spacetype == SPACE_IPO);
+		// case ACHANNEL_SETTING_VISIBLE: /* Only available in Graph Editor */
+			// return (ac->spacetype == SPACE_IPO);
 			
 		default: /* always supported */
 			return true;
@@ -860,9 +860,9 @@ static int acf_group_setting_flag(bAnimContext *ac, eAnimChannel_Settings settin
 			 * allowing different collapsing of groups there, since sharing the flag
 			 * proved to be a hazard for workflows...
 			 */
-			return (ac->spacetype == SPACE_IPO) ? 
-			       AGRP_EXPANDED_G :        /* Graph Editor case */
-			       AGRP_EXPANDED;           /* DopeSheet and elsewhere */
+			// return (ac->spacetype == SPACE_IPO) ? 
+			       // AGRP_EXPANDED_G :        /* Graph Editor case */
+			       // AGRP_EXPANDED;           /* DopeSheet and elsewhere */
 		}
 			
 		case ACHANNEL_SETTING_MUTE: /* muted */
@@ -957,8 +957,8 @@ static bool acf_fcurve_setting_valid(bAnimContext *ac, bAnimListElem *ale, eAnim
 			else
 				return false;  // NOTE: in this special case, we need to draw ICON_ZOOMOUT
 				
-		case ACHANNEL_SETTING_VISIBLE: /* Only available in Graph Editor */
-			return (ac->spacetype == SPACE_IPO);
+		// case ACHANNEL_SETTING_VISIBLE: /* Only available in Graph Editor */
+			// return (ac->spacetype == SPACE_IPO);
 			
 		/* always available */
 		default:
@@ -3491,29 +3491,30 @@ void ANIM_channel_draw(bAnimContext *ac, bAnimListElem *ale, float yminc, float 
 	 *	- in Grease Pencil mode, color swatches for layer color
 	 */
 	if (ac->sl) {
-		if ((ac->spacetype == SPACE_IPO) && acf->has_setting(ac, ale, ACHANNEL_SETTING_VISIBLE)) {
-			/* for F-Curves, draw color-preview of curve behind checkbox */
-			if (ale->type == ANIMTYPE_FCURVE) {
-				FCurve *fcu = (FCurve *)ale->data;
+		// if ((ac->spacetype == SPACE_IPO) && acf->has_setting(ac, ale, ACHANNEL_SETTING_VISIBLE)) {
+			// /* for F-Curves, draw color-preview of curve behind checkbox */
+			// if (ale->type == ANIMTYPE_FCURVE) {
+				// FCurve *fcu = (FCurve *)ale->data;
 				
-				/* F-Curve channels need to have a special 'color code' box drawn, which is colored with whatever 
-				 * color the curve has stored 
-				 */
-				glColor3fv(fcu->color);
+				// /* F-Curve channels need to have a special 'color code' box drawn, which is colored with whatever 
+				 // * color the curve has stored 
+				 // */
+				// glColor3fv(fcu->color);
 				
-				/* just a solid color rect
-				 */
-				glRectf(offset, yminc, offset + ICON_WIDTH, ymaxc);
-			}
+				// /* just a solid color rect
+				 // */
+				// glRectf(offset, yminc, offset + ICON_WIDTH, ymaxc);
+			// }
 			
-			/* icon is drawn as widget now... */
-			offset += ICON_WIDTH; 
-		} /*
+			// /* icon is drawn as widget now... */
+			// offset += ICON_WIDTH; 
+		// } 
+		/*
 		else if ((ac->spacetype == SPACE_NLA) && acf->has_setting(ac, ale, ACHANNEL_SETTING_SOLO)) {
 			/ * just skip - drawn as widget now * /
 			offset += ICON_WIDTH; 
-		} */
-		else if (ale->type == ANIMTYPE_GPLAYER) {
+		} 
+		else*/ if (ale->type == ANIMTYPE_GPLAYER) {
 			/* just skip - drawn as a widget */
 			offset += ICON_WIDTH;
 		}
@@ -3955,17 +3956,18 @@ void ANIM_channel_draw_widgets(bContext *C, bAnimContext *ac, bAnimListElem *ale
 	 *	- in Grease Pencil mode, color swatches for layer color
 	 */
 	if (ac->sl) {
-		if ((ac->spacetype == SPACE_IPO) && acf->has_setting(ac, ale, ACHANNEL_SETTING_VISIBLE)) {
-			/* visibility toggle  */
-			draw_setting_widget(ac, ale, acf, block, offset, ymid, ACHANNEL_SETTING_VISIBLE);
-			offset += ICON_WIDTH; 
-		} /*
+		// if ((ac->spacetype == SPACE_IPO) && acf->has_setting(ac, ale, ACHANNEL_SETTING_VISIBLE)) {
+			// /* visibility toggle  */
+			// draw_setting_widget(ac, ale, acf, block, offset, ymid, ACHANNEL_SETTING_VISIBLE);
+			// offset += ICON_WIDTH; 
+		// } 
+		/*
 		else if ((ac->spacetype == SPACE_NLA) && acf->has_setting(ac, ale, ACHANNEL_SETTING_SOLO)) {
 			/ * 'solo' setting for NLA Tracks * /
 			draw_setting_widget(ac, ale, acf, block, offset, ymid, ACHANNEL_SETTING_SOLO);
 			offset += ICON_WIDTH; 
-		} */
-		else if (ale->type == ANIMTYPE_GPLAYER) {
+		} 
+		else*/ if (ale->type == ANIMTYPE_GPLAYER) {
 			/* color swatch for layer color */
 			bGPDlayer *gpl = (bGPDlayer *)ale->data;
 			PointerRNA ptr;
