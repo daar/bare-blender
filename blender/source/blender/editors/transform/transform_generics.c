@@ -41,7 +41,7 @@
 #include "DNA_brush_types.h"
 #include "DNA_lattice_types.h"
 #include "DNA_screen_types.h"
-#include "DNA_sequence_types.h"
+// #include "DNA_sequence_types.h"
 #include "DNA_space_types.h"
 #include "DNA_scene_types.h"
 #include "DNA_object_types.h"
@@ -76,7 +76,7 @@
 //#include "BKE_nla.h"
 #include "BKE_context.h"
 #include "BKE_paint.h"
-#include "BKE_sequencer.h"
+// #include "BKE_sequencer.h"
 #include "BKE_editmesh.h"
 #include "BKE_tracking.h"
 #include "BKE_mask.h"
@@ -293,20 +293,20 @@ static void editbmesh_apply_to_mirror(TransInfo *t)
 	// }
 // }
 
-static bool fcu_test_selected(FCurve *fcu)
-{
-	BezTriple *bezt = fcu->bezt;
-	unsigned int i;
+// static bool fcu_test_selected(FCurve *fcu)
+// {
+	// BezTriple *bezt = fcu->bezt;
+	// unsigned int i;
 
-	if (bezt == NULL) /* ignore baked */
-		return 0;
+	// if (bezt == NULL) /* ignore baked */
+		// return 0;
 
-	for (i = 0; i < fcu->totvert; i++, bezt++) {
-		if (BEZSELECTED(bezt)) return 1;
-	}
+	// for (i = 0; i < fcu->totvert; i++, bezt++) {
+		// if (BEZSELECTED(bezt)) return 1;
+	// }
 
-	return 0;
-}
+	// return 0;
+// }
 
 /* helper for recalcData() - for Action Editor transforms */
 // static void recalcData_actedit(TransInfo *t)
@@ -356,64 +356,64 @@ static bool fcu_test_selected(FCurve *fcu)
 	// }
 // }
 /* helper for recalcData() - for Graph Editor transforms */
-static void recalcData_graphedit(TransInfo *t)
-{
-	SpaceIpo *sipo = (SpaceIpo *)t->sa->spacedata.first;
-	Scene *scene;
+// static void recalcData_graphedit(TransInfo *t)
+// {
+	// SpaceIpo *sipo = (SpaceIpo *)t->sa->spacedata.first;
+	// Scene *scene;
 	
-	ListBase anim_data = {NULL, NULL};
-	bAnimContext ac = {NULL};
-	int filter;
+	// ListBase anim_data = {NULL, NULL};
+	// bAnimContext ac = {NULL};
+	// int filter;
 	
-	bAnimListElem *ale;
-	int dosort = 0;
+	// bAnimListElem *ale;
+	// int dosort = 0;
 
-	/* initialize relevant anim-context 'context' data from TransInfo data */
-	/* NOTE: sync this with the code in ANIM_animdata_get_context() */
-	scene = ac.scene = t->scene;
-	ac.obact = OBACT;
-	ac.sa = t->sa;
-	ac.ar = t->ar;
-	ac.sl = (t->sa) ? t->sa->spacedata.first : NULL;
-	ac.spacetype = (t->sa) ? t->sa->spacetype : 0;
-	ac.regiontype = (t->ar) ? t->ar->regiontype : 0;
+	// /* initialize relevant anim-context 'context' data from TransInfo data */
+	// /* NOTE: sync this with the code in ANIM_animdata_get_context() */
+	// scene = ac.scene = t->scene;
+	// ac.obact = OBACT;
+	// ac.sa = t->sa;
+	// ac.ar = t->ar;
+	// ac.sl = (t->sa) ? t->sa->spacedata.first : NULL;
+	// ac.spacetype = (t->sa) ? t->sa->spacetype : 0;
+	// ac.regiontype = (t->ar) ? t->ar->regiontype : 0;
 	
-	ANIM_animdata_context_getdata(&ac);
+	// ANIM_animdata_context_getdata(&ac);
 	
-	/* do the flush first */
-	flushTransGraphData(t);
+	// /* do the flush first */
+	// flushTransGraphData(t);
 	
-	/* get curves to check if a re-sort is needed */
-	filter = (ANIMFILTER_DATA_VISIBLE | ANIMFILTER_FOREDIT | ANIMFILTER_CURVE_VISIBLE);
-	ANIM_animdata_filter(&ac, &anim_data, filter, ac.data, ac.datatype);
+	// /* get curves to check if a re-sort is needed */
+	// filter = (ANIMFILTER_DATA_VISIBLE | ANIMFILTER_FOREDIT | ANIMFILTER_CURVE_VISIBLE);
+	// ANIM_animdata_filter(&ac, &anim_data, filter, ac.data, ac.datatype);
 	
-	/* now test if there is a need to re-sort */
-	for (ale = anim_data.first; ale; ale = ale->next) {
-		FCurve *fcu = (FCurve *)ale->key_data;
+	// /* now test if there is a need to re-sort */
+	// for (ale = anim_data.first; ale; ale = ale->next) {
+		// FCurve *fcu = (FCurve *)ale->key_data;
 		
-		/* ignore FC-Curves without any selected verts */
-		if (!fcu_test_selected(fcu))
-			continue;
+		// /* ignore FC-Curves without any selected verts */
+		// if (!fcu_test_selected(fcu))
+			// continue;
 
-		/* watch it: if the time is wrong: do not correct handles yet */
-		if (test_time_fcurve(fcu))
-			dosort++;
-		else
-			calchandles_fcurve(fcu);
+		// /* watch it: if the time is wrong: do not correct handles yet */
+		// if (test_time_fcurve(fcu))
+			// dosort++;
+		// else
+			// calchandles_fcurve(fcu);
 		
-		/* set refresh tags for objects using this animation,
-		 * BUT only if realtime updates are enabled  
-		 */
-		if ((sipo->flag & SIPO_NOREALTIMEUPDATES) == 0)
-			ANIM_list_elem_update(t->scene, ale);
-	}
+		// /* set refresh tags for objects using this animation,
+		 // * BUT only if realtime updates are enabled  
+		 // */
+		// if ((sipo->flag & SIPO_NOREALTIMEUPDATES) == 0)
+			// ANIM_list_elem_update(t->scene, ale);
+	// }
 	
-	/* do resort and other updates? */
-	if (dosort) remake_graph_transdata(t, &anim_data);
+	// /* do resort and other updates? */
+	// if (dosort) remake_graph_transdata(t, &anim_data);
 	
-	/* now free temp channels */
-	ANIM_animdata_freelist(&anim_data);
-}
+	// /* now free temp channels */
+	// ANIM_animdata_freelist(&anim_data);
+// }
 
 /* helper for recalcData() - for NLA Editor transforms */
 // static void recalcData_nla(TransInfo *t)
@@ -926,7 +926,7 @@ static void recalcData_objects(TransInfo *t)
 }
 
 /* helper for recalcData() - for sequencer transforms */
-static void recalcData_sequencer(TransInfo *t)
+/* static void recalcData_sequencer(TransInfo *t)
 {
 	TransData *td;
 	int a;
@@ -946,7 +946,7 @@ static void recalcData_sequencer(TransInfo *t)
 	BKE_sequencer_preprocessed_cache_cleanup();
 
 	flushTransSeq(t);
-}
+} */
 
 /* called for updating while transform acts, once per redraw */
 void recalcData(TransInfo *t)

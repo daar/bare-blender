@@ -44,7 +44,7 @@
 #include "DNA_camera_types.h"
 #include "DNA_cloth_types.h"
 #include "DNA_constraint_types.h"
-#include "DNA_ipo_types.h"
+//#include "DNA_ipo_types.h"
 #include "DNA_key_types.h"
 #include "DNA_lattice_types.h"
 #include "DNA_lamp_types.h"
@@ -57,7 +57,7 @@
 #include "DNA_view3d_types.h"
 #include "DNA_screen_types.h"
 #include "DNA_sdna_types.h"
-#include "DNA_sequence_types.h"
+//#include "DNA_sequence_types.h"
 #include "DNA_smoke_types.h"
 #include "DNA_sound_types.h"
 #include "DNA_space_types.h"
@@ -81,7 +81,7 @@
 #include "BKE_particle.h"
 #include "BKE_pointcache.h"
 #include "BKE_screen.h"
-#include "BKE_sequencer.h"
+//#include "BKE_sequencer.h"
 #include "BKE_texture.h"
 #include "BKE_sound.h"
 #include "BKE_sca.h"
@@ -115,28 +115,28 @@ static void area_add_header_region(ScrArea *sa, ListBase *lb)
 	ar->v2d.flag = (V2D_PIXELOFS_X|V2D_PIXELOFS_Y);
 }
 
-static void sequencer_init_preview_region(ARegion *ar)
-{
-	// XXX a bit ugly still, copied from space_sequencer
-	/* NOTE: if you change values here, also change them in space_sequencer.c, sequencer_new */
-	ar->regiontype = RGN_TYPE_PREVIEW;
-	ar->alignment = RGN_ALIGN_TOP;
-	ar->flag |= RGN_FLAG_HIDDEN;
-	ar->v2d.keepzoom = V2D_KEEPASPECT | V2D_KEEPZOOM;
-	ar->v2d.minzoom = 0.00001f;
-	ar->v2d.maxzoom = 100000.0f;
-	ar->v2d.tot.xmin = -960.0f; /* 1920 width centered */
-	ar->v2d.tot.ymin = -540.0f; /* 1080 height centered */
-	ar->v2d.tot.xmax = 960.0f;
-	ar->v2d.tot.ymax = 540.0f;
-	ar->v2d.min[0] = 0.0f;
-	ar->v2d.min[1] = 0.0f;
-	ar->v2d.max[0] = 12000.0f;
-	ar->v2d.max[1] = 12000.0f;
-	ar->v2d.cur = ar->v2d.tot;
-	ar->v2d.align = V2D_ALIGN_FREE; // (V2D_ALIGN_NO_NEG_X|V2D_ALIGN_NO_NEG_Y);
-	ar->v2d.keeptot = V2D_KEEPTOT_FREE;
-}
+// static void sequencer_init_preview_region(ARegion *ar)
+// {
+	// // XXX a bit ugly still, copied from space_sequencer
+	// /* NOTE: if you change values here, also change them in space_sequencer.c, sequencer_new */
+	// ar->regiontype = RGN_TYPE_PREVIEW;
+	// ar->alignment = RGN_ALIGN_TOP;
+	// ar->flag |= RGN_FLAG_HIDDEN;
+	// ar->v2d.keepzoom = V2D_KEEPASPECT | V2D_KEEPZOOM;
+	// ar->v2d.minzoom = 0.00001f;
+	// ar->v2d.maxzoom = 100000.0f;
+	// ar->v2d.tot.xmin = -960.0f; /* 1920 width centered */
+	// ar->v2d.tot.ymin = -540.0f; /* 1080 height centered */
+	// ar->v2d.tot.xmax = 960.0f;
+	// ar->v2d.tot.ymax = 540.0f;
+	// ar->v2d.min[0] = 0.0f;
+	// ar->v2d.min[1] = 0.0f;
+	// ar->v2d.max[0] = 12000.0f;
+	// ar->v2d.max[1] = 12000.0f;
+	// ar->v2d.cur = ar->v2d.tot;
+	// ar->v2d.align = V2D_ALIGN_FREE; // (V2D_ALIGN_NO_NEG_X|V2D_ALIGN_NO_NEG_Y);
+	// ar->v2d.keeptot = V2D_KEEPTOT_FREE;
+// }
 
 static void area_add_window_regions(ScrArea *sa, SpaceLink *sl, ListBase *lb)
 {
@@ -537,7 +537,7 @@ static void do_version_mtex_factor_2_50(MTex **mtex_array, short idtype)
 			varfac = mtex->varfac;
 			colfac = mtex->colfac;
 
-			if (neg & MAP_DISP) mtex->dispfac = -mtex->dispfac;
+			//if (neg & MAP_DISP) mtex->dispfac = -mtex->dispfac;
 			if (neg & MAP_NORM) mtex->norfac = -mtex->norfac;
 			if (neg & MAP_WARP) mtex->warpfac = -mtex->warpfac;
 
@@ -642,10 +642,10 @@ static void do_versions_seq_unique_name_all_strips(Scene *sce, ListBase *seqbase
 	Sequence * seq = seqbasep->first;
 
 	while (seq) {
-		BKE_sequence_base_unique_name_recursive(&sce->ed->seqbase, seq);
+		/* BKE_sequence_base_unique_name_recursive(&sce->ed->seqbase, seq);
 		if (seq->seqbase.first) {
 			do_versions_seq_unique_name_all_strips(sce, &seq->seqbase);
-		}
+		} */
 		seq = seq->next;
 	}
 }
@@ -792,22 +792,22 @@ void blo_do_versions_250(FileData *fd, Library *lib, Main *main)
 
 		for (scene = main->scene.first; scene; scene = scene->id.next) {
 			if (scene->ed && scene->ed->seqbasep) {
-				SEQ_BEGIN (scene->ed, seq)
-				{
-					if (seq->type == SEQ_TYPE_SOUND_HD) {
-						char str[FILE_MAX];
-						BLI_join_dirfile(str, sizeof(str), seq->strip->dir, seq->strip->stripdata->name);
-						BLI_path_abs(str, main->name);
-						seq->sound = sound_new_file(main, str);
-					}
-					/* don't know, if anybody used that this way, but just in case, upgrade to new way... */
-					if ((seq->flag & SEQ_USE_PROXY_CUSTOM_FILE) &&
-					   !(seq->flag & SEQ_USE_PROXY_CUSTOM_DIR))
-					{
-						BLI_snprintf(seq->strip->proxy->dir, FILE_MAXDIR, "%s/BL_proxy", seq->strip->dir);
-					}
-				}
-				SEQ_END
+				// SEQ_BEGIN (scene->ed, seq)
+				// {
+					// if (seq->type == SEQ_TYPE_SOUND_HD) {
+						// char str[FILE_MAX];
+						// BLI_join_dirfile(str, sizeof(str), seq->strip->dir, seq->strip->stripdata->name);
+						// BLI_path_abs(str, main->name);
+						// seq->sound = sound_new_file(main, str);
+					// }
+					// /* don't know, if anybody used that this way, but just in case, upgrade to new way... */
+					// if ((seq->flag & SEQ_USE_PROXY_CUSTOM_FILE) &&
+					   // !(seq->flag & SEQ_USE_PROXY_CUSTOM_DIR))
+					// {
+						// BLI_snprintf(seq->strip->proxy->dir, FILE_MAXDIR, "%s/BL_proxy", seq->strip->dir);
+					// }
+				// }
+				// SEQ_END
 			}
 		}
 
@@ -1770,11 +1770,11 @@ void blo_do_versions_250(FileData *fd, Library *lib, Main *main)
 			if ((sce->r.ffcodecdata.flags & FFMPEG_MULTIPLEX_AUDIO) == 0)
 				sce->r.ffcodecdata.audio_codec = 0x0; // CODEC_ID_NONE
 
-			SEQ_BEGIN (sce->ed, seq)
+			/* SEQ_BEGIN (sce->ed, seq)
 			{
 				seq->volume = 1.0f;
 			}
-			SEQ_END
+			SEQ_END */
 		}
 
 		/* particle brush strength factor was changed from int to float */
@@ -2043,14 +2043,14 @@ void blo_do_versions_250(FileData *fd, Library *lib, Main *main)
 
 		for (scene = main->scene.first; scene; scene = scene->id.next) {
 			if (scene) {
-				Sequence *seq;
+/* 				Sequence *seq;
 				SEQ_BEGIN (scene->ed, seq)
 				{
 					if (seq->sat == 0.0f) {
 						seq->sat = 1.0f;
 					}
 				}
-				SEQ_END
+				SEQ_END */
 			}
 		}
 
@@ -2592,11 +2592,11 @@ void blo_do_versions_250(FileData *fd, Library *lib, Main *main)
 			for (scene = main->scene.first; scene; scene = scene->id.next) {
 				scene->r.ffcodecdata.audio_channels = 2;
 				scene->audio.volume = 1.0f;
-				SEQ_BEGIN (scene->ed, seq)
+				/* SEQ_BEGIN (scene->ed, seq)
 				{
 					seq->pitch = 1.0f;
 				}
-				SEQ_END
+				SEQ_END */
 			}
 		}
 

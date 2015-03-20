@@ -41,7 +41,7 @@
 #include "DNA_node_types.h"
 #include "DNA_screen_types.h"
 #include "DNA_space_types.h"
-#include "DNA_sequence_types.h"
+// #include "DNA_sequence_types.h"
 #include "DNA_view3d_types.h"
 #include "DNA_constraint_types.h"
 #include "DNA_scene_types.h"
@@ -76,7 +76,7 @@
 #include "BKE_mesh_mapping.h"
 #include "BKE_modifier.h"
 #include "BKE_movieclip.h"
-#include "BKE_nla.h"
+// #include "BKE_nla.h"
 #include "BKE_node.h"
 #include "BKE_object.h"
 #include "BKE_particle.h"
@@ -85,7 +85,7 @@
 #include "BKE_report.h"
 #include "BKE_rigidbody.h"
 #include "BKE_scene.h"
-#include "BKE_sequencer.h"
+// #include "BKE_sequencer.h"
 #include "BKE_editmesh.h"
 #include "BKE_tracking.h"
 #include "BKE_mask.h"
@@ -2518,135 +2518,135 @@ void flushTransNodes(TransInfo *t)
 /* commented _only_ because the meta may have animation data which
  * needs moving too [#28158] */
 
-#define SEQ_TX_NESTED_METAS
+// #define SEQ_TX_NESTED_METAS
 
-BLI_INLINE void trans_update_seq(Scene *sce, Sequence *seq, int old_start, int sel_flag)
-{
-	if (seq->depth == 0) {
-		/* Calculate this strip and all nested strips.
-		 * Children are ALWAYS transformed first so we don't need to do this in another loop.
-		 */
-		BKE_sequence_calc(sce, seq);
-	}
-	else {
-		BKE_sequence_calc_disp(sce, seq);
-	}
+// BLI_INLINE void trans_update_seq(Scene *sce, Sequence *seq, int old_start, int sel_flag)
+// {
+	// if (seq->depth == 0) {
+		// /* Calculate this strip and all nested strips.
+		 // * Children are ALWAYS transformed first so we don't need to do this in another loop.
+		 // */
+		// BKE_sequence_calc(sce, seq);
+	// }
+	// else {
+		// BKE_sequence_calc_disp(sce, seq);
+	// }
 
-	if (sel_flag == SELECT)
-		BKE_sequencer_offset_animdata(sce, seq, seq->start - old_start);
-}
+	// if (sel_flag == SELECT)
+		// BKE_sequencer_offset_animdata(sce, seq, seq->start - old_start);
+// }
 
-void flushTransSeq(TransInfo *t)
-{
-	ListBase *seqbasep = BKE_sequencer_editing_get(t->scene, false)->seqbasep; /* Editing null check already done */
-	int a, new_frame;
-	TransData *td = NULL;
-	TransData2D *td2d = NULL;
-	TransDataSeq *tdsq = NULL;
-	Sequence *seq;
-
-
-
-	/* prevent updating the same seq twice
-	 * if the transdata order is changed this will mess up
-	 * but so will TransDataSeq */
-	Sequence *seq_prev = NULL;
-	int old_start_prev = 0, sel_flag_prev = 0;
-
-	/* flush to 2d vector from internally used 3d vector */
-	for (a = 0, td = t->data, td2d = t->data2d; a < t->total; a++, td++, td2d++) {
-		int old_start;
-		tdsq = (TransDataSeq *)td->extra;
-		seq = tdsq->seq;
-		old_start = seq->start;
-		new_frame = iroundf(td2d->loc[0]);
-
-		switch (tdsq->sel_flag) {
-			case SELECT:
-#ifdef SEQ_TX_NESTED_METAS
-				if ((seq->depth != 0 || BKE_sequence_tx_test(seq))) /* for meta's, their children move */
-					seq->start = new_frame - tdsq->start_offset;
-#else
-				if (seq->type != SEQ_TYPE_META && (seq->depth != 0 || seq_tx_test(seq))) /* for meta's, their children move */
-					seq->start = new_frame - tdsq->start_offset;
-#endif
-				if (seq->depth == 0) {
-					seq->machine = iroundf(td2d->loc[1]);
-					CLAMP(seq->machine, 1, MAXSEQ);
-				}
-				break;
-			case SEQ_LEFTSEL: /* no vertical transform  */
-				BKE_sequence_tx_set_final_left(seq, new_frame);
-				BKE_sequence_tx_handle_xlimits(seq, tdsq->flag & SEQ_LEFTSEL, tdsq->flag & SEQ_RIGHTSEL);
-				BKE_sequence_single_fix(seq); /* todo - move this into aftertrans update? - old seq tx needed it anyway */
-				break;
-			case SEQ_RIGHTSEL: /* no vertical transform  */
-				BKE_sequence_tx_set_final_right(seq, new_frame);
-				BKE_sequence_tx_handle_xlimits(seq, tdsq->flag & SEQ_LEFTSEL, tdsq->flag & SEQ_RIGHTSEL);
-				BKE_sequence_single_fix(seq); /* todo - move this into aftertrans update? - old seq tx needed it anyway */
-				break;
-		}
-
-		/* Update *previous* seq! Else, we would update a seq after its first transform, and if it has more than one
-		 * (like e.g. SEQ_LEFTSEL and SEQ_RIGHTSEL), the others are not updated! See T38469.
-		 */
-		if (seq != seq_prev) {
-			if (seq_prev) {
-				trans_update_seq(t->scene, seq_prev, old_start_prev, sel_flag_prev);
-			}
-
-			seq_prev = seq;
-			old_start_prev = old_start;
-			sel_flag_prev = tdsq->sel_flag;
-		}
-		else {
-			/* We want to accumulate *all* sel_flags for this seq! */
-			sel_flag_prev |= tdsq->sel_flag;
-		}
-	}
-
-	/* Don't forget to update the last seq! */
-	if (seq_prev) {
-		trans_update_seq(t->scene, seq_prev, old_start_prev, sel_flag_prev);
-	}
+// void flushTransSeq(TransInfo *t)
+// {
+	// ListBase *seqbasep = BKE_sequencer_editing_get(t->scene, false)->seqbasep; /* Editing null check already done */
+	// int a, new_frame;
+	// TransData *td = NULL;
+	// TransData2D *td2d = NULL;
+	// TransDataSeq *tdsq = NULL;
+	// Sequence *seq;
 
 
-	if (ELEM(t->mode, TFM_SEQ_SLIDE, TFM_TIME_TRANSLATE)) { /* originally TFM_TIME_EXTEND, transform changes */
-		/* Special annoying case here, need to calc metas with TFM_TIME_EXTEND only */
 
-		/* calc all meta's then effects [#27953] */
-		for (seq = seqbasep->first; seq; seq = seq->next) {
-			if (seq->type == SEQ_TYPE_META && seq->flag & SELECT) {
-				BKE_sequence_calc(t->scene, seq);
-			}
-		}
-		for (seq = seqbasep->first; seq; seq = seq->next) {
-			if (seq->seq1 || seq->seq2 || seq->seq3) {
-				BKE_sequence_calc(t->scene, seq);
-			}
-		}
-	}
+	// /* prevent updating the same seq twice
+	 // * if the transdata order is changed this will mess up
+	 // * but so will TransDataSeq */
+	// Sequence *seq_prev = NULL;
+	// int old_start_prev = 0, sel_flag_prev = 0;
 
-	/* need to do the overlap check in a new loop otherwise adjacent strips
-	 * will not be updated and we'll get false positives */
-	seq_prev = NULL;
-	for (a = 0, td = t->data, td2d = t->data2d; a < t->total; a++, td++, td2d++) {
+	// /* flush to 2d vector from internally used 3d vector */
+	// for (a = 0, td = t->data, td2d = t->data2d; a < t->total; a++, td++, td2d++) {
+		// int old_start;
+		// tdsq = (TransDataSeq *)td->extra;
+		// seq = tdsq->seq;
+		// old_start = seq->start;
+		// new_frame = iroundf(td2d->loc[0]);
 
-		tdsq = (TransDataSeq *)td->extra;
-		seq = tdsq->seq;
+		// switch (tdsq->sel_flag) {
+			// case SELECT:
+// #ifdef SEQ_TX_NESTED_METAS
+				// if ((seq->depth != 0 || BKE_sequence_tx_test(seq))) /* for meta's, their children move */
+					// seq->start = new_frame - tdsq->start_offset;
+// #else
+				// if (seq->type != SEQ_TYPE_META && (seq->depth != 0 || seq_tx_test(seq))) /* for meta's, their children move */
+					// seq->start = new_frame - tdsq->start_offset;
+// #endif
+				// if (seq->depth == 0) {
+					// seq->machine = iroundf(td2d->loc[1]);
+					// CLAMP(seq->machine, 1, MAXSEQ);
+				// }
+				// break;
+			// case SEQ_LEFTSEL: /* no vertical transform  */
+				// BKE_sequence_tx_set_final_left(seq, new_frame);
+				// BKE_sequence_tx_handle_xlimits(seq, tdsq->flag & SEQ_LEFTSEL, tdsq->flag & SEQ_RIGHTSEL);
+				// BKE_sequence_single_fix(seq); /* todo - move this into aftertrans update? - old seq tx needed it anyway */
+				// break;
+			// case SEQ_RIGHTSEL: /* no vertical transform  */
+				// BKE_sequence_tx_set_final_right(seq, new_frame);
+				// BKE_sequence_tx_handle_xlimits(seq, tdsq->flag & SEQ_LEFTSEL, tdsq->flag & SEQ_RIGHTSEL);
+				// BKE_sequence_single_fix(seq); /* todo - move this into aftertrans update? - old seq tx needed it anyway */
+				// break;
+		// }
 
-		if (seq != seq_prev) {
-			if (seq->depth == 0) {
-				/* test overlap, displayes red outline */
-				seq->flag &= ~SEQ_OVERLAP;
-				if (BKE_sequence_test_overlap(seqbasep, seq)) {
-					seq->flag |= SEQ_OVERLAP;
-				}
-			}
-		}
-		seq_prev = seq;
-	}
-}
+		// /* Update *previous* seq! Else, we would update a seq after its first transform, and if it has more than one
+		 // * (like e.g. SEQ_LEFTSEL and SEQ_RIGHTSEL), the others are not updated! See T38469.
+		 // */
+		// if (seq != seq_prev) {
+			// if (seq_prev) {
+				// trans_update_seq(t->scene, seq_prev, old_start_prev, sel_flag_prev);
+			// }
+
+			// seq_prev = seq;
+			// old_start_prev = old_start;
+			// sel_flag_prev = tdsq->sel_flag;
+		// }
+		// else {
+			// /* We want to accumulate *all* sel_flags for this seq! */
+			// sel_flag_prev |= tdsq->sel_flag;
+		// }
+	// }
+
+	// /* Don't forget to update the last seq! */
+	// if (seq_prev) {
+		// trans_update_seq(t->scene, seq_prev, old_start_prev, sel_flag_prev);
+	// }
+
+
+	// if (ELEM(t->mode, TFM_SEQ_SLIDE, TFM_TIME_TRANSLATE)) { /* originally TFM_TIME_EXTEND, transform changes */
+		// /* Special annoying case here, need to calc metas with TFM_TIME_EXTEND only */
+
+		// /* calc all meta's then effects [#27953] */
+		// for (seq = seqbasep->first; seq; seq = seq->next) {
+			// if (seq->type == SEQ_TYPE_META && seq->flag & SELECT) {
+				// BKE_sequence_calc(t->scene, seq);
+			// }
+		// }
+		// for (seq = seqbasep->first; seq; seq = seq->next) {
+			// if (seq->seq1 || seq->seq2 || seq->seq3) {
+				// BKE_sequence_calc(t->scene, seq);
+			// }
+		// }
+	// }
+
+	// /* need to do the overlap check in a new loop otherwise adjacent strips
+	 // * will not be updated and we'll get false positives */
+	// seq_prev = NULL;
+	// for (a = 0, td = t->data, td2d = t->data2d; a < t->total; a++, td++, td2d++) {
+
+		// tdsq = (TransDataSeq *)td->extra;
+		// seq = tdsq->seq;
+
+		// if (seq != seq_prev) {
+			// if (seq->depth == 0) {
+				// /* test overlap, displayes red outline */
+				// seq->flag &= ~SEQ_OVERLAP;
+				// if (BKE_sequence_test_overlap(seqbasep, seq)) {
+					// seq->flag |= SEQ_OVERLAP;
+				// }
+			// }
+		// }
+		// seq_prev = seq;
+	// }
+// }
 
 /* ********************* UV ****************** */
 
@@ -2894,17 +2894,17 @@ void clipUVData(TransInfo *t)
 /* ********************* ANIMATION EDITORS (GENERAL) ************************* */
 
 /* This function tests if a point is on the "mouse" side of the cursor/frame-marking */
-static bool FrameOnMouseSide(char side, float frame, float cframe)
-{
-	/* both sides, so it doesn't matter */
-	if (side == 'B') return true;
+// static bool FrameOnMouseSide(char side, float frame, float cframe)
+// {
+	// /* both sides, so it doesn't matter */
+	// if (side == 'B') return true;
 
-	/* only on the named side */
-	if (side == 'R')
-		return (frame >= cframe);
-	else
-		return (frame <= cframe);
-}
+	// /* only on the named side */
+	// if (side == 'R')
+		// return (frame >= cframe);
+	// else
+		// return (frame <= cframe);
+// }
 
 /* ********************* NLA EDITOR ************************* */
 
@@ -3210,61 +3210,61 @@ static bool FrameOnMouseSide(char side, float frame, float cframe)
 /* Called during special_aftertrans_update to make sure selected keyframes replace
  * any other keyframes which may reside on that frame (that is not selected).
  */
-static void posttrans_fcurve_clean(FCurve *fcu, const short use_handle)
-{
-	float *selcache;    /* cache for frame numbers of selected frames (fcu->totvert*sizeof(float)) */
-	int len, index, i;  /* number of frames in cache, item index */
+// static void posttrans_fcurve_clean(FCurve *fcu, const short use_handle)
+// {
+	// float *selcache;    /* cache for frame numbers of selected frames (fcu->totvert*sizeof(float)) */
+	// int len, index, i;  /* number of frames in cache, item index */
 
-	/* allocate memory for the cache */
-	// TODO: investigate using BezTriple columns instead?
-	if (fcu->totvert == 0 || fcu->bezt == NULL)
-		return;
-	selcache = MEM_callocN(sizeof(float) * fcu->totvert, "FCurveSelFrameNums");
-	len = 0;
-	index = 0;
+	// /* allocate memory for the cache */
+	// // TODO: investigate using BezTriple columns instead?
+	// if (fcu->totvert == 0 || fcu->bezt == NULL)
+		// return;
+	// selcache = MEM_callocN(sizeof(float) * fcu->totvert, "FCurveSelFrameNums");
+	// len = 0;
+	// index = 0;
 
-	/* We do 2 loops, 1 for marking keyframes for deletion, one for deleting
-	 * as there is no guarantee what order the keyframes are exactly, even though
-	 * they have been sorted by time.
-	 */
+	// /* We do 2 loops, 1 for marking keyframes for deletion, one for deleting
+	 // * as there is no guarantee what order the keyframes are exactly, even though
+	 // * they have been sorted by time.
+	 // */
 
-	/*	Loop 1: find selected keyframes   */
-	for (i = 0; i < fcu->totvert; i++) {
-		BezTriple *bezt = &fcu->bezt[i];
+	// /*	Loop 1: find selected keyframes   */
+	// for (i = 0; i < fcu->totvert; i++) {
+		// BezTriple *bezt = &fcu->bezt[i];
 		
-		if (BEZSELECTED(bezt)) {
-			selcache[index] = bezt->vec[1][0];
-			index++;
-			len++;
-		}
-	}
+		// if (BEZSELECTED(bezt)) {
+			// selcache[index] = bezt->vec[1][0];
+			// index++;
+			// len++;
+		// }
+	// }
 
-	/* Loop 2: delete unselected keyframes on the same frames 
-	 * (if any keyframes were found, or the whole curve wasn't affected) 
-	 */
-	if ((len) && (len != fcu->totvert)) {
-		for (i = fcu->totvert - 1; i >= 0; i--) {
-			BezTriple *bezt = &fcu->bezt[i];
+	// /* Loop 2: delete unselected keyframes on the same frames 
+	 // * (if any keyframes were found, or the whole curve wasn't affected) 
+	 // */
+	// if ((len) && (len != fcu->totvert)) {
+		// for (i = fcu->totvert - 1; i >= 0; i--) {
+			// BezTriple *bezt = &fcu->bezt[i];
 			
-			if (BEZSELECTED(bezt) == 0) {
-				/* check beztriple should be removed according to cache */
-				for (index = 0; index < len; index++) {
-					if (IS_EQF(bezt->vec[1][0], selcache[index])) {
-						delete_fcurve_key(fcu, i, 0);
-						break;
-					}
-					else if (bezt->vec[1][0] < selcache[index])
-						break;
-				}
-			}
-		}
+			// if (BEZSELECTED(bezt) == 0) {
+				// /* check beztriple should be removed according to cache */
+				// for (index = 0; index < len; index++) {
+					// if (IS_EQF(bezt->vec[1][0], selcache[index])) {
+						// delete_fcurve_key(fcu, i, 0);
+						// break;
+					// }
+					// else if (bezt->vec[1][0] < selcache[index])
+						// break;
+				// }
+			// }
+		// }
 		
-		testhandles_fcurve(fcu, use_handle);
-	}
+		// testhandles_fcurve(fcu, use_handle);
+	// }
 
-	/* free cache */
-	MEM_freeN(selcache);
-}
+	// /* free cache */
+	// MEM_freeN(selcache);
+// }
 
 
 
@@ -3674,319 +3674,319 @@ typedef struct TransDataGraph {
 /* Helper function for createTransGraphEditData, which is responsible for associating
  * source data with transform data
  */
-static void bezt_to_transdata(TransData *td, TransData2D *td2d, TransDataGraph *tdg,
-                              AnimData *adt, BezTriple *bezt,
-                              int bi, bool selected, bool ishandle, bool intvals,
-                              float mtx[3][3], float smtx[3][3], float unit_scale)
-{
-	float *loc = bezt->vec[bi];
-	const float *cent = bezt->vec[1];
+// static void bezt_to_transdata(TransData *td, TransData2D *td2d, TransDataGraph *tdg,
+                              // AnimData *adt, BezTriple *bezt,
+                              // int bi, bool selected, bool ishandle, bool intvals,
+                              // float mtx[3][3], float smtx[3][3], float unit_scale)
+// {
+	// float *loc = bezt->vec[bi];
+	// const float *cent = bezt->vec[1];
 
-	/* New location from td gets dumped onto the old-location of td2d, which then
-	 * gets copied to the actual data at td2d->loc2d (bezt->vec[n])
-	 *
-	 * Due to NLA mapping, we apply NLA mapping to some of the verts here,
-	 * and then that mapping will be undone after transform is done.
-	 */
+	// /* New location from td gets dumped onto the old-location of td2d, which then
+	 // * gets copied to the actual data at td2d->loc2d (bezt->vec[n])
+	 // *
+	 // * Due to NLA mapping, we apply NLA mapping to some of the verts here,
+	 // * and then that mapping will be undone after transform is done.
+	 // */
 	
-	if (adt) {
-		td2d->loc[0] = BKE_nla_tweakedit_remap(adt, loc[0], NLATIME_CONVERT_MAP);
-		td2d->loc[1] = loc[1] * unit_scale;
-		td2d->loc[2] = 0.0f;
-		td2d->loc2d = loc;
+	// if (adt) {
+		// td2d->loc[0] = BKE_nla_tweakedit_remap(adt, loc[0], NLATIME_CONVERT_MAP);
+		// td2d->loc[1] = loc[1] * unit_scale;
+		// td2d->loc[2] = 0.0f;
+		// td2d->loc2d = loc;
 		
-		td->loc = td2d->loc;
-		td->center[0] = BKE_nla_tweakedit_remap(adt, cent[0], NLATIME_CONVERT_MAP);
-		td->center[1] = cent[1] * unit_scale;
-		td->center[2] = 0.0f;
+		// td->loc = td2d->loc;
+		// td->center[0] = BKE_nla_tweakedit_remap(adt, cent[0], NLATIME_CONVERT_MAP);
+		// td->center[1] = cent[1] * unit_scale;
+		// td->center[2] = 0.0f;
 		
-		copy_v3_v3(td->iloc, td->loc);
-	}
-	else {
-		td2d->loc[0] = loc[0];
-		td2d->loc[1] = loc[1] * unit_scale;
-		td2d->loc[2] = 0.0f;
-		td2d->loc2d = loc;
+		// copy_v3_v3(td->iloc, td->loc);
+	// }
+	// else {
+		// td2d->loc[0] = loc[0];
+		// td2d->loc[1] = loc[1] * unit_scale;
+		// td2d->loc[2] = 0.0f;
+		// td2d->loc2d = loc;
 		
-		td->loc = td2d->loc;
-		copy_v3_v3(td->center, cent);
-		td->center[1] *= unit_scale;
-		copy_v3_v3(td->iloc, td->loc);
-	}
+		// td->loc = td2d->loc;
+		// copy_v3_v3(td->center, cent);
+		// td->center[1] *= unit_scale;
+		// copy_v3_v3(td->iloc, td->loc);
+	// }
 
-	if (!ishandle) {
-		td2d->h1 = bezt->vec[0];
-		td2d->h2 = bezt->vec[2];
-		copy_v2_v2(td2d->ih1, td2d->h1);
-		copy_v2_v2(td2d->ih2, td2d->h2);
-	}
-	else {
-		td2d->h1 = NULL;
-		td2d->h2 = NULL;
-	}
+	// if (!ishandle) {
+		// td2d->h1 = bezt->vec[0];
+		// td2d->h2 = bezt->vec[2];
+		// copy_v2_v2(td2d->ih1, td2d->h1);
+		// copy_v2_v2(td2d->ih2, td2d->h2);
+	// }
+	// else {
+		// td2d->h1 = NULL;
+		// td2d->h2 = NULL;
+	// }
 
-	memset(td->axismtx, 0, sizeof(td->axismtx));
-	td->axismtx[2][2] = 1.0f;
+	// memset(td->axismtx, 0, sizeof(td->axismtx));
+	// td->axismtx[2][2] = 1.0f;
 	
-	td->ext = NULL; td->val = NULL;
+	// td->ext = NULL; td->val = NULL;
 	
-	/* store AnimData info in td->extra, for applying mapping when flushing */
-	td->extra = adt;
+	// /* store AnimData info in td->extra, for applying mapping when flushing */
+	// td->extra = adt;
 	
-	if (selected) {
-		td->flag |= TD_SELECTED;
-		td->dist = 0.0f;
-	}
-	else
-		td->dist = FLT_MAX;
+	// if (selected) {
+		// td->flag |= TD_SELECTED;
+		// td->dist = 0.0f;
+	// }
+	// else
+		// td->dist = FLT_MAX;
 	
-	if (ishandle)
-		td->flag |= TD_NOTIMESNAP;
-	if (intvals)
-		td->flag |= TD_INTVALUES;
+	// if (ishandle)
+		// td->flag |= TD_NOTIMESNAP;
+	// if (intvals)
+		// td->flag |= TD_INTVALUES;
 
-	/* copy space-conversion matrices for dealing with non-uniform scales */
-	copy_m3_m3(td->mtx, mtx);
-	copy_m3_m3(td->smtx, smtx);
+	// /* copy space-conversion matrices for dealing with non-uniform scales */
+	// copy_m3_m3(td->mtx, mtx);
+	// copy_m3_m3(td->smtx, smtx);
 
-	tdg->unit_scale = unit_scale;
-}
+	// tdg->unit_scale = unit_scale;
+// }
 
-static bool graph_edit_is_translation_mode(TransInfo *t)
-{
-	return ELEM(t->mode, TFM_TRANSLATION, TFM_TIME_TRANSLATE, TFM_TIME_SLIDE, TFM_TIME_DUPLICATE);
-}
+// static bool graph_edit_is_translation_mode(TransInfo *t)
+// {
+	// return ELEM(t->mode, TFM_TRANSLATION, TFM_TIME_TRANSLATE, TFM_TIME_SLIDE, TFM_TIME_DUPLICATE);
+// }
 
-static bool graph_edit_use_local_center(TransInfo *t)
-{
-	return (t->around == V3D_LOCAL) && !graph_edit_is_translation_mode(t);
-}
+// static bool graph_edit_use_local_center(TransInfo *t)
+// {
+	// return (t->around == V3D_LOCAL) && !graph_edit_is_translation_mode(t);
+// }
 
-static void createTransGraphEditData(bContext *C, TransInfo *t)
-{
-	SpaceIpo *sipo = (SpaceIpo *)t->sa->spacedata.first;
-	Scene *scene = t->scene;
-	ARegion *ar = t->ar;
-	View2D *v2d = &ar->v2d;
+// static void createTransGraphEditData(bContext *C, TransInfo *t)
+// {
+	// SpaceIpo *sipo = (SpaceIpo *)t->sa->spacedata.first;
+	// Scene *scene = t->scene;
+	// ARegion *ar = t->ar;
+	// View2D *v2d = &ar->v2d;
 	
-	TransData *td = NULL;
-	TransData2D *td2d = NULL;
-	TransDataGraph *tdg = NULL;
+	// TransData *td = NULL;
+	// TransData2D *td2d = NULL;
+	// TransDataGraph *tdg = NULL;
 	
-	bAnimContext ac;
-	ListBase anim_data = {NULL, NULL};
-	bAnimListElem *ale;
-	int filter;
+	// bAnimContext ac;
+	// ListBase anim_data = {NULL, NULL};
+	// bAnimListElem *ale;
+	// int filter;
 	
-	BezTriple *bezt;
-	int count = 0, i;
-	float mtx[3][3], smtx[3][3];
-	const bool is_translation_mode = graph_edit_is_translation_mode(t);
-	const bool use_handle = !(sipo->flag & SIPO_NOHANDLES);
-	const bool use_local_center = graph_edit_use_local_center(t);
-	short anim_map_flag = ANIM_UNITCONV_ONLYSEL | ANIM_UNITCONV_SELVERTS;
+	// BezTriple *bezt;
+	// int count = 0, i;
+	// float mtx[3][3], smtx[3][3];
+	// const bool is_translation_mode = graph_edit_is_translation_mode(t);
+	// const bool use_handle = !(sipo->flag & SIPO_NOHANDLES);
+	// const bool use_local_center = graph_edit_use_local_center(t);
+	// short anim_map_flag = ANIM_UNITCONV_ONLYSEL | ANIM_UNITCONV_SELVERTS;
 	
-	/* determine what type of data we are operating on */
-	if (ANIM_animdata_get_context(C, &ac) == 0)
-		return;
+	// /* determine what type of data we are operating on */
+	// if (ANIM_animdata_get_context(C, &ac) == 0)
+		// return;
 
-	anim_map_flag |= ANIM_get_normalization_flags(&ac);
+	// anim_map_flag |= ANIM_get_normalization_flags(&ac);
 
-	/* filter data */
-	filter = (ANIMFILTER_DATA_VISIBLE | ANIMFILTER_FOREDIT | ANIMFILTER_CURVE_VISIBLE);
-	ANIM_animdata_filter(&ac, &anim_data, filter, ac.data, ac.datatype);
+	// /* filter data */
+	// filter = (ANIMFILTER_DATA_VISIBLE | ANIMFILTER_FOREDIT | ANIMFILTER_CURVE_VISIBLE);
+	// ANIM_animdata_filter(&ac, &anim_data, filter, ac.data, ac.datatype);
 	
-	/* which side of the current frame should be allowed */
-	// XXX we still want this mode, but how to get this using standard transform too?
-	if (t->mode == TFM_TIME_EXTEND) {
-		/* only side on which mouse is gets transformed */
-		float xmouse, ymouse;
+	// /* which side of the current frame should be allowed */
+	// // XXX we still want this mode, but how to get this using standard transform too?
+	// if (t->mode == TFM_TIME_EXTEND) {
+		// /* only side on which mouse is gets transformed */
+		// float xmouse, ymouse;
 		
-		UI_view2d_region_to_view(v2d, t->imval[0], t->imval[1], &xmouse, &ymouse);
-		t->frame_side = (xmouse > CFRA) ? 'R' : 'L'; // XXX use t->frame_side
-	}
-	else {
-		/* normal transform - both sides of current frame are considered */
-		t->frame_side = 'B';
-	}
+		// UI_view2d_region_to_view(v2d, t->imval[0], t->imval[1], &xmouse, &ymouse);
+		// t->frame_side = (xmouse > CFRA) ? 'R' : 'L'; // XXX use t->frame_side
+	// }
+	// else {
+		// /* normal transform - both sides of current frame are considered */
+		// t->frame_side = 'B';
+	// }
 	
-	/* loop 1: count how many BezTriples (specifically their verts) are selected (or should be edited) */
-	for (ale = anim_data.first; ale; ale = ale->next) {
-		//AnimData *adt = ANIM_nla_mapping_get(&ac, ale);
-		FCurve *fcu = (FCurve *)ale->key_data;
-		float cfra;
+	// /* loop 1: count how many BezTriples (specifically their verts) are selected (or should be edited) */
+	// for (ale = anim_data.first; ale; ale = ale->next) {
+		// //AnimData *adt = ANIM_nla_mapping_get(&ac, ale);
+		// FCurve *fcu = (FCurve *)ale->key_data;
+		// float cfra;
 
-		/* F-Curve may not have any keyframes */
-		if (fcu->bezt == NULL)
-			continue;
+		// /* F-Curve may not have any keyframes */
+		// if (fcu->bezt == NULL)
+			// continue;
 
-		/* convert current-frame to action-time (slightly less accurate, especially under
-		 * higher scaling ratios, but is faster than converting all points)
-		 */
-/* 		if (adt)
-			cfra = BKE_nla_tweakedit_remap(adt, (float)CFRA, NLATIME_CONVERT_UNMAP);
-		else */
-			cfra = (float)CFRA;
+		// /* convert current-frame to action-time (slightly less accurate, especially under
+		 // * higher scaling ratios, but is faster than converting all points)
+		 // */
+// /* 		if (adt)
+			// cfra = BKE_nla_tweakedit_remap(adt, (float)CFRA, NLATIME_CONVERT_UNMAP);
+		// else */
+			// cfra = (float)CFRA;
 
-		/* only include BezTriples whose 'keyframe' occurs on the same side of the current frame as mouse */
-		for (i = 0, bezt = fcu->bezt; i < fcu->totvert; i++, bezt++) {
-			if (FrameOnMouseSide(t->frame_side, bezt->vec[1][0], cfra)) {
-				const bool sel2 = bezt->f2 & SELECT;
-				const bool sel1 = use_handle ? bezt->f1 & SELECT : sel2;
-				const bool sel3 = use_handle ? bezt->f3 & SELECT : sel2;
+		// /* only include BezTriples whose 'keyframe' occurs on the same side of the current frame as mouse */
+		// for (i = 0, bezt = fcu->bezt; i < fcu->totvert; i++, bezt++) {
+			// if (FrameOnMouseSide(t->frame_side, bezt->vec[1][0], cfra)) {
+				// const bool sel2 = bezt->f2 & SELECT;
+				// const bool sel1 = use_handle ? bezt->f1 & SELECT : sel2;
+				// const bool sel3 = use_handle ? bezt->f3 & SELECT : sel2;
 
-				if (!is_translation_mode || !(sel2)) {
-					if (sel1) {
-						count++;
-					}
+				// if (!is_translation_mode || !(sel2)) {
+					// if (sel1) {
+						// count++;
+					// }
 
-					if (sel3) {
-						count++;
-					}
-				}
+					// if (sel3) {
+						// count++;
+					// }
+				// }
 
-				/* only include main vert if selected */
-				if (sel2 && !use_local_center) {
-					count++;
-				}
-			}
-		}
-	}
+				// /* only include main vert if selected */
+				// if (sel2 && !use_local_center) {
+					// count++;
+				// }
+			// }
+		// }
+	// }
 	
-	/* stop if trying to build list if nothing selected */
-	if (count == 0) {
-		/* cleanup temp list */
-		ANIM_animdata_freelist(&anim_data);
-		return;
-	}
+	// /* stop if trying to build list if nothing selected */
+	// if (count == 0) {
+		// /* cleanup temp list */
+		// ANIM_animdata_freelist(&anim_data);
+		// return;
+	// }
 	
-	/* allocate memory for data */
-	t->total = count;
+	// /* allocate memory for data */
+	// t->total = count;
 	
-	t->data = MEM_callocN(t->total * sizeof(TransData), "TransData (Graph Editor)");
-	/* for each 2d vert a 3d vector is allocated, so that they can be treated just as if they were 3d verts */
-	t->data2d = MEM_callocN(t->total * sizeof(TransData2D), "TransData2D (Graph Editor)");
-	t->customData = MEM_callocN(t->total * sizeof(TransDataGraph), "TransDataGraph");
-	t->flag |= T_FREE_CUSTOMDATA;
+	// t->data = MEM_callocN(t->total * sizeof(TransData), "TransData (Graph Editor)");
+	// /* for each 2d vert a 3d vector is allocated, so that they can be treated just as if they were 3d verts */
+	// t->data2d = MEM_callocN(t->total * sizeof(TransData2D), "TransData2D (Graph Editor)");
+	// t->customData = MEM_callocN(t->total * sizeof(TransDataGraph), "TransDataGraph");
+	// t->flag |= T_FREE_CUSTOMDATA;
 	
-	td = t->data;
-	td2d = t->data2d;
-	tdg = t->customData;
+	// td = t->data;
+	// td2d = t->data2d;
+	// tdg = t->customData;
 	
-	/* precompute space-conversion matrices for dealing with non-uniform scaling of Graph Editor */
-	unit_m3(mtx);
-	unit_m3(smtx);
+	// /* precompute space-conversion matrices for dealing with non-uniform scaling of Graph Editor */
+	// unit_m3(mtx);
+	// unit_m3(smtx);
 	
-	if (ELEM(t->mode, TFM_ROTATION, TFM_RESIZE)) {
-		float xscale, yscale;
+	// if (ELEM(t->mode, TFM_ROTATION, TFM_RESIZE)) {
+		// float xscale, yscale;
 		
-		/* apply scale factors to x and y axes of space-conversion matrices */
-		UI_view2d_scale_get(v2d, &xscale, &yscale);
+		// /* apply scale factors to x and y axes of space-conversion matrices */
+		// UI_view2d_scale_get(v2d, &xscale, &yscale);
 		
-		/* mtx is data to global (i.e. view) conversion */
-		mul_v3_fl(mtx[0], xscale);
-		mul_v3_fl(mtx[1], yscale);
+		// /* mtx is data to global (i.e. view) conversion */
+		// mul_v3_fl(mtx[0], xscale);
+		// mul_v3_fl(mtx[1], yscale);
 		
-		/* smtx is global (i.e. view) to data conversion */
-		if (IS_EQF(xscale, 0.0f) == 0) mul_v3_fl(smtx[0], 1.0f / xscale);
-		if (IS_EQF(yscale, 0.0f) == 0) mul_v3_fl(smtx[1], 1.0f / yscale);
-	}
+		// /* smtx is global (i.e. view) to data conversion */
+		// if (IS_EQF(xscale, 0.0f) == 0) mul_v3_fl(smtx[0], 1.0f / xscale);
+		// if (IS_EQF(yscale, 0.0f) == 0) mul_v3_fl(smtx[1], 1.0f / yscale);
+	// }
 	
-	/* loop 2: build transdata arrays */
-	for (ale = anim_data.first; ale; ale = ale->next) {
-		//AnimData *adt = ANIM_nla_mapping_get(&ac, ale);
-		FCurve *fcu = (FCurve *)ale->key_data;
-		bool intvals = (fcu->flag & FCURVE_INT_VALUES) != 0;
-		float unit_scale;
-		float cfra;
+	// /* loop 2: build transdata arrays */
+	// for (ale = anim_data.first; ale; ale = ale->next) {
+		// //AnimData *adt = ANIM_nla_mapping_get(&ac, ale);
+		// FCurve *fcu = (FCurve *)ale->key_data;
+		// bool intvals = (fcu->flag & FCURVE_INT_VALUES) != 0;
+		// float unit_scale;
+		// float cfra;
 
-		/* F-Curve may not have any keyframes */
-		if (fcu->bezt == NULL)
-			continue;
+		// /* F-Curve may not have any keyframes */
+		// if (fcu->bezt == NULL)
+			// continue;
 
-		/* convert current-frame to action-time (slightly less accurate, especially under
-		 * higher scaling ratios, but is faster than converting all points)
-		 */
-/* 		if (adt)
-			cfra = BKE_nla_tweakedit_remap(adt, (float)CFRA, NLATIME_CONVERT_UNMAP);
-		else */
-			cfra = (float)CFRA;
+		// /* convert current-frame to action-time (slightly less accurate, especially under
+		 // * higher scaling ratios, but is faster than converting all points)
+		 // */
+// /* 		if (adt)
+			// cfra = BKE_nla_tweakedit_remap(adt, (float)CFRA, NLATIME_CONVERT_UNMAP);
+		// else */
+			// cfra = (float)CFRA;
 
-		unit_scale = ANIM_unit_mapping_get_factor(ac.scene, ale->id, ale->key_data, anim_map_flag);
+		// unit_scale = ANIM_unit_mapping_get_factor(ac.scene, ale->id, ale->key_data, anim_map_flag);
 
-		/* only include BezTriples whose 'keyframe' occurs on the same side of the current frame as mouse (if applicable) */
-		for (i = 0, bezt = fcu->bezt; i < fcu->totvert; i++, bezt++) {
-			if (FrameOnMouseSide(t->frame_side, bezt->vec[1][0], cfra)) {
-				const bool sel2 = bezt->f2 & SELECT;
-				const bool sel1 = use_handle ? bezt->f1 & SELECT : sel2;
-				const bool sel3 = use_handle ? bezt->f3 & SELECT : sel2;
+		// /* only include BezTriples whose 'keyframe' occurs on the same side of the current frame as mouse (if applicable) */
+		// for (i = 0, bezt = fcu->bezt; i < fcu->totvert; i++, bezt++) {
+			// if (FrameOnMouseSide(t->frame_side, bezt->vec[1][0], cfra)) {
+				// const bool sel2 = bezt->f2 & SELECT;
+				// const bool sel1 = use_handle ? bezt->f1 & SELECT : sel2;
+				// const bool sel3 = use_handle ? bezt->f3 & SELECT : sel2;
 
-				TransDataCurveHandleFlags *hdata = NULL;
-				/* short h1=1, h2=1; */ /* UNUSED */
+				// TransDataCurveHandleFlags *hdata = NULL;
+				// /* short h1=1, h2=1; */ /* UNUSED */
 				
-				/* only include handles if selected, irrespective of the interpolation modes.
-				 * also, only treat handles specially if the center point isn't selected. 
-				 */
-				if (!is_translation_mode || !(sel2)) {
-					if (sel1) {
-						hdata = initTransDataCurveHandles(td, bezt);
-						//bezt_to_transdata(td++, td2d++, tdg++, adt, bezt, 0, sel1, true, intvals, mtx, smtx, unit_scale);
-					}
-					else {
-						/* h1 = 0; */ /* UNUSED */
-					}
+				// /* only include handles if selected, irrespective of the interpolation modes.
+				 // * also, only treat handles specially if the center point isn't selected. 
+				 // */
+				// if (!is_translation_mode || !(sel2)) {
+					// if (sel1) {
+						// hdata = initTransDataCurveHandles(td, bezt);
+						// //bezt_to_transdata(td++, td2d++, tdg++, adt, bezt, 0, sel1, true, intvals, mtx, smtx, unit_scale);
+					// }
+					// else {
+						// /* h1 = 0; */ /* UNUSED */
+					// }
 					
-					if (sel3) {
-						if (hdata == NULL)
-							hdata = initTransDataCurveHandles(td, bezt);
-						//bezt_to_transdata(td++, td2d++, tdg++, adt, bezt, 2, sel3, true, intvals, mtx, smtx, unit_scale);
-					}
-					else {
-						/* h2 = 0; */ /* UNUSED */
-					}
-				}
+					// if (sel3) {
+						// if (hdata == NULL)
+							// hdata = initTransDataCurveHandles(td, bezt);
+						// //bezt_to_transdata(td++, td2d++, tdg++, adt, bezt, 2, sel3, true, intvals, mtx, smtx, unit_scale);
+					// }
+					// else {
+						// /* h2 = 0; */ /* UNUSED */
+					// }
+				// }
 				
-				/* only include main vert if selected */
-				if (sel2 && !use_local_center) {
-					/* move handles relative to center */
-					if (is_translation_mode) {
-						if (sel1) td->flag |= TD_MOVEHANDLE1;
-						if (sel3) td->flag |= TD_MOVEHANDLE2;
-					}
+				// /* only include main vert if selected */
+				// if (sel2 && !use_local_center) {
+					// /* move handles relative to center */
+					// if (is_translation_mode) {
+						// if (sel1) td->flag |= TD_MOVEHANDLE1;
+						// if (sel3) td->flag |= TD_MOVEHANDLE2;
+					// }
 					
-					/* if handles were not selected, store their selection status */
-					if (!(sel1) || !(sel3)) {
-						if (hdata == NULL)
-							hdata = initTransDataCurveHandles(td, bezt);
-					}
+					// /* if handles were not selected, store their selection status */
+					// if (!(sel1) || !(sel3)) {
+						// if (hdata == NULL)
+							// hdata = initTransDataCurveHandles(td, bezt);
+					// }
 					
-					//bezt_to_transdata(td++, td2d++, tdg++, adt, bezt, 1, sel2, false, intvals, mtx, smtx, unit_scale);
+					// //bezt_to_transdata(td++, td2d++, tdg++, adt, bezt, 1, sel2, false, intvals, mtx, smtx, unit_scale);
 					
-				}
-				/* special hack (must be done after initTransDataCurveHandles(), as that stores handle settings to restore...):
-				 *	- Check if we've got entire BezTriple selected and we're scaling/rotating that point,
-				 *	  then check if we're using auto-handles.
-				 *	- If so, change them auto-handles to aligned handles so that handles get affected too
-				 */
-				if (ELEM(bezt->h1, HD_AUTO, HD_AUTO_ANIM) &&
-				    ELEM(bezt->h2, HD_AUTO, HD_AUTO_ANIM) &&
-				    ELEM(t->mode, TFM_ROTATION, TFM_RESIZE))
-				{
-					if (hdata && (sel1) && (sel3)) {
-						bezt->h1 = HD_ALIGN;
-						bezt->h2 = HD_ALIGN;
-					}
-				}
-			}
-		}
+				// }
+				// /* special hack (must be done after initTransDataCurveHandles(), as that stores handle settings to restore...):
+				 // *	- Check if we've got entire BezTriple selected and we're scaling/rotating that point,
+				 // *	  then check if we're using auto-handles.
+				 // *	- If so, change them auto-handles to aligned handles so that handles get affected too
+				 // */
+				// if (ELEM(bezt->h1, HD_AUTO, HD_AUTO_ANIM) &&
+				    // ELEM(bezt->h2, HD_AUTO, HD_AUTO_ANIM) &&
+				    // ELEM(t->mode, TFM_ROTATION, TFM_RESIZE))
+				// {
+					// if (hdata && (sel1) && (sel3)) {
+						// bezt->h1 = HD_ALIGN;
+						// bezt->h2 = HD_ALIGN;
+					// }
+				// }
+			// }
+		// }
 		
-		/* Sets handles based on the selection */
-		testhandles_fcurve(fcu, use_handle);
-	}
+		// /* Sets handles based on the selection */
+		// testhandles_fcurve(fcu, use_handle);
+	// }
 	
-	/* cleanup temp list */
-	ANIM_animdata_freelist(&anim_data);
-}
+	// /* cleanup temp list */
+	// ANIM_animdata_freelist(&anim_data);
+// }
 
 
 /* ------------------------ */
@@ -4233,9 +4233,9 @@ void flushTransGraphData(TransInfo *t)
 		}
 
 		/* we need to unapply the nla-mapping from the time in some situations */
-		if (adt)
+		/* if (adt)
 			td2d->loc2d[0] = BKE_nla_tweakedit_remap(adt, td2d->loc[0], NLATIME_CONVERT_UNMAP);
-		else
+		else */
 			td2d->loc2d[0] = td2d->loc[0];
 			
 		/* Time-stepping auto-snapping modes don't get applied for Graph Editor transforms,
@@ -4291,537 +4291,537 @@ void flushTransGraphData(TransInfo *t)
  * seq->depth must be set before running this function so we know if the strips
  * are root level or not
  */
-static void SeqTransInfo(TransInfo *t, Sequence *seq, int *recursive, int *count, int *flag)
-{
-	/* for extend we need to do some tricks */
-	if (t->mode == TFM_TIME_EXTEND) {
-
-		/* *** Extend Transform *** */
-
-		Scene *scene = t->scene;
-		int cfra = CFRA;
-		int left = BKE_sequence_tx_get_final_left(seq, true);
-		int right = BKE_sequence_tx_get_final_right(seq, true);
-
-		if (seq->depth == 0 && ((seq->flag & SELECT) == 0 || (seq->flag & SEQ_LOCK))) {
-			*recursive = false;
-			*count = 0;
-			*flag = 0;
-		}
-		else if (seq->type == SEQ_TYPE_META) {
-
-			/* for meta's we only ever need to extend their children, no matter what depth
-			 * just check the meta's are in the bounds */
-			if      (t->frame_side == 'R' && right <= cfra) *recursive = false;
-			else if (t->frame_side == 'L' && left  >= cfra) *recursive = false;
-			else *recursive = true;
-
-			*count = 1;
-			*flag = (seq->flag | SELECT) & ~(SEQ_LEFTSEL | SEQ_RIGHTSEL);
-		}
-		else {
-
-			*recursive = false;  /* not a meta, so no thinking here */
-			*count = 1;          /* unless its set to 0, extend will never set 2 handles at once */
-			*flag = (seq->flag | SELECT) & ~(SEQ_LEFTSEL | SEQ_RIGHTSEL);
-
-			if (t->frame_side == 'R') {
-				if      (right <= cfra) { *count = *flag = 0; }  /* ignore */
-				else if (left   > cfra) {                     }  /* keep the selection */
-				else *flag |= SEQ_RIGHTSEL;
-			}
-			else {
-				if      (left >= cfra) { *count = *flag = 0; }  /* ignore */
-				else if (right < cfra) {                     }  /* keep the selection */
-				else *flag |= SEQ_LEFTSEL;
-			}
-		}
-	}
-	else {
-
-		t->frame_side = 'B';
-
-		/* *** Normal Transform *** */
-
-		if (seq->depth == 0) {
-
-			/* Count */
-
-			/* Non nested strips (resect selection and handles) */
-			if ((seq->flag & SELECT) == 0 || (seq->flag & SEQ_LOCK)) {
-				*recursive = false;
-				*count = 0;
-				*flag = 0;
-			}
-			else {
-				if ((seq->flag & (SEQ_LEFTSEL | SEQ_RIGHTSEL)) == (SEQ_LEFTSEL | SEQ_RIGHTSEL)) {
-					*flag = seq->flag;
-					*count = 2; /* we need 2 transdata's */
-				}
-				else {
-					*flag = seq->flag;
-					*count = 1; /* selected or with a handle selected */
-				}
-
-				/* Recursive */
-
-				if ((seq->type == SEQ_TYPE_META) && ((seq->flag & (SEQ_LEFTSEL | SEQ_RIGHTSEL)) == 0)) {
-					/* if any handles are selected, don't recurse */
-					*recursive = true;
-				}
-				else {
-					*recursive = false;
-				}
-			}
-		}
-		else {
-			/* Nested, different rules apply */
-
-#ifdef SEQ_TX_NESTED_METAS
-			*flag = (seq->flag | SELECT) & ~(SEQ_LEFTSEL | SEQ_RIGHTSEL);
-			*count = 1; /* ignore the selection for nested */
-			*recursive = (seq->type == SEQ_TYPE_META);
-#else
-			if (seq->type == SEQ_TYPE_META) {
-				/* Meta's can only directly be moved between channels since they
-				 * don't have their start and length set directly (children affect that)
-				 * since this Meta is nested we don't need any of its data in fact.
-				 * BKE_sequence_calc() will update its settings when run on the toplevel meta */
-				*flag = 0;
-				*count = 0;
-				*recursive = true;
-			}
-			else {
-				*flag = (seq->flag | SELECT) & ~(SEQ_LEFTSEL | SEQ_RIGHTSEL);
-				*count = 1; /* ignore the selection for nested */
-				*recursive = false;
-			}
-#endif
-		}
-	}
-}
+// static void SeqTransInfo(TransInfo *t, Sequence *seq, int *recursive, int *count, int *flag)
+// {
+	// /* for extend we need to do some tricks */
+	// if (t->mode == TFM_TIME_EXTEND) {
+
+		// /* *** Extend Transform *** */
+
+		// Scene *scene = t->scene;
+		// int cfra = CFRA;
+		// int left = BKE_sequence_tx_get_final_left(seq, true);
+		// int right = BKE_sequence_tx_get_final_right(seq, true);
+
+		// if (seq->depth == 0 && ((seq->flag & SELECT) == 0 || (seq->flag & SEQ_LOCK))) {
+			// *recursive = false;
+			// *count = 0;
+			// *flag = 0;
+		// }
+		// else if (seq->type == SEQ_TYPE_META) {
+
+			// /* for meta's we only ever need to extend their children, no matter what depth
+			 // * just check the meta's are in the bounds */
+			// if      (t->frame_side == 'R' && right <= cfra) *recursive = false;
+			// else if (t->frame_side == 'L' && left  >= cfra) *recursive = false;
+			// else *recursive = true;
+
+			// *count = 1;
+			// *flag = (seq->flag | SELECT) & ~(SEQ_LEFTSEL | SEQ_RIGHTSEL);
+		// }
+		// else {
+
+			// *recursive = false;  /* not a meta, so no thinking here */
+			// *count = 1;          /* unless its set to 0, extend will never set 2 handles at once */
+			// *flag = (seq->flag | SELECT) & ~(SEQ_LEFTSEL | SEQ_RIGHTSEL);
+
+			// if (t->frame_side == 'R') {
+				// if      (right <= cfra) { *count = *flag = 0; }  /* ignore */
+				// else if (left   > cfra) {                     }  /* keep the selection */
+				// else *flag |= SEQ_RIGHTSEL;
+			// }
+			// else {
+				// if      (left >= cfra) { *count = *flag = 0; }  /* ignore */
+				// else if (right < cfra) {                     }  /* keep the selection */
+				// else *flag |= SEQ_LEFTSEL;
+			// }
+		// }
+	// }
+	// else {
+
+		// t->frame_side = 'B';
+
+		// /* *** Normal Transform *** */
+
+		// if (seq->depth == 0) {
+
+			// /* Count */
+
+			// /* Non nested strips (resect selection and handles) */
+			// if ((seq->flag & SELECT) == 0 || (seq->flag & SEQ_LOCK)) {
+				// *recursive = false;
+				// *count = 0;
+				// *flag = 0;
+			// }
+			// else {
+				// if ((seq->flag & (SEQ_LEFTSEL | SEQ_RIGHTSEL)) == (SEQ_LEFTSEL | SEQ_RIGHTSEL)) {
+					// *flag = seq->flag;
+					// *count = 2; /* we need 2 transdata's */
+				// }
+				// else {
+					// *flag = seq->flag;
+					// *count = 1; /* selected or with a handle selected */
+				// }
+
+				// /* Recursive */
+
+				// if ((seq->type == SEQ_TYPE_META) && ((seq->flag & (SEQ_LEFTSEL | SEQ_RIGHTSEL)) == 0)) {
+					// /* if any handles are selected, don't recurse */
+					// *recursive = true;
+				// }
+				// else {
+					// *recursive = false;
+				// }
+			// }
+		// }
+		// else {
+			// /* Nested, different rules apply */
+
+// #ifdef SEQ_TX_NESTED_METAS
+			// *flag = (seq->flag | SELECT) & ~(SEQ_LEFTSEL | SEQ_RIGHTSEL);
+			// *count = 1; /* ignore the selection for nested */
+			// *recursive = (seq->type == SEQ_TYPE_META);
+// #else
+			// if (seq->type == SEQ_TYPE_META) {
+				// /* Meta's can only directly be moved between channels since they
+				 // * don't have their start and length set directly (children affect that)
+				 // * since this Meta is nested we don't need any of its data in fact.
+				 // * BKE_sequence_calc() will update its settings when run on the toplevel meta */
+				// *flag = 0;
+				// *count = 0;
+				// *recursive = true;
+			// }
+			// else {
+				// *flag = (seq->flag | SELECT) & ~(SEQ_LEFTSEL | SEQ_RIGHTSEL);
+				// *count = 1; /* ignore the selection for nested */
+				// *recursive = false;
+			// }
+// #endif
+		// }
+	// }
+// }
 
 
 
-static int SeqTransCount(TransInfo *t, Sequence *parent, ListBase *seqbase, int depth)
-{
-	Sequence *seq;
-	int tot = 0, recursive, count, flag;
+// static int SeqTransCount(TransInfo *t, Sequence *parent, ListBase *seqbase, int depth)
+// {
+	// Sequence *seq;
+	// int tot = 0, recursive, count, flag;
 
-	for (seq = seqbase->first; seq; seq = seq->next) {
-		seq->depth = depth;
+	// for (seq = seqbase->first; seq; seq = seq->next) {
+		// seq->depth = depth;
 
-		/* seq->tmp is used by seq_tx_get_final_{left, right} to check sequence's range and clamp to it if needed.
-		 * it's first place where digging into sequences tree, so store link to parent here */
-		seq->tmp = parent;
+		// /* seq->tmp is used by seq_tx_get_final_{left, right} to check sequence's range and clamp to it if needed.
+		 // * it's first place where digging into sequences tree, so store link to parent here */
+		// seq->tmp = parent;
 
-		SeqTransInfo(t, seq, &recursive, &count, &flag); /* ignore the flag */
-		tot += count;
-
-		if (recursive) {
-			tot += SeqTransCount(t, seq, &seq->seqbase, depth + 1);
-		}
-	}
-
-	return tot;
-}
-
-
-static TransData *SeqToTransData(TransData *td, TransData2D *td2d, TransDataSeq *tdsq, Sequence *seq, int flag, int sel_flag)
-{
-	int start_left;
-
-	switch (sel_flag) {
-		case SELECT:
-			/* Use seq_tx_get_final_left() and an offset here
-			 * so transform has the left hand location of the strip.
-			 * tdsq->start_offset is used when flushing the tx data back */
-			start_left = BKE_sequence_tx_get_final_left(seq, false);
-			td2d->loc[0] = start_left;
-			tdsq->start_offset = start_left - seq->start; /* use to apply the original location */
-			break;
-		case SEQ_LEFTSEL:
-			start_left = BKE_sequence_tx_get_final_left(seq, false);
-			td2d->loc[0] = start_left;
-			break;
-		case SEQ_RIGHTSEL:
-			td2d->loc[0] = BKE_sequence_tx_get_final_right(seq, false);
-			break;
-	}
-
-	td2d->loc[1] = seq->machine; /* channel - Y location */
-	td2d->loc[2] = 0.0f;
-	td2d->loc2d = NULL;
-
-
-	tdsq->seq = seq;
-
-	/* Use instead of seq->flag for nested strips and other
-	 * cases where the selection may need to be modified */
-	tdsq->flag = flag;
-	tdsq->sel_flag = sel_flag;
-
-
-	td->extra = (void *)tdsq; /* allow us to update the strip from here */
-
-	td->flag = 0;
-	td->loc = td2d->loc;
-	copy_v3_v3(td->center, td->loc);
-	copy_v3_v3(td->iloc, td->loc);
-
-	memset(td->axismtx, 0, sizeof(td->axismtx));
-	td->axismtx[2][2] = 1.0f;
-
-	td->ext = NULL; td->val = NULL;
-
-	td->flag |= TD_SELECTED;
-	td->dist = 0.0;
-
-	unit_m3(td->mtx);
-	unit_m3(td->smtx);
-
-	/* Time Transform (extend) */
-	td->val = td2d->loc;
-	td->ival = td2d->loc[0];
-
-	return td;
-}
-
-static int SeqToTransData_Recursive(TransInfo *t, ListBase *seqbase, TransData *td, TransData2D *td2d, TransDataSeq *tdsq)
-{
-	Sequence *seq;
-	int recursive, count, flag;
-	int tot = 0;
-
-	for (seq = seqbase->first; seq; seq = seq->next) {
-
-		SeqTransInfo(t, seq, &recursive, &count, &flag);
-
-		/* add children first so recalculating metastrips does nested strips first */
-		if (recursive) {
-			int tot_children = SeqToTransData_Recursive(t, &seq->seqbase, td, td2d, tdsq);
-
-			td =     td +    tot_children;
-			td2d =   td2d +  tot_children;
-			tdsq =   tdsq +  tot_children;
-
-			tot += tot_children;
-		}
-
-		/* use 'flag' which is derived from seq->flag but modified for special cases */
-		if (flag & SELECT) {
-			if (flag & (SEQ_LEFTSEL | SEQ_RIGHTSEL)) {
-				if (flag & SEQ_LEFTSEL) {
-					SeqToTransData(td++, td2d++, tdsq++, seq, flag, SEQ_LEFTSEL);
-					tot++;
-				}
-				if (flag & SEQ_RIGHTSEL) {
-					SeqToTransData(td++, td2d++, tdsq++, seq, flag, SEQ_RIGHTSEL);
-					tot++;
-				}
-			}
-			else {
-				SeqToTransData(td++, td2d++, tdsq++, seq, flag, SELECT);
-				tot++;
-			}
-		}
-	}
-	return tot;
-}
-
-
-static void SeqTransDataBounds(TransInfo *t, ListBase *seqbase, TransSeq *ts)
-{
-	Sequence *seq;
-	int recursive, count, flag;
-	int max = INT32_MIN, min = INT32_MAX;
-
-	for (seq = seqbase->first; seq; seq = seq->next) {
-
-		/* just to get the flag since there are corner cases where this isn't totally obvious */
-		SeqTransInfo(t, seq, &recursive, &count, &flag);
-
-		/* use 'flag' which is derived from seq->flag but modified for special cases */
-		if (flag & SELECT) {
-			if (flag & (SEQ_LEFTSEL | SEQ_RIGHTSEL)) {
-				if (flag & SEQ_LEFTSEL) {
-					min = min_ii(seq->startdisp, min);
-					max = max_ii(seq->startdisp, max);
-				}
-				if (flag & SEQ_RIGHTSEL) {
-					min = min_ii(seq->enddisp, min);
-					max = max_ii(seq->enddisp, max);
-				}
-			}
-			else {
-				min = min_ii(seq->startdisp, min);
-				max = max_ii(seq->enddisp, max);
-			}
-		}
-	}
-
-	if (ts) {
-		ts->max = max;
-		ts->min = min;
-	}
-}
-
-
-static void freeSeqData(TransInfo *t)
-{
-	Editing *ed = BKE_sequencer_editing_get(t->scene, false);
-
-	if (ed != NULL) {
-		ListBase *seqbasep = ed->seqbasep;
-		TransData *td = t->data;
-		int a;
-
-		/* prevent updating the same seq twice
-		 * if the transdata order is changed this will mess up
-		 * but so will TransDataSeq */
-		Sequence *seq_prev = NULL;
-		Sequence *seq;
-
-
-		if (!(t->state == TRANS_CANCEL)) {
-
-#if 0       // default 2.4 behavior
-
-			/* flush to 2d vector from internally used 3d vector */
-			for (a = 0; a < t->total; a++, td++) {
-				if ((seq != seq_prev) && (seq->depth == 0) && (seq->flag & SEQ_OVERLAP)) {
-					seq = ((TransDataSeq *)td->extra)->seq;
-					BKE_sequence_base_shuffle(seqbasep, seq, t->scene);
-				}
-
-				seq_prev = seq;
-			}
-
-#else       // durian hack
-			{
-				int overlap = 0;
-
-				seq_prev = NULL;
-				for (a = 0; a < t->total; a++, td++) {
-					seq = ((TransDataSeq *)td->extra)->seq;
-					if ((seq != seq_prev) && (seq->depth == 0) && (seq->flag & SEQ_OVERLAP)) {
-						overlap = 1;
-						break;
-					}
-					seq_prev = seq;
-				}
-
-				if (overlap) {
-					bool has_effect = false;
-					for (seq = seqbasep->first; seq; seq = seq->next)
-						seq->tmp = NULL;
-
-					td = t->data;
-					seq_prev = NULL;
-					for (a = 0; a < t->total; a++, td++) {
-						seq = ((TransDataSeq *)td->extra)->seq;
-						if ((seq != seq_prev)) {
-							/* check effects strips, we cant change their time */
-							if ((seq->type & SEQ_TYPE_EFFECT) && seq->seq1) {
-								has_effect = true;
-							}
-							else {
-								/* Tag seq with a non zero value, used by BKE_sequence_base_shuffle_time to identify the ones to shuffle */
-								seq->tmp = (void *)1;
-							}
-						}
-					}
-
-					if (t->flag & T_ALT_TRANSFORM) {
-						int minframe = MAXFRAME;
-						td = t->data;
-						seq_prev = NULL;
-						for (a = 0; a < t->total; a++, td++) {
-							seq = ((TransDataSeq *)td->extra)->seq;
-							if ((seq != seq_prev)) {
-								minframe = min_ii(minframe, seq->startdisp);
-							}
-						}
-
-
-						for (seq = seqbasep->first; seq; seq = seq->next) {
-							if (!(seq->flag & SELECT)) {
-								if (seq->startdisp >= minframe) {
-									seq->machine += MAXSEQ * 2;
-								}
-							}
-						}
-
-						BKE_sequence_base_shuffle_time(seqbasep, t->scene);
-
-						for (seq = seqbasep->first; seq; seq = seq->next) {
-							if (seq->machine >= MAXSEQ * 2) {
-								seq->machine -= MAXSEQ * 2;
-								seq->tmp = (void *)1;
-							}
-							else {
-								seq->tmp = NULL;
-							}
-						}
-
-						BKE_sequence_base_shuffle_time(seqbasep, t->scene);
-					}
-					else {
-						BKE_sequence_base_shuffle_time(seqbasep, t->scene);
-					}
-
-					if (has_effect) {
-						/* update effects strips based on strips just moved in time */
-						td = t->data;
-						seq_prev = NULL;
-						for (a = 0; a < t->total; a++, td++) {
-							seq = ((TransDataSeq *)td->extra)->seq;
-							if ((seq != seq_prev)) {
-								if ((seq->type & SEQ_TYPE_EFFECT) && seq->seq1) {
-									BKE_sequence_calc(t->scene, seq);
-								}
-							}
-						}
-
-						/* now if any effects _still_ overlap, we need to move them up */
-						td = t->data;
-						seq_prev = NULL;
-						for (a = 0; a < t->total; a++, td++) {
-							seq = ((TransDataSeq *)td->extra)->seq;
-							if ((seq != seq_prev)) {
-								if ((seq->type & SEQ_TYPE_EFFECT) && seq->seq1) {
-									if (BKE_sequence_test_overlap(seqbasep, seq)) {
-										BKE_sequence_base_shuffle(seqbasep, seq, t->scene);
-									}
-								}
-							}
-						}
-						/* done with effects */
-					}
-				}
-			}
-#endif
-
-			for (seq = seqbasep->first; seq; seq = seq->next) {
-				/* We might want to build a list of effects that need to be updated during transform */
-				if (seq->type & SEQ_TYPE_EFFECT) {
-					if      (seq->seq1 && seq->seq1->flag & SELECT) BKE_sequence_calc(t->scene, seq);
-					else if (seq->seq2 && seq->seq2->flag & SELECT) BKE_sequence_calc(t->scene, seq);
-					else if (seq->seq3 && seq->seq3->flag & SELECT) BKE_sequence_calc(t->scene, seq);
-				}
-			}
-
-			BKE_sequencer_sort(t->scene);
-		}
-		else {
-			/* Canceled, need to update the strips display */
-			for (a = 0; a < t->total; a++, td++) {
-				seq = ((TransDataSeq *)td->extra)->seq;
-				if ((seq != seq_prev) && (seq->depth == 0)) {
-					if (seq->flag & SEQ_OVERLAP)
-						BKE_sequence_base_shuffle(seqbasep, seq, t->scene);
-
-					BKE_sequence_calc_disp(t->scene, seq);
-				}
-				seq_prev = seq;
-			}
-		}
-	}
-
-	if ((t->customData != NULL) && (t->flag & T_FREE_CUSTOMDATA)) {
-		TransSeq *ts = t->customData;
-		MEM_freeN(ts->tdseq);
-		MEM_freeN(t->customData);
-		t->customData = NULL;
-	}
-	if (t->data) {
-		MEM_freeN(t->data); // XXX postTrans usually does this
-		t->data = NULL;
-	}
-}
-
-static void createTransSeqData(bContext *C, TransInfo *t)
-{
-#define XXX_DURIAN_ANIM_TX_HACK
-
-	View2D *v2d = UI_view2d_fromcontext(C);
-	Scene *scene = t->scene;
-	Editing *ed = BKE_sequencer_editing_get(t->scene, false);
-	TransData *td = NULL;
-	TransData2D *td2d = NULL;
-	TransDataSeq *tdsq = NULL;
-	TransSeq *ts = NULL;
-	float xmouse, ymouse;
-
-	int count = 0;
-
-	if (ed == NULL) {
-		t->total = 0;
-		return;
-	}
-
-	t->customFree = freeSeqData;
-
-	UI_view2d_region_to_view(v2d, t->imval[0], t->imval[1], &xmouse, &ymouse);
-
-	/* which side of the current frame should be allowed */
-	if (t->mode == TFM_TIME_EXTEND) {
-		/* only side on which mouse is gets transformed */
-		t->frame_side = (xmouse > CFRA) ? 'R' : 'L';
-	}
-	else {
-		/* normal transform - both sides of current frame are considered */
-		t->frame_side = 'B';
-	}
-
-#ifdef XXX_DURIAN_ANIM_TX_HACK
-	{
-		Sequence *seq;
-		for (seq = ed->seqbasep->first; seq; seq = seq->next) {
-			/* hack */
-			if ((seq->flag & SELECT) == 0 && seq->type & SEQ_TYPE_EFFECT) {
-				Sequence *seq_user;
-				int i;
-				for (i = 0; i < 3; i++) {
-					seq_user = *((&seq->seq1) + i);
-					if (seq_user && (seq_user->flag & SELECT) &&
-					    !(seq_user->flag & SEQ_LOCK) &&
-					    !(seq_user->flag & (SEQ_LEFTSEL | SEQ_RIGHTSEL)))
-					{
-						seq->flag |= SELECT;
-					}
-				}
-			}
-		}
-	}
-#endif
-
-	count = SeqTransCount(t, NULL, ed->seqbasep, 0);
-
-	/* allocate memory for data */
-	t->total = count;
-
-	/* stop if trying to build list if nothing selected */
-	if (count == 0) {
-		return;
-	}
-
-	t->customData = ts = MEM_mallocN(sizeof(TransSeq), "transseq");
-	td = t->data = MEM_callocN(t->total * sizeof(TransData), "TransSeq TransData");
-	td2d = t->data2d = MEM_callocN(t->total * sizeof(TransData2D), "TransSeq TransData2D");
-	ts->tdseq = tdsq = MEM_callocN(t->total * sizeof(TransDataSeq), "TransSeq TransDataSeq");
-	t->flag |= T_FREE_CUSTOMDATA;
-
-	/* loop 2: build transdata array */
-	SeqToTransData_Recursive(t, ed->seqbasep, td, td2d, tdsq);
-	SeqTransDataBounds(t, ed->seqbasep, ts);
+		// SeqTransInfo(t, seq, &recursive, &count, &flag); /* ignore the flag */
+		// tot += count;
+
+		// if (recursive) {
+			// tot += SeqTransCount(t, seq, &seq->seqbase, depth + 1);
+		// }
+	// }
+
+	// return tot;
+// }
+
+
+// static TransData *SeqToTransData(TransData *td, TransData2D *td2d, TransDataSeq *tdsq, Sequence *seq, int flag, int sel_flag)
+// {
+	// int start_left;
+
+	// switch (sel_flag) {
+		// case SELECT:
+			// /* Use seq_tx_get_final_left() and an offset here
+			 // * so transform has the left hand location of the strip.
+			 // * tdsq->start_offset is used when flushing the tx data back */
+			// start_left = BKE_sequence_tx_get_final_left(seq, false);
+			// td2d->loc[0] = start_left;
+			// tdsq->start_offset = start_left - seq->start; /* use to apply the original location */
+			// break;
+		// case SEQ_LEFTSEL:
+			// start_left = BKE_sequence_tx_get_final_left(seq, false);
+			// td2d->loc[0] = start_left;
+			// break;
+		// case SEQ_RIGHTSEL:
+			// td2d->loc[0] = BKE_sequence_tx_get_final_right(seq, false);
+			// break;
+	// }
+
+	// td2d->loc[1] = seq->machine; /* channel - Y location */
+	// td2d->loc[2] = 0.0f;
+	// td2d->loc2d = NULL;
+
+
+	// tdsq->seq = seq;
+
+	// /* Use instead of seq->flag for nested strips and other
+	 // * cases where the selection may need to be modified */
+	// tdsq->flag = flag;
+	// tdsq->sel_flag = sel_flag;
+
+
+	// td->extra = (void *)tdsq; /* allow us to update the strip from here */
+
+	// td->flag = 0;
+	// td->loc = td2d->loc;
+	// copy_v3_v3(td->center, td->loc);
+	// copy_v3_v3(td->iloc, td->loc);
+
+	// memset(td->axismtx, 0, sizeof(td->axismtx));
+	// td->axismtx[2][2] = 1.0f;
+
+	// td->ext = NULL; td->val = NULL;
+
+	// td->flag |= TD_SELECTED;
+	// td->dist = 0.0;
+
+	// unit_m3(td->mtx);
+	// unit_m3(td->smtx);
+
+	// /* Time Transform (extend) */
+	// td->val = td2d->loc;
+	// td->ival = td2d->loc[0];
+
+	// return td;
+// }
+
+// static int SeqToTransData_Recursive(TransInfo *t, ListBase *seqbase, TransData *td, TransData2D *td2d, TransDataSeq *tdsq)
+// {
+	// Sequence *seq;
+	// int recursive, count, flag;
+	// int tot = 0;
+
+	// for (seq = seqbase->first; seq; seq = seq->next) {
+
+		// SeqTransInfo(t, seq, &recursive, &count, &flag);
+
+		// /* add children first so recalculating metastrips does nested strips first */
+		// if (recursive) {
+			// int tot_children = SeqToTransData_Recursive(t, &seq->seqbase, td, td2d, tdsq);
+
+			// td =     td +    tot_children;
+			// td2d =   td2d +  tot_children;
+			// tdsq =   tdsq +  tot_children;
+
+			// tot += tot_children;
+		// }
+
+		// /* use 'flag' which is derived from seq->flag but modified for special cases */
+		// if (flag & SELECT) {
+			// if (flag & (SEQ_LEFTSEL | SEQ_RIGHTSEL)) {
+				// if (flag & SEQ_LEFTSEL) {
+					// SeqToTransData(td++, td2d++, tdsq++, seq, flag, SEQ_LEFTSEL);
+					// tot++;
+				// }
+				// if (flag & SEQ_RIGHTSEL) {
+					// SeqToTransData(td++, td2d++, tdsq++, seq, flag, SEQ_RIGHTSEL);
+					// tot++;
+				// }
+			// }
+			// else {
+				// SeqToTransData(td++, td2d++, tdsq++, seq, flag, SELECT);
+				// tot++;
+			// }
+		// }
+	// }
+	// return tot;
+// }
+
+
+// static void SeqTransDataBounds(TransInfo *t, ListBase *seqbase, TransSeq *ts)
+// {
+	// Sequence *seq;
+	// int recursive, count, flag;
+	// int max = INT32_MIN, min = INT32_MAX;
+
+	// for (seq = seqbase->first; seq; seq = seq->next) {
+
+		// /* just to get the flag since there are corner cases where this isn't totally obvious */
+		// SeqTransInfo(t, seq, &recursive, &count, &flag);
+
+		// /* use 'flag' which is derived from seq->flag but modified for special cases */
+		// if (flag & SELECT) {
+			// if (flag & (SEQ_LEFTSEL | SEQ_RIGHTSEL)) {
+				// if (flag & SEQ_LEFTSEL) {
+					// min = min_ii(seq->startdisp, min);
+					// max = max_ii(seq->startdisp, max);
+				// }
+				// if (flag & SEQ_RIGHTSEL) {
+					// min = min_ii(seq->enddisp, min);
+					// max = max_ii(seq->enddisp, max);
+				// }
+			// }
+			// else {
+				// min = min_ii(seq->startdisp, min);
+				// max = max_ii(seq->enddisp, max);
+			// }
+		// }
+	// }
+
+	// if (ts) {
+		// ts->max = max;
+		// ts->min = min;
+	// }
+// }
+
+
+// static void freeSeqData(TransInfo *t)
+// {
+	// Editing *ed = BKE_sequencer_editing_get(t->scene, false);
+
+	// if (ed != NULL) {
+		// ListBase *seqbasep = ed->seqbasep;
+		// TransData *td = t->data;
+		// int a;
+
+		// /* prevent updating the same seq twice
+		 // * if the transdata order is changed this will mess up
+		 // * but so will TransDataSeq */
+		// Sequence *seq_prev = NULL;
+		// Sequence *seq;
+
+
+		// if (!(t->state == TRANS_CANCEL)) {
+
+// #if 0       // default 2.4 behavior
+
+			// /* flush to 2d vector from internally used 3d vector */
+			// for (a = 0; a < t->total; a++, td++) {
+				// if ((seq != seq_prev) && (seq->depth == 0) && (seq->flag & SEQ_OVERLAP)) {
+					// seq = ((TransDataSeq *)td->extra)->seq;
+					// BKE_sequence_base_shuffle(seqbasep, seq, t->scene);
+				// }
+
+				// seq_prev = seq;
+			// }
+
+// #else       // durian hack
+			// {
+				// int overlap = 0;
+
+				// seq_prev = NULL;
+				// for (a = 0; a < t->total; a++, td++) {
+					// seq = ((TransDataSeq *)td->extra)->seq;
+					// if ((seq != seq_prev) && (seq->depth == 0) && (seq->flag & SEQ_OVERLAP)) {
+						// overlap = 1;
+						// break;
+					// }
+					// seq_prev = seq;
+				// }
+
+				// if (overlap) {
+					// bool has_effect = false;
+					// for (seq = seqbasep->first; seq; seq = seq->next)
+						// seq->tmp = NULL;
+
+					// td = t->data;
+					// seq_prev = NULL;
+					// for (a = 0; a < t->total; a++, td++) {
+						// seq = ((TransDataSeq *)td->extra)->seq;
+						// if ((seq != seq_prev)) {
+							// /* check effects strips, we cant change their time */
+							// if ((seq->type & SEQ_TYPE_EFFECT) && seq->seq1) {
+								// has_effect = true;
+							// }
+							// else {
+								// /* Tag seq with a non zero value, used by BKE_sequence_base_shuffle_time to identify the ones to shuffle */
+								// seq->tmp = (void *)1;
+							// }
+						// }
+					// }
+
+					// if (t->flag & T_ALT_TRANSFORM) {
+						// int minframe = MAXFRAME;
+						// td = t->data;
+						// seq_prev = NULL;
+						// for (a = 0; a < t->total; a++, td++) {
+							// seq = ((TransDataSeq *)td->extra)->seq;
+							// if ((seq != seq_prev)) {
+								// minframe = min_ii(minframe, seq->startdisp);
+							// }
+						// }
+
+
+						// for (seq = seqbasep->first; seq; seq = seq->next) {
+							// if (!(seq->flag & SELECT)) {
+								// if (seq->startdisp >= minframe) {
+									// seq->machine += MAXSEQ * 2;
+								// }
+							// }
+						// }
+
+						// BKE_sequence_base_shuffle_time(seqbasep, t->scene);
+
+						// for (seq = seqbasep->first; seq; seq = seq->next) {
+							// if (seq->machine >= MAXSEQ * 2) {
+								// seq->machine -= MAXSEQ * 2;
+								// seq->tmp = (void *)1;
+							// }
+							// else {
+								// seq->tmp = NULL;
+							// }
+						// }
+
+						// BKE_sequence_base_shuffle_time(seqbasep, t->scene);
+					// }
+					// else {
+						// BKE_sequence_base_shuffle_time(seqbasep, t->scene);
+					// }
+
+					// if (has_effect) {
+						// /* update effects strips based on strips just moved in time */
+						// td = t->data;
+						// seq_prev = NULL;
+						// for (a = 0; a < t->total; a++, td++) {
+							// seq = ((TransDataSeq *)td->extra)->seq;
+							// if ((seq != seq_prev)) {
+								// if ((seq->type & SEQ_TYPE_EFFECT) && seq->seq1) {
+									// BKE_sequence_calc(t->scene, seq);
+								// }
+							// }
+						// }
+
+						// /* now if any effects _still_ overlap, we need to move them up */
+						// td = t->data;
+						// seq_prev = NULL;
+						// for (a = 0; a < t->total; a++, td++) {
+							// seq = ((TransDataSeq *)td->extra)->seq;
+							// if ((seq != seq_prev)) {
+								// if ((seq->type & SEQ_TYPE_EFFECT) && seq->seq1) {
+									// if (BKE_sequence_test_overlap(seqbasep, seq)) {
+										// BKE_sequence_base_shuffle(seqbasep, seq, t->scene);
+									// }
+								// }
+							// }
+						// }
+						// /* done with effects */
+					// }
+				// }
+			// }
+// #endif
+
+			// for (seq = seqbasep->first; seq; seq = seq->next) {
+				// /* We might want to build a list of effects that need to be updated during transform */
+				// if (seq->type & SEQ_TYPE_EFFECT) {
+					// if      (seq->seq1 && seq->seq1->flag & SELECT) BKE_sequence_calc(t->scene, seq);
+					// else if (seq->seq2 && seq->seq2->flag & SELECT) BKE_sequence_calc(t->scene, seq);
+					// else if (seq->seq3 && seq->seq3->flag & SELECT) BKE_sequence_calc(t->scene, seq);
+				// }
+			// }
+
+			// BKE_sequencer_sort(t->scene);
+		// }
+		// else {
+			// /* Canceled, need to update the strips display */
+			// for (a = 0; a < t->total; a++, td++) {
+				// seq = ((TransDataSeq *)td->extra)->seq;
+				// if ((seq != seq_prev) && (seq->depth == 0)) {
+					// if (seq->flag & SEQ_OVERLAP)
+						// BKE_sequence_base_shuffle(seqbasep, seq, t->scene);
+
+					// BKE_sequence_calc_disp(t->scene, seq);
+				// }
+				// seq_prev = seq;
+			// }
+		// }
+	// }
+
+	// if ((t->customData != NULL) && (t->flag & T_FREE_CUSTOMDATA)) {
+		// TransSeq *ts = t->customData;
+		// MEM_freeN(ts->tdseq);
+		// MEM_freeN(t->customData);
+		// t->customData = NULL;
+	// }
+	// if (t->data) {
+		// MEM_freeN(t->data); // XXX postTrans usually does this
+		// t->data = NULL;
+	// }
+// }
+
+// static void createTransSeqData(bContext *C, TransInfo *t)
+// {
+// #define XXX_DURIAN_ANIM_TX_HACK
+
+	// View2D *v2d = UI_view2d_fromcontext(C);
+	// Scene *scene = t->scene;
+	// Editing *ed = BKE_sequencer_editing_get(t->scene, false);
+	// TransData *td = NULL;
+	// TransData2D *td2d = NULL;
+	// TransDataSeq *tdsq = NULL;
+	// TransSeq *ts = NULL;
+	// float xmouse, ymouse;
+
+	// int count = 0;
+
+	// if (ed == NULL) {
+		// t->total = 0;
+		// return;
+	// }
+
+	// t->customFree = freeSeqData;
+
+	// UI_view2d_region_to_view(v2d, t->imval[0], t->imval[1], &xmouse, &ymouse);
+
+	// /* which side of the current frame should be allowed */
+	// if (t->mode == TFM_TIME_EXTEND) {
+		// /* only side on which mouse is gets transformed */
+		// t->frame_side = (xmouse > CFRA) ? 'R' : 'L';
+	// }
+	// else {
+		// /* normal transform - both sides of current frame are considered */
+		// t->frame_side = 'B';
+	// }
+
+// #ifdef XXX_DURIAN_ANIM_TX_HACK
+	// {
+		// Sequence *seq;
+		// for (seq = ed->seqbasep->first; seq; seq = seq->next) {
+			// /* hack */
+			// if ((seq->flag & SELECT) == 0 && seq->type & SEQ_TYPE_EFFECT) {
+				// Sequence *seq_user;
+				// int i;
+				// for (i = 0; i < 3; i++) {
+					// seq_user = *((&seq->seq1) + i);
+					// if (seq_user && (seq_user->flag & SELECT) &&
+					    // !(seq_user->flag & SEQ_LOCK) &&
+					    // !(seq_user->flag & (SEQ_LEFTSEL | SEQ_RIGHTSEL)))
+					// {
+						// seq->flag |= SELECT;
+					// }
+				// }
+			// }
+		// }
+	// }
+// #endif
+
+	// count = SeqTransCount(t, NULL, ed->seqbasep, 0);
+
+	// /* allocate memory for data */
+	// t->total = count;
+
+	// /* stop if trying to build list if nothing selected */
+	// if (count == 0) {
+		// return;
+	// }
+
+	// t->customData = ts = MEM_mallocN(sizeof(TransSeq), "transseq");
+	// td = t->data = MEM_callocN(t->total * sizeof(TransData), "TransSeq TransData");
+	// td2d = t->data2d = MEM_callocN(t->total * sizeof(TransData2D), "TransSeq TransData2D");
+	// ts->tdseq = tdsq = MEM_callocN(t->total * sizeof(TransDataSeq), "TransSeq TransDataSeq");
+	// t->flag |= T_FREE_CUSTOMDATA;
+
+	// /* loop 2: build transdata array */
+	// SeqToTransData_Recursive(t, ed->seqbasep, td, td2d, tdsq);
+	// SeqTransDataBounds(t, ed->seqbasep, ts);
 	
-	/* set the snap mode based on how close the mouse is at the end/start points */
-	if (abs(xmouse - ts->max) > abs(xmouse - ts->min))
-		ts->snap_left = true;
+	// /* set the snap mode based on how close the mouse is at the end/start points */
+	// if (abs(xmouse - ts->max) > abs(xmouse - ts->min))
+		// ts->snap_left = true;
 
-#undef XXX_DURIAN_ANIM_TX_HACK
-}
+// #undef XXX_DURIAN_ANIM_TX_HACK
+// }
 
 
 /* *********************** Object Transform data ******************* */
