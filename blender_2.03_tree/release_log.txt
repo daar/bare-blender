@@ -1,0 +1,149 @@
+------Blender release log / bug list--------
+
+Version: $Id: release_log.txt,v 1.36 2000/09/27 15:27:28 frank Exp $
+
+Use this file to register bugs or to check the status of bugs.
+This file consists of a number of sections:
+
+- a section for the next release
+- current
+
+Each section is subdivided into subsections:
+
+- new features
+- critical bugs (crashes etc.)
+- general bugs (unwanted behaviour)
+- hardware problems
+
+Each line in a subsection discribes a bug or new feature and
+starts with a single character indicating the status of the bug.
+Here's an overview:
+
+- bug is new and not assigned
+X an uppercase letter, bug is assigned to TEGHJNF (Ton, Erwin, Gino...)
+
+Remarks can be added on a new line starting with two spaces.
+
+Whenever a bug has been fixed, the engineer removes the line(s) from the
+current section up to the next release section.
+
+Example files will be located in server:/home/develop/bugs . The naming
+convention for these files is: YYMMDD-NN-short-discription.blend . When
+more files are needed to reproduce the bug they start with the same
+YYMMDD-NN numbers or they are stored in a subdirectory. Whenever a bug
+is fixed, please move the file(s) to the bugs/fixed subdirectory.
+
+Readme's and general remarks will be stored in a text window in the 
+example file. Information needed for the release log, can be stored in
+this file.
+
+-------- Release 2.04 -----------------
+
+--- enhancement requests
+
+--- new features
+N Edge rendering has been added for the unified renderer. There is a
+  button that switches between edge-rendering only solid faces, and 
+  edge-rendering both solid and transparent faces.
+
+--- critical bugs
+
+--- minor bugs
+F (LayBack) blender -h reports wrong version number
+T (skywriter@mrnutty.com)  dynamic actors were drawn twice, this gave a noticable slowdown at systems with slow graphics
+F (LayBack) toolbox menu had an obsolete entry 'PrintWeights'
+N (predrag.kurtovic@st.hinet.hr) halo render bug in unified renderer:
+  modified oversampling rules
+N (matthias_heinzel@eprservice.de) unified renderer crashes:
+  added guard for switching on uninitialised data
+F (yldiz@yahoo.fr) clicking rightmouse when grabing / rotating / scaling in image window now cancels action
+F (carsten@blender.nl) 'Update:' label in metaball editbuttons was drawn incorrectly
+F (frank@blender.nl) fixed reading B&W Targa on little endian machines
+
+-------- Current ----------
+
+--- enhancement requests
+
+T (PaulM) redesign view buttons interface
+- (blenderman@free.fr) blender uses 'Show Bounds' flag to visualy indicate that an object is a sector. Deactivating the sector button doesn't reset this flag. Solution: add a new drawing flag to an object instead
+T (calli) info window can't be scrolled or zoomed
+T (WP) use spacebar menu, add circle, and cancel action: blender is in edit mode with an empty object
+- (mikko.alfthan@zoo-gate.fi) intersect option is unstable and sometimes crashes blender
+- plugins don't work on BeOS 
+- play back of audio in the audio window 
+T (mrnutty@mrnutty.com) game buttons aren't centered correctly vertically when selecting objects
+- (LayBack) add Image select window to load images in Image window
+- (LayBack) add editing option in oops window
+- (LayBack) add visualizing TX ObData in oops windows
+
+
+--- critical bugs
+
+
+--- minor bugs
+
+E realtime lighting incorrect on mirrored objects 
+- packed animations aren't rendered correctly. The animated texture code relies on filenames and file pointers and should be rewritten to handle texture files in memory 
+T (game) "Fh" system doesn't allow rotations of sector/props other than Z-rotations 
+T (game) Delta Ipo's don't work 
+J export of UV coordinates in VRML is not 100% correct (triangles). 
+
+F (gnaf) (glut related!) 000815-01-render-3dwindow.blend produces incorrect first image on IRIX machines
+J (PaulM) the image window (SHIFT-F10) doesn't allow zoom factors < 1.0 . This causes problems with images larger than the screen
+- (joeri) 000817-01-erase-latice-displaylist.blend objects are not drawn correctly after lattice has been removed
+- (dauvit@clanjamfrie.demon.co.uk) File->'Reopen Last' sometimes crashes (000822-01-file-reopen-crash.blend)
+- (carsten@blender.nl) The time in the x-axis of the sound-ed isn't refreshed when you change Frs/sec from the DisplayWindows. (In seq-ed this works)
+- (rdudfield@hotmail.com) blender should ignore button events which occur during drawing a menu (see: <http://www.blender.nl/discussion/read.php?f=11&i=299&t=234> for details)
+- (frank@blender.nl) game engine doesn't use input queue. On slow systems events get lost
+N (onk@gmx.de) animated background menu doesn't work on linux (000825-02-linux-animated-background.blend)
+- (carsten@blender.nl) track-to doesn't take object rotations into account (000829-02-track-to.blend)
+J (webmaster@meloware.com) menu buffer overflow from within python (000830-01-python-menu-overflow.blend)
+J (nombo@yahoo.com) toggle buttons in python toggle twice (000830-02-python-toggle-button.blend)
+H (analogy@mindspring.com) blender only renders first image when 'Do sequence' is activated (000901-01-do-sequence-anim.blend)
+- (shizukesa@mindspring.com) complex hierarchies are drawn incorrectly (000901-02-ika-pivot-point.blend)
+H (bart@blender.nl) when going out of playmode, samples keep playing
+- (nico@cardamon.de) blender crashes when changing desktops in 'Reflection Virtual Desktop' and js pager virtual desktop
+- (onk@gmx.de) blender crashes in play mode on library objects (000905-01-library-object-sca-crash.blend)
+- (kiernanholland@juno.com) selected metaballs are not always converted (000905-02-convert-metaball.blend)
+- (frank@blender.nl) renaming metaballs doesn't update displaylists (000905-02-convert-metaball.blend)
+- (predrag.kurtovic@st.hinet.hr) redraw quirks on windows with TNT2 card (000906-01-frame-counter-windows.blend)
+- (predrag.kurtovic@st.hinet.hr) blender -W under windows with TNT2 card doesn't open render window
+- (carsten@blender.nl) blender enters subloops and doesn't handle screendump (CTRL-F3) key (000919-01-no-screendump.blend)
+- (carsten@blender.nl) floating point or OpenGL inaccuracies (000919-02-floating-point-problems.blend)
+- (frank@blender.nl) if blender is installed in 'C:\Program Files\' paying back an anim reports the error: 'C:\Program' is not recognized as an internal or external command (win2k)
+- (blenderman@free.fr) spot halo lighting in potato mode isn't recalculated for non-textured objects (000919-03-spot-lighting.blend)
+- (LayBack) blender on Irix somtimes locks up because of windows path (000919-04-unix-windows-lock-up.blend)
+- (wp@blender.nl) performing border select in image window corrupts selection buffer (000920-01-border-and-faceselect.blend)
+- (yamyam@yo.rim.or.jp) erasing objects with properties can crash blender in play mode (000921-01-erased-objects-crash.blend)
+- (yamyam@yo.rim.or.jp) alpha textured planes are drawn in random order
+- (yamyam@yo.rim.or.jp) added objects are sometimes added at the wrong location (000921-02-added-objects-wrong-location.blend)
+- (onk@gmx.de) offset between parent and child is not corrected when centre new is used (000926-01-centre-new.blend)
+- (shellshock@hi.nl) uv texture coordinate calculations are inaccurate (000927-01-uv-texture-wrap.blend)
+
+--- improvements
+
+- by default enable Ztransp in new materials. Possibly make an optimization for alpha = 255.
+
+--- hardware problems
+
+- realtime textures (potato mode) on BeOS 4.5 are drawn incorrect (BeOS error!)
+
+
+--- unconfirmed
+
+- problems with playing sound on NT 
+- Blender needs msvcrt.dll to run, on Windows 95 this dll is missing 
+- obscure crashes on Windows systems. Blender 2.00 crashes. Blender 1.8 is stable 
+  Try running blender with the -noaudio option. Please report results to bugs@blender.nl
+- (evilzr@yahoo.com) redraws are not correct (raising and lowering windows) on sgi-6.2-elan
+
+--- work in progress
+
+- the unified renderer is still unfinished 
+- improvement of game logic (editor) and physics 
+- interface reconstruction phase 2 
+- intergration of physics and animation system 
+- implement audio playback on Linux / FreeBSD 
+- new game engine implementation
+
+-------- End of file -----------

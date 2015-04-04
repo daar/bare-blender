@@ -1,0 +1,11 @@
+ 2135 Apr  4 16:19 writeimage.c
+ 7085 Mar  2 17:18 ham.c
+ 7458 Mar  2 17:18 tim.c
+ 8667 Mar  2 17:18 amiga.c
+10319 Mar  2 17:18 cdi.c
+11812 Apr  4 16:26 targa.c
+13107 Apr  4 20:39 iris.c
+14257 May 10 23:39 jpeg.c
+14375 Mar  2 17:18 cmap.c
+27121 Jun  4 00:52 anim.c
+42540 Mar  2 17:18 hamx.c

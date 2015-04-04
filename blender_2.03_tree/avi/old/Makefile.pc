@@ -1,0 +1,31 @@
+# libavi makefile
+ENDIAN = -DWORDS_LITTLEENDIAN   # Big endian machines
+
+OBJS = avi.o avirgb.o codecs.o endian.o options.o jmf.o mjpeg.o rgb32.o
+LIBS = -lc
+
+CFLAGS = -O2 -I../include/ -I/usr/local/include/
+CPPADD =
+
+libavi: libavi.a libavi.so
+
+libavi.a: $(OBJS)
+	ar rv $@ $(OBJS)
+	ranlib $@
+
+libavi.so: $(OBJS)
+	ld -Bshareable -o $@ $(OBJS)
+
+install: libavi.so avi.h
+	$(INSTALL) -m 644 -f /usr/people/blend/OpenGL/include avi.h
+	$(INSTALL) -m 644 -f /usr/lib/ libavi.so.0.3.0
+
+clean:
+	rm -rf *.o *~ .libs/*
+
+.c.o:
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(CPPADD) $(ENDIAN) -c -o $@ $<
+
+.SUFFIXES: .c .o
+
+

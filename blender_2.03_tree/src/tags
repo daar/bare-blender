@@ -1,0 +1,57 @@
+decompose_menu_string	interface.c	/^int decompose_menu_string(char *str, char **title,/
+pupmenu	interface.c	/^short pupmenu(char *instr)$/
+uiActAsTextBut	interface.c	/^static int uiActAsTextBut(uiBut *but)$/
+uiCheckBut	interface.c	/^void uiCheckBut(uiBut *but)$/
+uiClearButLock	interface.c	/^void uiClearButLock()$/
+uiDefBut	interface.c	/^uiBut *uiDefBut(uiBlock *block, int type, int retv/
+uiDefButIcon	interface.c	/^void uiDefButIcon(short nr, uint *rect, short xim,/
+uiDefCol	interface.c	/^void uiDefCol(uint index, uint medium, uint pen, u/
+uiDefFont	interface.c	/^void uiDefFont(uint index, void *xl, void *large, /
+uiDoBlock	interface.c	/^int uiDoBlock(uiBlock *block, uiEvent *uevent)$/
+uiDoBlocks	interface.c	/^int uiDoBlocks(ListBase *lb, int event)$/
+uiDoButTip	interface.c	/^void uiDoButTip()$/
+uiDoBut_BLOCK	interface.c	/^int uiDoBut_BLOCK(uiBut *but)$/
+uiDoBut_BUT	interface.c	/^int uiDoBut_BUT(uiBut *but)$/
+uiDoBut_BUTM	interface.c	/^int uiDoBut_BUTM(uiBut *but)$/
+uiDoBut_ICONROW	interface.c	/^int uiDoBut_ICONROW(uiBut *but)$/
+uiDoBut_IDPOIN	interface.c	/^int uiDoBut_IDPOIN(uiBut *but)$/
+uiDoBut_MENU	interface.c	/^int uiDoBut_MENU(uiBut *but)$/
+uiDoBut_NUM	interface.c	/^int uiDoBut_NUM(uiBut *but)$/
+uiDoBut_NUMSLI	interface.c	/^int uiDoBut_NUMSLI(uiBut *but)$/
+uiDoBut_ROW	interface.c	/^int uiDoBut_ROW(uiBlock *block, uiBut *but)$/
+uiDoBut_SLI	interface.c	/^int uiDoBut_SLI(uiBut *but)$/
+uiDoBut_TEX	interface.c	/^int uiDoBut_TEX(uiBut *but)$/
+uiDoBut_TOG	interface.c	/^int uiDoBut_TOG(uiBut *but)$/
+uiDoBut_TOG3	interface.c	/^int uiDoBut_TOG3(uiBut *but)$/
+uiDoButton	interface.c	/^int uiDoButton(uiBlock *block, uiBut *but, uiEvent/
+uiDrawBlock	interface.c	/^void uiDrawBlock(uiBlock *block)$/
+uiDrawBut	interface.c	/^void uiDrawBut(uiBut *but)$/
+uiDrawButTip	interface.c	/^void uiDrawButTip(uiBut *but)$/
+uiDrawBut_BLOCK	interface.c	/^void uiDrawBut_BLOCK(uiBut *but)$/
+uiDrawBut_BUT	interface.c	/^void uiDrawBut_BUT(uiBut *but)$/
+uiDrawBut_BUTM	interface.c	/^void uiDrawBut_BUTM(uiBut *but)$/
+uiDrawBut_LABEL	interface.c	/^void uiDrawBut_LABEL(uiBut *but)$/
+uiDrawIcon	interface.c	/^void uiDrawIcon(uiBut *but)$/
+uiEmbossN	interface.c	/^void uiEmbossN(uiCol *bc, float asp, float x1, flo/
+uiEmbossSlider	interface.c	/^void uiEmbossSlider(uiBut *but, float fac)$/
+uiEmbossW	interface.c	/^void uiEmbossW(uiCol *bc, float asp, float x1, flo/
+uiEmbossX	interface.c	/^void uiEmbossX(uiCol *bc, float asp, float x1, flo/
+uiFreeBlock	interface.c	/^void uiFreeBlock(uiBlock *block)$/
+uiFreeBlocks	interface.c	/^void uiFreeBlocks(ListBase *lb)$/
+uiFreeBlocksWin	interface.c	/^void uiFreeBlocksWin(ListBase *lb, int win)$/
+uiFreeBut	interface.c	/^void uiFreeBut(uiBut *but)$/
+uiGetButVal	interface.c	/^double uiGetButVal(uiBut *but)$/
+uiGetMouse	interface.c	/^void uiGetMouse(short *adr)$/
+uiInit	interface.c	/^void uiInit()$/
+uiIsButSel	interface.c	/^void uiIsButSel(uiBut *but)$/
+uiNewBlock	interface.c	/^uiBlock *uiNewBlock(ListBase *lb, char *name, shor/
+uiSetButLock	interface.c	/^void uiSetButLock(int val, char *lockstr)$/
+uiSetButVal	interface.c	/^void uiSetButVal(uiBut *but, double value)$/
+uiSetCurFont	interface.c	/^void uiSetCurFont(uiBlock *block, int index)$/
+uiSetNameMenu	interface.c	/^void uiSetNameMenu(uiBut *but, int item)$/
+ui_BoundsBlock	interface.c	/^void ui_BoundsBlock(uiBlock *block, int addval)$/
+ui_PositionBlock	interface.c	/^void ui_PositionBlock(uiBlock *block, uiBut *but)$/
+ui_bgnpupdraw	interface.c	/^void ui_bgnpupdraw(int startx, int starty, int end/
+ui_endpupdraw	interface.c	/^void ui_endpupdraw()$/
+ui_graphics_to_window	interface.c	/^void ui_graphics_to_window(float *x, float *y)	\/* /
+ui_window_to_graphics	interface.c	/^void ui_window_to_graphics(float *x, float *y)	\/* /

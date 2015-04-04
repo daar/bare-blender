@@ -1,0 +1,94 @@
+#!/bin/sh
+
+# detect the system
+
+UNAME=`uname`
+if ( test $UNAME = "IRIX" ) then
+	CC="cc";
+	CFLAGS="-KPIC -O2";
+
+	LD="ld";
+	LDFLAGS="-U";	
+elif ( test $UNAME = "FreeBSD" ) then
+	CC="gcc";
+	CFLAGS="-fPIC -funsigned-char -O2";
+
+	LD="ld";
+	LDFLAGS="-Bshareable";
+elif ( test $UNAME = "Linux" ) then
+	CC="gcc";
+	CFLAGS="-fPIC -funsigned-char -O2";
+
+	LD="ld";
+	LDFLAGS="-Bshareable";
+elif ( test $UNAME = "SunOS" ) then
+	CC="cc";
+	CFLAGS="-O2";
+
+	LD="ld";
+	LDFLAGS="-r";
+fi
+
+if ( test "$#" = "1" ) then 
+	if ( test -f $1 ) then
+		BASE_FILE=`echo $1 | sed -e "1 s/\.c//g"`;
+	else 
+		BASE_FILE=$1;
+	fi
+
+	CFILE="$BASE_FILE.c"
+	OFILE="$BASE_FILE.o"
+	SOFILE="$BASE_FILE.so"
+else 
+	if ( test -f $1$2 ) then
+		BASE_FILE=`echo $2 | sed -e "1 s/\.c//g"`;
+	else 
+		BASE_FILE=$2;
+	fi
+
+	CFILE="$1$BASE_FILE.c"
+	OFILE="$BASE_FILE.o"
+	SOFILE="$BASE_FILE.so"
+fi
+
+INCLUDES=
+if ( test -f plugin.h ) then
+	INCLUDES=-I.;
+elif ( test -f "include/plugin.h" ) then
+	INCLUDES=-Iinclude/
+elif ( test -f "../plugin.h" ) then
+	INCLUDES=-I..;
+elif ( test -f "../include/plugin.h" ) then
+	INCLUDES=-I../include
+else 
+	echo "Couldn't find plugin.h";
+	exit;
+fi
+
+LIBM=`fgrep "#include <math.h>" $CFILE`
+LIBC=`fgrep "#include <std" $CFILE`
+
+LIBS=
+
+if ( test -n "$LIBM" ) then
+	LIBS="$LIBS -lm"; 
+fi
+if ( test -n "$LIBC" ) then 
+	LIBS="$LIBS -lc"; 
+fi
+
+echo "$CC $CFLAGS -c $CFILE $INCLUDES"
+$CC $CFLAGS -c $CFILE $INCLUDES
+
+if ( test "$?" != "0") then 
+	echo "Compile error"; 
+	exit;
+fi
+
+echo "$LD $LDFLAGS $OFILE -o $SOFILE $LIBS"
+$LD $LDFLAGS $OFILE -o $SOFILE $LIBS
+
+if ( test "$?" != "0") then 
+	echo "Link error"; 
+	exit;
+fi

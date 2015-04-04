@@ -1,0 +1,17 @@
+/avi.c/1.1.1.1/Wed Mar  8 11:16:21 2000//
+/avirgb.c/1.1.1.1/Wed Mar  8 11:16:21 2000//
+/avirgb.h/1.1.1.1/Wed Mar  8 11:16:21 2000//
+/codecs.c/1.1.1.1/Wed Mar  8 11:16:21 2000//
+/endian.c/1.1.1.1/Wed Mar  8 11:16:21 2000//
+/endian.h/1.1.1.1/Wed Mar  8 11:16:21 2000//
+/jmf.c/1.1.1.1/Wed Mar  8 11:16:21 2000//
+/jmf.h/1.1.1.1/Wed Mar  8 11:16:21 2000//
+/mjpeg.c/1.2/Sat Jun  3 11:20:50 2000//
+/mjpeg.h/1.1.1.1/Wed Mar  8 11:16:21 2000//
+/options.c/1.1.1.1/Wed Mar  8 11:16:21 2000//
+/rgb32.h/1.1.1.1/Wed Mar  8 11:16:21 2000//
+/so_locations/1.1.1.1/Wed Mar  8 11:16:21 2000//
+D/avilib////
+D/old////
+/Makefile/1.9/Sat Aug 26 11:51:12 2000//
+/rgb32.c/1.2/Sat Sep  9 16:14:04 2000//

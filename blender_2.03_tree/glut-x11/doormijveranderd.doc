@@ -1,0 +1,52 @@
+
+
+VERANDERD: (zoek naar * TON *)
+
+
+/********* TON ************/
+
+
+- lib/glut/glut_cursor.c
+		crosshair anders
+
+- lib/glut/glut_bitmap.c
+		stringprint
+
+- lib/glut/glut_event.c
+		window->specialfunc geeft rawkey (X) terug
+		tevens keyrelease!
+		tevens window move callback (reshape)
+		en nieuw: glutDoWorkList()
+		
+- lib/glut/glut_fullsreen.c
+		glutNoBorder() geschreven.
+
+- lib/glut/glut_win.c
+		keyrelease mask toegevoegd
+
+		
+- lib/glut/glut_helb10.c  
+- lib/glut/glut_helb12.c
+- lib/glut/glut_helb14.c
+		(zelf gemaakt)
+
+- Makefile
+		om fontjes mee te linken : erbij zetten
+
+- ../Make-config
+	de make irix5 afdeling:
+	
+		"CFLAGS = -O2 -mips1 -DSHM"
+
+- Marc heeft de .h file ook nog aangepast.
+
+		
+fontjes maken:
+
+	capturexfont -adobe-helvetica-bold-r-normal--8-80-75-75-p-50-iso8859-1 glutBitmapHelveticaBold8 > glut_helb8.c
+	capturexfont -adobe-helvetica-bold-r-normal--11-80-100-100-p-60-iso8859-1 glutBitmapHelveticaBold10 > glut_helb10.c
+	capturexfont -adobe-helvetica-bold-r-narrow--14-100-100-100-p-70-iso8859-1 glutBitmapHelveticaBold12 > glut_helb12.c
+	capturexfont -adobe-helvetica-bold-r-narrow--17-120-100-100-p-72-iso8859-1 glutBitmapHelveticaBold14 > glut_helb14.c
+	
+	capturexfont -adobe-helvetica-medium-r-normal--8-80-75-75-p-46-iso8859-1 glutBitmapHelveticaBold8 > ../glut-x11/glut_helb8.c
+	
