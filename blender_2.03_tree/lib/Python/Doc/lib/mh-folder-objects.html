@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>12.18.2 Folder Objects </TITLE>
+<META NAME="description" CONTENT="12.18.2 Folder Objects ">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="mh-message-objects.html">
+<LINK REL="previous" HREF="mh-objects.html">
+<LINK REL="up" HREF="module-mhlib.html">
+<LINK REL="next" HREF="mh-message-objects.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3617"
+ HREF="mh-message-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3613"
+ HREF="module-mhlib.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3607"
+ HREF="mh-objects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3615"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3616"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3618"
+ HREF="mh-message-objects.html">12.18.3 Message Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3614"
+ HREF="module-mhlib.html">12.18 mhlib  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3608"
+ HREF="mh-objects.html">12.18.1 MH Objects</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00141820000000000000000"></A>
+<BR>
+12.18.2 Folder Objects 
+</H2>
+
+<P>
+<tt class=class>Folder</tt> instances represent open folders and have the following
+methods:
+
+<P>
+<dl><dt><b><a name="l2h-2101"><tt class=method>error</tt></a></b> (<var>format</var><big>[</big><var>, ...</var><big>]</big>)
+<dd>
+Print an error message - can be overridden.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2102"><tt class=method>getfullname</tt></a></b> ()
+<dd>
+Return the folder's full pathname.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2103"><tt class=method>getsequencesfilename</tt></a></b> ()
+<dd>
+Return the full pathname of the folder's sequences file.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2104"><tt class=method>getmessagefilename</tt></a></b> (<var>n</var>)
+<dd>
+Return the full pathname of message <var>n</var> of the folder.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2105"><tt class=method>listmessages</tt></a></b> ()
+<dd>
+Return a list of messages in the folder (as numbers).
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2106"><tt class=method>getcurrent</tt></a></b> ()
+<dd>
+Return the current message number.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2107"><tt class=method>setcurrent</tt></a></b> (<var>n</var>)
+<dd>
+Set the current message number to <var>n</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2108"><tt class=method>parsesequence</tt></a></b> (<var>seq</var>)
+<dd>
+Parse msgs syntax into list of messages.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2109"><tt class=method>getlast</tt></a></b> ()
+<dd>
+Get last message, or <tt>0</tt> if no messages are in the folder.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2110"><tt class=method>setlast</tt></a></b> (<var>n</var>)
+<dd>
+Set last message (internal use only).
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2111"><tt class=method>getsequences</tt></a></b> ()
+<dd>
+Return dictionary of sequences in folder.  The sequence names are used 
+as keys, and the values are the lists of message numbers in the
+sequences.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2112"><tt class=method>putsequences</tt></a></b> (<var>dict</var>)
+<dd>
+Return dictionary of sequences in folder name: list.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2113"><tt class=method>removemessages</tt></a></b> (<var>list</var>)
+<dd>
+Remove messages in list from folder.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2114"><tt class=method>refilemessages</tt></a></b> (<var>list, tofolder</var>)
+<dd>
+Move messages in list to other folder.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2115"><tt class=method>movemessage</tt></a></b> (<var>n, tofolder, ton</var>)
+<dd>
+Move one message to a given destination in another folder.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2116"><tt class=method>copymessage</tt></a></b> (<var>n, tofolder, ton</var>)
+<dd>
+Copy one message to a given destination in another folder.
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3617"
+ HREF="mh-message-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3613"
+ HREF="module-mhlib.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3607"
+ HREF="mh-objects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3615"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3616"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3618"
+ HREF="mh-message-objects.html">12.18.3 Message Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3614"
+ HREF="module-mhlib.html">12.18 mhlib  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3608"
+ HREF="mh-objects.html">12.18.1 MH Objects</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

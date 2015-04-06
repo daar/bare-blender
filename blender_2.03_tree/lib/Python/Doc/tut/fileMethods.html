@@ -1,0 +1,192 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.2.1 Methods of File Objects </TITLE>
+<META NAME="description" CONTENT="7.2.1 Methods of File Objects ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="pickle.html">
+<LINK REL="previous" HREF="files.html">
+<LINK REL="up" HREF="files.html">
+<LINK REL="next" HREF="pickle.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html748"
+ HREF="pickle.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html745"
+ HREF="files.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html739"
+ HREF="files.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html747"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html749"
+ HREF="pickle.html">7.2.2 The pickle Module</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html746"
+ HREF="files.html">7.2 Reading and Writing</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html740"
+ HREF="files.html">7.2 Reading and Writing</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION009210000000000000000"></A>
+<BR>
+7.2.1 Methods of File Objects 
+</H2>
+
+<P>
+The rest of the examples in this section will assume that a file
+object called <tt>f</tt> has already been created.
+
+<P>
+To read a file's contents, call <tt>f.read(<var>size</var>)</tt>, which reads
+some quantity of data and returns it as a string.  <var>size</var> is an
+optional numeric argument.  When <var>size</var> is omitted or negative,
+the entire contents of the file will be read and returned; it's your
+problem if the file is twice as large as your machine's memory.
+Otherwise, at most <var>size</var> bytes are read and returned.  If the end
+of the file has been reached, <tt>f.read()</tt> will return an empty
+string (<tt>""</tt>).
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; f.read()
+'This is the entire file.\012'
+&gt;&gt;&gt; f.read()
+''
+</pre></dl>
+
+<P>
+<tt>f.readline()</tt> reads a single line from the file; a newline
+character (<tt>&#92;n</tt>) is left at the end of the string, and is only
+omitted on the last line of the file if the file doesn't end in a
+newline.  This makes the return value unambiguous; if
+<tt>f.readline()</tt> returns an empty string, the end of the file has
+been reached, while a blank line is represented by <tt>'&#92;n'</tt>, a
+string containing only a single newline.  
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; f.readline()
+'This is the first line of the file.\012'
+&gt;&gt;&gt; f.readline()
+'Second line of the file\012'
+&gt;&gt;&gt; f.readline()
+''
+</pre></dl>
+
+<P>
+<tt>f.readlines()</tt> uses <tt>f.readline()</tt> repeatedly, and returns
+a list containing all the lines of data in the file.
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; f.readlines()
+['This is the first line of the file.\012', 'Second line of the file\012']
+</pre></dl>
+
+<P>
+<tt>f.write(<var>string</var>)</tt> writes the contents of <var>string</var> to
+the file, returning <tt>None</tt>.  
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; f.write('This is a test\n')
+</pre></dl>
+
+<P>
+<tt>f.tell()</tt> returns an integer giving the file object's current
+position in the file, measured in bytes from the beginning of the
+file.  To change the file object's position, use
+"<tt class=samp>f.seek(<var>offset</var>, <var>from_what</var>)</tt>".  The position is
+computed from adding <var>offset</var> to a reference point; the reference
+point is selected by the <var>from_what</var> argument.  A <var>from_what</var>
+value of 0 measures from the beginning of the file, 1 uses the current
+file position, and 2 uses the end of the file as the reference point.
+<var>from_what</var> can be omitted and defaults to 0, using the beginning
+of the file as the reference point.
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; f=open('/tmp/workfile', 'r+')
+&gt;&gt;&gt; f.write('0123456789abcdef')
+&gt;&gt;&gt; f.seek(5)     # Go to the 5th byte in the file
+&gt;&gt;&gt; f.read(1)        
+'5'
+&gt;&gt;&gt; f.seek(-3, 2) # Go to the 3rd byte before the end
+&gt;&gt;&gt; f.read(1)
+'d'
+</pre></dl>
+
+<P>
+When you're done with a file, call <tt>f.close()</tt> to close it and
+free up any system resources taken up by the open file.  After calling
+<tt>f.close()</tt>, attempts to use the file object will automatically fail.
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; f.close()
+&gt;&gt;&gt; f.read()
+Traceback (innermost last):
+  File "&lt;stdin&gt;", line 1, in ?
+ValueError: I/O operation on closed file
+</pre></dl>
+
+<P>
+File objects have some additional methods, such as <tt class=method>isatty()</tt>
+and <tt class=method>truncate()</tt> which are less frequently used; consult the
+Library Reference for a complete guide to file objects.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html748"
+ HREF="pickle.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html745"
+ HREF="files.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html739"
+ HREF="files.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html747"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html749"
+ HREF="pickle.html">7.2.2 The pickle Module</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html746"
+ HREF="files.html">7.2 Reading and Writing</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html740"
+ HREF="files.html">7.2 Reading and Writing</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,230 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>16.4.1 Functions Defined in Module fl</TITLE>
+<META NAME="description" CONTENT="16.4.1 Functions Defined in Module fl">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="form-objects.html">
+<LINK REL="previous" HREF="module-fl.html">
+<LINK REL="up" HREF="module-fl.html">
+<LINK REL="next" HREF="form-objects.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3956"
+ HREF="form-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3952"
+ HREF="module-fl.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3946"
+ HREF="module-fl.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3954"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3955"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3957"
+ HREF="form-objects.html">16.4.2 Form Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3953"
+ HREF="module-fl.html">16.4 fl  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3947"
+ HREF="module-fl.html">16.4 fl  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0018410000000000000000">
+16.4.1 Functions Defined in Module <tt class=module>fl</tt></A>
+</H2>
+
+<P>
+Module <tt class=module>fl</tt> defines the following functions.  For more
+information about what they do, see the description of the equivalent
+C function in the FORMS documentation:
+
+<P>
+<dl><dt><b><a name="l2h-2366"><tt class=function>make_form</tt></a></b> (<var>type, width, height</var>)
+<dd>
+Create a form with given type, width and height.  This returns a
+<i class=dfn>form</i> object, whose methods are described below.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2367"><tt class=function>do_forms</tt></a></b> ()
+<dd>
+The standard FORMS main loop.  Returns a Python object representing
+the FORMS object needing interaction, or the special value
+<tt class=constant>FL.EVENT</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2368"><tt class=function>check_forms</tt></a></b> ()
+<dd>
+Check for FORMS events.  Returns what <tt class=function>do_forms()</tt> above
+returns, or <tt>None</tt> if there is no event that immediately needs
+interaction.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2369"><tt class=function>set_event_call_back</tt></a></b> (<var>function</var>)
+<dd>
+Set the event callback function.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2370"><tt class=function>set_graphics_mode</tt></a></b> (<var>rgbmode, doublebuffering</var>)
+<dd>
+Set the graphics modes.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2371"><tt class=function>get_rgbmode</tt></a></b> ()
+<dd>
+Return the current rgb mode.  This is the value of the C global
+variable <tt class=cdata>fl_rgbmode</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2372"><tt class=function>show_message</tt></a></b> (<var>str1, str2, str3</var>)
+<dd>
+Show a dialog box with a three-line message and an OK button.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2373"><tt class=function>show_question</tt></a></b> (<var>str1, str2, str3</var>)
+<dd>
+Show a dialog box with a three-line message and YES and NO buttons.
+It returns <tt>1</tt> if the user pressed YES, <tt>0</tt> if NO.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2374"><tt class=function>show_choice</tt></a></b> (<var>str1, str2, str3, but1</var><big>[</big><var>,
+                              but2</var><big>[</big><var>, but3</var><big>]</big><big>]</big>)
+<dd>
+Show a dialog box with a three-line message and up to three buttons.
+It returns the number of the button clicked by the user
+(<tt>1</tt>, <tt>2</tt> or <tt>3</tt>).
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2375"><tt class=function>show_input</tt></a></b> (<var>prompt, default</var>)
+<dd>
+Show a dialog box with a one-line prompt message and text field in
+which the user can enter a string.  The second argument is the default
+input string.  It returns the string value as edited by the user.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2376"><tt class=function>show_file_selector</tt></a></b> (<var>message, directory, pattern, default</var>)
+<dd>
+Show a dialog box in which the user can select a file.  It returns
+the absolute filename selected by the user, or <tt>None</tt> if the user
+presses Cancel.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2377"><tt class=function>get_directory</tt></a></b> ()
+<dd>
+<dt><b><a name="l2h-2380"><tt class=function>get_pattern</tt> (in fl)</a></b> ()
+<dd>
+<dt><b><a name="l2h-2381"><tt class=function>get_filename</tt> (in fl)</a></b> ()
+<dd>
+These functions return the directory, pattern and filename (the tail
+part only) selected by the user in the last
+<tt class=function>show_file_selector()</tt> call.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2378"><tt class=function>qdevice</tt></a></b> (<var>dev</var>)
+<dd>
+<dt><b><a name="l2h-2382"><tt class=function>unqdevice</tt> (in fl)</a></b> (<var>dev</var>)
+<dd>
+<dt><b><a name="l2h-2383"><tt class=function>isqueued</tt> (in fl)</a></b> (<var>dev</var>)
+<dd>
+<dt><b><a name="l2h-2384"><tt class=function>qtest</tt> (in fl)</a></b> ()
+<dd>
+<dt><b><a name="l2h-2385"><tt class=function>qread</tt> (in fl)</a></b> ()
+<dd>
+<dt><b><a name="l2h-2386"><tt class=function>qreset</tt> (in fl)</a></b> ()
+<dd>
+<dt><b><a name="l2h-2387"><tt class=function>qenter</tt> (in fl)</a></b> (<var>dev, val</var>)
+<dd>
+<dt><b><a name="l2h-2388"><tt class=function>get_mouse</tt> (in fl)</a></b> ()
+<dd>
+<dt><b><a name="l2h-2389"><tt class=function>tie</tt> (in fl)</a></b> (<var>button, valuator1, valuator2</var>)
+<dd>
+These functions are the FORMS interfaces to the corresponding GL
+functions.  Use these if you want to handle some GL events yourself
+when using <tt class=function>fl.do_events()</tt>.  When a GL event is detected that
+FORMS cannot handle, <tt class=function>fl.do_forms()</tt> returns the special value
+<tt class=constant>FL.EVENT</tt> and you should call <tt class=function>fl.qread()</tt> to read
+the event from the queue.  Don't use the equivalent GL functions!
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2379"><tt class=function>color</tt></a></b> ()
+<dd>
+<dt><b><a name="l2h-2390"><tt class=function>mapcolor</tt> (in fl)</a></b> ()
+<dd>
+<dt><b><a name="l2h-2391"><tt class=function>getmcolor</tt> (in fl)</a></b> ()
+<dd>
+See the description in the FORMS documentation of
+<tt class=cfunction>fl_color()</tt>, <tt class=cfunction>fl_mapcolor()</tt> and
+<tt class=cfunction>fl_getmcolor()</tt>.
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3956"
+ HREF="form-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3952"
+ HREF="module-fl.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3946"
+ HREF="module-fl.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3954"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3955"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3957"
+ HREF="form-objects.html">16.4.2 Form Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3953"
+ HREF="module-fl.html">16.4 fl  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3947"
+ HREF="module-fl.html">16.4 fl  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

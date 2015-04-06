@@ -6,7 +6,7 @@
    implied. This program is -not- in the public domain. */
 
 #include <stdlib.h>
-#include <GL/glut.h>
+#include <glut.h>
 #include "glutint.h"
 
 #define CLAMP(i) ((i) > 1.0 ? 1.0 : ((i) < 0.0 ? 0.0 : (i)))

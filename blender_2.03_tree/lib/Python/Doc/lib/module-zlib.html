@@ -1,0 +1,247 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.10 zlib -- Compression library compatible with gzip</TITLE>
+<META NAME="description" CONTENT="7.10 zlib -- Compression library compatible with gzip">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-gzip.html">
+<LINK REL="previous" HREF="module-whichdb.html">
+<LINK REL="up" HREF="someos.html">
+<LINK REL="next" HREF="module-gzip.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2304"
+ HREF="module-gzip.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2300"
+ HREF="someos.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2294"
+ HREF="module-whichdb.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2302"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2303"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2305"
+ HREF="module-gzip.html">7.11 gzip  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2301"
+ HREF="someos.html">7. Optional Operating System</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2295"
+ HREF="module-whichdb.html">7.9 whichdb  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0091000000000000000000">
+7.10 <tt class=module>zlib</tt> --
+         Compression library compatible with <b class=program>gzip</b></A>
+</H1>
+
+<P>
+
+
+<P>
+For applications that require data compression, the functions in this
+module allow compression and decompression, using the zlib library.
+The zlib library has its own home page at
+<span class=url><a href="http://www.cdrom.com/pub/infozip/zlib/">http://www.cdrom.com/pub/infozip/zlib/</a></span>.  Version 1.1.3 is the
+most recent version as of April 199; use a later version if one
+is available.  There are known incompatibilities between the Python
+module and earlier versions of the zlib library.
+
+<P>
+The documentation for this module is woefully out of date.  In some
+cases, the doc strings have been updated more recently.  In other
+cases, they are both stale.
+
+<P>
+The available exception and functions in this module are:
+
+<P>
+<dl><dt><b><a name="l2h-1375"><tt class=exception>error</tt></a></b>
+<dd>
+  Exception raised on compression and decompression errors.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1376"><tt class=function>adler32</tt></a></b> (<var>string</var><big>[</big><var>, value</var><big>]</big>)
+<dd>
+   Computes a Adler-32 checksum of <var>string</var>.  (An Adler-32
+   checksum is almost as reliable as a CRC32 but can be computed much
+   more quickly.)  If <var>value</var> is present, it is used as the
+   starting value of the checksum; otherwise, a fixed default value is
+   used.  This allows computing a running checksum over the
+   concatenation of several input strings.  The algorithm is not
+   cryptographically strong, and should not be used for
+   authentication or digital signatures.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1377"><tt class=function>compress</tt></a></b> (<var>string</var><big>[</big><var>, level</var><big>]</big>)
+<dd>
+  Compresses the data in <var>string</var>, returning a string contained
+  compressed data.  <var>level</var> is an integer from <tt>1</tt> to
+  <tt>9</tt> controlling the level of compression; <tt>1</tt> is fastest
+  and produces the least compression, <tt>9</tt> is slowest and produces
+  the most.  The default value is <tt>6</tt>.  Raises the
+  <tt class=exception>error</tt> exception if any error occurs.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1378"><tt class=function>compressobj</tt></a></b> (<big>[</big><var>level</var><big>]</big>)
+<dd>
+  Returns a compression object, to be used for compressing data streams
+  that won't fit into memory at once.  <var>level</var> is an integer from
+  <tt>1</tt> to <tt>9</tt> controlling the level of compression; <tt>1</tt> is
+  fastest and produces the least compression, <tt>9</tt> is slowest and
+  produces the most.  The default value is <tt>6</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1379"><tt class=function>crc32</tt></a></b> (<var>string</var><big>[</big><var>, value</var><big>]</big>)
+<dd>
+  Computes a CRC (Cyclic Redundancy Check)<a name="l2h-1386"></a>
+  <a name="l2h-1387"></a>
+  checksum of <var>string</var>. If
+  <var>value</var> is present, it is used as the starting value of the
+  checksum; otherwise, a fixed default value is used.  This allows
+  computing a running checksum over the concatenation of several
+  input strings.  The algorithm is not cryptographically strong, and
+  should not be used for authentication or digital signatures.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1380"><tt class=function>decompress</tt></a></b> (<var>string</var><big>[</big><var>, wbits</var><big>[</big><var>, buffsize</var><big>]</big><big>]</big>)
+<dd>
+  Decompresses the data in <var>string</var>, returning a string containing
+  the uncompressed data.  The <var>wbits</var> parameter controls the size of
+  the window buffer.  If <var>buffsize</var> is given, it is used as the
+  initial size of the output buffer.  Raises the <tt class=exception>error</tt>
+  exception if any error occurs.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1381"><tt class=function>decompressobj</tt></a></b> (<big>[</big><var>wbits</var><big>]</big>)
+<dd>
+  Returns a compression object, to be used for decompressing data
+  streams that won't fit into memory at once.  The <var>wbits</var>
+  parameter controls the size of the window buffer.
+</dl>
+
+<P>
+Compression objects support the following methods:
+
+<P>
+<dl><dt><b><a name="l2h-1382"><tt class=method>compress</tt></a></b> (<var>string</var>)
+<dd>
+Compress <var>string</var>, returning a string containing compressed data
+for at least part of the data in <var>string</var>.  This data should be
+concatenated to the output produced by any preceding calls to the
+<tt class=method>compress()</tt> method.  Some input may be kept in internal buffers
+for later processing.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1383"><tt class=method>flush</tt></a></b> (<big>[</big><var>mode</var><big>]</big>)
+<dd>
+All pending input is processed, and a string containing the remaining
+compressed output is returned.  <var>mode</var> can be selected from the
+constants <tt class=constant>Z_SYNC_FLUSH</tt>,  <tt class=constant>Z_FULL_FLUSH</tt>,  or 
+<tt class=constant>Z_FINISH</tt>, defaulting to <tt class=constant>Z_FINISH</tt>.  <tt class=constant>Z_SYNC_FLUSH</tt> and 
+<tt class=constant>Z_FULL_FLUSH</tt> allow compressing further strings of data and
+are used to allow partial error recovery on decompression, while
+<tt class=constant>Z_FINISH</tt> finishes the compressed stream and 
+prevents compressing any more data.  After calling
+<tt class=method>flush()</tt> with <var>mode</var> set to <tt class=constant>Z_FINISH</tt>, the
+<tt class=method>compress()</tt> method cannot be called again; the only realistic
+action is to delete the object.  
+</dl>
+
+<P>
+Decompression objects support the following methods:
+
+<P>
+<dl><dt><b><a name="l2h-1384"><tt class=method>decompress</tt></a></b> (<var>string</var>)
+<dd>
+Decompress <var>string</var>, returning a string containing the
+uncompressed data corresponding to at least part of the data in
+<var>string</var>.  This data should be concatenated to the output produced
+by any preceding calls to the
+<tt class=method>decompress()</tt> method.  Some of the input data may be preserved
+in internal buffers for later processing.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1385"><tt class=method>flush</tt></a></b> ()
+<dd>
+All pending input is processed, and a string containing the remaining
+uncompressed output is returned.  After calling <tt class=method>flush()</tt>, the
+<tt class=method>decompress()</tt> method cannot be called again; the only realistic
+action is to delete the object.
+</dl>
+
+<P>
+<div class=seealso>
+  <p class=heading><b>See Also:</b></p>
+
+<div class=seemodule>
+<p>Module <b><tt class=module><a href="module-gzip.html">gzip</a></tt></b>&nbsp;&nbsp;&nbsp;(reading and writing <b class=program>gzip</b>-format files)</p>
+</div>
+</div>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2304"
+ HREF="module-gzip.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2300"
+ HREF="someos.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2294"
+ HREF="module-whichdb.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2302"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2303"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2305"
+ HREF="module-gzip.html">7.11 gzip  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2301"
+ HREF="someos.html">7. Optional Operating System</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2295"
+ HREF="module-whichdb.html">7.9 whichdb  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

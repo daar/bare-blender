@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.3 Using DLLs in Practice </TITLE>
+<META NAME="description" CONTENT="3.3 Using DLLs in Practice ">
+<META NAME="keywords" CONTENT="ext">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ext.css">
+<LINK REL="previous" HREF="dynamic-linking.html">
+<LINK REL="up" HREF="building-on-windows.html">
+<LINK REL="next" HREF="embedding.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html388"
+ HREF="embedding.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html385"
+ HREF="building-on-windows.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html381"
+ HREF="dynamic-linking.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Extending and Embedding the Python Interpreter</b></td>
+<td><A NAME="tex2html387"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html389"
+ HREF="embedding.html">4. Embedding Python in</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html386"
+ HREF="building-on-windows.html">3. Building C and</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html382"
+ HREF="dynamic-linking.html">3.2 Differences Between Unix</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION005300000000000000000"></A>
+<BR>
+3.3 Using DLLs in Practice 
+</H1>
+
+<P>
+Windows Python is built in Microsoft Visual C++; using other
+compilers may or may not work (though Borland seems to).  The rest of
+this section is MSVC++ specific.
+
+<P>
+When creating DLLs in Windows, you must pass "<tt class=file>python15.lib</tt>" to
+the linker.  To build two DLLs, spam and ni (which uses C functions
+found in spam), you could use these commands:
+
+<P>
+<dl><dd><pre class=verbatim>
+cl /LD /I/python/include spam.c ../libs/python15.lib
+cl /LD /I/python/include ni.c spam.lib ../libs/python15.lib
+</pre></dl>
+
+<P>
+The first command created three files: "<tt class=file>spam.obj</tt>",
+"<tt class=file>spam.dll</tt>" and "<tt class=file>spam.lib</tt>".  "<tt class=file>Spam.dll</tt>" does not contain
+any Python functions (such as <tt class=cfunction>PyArg_ParseTuple()</tt>), but it
+does know how to find the Python code thanks to "<tt class=file>python15.lib</tt>".
+
+<P>
+The second command created "<tt class=file>ni.dll</tt>" (and "<tt class=file>.obj</tt>" and
+"<tt class=file>.lib</tt>"), which knows how to find the necessary functions from
+spam, and also from the Python executable.
+
+<P>
+Not every identifier is exported to the lookup table.  If you want any
+other modules (including Python) to be able to see your identifiers,
+you have to say "<tt class=samp>_declspec(dllexport)</tt>", as in "<tt class=samp>void
+_declspec(dllexport) initspam(void)</tt>" or "<tt class=samp>PyObject
+_declspec(dllexport) *NiGetSpamData(void)</tt>".
+
+<P>
+Developer Studio will throw in a lot of import libraries that you do
+not really need, adding about 100K to your executable.  To get rid of
+them, use the Project Settings dialog, Link tab, to specify
+<i>ignore default libraries</i>.  Add the correct
+"<tt class=file>msvcrt<var>xx</var>.lib</tt>" to the list of libraries.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html388"
+ HREF="embedding.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html385"
+ HREF="building-on-windows.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html381"
+ HREF="dynamic-linking.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Extending and Embedding the Python Interpreter</b></td>
+<td><A NAME="tex2html387"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html389"
+ HREF="embedding.html">4. Embedding Python in</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html386"
+ HREF="building-on-windows.html">3. Building C and</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html382"
+ HREF="dynamic-linking.html">3.2 Differences Between Unix</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

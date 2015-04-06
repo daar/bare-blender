@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>1.10.3 Thin Ice </TITLE>
+<META NAME="description" CONTENT="1.10.3 Thin Ice ">
+<META NAME="keywords" CONTENT="ext">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ext.css">
+<LINK REL="next" HREF="nullPointers.html">
+<LINK REL="previous" HREF="ownershipRules.html">
+<LINK REL="up" HREF="refcounts.html">
+<LINK REL="next" HREF="nullPointers.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html257"
+ HREF="nullPointers.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html254"
+ HREF="refcounts.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html248"
+ HREF="ownershipRules.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Extending and Embedding the Python Interpreter</b></td>
+<td><A NAME="tex2html256"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html258"
+ HREF="nullPointers.html">1.10.4 NULL Pointers</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html255"
+ HREF="refcounts.html">1.10 Reference Counts</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html249"
+ HREF="ownershipRules.html">1.10.2 Ownership Rules</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0031030000000000000000"></A>
+<BR>
+1.10.3 Thin Ice
+            
+</H2>
+
+<P>
+There are a few situations where seemingly harmless use of a borrowed
+reference can lead to problems.  These all have to do with implicit
+invocations of the interpreter, which can cause the owner of a
+reference to dispose of it.
+
+<P>
+The first and most important case to know about is using
+<tt class=cfunction>Py_DECREF()</tt> on an unrelated object while borrowing a
+reference to a list item.  For instance:
+
+<P>
+<dl><dd><pre class=verbatim>
+bug(PyObject *list) {
+    PyObject *item = PyList_GetItem(list, 0);
+
+    PyList_SetItem(list, 1, PyInt_FromLong(0L));
+    PyObject_Print(item, stdout, 0); /* BUG! */
+}
+</pre></dl>
+
+<P>
+This function first borrows a reference to <tt>list[0]</tt>, then
+replaces <tt>list[1]</tt> with the value <tt>0</tt>, and finally prints
+the borrowed reference.  Looks harmless, right?  But it's not!
+
+<P>
+Let's follow the control flow into <tt class=cfunction>PyList_SetItem()</tt>.  The list
+owns references to all its items, so when item 1 is replaced, it has
+to dispose of the original item 1.  Now let's suppose the original
+item 1 was an instance of a user-defined class, and let's further
+suppose that the class defined a <tt class=method>__del__()</tt> method.  If this
+class instance has a reference count of 1, disposing of it will call
+its <tt class=method>__del__()</tt> method.
+
+<P>
+Since it is written in Python, the <tt class=method>__del__()</tt> method can execute
+arbitrary Python code.  Could it perhaps do something to invalidate
+the reference to <tt>item</tt> in <tt class=cfunction>bug()</tt>?  You bet!  Assuming
+that the list passed into <tt class=cfunction>bug()</tt> is accessible to the
+<tt class=method>__del__()</tt> method, it could execute a statement to the effect of
+"<tt class=samp>del list[0]</tt>", and assuming this was the last reference to that
+object, it would free the memory associated with it, thereby
+invalidating <tt>item</tt>.
+
+<P>
+The solution, once you know the source of the problem, is easy:
+temporarily increment the reference count.  The correct version of the
+function reads:
+
+<P>
+<dl><dd><pre class=verbatim>
+no_bug(PyObject *list) {
+    PyObject *item = PyList_GetItem(list, 0);
+
+    Py_INCREF(item);
+    PyList_SetItem(list, 1, PyInt_FromLong(0L));
+    PyObject_Print(item, stdout, 0);
+    Py_DECREF(item);
+}
+</pre></dl>
+
+<P>
+This is a true story.  An older version of Python contained variants
+of this bug and someone spent a considerable amount of time in a C
+debugger to figure out why his <tt class=method>__del__()</tt> methods would fail...
+
+<P>
+The second case of problems with a borrowed reference is a variant
+involving threads.  Normally, multiple threads in the Python
+interpreter can't get in each other's way, because there is a global
+lock protecting Python's entire object space.  However, it is possible
+to temporarily release this lock using the macro
+<tt>Py_BEGIN_ALLOW_THREADS</tt>, and to re-acquire it using
+<tt>Py_END_ALLOW_THREADS</tt>.  This is common around blocking I/O
+calls, to let other threads use the CPU while waiting for the I/O to
+complete.  Obviously, the following function has the same problem as
+the previous one:
+
+<P>
+<dl><dd><pre class=verbatim>
+bug(PyObject *list) {
+    PyObject *item = PyList_GetItem(list, 0);
+    Py_BEGIN_ALLOW_THREADS
+    ...some blocking I/O call...
+    Py_END_ALLOW_THREADS
+    PyObject_Print(item, stdout, 0); /* BUG! */
+}
+</pre></dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html257"
+ HREF="nullPointers.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html254"
+ HREF="refcounts.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html248"
+ HREF="ownershipRules.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Extending and Embedding the Python Interpreter</b></td>
+<td><A NAME="tex2html256"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html258"
+ HREF="nullPointers.html">1.10.4 NULL Pointers</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html255"
+ HREF="refcounts.html">1.10 Reference Counts</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html249"
+ HREF="ownershipRules.html">1.10.2 Ownership Rules</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

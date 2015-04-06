@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>6.3 The dir() Function </TITLE>
+<META NAME="description" CONTENT="6.3 The dir() Function ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="packages.html">
+<LINK REL="previous" HREF="standardModules.html">
+<LINK REL="up" HREF="modules.html">
+<LINK REL="next" HREF="packages.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html669"
+ HREF="packages.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html666"
+ HREF="modules.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html660"
+ HREF="standardModules.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html668"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html670"
+ HREF="packages.html">6.4 Packages</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html667"
+ HREF="modules.html">6. Modules</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html661"
+ HREF="standardModules.html">6.2 Standard Modules</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION008300000000000000000"></A>
+<BR>
+6.3 The <tt class=function>dir()</tt> Function 
+</H1>
+
+<P>
+The built-in function <tt class=function>dir()</tt> is used to find out which names
+a module defines.  It returns a sorted list of strings:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; import fibo, sys
+&gt;&gt;&gt; dir(fibo)
+['__name__', 'fib', 'fib2']
+&gt;&gt;&gt; dir(sys)
+['__name__', 'argv', 'builtin_module_names', 'copyright', 'exit',
+'maxint', 'modules', 'path', 'ps1', 'ps2', 'setprofile', 'settrace',
+'stderr', 'stdin', 'stdout', 'version']
+</pre></dl>
+
+<P>
+Without arguments, <tt class=function>dir()</tt> lists the names you have defined
+currently:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; a = [1, 2, 3, 4, 5]
+&gt;&gt;&gt; import fibo, sys
+&gt;&gt;&gt; fib = fibo.fib
+&gt;&gt;&gt; dir()
+['__name__', 'a', 'fib', 'fibo', 'sys']
+</pre></dl>
+
+<P>
+Note that it lists all types of names: variables, modules, functions, etc.
+
+<P>
+<tt class=function>dir()</tt> does not list the names of built-in functions and
+variables.  If you want a list of those, they are defined in the
+standard module <tt class=module>__builtin__</tt><a name="l2h-15"></a>:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; import __builtin__
+&gt;&gt;&gt; dir(__builtin__)
+['AccessError', 'AttributeError', 'ConflictError', 'EOFError', 'IOError',
+'ImportError', 'IndexError', 'KeyError', 'KeyboardInterrupt',
+'MemoryError', 'NameError', 'None', 'OverflowError', 'RuntimeError',
+'SyntaxError', 'SystemError', 'SystemExit', 'TypeError', 'ValueError',
+'ZeroDivisionError', '__name__', 'abs', 'apply', 'chr', 'cmp', 'coerce',
+'compile', 'dir', 'divmod', 'eval', 'execfile', 'filter', 'float',
+'getattr', 'hasattr', 'hash', 'hex', 'id', 'input', 'int', 'len', 'long',
+'map', 'max', 'min', 'oct', 'open', 'ord', 'pow', 'range', 'raw_input',
+'reduce', 'reload', 'repr', 'round', 'setattr', 'str', 'type', 'xrange']
+</pre></dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html669"
+ HREF="packages.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html666"
+ HREF="modules.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html660"
+ HREF="standardModules.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html668"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html670"
+ HREF="packages.html">6.4 Packages</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html667"
+ HREF="modules.html">6. Modules</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html661"
+ HREF="standardModules.html">6.2 Standard Modules</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>1.8 Keyword Parsing with PyArg_ParseTupleAndKeywords() </TITLE>
+<META NAME="description" CONTENT="1.8 Keyword Parsing with PyArg_ParseTupleAndKeywords() ">
+<META NAME="keywords" CONTENT="ext">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ext.css">
+<LINK REL="next" HREF="buildValue.html">
+<LINK REL="previous" HREF="parseTuple.html">
+<LINK REL="up" HREF="intro.html">
+<LINK REL="next" HREF="buildValue.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html198"
+ HREF="buildValue.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html195"
+ HREF="intro.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html189"
+ HREF="parseTuple.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Extending and Embedding the Python Interpreter</b></td>
+<td><A NAME="tex2html197"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html199"
+ HREF="buildValue.html">1.9 The Py_BuildValue() Function</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html196"
+ HREF="intro.html">1. Extending Python with</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html190"
+ HREF="parseTuple.html">1.7 Format Strings for</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION003800000000000000000"></A>
+<BR>
+1.8 Keyword Parsing with <tt class=cfunction>PyArg_ParseTupleAndKeywords()</tt>
+         
+</H1>
+
+<P>
+The <tt class=cfunction>PyArg_ParseTupleAndKeywords()</tt> function is declared as
+follows:
+
+<P>
+<dl><dd><pre class=verbatim>
+int PyArg_ParseTupleAndKeywords(PyObject *arg, PyObject *kwdict,
+                                char *format, char **kwlist, ...);
+</pre></dl>
+
+<P>
+The <var>arg</var> and <var>format</var> parameters are identical to those of the
+<tt class=cfunction>PyArg_ParseTuple()</tt> function.  The <var>kwdict</var> parameter
+is the dictionary of keywords received as the third parameter from the 
+Python runtime.  The <var>kwlist</var> parameter is a <tt>NULL</tt>-terminated
+list of strings which identify the parameters; the names are matched
+with the type information from <var>format</var> from left to right.
+
+<P>
+<b>Note:</b>  Nested tuples cannot be parsed when using keyword
+arguments!  Keyword parameters passed in which are not present in the
+<var>kwlist</var> will cause <tt class=exception>TypeError</tt> to be raised.
+
+<P>
+Here is an example module which uses keywords, based on an example by
+Geoff Philbrick (<span class=email>philbrick@hks.com</span>):<a name="l2h-1"></a>
+
+<P>
+<dl><dd><pre class=verbatim>
+#include &lt;stdio.h&gt;
+#include "Python.h"
+
+static PyObject *
+keywdarg_parrot(self, args, keywds)
+    PyObject *self;
+    PyObject *args;
+    PyObject *keywds;
+{  
+    int voltage;
+    char *state = "a stiff";
+    char *action = "voom";
+    char *type = "Norwegian Blue";
+
+    static char *kwlist[] = {"voltage", "state", "action", "type", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "i|sss", kwlist, 
+                                     &amp;voltage, &amp;state, &amp;action, &amp;type))
+        return NULL; 
+  
+    printf("-- This parrot wouldn't %s if you put %i Volts through it.\n", 
+action, voltage);
+    printf("-- Lovely plumage, the %s -- It's %s!\n", type, state);
+
+    Py_INCREF(Py_None);
+
+    return Py_None;
+}
+
+static PyMethodDef keywdarg_methods[] = {
+    /* The cast of the function is necessary since PyCFunction values
+     * only take two PyObject* parameters, and keywdarg_parrot() takes
+     * three.
+     */
+    {"parrot", (PyCFunction)keywdarg_parrot, METH_VARARGS|METH_KEYWORDS},
+    {NULL,  NULL}   /* sentinel */
+};
+
+void
+initkeywdarg()
+{
+  /* Create the module and add the functions */
+  Py_InitModule("keywdarg", keywdarg_methods);
+}
+</pre></dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html198"
+ HREF="buildValue.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html195"
+ HREF="intro.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html189"
+ HREF="parseTuple.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Extending and Embedding the Python Interpreter</b></td>
+<td><A NAME="tex2html197"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html199"
+ HREF="buildValue.html">1.9 The Py_BuildValue() Function</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html196"
+ HREF="intro.html">1. Extending Python with</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html190"
+ HREF="parseTuple.html">1.7 Format Strings for</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

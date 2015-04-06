@@ -1,0 +1,195 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>6.10 shutil -- High-level file operations</TITLE>
+<META NAME="description" CONTENT="6.10 shutil -- High-level file operations">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-locale.html">
+<LINK REL="previous" HREF="module-fnmatch.html">
+<LINK REL="up" HREF="allos.html">
+<LINK REL="next" HREF="shutil-example.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2005"
+ HREF="shutil-example.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2001"
+ HREF="allos.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1995"
+ HREF="module-fnmatch.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2003"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2004"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2006"
+ HREF="shutil-example.html">6.10.1 Example</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2002"
+ HREF="allos.html">6. Generic Operating System</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1996"
+ HREF="module-fnmatch.html">6.9 fnmatch  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0081000000000000000000">
+6.10 <tt class=module>shutil</tt> --
+         High-level file operations</A>
+</H1>
+
+<P>
+
+
+<P>
+The <tt class=module>shutil</tt> module offers a number of high-level operations on
+files and collections of files.  In particular, functions are provided 
+which support file copying and removal.
+<a name="l2h-1197"></a>
+<a name="l2h-1198"></a>
+
+<P>
+<b>Caveat:</b>  On MacOS, the resource fork and other metadata are
+not used.  For file copies, this means that resources will be lost and 
+file type and creator codes will not be correct.
+
+<P>
+<dl><dt><b><a name="l2h-1190"><tt class=function>copyfile</tt></a></b> (<var>src, dst</var>)
+<dd>
+  Copy the contents of <var>src</var> to <var>dst</var>.  If <var>dst</var> exists,
+  it will be replaced, otherwise it will be created.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1191"><tt class=function>copymode</tt></a></b> (<var>src, dst</var>)
+<dd>
+  Copy the permission bits from <var>src</var> to <var>dst</var>.  The file
+  contents, owner, and group are unaffected.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1192"><tt class=function>copystat</tt></a></b> (<var>src, dst</var>)
+<dd>
+  Copy the permission bits, last access time, and last modification
+  time from <var>src</var> to <var>dst</var>.  The file contents, owner, and
+  group are unaffected.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1193"><tt class=function>copy</tt></a></b> (<var>src, dst</var>)
+<dd>
+  Copy the file <var>src</var> to the file or directory <var>dst</var>.  If
+  <var>dst</var> is a directory, a file with the same basename as <var>src</var> 
+  is created (or overwritten) in the directory specified.  Permission
+  bits are copied.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1194"><tt class=function>copy2</tt></a></b> (<var>src, dst</var>)
+<dd>
+  Similar to <tt class=function>copy()</tt>, but last access time and last
+  modification time are copied as well.  This is similar to the
+  Unix command <b class=program>cp -p</b>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1195"><tt class=function>copytree</tt></a></b> (<var>src, dst</var><big>[</big><var>, symlinks</var><big>]</big>)
+<dd>
+  Recursively copy an entire directory tree rooted at <var>src</var>.  The
+  destination directory, named by <var>dst</var>, must not already exist;
+  it will be created.  Individual files are copied using
+  <tt class=function>copy2()</tt>.  If <var>symlinks</var> is true, symbolic links in
+  the source tree are represented as symbolic links in the new tree;
+  if false or omitted, the contents of the linked files are copied to
+  the new tree.  Errors are reported to standard output.
+
+<P>
+The source code for this should be considered an example rather than 
+  a tool.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1196"><tt class=function>rmtree</tt></a></b> (<var>path</var><big>[</big><var>, ignore_errors</var><big>[</big><var>, onerror</var><big>]</big><big>]</big>)
+<dd>
+<a name="l2h-1199"></a>
+  Delete an entire directory tree.  If <var>ignore_errors</var> is true,
+  errors will be ignored; if false or omitted, errors are handled by
+  calling a handler specified by <var>onerror</var> or raise an exception.
+
+<P>
+If <var>onerror</var> is provided, it must be a callable that accepts
+  three parameters: <var>function</var>, <var>path</var>, and <var>excinfo</var>.
+  The first parameter, <var>function</var>, is the function which raised
+  the exception; it will be <tt class=function>os.remove()</tt> or
+  <tt class=function>os.rmdir()</tt>.  The second parameter, <var>path</var>, will be
+  the path name passed to <var>function</var>.  The third parameter,
+  <var>excinfo</var>, will be the exception information return by
+  <tt class=function>sys.exc_info()</tt>.  Exceptions raised by <var>onerror</var> will
+  not be caught.
+</dl>
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html2007"
+ HREF="shutil-example.html">6.10.1 Example </A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2005"
+ HREF="shutil-example.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2001"
+ HREF="allos.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1995"
+ HREF="module-fnmatch.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2003"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2004"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2006"
+ HREF="shutil-example.html">6.10.1 Example</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2002"
+ HREF="allos.html">6. Generic Operating System</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1996"
+ HREF="module-fnmatch.html">6.9 fnmatch  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,172 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.3.4 Emulating sequence and mapping types</TITLE>
+<META NAME="description" CONTENT="3.3.4 Emulating sequence and mapping types">
+<META NAME="keywords" CONTENT="ref">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ref.css">
+<LINK REL="next" HREF="sequence-methods.html">
+<LINK REL="previous" HREF="callable-types.html">
+<LINK REL="up" HREF="specialnames.html">
+<LINK REL="next" HREF="sequence-methods.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html618"
+ HREF="sequence-methods.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html614"
+ HREF="specialnames.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html608"
+ HREF="callable-types.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html616"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html617"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html619"
+ HREF="sequence-methods.html">3.3.5 Additional methods for</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html615"
+ HREF="specialnames.html">3.3 Special method names</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html609"
+ HREF="callable-types.html">3.3.3 Emulating callable objects</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION005340000000000000000"></A>
+<BR>
+3.3.4 Emulating sequence and mapping types
+</H2>
+
+<P>
+The following methods can be defined to emulate sequence or mapping
+objects.  The first set of methods is used either to emulate a
+sequence or to emulate a mapping; the difference is that for a
+sequence, the allowable keys should be the integers <var>k</var> for which
+<tt>0 &lt;= <var>k</var> &lt; <var>N</var></tt> where <var>N</var> is the length of the
+sequence, and the method <tt class=method>__getslice__()</tt> (see below) should be
+defined.  It is also recommended that mappings provide methods
+<tt class=method>keys()</tt>, <tt class=method>values()</tt>, <tt class=method>items()</tt>,
+<tt class=method>has_key()</tt>, <tt class=method>get()</tt>, <tt class=method>clear()</tt>, <tt class=method>copy()</tt>,
+and <tt class=method>update()</tt> behaving similar to those for
+Python's standard dictionary objects; mutable sequences should provide
+methods <tt class=method>append()</tt>, <tt class=method>count()</tt>, <tt class=method>index()</tt>,
+<tt class=method>insert()</tt>, <tt class=method>pop()</tt>, <tt class=method>remove()</tt>, <tt class=method>reverse()</tt>
+and <tt class=method>sort()</tt>, like Python standard list objects.  Finally,
+sequence types should implement addition (meaning concatenation) and
+multiplication (meaning repetition) by defining the methods
+<tt class=method>__add__()</tt>, <tt class=method>__radd__()</tt>, <tt class=method>__mul__()</tt> and
+<tt class=method>__rmul__()</tt> described below; they should not define
+<tt class=method>__coerce__()</tt> or other numerical operators.
+
+  <a name="l2h-321"></a>
+  <a name="l2h-322"></a>
+  <a name="l2h-323"></a>
+  <a name="l2h-324"></a>
+  <a name="l2h-325"></a>
+  <a name="l2h-326"></a>
+  <a name="l2h-327"></a>
+  <a name="l2h-328"></a>
+  <a name="l2h-330"></a>
+  <a name="l2h-331"></a>
+  <a name="l2h-332"></a>
+  <a name="l2h-333"></a>
+  <a name="l2h-334"></a>
+  <a name="l2h-335"></a>
+  <a name="l2h-336"></a>
+  <a name="l2h-337"></a>
+  <a name="l2h-338"></a>
+  <a name="l2h-339"></a>
+  <a name="l2h-340"></a>
+  <a name="l2h-341"></a><a name="l2h-343"></a>
+<P>
+<dl><dt><b><a name="l2h-344"><tt class=method>__len__</tt></a></b> (<var>self</var>)
+<dd>
+Called to implement the built-in function
+<tt class=function>len()</tt><a name="l2h-350"></a>.  Should return the length of the
+object, an integer <tt>&gt;=</tt> 0.  Also, an object that doesn't define a
+<tt class=method>__nonzero__()</tt> method and whose <tt class=method>__len__()</tt> method
+returns zero is considered to be false in a Boolean context.
+<a name="l2h-346"></a></dl>
+
+<P>
+<dl><dt><b><a name="l2h-347"><tt class=method>__getitem__</tt></a></b> (<var>self, key</var>)
+<dd>
+Called to implement evaluation of <tt><var>self</var>[<var>key</var>]</tt>.
+For a sequence types, the accepted keys should be integers.  Note that the
+special interpretation of negative indices (if the class wishes to
+emulate a sequence type) is up to the <tt class=method>__getitem__()</tt> method.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-348"><tt class=method>__setitem__</tt></a></b> (<var>self, key, value</var>)
+<dd>
+Called to implement assignment to <tt><var>self</var>[<var>key</var>]</tt>.  Same
+note as for <tt class=method>__getitem__()</tt>.  This should only be implemented
+for mappings if the objects support changes to the values for keys, or
+if new keys can be added, or for sequences if elements can be
+replaced.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-349"><tt class=method>__delitem__</tt></a></b> (<var>self, key</var>)
+<dd>
+Called to implement deletion of <tt><var>self</var>[<var>key</var>]</tt>.  Same
+note as for <tt class=method>__getitem__()</tt>.  This should only be implemented
+for mappings if the objects support removal of keys, or for sequences
+if elements can be removed from the sequence.
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html618"
+ HREF="sequence-methods.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html614"
+ HREF="specialnames.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html608"
+ HREF="callable-types.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html616"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html617"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html619"
+ HREF="sequence-methods.html">3.3.5 Additional methods for</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html615"
+ HREF="specialnames.html">3.3 Special method names</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html609"
+ HREF="callable-types.html">3.3.3 Emulating callable objects</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

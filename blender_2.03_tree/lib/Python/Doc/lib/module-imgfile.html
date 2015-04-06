@@ -1,0 +1,172 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>16.11 imgfile -- Support for SGI imglib files</TITLE>
+<META NAME="description" CONTENT="16.11 imgfile -- Support for SGI imglib files">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-jpeg.html">
+<LINK REL="previous" HREF="module-gl-constants.html">
+<LINK REL="up" HREF="sgi.html">
+<LINK REL="next" HREF="module-jpeg.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html4062"
+ HREF="module-jpeg.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html4058"
+ HREF="sgi.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html4052"
+ HREF="module-gl-constants.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html4060"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html4061"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html4063"
+ HREF="module-jpeg.html">16.12 jpeg  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html4059"
+ HREF="sgi.html">16. SGI IRIX Specific</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html4053"
+ HREF="module-gl-constants.html">16.10 GL  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00181100000000000000000">
+16.11 <tt class=module>imgfile</tt> --
+         Support for SGI imglib files</A>
+</H1>
+
+<P>
+  
+<p class=availability>Availability: <span
+ class=platform>IRIX</span>.</p>
+
+<P>
+The <tt class=module>imgfile</tt> module allows Python programs to access SGI imglib image
+files (also known as "<tt class=file>.rgb</tt>" files).  The module is far from
+complete, but is provided anyway since the functionality that there is
+is enough in some cases.  Currently, colormap files are not supported.
+
+<P>
+The module defines the following variables and functions:
+
+<P>
+<dl><dt><b><a name="l2h-2458"><tt class=exception>error</tt></a></b>
+<dd>
+This exception is raised on all errors, such as unsupported file type, etc.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2459"><tt class=function>getsizes</tt></a></b> (<var>file</var>)
+<dd>
+This function returns a tuple <tt>(<var>x</var>, <var>y</var>, <var>z</var>)</tt> where
+<var>x</var> and <var>y</var> are the size of the image in pixels and
+<var>z</var> is the number of
+bytes per pixel. Only 3 byte RGB pixels and 1 byte greyscale pixels
+are currently supported.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2460"><tt class=function>read</tt></a></b> (<var>file</var>)
+<dd>
+This function reads and decodes the image on the specified file, and
+returns it as a Python string. The string has either 1 byte greyscale
+pixels or 4 byte RGBA pixels. The bottom left pixel is the first in
+the string. This format is suitable to pass to <tt class=function>gl.lrectwrite()</tt>,
+for instance.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2461"><tt class=function>readscaled</tt></a></b> (<var>file, x, y, filter</var><big>[</big><var>, blur</var><big>]</big>)
+<dd>
+This function is identical to read but it returns an image that is
+scaled to the given <var>x</var> and <var>y</var> sizes. If the <var>filter</var> and
+<var>blur</var> parameters are omitted scaling is done by
+simply dropping or duplicating pixels, so the result will be less than
+perfect, especially for computer-generated images.
+
+<P>
+Alternatively, you can specify a filter to use to smoothen the image
+after scaling. The filter forms supported are <tt>'impulse'</tt>,
+<tt>'box'</tt>, <tt>'triangle'</tt>, <tt>'quadratic'</tt> and
+<tt>'gaussian'</tt>. If a filter is specified <var>blur</var> is an optional
+parameter specifying the blurriness of the filter. It defaults to <tt>1.0</tt>.
+
+<P>
+<tt class=function>readscaled()</tt> makes no attempt to keep the aspect ratio
+correct, so that is the users' responsibility.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2462"><tt class=function>ttob</tt></a></b> (<var>flag</var>)
+<dd>
+This function sets a global flag which defines whether the scan lines
+of the image are read or written from bottom to top (flag is zero,
+compatible with SGI GL) or from top to bottom(flag is one,
+compatible with X).  The default is zero.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2463"><tt class=function>write</tt></a></b> (<var>file, data, x, y, z</var>)
+<dd>
+This function writes the RGB or greyscale data in <var>data</var> to image
+file <var>file</var>. <var>x</var> and <var>y</var> give the size of the image,
+<var>z</var> is 1 for 1 byte greyscale images or 3 for RGB images (which are
+stored as 4 byte values of which only the lower three bytes are used).
+These are the formats returned by <tt class=function>gl.lrectread()</tt>.
+</dl><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html4062"
+ HREF="module-jpeg.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html4058"
+ HREF="sgi.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html4052"
+ HREF="module-gl-constants.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html4060"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html4061"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html4063"
+ HREF="module-jpeg.html">16.12 jpeg  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html4059"
+ HREF="sgi.html">16. SGI IRIX Specific</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html4053"
+ HREF="module-gl-constants.html">16.10 GL  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

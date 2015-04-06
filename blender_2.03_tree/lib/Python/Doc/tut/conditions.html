@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>5.5 More on Conditions </TITLE>
+<META NAME="description" CONTENT="5.5 More on Conditions ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="comparing.html">
+<LINK REL="previous" HREF="dictionaries.html">
+<LINK REL="up" HREF="structures.html">
+<LINK REL="next" HREF="comparing.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html586"
+ HREF="comparing.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html583"
+ HREF="structures.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html577"
+ HREF="dictionaries.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html585"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html587"
+ HREF="comparing.html">5.6 Comparing Sequences and</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html584"
+ HREF="structures.html">5. Data Structures</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html578"
+ HREF="dictionaries.html">5.4 Dictionaries</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION007500000000000000000"></A>
+<BR>
+5.5 More on Conditions 
+</H1>
+
+<P>
+The conditions used in <tt>while</tt> and <tt>if</tt> statements above can
+contain other operators besides comparisons.
+
+<P>
+The comparison operators <tt>in</tt> and <tt>not in</tt> check whether a value
+occurs (does not occur) in a sequence.  The operators <tt>is</tt> and
+<tt>is not</tt> compare whether two objects are really the same object; this
+only matters for mutable objects like lists.  All comparison operators
+have the same priority, which is lower than that of all numerical
+operators.
+
+<P>
+Comparisons can be chained: e.g., <tt>a &lt; b == c</tt> tests whether <tt>a</tt>is less than <tt>b</tt> and moreover <tt>b</tt> equals <tt>c</tt>.
+
+<P>
+Comparisons may be combined by the Boolean operators <tt>and</tt> and
+<tt>or</tt>, and the outcome of a comparison (or of any other Boolean
+expression) may be negated with <tt>not</tt>.  These all have lower
+priorities than comparison operators again; between them, <tt>not</tt> has
+the highest priority, and <tt>or</tt> the lowest, so that
+<tt>A and not B or C</tt> is equivalent to <tt>(A and (not B)) or C</tt>.  Of
+course, parentheses can be used to express the desired composition.
+
+<P>
+The Boolean operators <tt>and</tt> and <tt>or</tt> are so-called
+<i>shortcut</i> operators: their arguments are evaluated from left to
+right, and evaluation stops as soon as the outcome is determined.
+E.g., if <tt>A</tt> and <tt>C</tt> are true but <tt>B</tt> is false, <tt>A
+and B and C</tt> does not evaluate the expression C.  In general, the
+return value of a shortcut operator, when used as a general value and
+not as a Boolean, is the last evaluated argument.
+
+<P>
+It is possible to assign the result of a comparison or other Boolean
+expression to a variable.  For example,
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; string1, string2, string3 = '', 'Trondheim', 'Hammer Dance'
+&gt;&gt;&gt; non_null = string1 or string2 or string3
+&gt;&gt;&gt; non_null
+'Trondheim'
+</pre></dl>
+
+<P>
+Note that in Python, unlike C, assignment cannot occur inside expressions.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html586"
+ HREF="comparing.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html583"
+ HREF="structures.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html577"
+ HREF="dictionaries.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html585"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html587"
+ HREF="comparing.html">5.6 Comparing Sequences and</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html584"
+ HREF="structures.html">5. Data Structures</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html578"
+ HREF="dictionaries.html">5.4 Dictionaries</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

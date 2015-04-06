@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>18.1.2 Console I/O </TITLE>
+<META NAME="description" CONTENT="18.1.2 Console I/O ">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="msvcrt-other.html">
+<LINK REL="previous" HREF="msvcrt-files.html">
+<LINK REL="up" HREF="module-msvcrt.html">
+<LINK REL="next" HREF="msvcrt-other.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html4158"
+ HREF="msvcrt-other.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html4154"
+ HREF="module-msvcrt.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html4148"
+ HREF="msvcrt-files.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html4156"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html4157"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html4159"
+ HREF="msvcrt-other.html">18.1.3 Other Functions</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html4155"
+ HREF="module-msvcrt.html">18.1 msvcrt - Useful</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html4149"
+ HREF="msvcrt-files.html">18.1.1 File Operations</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0020120000000000000000"></A>
+<BR>
+18.1.2 Console I/O 
+</H2>
+
+<P>
+<dl><dt><b><a name="l2h-2495"><tt class=function>kbhit</tt></a></b> ()
+<dd>
+  Return true if a keypress is waiting to be read.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2496"><tt class=function>getch</tt></a></b> ()
+<dd>
+  Read a keypress and return the resulting character.  Nothing is
+  echoed to the console.  This call will block if a keypress is not
+  already available, but will not wait for <kbd>Enter</kbd> to be pressed.
+  If the pressed key was a special function key, this will return
+  <tt>'&#92;000'</tt> or <tt>'&#92;xe0'</tt>; the next call will return the
+  keycode.  The <kbd>Control-C</kbd> keypress cannot be read with this
+  function.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2497"><tt class=function>getche</tt></a></b> ()
+<dd>
+  Similar to <tt class=function>getch()</tt>, but the keypress will be echoed if it 
+  represents a printable character.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2498"><tt class=function>putch</tt></a></b> (<var>char</var>)
+<dd>
+  Print the character <var>char</var> to the console without buffering.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2499"><tt class=function>ungetch</tt></a></b> (<var>char</var>)
+<dd>
+  Cause the character <var>char</var> to be ``pushed back'' into the
+  console buffer; it will be the next character read by
+  <tt class=function>getch()</tt> or <tt class=function>getche()</tt>.
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html4158"
+ HREF="msvcrt-other.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html4154"
+ HREF="module-msvcrt.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html4148"
+ HREF="msvcrt-files.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html4156"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html4157"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html4159"
+ HREF="msvcrt-other.html">18.1.3 Other Functions</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html4155"
+ HREF="module-msvcrt.html">18.1 msvcrt - Useful</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html4149"
+ HREF="msvcrt-files.html">18.1.1 File Operations</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

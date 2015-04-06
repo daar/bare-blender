@@ -17,7 +17,7 @@
 #include <X11/cursorfont.h>  /* for XC_arrow */
 #endif /* !WIN32 */
 
-#include <GL/glut.h>
+#include <glut.h>
 #include "glutint.h"
 #include "layerutil.h"
 

@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.13.1 Examples</TITLE>
+<META NAME="description" CONTENT="3.13.1 Examples">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="previous" HREF="module-imp.html">
+<LINK REL="up" HREF="module-imp.html">
+<LINK REL="next" HREF="module-parser.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1081"
+ HREF="module-parser.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1077"
+ HREF="module-imp.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1073"
+ HREF="module-imp.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1079"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1080"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1082"
+ HREF="module-parser.html">3.14 parser  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1078"
+ HREF="module-imp.html">3.13 imp  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1074"
+ HREF="module-imp.html">3.13 imp  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0051310000000000000000"></A>
+<BR>
+3.13.1 Examples
+</H2>
+
+<P>
+The following function emulates what was the standard import statement
+up to Python 1.4 (i.e., no hierarchical module names).  (This
+<i>implementation</i> wouldn't work in that version, since
+<tt class=function>find_module()</tt> has been extended and
+<tt class=function>load_module()</tt> has been added in 1.4.)
+
+<P>
+<dl><dd><pre class=verbatim>
+import imp import sys
+
+def __import__(name, globals=None, locals=None, fromlist=None):
+    # Fast path: see if the module has already been imported.
+    try:
+        return sys.modules[name]
+    except KeyError:
+        pass
+
+    # If any of the following calls raises an exception,
+    # there's a problem we can't handle -- let the caller handle it.
+
+    fp, pathname, description = imp.find_module(name)
+    
+    try:
+        return imp.load_module(name, fp, pathname, description)
+    finally:
+        # Since we may exit via an exception, close fp explicitly.
+        if fp:
+            fp.close()
+</pre></dl>
+
+<P>
+A more complete example that implements hierarchical module names and
+includes a <tt class=function>reload()</tt><a name="l2h-475"></a> function can be
+found in the standard module <tt class=module>knee</tt><a name="l2h-476"></a> (which
+is intended as an example only -- don't rely on any part of it being
+a standard interface).
+<
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1081"
+ HREF="module-parser.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1077"
+ HREF="module-imp.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1073"
+ HREF="module-imp.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1079"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1080"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1082"
+ HREF="module-parser.html">3.14 parser  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1078"
+ HREF="module-imp.html">3.13 imp  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1074"
+ HREF="module-imp.html">3.13 imp  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>18.1.1 File Operations </TITLE>
+<META NAME="description" CONTENT="18.1.1 File Operations ">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="msvcrt-console.html">
+<LINK REL="previous" HREF="module-msvcrt.html">
+<LINK REL="up" HREF="module-msvcrt.html">
+<LINK REL="next" HREF="msvcrt-console.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html4146"
+ HREF="msvcrt-console.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html4142"
+ HREF="module-msvcrt.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html4136"
+ HREF="module-msvcrt.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html4144"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html4145"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html4147"
+ HREF="msvcrt-console.html">18.1.2 Console I/O</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html4143"
+ HREF="module-msvcrt.html">18.1 msvcrt - Useful</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html4137"
+ HREF="module-msvcrt.html">18.1 msvcrt - Useful</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0020110000000000000000"></A>
+<BR>
+18.1.1 File Operations 
+</H2>
+
+<P>
+<dl><dt><b><a name="l2h-2491"><tt class=function>locking</tt></a></b> (<var>fd, mode, nbytes</var>)
+<dd>
+  Lock part of a file based on a file descriptor from the C runtime.
+  Raises <tt class=exception>IOError</tt> on failure.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2492"><tt class=function>setmode</tt></a></b> (<var>fd, flags</var>)
+<dd>
+  Set the line-end translation mode for the file descriptor <var>fd</var>.
+  To set it to text mode, <var>flags</var> should be <tt class=constant>os.O_TEXT</tt>;
+  for binary, it should be <tt class=constant>os.O_BINARY</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2493"><tt class=function>open_osfhandle</tt></a></b> (<var>handle, flags</var>)
+<dd>
+  Create a C runtime file descriptor from the file handle
+  <var>handle</var>.  The <var>flags</var> parameter should be a bit-wise OR of
+  <tt class=constant>os.O_APPEND</tt>, <tt class=constant>os.O_RDONLY</tt>, and
+  <tt class=constant>os.O_TEXT</tt>.  The returned file descriptor may be used as a
+  parameter to <tt class=function>os.fdopen()</tt> to create a file object.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2494"><tt class=function>get_osfhandle</tt></a></b> (<var>fd</var>)
+<dd>
+  Return the file handle for the file descriptor <var>fd</var>.  Raises
+  <tt class=exception>IOError</tt> if <var>fd</var> is not recognized.
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html4146"
+ HREF="msvcrt-console.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html4142"
+ HREF="module-msvcrt.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html4136"
+ HREF="module-msvcrt.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html4144"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html4145"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html4147"
+ HREF="msvcrt-console.html">18.1.2 Console I/O</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html4143"
+ HREF="module-msvcrt.html">18.1 msvcrt - Useful</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html4137"
+ HREF="module-msvcrt.html">18.1 msvcrt - Useful</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

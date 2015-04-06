@@ -1,0 +1,179 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>6.5 getopt -- Parser for command line options.</TITLE>
+<META NAME="description" CONTENT="6.5 getopt -- Parser for command line options.">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-tempfile.html">
+<LINK REL="previous" HREF="module-getpass.html">
+<LINK REL="up" HREF="allos.html">
+<LINK REL="next" HREF="module-tempfile.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1945"
+ HREF="module-tempfile.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1941"
+ HREF="allos.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1935"
+ HREF="module-getpass.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1943"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1944"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1946"
+ HREF="module-tempfile.html">6.6 tempfile  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1942"
+ HREF="allos.html">6. Generic Operating System</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1936"
+ HREF="module-getpass.html">6.4 getpass  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION008500000000000000000">
+6.5 <tt class=module>getopt</tt> --
+         Parser for command line options.</A>
+</H1>
+
+<P>
+
+<P>
+This module helps scripts to parse the command line arguments in
+<tt>sys.argv</tt>.
+It supports the same conventions as the Unix <tt class=cfunction>getopt()</tt>
+function (including the special meanings of arguments of the form
+`<tt>-</tt>' and `<tt>-</tt><tt>-</tt>').
+Long options similar to those supported by
+GNU software may be used as well via an optional third argument.
+This module provides a single function and an exception:
+
+<P>
+<dl><dt><b><a name="l2h-1047"><tt class=function>getopt</tt></a></b> (<var>args, options</var><big>[</big><var>, long_options</var><big>]</big>)
+<dd>
+Parses command line options and parameter list.  <var>args</var> is the
+argument list to be parsed, without the leading reference to the
+running program. Typically, this means "<tt class=samp>sys.argv[1:]</tt>".
+<var>options</var> is the string of option letters that the script wants to
+recognize, with options that require an argument followed by a colon
+(i.e., the same format that Unix <tt class=cfunction>getopt()</tt> uses).  If
+specified, <var>long_options</var> is a list of strings with the names of
+the long options which should be supported.  The leading
+<tt>'-</tt><tt>-'</tt> characters should not be included in the option
+name.  Options which require an argument should be followed by an
+equal sign (<tt>'='</tt>).
+
+<P>
+The return value consists of two elements: the first is a list of
+<tt>(<var>option</var>, <var>value</var>)</tt> pairs; the second is the list of
+program arguments left after the option list was stripped (this is a
+trailing slice of the first argument).
+Each option-and-value pair returned has the option as its first
+element, prefixed with a hyphen (e.g., <tt>'-x'</tt>), and the option
+argument as its second element, or an empty string if the option has
+no argument.
+The options occur in the list in the same order in which they were
+found, thus allowing multiple occurrences.  Long and short options may
+be mixed.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1048"><tt class=exception>error</tt></a></b>
+<dd>
+This is raised when an unrecognized option is found in the argument
+list or when an option requiring an argument is given none.
+The argument to the exception is a string indicating the cause of the
+error.  For long options, an argument given to an option which does
+not require one will also cause this exception to be raised.
+</dl>
+
+<P>
+An example using only Unix style options:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; import getopt, string
+&gt;&gt;&gt; args = string.split('-a -b -cfoo -d bar a1 a2')
+&gt;&gt;&gt; args
+['-a', '-b', '-cfoo', '-d', 'bar', 'a1', 'a2']
+&gt;&gt;&gt; optlist, args = getopt.getopt(args, 'abc:d:')
+&gt;&gt;&gt; optlist
+[('-a', ''), ('-b', ''), ('-c', 'foo'), ('-d', 'bar')]
+&gt;&gt;&gt; args
+['a1', 'a2']
+&gt;&gt;&gt;
+</pre></dl>
+
+<P>
+Using long option names is equally easy:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; s = '--condition=foo --testing --output-file abc.def -x a1 a2'
+&gt;&gt;&gt; args = string.split(s)
+&gt;&gt;&gt; args
+['--condition=foo', '--testing', '--output-file', 'abc.def', '-x', 'a1', 'a2']
+&gt;&gt;&gt; optlist, args = getopt.getopt(args, 'x', [
+...     'condition=', 'output-file=', 'testing'])
+&gt;&gt;&gt; optlist
+[('--condition', 'foo'), ('--testing', ''), ('--output-file', 'abc.def'), ('-x',
+ '')]
+&gt;&gt;&gt; args
+['a1', 'a2']
+&gt;&gt;&gt;
+</pre></dl><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1945"
+ HREF="module-tempfile.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1941"
+ HREF="allos.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1935"
+ HREF="module-getpass.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1943"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1944"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1946"
+ HREF="module-tempfile.html">6.6 tempfile  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1942"
+ HREF="allos.html">6. Generic Operating System</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1936"
+ HREF="module-getpass.html">6.4 getpass  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

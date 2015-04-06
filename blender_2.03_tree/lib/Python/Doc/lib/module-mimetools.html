@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>12.6 mimetools -- Tools for parsing MIME messages</TITLE>
+<META NAME="description" CONTENT="12.6 mimetools -- Tools for parsing MIME messages">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-MimeWriter.html">
+<LINK REL="previous" HREF="module-rfc822.html">
+<LINK REL="up" HREF="netdata.html">
+<LINK REL="next" HREF="mimetools.Message_Methods.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3341"
+ HREF="mimetools.Message_Methods.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3337"
+ HREF="netdata.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3331"
+ HREF="addresslist-objects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3339"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3340"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3342"
+ HREF="mimetools.Message_Methods.html">12.6.1 Additional Methods of</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3338"
+ HREF="netdata.html">12. Internet Data Handling</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3332"
+ HREF="addresslist-objects.html">12.5.2 AddressList Objects</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0014600000000000000000">
+12.6 <tt class=module>mimetools</tt> --
+         Tools for parsing MIME messages</A>
+</H1>
+
+<P>
+
+
+<P>
+This module defines a subclass of the <tt class=class>rfc822.Message</tt> class and
+a number of utility functions that are useful for the manipulation for
+MIME multipart or encoded message.
+
+<P>
+It defines the following items:
+
+<P>
+<dl><dt><b><a name="l2h-1959"><tt class=class>Message</tt></a></b> (<var>fp</var><big>[</big><var>, seekable</var><big>]</big>)
+<dd>
+Return a new instance of the <tt class=class>Message</tt> class.  This is a
+subclass of the <tt class=class>rfc822.Message</tt> class, with some additional
+methods (see below).  The <var>seekable</var> argument has the same meaning
+as for <tt class=class>rfc822.Message</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1960"><tt class=function>choose_boundary</tt></a></b> ()
+<dd>
+Return a unique string that has a high likelihood of being usable as a
+part boundary.  The string has the form
+<tt>'<var>hostipaddr</var>.<var>uid</var>.<var>pid</var>.<var>timestamp</var>.<var>random</var>'</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1961"><tt class=function>decode</tt></a></b> (<var>input, output, encoding</var>)
+<dd>
+Read data encoded using the allowed MIME <var>encoding</var> from open file
+object <var>input</var> and write the decoded data to open file object
+<var>output</var>.  Valid values for <var>encoding</var> include
+<tt>'base64'</tt>, <tt>'quoted-printable'</tt> and <tt>'uuencode'</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1962"><tt class=function>encode</tt></a></b> (<var>input, output, encoding</var>)
+<dd>
+Read data from open file object <var>input</var> and write it encoded using
+the allowed MIME <var>encoding</var> to open file object <var>output</var>.
+Valid values for <var>encoding</var> are the same as for <tt class=method>decode()</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1963"><tt class=function>copyliteral</tt></a></b> (<var>input, output</var>)
+<dd>
+Read lines until EOF from open file <var>input</var> and write them to
+open file <var>output</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1964"><tt class=function>copybinary</tt></a></b> (<var>input, output</var>)
+<dd>
+Read blocks until EOF from open file <var>input</var> and write them to
+open file <var>output</var>.  The block size is currently fixed at 8192.
+</dl>
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html3343"
+ HREF="mimetools.Message_Methods.html">12.6.1 Additional Methods of Message objects</A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3341"
+ HREF="mimetools.Message_Methods.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3337"
+ HREF="netdata.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3331"
+ HREF="addresslist-objects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3339"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3340"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3342"
+ HREF="mimetools.Message_Methods.html">12.6.1 Additional Methods of</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3338"
+ HREF="netdata.html">12. Internet Data Handling</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3332"
+ HREF="addresslist-objects.html">12.5.2 AddressList Objects</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

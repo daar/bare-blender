@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.23 py_compile -- Compile Python source files.</TITLE>
+<META NAME="description" CONTENT="3.23 py_compile -- Compile Python source files.">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-compileall.html">
+<LINK REL="previous" HREF="module-repr.html">
+<LINK REL="up" HREF="python.html">
+<LINK REL="next" HREF="module-compileall.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1349"
+ HREF="module-compileall.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1345"
+ HREF="python.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1339"
+ HREF="subclassing-reprs.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1347"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1348"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1350"
+ HREF="module-compileall.html">3.24 compileall  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1346"
+ HREF="python.html">3. Python Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1340"
+ HREF="subclassing-reprs.html">3.22.2 Subclassing Repr Objects</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0052300000000000000000">
+3.23 <tt class=module>py_compile</tt> --
+         Compile Python source files.</A>
+</H1>
+
+<P>
+
+<P>
+
+<P>
+<a name="l2h-547"></a>
+The <tt class=module>py_compile</tt> module provides a single function to generate
+a byte-code file from a source file.
+
+<P>
+Though not often needed, this function can be useful when installing
+modules for shared use, especially if some of the users may not have
+permission to write the byte-code cache files in the directory
+containing the source code.
+
+<P>
+<dl><dt><b><a name="l2h-546"><tt class=function>compile</tt></a></b> (<var>file</var><big>[</big><var>, cfile</var><big>[</big><var>, dfile</var><big>]</big><big>]</big>)
+<dd>
+  Compile a source file to byte-code and write out the byte-code cache 
+  file.  The source code is loaded from the file name <var>file</var>.  The 
+  byte-code is written to <var>cfile</var>, which defaults to <var>file</var>
+  <tt>+</tt> <tt>'c'</tt> (<tt>'o'</tt> if optimization is enabled in the
+  current interpreter).  If <var>dfile</var> is specified, it is used as
+  the name of the source file in error messages instead of <var>file</var>. 
+</dl>
+
+<P>
+<div class=seealso>
+  <p class=heading><b>See Also:</b></p>
+
+  <div class=seemodule>
+<p>Module <b><tt class=module><a href="module-compileall.html">compileall</a></tt></b>&nbsp;&nbsp;&nbsp;(Utilities to compile all Python source files
+                         in a directory tree.)</p>
+</div>
+</div>
+<
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1349"
+ HREF="module-compileall.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1345"
+ HREF="python.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1339"
+ HREF="subclassing-reprs.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1347"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1348"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1350"
+ HREF="module-compileall.html">3.24 compileall  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1346"
+ HREF="python.html">3. Python Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1340"
+ HREF="subclassing-reprs.html">3.22.2 Subclassing Repr Objects</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

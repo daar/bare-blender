@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>17.1 sunaudiodev -- Access to Sun audio hardware.</TITLE>
+<META NAME="description" CONTENT="17.1 sunaudiodev -- Access to Sun audio hardware.">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="previous" HREF="sunos.html">
+<LINK REL="up" HREF="sunos.html">
+<LINK REL="next" HREF="audio-device-objects.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html4096"
+ HREF="audio-device-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html4092"
+ HREF="sunos.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html4088"
+ HREF="sunos.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html4094"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html4095"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html4097"
+ HREF="audio-device-objects.html">17.1.1 Audio Device Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html4093"
+ HREF="sunos.html">17. SunOS Specific Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html4089"
+ HREF="sunos.html">17. SunOS Specific Services</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0019100000000000000000">
+17.1 <tt class=module>sunaudiodev</tt> --
+         Access to Sun audio hardware.</A>
+</H1>
+
+<P>
+  
+<p class=availability>Availability: <span
+ class=platform>SunOS</span>.</p>
+
+<P>
+This module allows you to access the Sun audio interface. The Sun
+audio hardware is capable of recording and playing back audio data
+in u-LAW<a name="l2h-2478"></a> format with a sample rate of 8K per second. A
+full description can be found in the <span class=manpage><i>audio</i>(7I)</span> manual page.
+
+<P>
+The module defines the following variables and functions:
+
+<P>
+<dl><dt><b><a name="l2h-2476"><tt class=exception>error</tt></a></b>
+<dd>
+This exception is raised on all errors. The argument is a string
+describing what went wrong.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2477"><tt class=function>open</tt></a></b> (<var>mode</var>)
+<dd>
+This function opens the audio device and returns a Sun audio device
+object. This object can then be used to do I/O on. The <var>mode</var> parameter
+is one of <tt>'r'</tt> for record-only access, <tt>'w'</tt> for play-only
+access, <tt>'rw'</tt> for both and <tt>'control'</tt> for access to the
+control device. Since only one process is allowed to have the recorder
+or player open at the same time it is a good idea to open the device
+only for the activity needed. See <span class=manpage><i>audio</i>(7I)</span> for details.
+
+<P>
+As per the manpage, this module first looks in the environment
+variable <tt>AUDIODEV</tt> for the base audio device filename.  If not
+found, it falls back to "<tt class=file>/dev/audio</tt>".  The control device is
+calculated by appending ``ctl'' to the base audio device.
+</dl>
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html4098"
+ HREF="audio-device-objects.html">17.1.1 Audio Device Objects</A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html4096"
+ HREF="audio-device-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html4092"
+ HREF="sunos.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html4088"
+ HREF="sunos.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html4094"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html4095"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html4097"
+ HREF="audio-device-objects.html">17.1.1 Audio Device Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html4093"
+ HREF="sunos.html">17. SunOS Specific Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html4089"
+ HREF="sunos.html">17. SunOS Specific Services</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

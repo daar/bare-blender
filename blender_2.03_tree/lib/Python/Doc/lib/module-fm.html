@@ -1,0 +1,212 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>16.7 fm -- Font Manager interface</TITLE>
+<META NAME="description" CONTENT="16.7 fm -- Font Manager interface">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-gl.html">
+<LINK REL="previous" HREF="module-flp.html">
+<LINK REL="up" HREF="sgi.html">
+<LINK REL="next" HREF="module-gl.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html4014"
+ HREF="module-gl.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html4010"
+ HREF="sgi.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html4004"
+ HREF="module-flp.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html4012"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html4013"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html4015"
+ HREF="module-gl.html">16.8 gl  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html4011"
+ HREF="sgi.html">16. SGI IRIX Specific</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html4005"
+ HREF="module-flp.html">16.6 flp  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0018700000000000000000">
+16.7 <tt class=module>fm</tt> --
+         <i>Font Manager</i> interface</A>
+</H1>
+
+<P>
+  
+<p class=availability>Availability: <span
+ class=platform>IRIX</span>.</p>
+
+<P>
+This module provides access to the IRIS <i>Font Manager</i> library.
+<a name="l2h-2442"></a>
+<a name="l2h-2443"></a>
+It is available only on Silicon Graphics machines.
+See also: <i>4Sight User's Guide</i>, Section 1, Chapter 5: ``Using
+the IRIS Font Manager.''
+
+<P>
+This is not yet a full interface to the IRIS Font Manager.
+Among the unsupported features are: matrix operations; cache
+operations; character operations (use string operations instead); some
+details of font info; individual glyph metrics; and printer matching.
+
+<P>
+It supports the following operations:
+
+<P>
+<dl><dt><b><a name="l2h-2430"><tt class=function>init</tt></a></b> ()
+<dd>
+Initialization function.
+Calls <tt class=cfunction>fminit()</tt>.
+It is normally not necessary to call this function, since it is called
+automatically the first time the <tt class=module>fm</tt> module is imported.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2431"><tt class=function>findfont</tt></a></b> (<var>fontname</var>)
+<dd>
+Return a font handle object.
+Calls <tt>fmfindfont(<var>fontname</var>)</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2432"><tt class=function>enumerate</tt></a></b> ()
+<dd>
+Returns a list of available font names.
+This is an interface to <tt class=cfunction>fmenumerate()</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2433"><tt class=function>prstr</tt></a></b> (<var>string</var>)
+<dd>
+Render a string using the current font (see the <tt class=function>setfont()</tt> font
+handle method below).
+Calls <tt>fmprstr(<var>string</var>)</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2434"><tt class=function>setpath</tt></a></b> (<var>string</var>)
+<dd>
+Sets the font search path.
+Calls <tt>fmsetpath(<var>string</var>)</tt>.
+(XXX Does not work!?!)
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2435"><tt class=function>fontpath</tt></a></b> ()
+<dd>
+Returns the current font search path.
+</dl>
+
+<P>
+Font handle objects support the following operations:
+
+<P>
+
+<dl><dt><b><a name="l2h-2436"><tt class=function>scalefont</tt></a></b> (<var>factor</var>)
+<dd>
+Returns a handle for a scaled version of this font.
+Calls <tt>fmscalefont(<var>fh</var>, <var>factor</var>)</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2437"><tt class=function>setfont</tt></a></b> ()
+<dd>
+Makes this font the current font.
+Note: the effect is undone silently when the font handle object is
+deleted.
+Calls <tt>fmsetfont(<var>fh</var>)</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2438"><tt class=function>getfontname</tt></a></b> ()
+<dd>
+Returns this font's name.
+Calls <tt>fmgetfontname(<var>fh</var>)</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2439"><tt class=function>getcomment</tt></a></b> ()
+<dd>
+Returns the comment string associated with this font.
+Raises an exception if there is none.
+Calls <tt>fmgetcomment(<var>fh</var>)</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2440"><tt class=function>getfontinfo</tt></a></b> ()
+<dd>
+Returns a tuple giving some pertinent data about this font.
+This is an interface to <tt>fmgetfontinfo()</tt>.
+The returned tuple contains the following numbers:
+<tt>(</tt><var>printermatched</var>, <var>fixed_width</var>, <var>xorig</var>,
+<var>yorig</var>, <var>xsize</var>, <var>ysize</var>, <var>height</var>,
+<var>nglyphs</var><tt>)</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2441"><tt class=function>getstrwidth</tt></a></b> (<var>string</var>)
+<dd>
+Returns the width, in pixels, of <var>string</var> when drawn in this font.
+Calls <tt>fmgetstrwidth(<var>fh</var>, <var>string</var>)</tt>.
+</dl><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html4014"
+ HREF="module-gl.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html4010"
+ HREF="sgi.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html4004"
+ HREF="module-flp.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html4012"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html4013"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html4015"
+ HREF="module-gl.html">16.8 gl  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html4011"
+ HREF="sgi.html">16. SGI IRIX Specific</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html4005"
+ HREF="module-flp.html">16.6 flp  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

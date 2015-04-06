@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>11.3 httplib -- HTTP protocol client.</TITLE>
+<META NAME="description" CONTENT="11.3 httplib -- HTTP protocol client.">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-ftplib.html">
+<LINK REL="previous" HREF="module-urllib.html">
+<LINK REL="up" HREF="internet.html">
+<LINK REL="next" HREF="node197.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2925"
+ HREF="node197.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2921"
+ HREF="internet.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2915"
+ HREF="module-urllib.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2923"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2924"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2926"
+ HREF="node197.html">11.3.1 HTTP Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2922"
+ HREF="internet.html">11. Internet Protocols and</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2916"
+ HREF="module-urllib.html">11.2 urllib  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0013300000000000000000">
+11.3 <tt class=module>httplib</tt> --
+         HTTP protocol client.</A>
+</H1>
+
+<P>
+
+<P>
+<a name="l2h-1594"></a>
+
+<P>
+This module defines a class which implements the client side of the
+HTTP protocol.  It is normally not used directly -- the module
+<tt class=module>urllib</tt><a name="l2h-1595"></a> uses it to handle URLs that use
+HTTP.
+
+<P>
+The module defines one class, <tt class=class>HTTP</tt>:
+
+<P>
+<dl><dt><b><a name="l2h-1593"><tt class=class>HTTP</tt></a></b> (<big>[</big><var>host</var><big>[</big><var>, port</var><big>]</big><big>]</big>)
+<dd>
+An <tt class=class>HTTP</tt> instance
+represents one transaction with an HTTP server.  It should be
+instantiated passing it a host and optional port number.  If no port
+number is passed, the port is extracted from the host string if it has
+the form <tt><var>host</var>:<var>port</var></tt>, else the default HTTP port (80)
+is used.  If no host is passed, no connection is made, and the
+<tt class=method>connect()</tt> method should be used to connect to a server.  For
+example, the following calls all create instances that connect to the
+server at the same host and port:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; h1 = httplib.HTTP('www.cwi.nl')
+&gt;&gt;&gt; h2 = httplib.HTTP('www.cwi.nl:80')
+&gt;&gt;&gt; h3 = httplib.HTTP('www.cwi.nl', 80)
+</pre></dl>
+
+<P>
+Once an <tt class=class>HTTP</tt> instance has been connected to an HTTP server, it
+should be used as follows:
+
+<P>
+<DL COMPACT>
+<DD><P>
+<DT>1.
+<DD>Make exactly one call to the <tt class=method>putrequest()</tt> method.
+
+<P>
+<DT>2.
+<DD>Make zero or more calls to the <tt class=method>putheader()</tt> method.
+
+<P>
+<DT>3.
+<DD>Call the <tt class=method>endheaders()</tt> method (this can be omitted if
+step 4 makes no calls).
+
+<P>
+<DT>4.
+<DD>Optional calls to the <tt class=method>send()</tt> method.
+
+<P>
+<DT>5.
+<DD>Call the <tt class=method>getreply()</tt> method.
+
+<P>
+<DT>6.
+<DD>Call the <tt class=method>getfile()</tt> method and read the data off the
+file object that it returns.
+
+<P>
+</DL>
+</dl>
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html2927"
+ HREF="node197.html">11.3.1 HTTP Objects</A>
+<LI><A NAME="tex2html2928"
+ HREF="HTTP_Example.html">11.3.2 Example</A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2925"
+ HREF="node197.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2921"
+ HREF="internet.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2915"
+ HREF="module-urllib.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2923"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2924"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2926"
+ HREF="node197.html">11.3.1 HTTP Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2922"
+ HREF="internet.html">11. Internet Protocols and</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2916"
+ HREF="module-urllib.html">11.2 urllib  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

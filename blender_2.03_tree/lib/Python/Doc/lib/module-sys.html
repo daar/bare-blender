@@ -1,0 +1,430 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.1 sys -- System-specific parameters and functions.</TITLE>
+<META NAME="description" CONTENT="3.1 sys -- System-specific parameters and functions.">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-types.html">
+<LINK REL="previous" HREF="python.html">
+<LINK REL="up" HREF="python.html">
+<LINK REL="next" HREF="module-types.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html926"
+ HREF="module-types.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html922"
+ HREF="python.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html916"
+ HREF="python.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html924"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html925"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html927"
+ HREF="module-types.html">3.2 types  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html923"
+ HREF="python.html">3. Python Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html917"
+ HREF="python.html">3. Python Services</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION005100000000000000000">
+3.1 <tt class=module>sys</tt> --
+         System-specific parameters and functions.</A>
+</H1>
+
+<P>
+
+<P>
+This module provides access to some variables used or maintained by the
+interpreter and to functions that interact strongly with the interpreter.
+It is always available.
+
+<P>
+<dl><dt><b><a name="l2h-240"><tt>argv</tt></a></b>
+<dd>
+  The list of command line arguments passed to a Python script.
+  <tt>argv[0]</tt> is the script name (it is operating system
+  dependent whether this is a full pathname or not).
+  If the command was executed using the "<tt class=samp>-c</tt>" command line option
+  to the interpreter, <tt>argv[0]</tt> is set to the string
+  <tt>'-c'</tt>.
+  If no script name was passed to the Python interpreter,
+  <tt>argv</tt> has zero length.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-241"><tt>builtin_module_names</tt></a></b>
+<dd>
+  A tuple of strings giving the names of all modules that are compiled
+  into this Python interpreter.  (This information is not available in
+  any other way -- <tt>modules.keys()</tt> only lists the imported
+  modules.)
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-242"><tt>copyright</tt></a></b>
+<dd>
+A string containing the copyright pertaining to the Python interpreter.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-243"><tt class=function>exc_info</tt></a></b> ()
+<dd>
+This function returns a tuple of three values that give information
+about the exception that is currently being handled.  The information
+returned is specific both to the current thread and to the current
+stack frame.  If the current stack frame is not handling an exception,
+the information is taken from the calling stack frame, or its caller,
+and so on until a stack frame is found that is handling an exception.
+Here, ``handling an exception'' is defined as ``executing or having
+executed an except clause.''  For any stack frame, only
+information about the most recently handled exception is accessible.
+
+<P>
+If no exception is being handled anywhere on the stack, a tuple
+containing three <tt>None</tt> values is returned.  Otherwise, the
+values returned are
+<tt>(<var>type</var>, <var>value</var>, <var>traceback</var>)</tt>.
+Their meaning is: <var>type</var> gets the exception type of the exception
+being handled (a string or class object); <var>value</var> gets the
+exception parameter (its <i class=dfn>associated value</i> or the second argument
+to <tt class=keyword>raise</tt>, which is always a class instance if the exception
+type is a class object); <var>traceback</var> gets a traceback object (see
+the Reference Manual) which encapsulates the call stack at the point
+where the exception originally occurred.
+<a name="l2h-264"></a>
+
+<P>
+<b>Warning:</b> assigning the <var>traceback</var> return value to a
+local variable in a function that is handling an exception will cause
+a circular reference. This will prevent anything referenced by a local
+variable in the same function or by the traceback from being garbage
+collected.  Since most functions don't need access to the traceback,
+the best solution is to use something like
+<tt>type, value = sys.exc_info()[:2]</tt>to extract only the exception type and value.  If you do need the
+traceback, make sure to delete it after use (best done with a
+<tt class=keyword>try</tt> ... <tt class=keyword>finally</tt> statement) or to call
+<tt class=function>exc_info()</tt> in a function that does not itself handle an
+exception.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-244"><tt>exc_type</tt></a></b>
+<dd>
+<dt><b><a name="l2h-265"><tt>exc_value</tt></a></b><dd>
+<dt><b><a name="l2h-266"><tt>exc_traceback</tt></a></b><dd>
+<b>Deprecated since release 1.5.</b>
+Use <tt class=function>exc_info()</tt> instead.<p>
+Since they are global variables, they are not specific to the current
+thread, so their use is not safe in a multi-threaded program.  When no
+exception is being handled, <tt>exc_type</tt> is set to <tt>None</tt> and
+the other two are undefined.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-245"><tt>exec_prefix</tt></a></b>
+<dd>
+A string giving the site-specific
+directory prefix where the platform-dependent Python files are
+installed; by default, this is also <tt>'/usr/local'</tt>.  This can be
+set at build time with the <tt>-</tt><tt>-exec-prefix</tt> argument to the
+<b class=program>configure</b> script.  Specifically, all configuration files
+(e.g. the "<tt class=file>config.h</tt>" header file) are installed in the directory
+<tt>exec_prefix + '/lib/python<var>version</var>/config'</tt>, and shared library
+modules are installed in
+<tt>exec_prefix + '/lib/python<var>version</var>/lib-dynload'</tt>,
+where <var>version</var> is equal to <tt>version[:3]</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-246"><tt>executable</tt></a></b>
+<dd>
+A string giving the name of the executable binary for the Python
+interpreter, on systems where this makes sense.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-247"><tt class=function>exit</tt></a></b> (<big>[</big><var>arg</var><big>]</big>)
+<dd>
+Exit from Python.  This is implemented by raising the
+<tt class=exception>SystemExit</tt> exception, so cleanup actions specified by
+finally clauses of <tt class=keyword>try</tt> statements are honored, and it is
+possible to intercept the exit attempt at an outer level.  The
+optional argument <var>arg</var> can be an integer giving the exit status
+(defaulting to zero), or another type of object.  If it is an integer,
+zero is considered ``successful termination'' and any nonzero value is
+considered ``abnormal termination'' by shells and the like.  Most
+systems require it to be in the range 0-127, and produce undefined
+results otherwise.  Some systems have a convention for assigning
+specific meanings to specific exit codes, but these are generally
+underdeveloped; Unix programs generally use 2 for command line syntax
+errors and 1 for all other kind of errors.  If another type of object
+is passed, <tt>None</tt> is equivalent to passing zero, and any other
+object is printed to <tt>sys.stderr</tt> and results in an exit code of
+1.  In particular, <tt>sys.exit("some error message")</tt> is a quick
+way to exit a program when an error occurs.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-248"><tt>exitfunc</tt></a></b>
+<dd>
+  This value is not actually defined by the module, but can be set by
+  the user (or by a program) to specify a clean-up action at program
+  exit.  When set, it should be a parameterless function.  This function
+  will be called when the interpreter exits.  Note: the exit function
+  is not called when the program is killed by a signal, when a Python
+  fatal internal error is detected, or when <tt>os._exit()</tt> is called.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-249"><tt class=function>getrefcount</tt></a></b> (<var>object</var>)
+<dd>
+Return the reference count of the <var>object</var>.  The count returned is
+generally one higher than you might expect, because it includes the
+(temporary) reference as an argument to <tt class=function>getrefcount()</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-250"><tt>last_type</tt></a></b>
+<dd>
+<dt><b><a name="l2h-267"><tt>last_value</tt></a></b><dd>
+<dt><b><a name="l2h-268"><tt>last_traceback</tt></a></b><dd>
+These three variables are not always defined; they are set when an
+exception is not handled and the interpreter prints an error message
+and a stack traceback.  Their intended use is to allow an interactive
+user to import a debugger module and engage in post-mortem debugging
+without having to re-execute the command that caused the error.
+(Typical use is "<tt class=samp>import pdb; pdb.pm()</tt>" to enter the post-mortem
+debugger; see the chapter ``The Python Debugger'' for more
+information.)
+<a name="l2h-269"></a>
+
+<P>
+The meaning of the variables is the same
+as that of the return values from <tt class=function>exc_info()</tt> above.
+(Since there is only one interactive thread, thread-safety is not a
+concern for these variables, unlike for <tt>exc_type</tt> etc.)
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-251"><tt>maxint</tt></a></b>
+<dd>
+The largest positive integer supported by Python's regular integer
+type.  This is at least 2**31-1.  The largest negative integer is
+<tt>-maxint-1</tt> - the asymmetry results from the use of 2's
+complement binary arithmetic.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-252"><tt>modules</tt></a></b>
+<dd>
+  This is a dictionary that maps module names to modules which have
+  already been loaded.  This can be manipulated to force reloading of
+  modules and other tricks.  Note that removing a module from this
+  dictionary is <i>not</i> the same as calling
+  <tt class=function>reload()</tt><a name="l2h-270"></a> on the corresponding module
+  object.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-253"><tt>path</tt></a></b>
+<dd>
+<a name="l2h-271"></a>
+  A list of strings that specifies the search path for modules.
+  Initialized from the environment variable <span class=envvar><a name="l2h-272">$PYTHONPATH</a></span>, or an
+  installation-dependent default.  
+
+<P>
+The first item of this list, <tt>path[0]</tt>, is the 
+directory containing the script that was used to invoke the Python 
+interpreter.  If the script directory is not available (e.g.  if the 
+interpreter is invoked interactively or if the script is read from 
+standard input), <tt>path[0]</tt> is the empty string, which directs 
+Python to search modules in the current directory first.  Notice that 
+the script directory is inserted <i>before</i> the entries inserted as 
+a result of <span class=envvar><a name="l2h-273">$PYTHONPATH</a></span>.  
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-254"><tt>platform</tt></a></b>
+<dd>
+This string contains a platform identifier, e.g. <tt>'sunos5'</tt> or
+<tt>'linux1'</tt>.  This can be used to append platform-specific
+components to <tt>path</tt>, for instance. 
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-255"><tt>prefix</tt></a></b>
+<dd>
+A string giving the site-specific directory prefix where the platform
+independent Python files are installed; by default, this is the string
+<tt>'/usr/local'</tt>.  This can be set at build time with the
+<tt>-</tt><tt>-prefix</tt> argument to the <b class=program>configure</b> script.  The main
+collection of Python library modules is installed in the directory
+<tt>prefix + '/lib/python<var>version</var>'</tt> while the platform
+independent header files (all except "<tt class=file>config.h</tt>") are stored in
+<tt>prefix + '/include/python<var>version</var>'</tt>,
+where <var>version</var> is equal to <tt>version[:3]</tt>.
+
+<P>
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-256"><tt>ps1</tt></a></b>
+<dd>
+<dt><b><a name="l2h-274"><tt>ps2</tt></a></b><dd>
+<a name="l2h-275"></a>
+<a name="l2h-276"></a>
+  Strings specifying the primary and secondary prompt of the
+  interpreter.  These are only defined if the interpreter is in
+  interactive mode.  Their initial values in this case are
+  <tt>'&gt;&gt;&gt; '</tt> and <tt>'... '</tt>.  If a non-string object is assigned
+  to either variable, its <tt class=function>str()</tt> is re-evaluated each time
+  the interpreter prepares to read a new interactive command; this can
+  be used to implement a dynamic prompt.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-257"><tt class=function>setcheckinterval</tt></a></b> (<var>interval</var>)
+<dd>
+Set the interpreter's ``check interval''.  This integer value
+determines how often the interpreter checks for periodic things such
+as thread switches and signal handlers.  The default is <tt>10</tt>, meaning
+the check is performed every 10 Python virtual instructions.  Setting
+it to a larger value may increase performance for programs using
+threads.  Setting it to a value <tt>&lt;=</tt> 0 checks every virtual instruction,
+maximizing responsiveness as well as overhead.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-258"><tt class=function>setprofile</tt></a></b> (<var>profilefunc</var>)
+<dd>
+  Set the system's profile function, which allows you to implement a
+  Python source code profiler in Python.  See the chapter on the
+  Python Profiler.  The system's profile function
+  is called similarly to the system's trace function (see
+  <tt class=function>settrace()</tt>), but it isn't called for each executed line of
+  code (only on call and return and when an exception occurs).  Also,
+  its return value is not used, so it can just return <tt>None</tt>.
+</dl>
+<a name="l2h-277"></a>
+<a name="l2h-278"></a>
+
+<P>
+<dl><dt><b><a name="l2h-259"><tt class=function>settrace</tt></a></b> (<var>tracefunc</var>)
+<dd>
+  Set the system's trace function, which allows you to implement a
+  Python source code debugger in Python.  See section ``How It Works''
+  in the chapter on the Python Debugger.
+</dl>
+<a name="l2h-279"></a>
+<a name="l2h-280"></a>
+
+<P>
+<dl><dt><b><a name="l2h-260"><tt>stdin</tt></a></b>
+<dd>
+<dt><b><a name="l2h-281"><tt>stdout</tt></a></b><dd>
+<dt><b><a name="l2h-282"><tt>stderr</tt></a></b><dd>
+  File objects corresponding to the interpreter's standard input,
+  output and error streams.  <tt>stdin</tt> is used for all
+  interpreter input except for scripts but including calls to
+  <tt class=function>input()</tt><a name="l2h-283"></a> and
+  <tt class=function>raw_input()</tt><a name="l2h-284"></a>.  <tt>stdout</tt> is used
+  for the output of <tt class=keyword>print</tt> and expression statements and for the
+  prompts of <tt class=function>input()</tt> and <tt class=function>raw_input()</tt>.  The interpreter's
+  own prompts and (almost all of) its error messages go to
+  <tt>stderr</tt>.  <tt>stdout</tt> and <tt>stderr</tt> needn't
+  be built-in file objects: any object is acceptable as long as it has
+  a <tt class=method>write()</tt> method that takes a string argument.  (Changing these
+  objects doesn't affect the standard I/O streams of processes
+  executed by <tt class=function>os.popen()</tt>, <tt class=function>os.system()</tt> or the
+  <tt class=function>exec*()</tt> family of functions in the <tt class=module>os</tt> module.)
+<a name="l2h-285"></a>
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-261"><tt>__stdin__</tt></a></b>
+<dd>
+<dt><b><a name="l2h-286"><tt>__stdout__</tt></a></b><dd>
+<dt><b><a name="l2h-287"><tt>__stderr__</tt></a></b><dd>
+These objects contain the original values of <tt>stdin</tt>,
+<tt>stderr</tt> and <tt>stdout</tt> at the start of the program.  They are 
+used during finalization, and could be useful to restore the actual
+files to known working file objects in case they have been overwritten
+with a broken object.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-262"><tt>tracebacklimit</tt></a></b>
+<dd>
+When this variable is set to an integer value, it determines the
+maximum number of levels of traceback information printed when an
+unhandled exception occurs.  The default is <tt>1000</tt>.  When set to
+0 or less, all traceback information is suppressed and only the
+exception type and value are printed.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-263"><tt>version</tt></a></b>
+<dd>
+A string containing the version number of the Python interpreter.
+</dl><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html926"
+ HREF="module-types.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html922"
+ HREF="python.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html916"
+ HREF="python.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html924"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html925"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html927"
+ HREF="module-types.html">3.2 types  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html923"
+ HREF="python.html">3. Python Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html917"
+ HREF="python.html">3. Python Services</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

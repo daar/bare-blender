@@ -1,0 +1,183 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>2.1.3 Comparisons </TITLE>
+<META NAME="description" CONTENT="2.1.3 Comparisons ">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="typesnumeric.html">
+<LINK REL="previous" HREF="boolean.html">
+<LINK REL="up" HREF="types.html">
+<LINK REL="next" HREF="typesnumeric.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html659"
+ HREF="typesnumeric.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html655"
+ HREF="types.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html649"
+ HREF="boolean.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html657"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html658"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html660"
+ HREF="typesnumeric.html">2.1.4 Numeric Types</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html656"
+ HREF="types.html">2.1 Built-in Types</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html650"
+ HREF="boolean.html">2.1.2 Boolean Operations</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION004130000000000000000"></A>
+<BR>
+2.1.3 Comparisons 
+</H2>
+
+<P>
+Comparison operations are supported by all objects.  They all have the
+same priority (which is higher than that of the Boolean operations).
+Comparisons can be chained arbitrarily, e.g. <tt>x &lt; y &lt;= z</tt> is
+equivalent to <tt>x &lt; y and y &lt;= z</tt>, except that <tt>y</tt> is
+evaluated only once (but in both cases <tt>z</tt> is not evaluated at
+all when <tt>x &lt; y</tt> is found to be false).
+<a name="l2h-22"></a>
+
+<P>
+This table summarizes the comparison operations:
+
+<P>
+<table border align=center>
+  <tr bgcolor="#99CCFF">
+    <th><b>Operation</b></th>
+    <th align=left><b>Meaning</b></th>
+    <th><b>Notes</b></th>
+  <tr><td align=center><code>&lt;</code></td>
+      <td>strictly less than</td>
+      <td align=center>&nbsp;</td>
+  <tr><td align=center><code>&lt;=</code></td>
+      <td>less than or equal</td>
+      <td align=center>&nbsp;</td>
+  <tr><td align=center><code>&gt;</code></td>
+      <td>strictly greater than</td>
+      <td align=center>&nbsp;</td>
+  <tr><td align=center><code>&gt;=</code></td>
+      <td>greater than or equal</td>
+      <td align=center>&nbsp;</td>
+  <tr><td align=center><code>==</code></td>
+      <td>equal</td>
+      <td align=center>&nbsp;</td>
+  <tr><td align=center><code>&lt;&gt;</code></td>
+      <td>not equal</td>
+      <td align=center>(1)&nbsp;</td>
+  <tr><td align=center><code>!=</code></td>
+      <td>not equal</td>
+      <td align=center>(1)&nbsp;</td>
+  <tr><td align=center><code>is</code></td>
+      <td>object identity</td>
+      <td align=center>&nbsp;</td>
+  <tr><td align=center><code>is not</code></td>
+      <td>negated object identity</td>
+      <td align=center>&nbsp;</td>
+
+</table>
+<a name="l2h-23"></a>
+<a name="l2h-24"></a> <a name="l2h-25"></a>
+<a name="l2h-26"></a>
+
+<P>
+Notes:
+
+<P>
+<DL>
+<DD><P>
+<DT><STRONG>(1)</STRONG>
+<DD><tt>&lt;&gt;</tt> and <tt>!=</tt> are alternate spellings for the same operator.
+(I couldn't choose between ABC and C! :-)
+<a name="l2h-27"></a>
+<a name="l2h-28"></a>
+<a name="l2h-29"></a>
+
+<P>
+</DL>
+
+<P>
+Objects of different types, except different numeric types, never
+compare equal; such objects are ordered consistently but arbitrarily
+(so that sorting a heterogeneous array yields a consistent result).
+Furthermore, some types (e.g., windows) support only a degenerate
+notion of comparison where any two objects of that type are unequal.
+Again, such objects are ordered arbitrarily but consistently.
+<a name="l2h-30"></a>
+<a name="l2h-31"></a>
+
+<P>
+(Implementation note: objects of different types except numbers are
+ordered by their type names; objects of the same types that don't
+support proper comparison are ordered by their address.)
+
+<P>
+Two more operations with the same syntactic priority, "<tt class=samp>in</tt>" and
+"<tt class=samp>not in</tt>", are supported only by sequence types (below).
+<a name="l2h-32"></a>
+<a name="l2h-33"></a>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html659"
+ HREF="typesnumeric.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html655"
+ HREF="types.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html649"
+ HREF="boolean.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html657"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html658"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html660"
+ HREF="typesnumeric.html">2.1.4 Numeric Types</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html656"
+ HREF="types.html">2.1 Built-in Types</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html650"
+ HREF="boolean.html">2.1.2 Boolean Operations</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

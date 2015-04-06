@@ -1,0 +1,301 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4.3.2 Module Contents</TITLE>
+<META NAME="description" CONTENT="4.3.2 Module Contents">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="previous" HREF="node82.html">
+<LINK REL="up" HREF="module-regex.html">
+<LINK REL="next" HREF="module-regsub.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1565"
+ HREF="module-regsub.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1561"
+ HREF="module-regex.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1557"
+ HREF="node82.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1563"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1564"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1566"
+ HREF="module-regsub.html">4.4 regsub  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1562"
+ HREF="module-regex.html">4.3 regex  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1558"
+ HREF="node82.html">4.3.1 Regular Expressions</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION006320000000000000000">
+4.3.2 Module Contents</A>
+</H2>
+
+<P>
+The module defines these functions, and an exception:
+
+<P>
+<dl><dt><b><a name="l2h-669"><tt class=function>match</tt></a></b> (<var>pattern, string</var>)
+<dd>
+  Return how many characters at the beginning of <var>string</var> match
+  the regular expression <var>pattern</var>.  Return <tt>-1</tt> if the
+  string does not match the pattern (this is different from a
+  zero-length match!).
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-670"><tt class=function>search</tt></a></b> (<var>pattern, string</var>)
+<dd>
+  Return the first position in <var>string</var> that matches the regular
+  expression <var>pattern</var>.  Return <tt>-1</tt> if no position in the string
+  matches the pattern (this is different from a zero-length match
+  anywhere!).
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-671"><tt class=function>compile</tt></a></b> (<var>pattern</var><big>[</big><var>, translate</var><big>]</big>)
+<dd>
+  Compile a regular expression pattern into a regular expression
+  object, which can be used for matching using its <tt>match()</tt> and
+  <tt>search()</tt> methods, described below.  The optional argument
+  <var>translate</var>, if present, must be a 256-character string
+  indicating how characters (both of the pattern and of the strings to
+  be matched) are translated before comparing them; the <var>i</var>-th
+  element of the string gives the translation for the character with
+  ASCII code <var>i</var>.  This can be used to implement
+  case-insensitive matching; see the <tt>casefold</tt> data item below.
+
+<P>
+The sequence
+
+<P>
+<dl><dd><pre class=verbatim>
+prog = regex.compile(pat)
+result = prog.match(str)
+</pre></dl>
+is equivalent to
+
+<P>
+<dl><dd><pre class=verbatim>
+result = regex.match(pat, str)
+</pre></dl>
+
+<P>
+but the version using <tt>compile()</tt> is more efficient when multiple
+regular expressions are used concurrently in a single program.  (The
+compiled version of the last pattern passed to <tt>regex.match()</tt> or
+<tt>regex.search()</tt> is cached, so programs that use only a single
+regular expression at a time needn't worry about compiling regular
+expressions.)
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-672"><tt class=function>set_syntax</tt></a></b> (<var>flags</var>)
+<dd>
+  Set the syntax to be used by future calls to <tt>compile()</tt>,
+  <tt>match()</tt> and <tt>search()</tt>.  (Already compiled expression
+  objects are not affected.)  The argument is an integer which is the
+  OR of several flag bits.  The return value is the previous value of
+  the syntax flags.  Names for the flags are defined in the standard 
+  module <tt>regex_syntax</tt><a name="l2h-686"></a>; read the
+  file "<tt class=file>regex_syntax.py</tt>" for more information.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-673"><tt class=function>get_syntax</tt></a></b> ()
+<dd>
+  Returns the current value of the syntax flags as an integer.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-674"><tt class=function>symcomp</tt></a></b> (<var>pattern</var><big>[</big><var>, translate</var><big>]</big>)
+<dd>
+This is like <tt>compile()</tt>, but supports symbolic group names: if a
+parenthesis-enclosed group begins with a group name in angular
+brackets, e.g. <tt>'&#92;(&lt;id&gt;[a-z][a-z0-9]*&#92;)'</tt>, the group can
+be referenced by its name in arguments to the <tt>group()</tt> method of
+the resulting compiled regular expression object, like this:
+<tt>p.group('id')</tt>.  Group names may contain alphanumeric characters
+and <tt>'_'</tt> only.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-675"><tt class=exception>error</tt></a></b>
+<dd>
+  Exception raised when a string passed to one of the functions here
+  is not a valid regular expression (e.g., unmatched parentheses) or
+  when some other error occurs during compilation or matching.  (It is
+  never an error if a string contains no match for a pattern.)
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-676"><tt>casefold</tt></a></b>
+<dd>
+A string suitable to pass as the <var>translate</var> argument to
+<tt>compile()</tt> to map all upper case characters to their lowercase
+equivalents.
+</dl>
+
+<P>
+Compiled regular expression objects support these methods:
+
+<P>
+
+<dl><dt><b><a name="l2h-677"><tt class=function>match</tt></a></b> (<var>string</var><big>[</big><var>, pos</var><big>]</big>)
+<dd>
+  Return how many characters at the beginning of <var>string</var> match
+  the compiled regular expression.  Return <tt>-1</tt> if the string
+  does not match the pattern (this is different from a zero-length
+  match!).
+  
+  The optional second parameter, <var>pos</var>, gives an index in the string
+  where the search is to start; it defaults to <tt>0</tt>.  This is not
+  completely equivalent to slicing the string; the <tt>''</tt> pattern
+  character matches at the real beginning of the string and at positions
+  just after a newline, not necessarily at the index where the search
+  is to start.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-678"><tt class=function>search</tt></a></b> (<var>string</var><big>[</big><var>, pos</var><big>]</big>)
+<dd>
+  Return the first position in <var>string</var> that matches the regular
+  expression <tt>pattern</tt>.  Return <tt>-1</tt> if no position in the
+  string matches the pattern (this is different from a zero-length
+  match anywhere!).
+  
+  The optional second parameter has the same meaning as for the
+  <tt>match()</tt> method.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-679"><tt class=function>group</tt></a></b> (<var>index, index, ...</var>)
+<dd>
+This method is only valid when the last call to the <tt>match()</tt>or <tt>search()</tt> method found a match.  It returns one or more
+groups of the match.  If there is a single <var>index</var> argument,
+the result is a single string; if there are multiple arguments, the
+result is a tuple with one item per argument.  If the <var>index</var> is
+zero, the corresponding return value is the entire matching string; if
+it is in the inclusive range [1..99], it is the string matching the
+the corresponding parenthesized group (using the default syntax,
+groups are parenthesized using <tt>&#92;(</tt> and <tt>&#92;)</tt>).  If no
+such group exists, the corresponding result is <tt>None</tt>.
+
+<P>
+If the regular expression was compiled by <tt>symcomp()</tt> instead of
+<tt>compile()</tt>, the <var>index</var> arguments may also be strings
+identifying groups by their group name.
+</dl>
+
+<P>
+Compiled regular expressions support these data attributes:
+
+<P>
+
+<P>
+<dl><dt><b><a name="l2h-680"><tt>regs</tt></a></b>
+<dd>
+When the last call to the <tt>match()</tt> or <tt>search()</tt> method found a
+match, this is a tuple of pairs of indexes corresponding to the
+beginning and end of all parenthesized groups in the pattern.  Indices
+are relative to the string argument passed to <tt>match()</tt> or
+<tt>search()</tt>.  The 0-th tuple gives the beginning and end or the
+whole pattern.  When the last match or search failed, this is
+<tt>None</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-681"><tt>last</tt></a></b>
+<dd>
+When the last call to the <tt>match()</tt> or <tt>search()</tt> method found a
+match, this is the string argument passed to that method.  When the
+last match or search failed, this is <tt>None</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-682"><tt>translate</tt></a></b>
+<dd>
+This is the value of the <var>translate</var> argument to
+<tt>regex.compile()</tt> that created this regular expression object.  If
+the <var>translate</var> argument was omitted in the <tt>regex.compile()</tt>call, this is <tt>None</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-683"><tt>givenpat</tt></a></b>
+<dd>
+The regular expression pattern as passed to <tt>compile()</tt> or
+<tt>symcomp()</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-684"><tt>realpat</tt></a></b>
+<dd>
+The regular expression after stripping the group names for regular
+expressions compiled with <tt>symcomp()</tt>.  Same as <tt>givenpat</tt>otherwise.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-685"><tt>groupindex</tt></a></b>
+<dd>
+A dictionary giving the mapping from symbolic group names to numerical
+group indexes for regular expressions compiled with <tt>symcomp()</tt>.
+<tt>None</tt> otherwise.
+</dl><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1565"
+ HREF="module-regsub.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1561"
+ HREF="module-regex.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1557"
+ HREF="node82.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1563"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1564"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1566"
+ HREF="module-regsub.html">4.4 regsub  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1562"
+ HREF="module-regex.html">4.3 regex  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1558"
+ HREF="node82.html">4.3.1 Regular Expressions</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4.7.1 Default Argument Values </TITLE>
+<META NAME="description" CONTENT="4.7.1 Default Argument Values ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="keywordArgs.html">
+<LINK REL="previous" HREF="defining.html">
+<LINK REL="up" HREF="defining.html">
+<LINK REL="next" HREF="keywordArgs.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html461"
+ HREF="keywordArgs.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html458"
+ HREF="defining.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html452"
+ HREF="defining.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html460"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html462"
+ HREF="keywordArgs.html">4.7.2 Keyword Arguments</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html459"
+ HREF="defining.html">4.7 More on Defining</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html453"
+ HREF="defining.html">4.7 More on Defining</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION006710000000000000000"></A>
+<BR>
+4.7.1 Default Argument Values 
+</H2>
+
+<P>
+The most useful form is to specify a default value for one or more
+arguments.  This creates a function that can be called with fewer
+arguments than it is defined, e.g.
+
+<P>
+<dl><dd><pre class=verbatim>
+def ask_ok(prompt, retries=4, complaint='Yes or no, please!'):
+    while 1:
+        ok = raw_input(prompt)
+        if ok in ('y', 'ye', 'yes'): return 1
+        if ok in ('n', 'no', 'nop', 'nope'): return 0
+        retries = retries - 1
+        if retries &lt; 0: raise IOError, 'refusenik user'
+        print complaint
+</pre></dl>
+
+<P>
+This function can be called either like this:
+<tt>ask_ok('Do you really want to quit?')</tt> or like this:
+<tt>ask_ok('OK to overwrite the file?', 2)</tt>.
+
+<P>
+The default values are evaluated at the point of function definition
+in the <i>defining</i> scope, so that e.g.
+
+<P>
+<dl><dd><pre class=verbatim>
+i = 5
+def f(arg = i): print arg
+i = 6
+f()
+</pre></dl>
+
+<P>
+will print <tt>5</tt>.
+
+<P>
+<b>Important warning:</b>  The default value is evaluated only once.
+This makes a difference when the default is a mutable object such as a
+list or dictionary.  For example, the following function accumulates
+the arguments passed to it on subsequent calls:
+
+<P>
+<dl><dd><pre class=verbatim>
+def f(a, l = []):
+    l.append(a)
+    return l
+print f(1)
+print f(2)
+print f(3)
+</pre></dl>
+
+<P>
+This will print
+
+<P>
+<dl><dd><pre class=verbatim>
+[1]
+[1, 2]
+[1, 2, 3]
+</pre></dl>
+
+<P>
+If you don't want the default to be shared between subsequent calls,
+you can write the function like this instead:
+
+<P>
+<dl><dd><pre class=verbatim>
+def f(a, l = None):
+    if l is None:
+        l = []
+    l.append(a)
+    return l
+</pre></dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html461"
+ HREF="keywordArgs.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html458"
+ HREF="defining.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html452"
+ HREF="defining.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html460"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html462"
+ HREF="keywordArgs.html">4.7.2 Keyword Arguments</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html459"
+ HREF="defining.html">4.7 More on Defining</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html453"
+ HREF="defining.html">4.7 More on Defining</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

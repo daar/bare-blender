@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>1.2.1 Reference Counts </TITLE>
+<META NAME="description" CONTENT="1.2.1 Reference Counts ">
+<META NAME="keywords" CONTENT="api">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="api.css">
+<LINK REL="next" HREF="types.html">
+<LINK REL="previous" HREF="objects.html">
+<LINK REL="up" HREF="objects.html">
+<LINK REL="next" HREF="refcountDetails.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html162"
+ HREF="refcountDetails.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html158"
+ HREF="objects.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html152"
+ HREF="objects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python/C API Reference Manual</b></td>
+<td><A NAME="tex2html160"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html161"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html163"
+ HREF="refcountDetails.html">1.2.1.1 Reference Count Details</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html159"
+ HREF="objects.html">1.2 Objects, Types and</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html153"
+ HREF="objects.html">1.2 Objects, Types and</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION003210000000000000000"></A>
+<BR>
+1.2.1 Reference Counts 
+</H2>
+
+<P>
+The reference count is important because today's computers have a 
+finite (and often severely limited) memory size; it counts how many 
+different places there are that have a reference to an object.  Such a 
+place could be another object, or a global (or static) C variable, or 
+a local variable in some C function.  When an object's reference count 
+becomes zero, the object is deallocated.  If it contains references to 
+other objects, their reference count is decremented.  Those other 
+objects may be deallocated in turn, if this decrement makes their 
+reference count become zero, and so on.  (There's an obvious problem 
+with objects that reference each other here; for now, the solution is 
+``don't do that''.)
+
+<P>
+Reference counts are always manipulated explicitly.  The normal way is 
+to use the macro <tt class=cfunction>Py_INCREF()</tt> to increment an object's 
+reference count by one, and <tt class=cfunction>Py_DECREF()</tt> to decrement it by 
+one.  The decref macro is considerably more complex than the incref one, 
+since it must check whether the reference count becomes zero and then 
+cause the object's deallocator, which is a function pointer contained 
+in the object's type structure.  The type-specific deallocator takes 
+care of decrementing the reference counts for other objects contained 
+in the object, and so on, if this is a compound object type such as a 
+list.  There's no chance that the reference count can overflow; at 
+least as many bits are used to hold the reference count as there are 
+distinct memory locations in virtual memory (assuming 
+<tt>sizeof(long) &gt;= sizeof(char *)</tt>).  Thus, the reference count 
+increment is a simple operation.
+
+<P>
+It is not necessary to increment an object's reference count for every 
+local variable that contains a pointer to an object.  In theory, the 
+object's reference count goes up by one when the variable is made to 
+point to it and it goes down by one when the variable goes out of 
+scope.  However, these two cancel each other out, so at the end the 
+reference count hasn't changed.  The only real reason to use the 
+reference count is to prevent the object from being deallocated as 
+long as our variable is pointing to it.  If we know that there is at 
+least one other reference to the object that lives at least as long as 
+our variable, there is no need to increment the reference count 
+temporarily.  An important situation where this arises is in objects 
+that are passed as arguments to C functions in an extension module 
+that are called from Python; the call mechanism guarantees to hold a 
+reference to every argument for the duration of the call.
+
+<P>
+However, a common pitfall is to extract an object from a list and
+hold on to it for a while without incrementing its reference count.
+Some other operation might conceivably remove the object from the
+list, decrementing its reference count and possible deallocating it.
+The real danger is that innocent-looking operations may invoke
+arbitrary Python code which could do this; there is a code path which
+allows control to flow back to the user from a <tt class=cfunction>Py_DECREF()</tt>,
+so almost any operation is potentially dangerous.
+
+<P>
+A safe approach is to always use the generic operations (functions 
+whose name begins with "<tt class=samp>PyObject_</tt>", "<tt class=samp>PyNumber_</tt>", 
+"<tt class=samp>PySequence_</tt>" or "<tt class=samp>PyMapping_</tt>").  These operations always 
+increment the reference count of the object they return.  This leaves 
+the caller with the responsibility to call <tt class=cfunction>Py_DECREF()</tt>
+when they are done with the result; this soon becomes second nature.
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html164"
+ HREF="refcountDetails.html">1.2.1.1 Reference Count Details </A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html162"
+ HREF="refcountDetails.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html158"
+ HREF="objects.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html152"
+ HREF="objects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python/C API Reference Manual</b></td>
+<td><A NAME="tex2html160"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html161"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html163"
+ HREF="refcountDetails.html">1.2.1.1 Reference Count Details</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html159"
+ HREF="objects.html">1.2 Objects, Types and</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html153"
+ HREF="objects.html">1.2 Objects, Types and</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

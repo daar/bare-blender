@@ -16,7 +16,7 @@
 #include <X11/Xatom.h>  /* for XA_STRING atom */
 #endif
 
-#include <GL/glut.h>
+#include <glut.h>
 #include "glutint.h"
 
 /* CENTRY */

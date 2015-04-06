@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.18 tokenize -- Tokenizer for Python source</TITLE>
+<META NAME="description" CONTENT="3.18 tokenize -- Tokenizer for Python source">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-pyclbr.html">
+<LINK REL="previous" HREF="module-keyword.html">
+<LINK REL="up" HREF="python.html">
+<LINK REL="next" HREF="module-pyclbr.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1243"
+ HREF="module-pyclbr.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1239"
+ HREF="python.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1233"
+ HREF="module-keyword.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1241"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1242"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1244"
+ HREF="module-pyclbr.html">3.19 pyclbr  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1240"
+ HREF="python.html">3. Python Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1234"
+ HREF="module-keyword.html">3.17 keyword  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0051800000000000000000">
+3.18 <tt class=module>tokenize</tt> --
+         Tokenizer for Python source</A>
+</H1>
+
+<P>
+
+
+<P>
+The <tt class=module>tokenize</tt> module provides a lexical scanner for Python
+source code, implemented in Python.  The scanner in this module
+returns comments as tokens as well, making it useful for implementing
+``pretty-printers,'' including colorizers for on-screen displays.
+
+<P>
+The scanner is exposed via single function:
+
+<P>
+<dl><dt><b><a name="l2h-508"><tt class=function>tokenize</tt></a></b> (<var>readline</var><big>[</big><var>, tokeneater</var><big>]</big>)
+<dd>
+  The <tt class=function>tokenize()</tt> function accepts two parameters: one
+  representing the input stream, and one providing an output mechanism 
+  for <tt class=function>tokenize()</tt>.
+
+<P>
+The first parameter, <var>readline</var>, must be a callable object which
+  provides the same interface as <tt class=method>readline()</tt> method of
+  built-in file objects (see section&nbsp;<A HREF="bltin-file-objects.html#bltin-file-objects">2.1</A>).  Each
+  call to the function should return one line of input as a string.
+
+<P>
+The second parameter, <var>tokeneater</var>, must also be a callable
+  object.  It is called with five parameters: the token type, the
+  token string, a tuple <tt>(<var>srow</var>, <var>scol</var>)</tt> specifying the 
+  row and column where the token begins in the source, a tuple
+  <tt>(<var>erow</var>, <var>ecol</var>)</tt> giving the ending position of the
+  token, and the line on which the token was found.  The line passed
+  is the <i>logical</i> line; continuation lines are included.
+</dl>
+
+<P>
+All constants from the <tt class=module><a href="module-token.html">token</a></tt> module are also exported from 
+<tt class=module>tokenize</tt>, as is one additional token type value that might be 
+passed to the <var>tokeneater</var> function by <tt class=function>tokenize()</tt>:
+
+<P>
+<dl><dt><b><a name="l2h-509"><tt>COMMENT</tt></a></b>
+<dd>
+  Token value used to indicate a comment.
+</dl><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1243"
+ HREF="module-pyclbr.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1239"
+ HREF="python.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1233"
+ HREF="module-keyword.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1241"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1242"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1244"
+ HREF="module-pyclbr.html">3.19 pyclbr  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1240"
+ HREF="python.html">3. Python Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1234"
+ HREF="module-keyword.html">3.17 keyword  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>12.3.1 XML Namespaces </TITLE>
+<META NAME="description" CONTENT="12.3.1 XML Namespaces ">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="previous" HREF="module-xmllib.html">
+<LINK REL="up" HREF="module-xmllib.html">
+<LINK REL="next" HREF="module-formatter.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3231"
+ HREF="module-formatter.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3227"
+ HREF="module-xmllib.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3223"
+ HREF="module-xmllib.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3229"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3230"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3232"
+ HREF="module-formatter.html">12.4 formatter  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3228"
+ HREF="module-xmllib.html">12.3 xmllib  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3224"
+ HREF="module-xmllib.html">12.3 xmllib  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0014310000000000000000"></A>
+<BR>
+12.3.1 XML Namespaces 
+</H2>
+
+<P>
+This module has support for XML namespaces as defined in the XML
+Namespaces proposed recommendation.
+<a name="l2h-1891"></a>
+
+<P>
+Tag and attribute names that are defined in an XML namespace are
+handled as if the name of the tag or element consisted of the
+namespace (i.e. the URL that defines the namespace) followed by a
+space and the name of the tag or attribute.  For instance, the tag
+<tt>&lt;html xmlns='http://www.w3.org/TR/REC-html40'&gt;</tt> is treated as if 
+the tag name was <tt>'http://www.w3.org/TR/REC-html40 html'</tt>, and
+the tag <tt>&lt;html:a href='http://frob.com'&gt;</tt> inside the above
+mentioned element is treated as if the tag name were
+<tt>'http://www.w3.org/TR/REC-html40 a'</tt> and the attribute name as
+if it were <tt>'http://www.w3.org/TR/REC-html40 src'</tt>.
+
+<P>
+An older draft of the XML Namespaces proposal is also recognized, but
+triggers a warning.
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3231"
+ HREF="module-formatter.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3227"
+ HREF="module-xmllib.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3223"
+ HREF="module-xmllib.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3229"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3230"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3232"
+ HREF="module-formatter.html">12.4 formatter  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3228"
+ HREF="module-xmllib.html">12.3 xmllib  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3224"
+ HREF="module-xmllib.html">12.3 xmllib  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.2.2 Tuple Objects </TITLE>
+<META NAME="description" CONTENT="7.2.2 Tuple Objects ">
+<META NAME="keywords" CONTENT="api">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="api.css">
+<LINK REL="next" HREF="listObjects.html">
+<LINK REL="previous" HREF="stringObjects.html">
+<LINK REL="up" HREF="sequenceObjects.html">
+<LINK REL="next" HREF="listObjects.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html481"
+ HREF="listObjects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html477"
+ HREF="sequenceObjects.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html471"
+ HREF="stringObjects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python/C API Reference Manual</b></td>
+<td><A NAME="tex2html479"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html480"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html482"
+ HREF="listObjects.html">7.2.3 List Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html478"
+ HREF="sequenceObjects.html">7.2 Sequence Objects</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html472"
+ HREF="stringObjects.html">7.2.1 String Objects</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION009220000000000000000"></A>
+<BR>
+7.2.2 Tuple Objects 
+</H2>
+
+<P>
+<dl><dt><b><a name="l2h-175"><tt class=ctype>PyTupleObject</tt></a></b>
+<dd>
+This subtype of <tt class=ctype>PyObject</tt> represents a Python tuple object.
+</dl>
+
+<P>
+<dl><dt>PyTypeObject <b><a name="l2h-176"><tt class=cdata>PyTuple_Type</tt></a></b>
+<dd>
+This instance of <tt class=ctype>PyTypeObject</tt> represents the Python tuple type.
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-177"><tt class=cfunction>PyTuple_Check</tt></a></b> (<var>PyObject *p</var>)
+<dd>
+Return true if the argument is a tuple object.
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-178"><tt class=cfunction>PyTuple_New</tt></a></b> (<var>int s</var>)
+<dd>
+Return a new tuple object of size <var>s</var>.
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-179"><tt class=cfunction>PyTuple_Size</tt></a></b> (<var>PyTupleObject *p</var>)
+<dd>
+Takes a pointer to a tuple object, and returns the size
+of that tuple.
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-180"><tt class=cfunction>PyTuple_GetItem</tt></a></b> (<var>PyTupleObject *p, int pos</var>)
+<dd>
+Returns the object at position <var>pos</var> in the tuple pointed
+to by <var>p</var>.  If <var>pos</var> is out of bounds, returns <tt>NULL</tt> and
+sets an <tt class=exception>IndexError</tt> exception.  <b>Note:</b> this
+function returns a ``borrowed'' reference.
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-181"><tt class=cfunction>PyTuple_GET_ITEM</tt></a></b> (<var>PyTupleObject *p, int pos</var>)
+<dd>
+Does the same, but does no checking of its arguments.
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-182"><tt class=cfunction>PyTuple_GetSlice</tt></a></b> (<var>PyTupleObject *p,
+            int low,
+            int high</var>)
+<dd>
+Takes a slice of the tuple pointed to by <var>p</var> from
+<var>low</var> to <var>high</var> and returns it as a new tuple.
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-183"><tt class=cfunction>PyTuple_SetItem</tt></a></b> (<var>PyTupleObject *p,
+            int pos,
+            PyObject *o</var>)
+<dd>
+Inserts a reference to object <var>o</var> at position <var>pos</var> of
+the tuple pointed to by <var>p</var>. It returns <tt>0</tt> on success.
+</dl>
+
+<P>
+<dl><dt>void <b><a name="l2h-184"><tt class=cfunction>PyTuple_SET_ITEM</tt></a></b> (<var>PyTupleObject *p,
+            int pos,
+            PyObject *o</var>)
+<dd>
+
+<P>
+Does the same, but does no error checking, and
+should <i>only</i> be used to fill in brand new tuples.
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-185"><tt class=cfunction>_PyTuple_Resize</tt></a></b> (<var>PyTupleObject *p,
+            int new,
+            int last_is_sticky</var>)
+<dd>
+Can be used to resize a tuple. Because tuples are
+<i>supposed</i> to be immutable, this should only be used if there is only
+one module referencing the object. Do <i>not</i> use this if the tuple may
+already be known to some other part of the code. <var>last_is_sticky</var> is
+a flag -- if set, the tuple will grow or shrink at the front, otherwise
+it will grow or shrink at the end. Think of this as destroying the old
+tuple and creating a new one, only more efficiently.
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html481"
+ HREF="listObjects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html477"
+ HREF="sequenceObjects.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html471"
+ HREF="stringObjects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python/C API Reference Manual</b></td>
+<td><A NAME="tex2html479"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html480"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html482"
+ HREF="listObjects.html">7.2.3 List Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html478"
+ HREF="sequenceObjects.html">7.2 Sequence Objects</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html472"
+ HREF="stringObjects.html">7.2.1 String Objects</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

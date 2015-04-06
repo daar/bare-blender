@@ -21,7 +21,7 @@
 #endif
 #endif /* !WIN32 */
 
-#include <GL/glut.h>
+#include <glut.h>
 #include "glutint.h"
 #include "layerutil.h"
 

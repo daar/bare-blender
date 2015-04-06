@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.2 Differences Between Unix and Windows </TITLE>
+<META NAME="description" CONTENT="3.2 Differences Between Unix and Windows ">
+<META NAME="keywords" CONTENT="ext">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ext.css">
+<LINK REL="next" HREF="win-dlls.html">
+<LINK REL="previous" HREF="win-cookbook.html">
+<LINK REL="up" HREF="building-on-windows.html">
+<LINK REL="next" HREF="win-dlls.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html379"
+ HREF="win-dlls.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html376"
+ HREF="building-on-windows.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html370"
+ HREF="win-cookbook.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Extending and Embedding the Python Interpreter</b></td>
+<td><A NAME="tex2html378"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html380"
+ HREF="win-dlls.html">3.3 Using DLLs in</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html377"
+ HREF="building-on-windows.html">3. Building C and</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html371"
+ HREF="win-cookbook.html">3.1 A Cookbook Approach</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION005200000000000000000"></A>
+<BR>
+3.2 Differences Between Unix and Windows
+         
+</H1>
+
+<P>
+Unix and Windows use completely different paradigms for run-time
+loading of code.  Before you try to build a module that can be
+dynamically loaded, be aware of how your system works.
+
+<P>
+In Unix, a shared object (.so) file contains code to be used by the
+program, and also the names of functions and data that it expects to
+find in the program.  When the file is joined to the program, all
+references to those functions and data in the file's code are changed
+to point to the actual locations in the program where the functions
+and data are placed in memory.  This is basically a link operation.
+
+<P>
+In Windows, a dynamic-link library ("<tt class=file>.dll</tt>") file has no dangling
+references.  Instead, an access to functions or data goes through a
+lookup table.  So the DLL code does not have to be fixed up at runtime
+to refer to the program's memory; instead, the code already uses the
+DLL's lookup table, and the lookup table is modified at runtime to
+point to the functions and data.
+
+<P>
+In Unix, there is only one type of library file ("<tt class=file>.a</tt>") which
+contains code from several object files ("<tt class=file>.o</tt>").  During the link
+step to create a shared object file ("<tt class=file>.so</tt>"), the linker may find
+that it doesn't know where an identifier is defined.  The linker will
+look for it in the object files in the libraries; if it finds it, it
+will include all the code from that object file.
+
+<P>
+In Windows, there are two types of library, a static library and an
+import library (both called "<tt class=file>.lib</tt>").  A static library is like a
+Unix "<tt class=file>.a</tt>" file; it contains code to be included as necessary.
+An import library is basically used only to reassure the linker that a
+certain identifier is legal, and will be present in the program when
+the DLL is loaded.  So the linker uses the information from the
+import library to build the lookup table for using identifiers that
+are not included in the DLL.  When an application or a DLL is linked,
+an import library may be generated, which will need to be used for all
+future DLLs that depend on the symbols in the application or DLL.
+
+<P>
+Suppose you are building two dynamic-load modules, B and C, which should
+share another block of code A.  On Unix, you would <i>not</i> pass
+"<tt class=file>A.a</tt>" to the linker for "<tt class=file>B.so</tt>" and "<tt class=file>C.so</tt>"; that would
+cause it to be included twice, so that B and C would each have their
+own copy.  In Windows, building "<tt class=file>A.dll</tt>" will also build
+"<tt class=file>A.lib</tt>".  You <i>do</i> pass "<tt class=file>A.lib</tt>" to the linker for B and
+C.  "<tt class=file>A.lib</tt>" does not contain code; it just contains information
+which will be used at runtime to access A's code.  
+
+<P>
+In Windows, using an import library is sort of like using "<tt class=samp>import
+spam</tt>"; it gives you access to spam's names, but does not create a
+separate copy.  On Unix, linking with a library is more like
+"<tt class=samp>from spam import *</tt>"; it does create a separate copy.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html379"
+ HREF="win-dlls.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html376"
+ HREF="building-on-windows.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html370"
+ HREF="win-cookbook.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Extending and Embedding the Python Interpreter</b></td>
+<td><A NAME="tex2html378"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html380"
+ HREF="win-dlls.html">3.3 Using DLLs in</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html377"
+ HREF="building-on-windows.html">3. Building C and</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html371"
+ HREF="win-cookbook.html">3.1 A Cookbook Approach</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

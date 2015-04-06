@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.3.2 Customizing attribute access</TITLE>
+<META NAME="description" CONTENT="3.3.2 Customizing attribute access">
+<META NAME="keywords" CONTENT="ref">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ref.css">
+<LINK REL="next" HREF="callable-types.html">
+<LINK REL="previous" HREF="customization.html">
+<LINK REL="up" HREF="specialnames.html">
+<LINK REL="next" HREF="callable-types.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html594"
+ HREF="callable-types.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html590"
+ HREF="specialnames.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html584"
+ HREF="customization.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html592"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html593"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html595"
+ HREF="callable-types.html">3.3.3 Emulating callable objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html591"
+ HREF="specialnames.html">3.3 Special method names</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html585"
+ HREF="customization.html">3.3.1 Basic customization</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION005320000000000000000"></A>
+<BR>
+3.3.2 Customizing attribute access
+</H2>
+
+<P>
+The following methods can be defined to customize the meaning of
+attribute access (use of, assignment to, or deletion of <tt>x.name</tt>)
+for class instances.
+For performance reasons, these methods are cached in the class object
+at class definition time; therefore, they cannot be changed after the
+class definition is executed.
+
+<P>
+<dl><dt><b><a name="l2h-311"><tt class=method>__getattr__</tt></a></b> (<var>self, name</var>)
+<dd>
+Called when an attribute lookup has not found the attribute in the
+usual places (i.e. it is not an instance attribute nor is it found in
+the class tree for <tt>self</tt>).  <tt>name</tt> is the attribute name.
+This method should return the (computed) attribute value or raise an
+<tt class=exception>AttributeError</tt> exception.
+
+<P>
+Note that if the attribute is found through the normal mechanism,
+<tt class=method>__getattr__()</tt> is not called.  (This is an intentional
+asymmetry between <tt class=method>__getattr__()</tt> and <tt class=method>__setattr__()</tt>.)
+This is done both for efficiency reasons and because otherwise
+<tt class=method>__setattr__()</tt> would have no way to access other attributes of
+the instance.
+Note that at least for instance variables, you can fake
+total control by not inserting any values in the instance
+attribute dictionary (but instead inserting them in another object).
+<a name="l2h-313"></a></dl>
+
+<P>
+<dl><dt><b><a name="l2h-314"><tt class=method>__setattr__</tt></a></b> (<var>self, name, value</var>)
+<dd>
+Called when an attribute assignment is attempted.  This is called
+instead of the normal mechanism (i.e. store the value in the instance
+dictionary).  <var>name</var> is the attribute name, <var>value</var> is the
+value to be assigned to it.
+
+<P>
+If <tt class=method>__setattr__()</tt> wants to assign to an instance attribute, it 
+should not simply execute "<tt class=samp>self.<var>name</var> = value</tt>" -- this
+would cause a recursive call to itself.  Instead, it should insert the
+value in the dictionary of instance attributes, e.g.,
+"<tt class=samp>self.__dict__[<var>name</var>] = value</tt>".
+<a name="l2h-316"></a></dl>
+
+<P>
+<dl><dt><b><a name="l2h-317"><tt class=method>__delattr__</tt></a></b> (<var>self, name</var>)
+<dd>
+Like <tt class=method>__setattr__()</tt> but for attribute deletion instead of
+assignment.  This should only be implemented if "<tt class=samp>del
+obj.<var>name</var></tt>" is meaningful for the object.
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html594"
+ HREF="callable-types.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html590"
+ HREF="specialnames.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html584"
+ HREF="customization.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html592"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html593"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html595"
+ HREF="callable-types.html">3.3.3 Emulating callable objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html591"
+ HREF="specialnames.html">3.3 Special method names</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html585"
+ HREF="customization.html">3.3.1 Basic customization</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,212 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>12.4.3 The Writer Interface </TITLE>
+<META NAME="description" CONTENT="12.4.3 The Writer Interface ">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="writer-impls.html">
+<LINK REL="previous" HREF="formatter-impls.html">
+<LINK REL="up" HREF="module-formatter.html">
+<LINK REL="next" HREF="writer-impls.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3283"
+ HREF="writer-impls.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3279"
+ HREF="module-formatter.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3273"
+ HREF="formatter-impls.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3281"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3282"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3284"
+ HREF="writer-impls.html">12.4.4 Writer Implementations</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3280"
+ HREF="module-formatter.html">12.4 formatter  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3274"
+ HREF="formatter-impls.html">12.4.2 Formatter Implementations</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0014430000000000000000"></A>
+<BR>
+12.4.3 The Writer Interface 
+</H2>
+
+<P>
+Interfaces to create writers are dependent on the specific writer
+class being instantiated.  The interfaces described below are the
+required interfaces which all writers must support once initialized.
+Note that while most applications can use the
+<tt class=class>AbstractFormatter</tt> class as a formatter, the writer must
+typically be provided by the application.
+
+<P>
+<dl><dt><b><a name="l2h-1916"><tt class=method>flush</tt></a></b> ()
+<dd>
+Flush any buffered output or device control events.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1917"><tt class=method>new_alignment</tt></a></b> (<var>align</var>)
+<dd>
+Set the alignment style.  The <var>align</var> value can be any object,
+but by convention is a string or <tt>None</tt>, where <tt>None</tt>indicates that the writer's ``preferred'' alignment should be used.
+Conventional <var>align</var> values are <tt>'left'</tt>, <tt>'center'</tt>,
+<tt>'right'</tt>, and <tt>'justify'</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1918"><tt class=method>new_font</tt></a></b> (<var>font</var>)
+<dd>
+Set the font style.  The value of <var>font</var> will be <tt>None</tt>,
+indicating that the device's default font should be used, or a tuple
+of the form <tt>(</tt><var>size</var>, <var>italic</var>, <var>bold</var>,
+<var>teletype</var><tt>)</tt>.  Size will be a string indicating the size of
+font that should be used; specific strings and their interpretation
+must be defined by the application.  The <var>italic</var>, <var>bold</var>, and
+<var>teletype</var> values are boolean indicators specifying which of those
+font attributes should be used.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1919"><tt class=method>new_margin</tt></a></b> (<var>margin, level</var>)
+<dd>
+Set the margin level to the integer <var>level</var> and the logical tag
+to <var>margin</var>.  Interpretation of the logical tag is at the
+writer's discretion; the only restriction on the value of the logical
+tag is that it not be a false value for non-zero values of
+<var>level</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1920"><tt class=method>new_spacing</tt></a></b> (<var>spacing</var>)
+<dd>
+Set the spacing style to <var>spacing</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1921"><tt class=method>new_styles</tt></a></b> (<var>styles</var>)
+<dd>
+Set additional styles.  The <var>styles</var> value is a tuple of
+arbitrary values; the value <tt class=constant>AS_IS</tt> should be ignored.  The
+<var>styles</var> tuple may be interpreted either as a set or as a stack
+depending on the requirements of the application and writer
+implementation.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1922"><tt class=method>send_line_break</tt></a></b> ()
+<dd>
+Break the current line.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1923"><tt class=method>send_paragraph</tt></a></b> (<var>blankline</var>)
+<dd>
+Produce a paragraph separation of at least <var>blankline</var> blank
+lines, or the equivelent.  The <var>blankline</var> value will be an
+integer.  Note that the implementation will receive a call to
+<tt class=method>send_line_break()</tt> before this call if a line break is needed; 
+this method should not include ending the last line of the paragraph.
+It is only responsible for vertical spacing between paragraphs.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1924"><tt class=method>send_hor_rule</tt></a></b> (<var>*args, **kw</var>)
+<dd>
+Display a horizontal rule on the output device.  The arguments to this
+method are entirely application- and writer-specific, and should be
+interpreted with care.  The method implementation may assume that a
+line break has already been issued via <tt class=method>send_line_break()</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1925"><tt class=method>send_flowing_data</tt></a></b> (<var>data</var>)
+<dd>
+Output character data which may be word-wrapped and re-flowed as
+needed.  Within any sequence of calls to this method, the writer may
+assume that spans of multiple whitespace characters have been
+collapsed to single space characters.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1926"><tt class=method>send_literal_data</tt></a></b> (<var>data</var>)
+<dd>
+Output character data which has already been formatted
+for display.  Generally, this should be interpreted to mean that line
+breaks indicated by newline characters should be preserved and no new
+line breaks should be introduced.  The data may contain embedded
+newline and tab characters, unlike data provided to the
+<tt class=method>send_formatted_data()</tt> interface.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1927"><tt class=method>send_label_data</tt></a></b> (<var>data</var>)
+<dd>
+Set <var>data</var> to the left of the current left margin, if possible.
+The value of <var>data</var> is not restricted; treatment of non-string
+values is entirely application- and writer-dependent.  This method
+will only be called at the beginning of a line.
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3283"
+ HREF="writer-impls.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3279"
+ HREF="module-formatter.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3273"
+ HREF="formatter-impls.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3281"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3282"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3284"
+ HREF="writer-impls.html">12.4.4 Writer Implementations</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3280"
+ HREF="module-formatter.html">12.4 formatter  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3274"
+ HREF="formatter-impls.html">12.4.2 Formatter Implementations</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

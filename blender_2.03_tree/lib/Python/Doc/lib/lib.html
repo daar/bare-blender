@@ -1,0 +1,652 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Python Library Reference</TITLE>
+<META NAME="description" CONTENT="Python Library Reference">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="front.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html49"
+ HREF="front.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html47"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html48"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html50"
+ HREF="front.html">Front Matter</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<P>
+
+<div class=titlepage><center>
+<h1>Python Library Reference</h1>
+<p><b><font size='+2'>Guido van Rossum</font></b></p>
+<p>
+	Corporation for National Research Initiatives (CNRI) 
+<BR>
+1895 Preston White Drive, Reston, Va 20191, USA 
+<BR>
+E-mail: <span class=email>guido@CNRI.Reston.Va.US</span>, <span class=email>guido@python.org</span>
+</p>
+<p><strong>April 13, 1999</strong><br><strong>Release 1.5.2</strong></p>
+<p>
+</center></div>
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html51"
+ HREF="front.html">Front Matter</A>
+<LI><A NAME="tex2html52"
+ HREF="contents.html">Contents</A>
+<LI><A NAME="tex2html53"
+ HREF="intro.html">1. Introduction</A>
+<LI><A NAME="tex2html54"
+ HREF="builtin.html">2. Built-in Types, Exceptions and Functions</A>
+<UL>
+<LI><A NAME="tex2html55"
+ HREF="types.html">2.1 Built-in Types </A>
+<LI><A NAME="tex2html56"
+ HREF="module-exceptions.html">2.2 Built-in Exceptions</A>
+<LI><A NAME="tex2html57"
+ HREF="built-in-funcs.html">2.3 Built-in Functions </A>
+</UL>
+<LI><A NAME="tex2html58"
+ HREF="python.html">3. Python Services</A>
+<UL>
+<LI><A NAME="tex2html59"
+ HREF="module-sys.html">3.1 <tt class=module>sys</tt> --
+         System-specific parameters and functions.</A>
+<LI><A NAME="tex2html60"
+ HREF="module-types.html">3.2 <tt class=module>types</tt> --
+         Names for all built-in types.</A>
+<LI><A NAME="tex2html61"
+ HREF="module-UserDict.html">3.3 <tt class=module>UserDict</tt> --
+         Class wrapper for dictionary objects.</A>
+<LI><A NAME="tex2html62"
+ HREF="module-UserList.html">3.4 <tt class=module>UserList</tt> --
+         Class wrapper for list objects.</A>
+<LI><A NAME="tex2html63"
+ HREF="module-operator.html">3.5 <tt class=module>operator</tt> --
+         Standard operators as functions.</A>
+<LI><A NAME="tex2html64"
+ HREF="module-traceback.html">3.6 <tt class=module>traceback</tt> --
+         Print or retrieve a stack traceback.</A>
+<LI><A NAME="tex2html65"
+ HREF="module-pickle.html">3.7 <tt class=module>pickle</tt> --
+         Python object serialization.</A>
+<LI><A NAME="tex2html66"
+ HREF="module-cPickle.html">3.8 <tt class=module>cPickle</tt> --
+         Alternate implementation of <tt class=module>pickle</tt>.</A>
+<LI><A NAME="tex2html67"
+ HREF="module-copyreg.html">3.9 <tt class=module>copy_reg</tt> --
+         Register <tt class=module>pickle</tt> support functions.</A>
+<LI><A NAME="tex2html68"
+ HREF="module-shelve.html">3.10 <tt class=module>shelve</tt> --
+         Python object persistency</A>
+<LI><A NAME="tex2html69"
+ HREF="module-copy.html">3.11 <tt class=module>copy</tt> --
+         Shallow and deep copy operations</A>
+<LI><A NAME="tex2html70"
+ HREF="module-marshal.html">3.12 <tt class=module>marshal</tt> --
+         Alternate Python object serialization</A>
+<LI><A NAME="tex2html71"
+ HREF="module-imp.html">3.13 <tt class=module>imp</tt> --
+         Access the implementation of the <tt class=keyword>import</tt> statement.</A>
+<LI><A NAME="tex2html72"
+ HREF="module-parser.html">3.14 <tt class=module>parser</tt> --
+         Access parse trees for Python code</A>
+<LI><A NAME="tex2html73"
+ HREF="module-symbol.html">3.15 <tt class=module>symbol</tt> --
+         Constants used with Python parse trees</A>
+<LI><A NAME="tex2html74"
+ HREF="module-token.html">3.16 <tt class=module>token</tt> --
+         Constants used with Python parse trees</A>
+<LI><A NAME="tex2html75"
+ HREF="module-keyword.html">3.17 <tt class=module>keyword</tt> --
+         Testing for Python keywords</A>
+<LI><A NAME="tex2html76"
+ HREF="module-tokenize.html">3.18 <tt class=module>tokenize</tt> --
+         Tokenizer for Python source</A>
+<LI><A NAME="tex2html77"
+ HREF="module-pyclbr.html">3.19 <tt class=module>pyclbr</tt> --
+         Python class browser information</A>
+<LI><A NAME="tex2html78"
+ HREF="module-code.html">3.20 <tt class=module>code</tt> --
+         Code object services.</A>
+<LI><A NAME="tex2html79"
+ HREF="module-pprint.html">3.21 <tt class=module>pprint</tt> --
+         Data pretty printer.</A>
+<LI><A NAME="tex2html80"
+ HREF="module-repr.html">3.22 <tt class=module>repr</tt> --
+         Alternate <tt class=function>repr()</tt> implementation.</A>
+<LI><A NAME="tex2html81"
+ HREF="module-pycompile.html">3.23 <tt class=module>py_compile</tt> --
+         Compile Python source files.</A>
+<LI><A NAME="tex2html82"
+ HREF="module-compileall.html">3.24 <tt class=module>compileall</tt> --
+         Byte-compile Python libraries.</A>
+<LI><A NAME="tex2html83"
+ HREF="module-dis.html">3.25 <tt class=module>dis</tt> --
+         Disassembler.</A>
+<LI><A NAME="tex2html84"
+ HREF="module-site.html">3.26 <tt class=module>site</tt> --
+         Site-specific configuration hook</A>
+<LI><A NAME="tex2html85"
+ HREF="module-user.html">3.27 <tt class=module>user</tt> --
+         User-specific configuration hook</A>
+<LI><A NAME="tex2html86"
+ HREF="module-builtin.html">3.28 <tt class=module>__builtin__</tt> --
+         Built-in functions.</A>
+<LI><A NAME="tex2html87"
+ HREF="module-main.html">3.29 <tt class=module>__main__</tt> --
+         Top-level script environment.</A>
+</UL>
+<LI><A NAME="tex2html88"
+ HREF="strings.html">4. String Services</A>
+<UL>
+<LI><A NAME="tex2html89"
+ HREF="module-string.html">4.1 <tt class=module>string</tt> --
+         Common string operations.</A>
+<LI><A NAME="tex2html90"
+ HREF="module-re.html">4.2 <tt class=module>re</tt> --
+         Perl-style regular expression operations.</A>
+<LI><A NAME="tex2html91"
+ HREF="module-regex.html">4.3 <tt class=module>regex</tt> --
+         Regular expression search and match operations.</A>
+<LI><A NAME="tex2html92"
+ HREF="module-regsub.html">4.4 <tt class=module>regsub</tt> --
+         Substitution and splitting operations that use regular expressions.</A>
+<LI><A NAME="tex2html93"
+ HREF="module-struct.html">4.5 <tt class=module>struct</tt> --
+         Interpret strings as packed binary data.</A>
+<LI><A NAME="tex2html94"
+ HREF="module-StringIO.html">4.6 <tt class=module>StringIO</tt> --
+         Read and write strings as if they were files.</A>
+<LI><A NAME="tex2html95"
+ HREF="module-cStringIO.html">4.7 <tt class=module>cStringIO</tt> --
+         Faster version of <tt class=module>StringIO</tt>, but not subclassable.</A>
+</UL>
+<LI><A NAME="tex2html96"
+ HREF="misc.html">5. Miscellaneous Services</A>
+<UL>
+<LI><A NAME="tex2html97"
+ HREF="module-math.html">5.1 <tt class=module>math</tt> --
+         Mathematical functions (<tt class=function>sin()</tt> etc.).</A>
+<LI><A NAME="tex2html98"
+ HREF="module-cmath.html">5.2 <tt class=module>cmath</tt> --
+         Mathematical functions for complex numbers.</A>
+<LI><A NAME="tex2html99"
+ HREF="module-whrandom.html">5.3 <tt class=module>whrandom</tt> --
+         Floating point pseudo-random number generator.</A>
+<LI><A NAME="tex2html100"
+ HREF="module-random.html">5.4 <tt class=module>random</tt> --
+         Generate pseudo-random numbers with various distributions.</A>
+<LI><A NAME="tex2html101"
+ HREF="module-bisect.html">5.5 <tt class=module>bisect</tt> --
+         Array bisection algorithm</A>
+<LI><A NAME="tex2html102"
+ HREF="module-array.html">5.6 <tt class=module>array</tt> --
+         Efficient arrays of uniformly typed numeric values.</A>
+<LI><A NAME="tex2html103"
+ HREF="module-ConfigParser.html">5.7 <tt class=module>ConfigParser</tt> --
+         Configuration file parser.</A>
+<LI><A NAME="tex2html104"
+ HREF="module-fileinput.html">5.8 <tt class=module>fileinput</tt> --
+         Iteration over lines from multiple input streams.</A>
+<LI><A NAME="tex2html105"
+ HREF="module-calendar.html">5.9 <tt class=module>calendar</tt> --
+         Functions that emulate the Unix <b class=program>cal</b> program.</A>
+<LI><A NAME="tex2html106"
+ HREF="module-cmd.html">5.10 <tt class=module>cmd</tt> --
+         Build line-oriented command interpreters.</A>
+<LI><A NAME="tex2html107"
+ HREF="module-shlex.html">5.11 <tt class=module>shlex</tt> --
+         Simple lexical analysis.</A>
+</UL>
+<LI><A NAME="tex2html108"
+ HREF="allos.html">6. Generic Operating System Services</A>
+<UL>
+<LI><A NAME="tex2html109"
+ HREF="module-os.html">6.1 <tt class=module>os</tt> --
+         Miscellaneous OS interfaces</A>
+<LI><A NAME="tex2html110"
+ HREF="module-os.path.html">6.2 <tt class=module>os.path</tt> --
+         Common pathname manipulations</A>
+<LI><A NAME="tex2html111"
+ HREF="module-time.html">6.3 <tt class=module>time</tt> --
+         Time access and conversions.</A>
+<LI><A NAME="tex2html112"
+ HREF="module-getpass.html">6.4 <tt class=module>getpass</tt>
+         -- Portable password input</A>
+<LI><A NAME="tex2html113"
+ HREF="module-getopt.html">6.5 <tt class=module>getopt</tt> --
+         Parser for command line options.</A>
+<LI><A NAME="tex2html114"
+ HREF="module-tempfile.html">6.6 <tt class=module>tempfile</tt> --
+         Generate temporary file names.</A>
+<LI><A NAME="tex2html115"
+ HREF="module-errno.html">6.7 <tt class=module>errno</tt> --
+         Standard errno system symbols.</A>
+<LI><A NAME="tex2html116"
+ HREF="module-glob.html">6.8 <tt class=module>glob</tt> --
+         Unix style pathname pattern expansion</A>
+<LI><A NAME="tex2html117"
+ HREF="module-fnmatch.html">6.9 <tt class=module>fnmatch</tt> --
+         Unix style filename pattern matching</A>
+<LI><A NAME="tex2html118"
+ HREF="module-shutil.html">6.10 <tt class=module>shutil</tt> --
+         High-level file operations</A>
+<LI><A NAME="tex2html119"
+ HREF="module-locale.html">6.11 <tt class=module>locale</tt> --
+         Internationalization services.</A>
+</UL>
+<LI><A NAME="tex2html120"
+ HREF="someos.html">7. Optional Operating System Services</A>
+<UL>
+<LI><A NAME="tex2html121"
+ HREF="module-signal.html">7.1 <tt class=module>signal</tt> --
+         Set handlers for asynchronous events.</A>
+<LI><A NAME="tex2html122"
+ HREF="module-socket.html">7.2 <tt class=module>socket</tt> --
+         Low-level networking interface.</A>
+<LI><A NAME="tex2html123"
+ HREF="module-select.html">7.3 <tt class=module>select</tt> --
+         Waiting for I/O completion</A>
+<LI><A NAME="tex2html124"
+ HREF="module-thread.html">7.4 <tt class=module>thread</tt> --
+         Multiple threads of control.</A>
+<LI><A NAME="tex2html125"
+ HREF="module-threading.html">7.5 <tt class=module>threading</tt> --
+         Higher-level threading interface</A>
+<LI><A NAME="tex2html126"
+ HREF="module-Queue.html">7.6 <tt class=module>Queue</tt> --
+         A synchronized queue class.</A>
+<LI><A NAME="tex2html127"
+ HREF="module-anydbm.html">7.7 <tt class=module>anydbm</tt> --
+         Generic access to DBM-style databases</A>
+<LI><A NAME="tex2html128"
+ HREF="module-dumbdbm.html">7.8 <tt class=module>dumbdbm</tt> --
+         Portable DBM implementation</A>
+<LI><A NAME="tex2html129"
+ HREF="module-whichdb.html">7.9 <tt class=module>whichdb</tt> --
+         Guess which DBM module created a database</A>
+<LI><A NAME="tex2html130"
+ HREF="module-zlib.html">7.10 <tt class=module>zlib</tt> --
+         Compression library compatible with <b class=program>gzip</b></A>
+<LI><A NAME="tex2html131"
+ HREF="module-gzip.html">7.11 <tt class=module>gzip</tt> --
+         Support for <b class=program>gzip</b> files</A>
+</UL>
+<LI><A NAME="tex2html132"
+ HREF="unix.html">8. Unix Specific Services</A>
+<UL>
+<LI><A NAME="tex2html133"
+ HREF="module-posix.html">8.1 <tt class=module>posix</tt> --
+         The most common POSIX system calls</A>
+<LI><A NAME="tex2html134"
+ HREF="module-pwd.html">8.2 <tt class=module>pwd</tt> --
+         The password database</A>
+<LI><A NAME="tex2html135"
+ HREF="module-grp.html">8.3 <tt class=module>grp</tt> --
+         The group database</A>
+<LI><A NAME="tex2html136"
+ HREF="module-crypt.html">8.4 <tt class=module>crypt</tt> --
+         Function used to check Unix passwords</A>
+<LI><A NAME="tex2html137"
+ HREF="module-dbm.html">8.5 <tt class=module>dbm</tt> --
+         Simple ``database'' interface</A>
+<LI><A NAME="tex2html138"
+ HREF="module-gdbm.html">8.6 <tt class=module>gdbm</tt> --
+         GNU's reinterpretation of dbm</A>
+<LI><A NAME="tex2html139"
+ HREF="module-termios.html">8.7 <tt class=module>termios</tt> --
+         POSIX style tty control</A>
+<LI><A NAME="tex2html140"
+ HREF="module-TERMIOSuppercase.html">8.8 <tt class=module>TERMIOS</tt> --
+         Constants used with the <tt class=module>termios</tt> module</A>
+<LI><A NAME="tex2html141"
+ HREF="module-fcntl.html">8.9 <tt class=module>fcntl</tt> --
+         The <tt class=function>fcntl()</tt> and <tt class=function>ioctl()</tt> system calls</A>
+<LI><A NAME="tex2html142"
+ HREF="module-posixfile.html">8.10 <tt class=module>posixfile</tt> --
+         File-like objects with locking support</A>
+<LI><A NAME="tex2html143"
+ HREF="module-resource.html">8.11 <tt class=module>resource</tt> --
+         Resource usage information</A>
+<LI><A NAME="tex2html144"
+ HREF="module-syslog.html">8.12 <tt class=module>syslog</tt> --
+         Unix syslog library routines</A>
+<LI><A NAME="tex2html145"
+ HREF="module-stat.html">8.13 <tt class=module>stat</tt> --
+         Interpreting <tt class=function>stat()</tt> results</A>
+<LI><A NAME="tex2html146"
+ HREF="module-popen2.html">8.14 <tt class=module>popen2</tt> --
+         Subprocesses with accessible standard I/O streams</A>
+<LI><A NAME="tex2html147"
+ HREF="module-commands.html">8.15 <tt class=module>commands</tt> --
+         Wrapper functions for <tt class=function>os.popen()</tt>.</A>
+</UL>
+<LI><A NAME="tex2html148"
+ HREF="module-pdb.html">9. The Python Debugger</A>
+<UL>
+<LI><A NAME="tex2html149"
+ HREF="node170.html">9.1 Debugger Commands</A>
+<LI><A NAME="tex2html150"
+ HREF="node171.html">9.2 How It Works</A>
+</UL>
+<LI><A NAME="tex2html151"
+ HREF="profile.html">10. The Python Profiler </A>
+<UL>
+<LI><A NAME="tex2html152"
+ HREF="Profiler_Introduction.html">10.1 Introduction to the profiler</A>
+<LI><A NAME="tex2html153"
+ HREF="Profiler_Changes.html">10.2 How Is This Profiler Different From The Old Profiler?</A>
+<LI><A NAME="tex2html154"
+ HREF="node175.html">10.3 Instant Users Manual</A>
+<LI><A NAME="tex2html155"
+ HREF="Deterministic_Profiling.html">10.4 What Is Deterministic Profiling?</A>
+<LI><A NAME="tex2html156"
+ HREF="module-profile.html">10.5 Reference Manual</A>
+<LI><A NAME="tex2html157"
+ HREF="node179.html">10.6 Limitations</A>
+<LI><A NAME="tex2html158"
+ HREF="node180.html">10.7 Calibration</A>
+<LI><A NAME="tex2html159"
+ HREF="Profiler_Extensions.html">10.8 Extensions -- Deriving Better Profilers</A>
+</UL>
+<LI><A NAME="tex2html160"
+ HREF="internet.html">11. Internet Protocols and Support </A>
+<UL>
+<LI><A NAME="tex2html161"
+ HREF="module-cgi.html">11.1 <tt class=module>cgi</tt> --
+         Common Gateway Interface support.</A>
+<LI><A NAME="tex2html162"
+ HREF="module-urllib.html">11.2 <tt class=module>urllib</tt> --
+         Open an arbitrary object given by URL.</A>
+<LI><A NAME="tex2html163"
+ HREF="module-httplib.html">11.3 <tt class=module>httplib</tt> --
+         HTTP protocol client.</A>
+<LI><A NAME="tex2html164"
+ HREF="module-ftplib.html">11.4 <tt class=module>ftplib</tt> --
+         FTP protocol client</A>
+<LI><A NAME="tex2html165"
+ HREF="module-gopherlib.html">11.5 <tt class=module>gopherlib</tt> --
+         Gopher protocol client.</A>
+<LI><A NAME="tex2html166"
+ HREF="module-poplib.html">11.6 <tt class=module>poplib</tt> --
+         POP3 protocol client.</A>
+<LI><A NAME="tex2html167"
+ HREF="module-imaplib.html">11.7 <tt class=module>imaplib</tt> --
+         IMAP4 protocol client.</A>
+<LI><A NAME="tex2html168"
+ HREF="module-nntplib.html">11.8 <tt class=module>nntplib</tt> --
+         NNTP protocol client.</A>
+<LI><A NAME="tex2html169"
+ HREF="module-smtplib.html">11.9 <tt class=module>smtplib</tt> --
+         SMTP protocol client.</A>
+<LI><A NAME="tex2html170"
+ HREF="module-telnetlib.html">11.10 <tt class=module>telnetlib</tt> --
+         Telnet client</A>
+<LI><A NAME="tex2html171"
+ HREF="module-urlparse.html">11.11 <tt class=module>urlparse</tt> --
+         Parse URLs into components.</A>
+<LI><A NAME="tex2html172"
+ HREF="module-SocketServer.html">11.12 <tt class=module>SocketServer</tt> --
+         A framework for network servers.</A>
+<LI><A NAME="tex2html173"
+ HREF="module-BaseHTTPServer.html">11.13 <tt class=module>BaseHTTPServer</tt> --
+         Basic HTTP server.</A>
+</UL>
+<LI><A NAME="tex2html174"
+ HREF="netdata.html">12. Internet Data Handling </A>
+<UL>
+<LI><A NAME="tex2html175"
+ HREF="module-sgmllib.html">12.1 <tt class=module>sgmllib</tt> --
+         Simple SGML parser.</A>
+<LI><A NAME="tex2html176"
+ HREF="module-htmllib.html">12.2 <tt class=module>htmllib</tt> --
+         A parser for HTML documents.</A>
+<LI><A NAME="tex2html177"
+ HREF="module-xmllib.html">12.3 <tt class=module>xmllib</tt> --
+         A parser for XML documents</A>
+<LI><A NAME="tex2html178"
+ HREF="module-formatter.html">12.4 <tt class=module>formatter</tt> --
+         Generic output formatting</A>
+<LI><A NAME="tex2html179"
+ HREF="module-rfc822.html">12.5 <tt class=module>rfc822</tt> --
+         Parse RFC 822 mail headers.</A>
+<LI><A NAME="tex2html180"
+ HREF="module-mimetools.html">12.6 <tt class=module>mimetools</tt> --
+         Tools for parsing MIME messages</A>
+<LI><A NAME="tex2html181"
+ HREF="module-MimeWriter.html">12.7 <tt class=module>MimeWriter</tt> --
+         Generic MIME file writer</A>
+<LI><A NAME="tex2html182"
+ HREF="module-multifile.html">12.8 <tt class=module>multifile</tt> --
+         Support for reading files which contain distinct parts.</A>
+<LI><A NAME="tex2html183"
+ HREF="module-binhex.html">12.9 <tt class=module>binhex</tt> --
+         Encode and decode binhex4 files</A>
+<LI><A NAME="tex2html184"
+ HREF="module-uu.html">12.10 <tt class=module>uu</tt> --
+         Encode and decode uuencode files</A>
+<LI><A NAME="tex2html185"
+ HREF="module-binascii.html">12.11 <tt class=module>binascii</tt> --
+         Convert between binary and various ascii-encoded representations.</A>
+<LI><A NAME="tex2html186"
+ HREF="module-xdrlib.html">12.12 <tt class=module>xdrlib</tt> --
+         Encode and decode XDR data.</A>
+<LI><A NAME="tex2html187"
+ HREF="module-mailcap.html">12.13 <tt class=module>mailcap</tt> --
+         Mailcap file handling.</A>
+<LI><A NAME="tex2html188"
+ HREF="module-mimetypes.html">12.14 <tt class=module>mimetypes</tt> --
+         Mapping of filenames to MIME types</A>
+<LI><A NAME="tex2html189"
+ HREF="module-base64.html">12.15 <tt class=module>base64</tt> --
+         Encode and decode MIME base64 data</A>
+<LI><A NAME="tex2html190"
+ HREF="module-quopri.html">12.16 <tt class=module>quopri</tt> --
+         Encode and decode MIME quoted-printable data</A>
+<LI><A NAME="tex2html191"
+ HREF="module-mailbox.html">12.17 <tt class=module>mailbox</tt> --
+         Read various mailbox formats</A>
+<LI><A NAME="tex2html192"
+ HREF="module-mhlib.html">12.18 <tt class=module>mhlib</tt> --
+         Object-oriented access to MH mailboxes</A>
+<LI><A NAME="tex2html193"
+ HREF="module-mimify.html">12.19 <tt class=module>mimify</tt> --
+         Mimification and unmimification of mail messages.</A>
+<LI><A NAME="tex2html194"
+ HREF="module-netrc.html">12.20 <tt class=module>netrc</tt> --
+         netrc file processing</A>
+</UL>
+<LI><A NAME="tex2html195"
+ HREF="restricted.html">13. Restricted Execution</A>
+<UL>
+<LI><A NAME="tex2html196"
+ HREF="module-rexec.html">13.1 <tt class=module>rexec</tt> --
+         Basic restricted execution framework.</A>
+<LI><A NAME="tex2html197"
+ HREF="module-Bastion.html">13.2 <tt class=module>Bastion</tt> --
+         Restricting access to objects</A>
+</UL>
+<LI><A NAME="tex2html198"
+ HREF="mmedia.html">14. Multimedia Services</A>
+<UL>
+<LI><A NAME="tex2html199"
+ HREF="module-audioop.html">14.1 <tt class=module>audioop</tt> --
+         Manipulate raw audio data.</A>
+<LI><A NAME="tex2html200"
+ HREF="module-imageop.html">14.2 <tt class=module>imageop</tt> --
+         Manipulate raw image data.</A>
+<LI><A NAME="tex2html201"
+ HREF="module-aifc.html">14.3 <tt class=module>aifc</tt> --
+         Read and write AIFF and AIFC files</A>
+<LI><A NAME="tex2html202"
+ HREF="module-rgbimg.html">14.4 <tt class=module>rgbimg</tt> --
+         Read and write ``SGI RGB'' files</A>
+<LI><A NAME="tex2html203"
+ HREF="module-imghdr.html">14.5 <tt class=module>imghdr</tt> --
+         Determine the type of an image.</A>
+<LI><A NAME="tex2html204"
+ HREF="module-sndhdr.html">14.6 <tt class=module>sndhdr</tt> --
+         Determine type of sound file.</A>
+</UL>
+<LI><A NAME="tex2html205"
+ HREF="crypto.html">15. Cryptographic Services</A>
+<UL>
+<LI><A NAME="tex2html206"
+ HREF="module-md5.html">15.1 <tt class=module>md5</tt> --
+         MD5 message digest algorithm.</A>
+<LI><A NAME="tex2html207"
+ HREF="module-mpz.html">15.2 <tt class=module>mpz</tt> --
+         GNU arbitrary magnitude integers</A>
+<LI><A NAME="tex2html208"
+ HREF="module-rotor.html">15.3 <tt class=module>rotor</tt> --
+         Enigma-like encryption and decryption.</A>
+</UL>
+<LI><A NAME="tex2html209"
+ HREF="sgi.html">16. SGI IRIX Specific Services</A>
+<UL>
+<LI><A NAME="tex2html210"
+ HREF="module-al.html">16.1 <tt class=module>al</tt> --
+         Audio functions on the SGI</A>
+<LI><A NAME="tex2html211"
+ HREF="module-al-constants.html">16.2 <tt class=module>AL</tt> --
+         Constants used with the <tt class=module>al</tt> module</A>
+<LI><A NAME="tex2html212"
+ HREF="module-cd.html">16.3 <tt class=module>cd</tt> --
+         CD-ROM access on SGI systems</A>
+<LI><A NAME="tex2html213"
+ HREF="module-fl.html">16.4 <tt class=module>fl</tt> --
+         FORMS library interface for GUI applications</A>
+<LI><A NAME="tex2html214"
+ HREF="module-fl-constants.html">16.5 <tt class=module>FL</tt> --
+         Constants used with the <tt class=module>fl</tt> module</A>
+<LI><A NAME="tex2html215"
+ HREF="module-flp.html">16.6 <tt class=module>flp</tt> --
+         Functions for loading stored FORMS designs</A>
+<LI><A NAME="tex2html216"
+ HREF="module-fm.html">16.7 <tt class=module>fm</tt> --
+         <i>Font Manager</i> interface</A>
+<LI><A NAME="tex2html217"
+ HREF="module-gl.html">16.8 <tt class=module>gl</tt> --
+         <i>Graphics Library</i> interface</A>
+<LI><A NAME="tex2html218"
+ HREF="module-DEVICE.html">16.9 <tt class=module>DEVICE</tt> --
+         Constants used with the <tt class=module>gl</tt> module</A>
+<LI><A NAME="tex2html219"
+ HREF="module-gl-constants.html">16.10 <tt class=module>GL</tt> --
+         Constants used with the <tt class=module>gl</tt> module</A>
+<LI><A NAME="tex2html220"
+ HREF="module-imgfile.html">16.11 <tt class=module>imgfile</tt> --
+         Support for SGI imglib files</A>
+<LI><A NAME="tex2html221"
+ HREF="module-jpeg.html">16.12 <tt class=module>jpeg</tt> --
+         Read and write JPEG files</A>
+</UL>
+<LI><A NAME="tex2html222"
+ HREF="sunos.html">17. SunOS Specific Services</A>
+<UL>
+<LI><A NAME="tex2html223"
+ HREF="module-sunaudiodev.html">17.1 <tt class=module>sunaudiodev</tt> --
+         Access to Sun audio hardware.</A>
+</UL>
+<LI><A NAME="tex2html224"
+ HREF="node297.html">18. MS Windows Specific Services</A>
+<UL>
+<LI><A NAME="tex2html225"
+ HREF="module-msvcrt.html">18.1 <tt class=module>msvcrt</tt> -
+         Useful routines from the MS VC++ runtime</A>
+<LI><A NAME="tex2html226"
+ HREF="module-winsound.html">18.2 <tt class=module>winsound</tt> --
+         Sound-playing interface for Windows</A>
+</UL>
+<LI><A NAME="tex2html227"
+ HREF="undoc.html">19. Undocumented Modules</A>
+<UL>
+<LI><A NAME="tex2html228"
+ HREF="node304.html">19.1 Frameworks</A>
+<LI><A NAME="tex2html229"
+ HREF="node305.html">19.2 Miscellaneous useful utilities</A>
+<LI><A NAME="tex2html230"
+ HREF="node306.html">19.3 Platform specific modules</A>
+<LI><A NAME="tex2html231"
+ HREF="node307.html">19.4 Multimedia</A>
+<LI><A NAME="tex2html232"
+ HREF="node308.html">19.5 Oddities</A>
+<LI><A NAME="tex2html233"
+ HREF="node309.html">19.6 Obsolete</A>
+<LI><A NAME="tex2html234"
+ HREF="node310.html">19.7 Extension modules</A>
+</UL>
+<LI><A NAME="tex2html235"
+ HREF="modindex.html">Module Index</A>
+<LI><A NAME="tex2html236"
+ HREF="genindex.html">Index</A>
+<LI><A NAME="tex2html237"
+ HREF="about.html">About this document ...</A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html49"
+ HREF="front.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html47"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html48"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html50"
+ HREF="front.html">Front Matter</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

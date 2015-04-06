@@ -9,7 +9,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-#include <GL/glut.h>
+#include <glut.h>
 #include "glutint.h"
 
 void APIENTRY 

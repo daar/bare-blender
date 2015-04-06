@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Front Matter</TITLE>
+<META NAME="description" CONTENT="Front Matter">
+<META NAME="keywords" CONTENT="ext">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ext.css">
+<LINK REL="next" HREF="contents.html">
+<LINK REL="previous" HREF="ext.html">
+<LINK REL="up" HREF="ext.html">
+<LINK REL="next" HREF="contents.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html44"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html41"
+ HREF="ext.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html35"
+ HREF="ext.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Extending and Embedding the Python Interpreter</b></td>
+<td><A NAME="tex2html43"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html45"
+ HREF="contents.html">Contents</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html42"
+ HREF="ext.html">Extending and Embedding the</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html36"
+ HREF="ext.html">Extending and Embedding the</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001000000000000000000"></A>
+<BR>
+Front Matter
+</H1>
+
+<P>
+Copyright &#169; 1991-1995 by Stichting Mathematisch Centrum,
+Amsterdam, The Netherlands.
+
+<P>
+<DIV ALIGN="CENTER">
+All Rights Reserved
+
+</DIV>
+
+<P>
+Permission to use, copy, modify, and distribute this software and its
+documentation for any purpose and without fee is hereby granted,
+provided that the above copyright notice appear in all copies and that
+both that copyright notice and this permission notice appear in
+supporting documentation, and that the names of Stichting Mathematisch
+Centrum or CWI or Corporation for National Research Initiatives or
+CNRI not be used in advertising or publicity pertaining to
+distribution of the software without specific, written prior
+permission.
+
+<P>
+While CWI is the initial source for this software, a modified version
+is made available by the Corporation for National Research Initiatives
+(CNRI) at the Internet address <span class=url><a href="ftp://ftp.python.org">ftp://ftp.python.org</a></span>.
+
+<P>
+STICHTING MATHEMATISCH CENTRUM AND CNRI DISCLAIM ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL STICHTING MATHEMATISCH
+CENTRUM OR CNRI BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL
+DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
+PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+
+<P>
+<b><BIG CLASS="LARGE">Acknowledgements</BIG></b>
+
+<P>
+The following people have contributed sections to this document:  Jim
+Fulton, Konrad Hinsen, Chris Phoenix, and Neil Schemenauer.
+
+<P>
+
+<H3>Abstract:</H3>
+<DIV CLASS="ABSTRACT">
+
+<P>
+Python is an interpreted, object-oriented programming language.  This
+document describes how to write modules in C or C++ to extend the
+Python interpreter with new modules.  Those modules can define new
+functions but also new object types and their methods.  The document
+also describes how to embed the Python interpreter in another
+application, for use as an extension language.  Finally, it shows how
+to compile and link extension modules so that they can be loaded
+dynamically (at run time) into the interpreter, if the underlying
+operating system supports this feature.
+
+<P>
+This document assumes basic knowledge about Python.  For an informal
+introduction to the language, see the Python Tutorial.  The <i>Python
+Reference Manual</i> gives a more formal definition of the language.  The
+<i>Python Library Reference</i> documents the existing object types,
+functions and modules (both built-in and written in Python) that give
+the language its wide application range.
+
+<P>
+For a detailed description of the whole Python/C API, see the separate
+<i>Python/C API Reference Manual</i>.
+
+<P>
+</DIV>
+<P>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html44"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html41"
+ HREF="ext.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html35"
+ HREF="ext.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Extending and Embedding the Python Interpreter</b></td>
+<td><A NAME="tex2html43"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html45"
+ HREF="contents.html">Contents</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html42"
+ HREF="ext.html">Extending and Embedding the</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html36"
+ HREF="ext.html">Extending and Embedding the</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

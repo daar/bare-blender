@@ -1,0 +1,299 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4.1 Code blocks, execution frames, and namespaces</TITLE>
+<META NAME="description" CONTENT="4.1 Code blocks, execution frames, and namespaces">
+<META NAME="keywords" CONTENT="ref">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ref.css">
+<LINK REL="next" HREF="exceptions.html">
+<LINK REL="previous" HREF="execmodel.html">
+<LINK REL="up" HREF="execmodel.html">
+<LINK REL="next" HREF="exceptions.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html666"
+ HREF="exceptions.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html662"
+ HREF="execmodel.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html656"
+ HREF="execmodel.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html664"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html665"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html667"
+ HREF="exceptions.html">4.2 Exceptions</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html663"
+ HREF="execmodel.html">4. Execution model</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html657"
+ HREF="execmodel.html">4. Execution model</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION006100000000000000000"></A>
+<a name="l2h-403"></a>
+<BR>
+4.1 Code blocks, execution frames, and namespaces
+</H1>
+<a name="l2h-406"></a>
+<a name="l2h-407"></a>
+
+<P>
+A <i class=dfn>code block</i> is a piece of Python program text that can be
+executed as a unit, such as a module, a class definition or a function
+body.  Some code blocks (like modules) are normally executed only once, others
+(like function bodies) may be executed many times.  Code blocks may
+textually contain other code blocks.  Code blocks may invoke other
+code blocks (that may or may not be textually contained in them) as
+part of their execution, e.g., by invoking (calling) a function.
+<a name="l2h-408"></a>
+<a name="l2h-409"></a>
+
+<P>
+The following are code blocks: A module is a code block.  A function
+body is a code block.  A class definition is a code block.  Each
+command typed interactively is a separate code block; a script file (a
+file given as standard input to the interpreter or specified on the
+interpreter command line the first argument) is a code block; a script
+command (a command specified on the interpreter command line with the
+`<tt>-c</tt>' option) is a code block.  The file read by the built-in
+function <tt class=function>execfile()</tt> is a code block.  The string argument
+passed to the built-in function <tt class=function>eval()</tt> and to the
+<tt class=keyword>exec</tt> statement is a code block.  And finally, the expression
+read and evaluated by the built-in function <tt class=function>input()</tt> is a
+code block.
+
+<P>
+A code block is executed in an execution frame.  An <i class=dfn>execution
+frame</i> contains some administrative information (used for debugging),
+determines where and how execution continues after the code block's
+execution has completed, and (perhaps most importantly) defines two
+namespaces, the local and the global namespace, that affect
+execution of the code block.
+<a name="l2h-410"></a>
+
+<P>
+A <i class=dfn>namespace</i> is a mapping from names (identifiers) to objects.
+A particular namespace may be referenced by more than one execution
+frame, and from other places as well.  Adding a name to a namespace
+is called <i class=dfn>binding</i> a name (to an object); changing the mapping of
+a name is called <i class=dfn>rebinding</i>; removing a name is <i class=dfn>unbinding</i>.
+Namespaces are functionally equivalent to dictionaries (and often
+implemented as dictionaries).
+<a name="l2h-411"></a>
+<a name="l2h-412"></a>
+<a name="l2h-413"></a>
+<a name="l2h-414"></a>
+
+<P>
+The <i class=dfn>local namespace</i> of an execution frame determines the default
+place where names are defined and searched.  The <i class=dfn>global
+namespace</i> determines the place where names listed in <tt class=keyword>global</tt>
+statements are defined and searched, and where names that are not
+bound anywhere in the current code block are searched.
+<a name="l2h-415"></a>
+<a name="l2h-416"></a>
+<a name="l2h-417"></a>
+
+<P>
+Whether a name is local or global in a code block is determined by
+static inspection of the source text for the code block: in the
+absence of <tt class=keyword>global</tt> statements, a name that is bound anywhere
+in the code block is local in the entire code block; all other names
+are considered global.  The <tt class=keyword>global</tt> statement forces global
+interpretation of selected names throughout the code block.  The
+following constructs bind names: formal parameters to functions,
+<tt class=keyword>import</tt> statements, class and function definitions (these
+bind the class or function name in the defining block), and targets
+that are identifiers if occurring in an assignment, <tt class=keyword>for</tt> loop
+header, or in the second position of an <tt class=keyword>except</tt> clause
+header.  Local names are searched only on the local namespace; global
+names are searched only in the global and built-in
+namespace.<A NAME="tex2html1"
+ HREF="#foot2612"><SUP>4.1</SUP></A>
+<P>
+A target occurring in a <tt class=keyword>del</tt> statement is also considered bound
+for this purpose (though the actual semantics are to ``unbind'' the
+name).
+
+<P>
+When a global name is not found in the global namespace, it is
+searched in the built-in namespace (which is actually the global
+namespace of the module <tt class=module>__builtin__</tt>).  The built-in namespace
+associated with the execution of a code block is actually found by
+looking up the name <tt>__builtins__</tt> is its global namespace; this
+should be a dictionary or a module (in the latter case its dictionary
+is used).  Normally, the <tt>__builtins__</tt> namespace is the
+dictionary of the built-in module <tt class=module>__builtin__</tt> (note: no `s');
+if it isn't, restricted execution mode is in effect.  When a name is
+not found at all, a <tt class=exception>NameError</tt> exception is raised.<a name="l2h-418"></a>
+<a name="l2h-419"></a>
+<a name="l2h-420"></a>
+<a name="l2h-421"></a>
+<a name="l2h-422"></a>
+<a name="l2h-405"></a>
+<P>
+The following table lists the meaning of the local and global
+namespace for various types of code blocks.  The namespace for a
+particular module is automatically created when the module is first
+imported (i.e., when it is loaded).  Note that in almost all cases,
+the global namespace is the namespace of the containing module --
+scopes in Python do not nest!
+
+<P>
+<table border align=center>
+  <tr bgcolor="#99CCFF">
+    <th align=left><b>Code block type</b></th>
+    <th align=left><b>Global namespace</b></th>
+    <th align=left><b>Local namespace</b></th>
+    <th align=left><b>Notes</b></th>
+  <tr><td>Module</td>
+      <td>n.s. for this module</td>
+      <td>same as global</td>
+      <td>&nbsp;</td>
+  <tr><td>Script (file or command)</td>
+      <td>n.s. for <tt class=module>__main__</tt></td>
+      <td>same as global</td>
+      <td>(1)&nbsp;</td>
+  <tr><td>Interactive command</td>
+      <td>n.s. for <tt class=module>__main__</tt></td>
+      <td>same as global</td>
+      <td>&nbsp;</td>
+  <tr><td>Class definition</td>
+      <td>global n.s. of containing block</td>
+      <td>new n.s.</td>
+      <td>&nbsp;</td>
+  <tr><td>Function body</td>
+      <td>global n.s. of containing block</td>
+      <td>new n.s.</td>
+      <td>(2)&nbsp;</td>
+  <tr><td>String passed to <tt class=keyword>exec</tt> statement</td>
+      <td>global n.s. of containing block</td>
+      <td>local n.s. of containing block</td>
+      <td>(2), (3)&nbsp;</td>
+  <tr><td>String passed to <tt class=function>eval()</tt></td>
+      <td>global n.s. of caller</td>
+      <td>local n.s. of caller</td>
+      <td>(2), (3)&nbsp;</td>
+  <tr><td>File read by <tt class=function>execfile()</tt></td>
+      <td>global n.s. of caller</td>
+      <td>local n.s. of caller</td>
+      <td>(2), (3)&nbsp;</td>
+  <tr><td>Expression read by <tt class=function>input()</tt></td>
+      <td>global n.s. of caller</td>
+      <td>local n.s. of caller</td>
+      <td>&nbsp;</td>
+
+</table>
+<a name="l2h-423"></a>
+
+<P>
+Notes:
+
+<P>
+<DL>
+<DD><P>
+<DT><STRONG>n.s.</STRONG>
+<DD>means <i>namespace</i>
+
+<P>
+<DT><STRONG>(1)</STRONG>
+<DD>The main module for a script is always called
+<tt class=module>__main__</tt>; ``the filename don't enter into it.''
+
+<P>
+<DT><STRONG>(2)</STRONG>
+<DD>The global and local namespace for these can be
+overridden with optional extra arguments.
+
+<P>
+<DT><STRONG>(3)</STRONG>
+<DD>The <tt class=keyword>exec</tt> statement and the <tt class=function>eval()</tt> and
+<tt class=function>execfile()</tt> functions have optional arguments to override
+the global and local namespace.  If only one namespace is specified,
+it is used for both.
+
+<P>
+</DL>
+
+<P>
+The built-in functions <tt class=function>globals()</tt> and <tt class=function>locals()</tt> returns a
+dictionary representing the current global and local namespace,
+respectively.  The effect of modifications to this dictionary on the
+namespace are undefined.<A NAME="tex2html2"
+ HREF="#foot2620"><SUP>4.2</SUP></A>
+<P>
+<BR><HR><H4>Footnotes</H4>
+<DL>
+<DT><A NAME="foot2612">...
+namespace.</A><A NAME="foot2612"
+ HREF="execframes.html#tex2html1"><SUP>4.1</SUP></A>
+<DD>
+If the code block contains <tt class=keyword>exec</tt> statements or the construct
+``"<tt class=samp>from ...import *</tt>"'', the semantics of local names change:
+local name lookup first searches the local namespace, then the global
+namespace and the built-in namespace.
+
+<DT><A NAME="foot2620">... undefined.</A><A NAME="foot2620"
+ HREF="execframes.html#tex2html2"><SUP>4.2</SUP></A>
+<DD>
+The current implementations return the dictionary actually used to
+implement the namespace, <i>except</i> for functions, where the
+optimizer may cause the local namespace to be implemented differently,
+and <tt class=function>locals()</tt> returns a read-only dictionary.
+
+</DL><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html666"
+ HREF="exceptions.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html662"
+ HREF="execmodel.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html656"
+ HREF="execmodel.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html664"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html665"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html667"
+ HREF="exceptions.html">4.2 Exceptions</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html663"
+ HREF="execmodel.html">4. Execution model</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html657"
+ HREF="execmodel.html">4. Execution model</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

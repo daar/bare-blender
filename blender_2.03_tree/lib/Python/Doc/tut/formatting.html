@@ -1,0 +1,256 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.1 Fancier Output Formatting </TITLE>
+<META NAME="description" CONTENT="7.1 Fancier Output Formatting ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="files.html">
+<LINK REL="previous" HREF="io.html">
+<LINK REL="up" HREF="io.html">
+<LINK REL="next" HREF="files.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html726"
+ HREF="files.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html723"
+ HREF="io.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html717"
+ HREF="io.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html725"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html727"
+ HREF="files.html">7.2 Reading and Writing</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html724"
+ HREF="io.html">7. Input and Output</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html718"
+ HREF="io.html">7. Input and Output</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION009100000000000000000"></A>
+<BR>
+7.1 Fancier Output Formatting 
+</H1>
+
+<P>
+So far we've encountered two ways of writing values: <i>expression
+statements</i> and the <tt class=keyword>print</tt> statement.  (A third way is using
+the <tt class=method>write()</tt> method of file objects; the standard output file
+can be referenced as <tt>sys.stdout</tt>.  See the Library Reference for
+more information on this.)
+
+<P>
+Often you'll want more control over the formatting of your output than
+simply printing space-separated values.  There are two ways to format
+your output; the first way is to do all the string handling yourself;
+using string slicing and concatenation operations you can create any
+lay-out you can imagine.  The standard module
+<tt class=module>string</tt><a name="l2h-16"></a> contains some useful operations
+for padding strings to a given column width;
+these will be discussed shortly.  The second way is to use the
+<tt>%</tt> operator with a string as the left argument.  <tt>%</tt>interprets the left argument as a C <tt class=cfunction>sprintf()</tt>-style
+format string to be applied to the right argument, and returns the
+string resulting from this formatting operation.
+
+<P>
+One question remains, of course: how do you convert values to strings?
+Luckily, Python has a way to convert any value to a string: pass it to
+the <tt class=function>repr()</tt> function, or just write the value between
+reverse quotes (<tt>``</tt>).  Some examples:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; x = 10 * 3.14
+&gt;&gt;&gt; y = 200*200
+&gt;&gt;&gt; s = 'The value of x is ' + `x` + ', and y is ' + `y` + '...'
+&gt;&gt;&gt; print s
+The value of x is 31.4, and y is 40000...
+&gt;&gt;&gt; # Reverse quotes work on other types besides numbers:
+... p = [x, y]
+&gt;&gt;&gt; ps = repr(p)
+&gt;&gt;&gt; ps
+'[31.4, 40000]'
+&gt;&gt;&gt; # Converting a string adds string quotes and backslashes:
+... hello = 'hello, world\n'
+&gt;&gt;&gt; hellos = `hello`
+&gt;&gt;&gt; print hellos
+'hello, world\012'
+&gt;&gt;&gt; # The argument of reverse quotes may be a tuple:
+... `x, y, ('spam', 'eggs')`
+"(31.4, 40000, ('spam', 'eggs'))"
+</pre></dl>
+
+<P>
+Here are two ways to write a table of squares and cubes:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; import string
+&gt;&gt;&gt; for x in range(1, 11):
+...     print string.rjust(`x`, 2), string.rjust(`x*x`, 3),
+...     # Note trailing comma on previous line
+...     print string.rjust(`x*x*x`, 4)
+...
+ 1   1    1
+ 2   4    8
+ 3   9   27
+ 4  16   64
+ 5  25  125
+ 6  36  216
+ 7  49  343
+ 8  64  512
+ 9  81  729
+10 100 1000
+&gt;&gt;&gt; for x in range(1,11):
+...     print'%2d %3d %4d' % (x, x*x, x*x*x)
+... 
+ 1   1    1
+ 2   4    8
+ 3   9   27
+ 4  16   64
+ 5  25  125
+ 6  36  216
+ 7  49  343
+ 8  64  512
+ 9  81  729
+10 100 1000
+</pre></dl>
+
+<P>
+(Note that one space between each column was added by the way
+<tt class=keyword>print</tt> works: it always adds spaces between its arguments.)
+
+<P>
+This example demonstrates the function <tt class=function>string.rjust()</tt>,
+which right-justifies a string in a field of a given width by padding
+it with spaces on the left.  There are similar functions
+<tt class=function>string.ljust()</tt> and <tt class=function>string.center()</tt>.  These
+functions do not write anything, they just return a new string.  If
+the input string is too long, they don't truncate it, but return it
+unchanged; this will mess up your column lay-out but that's usually
+better than the alternative, which would be lying about a value.  (If
+you really want truncation you can always add a slice operation, as in
+"<tt class=samp>string.ljust(x,&nbsp;n)[0:n]</tt>".)
+
+<P>
+There is another function, <tt class=function>string.zfill()</tt>, which pads a
+numeric string on the left with zeros.  It understands about plus and
+minus signs:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; string.zfill('12', 5)
+'00012'
+&gt;&gt;&gt; string.zfill('-3.14', 7)
+'-003.14'
+&gt;&gt;&gt; string.zfill('3.14159265359', 5)
+'3.14159265359'
+</pre></dl>
+Using the <tt>%</tt> operator looks like this:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; import math
+&gt;&gt;&gt; print 'The value of PI is approximately %5.3f.' % math.pi
+The value of PI is approximately 3.142.
+</pre></dl>
+
+<P>
+If there is more than one format in the string you pass a tuple as
+right operand, e.g.
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; table = {'Sjoerd': 4127, 'Jack': 4098, 'Dcab': 8637678}
+&gt;&gt;&gt; for name, phone in table.items():
+...     print'%-10s ==&gt; %10d' % (name, phone)
+... 
+Jack       ==&gt;       4098
+Dcab       ==&gt;    8637678
+Sjoerd     ==&gt;       4127
+</pre></dl>
+
+<P>
+Most formats work exactly as in C and require that you pass the proper
+type; however, if you don't you get an exception, not a core dump.
+The <tt>%s</tt> format is more relaxed: if the corresponding argument is
+not a string object, it is converted to string using the
+<tt class=function>str()</tt> built-in function.  Using <tt>*</tt> to pass the width
+or precision in as a separate (integer) argument is supported.  The
+C formats <tt>%n</tt> and <tt>%p</tt> are not supported.
+
+<P>
+If you have a really long format string that you don't want to split
+up, it would be nice if you could reference the variables to be
+formatted by name instead of by position.  This can be done by using
+an extension of C formats using the form <tt>%(name)format</tt>, e.g.
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; table = {'Sjoerd': 4127, 'Jack': 4098, 'Dcab': 8637678}
+&gt;&gt;&gt; print 'Jack: %(Jack)d; Sjoerd: %(Sjoerd)d; Dcab: %(Dcab)d' % table
+Jack: 4098; Sjoerd: 4127; Dcab: 8637678
+</pre></dl>
+
+<P>
+This is particularly useful in combination with the new built-in
+<tt class=function>vars()</tt> function, which returns a dictionary containing all
+local variables.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html726"
+ HREF="files.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html723"
+ HREF="io.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html717"
+ HREF="io.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html725"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html727"
+ HREF="files.html">7.2 Reading and Writing</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html724"
+ HREF="io.html">7. Input and Output</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html718"
+ HREF="io.html">7. Input and Output</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

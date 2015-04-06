@@ -1,0 +1,201 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>2.4.1 String literals</TITLE>
+<META NAME="description" CONTENT="2.4.1 String literals">
+<META NAME="keywords" CONTENT="ref">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ref.css">
+<LINK REL="next" HREF="string-catenation.html">
+<LINK REL="previous" HREF="literals.html">
+<LINK REL="up" HREF="literals.html">
+<LINK REL="next" HREF="string-catenation.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html429"
+ HREF="string-catenation.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html425"
+ HREF="literals.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html419"
+ HREF="literals.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html427"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html428"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html430"
+ HREF="string-catenation.html">2.4.2 String literal concatenation</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html426"
+ HREF="literals.html">2.4 Literals</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html420"
+ HREF="literals.html">2.4 Literals</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION004410000000000000000"></A>
+<BR>
+2.4.1 String literals
+</H2>
+
+<P>
+String literals are described by the following lexical definitions:
+<a name="l2h-37"></a>
+
+<P>
+<dl><dd><pre class=verbatim>
+stringliteral:   shortstring | longstring
+shortstring:     "'" shortstringitem* "'" | '"' shortstringitem* '"'
+longstring:      "'''" longstringitem* "'''" | '"""' longstringitem* '"""'
+shortstringitem: shortstringchar | escapeseq
+longstringitem:  longstringchar | escapeseq
+shortstringchar: &lt;any ASCII character except "\" or newline or the quote&gt;
+longstringchar:  &lt;any ASCII character except "\"&gt;
+escapeseq:       "\" &lt;any ASCII character&gt;
+</pre></dl>
+<a name="l2h-38"></a>
+
+<P>
+In plain English: String literals can be enclosed in matching single
+quotes (<tt>'</tt>) or double quotes (<tt>"</tt>).  They can also be
+enclosed in matching groups of three single or double quotes (these
+are generally referred to as <i>triple-quoted strings</i>).  The
+backslash (<tt>&#92;</tt>) character is used to escape characters that
+otherwise have a special meaning, such as newline, backslash itself,
+or the quote character.  String literals may optionally be prefixed
+with a letter `r' or `R'; such strings are called raw strings and use
+different rules for backslash escape sequences.
+<a name="l2h-39"></a>
+<a name="l2h-40"></a>
+
+<P>
+In triple-quoted strings,
+unescaped newlines and quotes are allowed (and are retained), except
+that three unescaped quotes in a row terminate the string.  (A
+``quote'' is the character used to open the string, i.e. either
+<tt>'</tt> or <tt>"</tt>.)
+
+<P>
+Unless an `r' or `R' prefix is present, escape sequences in strings
+are interpreted according to rules similar
+to those used by Standard C.  The recognized escape sequences are:
+<a name="l2h-41"></a>
+<a name="l2h-42"></a>
+<a name="l2h-43"></a>
+<a name="l2h-44"></a>
+
+<P>
+<table border align=center>
+  <tr bgcolor="#99CCFF">
+    <th align=left><b>Escape Sequence</b></th>
+    <th align=left><b>Meaning</b></th>
+<tr><td><code>&#92;<var>newline</var></code></td>
+      <td>Ignored&nbsp;</td>
+<tr><td><code>&#92;&#92;</code></td>
+      <td>Backslash (<tt>&#92;</tt>)&nbsp;</td>
+<tr><td><code>&#92;'</code></td>
+      <td>Single quote (<tt>'</tt>)&nbsp;</td>
+<tr><td><code>&#92;"</code></td>
+      <td>Double quote (<tt>"</tt>)&nbsp;</td>
+<tr><td><code>&#92;a</code></td>
+      <td>ASCII Bell (BEL)&nbsp;</td>
+<tr><td><code>&#92;b</code></td>
+      <td>ASCII Backspace (BS)&nbsp;</td>
+<tr><td><code>&#92;f</code></td>
+      <td>ASCII Formfeed (FF)&nbsp;</td>
+<tr><td><code>&#92;n</code></td>
+      <td>ASCII Linefeed (LF)&nbsp;</td>
+<tr><td><code>&#92;r</code></td>
+      <td>ASCII Carriage Return (CR)&nbsp;</td>
+<tr><td><code>&#92;t</code></td>
+      <td>ASCII Horizontal Tab (TAB)&nbsp;</td>
+<tr><td><code>&#92;v</code></td>
+      <td>ASCII Vertical Tab (VT)&nbsp;</td>
+<tr><td><code>&#92;<var>ooo</var></code></td>
+      <td>ASCII character with octal value <i>ooo</i>&nbsp;</td>
+<tr><td><code>&#92;x<var>hh...</var></code></td>
+      <td>ASCII character with hex value <i>hh...</i>&nbsp;</td>
+
+</table>
+<a name="l2h-45"></a>
+
+<P>
+In strict compatibility with Standard C, up to three octal digits are
+accepted, but an unlimited number of hex digits is taken to be part of
+the hex escape (and then the lower 8 bits of the resulting hex number
+are used in 8-bit implementations).
+
+<P>
+Unlike Standard C,
+all unrecognized escape sequences are left in the string unchanged,
+i.e., <i>the backslash is left in the string.</i>  (This behavior is
+useful when debugging: if an escape sequence is mistyped, the
+resulting output is more easily recognized as broken.)
+<a name="l2h-46"></a>
+
+<P>
+When an `r' or `R' prefix is present, backslashes are still used to
+quote the following character, but <i>all backslashes are left in
+the string</i>.  For example, the string literal <tt>r"&#92;n"</tt> consists
+of two characters: a backslash and a lowercase `n'.  String quotes can
+be escaped with a backslash, but the backslash remains in the string;
+for example, <tt>r"&#92;""</tt> is a valid string literal consisting of two
+characters: a backslash and a double quote; <tt>r"&#92;"</tt> is not a value
+string literal (even a raw string cannot end in an odd number of
+backslashes).  Specifically, <i>a raw string cannot end in a single
+backslash</i> (since the backslash would escape the following quote
+character).
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html429"
+ HREF="string-catenation.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html425"
+ HREF="literals.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html419"
+ HREF="literals.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html427"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html428"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html430"
+ HREF="string-catenation.html">2.4.2 String literal concatenation</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html426"
+ HREF="literals.html">2.4 Literals</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html420"
+ HREF="literals.html">2.4 Literals</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

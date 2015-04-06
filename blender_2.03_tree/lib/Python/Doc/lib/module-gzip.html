@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.11 gzip -- Support for gzip files</TITLE>
+<META NAME="description" CONTENT="7.11 gzip -- Support for gzip files">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="previous" HREF="module-zlib.html">
+<LINK REL="up" HREF="someos.html">
+<LINK REL="next" HREF="unix.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2314"
+ HREF="unix.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2310"
+ HREF="someos.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2306"
+ HREF="module-zlib.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2312"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2313"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2315"
+ HREF="unix.html">8. Unix Specific Services</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2311"
+ HREF="someos.html">7. Optional Operating System</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2307"
+ HREF="module-zlib.html">7.10 zlib  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0091100000000000000000">
+7.11 <tt class=module>gzip</tt> --
+         Support for <b class=program>gzip</b> files</A>
+</H1>
+
+<P>
+
+
+<P>
+The data compression provided by the <tt>zlib</tt> module is compatible
+with that used by the GNU compression program <b class=program>gzip</b>.
+Accordingly, the <tt class=module>gzip</tt> module provides the <tt class=class>GzipFile</tt>
+class to read and write <b class=program>gzip</b>-format files, automatically
+compressing or decompressing the data so it looks like an ordinary
+file object.  Note that additional file formats which can be
+decompressed by the <b class=program>gzip</b> and <b class=program>gunzip</b> programs, such 
+as those produced by <b class=program>compress</b> and <b class=program>pack</b>, are not
+supported by this module.
+
+<P>
+The module defines the following items:
+
+<P>
+<dl><dt><b><a name="l2h-1389"><tt class=class>GzipFile</tt></a></b> (<big>[</big><var>filename</var><big>[</big><var>, mode</var><big>[</big><var>,
+                            compresslevel</var><big>[</big><var>, fileobj</var><big>]</big><big>]</big><big>]</big><big>]</big>)
+<dd>
+Constructor for the <tt class=class>GzipFile</tt> class, which simulates most of
+the methods of a file object, with the exception of the
+<tt class=method>seek()</tt> and <tt class=method>tell()</tt> methods.  At least one of
+<var>fileobj</var> and <var>filename</var> must be given a non-trivial value.
+
+<P>
+The new class instance is based on <var>fileobj</var>, which can be a
+regular file, a <tt class=class>StringIO</tt> object, or any other object which
+simulates a file.  It defaults to <tt>None</tt>, in which case
+<var>filename</var> is opened to provide a file object.
+
+<P>
+When <var>fileobj</var> is not <tt>None</tt>, the <var>filename</var> argument is
+only used to be included in the <b class=program>gzip</b> file header, which may
+includes the original filename of the uncompressed file.  It defaults
+to the filename of <var>fileobj</var>, if discernible; otherwise, it
+defaults to the empty string, and in this case the original filename
+is not included in the header.
+
+<P>
+The <var>mode</var> argument can be any of <tt>'r'</tt>, <tt>'rb'</tt>,
+<tt>'a'</tt>, <tt>'ab'</tt>, <tt>'w'</tt>, or <tt>'wb'</tt>, depending on
+whether the file will be read or written.  The default is the mode of
+<var>fileobj</var> if discernible; otherwise, the default is <tt>'rb'</tt>.
+Be aware that only the <tt>'rb'</tt>, <tt>'ab'</tt>, and <tt>'wb'</tt>values should be used for cross-platform portability.
+
+<P>
+The <var>compresslevel</var> argument is an integer from <tt>1</tt> to
+<tt>9</tt> controlling the level of compression; <tt>1</tt> is fastest and
+produces the least compression, and <tt>9</tt> is slowest and produces
+the most compression.  The default is <tt>9</tt>.
+
+<P>
+Calling a <tt class=class>GzipFile</tt> object's <tt class=method>close()</tt> method does not
+close <var>fileobj</var>, since you might wish to append more material
+after the compressed data.  This also allows you to pass a
+<tt class=class>StringIO</tt> object opened for writing as <var>fileobj</var>, and
+retrieve the resulting memory buffer using the <tt class=class>StringIO</tt>
+object's <tt class=method>getvalue()</tt> method.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1390"><tt class=function>open</tt></a></b> (<var>filename</var><big>[</big><var>, mode</var><big>[</big><var>, compresslevel</var><big>]</big><big>]</big>)
+<dd>
+This is a shorthand for <tt>GzipFile(<var>filename</var>,</tt><tt><var>mode</var>,</tt> <tt><var>compresslevel</var>)</tt>.  The <var>filename</var>
+argument is required; <var>mode</var> defaults to <tt>'rb'</tt> and
+<var>compresslevel</var> defaults to <tt>9</tt>.
+</dl>
+
+<P>
+<div class=seealso>
+  <p class=heading><b>See Also:</b></p>
+
+<div class=seemodule>
+<p>Module <b><tt class=module><a href="module-zlib.html">zlib</a></tt></b>&nbsp;&nbsp;&nbsp;(the basic data compression module)</p>
+</div>
+</div>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2314"
+ HREF="unix.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2310"
+ HREF="someos.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2306"
+ HREF="module-zlib.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2312"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2313"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2315"
+ HREF="unix.html">8. Unix Specific Services</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2311"
+ HREF="someos.html">7. Optional Operating System</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2307"
+ HREF="module-zlib.html">7.10 zlib  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

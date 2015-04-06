@@ -1,0 +1,179 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>8.12 syslog -- Unix syslog library routines</TITLE>
+<META NAME="description" CONTENT="8.12 syslog -- Unix syslog library routines">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-stat.html">
+<LINK REL="previous" HREF="module-resource.html">
+<LINK REL="up" HREF="unix.html">
+<LINK REL="next" HREF="module-stat.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2529"
+ HREF="module-stat.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2525"
+ HREF="unix.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2519"
+ HREF="node163.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2527"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2528"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2530"
+ HREF="module-stat.html">8.13 stat  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2526"
+ HREF="unix.html">8. Unix Specific Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2520"
+ HREF="node163.html">8.11.2 Resource Usage</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00101200000000000000000">
+8.12 <tt class=module>syslog</tt> --
+         Unix syslog library routines</A>
+</H1>
+
+<P>
+  
+<p class=availability>Availability: <span
+ class=platform>Unix</span>.</p>
+
+<P>
+This module provides an interface to the Unix <tt>syslog</tt> library
+routines.  Refer to the Unix manual pages for a detailed description
+of the <tt>syslog</tt> facility.
+
+<P>
+The module defines the following functions:
+
+<P>
+<dl><dt><b><a name="l2h-1483"><tt class=function>syslog</tt></a></b> (<big>[</big><var>priority,</var><big>]</big><var> message</var>)
+<dd>
+Send the string <var>message</var> to the system logger.  A trailing
+newline is added if necessary.  Each message is tagged with a priority
+composed of a <var>facility</var> and a <var>level</var>.  The optional
+<var>priority</var> argument, which defaults to <tt class=constant>LOG_INFO</tt>,
+determines the message priority.  If the facility is not encoded in
+<var>priority</var> using logical-or (<tt>LOG_INFO | LOG_USER</tt>), the
+value given in the <tt class=function>openlog()</tt> call is used.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1484"><tt class=function>openlog</tt></a></b> (<var>ident</var><big>[</big><var>, logopt</var><big>[</big><var>, facility</var><big>]</big><big>]</big>)
+<dd>
+Logging options other than the defaults can be set by explicitly
+opening the log file with <tt class=function>openlog()</tt> prior to calling
+<tt class=function>syslog()</tt>.  The defaults are (usually) <var>ident</var> =
+<tt>'syslog'</tt>, <var>logopt</var> = <tt>0</tt>, <var>facility</var> =
+<tt class=constant>LOG_USER</tt>.  The <var>ident</var> argument is a string which is
+prepended to every message.  The optional <var>logopt</var> argument is a
+bit field - see below for possible values to combine.  The optional
+<var>facility</var> argument sets the default facility for messages which
+do not have a facility explicitly encoded.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1485"><tt class=function>closelog</tt></a></b> ()
+<dd>
+Close the log file.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1486"><tt class=function>setlogmask</tt></a></b> (<var>maskpri</var>)
+<dd>
+Set the priority mask to <var>maskpri</var> and return the
+previous mask value.  Calls to <tt class=function>syslog()</tt> with a priority
+level not set in <var>maskpri</var> are ignored.  The default is to log all
+priorities.  The function <tt>LOG_MASK(<var>pri</var>)</tt> calculates the
+mask for the individual priority <var>pri</var>.  The function
+<tt>LOG_UPTO(<var>pri</var>)</tt> calculates the mask for all priorities up
+to and including <var>pri</var>.
+</dl>
+
+<P>
+The module defines the following constants:
+
+<P>
+<DL>
+<DD><P>
+<DT><STRONG>Priority levels (high to low):</STRONG>
+<DD><P>
+<tt class=constant>LOG_EMERG</tt>, <tt class=constant>LOG_ALERT</tt>, <tt class=constant>LOG_CRIT</tt>,
+<tt class=constant>LOG_ERR</tt>, <tt class=constant>LOG_WARNING</tt>, <tt class=constant>LOG_NOTICE</tt>,
+<tt class=constant>LOG_INFO</tt>, <tt class=constant>LOG_DEBUG</tt>.
+
+<P>
+<DT><STRONG>Facilities:</STRONG>
+<DD><P>
+<tt class=constant>LOG_KERN</tt>, <tt class=constant>LOG_USER</tt>, <tt class=constant>LOG_MAIL</tt>,
+<tt class=constant>LOG_DAEMON</tt>, <tt class=constant>LOG_AUTH</tt>, <tt class=constant>LOG_LPR</tt>,
+<tt class=constant>LOG_NEWS</tt>, <tt class=constant>LOG_UUCP</tt>, <tt class=constant>LOG_CRON</tt> and
+<tt class=constant>LOG_LOCAL0</tt> to <tt class=constant>LOG_LOCAL7</tt>.
+
+<P>
+<DT><STRONG>Log options:</STRONG>
+<DD><P>
+<tt class=constant>LOG_PID</tt>, <tt class=constant>LOG_CONS</tt>, <tt class=constant>LOG_NDELAY</tt>,
+<tt class=constant>LOG_NOWAIT</tt> and <tt class=constant>LOG_PERROR</tt> if defined in
+<tt>&lt;syslog.h&gt;</tt>.
+
+<P>
+</DL><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2529"
+ HREF="module-stat.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2525"
+ HREF="unix.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2519"
+ HREF="node163.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2527"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2528"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2530"
+ HREF="module-stat.html">8.13 stat  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2526"
+ HREF="unix.html">8. Unix Specific Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2520"
+ HREF="node163.html">8.11.2 Resource Usage</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

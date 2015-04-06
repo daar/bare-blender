@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4.2 for Statements </TITLE>
+<META NAME="description" CONTENT="4.2 for Statements ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="range.html">
+<LINK REL="previous" HREF="if.html">
+<LINK REL="up" HREF="moreControl.html">
+<LINK REL="next" HREF="range.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html392"
+ HREF="range.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html389"
+ HREF="moreControl.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html383"
+ HREF="if.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html391"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html393"
+ HREF="range.html">4.3 The range() Function</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html390"
+ HREF="moreControl.html">4. More Control Flow</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html384"
+ HREF="if.html">4.1 if Statements</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION006200000000000000000"></A>
+<BR>
+4.2 <tt class=keyword>for</tt> Statements 
+</H1>
+
+<P>
+The <tt class=keyword>for</tt><a name="l2h-4"></a> statement in Python differs a bit from
+what you may be used to in C or Pascal.  Rather than always
+iterating over an arithmetic progression of numbers (like in Pascal),
+or giving the user the ability to define both the iteration step and
+halting condition (as C), Python's <tt class=keyword>for</tt><a name="l2h-5"></a>
+statement iterates over the items of any sequence (e.g., a list or a
+string), in the order that they appear in the sequence.  For example
+(no pun intended):
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; # Measure some strings:
+... a = ['cat', 'window', 'defenestrate']
+&gt;&gt;&gt; for x in a:
+...     print x, len(x)
+... 
+cat 3
+window 6
+defenestrate 12
+</pre></dl>
+
+<P>
+It is not safe to modify the sequence being iterated over in the loop
+(this can only happen for mutable sequence types, i.e., lists).  If
+you need to modify the list you are iterating over, e.g., duplicate
+selected items, you must iterate over a copy.  The slice notation
+makes this particularly convenient:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; for x in a[:]: # make a slice copy of the entire list
+...    if len(x) &gt; 6: a.insert(0, x)
+... 
+&gt;&gt;&gt; a
+['defenestrate', 'cat', 'window', 'defenestrate']
+</pre></dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html392"
+ HREF="range.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html389"
+ HREF="moreControl.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html383"
+ HREF="if.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html391"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html393"
+ HREF="range.html">4.3 The range() Function</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html390"
+ HREF="moreControl.html">4. More Control Flow</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html384"
+ HREF="if.html">4.1 if Statements</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

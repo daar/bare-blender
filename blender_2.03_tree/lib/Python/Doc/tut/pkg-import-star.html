@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>6.4.1 Importing * From a Package </TITLE>
+<META NAME="description" CONTENT="6.4.1 Importing * From a Package ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="node48.html">
+<LINK REL="previous" HREF="packages.html">
+<LINK REL="up" HREF="packages.html">
+<LINK REL="next" HREF="node48.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html691"
+ HREF="node48.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html688"
+ HREF="packages.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html682"
+ HREF="packages.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html690"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html692"
+ HREF="node48.html">6.4.2 Intra-package References</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html689"
+ HREF="packages.html">6.4 Packages</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html683"
+ HREF="packages.html">6.4 Packages</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION008410000000000000000"></A>
+<BR>
+6.4.1 Importing * From a Package 
+</H2>
+
+<P>
+Now what happens when the user writes <tt>from Sound.Effects import
+*</tt>?  Ideally, one would hope that this somehow goes out to the
+filesystem, finds which submodules are present in the package, and
+imports them all.  Unfortunately, this operation does not work very
+well on Mac and Windows platforms, where the filesystem does not
+always have accurate information about the case of a filename!  On
+these platforms, there is no guaranteed way to know whether a file
+"<tt class=file>ECHO.PY</tt>" should be imported as a module <tt class=module>echo</tt>,
+<tt class=module>Echo</tt> or <tt class=module>ECHO</tt>.  (For example, Windows 95 has the
+annoying practice of showing all file names with a capitalized first
+letter.)  The DOS 8+3 filename restriction adds another interesting
+problem for long module names.
+
+<P>
+The only solution is for the package author to provide an explicit
+index of the package.  The import statement uses the following
+convention: if a package's "<tt class=file>__init__.py</tt>" code defines a list named
+<tt>__all__</tt>, it is taken to be the list of module names that should be imported
+when <tt>from <var>package</var> import *</tt> is
+encountered.  It is up to the package author to keep this list
+up-to-date when a new version of the package is released.  Package
+authors may also decide not to support it, if they don't see a use for
+importing * from their package.  For example, the file
+<tt>Sounds/Effects/__init__.py</tt> could contain the following code:
+
+<P>
+<dl><dd><pre class=verbatim>
+__all__ = ["echo", "surround", "reverse"]
+</pre></dl>
+
+<P>
+This would mean that <tt>from Sound.Effects import *</tt> would
+import the three named submodules of the <tt class=module>Sound</tt> package.
+
+<P>
+If <tt>__all__</tt> is not defined, the statement <tt>from Sound.Effects
+import *</tt> does <i>not</i> import all submodules from the package
+<tt class=module>Sound.Effects</tt> into the current namespace; it only ensures that the
+package <tt class=module>Sound.Effects</tt> has been imported (possibly running its
+initialization code, "<tt class=file>__init__.py</tt>") and then imports whatever names are
+defined in the package.  This includes any names defined (and
+submodules explicitly loaded) by "<tt class=file>__init__.py</tt>".  It also includes any
+submodules of the package that were explicitly loaded by previous
+import statements, e.g.
+
+<P>
+<dl><dd><pre class=verbatim>
+import Sound.Effects.echo
+import Sound.Effects.surround
+from Sound.Effects import *
+</pre></dl>
+
+<P>
+In this example, the echo and surround modules are imported in the
+current namespace because they are defined in the <tt class=module>Sound.Effects</tt>
+package when the <tt>from...import</tt> statement is executed.  (This also
+works when <tt>__all__</tt> is defined.)
+
+<P>
+Note that in general the practicing of importing * from a module or
+package is frowned upon, since it often causes poorly readable code.
+However, it is okay to use it to save typing in interactive sessions,
+and certain modules are designed to export only names that follow
+certain patterns.
+
+<P>
+Remember, there is nothing wrong with using <tt>from Package
+import specific_submodule</tt>!  In fact, this is the
+recommended notation unless the importing module needs to use
+submodules with the same name from different packages.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html691"
+ HREF="node48.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html688"
+ HREF="packages.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html682"
+ HREF="packages.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html690"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html692"
+ HREF="node48.html">6.4.2 Intra-package References</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html689"
+ HREF="packages.html">6.4 Packages</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html683"
+ HREF="packages.html">6.4 Packages</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

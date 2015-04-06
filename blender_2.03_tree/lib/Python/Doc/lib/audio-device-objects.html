@@ -1,0 +1,213 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>17.1.1 Audio Device Objects</TITLE>
+<META NAME="description" CONTENT="17.1.1 Audio Device Objects">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="previous" HREF="module-sunaudiodev.html">
+<LINK REL="up" HREF="module-sunaudiodev.html">
+<LINK REL="next" HREF="node297.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html4107"
+ HREF="node297.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html4103"
+ HREF="module-sunaudiodev.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html4099"
+ HREF="module-sunaudiodev.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html4105"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html4106"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html4108"
+ HREF="node297.html">18. MS Windows Specific</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html4104"
+ HREF="module-sunaudiodev.html">17.1 sunaudiodev  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html4100"
+ HREF="module-sunaudiodev.html">17.1 sunaudiodev  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0019110000000000000000"></A>
+<BR>
+17.1.1 Audio Device Objects
+</H2>
+
+<P>
+The audio device objects are returned by <tt class=function>open()</tt> define the
+following methods (except <tt>control</tt> objects which only provide
+<tt class=method>getinfo()</tt>, <tt class=method>setinfo()</tt>, <tt class=method>fileno()</tt>, and
+<tt class=method>drain()</tt>):
+
+<P>
+<dl><dt><b><a name="l2h-2479"><tt class=method>close</tt></a></b> ()
+<dd>
+This method explicitly closes the device. It is useful in situations
+where deleting the object does not immediately close it since there
+are other references to it. A closed device should not be used again.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2480"><tt class=method>fileno</tt></a></b> ()
+<dd>
+Returns the file descriptor associated with the device.  This can be
+used to set up <tt>SIGPOLL</tt> notification, as described below.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2481"><tt class=method>drain</tt></a></b> ()
+<dd>
+This method waits until all pending output is processed and then returns.
+Calling this method is often not necessary: destroying the object will
+automatically close the audio device and this will do an implicit drain.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2482"><tt class=method>flush</tt></a></b> ()
+<dd>
+This method discards all pending output. It can be used avoid the
+slow response to a user's stop request (due to buffering of up to one
+second of sound).
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2483"><tt class=method>getinfo</tt></a></b> ()
+<dd>
+This method retrieves status information like input and output volume,
+etc. and returns it in the form of
+an audio status object. This object has no methods but it contains a
+number of attributes describing the current device status. The names
+and meanings of the attributes are described in
+"<tt class=file>/usr/include/sun/audioio.h</tt>" and in the <span class=manpage><i>audio</i>(7I)</span>
+manual page.  Member names
+are slightly different from their C counterparts: a status object is
+only a single structure. Members of the <tt class=cdata>play</tt> substructure have
+"<tt class=samp>o_</tt>" prepended to their name and members of the <tt class=cdata>record</tt>
+structure have "<tt class=samp>i_</tt>". So, the C member <tt class=cdata>play.sample_rate</tt> is
+accessed as <tt class=member>o_sample_rate</tt>, <tt class=cdata>record.gain</tt> as <tt class=member>i_gain</tt>
+and <tt class=cdata>monitor_gain</tt> plainly as <tt class=member>monitor_gain</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2484"><tt class=method>ibufcount</tt></a></b> ()
+<dd>
+This method returns the number of samples that are buffered on the
+recording side, i.e. the program will not block on a
+<tt class=function>read()</tt> call of so many samples.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2485"><tt class=method>obufcount</tt></a></b> ()
+<dd>
+This method returns the number of samples buffered on the playback
+side. Unfortunately, this number cannot be used to determine a number
+of samples that can be written without blocking since the kernel
+output queue length seems to be variable.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2486"><tt class=method>read</tt></a></b> (<var>size</var>)
+<dd>
+This method reads <var>size</var> samples from the audio input and returns
+them as a Python string. The function blocks until enough data is available.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2487"><tt class=method>setinfo</tt></a></b> (<var>status</var>)
+<dd>
+This method sets the audio device status parameters. The <var>status</var>
+parameter is an device status object as returned by <tt class=function>getinfo()</tt> and
+possibly modified by the program.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2488"><tt class=method>write</tt></a></b> (<var>samples</var>)
+<dd>
+Write is passed a Python string containing audio samples to be played.
+If there is enough buffer space free it will immediately return,
+otherwise it will block.
+</dl>
+
+<P>
+There is a companion module,
+<tt class=module>SUNAUDIODEV</tt><a name="l2h-2489"></a>, which defines useful
+symbolic constants like <tt class=constant>MIN_GAIN</tt>, <tt class=constant>MAX_GAIN</tt>,
+<tt class=constant>SPEAKER</tt>, etc. The names of the constants are the same names
+as used in the C include file <tt>&lt;sun/audioio.h&gt;</tt>, with the
+leading string "<tt class=samp>AUDIO_</tt>" stripped.
+
+<P>
+The audio device supports asynchronous notification of various events,
+through the SIGPOLL signal.  Here's an example of how you might enable 
+this in Python:
+
+<P>
+<dl><dd><pre class=verbatim>
+def handle_sigpoll(signum, frame):
+    print 'I got a SIGPOLL update'
+pp
+import fcntl, signal, STROPTS
+
+signal.signal(signal.SIGPOLL, handle_sigpoll)
+fcntl.ioctl(audio_obj.fileno(), STROPTS.I_SETSIG, STROPTS.S_MSG)
+</pre></dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html4107"
+ HREF="node297.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html4103"
+ HREF="module-sunaudiodev.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html4099"
+ HREF="module-sunaudiodev.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html4105"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html4106"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html4108"
+ HREF="node297.html">18. MS Windows Specific</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html4104"
+ HREF="module-sunaudiodev.html">17.1 sunaudiodev  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html4100"
+ HREF="module-sunaudiodev.html">17.1 sunaudiodev  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

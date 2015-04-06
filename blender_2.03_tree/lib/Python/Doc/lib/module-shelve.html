@@ -1,0 +1,183 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.10 shelve -- Python object persistency</TITLE>
+<META NAME="description" CONTENT="3.10 shelve -- Python object persistency">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-copy.html">
+<LINK REL="previous" HREF="module-copyreg.html">
+<LINK REL="up" HREF="python.html">
+<LINK REL="next" HREF="module-copy.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1034"
+ HREF="module-copy.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1030"
+ HREF="python.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1024"
+ HREF="module-copyreg.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1032"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1033"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1035"
+ HREF="module-copy.html">3.11 copy  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1031"
+ HREF="python.html">3. Python Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1025"
+ HREF="module-copyreg.html">3.9 copy_reg  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0051000000000000000000">
+3.10 <tt class=module>shelve</tt> --
+         Python object persistency</A>
+</H1>
+
+<P>
+
+<P>
+A ``shelf'' is a persistent, dictionary-like object.  The difference
+with ``dbm'' databases is that the values (not the keys!) in a shelf
+can be essentially arbitrary Python objects -- anything that the
+<tt class=module><a href="module-pickle.html">pickle</a></tt> module can handle.  This includes most class
+instances, recursive data types, and objects containing lots of shared 
+sub-objects.  The keys are ordinary strings.
+<a name="l2h-427"></a>
+
+<P>
+To summarize the interface (<tt>key</tt> is a string, <tt>data</tt> is an
+arbitrary object):
+
+<P>
+<dl><dd><pre class=verbatim>
+import shelve
+
+d = shelve.open(filename) # open, with (g)dbm filename -- no suffix
+
+d[key] = data   # store data at key (overwrites old data if
+                # using an existing key)
+data = d[key]   # retrieve data at key (raise KeyError if no
+                # such key)
+del d[key]      # delete data stored at key (raises KeyError
+                # if no such key)
+flag = d.has_key(key)   # true if the key exists
+list = d.keys() # a list of all existing keys (slow!)
+
+d.close()       # close it
+</pre></dl>
+
+<P>
+Restrictions:
+
+<P>
+
+<UL><LI>The choice of which database package will be used
+(e.g. <tt class=module><a href="module-dbm.html">dbm</a></tt> or <tt class=module><a href="module-gdbm.html">gdbm</a></tt>) depends on which interface
+is available.  Therefore it is not safe to open the database directly
+using <tt class=module><a href="module-dbm.html">dbm</a></tt>.  The database is also (unfortunately) subject
+to the limitations of <tt class=module><a href="module-dbm.html">dbm</a></tt>, if it is used -- this means
+that (the pickled representation of) the objects stored in the
+database should be fairly small, and in rare cases key collisions may
+cause the database to refuse updates.
+<a name="l2h-428"></a>
+<a name="l2h-429"></a>
+
+<P>
+
+<LI>Dependent on the implementation, closing a persistent dictionary may
+or may not be necessary to flush changes to disk.
+
+<P>
+
+<LI>The <tt class=module>shelve</tt> module does not support <i>concurrent</i> read/write
+access to shelved objects.  (Multiple simultaneous read accesses are
+safe.)  When a program has a shelf open for writing, no other program
+should have it open for reading or writing.  Unix file locking can
+be used to solve this, but this differs across Unix versions and
+requires knowledge about the database implementation used.
+
+<P>
+
+</UL>
+
+<P>
+<div class=seealso>
+  <p class=heading><b>See Also:</b></p>
+
+  <div class=seemodule>
+<p>Module <b><tt class=module><a href="module-anydbm.html">anydbm</a></tt></b>&nbsp;&nbsp;&nbsp;(Generic interface to <tt>dbm</tt>-style databases.)</p>
+</div>
+ <div class=seemodule>
+<p>Module <b><tt class=module><a href="module-dbm.html">dbm</a></tt></b>&nbsp;&nbsp;&nbsp;(Standard Unix database interface.)</p>
+</div>
+  <div class=seemodule>
+<p>Module <b><tt class=module><a href="module-dumbdbm.html">dumbdbm</a></tt></b>&nbsp;&nbsp;&nbsp;(Portable implementation of the <tt>dbm</tt> interface.)</p>
+</div>
+  <div class=seemodule>
+<p>Module <b><tt class=module><a href="module-gdbm.html">gdbm</a></tt></b>&nbsp;&nbsp;&nbsp;(GNU database interface, based on the <tt>dbm</tt> interface.)</p>
+</div>
+  <div class=seemodule>
+<p>Module <b><tt class=module><a href="module-pickle.html">pickle</a></tt></b>&nbsp;&nbsp;&nbsp;(Object serialization used by <tt class=module>shelve</tt>.)</p>
+</div>
+  <div class=seemodule>
+<p>Module <b><tt class=module><a href="module-cPickle.html">cPickle</a></tt></b>&nbsp;&nbsp;&nbsp;(High-performance version of <tt class=module>pickle</tt>.)</p>
+</div>
+</div><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1034"
+ HREF="module-copy.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1030"
+ HREF="python.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1024"
+ HREF="module-copyreg.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1032"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1033"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1035"
+ HREF="module-copy.html">3.11 copy  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1031"
+ HREF="python.html">3. Python Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1025"
+ HREF="module-copyreg.html">3.9 copy_reg  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

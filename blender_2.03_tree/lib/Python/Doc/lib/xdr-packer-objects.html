@@ -1,0 +1,202 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>12.12.1 Packer Objects </TITLE>
+<META NAME="description" CONTENT="12.12.1 Packer Objects ">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="xdr-unpacker-objects.html">
+<LINK REL="previous" HREF="module-xdrlib.html">
+<LINK REL="up" HREF="module-xdrlib.html">
+<LINK REL="next" HREF="xdr-unpacker-objects.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3485"
+ HREF="xdr-unpacker-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3481"
+ HREF="module-xdrlib.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3475"
+ HREF="module-xdrlib.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3483"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3484"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3486"
+ HREF="xdr-unpacker-objects.html">12.12.2 Unpacker Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3482"
+ HREF="module-xdrlib.html">12.12 xdrlib  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3476"
+ HREF="module-xdrlib.html">12.12 xdrlib  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00141210000000000000000"></A>
+<BR>
+12.12.1 Packer Objects 
+</H2>
+
+<P>
+<tt class=class>Packer</tt> instances have the following methods:
+
+<P>
+<dl><dt><b><a name="l2h-2021"><tt class=method>get_buffer</tt></a></b> ()
+<dd>
+Returns the current pack buffer as a string.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2022"><tt class=method>reset</tt></a></b> ()
+<dd>
+Resets the pack buffer to the empty string.
+</dl>
+
+<P>
+In general, you can pack any of the most common XDR data types by
+calling the appropriate <tt>pack_<var>type</var>()</tt> method.  Each method
+takes a single argument, the value to pack.  The following simple data
+type packing methods are supported: <tt class=method>pack_uint()</tt>,
+<tt class=method>pack_int()</tt>, <tt class=method>pack_enum()</tt>, <tt class=method>pack_bool()</tt>,
+<tt class=method>pack_uhyper()</tt>, and <tt class=method>pack_hyper()</tt>.
+
+<P>
+<dl><dt><b><a name="l2h-2023"><tt class=method>pack_float</tt></a></b> (<var>value</var>)
+<dd>
+Packs the single-precision floating point number <var>value</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2024"><tt class=method>pack_double</tt></a></b> (<var>value</var>)
+<dd>
+Packs the double-precision floating point number <var>value</var>.
+</dl>
+
+<P>
+The following methods support packing strings, bytes, and opaque data:
+
+<P>
+<dl><dt><b><a name="l2h-2025"><tt class=method>pack_fstring</tt></a></b> (<var>n, s</var>)
+<dd>
+Packs a fixed length string, <var>s</var>.  <var>n</var> is the length of the
+string but it is <i>not</i> packed into the data buffer.  The string
+is padded with null bytes if necessary to guaranteed 4 byte alignment.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2026"><tt class=method>pack_fopaque</tt></a></b> (<var>n, data</var>)
+<dd>
+Packs a fixed length opaque data stream, similarly to
+<tt class=method>pack_fstring()</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2027"><tt class=method>pack_string</tt></a></b> (<var>s</var>)
+<dd>
+Packs a variable length string, <var>s</var>.  The length of the string is
+first packed as an unsigned integer, then the string data is packed
+with <tt class=method>pack_fstring()</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2028"><tt class=method>pack_opaque</tt></a></b> (<var>data</var>)
+<dd>
+Packs a variable length opaque data string, similarly to
+<tt class=method>pack_string()</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2029"><tt class=method>pack_bytes</tt></a></b> (<var>bytes</var>)
+<dd>
+Packs a variable length byte stream, similarly to <tt class=method>pack_string()</tt>.
+</dl>
+
+<P>
+The following methods support packing arrays and lists:
+
+<P>
+<dl><dt><b><a name="l2h-2030"><tt class=method>pack_list</tt></a></b> (<var>list, pack_item</var>)
+<dd>
+Packs a <var>list</var> of homogeneous items.  This method is useful for
+lists with an indeterminate size; i.e. the size is not available until
+the entire list has been walked.  For each item in the list, an
+unsigned integer <tt>1</tt> is packed first, followed by the data value
+from the list.  <var>pack_item</var> is the function that is called to pack
+the individual item.  At the end of the list, an unsigned integer
+<tt>0</tt> is packed.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2031"><tt class=method>pack_farray</tt></a></b> (<var>n, array, pack_item</var>)
+<dd>
+Packs a fixed length list (<var>array</var>) of homogeneous items.  <var>n</var>
+is the length of the list; it is <i>not</i> packed into the buffer,
+but a <tt class=exception>ValueError</tt> exception is raised if
+<tt>len(<var>array</var>)</tt> is not equal to <var>n</var>.  As above,
+<var>pack_item</var> is the function used to pack each element.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2032"><tt class=method>pack_array</tt></a></b> (<var>list, pack_item</var>)
+<dd>
+Packs a variable length <var>list</var> of homogeneous items.  First, the
+length of the list is packed as an unsigned integer, then each element
+is packed as in <tt class=method>pack_farray()</tt> above.
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3485"
+ HREF="xdr-unpacker-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3481"
+ HREF="module-xdrlib.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3475"
+ HREF="module-xdrlib.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3483"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3484"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3486"
+ HREF="xdr-unpacker-objects.html">12.12.2 Unpacker Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3482"
+ HREF="module-xdrlib.html">12.12 xdrlib  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3476"
+ HREF="module-xdrlib.html">12.12 xdrlib  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

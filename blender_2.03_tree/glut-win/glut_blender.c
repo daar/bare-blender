@@ -3,7 +3,7 @@
  * Desc:   Support functions for Blender
  */
 
-#include <GL/glut.h>
+#include <glut.h>
 #include "glutint.h"
 #include "glut_blender.h"
 

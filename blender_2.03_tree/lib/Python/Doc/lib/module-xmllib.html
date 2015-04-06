@@ -1,0 +1,383 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>12.3 xmllib -- A parser for XML documents</TITLE>
+<META NAME="description" CONTENT="12.3 xmllib -- A parser for XML documents">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-formatter.html">
+<LINK REL="previous" HREF="module-htmllib.html">
+<LINK REL="up" HREF="netdata.html">
+<LINK REL="next" HREF="xml-namespace.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3220"
+ HREF="xml-namespace.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3216"
+ HREF="netdata.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3210"
+ HREF="module-htmllib.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3218"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3219"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3221"
+ HREF="xml-namespace.html">12.3.1 XML Namespaces</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3217"
+ HREF="netdata.html">12. Internet Data Handling</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3211"
+ HREF="module-htmllib.html">12.2 htmllib  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0014300000000000000000">
+12.3 <tt class=module>xmllib</tt> --
+         A parser for XML documents</A>
+</H1>
+
+<P>
+
+
+<P>
+<a name="l2h-1889"></a>
+<a name="l2h-1890"></a>
+
+<P>
+Changed in version 1.5.2.
+
+<P>
+This module defines a class <tt class=class>XMLParser</tt> which serves as the basis 
+for parsing text files formatted in XML (Extensible Markup Language).
+
+<P>
+<dl><dt><b><a name="l2h-1863"><tt class=class>XMLParser</tt></a></b> ()
+<dd>
+The <tt class=class>XMLParser</tt> class must be instantiated without arguments.
+</dl>
+
+<P>
+This class provides the following interface methods and instance variables:
+
+<P>
+<dl><dt><b><a name="l2h-1864"><tt>attributes</tt></a></b>
+<dd>
+A mapping of element names to mappings.  The latter mapping maps
+attribute names that are valid for the element to the default value of 
+the attribute, or if there is no default to <tt>None</tt>.  The default
+value is the empty dictionary.  This variable is meant to be
+overridden, not extended since the default is shared by all instances
+of <tt class=class>XMLParser</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1865"><tt>elements</tt></a></b>
+<dd> 
+A mapping of element names to tuples.  The tuples contain a function
+for handling the start and end tag respectively of the element, or
+<tt>None</tt> if the method <tt class=method>unknown_starttag()</tt> or
+<tt class=method>unknown_endtag()</tt> is to be called.  The default value is the
+empty dictionary.  This variable is meant to be overridden, not
+extended since the default is shared by all instances of
+<tt class=class>XMLParser</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1866"><tt>entitydefs</tt></a></b>
+<dd>
+A mapping of entitynames to their values.  The default value contains
+definitions for <tt>'lt'</tt>, <tt>'gt'</tt>, <tt>'amp'</tt>, <tt>'quot'</tt>, 
+and <tt>'apos'</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1867"><tt class=method>reset</tt></a></b> ()
+<dd>
+Reset the instance.  Loses all unprocessed data.  This is called
+implicitly at the instantiation time.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1868"><tt class=method>setnomoretags</tt></a></b> ()
+<dd>
+Stop processing tags.  Treat all following input as literal input
+(CDATA).
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1869"><tt class=method>setliteral</tt></a></b> ()
+<dd>
+Enter literal mode (CDATA mode).  This mode is automatically exited
+when the close tag matching the last unclosed open tag is encountered.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1870"><tt class=method>feed</tt></a></b> (<var>data</var>)
+<dd>
+Feed some text to the parser.  It is processed insofar as it consists
+of complete tags; incomplete data is buffered until more data is
+fed or <tt class=method>close()</tt> is called.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1871"><tt class=method>close</tt></a></b> ()
+<dd>
+Force processing of all buffered data as if it were followed by an
+end-of-file mark.  This method may be redefined by a derived class to
+define additional processing at the end of the input, but the
+redefined version should always call <tt class=method>close()</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1872"><tt class=method>translate_references</tt></a></b> (<var>data</var>)
+<dd>
+Translate all entity and character references in <var>data</var> and
+return the translated string.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1873"><tt class=method>handle_xml</tt></a></b> (<var>encoding, standalone</var>)
+<dd>
+This method is called when the "<tt class=samp>&lt;?xml ...?&gt;</tt>" tag is processed.
+The arguments are the values of the encoding and standalone attributes 
+in the tag.  Both encoding and standalone are optional.  The values
+passed to <tt class=method>handle_xml()</tt> default to <tt>None</tt> and the string
+<tt>'no'</tt> respectively.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1874"><tt class=method>handle_doctype</tt></a></b> (<var>tag, data</var>)
+<dd>
+This method is called when the "<tt class=samp>&lt;!DOCTYPE...&gt;</tt>" tag is processed.
+The arguments are the name of the root element and the uninterpreted
+contents of the tag, starting after the white space after the name of
+the root element.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1875"><tt class=method>handle_starttag</tt></a></b> (<var>tag, method, attributes</var>)
+<dd>
+This method is called to handle start tags for which a start tag
+handler is defined in the instance variable <tt class=member>elements</tt>.  The
+<var>tag</var> argument is the name of the tag, and the <var>method</var>
+argument is the function (method) which should be used to support semantic
+interpretation of the start tag.  The <var>attributes</var> argument is a
+dictionary of attributes, the key being the <var>name</var> and the value
+being the <var>value</var> of the attribute found inside the tag's
+<tt>&lt;&gt;</tt> brackets.  Character and entity references in the
+<var>value</var> have been interpreted.  For instance, for the start tag
+<tt>&lt;A HREF="http://www.cwi.nl/"&gt;</tt>, this method would be called as
+<tt>handle_starttag('A', self.elements['A'][0], {'HREF': 'http://www.cwi.nl/'})</tt>.
+The base implementation simply calls <var>method</var> with <var>attributes</var>
+as the only argument.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1876"><tt class=method>handle_endtag</tt></a></b> (<var>tag, method</var>)
+<dd>
+This method is called to handle endtags for which an end tag handler
+is defined in the instance variable <tt class=member>elements</tt>.  The <var>tag</var>
+argument is the name of the tag, and the <var>method</var> argument is the
+function (method) which should be used to support semantic
+interpretation of the end tag.  For instance, for the endtag
+<tt>&lt;/A&gt;</tt>, this method would be called as <tt>handle_endtag('A',
+self.elements['A'][1])</tt>.  The base implementation simply calls
+<var>method</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1877"><tt class=method>handle_data</tt></a></b> (<var>data</var>)
+<dd>
+This method is called to process arbitrary data.  It is intended to be
+overridden by a derived class; the base class implementation does
+nothing.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1878"><tt class=method>handle_charref</tt></a></b> (<var>ref</var>)
+<dd>
+This method is called to process a character reference of the form
+"<tt class=samp>&amp;#<var>ref</var>;</tt>".  <var>ref</var> can either be a decimal number,
+or a hexadecimal number when preceded by an "<tt class=character>x</tt>".
+In the base implementation, <var>ref</var> must be a number in the
+range 0-255.  It translates the character to ASCII and calls the
+method <tt class=method>handle_data()</tt> with the character as argument.  If
+<var>ref</var> is invalid or out of range, the method
+<tt>unknown_charref(<var>ref</var>)</tt> is called to handle the error.  A
+subclass must override this method to provide support for character
+references outside of the ASCII range.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1879"><tt class=method>handle_entityref</tt></a></b> (<var>ref</var>)
+<dd>
+This method is called to process a general entity reference of the
+form "<tt class=samp>&amp;<var>ref</var>;</tt>" where <var>ref</var> is an general entity
+reference.  It looks for <var>ref</var> in the instance (or class)
+variable <tt class=member>entitydefs</tt> which should be a mapping from entity
+names to corresponding translations.
+If a translation is found, it calls the method <tt class=method>handle_data()</tt>
+with the translation; otherwise, it calls the method
+<tt>unknown_entityref(<var>ref</var>)</tt>.  The default <tt class=member>entitydefs</tt>
+defines translations for <tt>&amp;amp;</tt>, <tt>&amp;apos</tt>, <tt>&amp;gt;</tt>,
+<tt>&amp;lt;</tt>, and <tt>&amp;quot;</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1880"><tt class=method>handle_comment</tt></a></b> (<var>comment</var>)
+<dd>
+This method is called when a comment is encountered.  The
+<var>comment</var> argument is a string containing the text between the
+"<tt class=samp>&lt;!-</tt>" and "<tt class=samp>-&gt;</tt>" delimiters, but not the delimiters
+themselves.  For example, the comment "<tt class=samp>&lt;!-text-&gt;</tt>" will
+cause this method to be called with the argument <tt>'text'</tt>.  The
+default method does nothing.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1881"><tt class=method>handle_cdata</tt></a></b> (<var>data</var>)
+<dd>
+This method is called when a CDATA element is encountered.  The
+<var>data</var> argument is a string containing the text between the
+"<tt class=samp>&lt;![CDATA[</tt>" and "<tt class=samp>]]&gt;</tt>" delimiters, but not the delimiters
+themselves.  For example, the entity "<tt class=samp>&lt;![CDATA[text]]&gt;</tt>" will
+cause this method to be called with the argument <tt>'text'</tt>.  The
+default method does nothing, and is intended to be overridden.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1882"><tt class=method>handle_proc</tt></a></b> (<var>name, data</var>)
+<dd>
+This method is called when a processing instruction (PI) is
+encountered.  The <var>name</var> is the PI target, and the <var>data</var>
+argument is a string containing the text between the PI target and the
+closing delimiter, but not the delimiter itself.  For example, the
+instruction "<tt class=samp>&lt;?XML text?&gt;</tt>" will cause this method to be called
+with the arguments <tt>'XML'</tt> and <tt>'text'</tt>.  The default method
+does nothing.  Note that if a document starts with "<tt class=samp>&lt;?xml
+..?&gt;</tt>", <tt class=method>handle_xml()</tt> is called to handle it.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1883"><tt class=method>handle_special</tt></a></b> (<var>data</var>)
+<dd>
+This method is called when a declaration is encountered.  The
+<var>data</var> argument is a string containing the text between the
+"<tt class=samp>&lt;!</tt>" and "<tt class=samp>&gt;</tt>" delimiters, but not the delimiters
+themselves.  For example, the entity "<tt class=samp>&lt;!ENTITY text&gt;</tt>" will
+cause this method to be called with the argument <tt>'ENTITY text'</tt>.  The
+default method does nothing.  Note that "<tt class=samp>&lt;!DOCTYPE ...&gt;</tt>" is
+handled separately if it is located at the start of the document.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1884"><tt class=method>syntax_error</tt></a></b> (<var>message</var>)
+<dd>
+This method is called when a syntax error is encountered.  The
+<var>message</var> is a description of what was wrong.  The default method 
+raises a <tt class=exception>RuntimeError</tt> exception.  If this method is
+overridden, it is permissable for it to return.  This method is only
+called when the error can be recovered from.  Unrecoverable errors
+raise a <tt class=exception>RuntimeError</tt> without first calling
+<tt class=method>syntax_error()</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1885"><tt class=method>unknown_starttag</tt></a></b> (<var>tag, attributes</var>)
+<dd>
+This method is called to process an unknown start tag.  It is intended
+to be overridden by a derived class; the base class implementation
+does nothing.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1886"><tt class=method>unknown_endtag</tt></a></b> (<var>tag</var>)
+<dd>
+This method is called to process an unknown end tag.  It is intended
+to be overridden by a derived class; the base class implementation
+does nothing.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1887"><tt class=method>unknown_charref</tt></a></b> (<var>ref</var>)
+<dd>
+This method is called to process unresolvable numeric character
+references.  It is intended to be overridden by a derived class; the
+base class implementation does nothing.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1888"><tt class=method>unknown_entityref</tt></a></b> (<var>ref</var>)
+<dd>
+This method is called to process an unknown entity reference.  It is
+intended to be overridden by a derived class; the base class
+implementation does nothing.
+</dl>
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html3222"
+ HREF="xml-namespace.html">12.3.1 XML Namespaces </A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3220"
+ HREF="xml-namespace.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3216"
+ HREF="netdata.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3210"
+ HREF="module-htmllib.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3218"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3219"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3221"
+ HREF="xml-namespace.html">12.3.1 XML Namespaces</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3217"
+ HREF="netdata.html">12. Internet Data Handling</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3211"
+ HREF="module-htmllib.html">12.2 htmllib  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

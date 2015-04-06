@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>14.4 rgbimg -- Read and write ``SGI RGB'' files</TITLE>
+<META NAME="description" CONTENT="14.4 rgbimg -- Read and write ``SGI RGB'' files">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-imghdr.html">
+<LINK REL="previous" HREF="module-aifc.html">
+<LINK REL="up" HREF="mmedia.html">
+<LINK REL="next" HREF="module-imghdr.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3765"
+ HREF="module-imghdr.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3761"
+ HREF="mmedia.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3755"
+ HREF="module-aifc.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3763"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3764"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3766"
+ HREF="module-imghdr.html">14.5 imghdr  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3762"
+ HREF="mmedia.html">14. Multimedia Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3756"
+ HREF="module-aifc.html">14.3 aifc  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0016400000000000000000">
+14.4 <tt class=module>rgbimg</tt> --
+         Read and write ``SGI RGB'' files</A>
+</H1>
+
+<P>
+
+
+<P>
+The <tt class=module>rgbimg</tt> module allows Python programs to access SGI imglib image
+files (also known as "<tt class=file>.rgb</tt>" files).  The module is far from
+complete, but is provided anyway since the functionality that there is
+enough in some cases.  Currently, colormap files are not supported.
+
+<P>
+The module defines the following variables and functions:
+
+<P>
+<dl><dt><b><a name="l2h-2233"><tt class=exception>error</tt></a></b>
+<dd>
+This exception is raised on all errors, such as unsupported file type, etc.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2234"><tt class=function>sizeofimage</tt></a></b> (<var>file</var>)
+<dd>
+This function returns a tuple <tt>(<var>x</var>, <var>y</var>)</tt> where
+<var>x</var> and <var>y</var> are the size of the image in pixels.
+Only 4 byte RGBA pixels, 3 byte RGB pixels, and 1 byte greyscale pixels
+are currently supported.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2235"><tt class=function>longimagedata</tt></a></b> (<var>file</var>)
+<dd>
+This function reads and decodes the image on the specified file, and
+returns it as a Python string. The string has 4 byte RGBA pixels.
+The bottom left pixel is the first in
+the string. This format is suitable to pass to <tt class=function>gl.lrectwrite()</tt>,
+for instance.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2236"><tt class=function>longstoimage</tt></a></b> (<var>data, x, y, z, file</var>)
+<dd>
+This function writes the RGBA data in <var>data</var> to image
+file <var>file</var>. <var>x</var> and <var>y</var> give the size of the image.
+<var>z</var> is 1 if the saved image should be 1 byte greyscale, 3 if the
+saved image should be 3 byte RGB data, or 4 if the saved images should
+be 4 byte RGBA data.  The input data always contains 4 bytes per pixel.
+These are the formats returned by <tt class=function>gl.lrectread()</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2237"><tt class=function>ttob</tt></a></b> (<var>flag</var>)
+<dd>
+This function sets a global flag which defines whether the scan lines
+of the image are read or written from bottom to top (flag is zero,
+compatible with SGI GL) or from top to bottom(flag is one,
+compatible with X).  The default is zero.
+</dl><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3765"
+ HREF="module-imghdr.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3761"
+ HREF="mmedia.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3755"
+ HREF="module-aifc.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3763"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3764"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3766"
+ HREF="module-imghdr.html">14.5 imghdr  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3762"
+ HREF="mmedia.html">14. Multimedia Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3756"
+ HREF="module-aifc.html">14.3 aifc  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

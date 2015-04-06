@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4.3 The range() Function </TITLE>
+<META NAME="description" CONTENT="4.3 The range() Function ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="break.html">
+<LINK REL="previous" HREF="for.html">
+<LINK REL="up" HREF="moreControl.html">
+<LINK REL="next" HREF="break.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html403"
+ HREF="break.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html400"
+ HREF="moreControl.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html394"
+ HREF="for.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html402"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html404"
+ HREF="break.html">4.4 break and continue</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html401"
+ HREF="moreControl.html">4. More Control Flow</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html395"
+ HREF="for.html">4.2 for Statements</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION006300000000000000000"></A>
+<BR>
+4.3 The <tt class=function>range()</tt> Function 
+</H1>
+
+<P>
+If you do need to iterate over a sequence of numbers, the built-in
+function <tt class=function>range()</tt> comes in handy.  It generates lists
+containing arithmetic progressions, e.g.:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; range(10)
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+</pre></dl>
+
+<P>
+The given end point is never part of the generated list;
+<tt>range(10)</tt> generates a list of 10 values, exactly the legal
+indices for items of a sequence of length 10.  It is possible to let
+the range start at another number, or to specify a different increment
+(even negative):
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; range(5, 10)
+[5, 6, 7, 8, 9]
+&gt;&gt;&gt; range(0, 10, 3)
+[0, 3, 6, 9]
+&gt;&gt;&gt; range(-10, -100, -30)
+[-10, -40, -70]
+</pre></dl>
+
+<P>
+To iterate over the indices of a sequence, combine <tt class=function>range()</tt>
+and <tt class=function>len()</tt> as follows:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; a = ['Mary', 'had', 'a', 'little', 'lamb']
+&gt;&gt;&gt; for i in range(len(a)):
+...     print i, a[i]
+... 
+0 Mary
+1 had
+2 a
+3 little
+4 lamb
+</pre></dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html403"
+ HREF="break.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html400"
+ HREF="moreControl.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html394"
+ HREF="for.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html402"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html404"
+ HREF="break.html">4.4 break and continue</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html401"
+ HREF="moreControl.html">4. More Control Flow</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html395"
+ HREF="for.html">4.2 for Statements</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

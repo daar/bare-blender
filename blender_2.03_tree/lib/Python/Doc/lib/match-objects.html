@@ -1,0 +1,232 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4.2.5 Match Objects </TITLE>
+<META NAME="description" CONTENT="4.2.5 Match Objects ">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="previous" HREF="re-objects.html">
+<LINK REL="up" HREF="module-re.html">
+<LINK REL="next" HREF="module-regex.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1529"
+ HREF="module-regex.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1525"
+ HREF="module-re.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1521"
+ HREF="re-objects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1527"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1528"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1530"
+ HREF="module-regex.html">4.3 regex  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1526"
+ HREF="module-re.html">4.2 re  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1522"
+ HREF="re-objects.html">4.2.4 Regular Expression Objects</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION006250000000000000000"></A>
+<BR>
+4.2.5 Match Objects 
+</H2>
+
+<P>
+<tt class=class>MatchObject</tt> instances support the following methods and attributes:
+
+<P>
+<dl><dt><b><a name="l2h-654"><tt class=method>group</tt></a></b> (<big>[</big><var>group1, group2, ...</var><big>]</big>)
+<dd>
+Returns one or more subgroups of the match.  If there is a single
+argument, the result is a single string; if there are
+multiple arguments, the result is a tuple with one item per argument.
+Without arguments, <var>group1</var> defaults to zero (i.e. the whole match
+is returned).
+If a <var>groupN</var> argument is zero, the corresponding return value is the
+entire matching string; if it is in the inclusive range [1..99], it is
+the string matching the the corresponding parenthesized group.  If a
+group number is negative or larger than the number of groups defined
+in the pattern, an <tt class=exception>IndexError</tt> exception is raised.
+If a group is contained in a part of the pattern that did not match,
+the corresponding result is <tt>None</tt>.  If a group is contained in a 
+part of the pattern that matched multiple times, the last match is
+returned.
+
+<P>
+If the regular expression uses the <tt class=regexp>(?P&lt;<var>name</var>&gt;...)</tt> syntax,
+the <var>groupN</var> arguments may also be strings identifying groups by
+their group name.  If a string argument is not used as a group name in 
+the pattern, an <tt class=exception>IndexError</tt> exception is raised.
+
+<P>
+A moderately complicated example:
+
+<P>
+<dl><dd><pre class=verbatim>
+m = re.match(r"(?P&lt;int&gt;\d+)\.(\d*)", '3.14')
+</pre></dl>
+
+<P>
+After performing this match, <tt>m.group(1)</tt> is <tt>'3'</tt>, as is
+<tt>m.group('int')</tt>, and <tt>m.group(2)</tt> is <tt>'14'</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-655"><tt class=method>groups</tt></a></b> (<big>[</big><var>default</var><big>]</big>)
+<dd>
+Return a tuple containing all the subgroups of the match, from 1 up to
+however many groups are in the pattern.  The <var>default</var> argument is
+used for groups that did not participate in the match; it defaults to
+<tt>None</tt>.  (Incompatibility note: in the original Python 1.5
+release, if the tuple was one element long, a string would be returned
+instead.  In later versions (from 1.5.1 on), a singleton tuple is
+returned in such cases.)
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-656"><tt class=method>groupdict</tt></a></b> (<big>[</big><var>default</var><big>]</big>)
+<dd>
+Return a dictionary containing all the <i>named</i> subgroups of the
+match, keyed by the subgroup name.  The <var>default</var> argument is
+used for groups that did not participate in the match; it defaults to
+<tt>None</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-657"><tt class=method>start</tt></a></b> (<big>[</big><var>group</var><big>]</big>)
+<dd>
+<dt><b><a name="l2h-663"><tt class=function>end</tt> (in re)</a></b> (<big>[</big><var>group</var><big>]</big>)
+<dd>
+Return the indices of the start and end of the substring
+matched by <var>group</var>; <var>group</var> defaults to zero (meaning the whole
+matched substring).
+Return <tt>None</tt> if <var>group</var> exists but
+did not contribute to the match.  For a match object
+<var>m</var>, and a group <var>g</var> that did contribute to the match, the
+substring matched by group <var>g</var> (equivalent to
+<tt><var>m</var>.group(<var>g</var>)</tt>) is
+
+<P>
+<dl><dd><pre class=verbatim>
+m.string[m.start(g):m.end(g)]
+</pre></dl>
+
+<P>
+Note that
+<tt>m.start(<var>group</var>)</tt> will equal <tt>m.end(<var>group</var>)</tt> if
+<var>group</var> matched a null string.  For example, after <tt><var>m</var> =
+re.search('b(c?)', 'cba')</tt>, <tt><var>m</var>.start(0)</tt> is 1,
+<tt><var>m</var>.end(0)</tt> is 2, <tt><var>m</var>.start(1)</tt> and
+<tt><var>m</var>.end(1)</tt> are both 2, and <tt><var>m</var>.start(2)</tt> raises
+an <tt class=exception>IndexError</tt> exception.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-658"><tt class=method>span</tt></a></b> (<big>[</big><var>group</var><big>]</big>)
+<dd>
+For <tt class=class>MatchObject</tt> <var>m</var>, return the 2-tuple
+<tt>(<var>m</var>.start(<var>group</var>), <var>m</var>.end(<var>group</var>))</tt>.
+Note that if <var>group</var> did not contribute to the match, this is
+<tt>(None, None)</tt>.  Again, <var>group</var> defaults to zero.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-659"><tt>pos</tt></a></b>
+<dd>
+The value of <var>pos</var> which was passed to the
+<tt class=function>search()</tt> or <tt class=function>match()</tt> function.  This is the index into
+the string at which the regex engine started looking for a match. 
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-660"><tt>endpos</tt></a></b>
+<dd>
+The value of <var>endpos</var> which was passed to the
+<tt class=function>search()</tt> or <tt class=function>match()</tt> function.  This is the index into
+the string beyond which the regex engine will not go.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-661"><tt>re</tt></a></b>
+<dd>
+The regular expression object whose <tt class=method>match()</tt> or
+<tt class=method>search()</tt> method produced this <tt class=class>MatchObject</tt> instance.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-662"><tt>string</tt></a></b>
+<dd>
+The string passed to <tt class=function>match()</tt> or <tt class=function>search()</tt>.
+</dl>
+
+<P>
+<div class=seealso>
+  <p class=heading><b>See Also:</b></p>
+
+<div class=seetext><p>Jeffrey Friedl, <i>Mastering Regular Expressions</i>,
+O'Reilly.  The Python material in this book dates from before the
+<tt class=module>re</tt> module, but it covers writing good regular expression
+patterns in great detail.
+</div>
+
+<P>
+</div><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1529"
+ HREF="module-regex.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1525"
+ HREF="module-re.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1521"
+ HREF="re-objects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1527"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1528"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1530"
+ HREF="module-regex.html">4.3 regex  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1526"
+ HREF="module-re.html">4.2 re  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1522"
+ HREF="re-objects.html">4.2.4 Regular Expression Objects</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

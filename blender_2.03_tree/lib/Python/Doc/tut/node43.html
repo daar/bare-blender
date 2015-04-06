@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>6.1.2 ``Compiled'' Python files</TITLE>
+<META NAME="description" CONTENT="6.1.2 ``Compiled'' Python files">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="previous" HREF="searchPath.html">
+<LINK REL="up" HREF="moreModules.html">
+<LINK REL="next" HREF="standardModules.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html647"
+ HREF="standardModules.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html644"
+ HREF="moreModules.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html640"
+ HREF="searchPath.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html646"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html648"
+ HREF="standardModules.html">6.2 Standard Modules</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html645"
+ HREF="moreModules.html">6.1 More on Modules</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html641"
+ HREF="searchPath.html">6.1.1 The Module Search</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION008120000000000000000">
+6.1.2 ``Compiled'' Python files</A>
+</H2>
+
+<P>
+As an important speed-up of the start-up time for short programs that
+use a lot of standard modules, if a file called "<tt class=file>spam.pyc</tt>" exists
+in the directory where "<tt class=file>spam.py</tt>" is found, this is assumed to
+contain an already-``byte-compiled'' version of the module <tt class=module>spam</tt>.
+The modification time of the version of "<tt class=file>spam.py</tt>" used to create
+"<tt class=file>spam.pyc</tt>" is recorded in "<tt class=file>spam.pyc</tt>", and the file is
+ignored if these don't match.
+
+<P>
+Normally, you don't need to do anything to create the "<tt class=file>spam.pyc</tt>" file.
+Whenever "<tt class=file>spam.py</tt>" is successfully compiled, an attempt is made to
+write the compiled version to "<tt class=file>spam.pyc</tt>".  It is not an error if
+this attempt fails; if for any reason the file is not written
+completely, the resulting "<tt class=file>spam.pyc</tt>" file will be recognized as
+invalid and thus ignored later.  The contents of the "<tt class=file>spam.pyc</tt>"
+file is platform independent, so a Python module directory can be
+shared by machines of different architectures.
+
+<P>
+Some tips for experts:
+
+<P>
+
+<UL><LI>When the Python interpreter is invoked with the <tt>-O</tt> flag,
+optimized code is generated and stored in "<tt class=file>.pyo</tt>" files.
+The optimizer currently doesn't help much; it only removes
+<tt class=keyword>assert</tt> statements and <tt>SET_LINENO</tt> instructions.
+When <tt>-O</tt> is used, <i>all</i> bytecode is optimized; <tt>.pyc</tt>files are ignored and <tt>.py</tt> files are compiled to optimized
+bytecode.
+
+<P>
+
+<LI>Passing two <tt>-O</tt> flags to the Python interpreter (<tt>-OO</tt>)
+will cause the bytecode compiler to perform optimizations that could
+in some rare cases result in malfunctioning programs.  Currently only
+<tt>__doc__</tt> strings are removed from the bytecode, resulting in more 
+compact "<tt class=file>.pyo</tt>" files.  Since some programs may rely on having
+these available, you should only use this option if you know what
+you're doing.
+
+<P>
+
+<LI>A program doesn't run any faster when it is read from a
+"<tt class=file>.pyc</tt>" or "<tt class=file>.pyo</tt>" file than when it is read from a "<tt class=file>.py</tt>"
+file; the only thing that's faster about "<tt class=file>.pyc</tt>" or "<tt class=file>.pyo</tt>"
+files is the speed with which they are loaded.
+
+<P>
+
+<LI>When a script is run by giving its name on the command line, the
+bytecode for the script is never written to a "<tt class=file>.pyc</tt>" or
+"<tt class=file>.pyo</tt>" file.  Thus, the startup time of a script may be reduced
+by moving most of its code to a module and having a small bootstrap
+script that imports that module.
+
+<P>
+
+<LI>It is possible to have a file called "<tt class=file>spam.pyc</tt>" (or
+"<tt class=file>spam.pyo</tt>" when <tt>-O</tt> is used) without a module
+"<tt class=file>spam.py</tt>" in the same module.  This can be used to distribute
+a library of Python code in a form that is moderately hard to reverse
+engineer.
+
+<P>
+
+<LI>The module <tt class=module>compileall</tt><a name="l2h-11"></a> can create
+"<tt class=file>.pyc</tt>" files (or "<tt class=file>.pyo</tt>" files when <tt>-O</tt> is used) for
+all modules in a directory.
+
+<P>
+
+</UL>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html647"
+ HREF="standardModules.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html644"
+ HREF="moreModules.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html640"
+ HREF="searchPath.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html646"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html648"
+ HREF="standardModules.html">6.2 Standard Modules</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html645"
+ HREF="moreModules.html">6.1 More on Modules</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html641"
+ HREF="searchPath.html">6.1.1 The Module Search</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

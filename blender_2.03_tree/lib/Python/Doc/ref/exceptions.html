@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4.2 Exceptions</TITLE>
+<META NAME="description" CONTENT="4.2 Exceptions">
+<META NAME="keywords" CONTENT="ref">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ref.css">
+<LINK REL="previous" HREF="execframes.html">
+<LINK REL="up" HREF="execmodel.html">
+<LINK REL="next" HREF="expressions.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html676"
+ HREF="expressions.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html672"
+ HREF="execmodel.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html668"
+ HREF="execframes.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html674"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html675"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html677"
+ HREF="expressions.html">5. Expressions</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html673"
+ HREF="execmodel.html">4. Execution model</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html669"
+ HREF="execframes.html">4.1 Code blocks, execution</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION006200000000000000000"></A>
+<BR>
+4.2 Exceptions
+</H1>
+
+<P>
+Exceptions are a means of breaking out of the normal flow of control
+of a code block in order to handle errors or other exceptional
+conditions.  An exception is <i>raised</i> at the point where the error
+is detected; it may be <i>handled</i> by the surrounding code block or
+by any code block that directly or indirectly invoked the code block
+where the error occurred.
+<a name="l2h-424"></a>
+<a name="l2h-425"></a>
+<a name="l2h-426"></a>
+<a name="l2h-427"></a>
+<a name="l2h-428"></a>
+<a name="l2h-429"></a>
+
+<P>
+The Python interpreter raises an exception when it detects a run-time
+error (such as division by zero).  A Python program can also
+explicitly raise an exception with the <tt class=keyword>raise</tt> statement.
+Exception handlers are specified with the <tt class=keyword>try</tt> ... <tt class=keyword>except</tt>
+statement.  The <tt class=keyword>try</tt> ... <tt class=keyword>finally</tt> statement
+specifies cleanup code which does not handle the exception, but is
+executed whether an exception occurred or not in the preceding code.
+
+<P>
+Python uses the ``termination'' model of error handling: an exception
+handler can find out what happened and continue execution at an outer
+level, but it cannot repair the cause of the error and retry the
+failing operation (except by re-entering the offending piece of
+code from the top).
+
+<P>
+When an exception is not handled at all, the interpreter terminates
+execution of the program, or returns to its interactive main loop.  In
+either case, it prints a stack backtrace, except when the exception is 
+<tt class=exception>SystemExit</tt>.<a name="l2h-430"></a>
+
+<P>
+Exceptions are identified by string objects or class instances.
+Selection of a matching except clause is based on object identity
+(i.e., two different string objects with the same value represent
+different exceptions!)  For string exceptions, the <tt class=keyword>except</tt>
+clause must reference the same string object.  For class exceptions,
+the <tt class=keyword>except</tt> clause must reference the same class or a base
+class of it.
+
+<P>
+When an exception is raised, an object (maybe <tt>None</tt>) is passed
+as the exception's ``parameter'' or ``value''; this object does not
+affect the selection of an exception handler, but is passed to the
+selected exception handler as additional information.  For class
+exceptions, this object must be an instance of the exception class
+being raised.
+
+<P>
+See also the description of the <tt class=keyword>try</tt> and <tt class=keyword>raise</tt>
+statements in chapter 7.
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html676"
+ HREF="expressions.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html672"
+ HREF="execmodel.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html668"
+ HREF="execframes.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html674"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html675"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html677"
+ HREF="expressions.html">5. Expressions</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html673"
+ HREF="execmodel.html">4. Execution model</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html669"
+ HREF="execframes.html">4.1 Code blocks, execution</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

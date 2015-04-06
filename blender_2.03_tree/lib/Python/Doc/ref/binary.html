@@ -1,0 +1,162 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>5.6 Binary arithmetic operations</TITLE>
+<META NAME="description" CONTENT="5.6 Binary arithmetic operations">
+<META NAME="keywords" CONTENT="ref">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ref.css">
+<LINK REL="next" HREF="shifting.html">
+<LINK REL="previous" HREF="unary.html">
+<LINK REL="up" HREF="expressions.html">
+<LINK REL="next" HREF="shifting.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html908"
+ HREF="shifting.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html904"
+ HREF="expressions.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html898"
+ HREF="unary.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html906"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html907"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html909"
+ HREF="shifting.html">5.7 Shifting operations</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html905"
+ HREF="expressions.html">5. Expressions</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html899"
+ HREF="unary.html">5.5 Unary arithmetic operations</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION007600000000000000000"></A>
+<BR>
+5.6 Binary arithmetic operations
+</H1>
+<a name="l2h-524"></a>
+
+<P>
+The binary arithmetic operations have the conventional priority
+levels.  Note that some of these operations also apply to certain
+non-numeric types.  Apart from the power operator, there are only two
+levels, one for multiplicative operators and one for additive
+operators:
+
+<P>
+<dl><dd><pre class=verbatim>
+m_expr:         u_expr | m_expr "*" u_expr
+              | m_expr "/" u_expr | m_expr "%" u_expr
+a_expr:         m_expr | aexpr "+" m_expr | aexpr "-" m_expr
+</pre></dl>
+
+<P>
+The <tt>*</tt> (multiplication) operator yields the product of its
+arguments.  The arguments must either both be numbers, or one argument
+must be a plain integer and the other must be a sequence.  In the
+former case, the numbers are converted to a common type and then
+multiplied together.  In the latter case, sequence repetition is
+performed; a negative repetition factor yields an empty sequence.
+<a name="l2h-525"></a>
+
+<P>
+The <tt>/</tt> (division) operator yields the quotient of its
+arguments.  The numeric arguments are first converted to a common
+type.  Plain or long integer division yields an integer of the same
+type; the result is that of mathematical division with the `floor'
+function applied to the result.  Division by zero raises the
+<tt class=exception>ZeroDivisionError</tt> exception.
+<a name="l2h-526"></a>
+<a name="l2h-527"></a>
+
+<P>
+The <tt>%</tt> (modulo) operator yields the remainder from the
+division of the first argument by the second.  The numeric arguments
+are first converted to a common type.  A zero right argument raises
+the <tt class=exception>ZeroDivisionError</tt> exception.  The arguments may be floating
+point numbers, e.g., <tt>3.14%0.7</tt> equals <tt>0.34</tt> (since
+<tt>3.14</tt> equals <tt>4*0.7 + 0.34</tt>.)  The modulo operator always
+yields a result with the same sign as its second operand (or zero);
+the absolute value of the result is strictly smaller than the second
+operand.
+<a name="l2h-528"></a>
+
+<P>
+The integer division and modulo operators are connected by the
+following identity: <tt>x == (x/y)*y + (x%y)</tt>.  Integer division and
+modulo are also connected with the built-in function <tt class=function>divmod()</tt>:
+<tt>divmod(x, y) == (x/y, x%y)</tt>.  These identities don't hold for
+floating point and complex numbers; there a similar identity holds where
+<tt>x/y</tt> is replaced by <tt>floor(x/y)</tt>) or
+<tt>floor((x/y).real)</tt>, respectively.
+
+<P>
+The <tt>+</tt> (addition) operator yields the sum of its arguments.
+The arguments must either both be numbers or both sequences of the
+same type.  In the former case, the numbers are converted to a common
+type and then added together.  In the latter case, the sequences are
+concatenated.
+<a name="l2h-529"></a>
+
+<P>
+The <tt>-</tt> (subtraction) operator yields the difference of its
+arguments.  The numeric arguments are first converted to a common
+type.
+<a name="l2h-530"></a>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html908"
+ HREF="shifting.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html904"
+ HREF="expressions.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html898"
+ HREF="unary.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html906"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html907"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html909"
+ HREF="shifting.html">5.7 Shifting operations</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html905"
+ HREF="expressions.html">5. Expressions</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html899"
+ HREF="unary.html">5.5 Unary arithmetic operations</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

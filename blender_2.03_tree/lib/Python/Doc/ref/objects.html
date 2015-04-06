@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.1 Objects, values and types</TITLE>
+<META NAME="description" CONTENT="3.1 Objects, values and types">
+<META NAME="keywords" CONTENT="ref">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ref.css">
+<LINK REL="next" HREF="types.html">
+<LINK REL="previous" HREF="datamodel.html">
+<LINK REL="up" HREF="datamodel.html">
+<LINK REL="next" HREF="types.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html542"
+ HREF="types.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html538"
+ HREF="datamodel.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html532"
+ HREF="datamodel.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html540"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html541"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html543"
+ HREF="types.html">3.2 The standard type</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html539"
+ HREF="datamodel.html">3. Data model</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html533"
+ HREF="datamodel.html">3. Data model</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION005100000000000000000"></A>
+<BR>
+3.1 Objects, values and types
+</H1>
+
+<P>
+<i class=dfn>Objects</i> are Python's abstraction for data.  All data in a Python
+program is represented by objects or by relations between objects.
+(In a sense, and in conformance to Von Neumann's model of a
+``stored program computer,'' code is also represented by objects.)
+<a name="l2h-61"></a>
+<a name="l2h-62"></a>
+
+<P>
+Every object has an identity, a type and a value.  An object's
+<i>identity</i> never changes once it has been created; you may think
+of it as the object's address in memory.  The `<tt>is</tt>' operator
+compares the identity of two objects; the
+<tt class=function>id()</tt><a name="l2h-63"></a> function returns an integer
+representing its identity (currently implemented as its address).
+An object's <i class=dfn>type</i> is
+also unchangeable.  It determines the operations that an object
+supports (e.g., ``does it have a length?'') and also defines the
+possible values for objects of that type.  The
+<tt class=function>type()</tt><a name="l2h-64"></a> function returns an object's type
+(which is an object itself).  The <i>value</i> of some
+objects can change.  Objects whose value can change are said to be
+<i>mutable</i>; objects whose value is unchangeable once they are
+created are called <i>immutable</i>.
+(The value of an immutable container object that contains a reference
+to a mutable object can change when the latter's value is changed;
+however the container is still considered immutable, because the
+collection of objects it contains cannot be changed.  So, immutability
+is not strictly the same as having an unchangeable value, it is more
+subtle.)
+An object's mutability is determined by its type; for instance,
+numbers, strings and tuples are immutable, while dictionaries and
+lists are mutable.
+<a name="l2h-65"></a>
+<a name="l2h-66"></a>
+<a name="l2h-67"></a>
+<a name="l2h-68"></a>
+<a name="l2h-69"></a>
+
+<P>
+Objects are never explicitly destroyed; however, when they become
+unreachable they may be garbage-collected.  An implementation is
+allowed to postpone garbage collection or omit it altogether -- it is
+a matter of implementation quality how garbage collection is
+implemented, as long as no objects are collected that are still
+reachable.  (Implementation note: the current implementation uses a
+reference-counting scheme which collects most objects as soon as they
+become unreachable, but never collects garbage containing circular
+references.)
+<a name="l2h-70"></a>
+<a name="l2h-71"></a>
+<a name="l2h-72"></a>
+
+<P>
+Note that the use of the implementation's tracing or debugging
+facilities may keep objects alive that would normally be collectable.
+Also note that catching an exception with a
+`<tt class=keyword>try</tt>...<tt class=keyword>except</tt>' statement may keep objects alive.
+
+<P>
+Some objects contain references to ``external'' resources such as open
+files or windows.  It is understood that these resources are freed
+when the object is garbage-collected, but since garbage collection is
+not guaranteed to happen, such objects also provide an explicit way to
+release the external resource, usually a <tt class=method>close()</tt> method.
+Programs are strongly recommended to explicitly close such
+objects.  The `<tt class=keyword>try</tt>...<tt class=keyword>finally</tt>' statement provides
+a convenient way to do this.
+
+<P>
+Some objects contain references to other objects; these are called
+<i>containers</i>.  Examples of containers are tuples, lists and
+dictionaries.  The references are part of a container's value.  In
+most cases, when we talk about the value of a container, we imply the
+values, not the identities of the contained objects; however, when we
+talk about the mutability of a container, only the identities of
+the immediately contained objects are implied.  So, if an immutable
+container (like a tuple)
+contains a reference to a mutable object, its value changes
+if that mutable object is changed.
+<a name="l2h-73"></a>
+
+<P>
+Types affect almost all aspects of object behavior.  Even the importance
+of object identity is affected in some sense: for immutable types,
+operations that compute new values may actually return a reference to
+any existing object with the same type and value, while for mutable
+objects this is not allowed.  E.g., after
+"<tt class=samp>a = 1; b = 1</tt>",
+<tt>a</tt> and <tt>b</tt> may or may not refer to the same object with the
+value one, depending on the implementation, but after
+"<tt class=samp>c = []; d = []</tt>", <tt>c</tt> and <tt>d</tt>are guaranteed to refer to two different, unique, newly created empty
+lists.
+(Note that "<tt class=samp>c = d = []</tt>" assigns the same object to both
+<tt>c</tt> and <tt>d</tt>.)
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html542"
+ HREF="types.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html538"
+ HREF="datamodel.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html532"
+ HREF="datamodel.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html540"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html541"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html543"
+ HREF="types.html">3.2 The standard type</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html539"
+ HREF="datamodel.html">3. Data model</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html533"
+ HREF="datamodel.html">3. Data model</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

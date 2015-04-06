@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.5.1 File Objects </TITLE>
+<META NAME="description" CONTENT="7.5.1 File Objects ">
+<META NAME="keywords" CONTENT="api">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="api.css">
+<LINK REL="next" HREF="moduleObjects.html">
+<LINK REL="previous" HREF="otherObjects.html">
+<LINK REL="up" HREF="otherObjects.html">
+<LINK REL="next" HREF="moduleObjects.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html601"
+ HREF="moduleObjects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html597"
+ HREF="otherObjects.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html591"
+ HREF="otherObjects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python/C API Reference Manual</b></td>
+<td><A NAME="tex2html599"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html600"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html602"
+ HREF="moduleObjects.html">7.5.2 Module Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html598"
+ HREF="otherObjects.html">7.5 Other Objects</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html592"
+ HREF="otherObjects.html">7.5 Other Objects</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION009510000000000000000"></A>
+<BR>
+7.5.1 File Objects 
+</H2>
+
+<P>
+<dl><dt><b><a name="l2h-257"><tt class=ctype>PyFileObject</tt></a></b>
+<dd>
+This subtype of <tt class=ctype>PyObject</tt> represents a Python file object.
+</dl>
+
+<P>
+<dl><dt>PyTypeObject <b><a name="l2h-258"><tt class=cdata>PyFile_Type</tt></a></b>
+<dd>
+This instance of <tt class=ctype>PyTypeObject</tt> represents the Python file type.
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-259"><tt class=cfunction>PyFile_Check</tt></a></b> (<var>PyObject *p</var>)
+<dd>
+Returns true if its argument is a <tt class=ctype>PyFileObject</tt>.
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-260"><tt class=cfunction>PyFile_FromString</tt></a></b> (<var>char *name, char *mode</var>)
+<dd>
+Creates a new <tt class=ctype>PyFileObject</tt> pointing to the file
+specified in <var>name</var> with the mode specified in <var>mode</var>.
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-261"><tt class=cfunction>PyFile_FromFile</tt></a></b> (<var>FILE *fp,
+              char *name, char *mode, int (*close)</var>)
+<dd>
+Creates a new <tt class=ctype>PyFileObject</tt> from the already-open <var>fp</var>.
+The function <var>close</var> will be called when the file should be
+closed.
+</dl>
+
+<P>
+<dl><dt>FILE * <b><a name="l2h-262"><tt class=cfunction>PyFile_AsFile</tt></a></b> (<var>PyFileObject *p</var>)
+<dd>
+Returns the file object associated with <var>p</var> as a <tt class=ctype>FILE *</tt>.
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-263"><tt class=cfunction>PyFile_GetLine</tt></a></b> (<var>PyObject *p, int n</var>)
+<dd>
+undocumented as yet
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-264"><tt class=cfunction>PyFile_Name</tt></a></b> (<var>PyObject *p</var>)
+<dd>
+Returns the name of the file specified by <var>p</var> as a 
+<tt class=ctype>PyStringObject</tt>.
+</dl>
+
+<P>
+<dl><dt>void <b><a name="l2h-265"><tt class=cfunction>PyFile_SetBufSize</tt></a></b> (<var>PyFileObject *p, int n</var>)
+<dd>
+Available on systems with <tt class=cfunction>setvbuf()</tt> only.  This should
+only be called immediately after file object creation.
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-266"><tt class=cfunction>PyFile_SoftSpace</tt></a></b> (<var>PyFileObject *p, int newflag</var>)
+<dd>
+Sets the <tt class=member>softspace</tt> attribute of <var>p</var> to <var>newflag</var>.
+Returns the previous value.  This function clears any errors, and will
+return <tt>0</tt> as the previous value if the attribute either does not
+exist or if there were errors in retrieving it.  There is no way to
+detect errors from this function, but doing so should not be needed.
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-267"><tt class=cfunction>PyFile_WriteObject</tt></a></b> (<var>PyObject *obj, PyFileObject *p,
+                                           int flags</var>)
+<dd>
+Writes object <var>obj</var> to file object <var>p</var>.
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-268"><tt class=cfunction>PyFile_WriteString</tt></a></b> (<var>char *s, PyFileObject *p,
+                                           int flags</var>)
+<dd>
+Writes string <var>s</var> to file object <var>p</var>.
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html601"
+ HREF="moduleObjects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html597"
+ HREF="otherObjects.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html591"
+ HREF="otherObjects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python/C API Reference Manual</b></td>
+<td><A NAME="tex2html599"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html600"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html602"
+ HREF="moduleObjects.html">7.5.2 Module Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html598"
+ HREF="otherObjects.html">7.5 Other Objects</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html592"
+ HREF="otherObjects.html">7.5 Other Objects</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

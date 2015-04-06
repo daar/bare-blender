@@ -1,0 +1,201 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>8.11.2 Resource Usage</TITLE>
+<META NAME="description" CONTENT="8.11.2 Resource Usage">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="previous" HREF="node162.html">
+<LINK REL="up" HREF="module-resource.html">
+<LINK REL="next" HREF="module-syslog.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2517"
+ HREF="module-syslog.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2513"
+ HREF="module-resource.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2509"
+ HREF="node162.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2515"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2516"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2518"
+ HREF="module-syslog.html">8.12 syslog  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2514"
+ HREF="module-resource.html">8.11 resource  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2510"
+ HREF="node162.html">8.11.1 Resource Limits</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00101120000000000000000">
+8.11.2 Resource Usage</A>
+</H2>
+
+<P>
+These functiona are used to retrieve resource usage information:
+
+<P>
+<dl><dt><b><a name="l2h-1477"><tt class=function>getrusage</tt></a></b> (<var>who</var>)
+<dd>
+  This function returns a large tuple that describes the resources
+  consumed by either the current process or its children, as specified
+  by the <var>who</var> parameter.  The <var>who</var> parameter should be
+  specified using one of the <tt class=constant>RUSAGE_*</tt> constants described
+  below.
+
+<P>
+The elements of the return value each
+  describe how a particular system resource has been used, e.g. amount
+  of time spent running is user mode or number of times the process was
+  swapped out of main memory. Some values are dependent on the clock
+  tick internal, e.g. the amount of memory the process is using.
+
+<P>
+The first two elements of the return value are floating point values
+  representing the amount of time spent executing in user mode and the
+  amount of time spent executing in system mode, respectively. The
+  remaining values are integers. Consult the <span class=manpage><i>getrusage</i>(2)</span>
+  man page for detailed information about these values. A brief
+  summary is presented here:
+
+<P>
+<table border align=center>
+  <tr bgcolor="#99CCFF">
+    <th align=right><b>Offset</b></th>
+    <th align=left><b>Resource</b></th>
+  <tr><td><code>0</code></td>
+      <td>time in user mode (float)&nbsp;</td>
+  <tr><td><code>1</code></td>
+      <td>time in system mode (float)&nbsp;</td>
+  <tr><td><code>2</code></td>
+      <td>maximum resident set size&nbsp;</td>
+  <tr><td><code>3</code></td>
+      <td>shared memory size&nbsp;</td>
+  <tr><td><code>4</code></td>
+      <td>unshared memory size&nbsp;</td>
+  <tr><td><code>5</code></td>
+      <td>unshared stack size&nbsp;</td>
+  <tr><td><code>6</code></td>
+      <td>page faults not requiring I/O&nbsp;</td>
+  <tr><td><code>7</code></td>
+      <td>page faults requiring I/O&nbsp;</td>
+  <tr><td><code>8</code></td>
+      <td>number of swap outs&nbsp;</td>
+  <tr><td><code>9</code></td>
+      <td>block input operations&nbsp;</td>
+  <tr><td><code>10</code></td>
+      <td>block output operations&nbsp;</td>
+  <tr><td><code>11</code></td>
+      <td>messages sent&nbsp;</td>
+  <tr><td><code>12</code></td>
+      <td>messages received&nbsp;</td>
+  <tr><td><code>13</code></td>
+      <td>signals received&nbsp;</td>
+  <tr><td><code>14</code></td>
+      <td>voluntary context switches&nbsp;</td>
+  <tr><td><code>15</code></td>
+      <td>involuntary context switches&nbsp;</td>
+
+</table>
+
+<P>
+This function will raise a <tt class=exception>ValueError</tt> if an invalid
+  <var>who</var> parameter is specified. It may also raise
+  <tt class=exception>error</tt> exception in unusual circumstances.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1478"><tt class=function>getpagesize</tt></a></b> ()
+<dd>
+  Returns the number of bytes in a system page. (This need not be the
+  same as the hardware page size.) This function is useful for
+  determining the number of bytes of memory a process is using. The
+  third element of the tuple returned by <tt class=function>getrusage()</tt> describes
+  memory usage in pages; multiplying by page size produces number of
+  bytes. 
+</dl>
+
+<P>
+The following <tt class=constant>RUSAGE_*</tt> symbols are passed to the
+<tt class=function>getrusage()</tt> function to specify which processes information
+should be provided for.
+
+<P>
+<dl><dt><b><a name="l2h-1479"><tt>RUSAGE_SELF</tt></a></b>
+<dd>
+  <tt class=constant>RUSAGE_SELF</tt> should be used to
+  request information pertaining only to the process itself.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1480"><tt>RUSAGE_CHILDREN</tt></a></b>
+<dd>
+  Pass to <tt class=function>getrusage()</tt> to request resource information for
+  child processes of the calling process.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1481"><tt>RUSAGE_BOTH</tt></a></b>
+<dd>
+  Pass to <tt class=function>getrusage()</tt> to request resources consumed by both
+  the current process and child processes.  May not be available on all
+  systems.
+</dl><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2517"
+ HREF="module-syslog.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2513"
+ HREF="module-resource.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2509"
+ HREF="node162.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2515"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2516"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2518"
+ HREF="module-syslog.html">8.12 syslog  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2514"
+ HREF="module-resource.html">8.11 resource  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2510"
+ HREF="node162.html">8.11.1 Resource Limits</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

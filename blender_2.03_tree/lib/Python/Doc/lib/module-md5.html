@@ -1,0 +1,172 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>15.1 md5 -- MD5 message digest algorithm.</TITLE>
+<META NAME="description" CONTENT="15.1 md5 -- MD5 message digest algorithm.">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-mpz.html">
+<LINK REL="previous" HREF="crypto.html">
+<LINK REL="up" HREF="crypto.html">
+<LINK REL="next" HREF="module-mpz.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3811"
+ HREF="module-mpz.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3807"
+ HREF="crypto.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3801"
+ HREF="crypto.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3809"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3810"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3812"
+ HREF="module-mpz.html">15.2 mpz  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3808"
+ HREF="crypto.html">15. Cryptographic Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3802"
+ HREF="crypto.html">15. Cryptographic Services</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0017100000000000000000">
+15.1 <tt class=module>md5</tt> --
+         MD5 message digest algorithm.</A>
+</H1>
+
+<P>
+
+<P>
+This module implements the interface to RSA's MD5 message digest
+<a name="l2h-2259"></a>
+algorithm (see also Internet <span class=rfc><a name="rfcref-42442"
+href="http://info.internet.isi.edu/in-notes/rfc/files/rfc1321.txt">RFC 1321</a></span>).  Its use is quite
+straightforward: use the <tt class=function>new()</tt> to create an md5 object.
+You can now feed this object with arbitrary strings using the
+<tt class=method>update()</tt> method, and at any point you can ask it for the
+<i class=dfn>digest</i> (a strong kind of 128-bit checksum,
+a.k.a. ``fingerprint'') of the contatenation of the strings fed to it
+so far using the <tt class=method>digest()</tt> method.
+<a name="l2h-2260"></a>
+
+<P>
+For example, to obtain the digest of the string <tt>'Nobody inspects
+the spammish repetition'</tt>:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; import md5
+&gt;&gt;&gt; m = md5.new()
+&gt;&gt;&gt; m.update("Nobody inspects")
+&gt;&gt;&gt; m.update(" the spammish repetition")
+&gt;&gt;&gt; m.digest()
+'\273d\234\203\335\036\245\311\331\336\311\241\215\360\377\351'
+</pre></dl>
+
+<P>
+More condensed:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; md5.new("Nobody inspects the spammish repetition").digest()
+'\273d\234\203\335\036\245\311\331\336\311\241\215\360\377\351'
+</pre></dl>
+
+<P>
+<dl><dt><b><a name="l2h-2254"><tt class=function>new</tt></a></b> (<big>[</big><var>arg</var><big>]</big>)
+<dd>
+Return a new md5 object.  If <var>arg</var> is present, the method call
+<tt>update(<var>arg</var>)</tt> is made.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2255"><tt class=function>md5</tt></a></b> (<big>[</big><var>arg</var><big>]</big>)
+<dd>
+For backward compatibility reasons, this is an alternative name for the
+<tt class=function>new()</tt> function.
+</dl>
+
+<P>
+An md5 object has the following methods:
+
+<P>
+<dl><dt><b><a name="l2h-2256"><tt class=method>update</tt></a></b> (<var>arg</var>)
+<dd>
+Update the md5 object with the string <var>arg</var>.  Repeated calls are
+equivalent to a single call with the concatenation of all the
+arguments, i.e. <tt>m.update(a); m.update(b)</tt> is equivalent to
+<tt>m.update(a+b)</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2257"><tt class=method>digest</tt></a></b> ()
+<dd>
+Return the digest of the strings passed to the <tt class=method>update()</tt>
+method so far.  This is an 16-byte string which may contain
+non-ASCII characters, including null bytes.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2258"><tt class=method>copy</tt></a></b> ()
+<dd>
+Return a copy (``clone'') of the md5 object.  This can be used to
+efficiently compute the digests of strings that share a common initial
+substring.
+</dl><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3811"
+ HREF="module-mpz.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3807"
+ HREF="crypto.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3801"
+ HREF="crypto.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3809"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3810"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3812"
+ HREF="module-mpz.html">15.2 mpz  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3808"
+ HREF="crypto.html">15. Cryptographic Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3802"
+ HREF="crypto.html">15. Cryptographic Services</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

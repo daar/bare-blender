@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>6.8 glob -- Unix style pathname pattern expansion</TITLE>
+<META NAME="description" CONTENT="6.8 glob -- Unix style pathname pattern expansion">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-fnmatch.html">
+<LINK REL="previous" HREF="module-errno.html">
+<LINK REL="up" HREF="allos.html">
+<LINK REL="next" HREF="module-fnmatch.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1981"
+ HREF="module-fnmatch.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1977"
+ HREF="allos.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1971"
+ HREF="module-errno.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1979"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1980"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1982"
+ HREF="module-fnmatch.html">6.9 fnmatch  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1978"
+ HREF="allos.html">6. Generic Operating System</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1972"
+ HREF="module-errno.html">6.7 errno  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION008800000000000000000">
+6.8 <tt class=module>glob</tt> --
+         Unix style pathname pattern expansion</A>
+</H1>
+
+<P>
+
+
+<P>
+The <tt class=module>glob</tt> module finds all the pathnames matching a specified
+pattern according to the rules used by the Unix shell.  No tilde
+expansion is done, but <tt>*</tt>, <tt>?</tt>, and character ranges
+expressed with <tt>[]</tt> will be correctly matched.  This is done by
+using the <tt class=function>os.listdir()</tt> and <tt class=function>fnmatch.fnmatch()</tt>
+functions in concert, and not by actually invoking a subshell.  (For
+tilde and shell variable expansion, use <tt class=function>os.path.expanduser()</tt>
+and <tt class=function>os.path.expandvars()</tt>.)
+<a name="l2h-1182"></a>
+
+<P>
+<dl><dt><b><a name="l2h-1181"><tt class=function>glob</tt></a></b> (<var>pathname</var>)
+<dd>
+Returns a possibly-empty list of path names that match <var>pathname</var>,
+which must be a string containing a path specification.
+<var>pathname</var> can be either absolute (like
+"<tt class=file>/usr/src/Python-1.5/Makefile</tt>") or relative (like
+"<tt class=file>../../Tools/*/*.gif</tt>"), and can contain shell-style wildcards.
+</dl>
+
+<P>
+For example, consider a directory containing only the following files:
+"<tt class=file>1.gif</tt>", "<tt class=file>2.txt</tt>", and "<tt class=file>card.gif</tt>".  <tt class=function>glob()</tt>
+will produce the following results.  Notice how any leading components
+of the path are preserved.
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; import glob
+&gt;&gt;&gt; glob.glob('./[0-9].*')
+['./1.gif', './2.txt']
+&gt;&gt;&gt; glob.glob('*.gif')
+['1.gif', 'card.gif']
+&gt;&gt;&gt; glob.glob('?.gif')
+['1.gif']
+</pre></dl>
+
+<P>
+<div class=seealso>
+  <p class=heading><b>See Also:</b></p>
+
+  <div class=seemodule>
+<p>Module <b><tt class=module><a href="module-fnmatch.html">fnmatch</a></tt></b>&nbsp;&nbsp;&nbsp;(Shell-style filename (not path) expansion)</p>
+</div>
+</div><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1981"
+ HREF="module-fnmatch.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1977"
+ HREF="allos.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1971"
+ HREF="module-errno.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1979"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1980"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1982"
+ HREF="module-fnmatch.html">6.9 fnmatch  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1978"
+ HREF="allos.html">6. Generic Operating System</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1972"
+ HREF="module-errno.html">6.7 errno  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

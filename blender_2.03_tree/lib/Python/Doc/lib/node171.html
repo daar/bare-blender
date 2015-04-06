@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>9.2 How It Works</TITLE>
+<META NAME="description" CONTENT="9.2 How It Works">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="previous" HREF="node170.html">
+<LINK REL="up" HREF="module-pdb.html">
+<LINK REL="next" HREF="profile.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2610"
+ HREF="profile.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2606"
+ HREF="module-pdb.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2602"
+ HREF="node170.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2608"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2609"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2611"
+ HREF="profile.html">10. The Python Profiler</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2607"
+ HREF="module-pdb.html">9. The Python Debugger</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2603"
+ HREF="node170.html">9.1 Debugger Commands</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0011200000000000000000">
+9.2 How It Works</A>
+</H1>
+
+<P>
+Some changes were made to the interpreter:
+
+<P>
+
+<UL><LI><tt>sys.settrace(<var>func</var>)</tt> sets the global trace function
+
+<LI>there can also a local trace function (see later)
+
+</UL>
+
+<P>
+Trace functions have three arguments: <var>frame</var>, <var>event</var>, and
+<var>arg</var>. <var>frame</var> is the current stack frame.  <var>event</var> is a
+string: <tt>'call'</tt>, <tt>'line'</tt>, <tt>'return'</tt> or
+<tt>'exception'</tt>.  <var>arg</var> depends on the event type.
+
+<P>
+The global trace function is invoked (with <var>event</var> set to
+<tt>'call'</tt>) whenever a new local scope is entered; it should return
+a reference to the local trace function to be used that scope, or
+<tt>None</tt> if the scope shouldn't be traced.
+
+<P>
+The local trace function should return a reference to itself (or to
+another function for further tracing in that scope), or <tt>None</tt> to
+turn off tracing in that scope.
+
+<P>
+Instance methods are accepted (and very useful!) as trace functions.
+
+<P>
+The events have the following meaning:
+
+<P>
+<DL>
+<DD><P>
+<DT><STRONG><tt>'call'</tt></STRONG>
+<DD>A function is called (or some other code block entered).  The global
+trace function is called; arg is the argument list to the function;
+the return value specifies the local trace function.
+
+<P>
+<DT><STRONG><tt>'line'</tt></STRONG>
+<DD>The interpreter is about to execute a new line of code (sometimes
+multiple line events on one line exist).  The local trace function is
+called; arg in None; the return value specifies the new local trace
+function.
+
+<P>
+<DT><STRONG><tt>'return'</tt></STRONG>
+<DD>A function (or other code block) is about to return.  The local trace
+function is called; arg is the value that will be returned.  The trace
+function's return value is ignored.
+
+<P>
+<DT><STRONG><tt>'exception'</tt></STRONG>
+<DD>An exception has occurred.  The local trace function is called; arg is
+a triple (exception, value, traceback); the return value specifies the
+new local trace function
+
+<P>
+</DL>
+
+<P>
+Note that as an exception is propagated down the chain of callers, an
+<tt>'exception'</tt> event is generated at each level.
+
+<P>
+For more information on code and frame objects, refer to the
+<i>Python Reference Manual</i>.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2610"
+ HREF="profile.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2606"
+ HREF="module-pdb.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2602"
+ HREF="node170.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2608"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2609"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2611"
+ HREF="profile.html">10. The Python Profiler</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2607"
+ HREF="module-pdb.html">9. The Python Debugger</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2603"
+ HREF="node170.html">9.1 Debugger Commands</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

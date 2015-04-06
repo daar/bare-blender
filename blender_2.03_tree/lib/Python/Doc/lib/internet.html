@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>11. Internet Protocols and Support </TITLE>
+<META NAME="description" CONTENT="11. Internet Protocols and Support ">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="netdata.html">
+<LINK REL="previous" HREF="profile.html">
+<LINK REL="up" HREF="lib.html">
+<LINK REL="next" HREF="module-cgi.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2774"
+ HREF="module-cgi.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2770"
+ HREF="lib.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2764"
+ HREF="node183.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2772"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2773"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2775"
+ HREF="module-cgi.html">11.1 cgi  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2771"
+ HREF="lib.html">Python Library Reference</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2765"
+ HREF="node183.html">10.8.2 HotProfile Class</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0013000000000000000000"></A>
+<BR>
+11. Internet Protocols and Support 
+</H1>
+
+<P>
+<a name="l2h-1547"></a>
+<a name="l2h-1548"></a>
+<a name="l2h-1549"></a>
+
+<P>
+The modules described in this chapter implement Internet protocols and 
+support for related technology.  They are all implemented in Python.
+Some of these modules require the presence of the system-dependent
+module <tt class=module>socket</tt><a name="l2h-1550"></a>, which is currently only
+fully supported on Unix and Windows NT.  Here is an overview:
+
+<P>
+<table>
+  <tr><td><b><tt><a href="module-cgi.html">cgi</a></tt></b></td>
+      <td>Common Gateway Interface support, used to interpret
+forms in server-side scripts.</td></tr>
+  <tr><td><b><tt><a href="module-urllib.html">urllib</a></tt></b></td>
+      <td>Open an arbitrary object given by URL (requires sockets).</td></tr>
+  <tr><td><b><tt><a href="module-httplib.html">httplib</a></tt></b></td>
+      <td>HTTP protocol client (requires sockets).</td></tr>
+  <tr><td><b><tt><a href="module-ftplib.html">ftplib</a></tt></b></td>
+      <td>FTP protocol client (requires sockets).</td></tr>
+  <tr><td><b><tt><a href="module-gopherlib.html">gopherlib</a></tt></b></td>
+      <td>Gopher protocol client (requires sockets).</td></tr>
+  <tr><td><b><tt><a href="module-poplib.html">poplib</a></tt></b></td>
+      <td>POP3 protocol client (requires sockets).</td></tr>
+  <tr><td><b><tt><a href="module-imaplib.html">imaplib</a></tt></b></td>
+      <td>IMAP4 protocol client (requires sockets).</td></tr>
+  <tr><td><b><tt><a href="module-nntplib.html">nntplib</a></tt></b></td>
+      <td>NNTP protocol client (requires sockets).</td></tr>
+  <tr><td><b><tt><a href="module-smtplib.html">smtplib</a></tt></b></td>
+      <td>SMTP protocol client (requires sockets).</td></tr>
+  <tr><td><b><tt><a href="module-telnetlib.html">telnetlib</a></tt></b></td>
+      <td>Telnet client class.</td></tr>
+  <tr><td><b><tt><a href="module-urlparse.html">urlparse</a></tt></b></td>
+      <td>Parse URLs into components.</td></tr>
+  <tr><td><b><tt><a href="module-SocketServer.html">SocketServer</a></tt></b></td>
+      <td>A framework for network servers.</td></tr>
+  <tr><td><b><tt><a href="module-BaseHTTPServer.html">BaseHTTPServer</a></tt></b></td>
+      <td>Basic HTTP server (base class for
+\classSimpleHTTPServer and \classCGIHTTPServer).</td></tr>
+</table>
+<BR>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2774"
+ HREF="module-cgi.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2770"
+ HREF="lib.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2764"
+ HREF="node183.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2772"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2773"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2775"
+ HREF="module-cgi.html">11.1 cgi  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2771"
+ HREF="lib.html">Python Library Reference</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2765"
+ HREF="node183.html">10.8.2 HotProfile Class</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

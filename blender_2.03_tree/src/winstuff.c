@@ -43,47 +43,6 @@ void strnlower (char *str, int n) {
 	}
 }
 
-int strcasecmp (char *s1, char *s2) {
-	char *st1, *st2;
-	int r;
-	
-	st1= mallocN(strlen(s1)+1, "temp string");
-	strcpy(st1, s1);
-
-	st2= mallocN(strlen(s2)+1, "temp string");
-	strcpy(st2, s2);
-
-	strlower(st1);
-	strlower(st2);
-	r= strcmp (st1, st2);
-	
-	freeN(st1);
-	freeN(st2);
-
-	return r;
-}
-
-int strncasecmp (char *s1, char *s2, int n) {
-	char *st1, *st2;
-	int r;
-	
-	st1= mallocN(n, "temp string");
-	memcpy(st1, s1, n);
-
-	st2= mallocN(n, "temp string");
-	memcpy(st2, s2, n);
-
-	strnlower(st1, n);
-	strnlower(st2, n);
-
-	r= strncmp (st1, st2, n);
-	
-	freeN(st1);
-	freeN(st2);
-
-	return r;	
-}
-
 void bzero(void *buf, int size) {
 	memset (buf, 0, size);
 }

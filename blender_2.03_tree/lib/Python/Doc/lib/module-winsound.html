@@ -1,0 +1,180 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>18.2 winsound -- Sound-playing interface for Windows</TITLE>
+<META NAME="description" CONTENT="18.2 winsound -- Sound-playing interface for Windows">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="previous" HREF="module-msvcrt.html">
+<LINK REL="up" HREF="node297.html">
+<LINK REL="next" HREF="undoc.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html4178"
+ HREF="undoc.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html4174"
+ HREF="node297.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html4170"
+ HREF="msvcrt-other.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html4176"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html4177"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html4179"
+ HREF="undoc.html">19. Undocumented Modules</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html4175"
+ HREF="node297.html">18. MS Windows Specific</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html4171"
+ HREF="msvcrt-other.html">18.1.3 Other Functions</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0020200000000000000000">
+18.2 <tt class=module>winsound</tt> --
+         Sound-playing interface for Windows</A>
+</H1>
+
+<P>
+  
+<p class=availability>Availability: <span
+ class=platform>Windows</span>.</p>
+
+<P>
+New in version 1.5.2.
+
+<P>
+The <tt class=module>winsound</tt> module provides access to the basic
+sound-playing machinery provided by Windows platforms.  It includes a
+single function and several constants.
+
+<P>
+<dl><dt><b><a name="l2h-2502"><tt class=function>PlaySound</tt></a></b> (<var>sound, flags</var>)
+<dd>
+  Call the underlying <tt class=cfunction>PlaySound()</tt> function from the
+  Platform API.  The <var>sound</var> parameter may be a filename, audio
+  data as a string, or <tt>None</tt>.  Its interpretation depends on the
+  value of <var>flags</var>, which can be a bit-wise ORed combination of
+  the constants described below.  If the system indicates an error,
+  <tt class=exception>RuntimeError</tt> is raised.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2503"><tt>SND_FILENAME</tt></a></b>
+<dd>
+  The <var>sound</var> parameter is the name of a WAV file.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2504"><tt>SND_ALIAS</tt></a></b>
+<dd>
+  The <var>sound</var> parameter should be interpreted as a control panel
+  sound association name.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2505"><tt>SND_LOOP</tt></a></b>
+<dd>
+  Play the sound repeatedly.  The <tt class=constant>SND_ASYNC</tt> flag must also
+  be used to avoid blocking.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2506"><tt>SND_MEMORY</tt></a></b>
+<dd>
+  The <var>sound</var> parameter to <tt class=function>PlaySound()</tt> is a memory
+  image of a WAV file.
+
+<P>
+<b>Note:</b>  This module does not support playing from a memory
+  image asynchonously, so a combination of this flag and
+  <tt class=constant>SND_ASYNC</tt> will raise a <tt class=exception>RuntimeError</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2507"><tt>SND_PURGE</tt></a></b>
+<dd>
+  Stop playing all instances of the specified sound.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2508"><tt>SND_ASYNC</tt></a></b>
+<dd>
+  Return immediately, allowing sounds to play asynchronously.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2509"><tt>SND_NODEFAULT</tt></a></b>
+<dd>
+  If the specified sound cannot be found, do not play a default beep.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2510"><tt>SND_NOSTOP</tt></a></b>
+<dd>
+  Do not interrupt sounds currently playing.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2511"><tt>SND_NOWAIT</tt></a></b>
+<dd>
+  Return immediately if the sound driver is busy.
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html4178"
+ HREF="undoc.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html4174"
+ HREF="node297.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html4170"
+ HREF="msvcrt-other.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html4176"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html4177"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html4179"
+ HREF="undoc.html">19. Undocumented Modules</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html4175"
+ HREF="node297.html">18. MS Windows Specific</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html4171"
+ HREF="msvcrt-other.html">18.1.3 Other Functions</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

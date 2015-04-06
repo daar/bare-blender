@@ -12,7 +12,7 @@
 #include <errno.h>
 #include <assert.h>
 
-#include <GL/glut.h>
+#include <glut.h>
 #include "glutint.h"
 
 GLUTmenu *__glutCurrentMenu = NULL;

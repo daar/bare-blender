@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>9.5 Inheritance </TITLE>
+<META NAME="description" CONTENT="9.5 Inheritance ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="private.html">
+<LINK REL="previous" HREF="remarks.html">
+<LINK REL="up" HREF="classes.html">
+<LINK REL="next" HREF="multiple.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html963"
+ HREF="multiple.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html960"
+ HREF="classes.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html954"
+ HREF="remarks.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html962"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html964"
+ HREF="multiple.html">9.5.1 Multiple Inheritance</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html961"
+ HREF="classes.html">9. Classes</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html955"
+ HREF="remarks.html">9.4 Random Remarks</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0011500000000000000000"></A>
+<BR>
+9.5 Inheritance 
+</H1>
+
+<P>
+Of course, a language feature would not be worthy of the name ``class''
+without supporting inheritance.  The syntax for a derived class
+definition looks as follows:
+
+<P>
+<dl><dd><pre class=verbatim>
+class DerivedClassName(BaseClassName):
+    &lt;statement-1&gt;
+    .
+    .
+    .
+    &lt;statement-N&gt;
+</pre></dl>
+
+<P>
+The name <tt class=class>BaseClassName</tt> must be defined in a scope containing
+the derived class definition.  Instead of a base class name, an
+expression is also allowed.  This is useful when the base class is
+defined in another module, e.g.,
+
+<P>
+<dl><dd><pre class=verbatim>
+class DerivedClassName(modname.BaseClassName):
+</pre></dl>
+
+<P>
+Execution of a derived class definition proceeds the same as for a
+base class.  When the class object is constructed, the base class is
+remembered.  This is used for resolving attribute references: if a
+requested attribute is not found in the class, it is searched in the
+base class.  This rule is applied recursively if the base class itself
+is derived from some other class.
+
+<P>
+There's nothing special about instantiation of derived classes:
+<tt>DerivedClassName()</tt> creates a new instance of the class.  Method
+references are resolved as follows: the corresponding class attribute
+is searched, descending down the chain of base classes if necessary,
+and the method reference is valid if this yields a function object.
+
+<P>
+Derived classes may override methods of their base classes.  Because
+methods have no special privileges when calling other methods of the
+same object, a method of a base class that calls another method
+defined in the same base class, may in fact end up calling a method of
+a derived class that overrides it.  (For C++ programmers: all methods
+in Python are ``virtual functions''.)
+
+<P>
+An overriding method in a derived class may in fact want to extend
+rather than simply replace the base class method of the same name.
+There is a simple way to call the base class method directly: just
+call "<tt class=samp>BaseClassName.methodname(self, arguments)</tt>".  This is
+occasionally useful to clients as well.  (Note that this only works if
+the base class is defined or imported directly in the global scope.)
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html965"
+ HREF="multiple.html">9.5.1 Multiple Inheritance </A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html963"
+ HREF="multiple.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html960"
+ HREF="classes.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html954"
+ HREF="remarks.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html962"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html964"
+ HREF="multiple.html">9.5.1 Multiple Inheritance</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html961"
+ HREF="classes.html">9. Classes</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html955"
+ HREF="remarks.html">9.4 Random Remarks</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

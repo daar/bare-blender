@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.2.2 The pickle Module </TITLE>
+<META NAME="description" CONTENT="7.2.2 The pickle Module ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="previous" HREF="fileMethods.html">
+<LINK REL="up" HREF="files.html">
+<LINK REL="next" HREF="errors.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html757"
+ HREF="errors.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html754"
+ HREF="files.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html750"
+ HREF="fileMethods.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html756"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html758"
+ HREF="errors.html">8. Errors and Exceptions</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html755"
+ HREF="files.html">7.2 Reading and Writing</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html751"
+ HREF="fileMethods.html">7.2.1 Methods of File</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION009220000000000000000"></A>
+<BR>
+7.2.2 The <tt class=module>pickle</tt> Module 
+</H2>
+<a name="l2h-19"></a>
+
+<P>
+Strings can easily be written to and read from a file. Numbers take a
+bit more effort, since the <tt class=method>read()</tt> method only returns
+strings, which will have to be passed to a function like
+<tt class=function>string.atoi()</tt>, which takes a string like <tt>'123'</tt> and
+returns its numeric value 123.  However, when you want to save more
+complex data types like lists, dictionaries, or class instances,
+things get a lot more complicated.
+
+<P>
+Rather than have users be constantly writing and debugging code to
+save complicated data types, Python provides a standard module called
+<tt class=module>pickle</tt>.  This is an amazing module that can take almost
+any Python object (even some forms of Python code!), and convert it to
+a string representation; this process is called <i class=dfn>pickling</i>.  
+Reconstructing the object from the string representation is called
+<i class=dfn>unpickling</i>.  Between pickling and unpickling, the string
+representing the object may have been stored in a file or data, or
+sent over a network connection to some distant machine.
+
+<P>
+If you have an object <tt>x</tt>, and a file object <tt>f</tt> that's been
+opened for writing, the simplest way to pickle the object takes only
+one line of code:
+
+<P>
+<dl><dd><pre class=verbatim>
+pickle.dump(x, f)
+</pre></dl>
+
+<P>
+To unpickle the object again, if <tt>f</tt> is a file object which has
+been opened for reading:
+
+<P>
+<dl><dd><pre class=verbatim>
+x = pickle.load(f)
+</pre></dl>
+
+<P>
+(There are other variants of this, used when pickling many objects or
+when you don't want to write the pickled data to a file; consult the
+complete documentation for <tt class=module>pickle</tt> in the Library Reference.)
+
+<P>
+<tt class=module>pickle</tt> is the standard way to make Python objects which can be
+stored and reused by other programs or by a future invocation of the
+same program; the technical term for this is a <i class=dfn>persistent</i>
+object.  Because <tt class=module>pickle</tt> is so widely used, many authors who
+write Python extensions take care to ensure that new data types such
+as matrices can be properly pickled and unpickled.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html757"
+ HREF="errors.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html754"
+ HREF="files.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html750"
+ HREF="fileMethods.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html756"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html758"
+ HREF="errors.html">8. Errors and Exceptions</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html755"
+ HREF="files.html">7.2 Reading and Writing</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html751"
+ HREF="fileMethods.html">7.2.1 Methods of File</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

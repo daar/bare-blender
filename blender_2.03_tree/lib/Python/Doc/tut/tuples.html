@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>5.3 Tuples and Sequences </TITLE>
+<META NAME="description" CONTENT="5.3 Tuples and Sequences ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="dictionaries.html">
+<LINK REL="previous" HREF="del.html">
+<LINK REL="up" HREF="structures.html">
+<LINK REL="next" HREF="dictionaries.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html564"
+ HREF="dictionaries.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html561"
+ HREF="structures.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html555"
+ HREF="del.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html563"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html565"
+ HREF="dictionaries.html">5.4 Dictionaries</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html562"
+ HREF="structures.html">5. Data Structures</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html556"
+ HREF="del.html">5.2 The del statement</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION007300000000000000000"></A>
+<BR>
+5.3 Tuples and Sequences 
+</H1>
+
+<P>
+We saw that lists and strings have many common properties, e.g.,
+indexing and slicing operations.  They are two examples of
+<i>sequence</i> data types.  Since Python is an evolving language,
+other sequence data types may be added.  There is also another
+standard sequence data type: the <i>tuple</i>.
+
+<P>
+A tuple consists of a number of values separated by commas, for
+instance:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; t = 12345, 54321, 'hello!'
+&gt;&gt;&gt; t[0]
+12345
+&gt;&gt;&gt; t
+(12345, 54321, 'hello!')
+&gt;&gt;&gt; # Tuples may be nested:
+... u = t, (1, 2, 3, 4, 5)
+&gt;&gt;&gt; u
+((12345, 54321, 'hello!'), (1, 2, 3, 4, 5))
+</pre></dl>
+
+<P>
+As you see, on output tuples are alway enclosed in parentheses, so
+that nested tuples are interpreted correctly; they may be input with
+or without surrounding parentheses, although often parentheses are
+necessary anyway (if the tuple is part of a larger expression).
+
+<P>
+Tuples have many uses, e.g., (x, y) coordinate pairs, employee records
+from a database, etc.  Tuples, like strings, are immutable: it is not
+possible to assign to the individual items of a tuple (you can
+simulate much of the same effect with slicing and concatenation,
+though).
+
+<P>
+A special problem is the construction of tuples containing 0 or 1
+items: the syntax has some extra quirks to accommodate these.  Empty
+tuples are constructed by an empty pair of parentheses; a tuple with
+one item is constructed by following a value with a comma
+(it is not sufficient to enclose a single value in parentheses).
+Ugly, but effective.  For example:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; empty = ()
+&gt;&gt;&gt; singleton = 'hello',    # &lt;-- note trailing comma
+&gt;&gt;&gt; len(empty)
+0
+&gt;&gt;&gt; len(singleton)
+1
+&gt;&gt;&gt; singleton
+('hello',)
+</pre></dl>
+
+<P>
+The statement <tt>t = 12345, 54321, 'hello!'</tt> is an example of
+<i>tuple packing</i>: the values <tt>12345</tt>, <tt>54321</tt> and
+<tt>'hello!'</tt> are packed together in a tuple.  The reverse operation
+is also possible, e.g.:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; x, y, z = t
+</pre></dl>
+
+<P>
+This is called, appropriately enough, <i>tuple unpacking</i>.  Tuple
+unpacking requires that the list of variables on the left has the same
+number of elements as the length of the tuple.  Note that multiple
+assignment is really just a combination of tuple packing and tuple
+unpacking!
+
+<P>
+Occasionally, the corresponding operation on lists is useful: <i>list
+unpacking</i>.  This is supported by enclosing the list of variables in
+square brackets:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; a = ['spam', 'eggs', 100, 1234]
+&gt;&gt;&gt; [a1, a2, a3, a4] = a
+</pre></dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html564"
+ HREF="dictionaries.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html561"
+ HREF="structures.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html555"
+ HREF="del.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html563"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html565"
+ HREF="dictionaries.html">5.4 Dictionaries</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html562"
+ HREF="structures.html">5. Data Structures</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html556"
+ HREF="del.html">5.2 The del statement</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>6.12 The global statement</TITLE>
+<META NAME="description" CONTENT="6.12 The global statement">
+<META NAME="keywords" CONTENT="ref">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ref.css">
+<LINK REL="next" HREF="exec.html">
+<LINK REL="previous" HREF="import.html">
+<LINK REL="up" HREF="simple.html">
+<LINK REL="next" HREF="exec.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1147"
+ HREF="exec.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1143"
+ HREF="simple.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1137"
+ HREF="import.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html1145"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html1146"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1148"
+ HREF="exec.html">6.13 The exec statement</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1144"
+ HREF="simple.html">6. Simple statements</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1138"
+ HREF="import.html">6.11 The import statement</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0081200000000000000000"></A>
+<BR>
+6.12 The <tt class=keyword>global</tt> statement
+</H1>
+<a name="l2h-656"></a>
+
+<P>
+<dl><dd><pre class=verbatim>
+global_stmt:    "global" identifier ("," identifier)*
+</pre></dl>
+
+<P>
+The <tt class=keyword>global</tt> statement is a declaration which holds for the
+entire current code block.  It means that the listed identifiers are to be
+interpreted as globals.  While <i>using</i> global names is automatic
+if they are not defined in the local scope, <i>assigning</i> to global
+names would be impossible without <tt class=keyword>global</tt>.
+<a name="l2h-657"></a>
+
+<P>
+Names listed in a <tt class=keyword>global</tt> statement must not be used in the same
+code block textually preceding that <tt class=keyword>global</tt> statement.
+
+<P>
+Names listed in a <tt class=keyword>global</tt> statement must not be defined as formal
+parameters or in a <tt class=keyword>for</tt> loop control target, <tt class=keyword>class</tt>
+definition, function definition, or <tt class=keyword>import</tt> statement.
+
+<P>
+(The current implementation does not enforce the latter two
+restrictions, but programs should not abuse this freedom, as future
+implementations may enforce them or silently change the meaning of the
+program.)
+
+<P>
+<b>Programmer's note:</b>
+the <tt class=keyword>global</tt> is a directive to the parser.  It
+applies only to code parsed at the same time as the <tt class=keyword>global</tt>
+statement.  In particular, a <tt class=keyword>global</tt> statement contained in an
+<tt class=keyword>exec</tt> statement does not affect the code block <i>containing</i>
+the <tt class=keyword>exec</tt> statement, and code contained in an <tt class=keyword>exec</tt>
+statement is unaffected by <tt class=keyword>global</tt> statements in the code
+containing the <tt class=keyword>exec</tt> statement.  The same applies to the
+<tt class=function>eval()</tt>, <tt class=function>execfile()</tt> and <tt class=function>compile()</tt> functions.
+<a name="l2h-658"></a>
+<a name="l2h-659"></a>
+<a name="l2h-660"></a>
+<a name="l2h-661"></a>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1147"
+ HREF="exec.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1143"
+ HREF="simple.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1137"
+ HREF="import.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html1145"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html1146"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1148"
+ HREF="exec.html">6.13 The exec statement</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1144"
+ HREF="simple.html">6. Simple statements</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1138"
+ HREF="import.html">6.11 The import statement</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

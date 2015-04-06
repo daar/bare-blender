@@ -28,7 +28,7 @@
 #define XSGIFastInternAtom(dpy,string,fast_name,how) XInternAtom(dpy,string,how)
 #endif
 
-#include <GL/glut.h>
+#include <glut.h>
 #include "glutint.h"
 #include "layerutil.h"
 

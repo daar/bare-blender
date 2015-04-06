@@ -1,0 +1,222 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>5.9 Comparisons</TITLE>
+<META NAME="description" CONTENT="5.9 Comparisons">
+<META NAME="keywords" CONTENT="ref">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ref.css">
+<LINK REL="next" HREF="lambda.html">
+<LINK REL="previous" HREF="bitwise.html">
+<LINK REL="up" HREF="expressions.html">
+<LINK REL="next" HREF="lambda.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html944"
+ HREF="lambda.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html940"
+ HREF="expressions.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html934"
+ HREF="bitwise.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html942"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html943"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html945"
+ HREF="lambda.html">5.10 Boolean operations</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html941"
+ HREF="expressions.html">5. Expressions</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html935"
+ HREF="bitwise.html">5.8 Binary bit-wise operations</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION007900000000000000000"></A>
+<a name="l2h-539"></a>
+<BR>
+5.9 Comparisons
+</H1>
+
+<P>
+Contrary to C, all comparison operations in Python have the same
+priority, which is lower than that of any arithmetic, shifting or
+bitwise operation.  Also contrary to C, expressions like
+<tt>a &lt; b &lt; c</tt> have the interpretation that is conventional in
+mathematics:
+<a name="l2h-540"></a>
+
+<P>
+<dl><dd><pre class=verbatim>
+comparison:     or_expr (comp_operator or_expr)*
+comp_operator:  "&lt;"|"&gt;"|"=="|"&gt;="|"&lt;="|"&lt;&gt;"|"!="|"is" ["not"]|["not"] "in"
+</pre></dl>
+
+<P>
+Comparisons yield integer values: <tt>1</tt> for true, <tt>0</tt> for false.
+
+<P>
+Comparisons can be chained arbitrarily, e.g., <tt>x &lt; y &lt;= z</tt> is
+equivalent to <tt>x &lt; y and y &lt;= z</tt>, except that <tt>y</tt> is
+evaluated only once (but in both cases <tt>z</tt> is not evaluated at all
+when <tt>x &lt; y</tt> is found to be false).
+<a name="l2h-541"></a>
+
+<P>
+Formally, if <var>a</var>, <var>b</var>, <var>c</var>, ..., <var>y</var>, <var>z</var> are
+expressions and <var>opa</var>, <var>opb</var>, ..., <var>opy</var> are comparison
+operators, then <var>a opa b opb c</var> ...<var>y opy z</var> is equivalent
+to <var>a opa b</var> <tt class=keyword>and</tt> <var>b opb c</var> <tt class=keyword>and</tt> ...
+<var>y opy z</var>, except that each expression is evaluated at most once.
+
+<P>
+Note that <var>a opa b opb c</var> doesn't imply any kind of comparison
+between <var>a</var> and <var>c</var>, so that, e.g., <tt>x &lt; y &gt; z</tt> is
+perfectly legal (though perhaps not pretty).
+
+<P>
+The forms <tt>&lt;&gt;</tt> and <tt>!=</tt> are equivalent; for consistency with
+C, <tt>!=</tt> is preferred; where <tt>!=</tt> is mentioned below
+<tt>&lt;&gt;</tt> is also acceptable.  At some point in the (far) future,
+<tt>&lt;&gt;</tt> may become obsolete.
+
+<P>
+The operators <TT>"&lt;", "&gt;", "==", "&gt;=", "&lt;="</TT>, and <TT>"!="</TT> compare
+the values of two objects.  The objects needn't have the same type.
+If both are numbers, they are coverted to a common type.  Otherwise,
+objects of different types <i>always</i> compare unequal, and are
+ordered consistently but arbitrarily.
+
+<P>
+(This unusual definition of comparison was used to simplify the
+definition of operations like sorting and the <tt class=keyword>in</tt> and
+<tt class=keyword>not in</tt> operators.  In the future, the comparison rules for
+objects of different types are likely to change.)
+
+<P>
+Comparison of objects of the same type depends on the type:
+
+<P>
+
+<UL><LI>Numbers are compared arithmetically.
+
+<P>
+
+<LI>Strings are compared lexicographically using the numeric equivalents
+(the result of the built-in function <tt class=function>ord()</tt>) of their
+characters.
+
+<P>
+
+<LI>Tuples and lists are compared lexicographically using comparison of
+corresponding items.
+
+<P>
+
+<LI>Mappings (dictionaries) are compared through lexicographic
+comparison of their sorted (key, value) lists.<A NAME="tex2html3"
+ HREF="#foot3226"><SUP>5.1</SUP></A>
+<P>
+
+<LI>Most other types compare unequal unless they are the same object;
+the choice whether one object is considered smaller or larger than
+another one is made arbitrarily but consistently within one
+execution of a program.
+
+<P>
+
+</UL>
+
+<P>
+The operators <tt class=keyword>in</tt> and <tt class=keyword>not in</tt> test for sequence
+membership: if <var>y</var> is a sequence, <tt><var>x</var> in <var>y</var></tt> is
+true if and only if there exists an index <var>i</var> such that
+<tt><var>x</var> = <var>y</var>[<var>i</var>]</tt>.
+<tt><var>x</var> not in <var>y</var></tt> yields the inverse truth value.  The
+exception <tt class=exception>TypeError</tt> is raised when <var>y</var> is not a sequence,
+or when <var>y</var> is a string and <var>x</var> is not a string of length
+one.<A NAME="tex2html4"
+ HREF="#foot3050"><SUP>5.2</SUP></A><a name="l2h-542"></a>
+<a name="l2h-543"></a>
+<a name="l2h-544"></a>
+<a name="l2h-545"></a>
+
+<P>
+The operators <tt class=keyword>is</tt> and <tt class=keyword>is not</tt> test for object identity:
+<tt><var>x</var> is <var>y</var></tt> is true if and only if <var>x</var> and <var>y</var>
+are the same object.  <tt><var>x</var> is not <var>y</var></tt> yields the inverse
+truth value.
+<a name="l2h-546"></a>
+<a name="l2h-547"></a>
+<a name="l2h-548"></a>
+
+<P>
+<BR><HR><H4>Footnotes</H4>
+<DL>
+<DT><A NAME="foot3226">... lists.</A><A NAME="foot3226"
+ HREF="comparisons.html#tex2html3"><SUP>5.1</SUP></A>
+<DD>
+This is expensive since it requires sorting the keys first,
+but it is about the only sensible definition.  An earlier version of
+Python compared dictionaries by identity only, but this caused
+surprises because people expected to be able to test a dictionary for
+emptiness by comparing it to <tt>{}</tt>.
+
+<DT><A NAME="foot3050">...
+one.</A><A NAME="foot3050"
+ HREF="comparisons.html#tex2html4"><SUP>5.2</SUP></A>
+<DD>The latter restriction is sometimes a nuisance.
+
+</DL><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html944"
+ HREF="lambda.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html940"
+ HREF="expressions.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html934"
+ HREF="bitwise.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html942"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html943"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html945"
+ HREF="lambda.html">5.10 Boolean operations</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html941"
+ HREF="expressions.html">5. Expressions</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html935"
+ HREF="bitwise.html">5.8 Binary bit-wise operations</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

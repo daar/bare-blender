@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>11.9 smtplib -- SMTP protocol client.</TITLE>
+<META NAME="description" CONTENT="11.9 smtplib -- SMTP protocol client.">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-telnetlib.html">
+<LINK REL="previous" HREF="module-nntplib.html">
+<LINK REL="up" HREF="internet.html">
+<LINK REL="next" HREF="SMTP-objects.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3091"
+ HREF="SMTP-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3087"
+ HREF="internet.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3081"
+ HREF="nntp-objects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3089"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3090"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3092"
+ HREF="SMTP-objects.html">11.9.1 SMTP Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3088"
+ HREF="internet.html">11. Internet Protocols and</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3082"
+ HREF="nntp-objects.html">11.8.1 NNTP Objects</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0013900000000000000000">
+11.9 <tt class=module>smtplib</tt> --
+         SMTP protocol client.</A>
+</H1>
+
+
+<P>
+
+<P>
+<a name="l2h-1730"></a>
+<a name="l2h-1731"></a>
+
+<P>
+The <tt class=module>smtplib</tt> module defines an SMTP client session object that
+can be used to send mail to any Internet machine with an SMTP or ESMTP
+listener daemon.  For details of SMTP and ESMTP operation, consult
+<span class=rfc><a name="rfcref-41798"
+href="http://info.internet.isi.edu/in-notes/rfc/files/rfc821.txt">RFC 821</a></span> (<i>Simple Mail Transfer Protocol</i>) and <span class=rfc><a name="rfcref-41800"
+href="http://info.internet.isi.edu/in-notes/rfc/files/rfc1869.txt">RFC 1869</a></span>
+(<i>SMTP Service Extensions</i>).
+
+<P>
+<dl><dt><b><a name="l2h-1729"><tt class=class>SMTP</tt></a></b> (<big>[</big><var>host</var><big>[</big><var>, port</var><big>]</big><big>]</big>)
+<dd>
+A <tt class=class>SMTP</tt> instance encapsulates an SMTP connection.  It has
+methods that support a full repertoire of SMTP and ESMTP
+operations. If the optional host and port parameters are given, the
+SMTP <tt class=method>connect()</tt> method is called with those parameters during
+initialization.  An <tt class=exception>SMTPConnectError</tt> is raised if the
+specified host doesn't respond correctly.
+
+<P>
+For normal use, you should only require the initialization/connect,
+<tt class=method>sendmail()</tt>, and <tt class=method>quit()</tt> methods.  An example is
+included below.
+</dl>
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html3093"
+ HREF="SMTP-objects.html">11.9.1 SMTP Objects</A>
+<LI><A NAME="tex2html3094"
+ HREF="SMTP-example.html">11.9.2 SMTP Example </A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3091"
+ HREF="SMTP-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3087"
+ HREF="internet.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3081"
+ HREF="nntp-objects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3089"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3090"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3092"
+ HREF="SMTP-objects.html">11.9.1 SMTP Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3088"
+ HREF="internet.html">11. Internet Protocols and</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3082"
+ HREF="nntp-objects.html">11.8.1 NNTP Objects</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

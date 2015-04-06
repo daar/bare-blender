@@ -1,0 +1,226 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>16.4.3 FORMS Objects</TITLE>
+<META NAME="description" CONTENT="16.4.3 FORMS Objects">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="previous" HREF="form-objects.html">
+<LINK REL="up" HREF="module-fl.html">
+<LINK REL="next" HREF="module-fl-constants.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3978"
+ HREF="module-fl-constants.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3974"
+ HREF="module-fl.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3970"
+ HREF="form-objects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3976"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3977"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3979"
+ HREF="module-fl-constants.html">16.5 FL  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3975"
+ HREF="module-fl.html">16.4 fl  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3971"
+ HREF="form-objects.html">16.4.2 Form Objects</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0018430000000000000000"></A>
+<BR>
+16.4.3 FORMS Objects
+</H2>
+
+<P>
+Besides methods specific to particular kinds of FORMS objects, all
+FORMS objects also have the following methods:
+
+<P>
+<dl><dt><b><a name="l2h-2420"><tt class=method>set_call_back</tt></a></b> (<var>function, argument</var>)
+<dd>
+Set the object's callback function and argument.  When the object
+needs interaction, the callback function will be called with two
+arguments: the object, and the callback argument.  (FORMS objects
+without a callback function are returned by <tt class=function>fl.do_forms()</tt>
+or <tt class=function>fl.check_forms()</tt> when they need interaction.)  Call this
+method without arguments to remove the callback function.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2421"><tt class=method>delete_object</tt></a></b> ()
+<dd>
+  Delete the object.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2422"><tt class=method>show_object</tt></a></b> ()
+<dd>
+  Show the object.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2423"><tt class=method>hide_object</tt></a></b> ()
+<dd>
+  Hide the object.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2424"><tt class=method>redraw_object</tt></a></b> ()
+<dd>
+  Redraw the object.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2425"><tt class=method>freeze_object</tt></a></b> ()
+<dd>
+  Freeze the object.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2426"><tt class=method>unfreeze_object</tt></a></b> ()
+<dd>
+  Unfreeze the object.
+</dl>
+
+<P>
+FORMS objects have these data attributes; see the FORMS documentation:
+
+<P>
+<table border align=center>
+  <tr bgcolor="#99CCFF">
+    <th align=left><b>Name</b></th>
+    <th align=left><b>C Type</b></th>
+    <th align=left><b>Meaning</b></th>
+  <tr><td><member>objclass</member></td>
+      <td>int (read-only)</td>
+      <td>object class&nbsp;</td>
+  <tr><td><member>type</member></td>
+      <td>int (read-only)</td>
+      <td>object type&nbsp;</td>
+  <tr><td><member>boxtype</member></td>
+      <td>int</td>
+      <td>box type&nbsp;</td>
+  <tr><td><member>x</member></td>
+      <td>float</td>
+      <td>x origin&nbsp;</td>
+  <tr><td><member>y</member></td>
+      <td>float</td>
+      <td>y origin&nbsp;</td>
+  <tr><td><member>w</member></td>
+      <td>float</td>
+      <td>width&nbsp;</td>
+  <tr><td><member>h</member></td>
+      <td>float</td>
+      <td>height&nbsp;</td>
+  <tr><td><member>col1</member></td>
+      <td>int</td>
+      <td>primary color&nbsp;</td>
+  <tr><td><member>col2</member></td>
+      <td>int</td>
+      <td>secondary color&nbsp;</td>
+  <tr><td><member>align</member></td>
+      <td>int</td>
+      <td>alignment&nbsp;</td>
+  <tr><td><member>lcol</member></td>
+      <td>int</td>
+      <td>label color&nbsp;</td>
+  <tr><td><member>lsize</member></td>
+      <td>float</td>
+      <td>label font size&nbsp;</td>
+  <tr><td><member>label</member></td>
+      <td>string</td>
+      <td>label string&nbsp;</td>
+  <tr><td><member>lstyle</member></td>
+      <td>int</td>
+      <td>label style&nbsp;</td>
+  <tr><td><member>pushed</member></td>
+      <td>int (read-only)</td>
+      <td>(see FORMS docs)&nbsp;</td>
+  <tr><td><member>focus</member></td>
+      <td>int (read-only)</td>
+      <td>(see FORMS docs)&nbsp;</td>
+  <tr><td><member>belowmouse</member></td>
+      <td>int (read-only)</td>
+      <td>(see FORMS docs)&nbsp;</td>
+  <tr><td><member>frozen</member></td>
+      <td>int (read-only)</td>
+      <td>(see FORMS docs)&nbsp;</td>
+  <tr><td><member>active</member></td>
+      <td>int (read-only)</td>
+      <td>(see FORMS docs)&nbsp;</td>
+  <tr><td><member>input</member></td>
+      <td>int (read-only)</td>
+      <td>(see FORMS docs)&nbsp;</td>
+  <tr><td><member>visible</member></td>
+      <td>int (read-only)</td>
+      <td>(see FORMS docs)&nbsp;</td>
+  <tr><td><member>radio</member></td>
+      <td>int (read-only)</td>
+      <td>(see FORMS docs)&nbsp;</td>
+  <tr><td><member>automatic</member></td>
+      <td>int (read-only)</td>
+      <td>(see FORMS docs)&nbsp;</td>
+
+</table>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3978"
+ HREF="module-fl-constants.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3974"
+ HREF="module-fl.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3970"
+ HREF="form-objects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3976"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3977"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3979"
+ HREF="module-fl-constants.html">16.5 FL  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3975"
+ HREF="module-fl.html">16.4 fl  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3971"
+ HREF="form-objects.html">16.4.2 Form Objects</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

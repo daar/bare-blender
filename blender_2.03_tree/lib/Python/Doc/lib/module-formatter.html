@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>12.4 formatter -- Generic output formatting</TITLE>
+<META NAME="description" CONTENT="12.4 formatter -- Generic output formatting">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-rfc822.html">
+<LINK REL="previous" HREF="module-xmllib.html">
+<LINK REL="up" HREF="netdata.html">
+<LINK REL="next" HREF="formatter-interface.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3243"
+ HREF="formatter-interface.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3239"
+ HREF="netdata.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3233"
+ HREF="xml-namespace.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3241"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3242"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3244"
+ HREF="formatter-interface.html">12.4.1 The Formatter Interface</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3240"
+ HREF="netdata.html">12. Internet Data Handling</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3234"
+ HREF="xml-namespace.html">12.3.1 XML Namespaces</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0014400000000000000000">
+12.4 <tt class=module>formatter</tt> --
+         Generic output formatting</A>
+</H1>
+
+<P>
+
+
+<P>
+This module supports two interface definitions, each with mulitple
+implementations.  The <i>formatter</i> interface is used by the
+<tt class=class>HTMLParser</tt> class of the <tt class=module>htmllib</tt> module, and the
+<i>writer</i> interface is required by the formatter interface.
+<a name="l2h-1894"></a>
+<P>
+Formatter objects transform an abstract flow of formatting events into
+specific output events on writer objects.  Formatters manage several
+stack structures to allow various properties of a writer object to be
+changed and restored; writers need not be able to handle relative
+changes nor any sort of ``change back'' operation.  Specific writer
+properties which may be controlled via formatter objects are
+horizontal alignment, font, and left margin indentations.  A mechanism
+is provided which supports providing arbitrary, non-exclusive style
+settings to a writer as well.  Additional interfaces facilitate
+formatting events which are not reversible, such as paragraph
+separation.
+
+<P>
+Writer objects encapsulate device interfaces.  Abstract devices, such
+as file formats, are supported as well as physical devices.  The
+provided implementations all work with abstract devices.  The
+interface makes available mechanisms for setting the properties which
+formatter objects manage and inserting data into the output.
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html3245"
+ HREF="formatter-interface.html">12.4.1 The Formatter Interface </A>
+<LI><A NAME="tex2html3246"
+ HREF="formatter-impls.html">12.4.2 Formatter Implementations </A>
+<LI><A NAME="tex2html3247"
+ HREF="writer-interface.html">12.4.3 The Writer Interface </A>
+<LI><A NAME="tex2html3248"
+ HREF="writer-impls.html">12.4.4 Writer Implementations </A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3243"
+ HREF="formatter-interface.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3239"
+ HREF="netdata.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3233"
+ HREF="xml-namespace.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3241"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3242"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3244"
+ HREF="formatter-interface.html">12.4.1 The Formatter Interface</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3240"
+ HREF="netdata.html">12. Internet Data Handling</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3234"
+ HREF="xml-namespace.html">12.3.1 XML Namespaces</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>5.10 Boolean operations</TITLE>
+<META NAME="description" CONTENT="5.10 Boolean operations">
+<META NAME="keywords" CONTENT="ref">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ref.css">
+<LINK REL="next" HREF="exprlists.html">
+<LINK REL="previous" HREF="comparisons.html">
+<LINK REL="up" HREF="expressions.html">
+<LINK REL="next" HREF="exprlists.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html956"
+ HREF="exprlists.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html952"
+ HREF="expressions.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html946"
+ HREF="comparisons.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html954"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html955"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html957"
+ HREF="exprlists.html">5.11 Expression lists</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html953"
+ HREF="expressions.html">5. Expressions</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html947"
+ HREF="comparisons.html">5.9 Comparisons</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0071000000000000000000"></A>
+<BR>
+5.10 Boolean operations
+</H1>
+<a name="l2h-549"></a>
+
+<P>
+Boolean operations have the lowest priority of all Python operations:
+
+<P>
+<dl><dd><pre class=verbatim>
+expression:     or_test | lambda_form
+or_test:        and_test | or_test "or" and_test
+and_test:       not_test | and_test "and" not_test
+not_test:       comparison | "not" not_test
+lambda_form:	"lambda" [parameter_list]: expression
+</pre></dl>
+
+<P>
+In the context of Boolean operations, and also when expressions are
+used by control flow statements, the following values are interpreted
+as false: <tt>None</tt>, numeric zero of all types, empty sequences
+(strings, tuples and lists), and empty mappings (dictionaries).  All
+other values are interpreted as true.
+
+<P>
+The operator <tt class=keyword>not</tt> yields <tt>1</tt> if its argument is false,
+<tt>0</tt> otherwise.
+<a name="l2h-550"></a>
+
+<P>
+The expression <tt><var>x</var> and <var>y</var></tt> first evaluates <var>x</var>; if
+<var>x</var> is false, its value is returned; otherwise, <var>y</var> is
+evaluated and the resulting value is returned.
+<a name="l2h-551"></a>
+
+<P>
+The expression <tt><var>x</var> or <var>y</var></tt> first evaluates <var>x</var>; if
+<var>x</var> is true, its value is returned; otherwise, <var>y</var> is
+evaluated and the resulting value is returned.
+<a name="l2h-552"></a>
+
+<P>
+(Note that neither <tt class=keyword>and</tt> nor <tt class=keyword>or</tt> restrict the value
+and type they return to <tt>0</tt> and <tt>1</tt>, but rather return the
+last evaluated argument.
+This is sometimes useful, e.g., if <tt>s</tt> is a string that should be
+replaced by a default value if it is empty, the expression
+<tt>s or 'foo'</tt> yields the desired value.  Because <tt class=keyword>not</tt> has to
+invent a value anyway, it does not bother to return a value of the
+same type as its argument, so e.g., <tt>not 'foo'</tt> yields <tt>0</tt>,
+not <tt>''</tt>.)
+
+<P>
+Lambda forms (lambda expressions) have the same syntactic position as
+expressions.  They are a shorthand to create anonymous functions; the
+expression <tt>lambda <var>arguments</var>: <var>expression</var></tt>yields a function object that behaves virtually identical to one
+defined with
+
+<P>
+<dl><dd><pre class=verbatim>
+def name(arguments):
+    return expression
+</pre></dl>
+
+<P>
+See section <A HREF="function.html#function">7.5</A> for the syntax of parameter lists.  Note
+that functions created with lambda forms cannot contain statements.
+<a name="l2h-553"></a>
+<a name="l2h-554"></a>
+<a name="l2h-555"></a>
+
+<P>
+<b>Programmer's note:</b> a lambda form defined inside a function
+has no access to names defined in the function's namespace.  This is
+because Python has only two scopes: local and global.  A common
+work-around is to use default argument values to pass selected
+variables into the lambda's namespace, e.g.:
+
+<P>
+<dl><dd><pre class=verbatim>
+def make_incrementor(increment):
+    return lambda x, n=increment: x+n
+</pre></dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html956"
+ HREF="exprlists.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html952"
+ HREF="expressions.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html946"
+ HREF="comparisons.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html954"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html955"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html957"
+ HREF="exprlists.html">5.11 Expression lists</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html953"
+ HREF="expressions.html">5. Expressions</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html947"
+ HREF="comparisons.html">5.9 Comparisons</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

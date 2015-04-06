@@ -1,0 +1,198 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>6. Modules </TITLE>
+<META NAME="description" CONTENT="6. Modules ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="io.html">
+<LINK REL="previous" HREF="structures.html">
+<LINK REL="up" HREF="tut.html">
+<LINK REL="next" HREF="moreModules.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html606"
+ HREF="moreModules.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html603"
+ HREF="tut.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html597"
+ HREF="comparing.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html605"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html607"
+ HREF="moreModules.html">6.1 More on Modules</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html604"
+ HREF="tut.html">Python Tutorial</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html598"
+ HREF="comparing.html">5.6 Comparing Sequences and</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION008000000000000000000"></A>
+<BR>
+6. Modules 
+</H1>
+
+<P>
+If you quit from the Python interpreter and enter it again, the
+definitions you have made (functions and variables) are lost.
+Therefore, if you want to write a somewhat longer program, you are
+better off using a text editor to prepare the input for the interpreter
+and running it with that file as input instead.  This is known as creating a
+<i>script</i>.  As your program gets longer, you may want to split it
+into several files for easier maintenance.  You may also want to use a
+handy function that you've written in several programs without copying
+its definition into each program.
+
+<P>
+To support this, Python has a way to put definitions in a file and use
+them in a script or in an interactive instance of the interpreter.
+Such a file is called a <i>module</i>; definitions from a module can be
+<i>imported</i> into other modules or into the <i>main</i> module (the
+collection of variables that you have access to in a script
+executed at the top level
+and in calculator mode).
+
+<P>
+A module is a file containing Python definitions and statements.  The
+file name is the module name with the suffix "<tt class=file>.py</tt>" appended.  Within
+a module, the module's name (as a string) is available as the value of
+the global variable <tt>__name__</tt>.  For instance, use your favorite text
+editor to create a file called "<tt class=file>fibo.py</tt>" in the current directory
+with the following contents:
+
+<P>
+<dl><dd><pre class=verbatim>
+# Fibonacci numbers module
+
+def fib(n):    # write Fibonacci series up to n
+    a, b = 0, 1
+    while b &lt; n:
+        print b,
+        a, b = b, a+b
+
+def fib2(n): # return Fibonacci series up to n
+    result = []
+    a, b = 0, 1
+    while b &lt; n:
+        result.append(b)
+        a, b = b, a+b
+    return result
+</pre></dl>
+
+<P>
+Now enter the Python interpreter and import this module with the
+following command:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; import fibo
+</pre></dl>
+
+<P>
+This does not enter the names of the functions defined in
+<tt>fibo</tt>directly in the current symbol table; it only enters the module name
+<tt>fibo</tt>there.
+Using the module name you can access the functions:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; fibo.fib(1000)
+1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987
+&gt;&gt;&gt; fibo.fib2(100)
+[1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
+&gt;&gt;&gt; fibo.__name__
+'fibo'
+</pre></dl>
+If you intend to use a function often you can assign it to a local name:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; fib = fibo.fib
+&gt;&gt;&gt; fib(500)
+1 1 2 3 5 8 13 21 34 55 89 144 233 377
+</pre></dl>
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html608"
+ HREF="moreModules.html">6.1 More on Modules </A>
+<UL>
+<LI><A NAME="tex2html609"
+ HREF="searchPath.html">6.1.1 The Module Search Path </A>
+<LI><A NAME="tex2html610"
+ HREF="node43.html">6.1.2 ``Compiled'' Python files</A>
+</UL>
+<LI><A NAME="tex2html611"
+ HREF="standardModules.html">6.2 Standard Modules </A>
+<LI><A NAME="tex2html612"
+ HREF="dir.html">6.3 The <tt class=function>dir()</tt> Function </A>
+<LI><A NAME="tex2html613"
+ HREF="packages.html">6.4 Packages </A>
+<UL>
+<LI><A NAME="tex2html614"
+ HREF="pkg-import-star.html">6.4.1 Importing * From a Package </A>
+<LI><A NAME="tex2html615"
+ HREF="node48.html">6.4.2 Intra-package References</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html606"
+ HREF="moreModules.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html603"
+ HREF="tut.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html597"
+ HREF="comparing.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html605"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html607"
+ HREF="moreModules.html">6.1 More on Modules</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html604"
+ HREF="tut.html">Python Tutorial</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html598"
+ HREF="comparing.html">5.6 Comparing Sequences and</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

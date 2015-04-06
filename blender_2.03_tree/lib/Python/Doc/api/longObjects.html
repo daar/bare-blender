@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.4.2 Long Integer Objects </TITLE>
+<META NAME="description" CONTENT="7.4.2 Long Integer Objects ">
+<META NAME="keywords" CONTENT="api">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="api.css">
+<LINK REL="next" HREF="floatObjects.html">
+<LINK REL="previous" HREF="intObjects.html">
+<LINK REL="up" HREF="numericObjects.html">
+<LINK REL="next" HREF="floatObjects.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html554"
+ HREF="floatObjects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html550"
+ HREF="numericObjects.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html544"
+ HREF="intObjects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python/C API Reference Manual</b></td>
+<td><A NAME="tex2html552"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html553"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html555"
+ HREF="floatObjects.html">7.4.3 Floating Point Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html551"
+ HREF="numericObjects.html">7.4 Numeric Objects</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html545"
+ HREF="intObjects.html">7.4.1 Plain Integer Objects</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION009420000000000000000"></A>
+<BR>
+7.4.2 Long Integer Objects 
+</H2>
+
+<P>
+<dl><dt><b><a name="l2h-226"><tt class=ctype>PyLongObject</tt></a></b>
+<dd>
+This subtype of <tt class=ctype>PyObject</tt> represents a Python long integer
+object.
+</dl>
+
+<P>
+<dl><dt>PyTypeObject <b><a name="l2h-227"><tt class=cdata>PyLong_Type</tt></a></b>
+<dd>
+This instance of <tt class=ctype>PyTypeObject</tt> represents the Python long
+integer type.
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-228"><tt class=cfunction>PyLong_Check</tt></a></b> (<var>PyObject *p</var>)
+<dd>
+Returns true if its argument is a <tt class=ctype>PyLongObject</tt>.
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-229"><tt class=cfunction>PyLong_FromLong</tt></a></b> (<var>long v</var>)
+<dd>
+Returns a new <tt class=ctype>PyLongObject</tt> object from <var>v</var>.
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-230"><tt class=cfunction>PyLong_FromUnsignedLong</tt></a></b> (<var>unsigned long v</var>)
+<dd>
+Returns a new <tt class=ctype>PyLongObject</tt> object from an unsigned C long.
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-231"><tt class=cfunction>PyLong_FromDouble</tt></a></b> (<var>double v</var>)
+<dd>
+Returns a new <tt class=ctype>PyLongObject</tt> object from the integer part of <var>v</var>.
+</dl>
+
+<P>
+<dl><dt>long <b><a name="l2h-232"><tt class=cfunction>PyLong_AsLong</tt></a></b> (<var>PyObject *pylong</var>)
+<dd>
+Returns a C <tt class=ctype>long</tt> representation of the contents of <var>pylong</var>.  
+WHAT HAPPENS IF <var>pylong</var> is greater than <tt class=constant>LONG_MAX</tt>?
+</dl>
+
+<P>
+<dl><dt>unsigned long <b><a name="l2h-233"><tt class=cfunction>PyLong_AsUnsignedLong</tt></a></b> (<var>PyObject *pylong</var>)
+<dd>
+Returns a C <tt class=ctype>unsigned long</tt> representation of the contents of 
+<var>pylong</var>.  WHAT HAPPENS IF <var>pylong</var> is greater than
+<tt class=constant>ULONG_MAX</tt>?
+</dl>
+
+<P>
+<dl><dt>double <b><a name="l2h-234"><tt class=cfunction>PyLong_AsDouble</tt></a></b> (<var>PyObject *pylong</var>)
+<dd>
+Returns a C <tt class=ctype>double</tt> representation of the contents of <var>pylong</var>.
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-235"><tt class=cfunction>PyLong_FromString</tt></a></b> (<var>char *str, char **pend,
+                                                int base</var>)
+<dd>
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html554"
+ HREF="floatObjects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html550"
+ HREF="numericObjects.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html544"
+ HREF="intObjects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python/C API Reference Manual</b></td>
+<td><A NAME="tex2html552"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html553"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html555"
+ HREF="floatObjects.html">7.4.3 Floating Point Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html551"
+ HREF="numericObjects.html">7.4 Numeric Objects</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html545"
+ HREF="intObjects.html">7.4.1 Plain Integer Objects</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

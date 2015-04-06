@@ -1,0 +1,231 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>9.4 Random Remarks </TITLE>
+<META NAME="description" CONTENT="9.4 Random Remarks ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="inheritance.html">
+<LINK REL="previous" HREF="firstClasses.html">
+<LINK REL="up" HREF="classes.html">
+<LINK REL="next" HREF="inheritance.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html952"
+ HREF="inheritance.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html949"
+ HREF="classes.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html943"
+ HREF="methodObjects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html951"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html953"
+ HREF="inheritance.html">9.5 Inheritance</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html950"
+ HREF="classes.html">9. Classes</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html944"
+ HREF="methodObjects.html">9.3.4 Method Objects</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0011400000000000000000"></A>
+<BR>
+9.4 Random Remarks 
+</H1>
+
+<P>
+[These should perhaps be placed more carefully...]
+
+<P>
+Data attributes override method attributes with the same name; to
+avoid accidental name conflicts, which may cause hard-to-find bugs in
+large programs, it is wise to use some kind of convention that
+minimizes the chance of conflicts, e.g., capitalize method names,
+prefix data attribute names with a small unique string (perhaps just
+an underscore), or use verbs for methods and nouns for data attributes.
+
+<P>
+Data attributes may be referenced by methods as well as by ordinary
+users (``clients'') of an object.  In other words, classes are not
+usable to implement pure abstract data types.  In fact, nothing in
+Python makes it possible to enforce data hiding -- it is all based
+upon convention.  (On the other hand, the Python implementation,
+written in C, can completely hide implementation details and control
+access to an object if necessary; this can be used by extensions to
+Python written in C.)
+
+<P>
+Clients should use data attributes with care -- clients may mess up
+invariants maintained by the methods by stamping on their data
+attributes.  Note that clients may add data attributes of their own to
+an instance object without affecting the validity of the methods, as
+long as name conflicts are avoided -- again, a naming convention can
+save a lot of headaches here.
+
+<P>
+There is no shorthand for referencing data attributes (or other
+methods!) from within methods.  I find that this actually increases
+the readability of methods: there is no chance of confusing local
+variables and instance variables when glancing through a method.
+
+<P>
+Conventionally, the first argument of methods is often called
+<tt>self</tt>.  This is nothing more than a convention: the name
+<tt>self</tt> has absolutely no special meaning to Python.  (Note,
+however, that by not following the convention your code may be less
+readable by other Python programmers, and it is also conceivable that
+a <i>class browser</i> program be written which relies upon such a
+convention.)
+
+<P>
+Any function object that is a class attribute defines a method for
+instances of that class.  It is not necessary that the function
+definition is textually enclosed in the class definition: assigning a
+function object to a local variable in the class is also ok.  For
+example:
+
+<P>
+<dl><dd><pre class=verbatim>
+# Function defined outside the class
+def f1(self, x, y):
+    return min(x, x+y)
+
+class C:
+    f = f1
+    def g(self):
+        return 'hello world'
+    h = g
+</pre></dl>
+
+<P>
+Now <tt>f</tt>, <tt>g</tt> and <tt>h</tt> are all attributes of class
+<tt class=class>C</tt> that refer to function objects, and consequently they are all
+methods of instances of <tt class=class>C</tt> -- <tt>h</tt> being exactly equivalent
+to <tt>g</tt>.  Note that this practice usually only serves to confuse
+the reader of a program.
+
+<P>
+Methods may call other methods by using method attributes of the
+<tt>self</tt> argument, e.g.:
+
+<P>
+<dl><dd><pre class=verbatim>
+class Bag:
+    def empty(self):
+        self.data = []
+    def add(self, x):
+        self.data.append(x)
+    def addtwice(self, x):
+        self.add(x)
+        self.add(x)
+</pre></dl>
+
+<P>
+The instantiation operation (``calling'' a class object) creates an
+empty object.  Many classes like to create objects in a known initial
+state.  Therefore a class may define a special method named
+<tt class=method>__init__()</tt>, like this:
+
+<P>
+<dl><dd><pre class=verbatim>
+    def __init__(self):
+        self.empty()
+</pre></dl>
+
+<P>
+When a class defines an <tt class=method>__init__()</tt> method, class
+instantiation automatically invokes <tt class=method>__init__()</tt> for the
+newly-created class instance.  So in the <tt class=class>Bag</tt> example, a new
+and initialized instance can be obtained by:
+
+<P>
+<dl><dd><pre class=verbatim>
+x = Bag()
+</pre></dl>
+
+<P>
+Of course, the <tt class=method>__init__()</tt> method may have arguments for
+greater flexibility.  In that case, arguments given to the class
+instantiation operator are passed on to <tt class=method>__init__()</tt>.  For
+example,
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; class Complex:
+...     def __init__(self, realpart, imagpart):
+...         self.r = realpart
+...         self.i = imagpart
+... 
+&gt;&gt;&gt; x = Complex(3.0,-4.5)
+&gt;&gt;&gt; x.r, x.i
+(3.0, -4.5)
+</pre></dl>
+
+<P>
+Methods may reference global names in the same way as ordinary
+functions.  The global scope associated with a method is the module
+containing the class definition.  (The class itself is never used as a
+global scope!)  While one rarely encounters a good reason for using
+global data in a method, there are many legitimate uses of the global
+scope: for one thing, functions and modules imported into the global
+scope can be used by methods, as well as functions and classes defined
+in it.  Usually, the class containing the method is itself defined in
+this global scope, and in the next section we'll find some good
+reasons why a method would want to reference its own class!
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html952"
+ HREF="inheritance.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html949"
+ HREF="classes.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html943"
+ HREF="methodObjects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html951"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html953"
+ HREF="inheritance.html">9.5 Inheritance</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html950"
+ HREF="classes.html">9. Classes</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html944"
+ HREF="methodObjects.html">9.3.4 Method Objects</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

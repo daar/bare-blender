@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.9 copy_reg -- Register pickle support functions.</TITLE>
+<META NAME="description" CONTENT="3.9 copy_reg -- Register pickle support functions.">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-shelve.html">
+<LINK REL="previous" HREF="module-cPickle.html">
+<LINK REL="up" HREF="python.html">
+<LINK REL="next" HREF="module-shelve.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1022"
+ HREF="module-shelve.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1018"
+ HREF="python.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1012"
+ HREF="module-cPickle.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1020"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1021"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1023"
+ HREF="module-shelve.html">3.10 shelve  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1019"
+ HREF="python.html">3. Python Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1013"
+ HREF="module-cPickle.html">3.8 cPickle  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION005900000000000000000">
+3.9 <tt class=module>copy_reg</tt> --
+         Register <tt class=module>pickle</tt> support functions.</A>
+</H1>
+
+<P>
+
+<P>
+The <tt class=module>copy_reg</tt> module provides support for the
+<tt class=module>pickle</tt><a name="l2h-423"></a> and
+<tt class=module>cPickle</tt><a name="l2h-424"></a> modules.  The
+<tt class=module>copy</tt><a name="l2h-425"></a> module is likely to use this in the
+future as well.  It provides configuration information about object
+constructors which are not classes.  Such constructors may be factory
+functions or class instances.
+
+<P>
+<dl><dt><b><a name="l2h-421"><tt class=function>constructor</tt></a></b> (<var>object</var>)
+<dd>
+  Declares <var>object</var> to be a valid constructor.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-422"><tt class=function>pickle</tt></a></b> (<var>type, function</var><big>[</big><var>, constructor</var><big>]</big>)
+<dd>
+  Declares that <var>function</var> should be used as a ``reduction''
+  function for objects of type or class <var>type</var>.  <var>function</var>
+  should return either a string or a tuple.  The optional
+  <var>constructor</var> parameter, if provided, is a callable object which
+  can be used to reconstruct the object when called with the tuple of
+  arguments returned by <var>function</var> at pickling time.
+</dl><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1022"
+ HREF="module-shelve.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1018"
+ HREF="python.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1012"
+ HREF="module-cPickle.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1020"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1021"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1023"
+ HREF="module-shelve.html">3.10 shelve  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1019"
+ HREF="python.html">3. Python Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1013"
+ HREF="module-cPickle.html">3.8 cPickle  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

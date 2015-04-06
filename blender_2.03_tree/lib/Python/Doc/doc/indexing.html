@@ -1,0 +1,286 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>5.7 Index-generating Markup </TITLE>
+<META NAME="description" CONTENT="5.7 Index-generating Markup ">
+<META NAME="keywords" CONTENT="doc">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="doc.css">
+<LINK REL="previous" HREF="references.html">
+<LINK REL="up" HREF="node6.html">
+<LINK REL="next" HREF="node14.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html190"
+ HREF="node14.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html187"
+ HREF="node6.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html183"
+ HREF="references.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Documenting Python</b></td>
+<td><A NAME="tex2html189"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html191"
+ HREF="node14.html">6. Special Names</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html188"
+ HREF="node6.html">5. Python-specific Markup</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html184"
+ HREF="references.html">5.6 Reference List Markup</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000670000000000000000"></A>
+<BR>
+5.7 Index-generating Markup 
+</H2>
+
+<P>
+Effective index generation for technical documents can be very
+    difficult, especially for someone familliar with the topic but not
+    the creation of indexes.  Much of the difficulty arises in the
+    area of terminology: including the terms an expert would use for a
+    concept is not sufficient.  Coming up with the terms that a novice
+    would look up is fairly difficult for an author who, typically, is
+    an expert in the area she is writing on.
+
+<P>
+The truly difficult aspects of index generation are not areas with
+    which the documentation tools can help.  However, ease
+    of producing the index once content decisions are make is within
+    the scope of the tools.  Markup is provided which the processing
+    software is able to use to generate a variety of kinds of index
+    entry with minimal effort.  Additionally, many of the environments
+    described in Section <A HREF="info-units.html#info-units">5.1</A>, ``Information Units,'' will
+    generate appropriate entries into the general and module indexes.
+
+<P>
+The following macro can be used to control the generation of index
+    data, and should be used in the document prologue:
+
+<P>
+
+<dl class='macrodesc'>
+<dt><b><tt class='macro'>&#92;makemodindex</tt></b>
+                         
+<dd>
+      This should be used in the document prologue if a ``Module
+      Index'' is desired for a document containing reference material
+      on many modules.  This causes a data file
+      <tt>lib<tt class='macro'>&#92;jobname</tt>.idx</tt> to be created from the
+      <tt class='macro'>&#92;declaremodule</tt> macros.  This file can be processed by the
+      <b class=program>makeindex</b> program to generate a file which can be
+      <tt class='macro'>&#92;input</tt> into the document at the desired location of the
+      module index.
+    </dl>
+
+<P>
+There are a number of macros that are useful for adding index
+    entries for particular concepts, many of which are specific to
+    programming languages or even Python.
+
+<P>
+
+<dl class='macrodesc'>
+<dt><b><tt class='macro'>&#92;bifuncindex</tt></b>
+                         {<var>name</var>}
+<dd>
+      Add a index entry referring to a built-in function named
+      <var>name</var>; parenthesis should not be included after
+      <var>name</var>.
+    </dl>
+
+<P>
+
+<dl class='macrodesc'>
+<dt><b><tt class='macro'>&#92;exindex</tt></b>
+                         {<var>exception</var>}
+<dd>
+      Add a reference to an exception named <var>exception</var>.  The
+      exception may be either string- or class-based.
+    </dl>
+
+<P>
+
+<dl class='macrodesc'>
+<dt><b><tt class='macro'>&#92;kwindex</tt></b>
+                         {<var>keyword</var>}
+<dd>
+      Add a reference to a language keyword (not a keyword parameter
+      in a function or method call).
+    </dl>
+
+<P>
+
+<dl class='macrodesc'>
+<dt><b><tt class='macro'>&#92;obindex</tt></b>
+                         {<var>object type</var>}
+<dd>
+      Add an index entry for a built-in object type.
+    </dl>
+
+<P>
+
+<dl class='macrodesc'>
+<dt><b><tt class='macro'>&#92;opindex</tt></b>
+                         {<var>operator</var>}
+<dd>
+      Add a reference to an operator, such as "<tt class=samp>+</tt>".
+    </dl>
+
+<P>
+
+<dl class='macrodesc'>
+<dt><b><tt class='macro'>&#92;refmodindex</tt></b>
+                         [<var>key</var>]{<var>module</var>}
+<dd>
+      Add an index entry for module <var>module</var>; if <var>module</var>
+      contains an underscore, the optional parameter <var>key</var> should
+      be provided as the same string with underscores removed.  An
+      index entry ``<var>module</var> (module)'' will be generated.  This
+      is intended for use with non-standard modules implemented in
+      Python.
+    </dl>
+
+<P>
+
+<dl class='macrodesc'>
+<dt><b><tt class='macro'>&#92;refexmodindex</tt></b>
+                         [<var>key</var>]{<var>module</var>}
+<dd>
+      As for <tt class='macro'>&#92;refmodindex</tt>, but the index entry will be
+      ``<var>module</var> (extension module).''  This is intended for use
+      with non-standard modules not implemented in Python.
+    </dl>
+
+<P>
+
+<dl class='macrodesc'>
+<dt><b><tt class='macro'>&#92;refbimodindex</tt></b>
+                         [<var>key</var>]{<var>module</var>}
+<dd>
+      As for <tt class='macro'>&#92;refmodindex</tt>, but the index entry will be
+      ``<var>module</var> (built-in module).''  This is intended for use
+      with standard modules not implemented in Python.
+    </dl>
+
+<P>
+
+<dl class='macrodesc'>
+<dt><b><tt class='macro'>&#92;refstmodindex</tt></b>
+                         [<var>key</var>]{<var>module</var>}
+<dd>
+      As for <tt class='macro'>&#92;refmodindex</tt>, but the index entry will be
+      ``<var>module</var> (standard module).''  This is intended for use
+      with standard modules implemented in Python.
+    </dl>
+
+<P>
+
+<dl class='macrodesc'>
+<dt><b><tt class='macro'>&#92;stindex</tt></b>
+                         {<var>statement</var>}
+<dd>
+      Add an index entry for a statement type, such as <tt class=keyword>print</tt>
+      or <tt class=keyword>try</tt>/<tt class=keyword>finally</tt>.  [XXX Need better examples
+      of difference from <tt class='macro'>&#92;kwindex</tt>.
+    </dl>
+
+<P>
+Additional macros are provided which are useful for conveniently
+    creating general index entries which should appear at many places
+    in the index by rotating a list of words.  These are simple macros
+    that simply use <tt class='macro'>&#92;index</tt> to build some number of index
+    entries.  Index entries build using these macros contain both
+    primary and secondary text.
+
+<P>
+
+<dl class='macrodesc'>
+<dt><b><tt class='macro'>&#92;indexii</tt></b>
+                         {<var>word1</var>}{<var>word2</var>}
+<dd>
+      Build two index entries.  This is exactly equivalent to using
+      <tt>&#92;index{<var>word1</var>!<var>word2</var>}</tt> and 
+      <tt>&#92;index{<var>word2</var>!<var>word1</var>}</tt>.
+    </dl>
+
+<P>
+
+<dl class='macrodesc'>
+<dt><b><tt class='macro'>&#92;indexiii</tt></b>
+                         {<var>word1</var>}{<var>word2</var>}{<var>word3</var>}
+<dd>
+      Build three index entries.  This is exactly equivalent to using
+      <tt>&#92;index{<var>word1</var>!<var>word2</var> <var>word3</var>}</tt>,
+      <tt>&#92;index{<var>word2</var>!<var>word3</var>, <var>word1</var>}</tt>, and
+      <tt>&#92;index{<var>word3</var>!<var>word1</var> <var>word2</var>}</tt>.
+    </dl>
+
+<P>
+
+<dl class='macrodesc'>
+<dt><b><tt class='macro'>&#92;indexiv</tt></b>
+                         {<var>word1</var>}{<var>word2</var>}{<var>word3</var>}{<var>word4</var>}
+<dd>
+      Build four index entries.  This is exactly equivalent to using
+      <tt>&#92;index{<var>word1</var>!<var>word2</var> <var>word3</var> <var>word4</var>}</tt>,
+      <tt>&#92;index{<var>word2</var>!<var>word3</var> <var>word4</var>, <var>word1</var>}</tt>,
+      <tt>&#92;index{<var>word3</var>!<var>word4</var>, <var>word1</var> <var>word2</var>}</tt>,
+      and
+      <tt>&#92;index{<var>word4</var>!<var>word1</var> <var>word2</var> <var>word3</var>}</tt>.
+    </dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html190"
+ HREF="node14.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html187"
+ HREF="node6.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html183"
+ HREF="references.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Documenting Python</b></td>
+<td><A NAME="tex2html189"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html191"
+ HREF="node14.html">6. Special Names</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html188"
+ HREF="node6.html">5. Python-specific Markup</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html184"
+ HREF="references.html">5.6 Reference List Markup</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

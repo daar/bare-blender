@@ -1,0 +1,208 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>5.4 random -- Generate pseudo-random numbers with various distributions.</TITLE>
+<META NAME="description" CONTENT="5.4 random -- Generate pseudo-random numbers with various distributions.">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-bisect.html">
+<LINK REL="previous" HREF="module-whrandom.html">
+<LINK REL="up" HREF="misc.html">
+<LINK REL="next" HREF="module-bisect.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1671"
+ HREF="module-bisect.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1667"
+ HREF="misc.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1661"
+ HREF="module-whrandom.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1669"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1670"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1672"
+ HREF="module-bisect.html">5.5 bisect  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1668"
+ HREF="misc.html">5. Miscellaneous Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1662"
+ HREF="module-whrandom.html">5.3 whrandom  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION007400000000000000000">
+5.4 <tt class=module>random</tt> --
+         Generate pseudo-random numbers with various distributions.</A>
+</H1>
+
+<P>
+
+<P>
+This module implements pseudo-random number generators for various
+distributions: on the real line, there are functions to compute normal
+or Gaussian, lognormal, negative exponential, gamma, and beta
+distributions.  For generating distribution of angles, the circular
+uniform and von Mises distributions are available.
+
+<P>
+The module exports the following functions, which are exactly
+equivalent to those in the <tt class=module>whrandom</tt> module:
+<tt class=function>choice()</tt>, <tt class=function>randint()</tt>, <tt class=function>random()</tt> and
+<tt class=function>uniform()</tt>.  See the documentation for the <tt class=module>whrandom</tt>
+module for these functions.
+
+<P>
+The following functions specific to the <tt class=module>random</tt> module are also
+defined, and all return real values.  Function parameters are named
+after the corresponding variables in the distribution's equation, as
+used in common mathematical practice; most of these equations can be
+found in any statistics text.
+
+<P>
+<dl><dt><b><a name="l2h-759"><tt class=function>betavariate</tt></a></b> (<var>alpha, beta</var>)
+<dd>
+Beta distribution.  Conditions on the parameters are
+<tt><var>alpha</var> &gt;- 1</tt> and <tt><var>beta</var> &gt; -1</tt>.
+Returned values will range between 0 and 1.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-760"><tt class=function>cunifvariate</tt></a></b> (<var>mean, arc</var>)
+<dd>
+Circular uniform distribution.  <var>mean</var> is the mean angle, and
+<var>arc</var> is the range of the distribution, centered around the mean
+angle.  Both values must be expressed in radians, and can range
+between 0 and pi.  Returned values will range between
+<tt><var>mean</var> - <var>arc</var>/2</tt> and <tt><var>mean</var> + <var>arc</var>/2</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-761"><tt class=function>expovariate</tt></a></b> (<var>lambd</var>)
+<dd>
+Exponential distribution.  <var>lambd</var> is 1.0 divided by the desired
+mean.  (The parameter would be called ``lambda'', but that is a
+reserved word in Python.)  Returned values will range from 0 to
+positive infinity.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-762"><tt class=function>gamma</tt></a></b> (<var>alpha, beta</var>)
+<dd>
+Gamma distribution.  (<i>Not</i> the gamma function!)  Conditions on
+the parameters are <tt><var>alpha</var> &gt; -1</tt> and <tt><var>beta</var> &gt; 0</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-763"><tt class=function>gauss</tt></a></b> (<var>mu, sigma</var>)
+<dd>
+Gaussian distribution.  <var>mu</var> is the mean, and <var>sigma</var> is the
+standard deviation.  This is slightly faster than the
+<tt class=function>normalvariate()</tt> function defined below.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-764"><tt class=function>lognormvariate</tt></a></b> (<var>mu, sigma</var>)
+<dd>
+Log normal distribution.  If you take the natural logarithm of this
+distribution, you'll get a normal distribution with mean <var>mu</var> and
+standard deviation <var>sigma</var>.  <var>mu</var> can have any value, and <var>sigma</var>
+must be greater than zero.  
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-765"><tt class=function>normalvariate</tt></a></b> (<var>mu, sigma</var>)
+<dd>
+Normal distribution.  <var>mu</var> is the mean, and <var>sigma</var> is the
+standard deviation.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-766"><tt class=function>vonmisesvariate</tt></a></b> (<var>mu, kappa</var>)
+<dd>
+<var>mu</var> is the mean angle, expressed in radians between 0 and 2*pi,
+and <var>kappa</var> is the concentration parameter, which must be greater
+than or equal to zero.  If <var>kappa</var> is equal to zero, this
+distribution reduces to a uniform random angle over the range 0 to
+2*pi.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-767"><tt class=function>paretovariate</tt></a></b> (<var>alpha</var>)
+<dd>
+Pareto distribution.  <var>alpha</var> is the shape parameter.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-768"><tt class=function>weibullvariate</tt></a></b> (<var>alpha, beta</var>)
+<dd>
+Weibull distribution.  <var>alpha</var> is the scale parameter and
+<var>beta</var> is the shape parameter.
+</dl>
+
+<P>
+<div class=seealso>
+  <p class=heading><b>See Also:</b></p>
+
+<div class=seemodule>
+<p>Module <b><tt class=module><a href="module-whrandom.html">whrandom</a></tt></b>&nbsp;&nbsp;&nbsp;(the standard Python random number generator)</p>
+</div>
+</div>
+<
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1671"
+ HREF="module-bisect.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1667"
+ HREF="misc.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1661"
+ HREF="module-whrandom.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1669"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1670"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1672"
+ HREF="module-bisect.html">5.5 bisect  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1668"
+ HREF="misc.html">5. Miscellaneous Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1662"
+ HREF="module-whrandom.html">5.3 whrandom  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

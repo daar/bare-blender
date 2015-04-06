@@ -29,10 +29,10 @@
  */ 
 
 #ifdef WIN32
-	#include "../../extern/python/distribution/PC/config.h"
+	#include "../lib/Python/include/config.h"
 #endif /* WIN32 */
 
-#include "../../extern/python/distribution/Include/Python.h"
+#include "../lib/Python/include/Python.h"
 
 
 #define Py_Try(x) {if((!(x))) return NULL;}

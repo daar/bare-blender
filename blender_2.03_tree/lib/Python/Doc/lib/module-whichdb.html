@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.9 whichdb -- Guess which DBM module created a database</TITLE>
+<META NAME="description" CONTENT="7.9 whichdb -- Guess which DBM module created a database">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-zlib.html">
+<LINK REL="previous" HREF="module-dumbdbm.html">
+<LINK REL="up" HREF="someos.html">
+<LINK REL="next" HREF="module-zlib.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2292"
+ HREF="module-zlib.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2288"
+ HREF="someos.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2282"
+ HREF="module-dumbdbm.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2290"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2291"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2293"
+ HREF="module-zlib.html">7.10 zlib  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2289"
+ HREF="someos.html">7. Optional Operating System</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2283"
+ HREF="module-dumbdbm.html">7.8 dumbdbm  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION009900000000000000000">
+7.9 <tt class=module>whichdb</tt> --
+         Guess which DBM module created a database</A>
+</H1>
+
+<P>
+
+
+<P>
+The single function in this module attempts to guess which of the
+several simple database modules available-dbm, gdbm, or
+dbhash-should be used to open a given file.
+
+<P>
+<dl><dt><b><a name="l2h-1373"><tt class=function>whichdb</tt></a></b> (<var>filename</var>)
+<dd>
+Returns one of the following values: <tt>None</tt> if the file can't be
+opened because it's unreadable or doesn't exist; the empty string
+(<tt>""</tt>) if the file's format can't be guessed; or a string
+containing the required module name, such as <tt>"dbm"</tt> or
+<tt>"gdbm"</tt>.
+</dl>
+
+<P>
+<
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2292"
+ HREF="module-zlib.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2288"
+ HREF="someos.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2282"
+ HREF="module-dumbdbm.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2290"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2291"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2293"
+ HREF="module-zlib.html">7.10 zlib  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2289"
+ HREF="someos.html">7. Optional Operating System</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2283"
+ HREF="module-dumbdbm.html">7.8 dumbdbm  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

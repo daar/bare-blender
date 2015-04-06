@@ -1,0 +1,172 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>19.6 Obsolete</TITLE>
+<META NAME="description" CONTENT="19.6 Obsolete">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="node310.html">
+<LINK REL="previous" HREF="node308.html">
+<LINK REL="up" HREF="undoc.html">
+<LINK REL="next" HREF="node310.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html4269"
+ HREF="node310.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html4265"
+ HREF="undoc.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html4259"
+ HREF="node308.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html4267"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html4268"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html4270"
+ HREF="node310.html">19.7 Extension modules</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html4266"
+ HREF="undoc.html">19. Undocumented Modules</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html4260"
+ HREF="node308.html">19.5 Oddities</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0021600000000000000000">
+19.6 Obsolete</A>
+</H1>
+
+<P>
+These modules are not on the standard module search path;
+<a name="l2h-2512"></a>
+but are available in the directory "<tt class=file>lib-old/</tt>" installed  under
+"<tt class=file> $prefix/lib/python1.5/</tt>". To use any of these modules, add that directory to <tt>sys.path</tt>,
+possibly using <span class=envvar><a name="l2h-2513">$PYTHONPATH</a></span>.
+
+<P>
+<DL>
+<DT><STRONG>newdir.py</STRONG>
+<DD>-- New dir() function (the standard dir() is now just as good)
+
+<P>
+<DT><STRONG>addpack.py</STRONG>
+<DD>-- standard support for "packages"
+
+<P>
+<DT><STRONG>codehack.py</STRONG>
+<DD>-- Extract function name or line number from a function
+code object (these are now accessible as attributes: co.co_name,
+func.func_name, co.co_firstlineno).
+
+<P>
+<DT><STRONG>fmt.py</STRONG>
+<DD>-- text formatting abstractions (too slow)
+
+<P>
+<DT><STRONG>Para.py</STRONG>
+<DD>-- helper for fmt.py
+
+<P>
+<DT><STRONG>lockfile.py</STRONG>
+<DD>-- wrapper around FCNTL file locking (use
+<tt class=function>fcntl.lockf()</tt>/<tt class=function>flock()</tt> intead)
+
+<P>
+<DT><STRONG>poly.py</STRONG>
+<DD>-- Polynomials
+
+<P>
+<DT><STRONG>tb.py</STRONG>
+<DD>-- Print tracebacks, with a dump of local variables (use
+<tt class=function>pdb.pm()</tt> or <tt class=module><a href="module-traceback.html">traceback</a></tt> instead)
+
+<P>
+<DT><STRONG>timingmodule</STRONG>
+<DD>-- Measure time intervals to high resolution (use
+<tt class=function>time.clock()</tt> instead).  (This is an extension module.)
+
+<P>
+<DT><STRONG>whatsound.py</STRONG>
+<DD>-- Recognize sound files; use <tt class=module><a href="module-sndhdr.html">sndhdr</a></tt> instead.
+
+<P>
+<DT><STRONG>zmod.py</STRONG>
+<DD>-- Compute properties of mathematical "fields"
+</DL>
+
+<P>
+The following modules were documented in previous versions of this
+manual, but are now considered obsolete:
+
+<P>
+<DL>
+<DT><STRONG>ni</STRONG>
+<DD>-- Import modules in ``packages.''  Basic package support is now
+built in.
+
+<P>
+<DT><STRONG>rand</STRONG>
+<DD>-- Old interface to the random number generator.
+
+<P>
+<DT><STRONG>soundex</STRONG>
+<DD>-- Algorithm for collapsing names which sound similar to a shared
+key.  (This is an extension module.)
+</DL>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html4269"
+ HREF="node310.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html4265"
+ HREF="undoc.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html4259"
+ HREF="node308.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html4267"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html4268"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html4270"
+ HREF="node310.html">19.7 Extension modules</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html4266"
+ HREF="undoc.html">19. Undocumented Modules</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html4260"
+ HREF="node308.html">19.5 Oddities</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,171 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>2.1 Invoking the Interpreter </TITLE>
+<META NAME="description" CONTENT="2.1 Invoking the Interpreter ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="interp.html">
+<LINK REL="previous" HREF="using.html">
+<LINK REL="up" HREF="using.html">
+<LINK REL="next" HREF="argPassing.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html212"
+ HREF="argPassing.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html209"
+ HREF="using.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html203"
+ HREF="using.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html211"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html213"
+ HREF="argPassing.html">2.1.1 Argument Passing</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html210"
+ HREF="using.html">2. Using the Python</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html204"
+ HREF="using.html">2. Using the Python</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION004100000000000000000"></A>
+<BR>
+2.1 Invoking the Interpreter 
+</H1>
+
+<P>
+The Python interpreter is usually installed as "<tt class=file>/usr/local/bin/python</tt>"
+on those machines where it is available; putting "<tt class=file>/usr/local/bin</tt>" in
+your Unix shell's search path makes it possible to start it by
+typing the command
+
+<P>
+<dl><dd><pre class=verbatim>
+python
+</pre></dl>
+
+<P>
+to the shell.  Since the choice of the directory where the interpreter
+lives is an installation option, other places are possible; check with
+your local Python guru or system administrator.  (E.g.,
+"<tt class=file>/usr/local/python</tt>" is a popular alternative location.)
+
+<P>
+Typing an EOF character (Control-D on Unix, Control-Z on DOS
+or Windows) at the primary prompt causes the interpreter to exit with
+a zero exit status.  If that doesn't work, you can exit the
+interpreter by typing the following commands: "<tt class=samp>import sys;
+sys.exit()</tt>".
+
+<P>
+The interpreter's line-editing features usually aren't very
+sophisticated.  On Unix, whoever installed the interpreter may have
+enabled support for the GNU readline library, which adds more
+elaborate interactive editing and history features. Perhaps the
+quickest check to see whether command line editing is supported is
+typing Control-P to the first Python prompt you get.  If it beeps, you
+have command line editing; see Appendix A for an introduction to the
+keys.  If nothing appears to happen, or if <tt>P</tt> is echoed,
+command line editing isn't available; you'll only be able to use
+backspace to remove characters from the current line.
+
+<P>
+The interpreter operates somewhat like the Unix shell: when called
+with standard input connected to a tty device, it reads and executes
+commands interactively; when called with a file name argument or with
+a file as standard input, it reads and executes a <i>script</i> from
+that file. 
+
+<P>
+A third way of starting the interpreter is
+"<tt class=samp>python -c command [arg] ...</tt>", which
+executes the statement(s) in <tt>command</tt>, analogous to the shell's
+<tt>-c</tt> option.  Since Python statements often contain spaces or other
+characters that are special to the shell, it is best to quote
+<tt>command</tt> in its entirety with double quotes.
+
+<P>
+Note that there is a difference between "<tt class=samp>python file</tt>" and
+"<tt class=samp>python &lt;file</tt>".  In the latter case, input requests from the
+program, such as calls to <tt>input()</tt> and <tt>raw_input()</tt>, are
+satisfied from <i>file</i>.  Since this file has already been read
+until the end by the parser before the program starts executing, the
+program will encounter EOF immediately.  In the former case (which is
+usually what you want) they are satisfied from whatever file or device
+is connected to standard input of the Python interpreter.
+
+<P>
+When a script file is used, it is sometimes useful to be able to run
+the script and enter interactive mode afterwards.  This can be done by
+passing <tt>-i</tt> before the script.  (This does not work if the script
+is read from standard input, for the same reason as explained in the
+previous paragraph.)
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html214"
+ HREF="argPassing.html">2.1.1 Argument Passing </A>
+<LI><A NAME="tex2html215"
+ HREF="interactive.html">2.1.2 Interactive Mode </A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html212"
+ HREF="argPassing.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html209"
+ HREF="using.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html203"
+ HREF="using.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html211"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html213"
+ HREF="argPassing.html">2.1.1 Argument Passing</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html210"
+ HREF="using.html">2. Using the Python</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html204"
+ HREF="using.html">2. Using the Python</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

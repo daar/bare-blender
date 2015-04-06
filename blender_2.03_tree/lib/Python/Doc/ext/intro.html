@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>1. Extending Python with C or C++ </TITLE>
+<META NAME="description" CONTENT="1. Extending Python with C or C++ ">
+<META NAME="keywords" CONTENT="ext">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ext.css">
+<LINK REL="next" HREF="building-on-unix.html">
+<LINK REL="previous" HREF="contents.html">
+<LINK REL="up" HREF="ext.html">
+<LINK REL="next" HREF="simpleExample.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html94"
+ HREF="simpleExample.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html91"
+ HREF="ext.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html85"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Extending and Embedding the Python Interpreter</b></td>
+<td><A NAME="tex2html93"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html95"
+ HREF="simpleExample.html">1.1 A Simple Example</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html92"
+ HREF="ext.html">Extending and Embedding the</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html86"
+ HREF="contents.html">Contents</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION003000000000000000000"></A>
+<BR>
+1. Extending Python with C or C++ 
+</H1>
+
+<P>
+It is quite easy to add new built-in modules to Python, if you know
+how to program in C.  Such <i class=dfn>extension modules</i> can do two things
+that can't be done directly in Python: they can implement new built-in
+object types, and they can call C library functions and system calls.
+
+<P>
+To support extensions, the Python API (Application Programmers
+Interface) defines a set of functions, macros and variables that
+provide access to most aspects of the Python run-time system.  The
+Python API is incorporated in a C source file by including the header
+<tt>"Python.h"</tt>.
+
+<P>
+The compilation of an extension module depends on its intended use as
+well as on your system setup; details are given in a later section.
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html96"
+ HREF="simpleExample.html">1.1 A Simple Example
+         </A>
+<LI><A NAME="tex2html97"
+ HREF="errors.html">1.2 Intermezzo: Errors and Exceptions
+         </A>
+<LI><A NAME="tex2html98"
+ HREF="backToExample.html">1.3 Back to the Example
+         </A>
+<LI><A NAME="tex2html99"
+ HREF="methodTable.html">1.4 The Module's Method Table and Initialization Function
+         </A>
+<LI><A NAME="tex2html100"
+ HREF="compilation.html">1.5 Compilation and Linkage
+         </A>
+<LI><A NAME="tex2html101"
+ HREF="callingPython.html">1.6 Calling Python Functions from C
+         </A>
+<LI><A NAME="tex2html102"
+ HREF="parseTuple.html">1.7 Format Strings for <tt class=cfunction>PyArg_ParseTuple()</tt>
+         </A>
+<LI><A NAME="tex2html103"
+ HREF="parseTupleAndKeywords.html">1.8 Keyword Parsing with <tt class=cfunction>PyArg_ParseTupleAndKeywords()</tt>
+         </A>
+<LI><A NAME="tex2html104"
+ HREF="buildValue.html">1.9 The <tt class=cfunction>Py_BuildValue()</tt> Function
+         </A>
+<LI><A NAME="tex2html105"
+ HREF="refcounts.html">1.10 Reference Counts
+         </A>
+<UL>
+<LI><A NAME="tex2html106"
+ HREF="refcountsInPython.html">1.10.1 Reference Counting in Python
+            </A>
+<LI><A NAME="tex2html107"
+ HREF="ownershipRules.html">1.10.2 Ownership Rules
+            </A>
+<LI><A NAME="tex2html108"
+ HREF="thinIce.html">1.10.3 Thin Ice
+            </A>
+<LI><A NAME="tex2html109"
+ HREF="nullPointers.html">1.10.4 NULL Pointers
+            </A>
+</UL>
+<LI><A NAME="tex2html110"
+ HREF="cplusplus.html">1.11 Writing Extensions in C++
+         </A>
+<LI><A NAME="tex2html111"
+ HREF="using-cobjects.html">1.12 Providing a C API for an Extension Module
+         </A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html94"
+ HREF="simpleExample.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html91"
+ HREF="ext.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html85"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Extending and Embedding the Python Interpreter</b></td>
+<td><A NAME="tex2html93"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html95"
+ HREF="simpleExample.html">1.1 A Simple Example</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html92"
+ HREF="ext.html">Extending and Embedding the</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html86"
+ HREF="contents.html">Contents</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

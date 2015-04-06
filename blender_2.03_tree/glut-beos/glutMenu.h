@@ -9,7 +9,7 @@
 /***********************************************************
  *	Headers
  ***********************************************************/
-#include <GL/glut.h>
+#include <glut.h>
 #include <Menu.h>
 #include <MenuItem.h>
 #include <PopUpMenu.h>

@@ -1,0 +1,220 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>6.4 Packages </TITLE>
+<META NAME="description" CONTENT="6.4 Packages ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="previous" HREF="dir.html">
+<LINK REL="up" HREF="modules.html">
+<LINK REL="next" HREF="pkg-import-star.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html678"
+ HREF="pkg-import-star.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html675"
+ HREF="modules.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html671"
+ HREF="dir.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html677"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html679"
+ HREF="pkg-import-star.html">6.4.1 Importing * From</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html676"
+ HREF="modules.html">6. Modules</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html672"
+ HREF="dir.html">6.3 The dir() Function</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION008400000000000000000"></A>
+<BR>
+6.4 Packages 
+</H1>
+
+<P>
+Packages are a way of structuring Python's module namespace
+by using ``dotted module names''.  For example, the module name
+<tt class=module>A.B</tt> designates a submodule named "<tt class=samp>B</tt>" in a package named
+"<tt class=samp>A</tt>".  Just like the use of modules saves the authors of different
+modules from having to worry about each other's global variable names,
+the use of dotted module names saves the authors of multi-module
+packages like NumPy or PIL from having to worry about each other's
+module names.
+
+<P>
+Suppose you want to design a collection of modules (a ``package'') for
+the uniform handling of sound files and sound data.  There are many
+different sound file formats (usually recognized by their extension,
+e.g. "<tt class=file>.wav</tt>", "<tt class=file>.aiff</tt>", "<tt class=file>.au</tt>"), so you may need to create
+and maintain a growing collection of modules for the conversion
+between the various file formats.  There are also many different
+operations you might want to perform on sound data (e.g. mixing,
+adding echo, applying an equalizer function, creating an artificial
+stereo effect), so in addition you will be writing a never-ending
+stream of modules to perform these operations.  Here's a possible
+structure for your package (expressed in terms of a hierarchical
+filesystem):
+
+<P>
+<dl><dd><pre class=verbatim>
+Sound/                          Top-level package
+      __init__.py               Initialize the sound package
+      Formats/                  Subpackage for file format conversions
+              __init__.py
+              wavread.py
+              wavwrite.py
+              aiffread.py
+              aiffwrite.py
+              auread.py
+              auwrite.py
+              ...
+      Effects/                  Subpackage for sound effects
+              __init__.py
+              echo.py
+              surround.py
+              reverse.py
+              ...
+      Filters/                  Subpackage for filters
+              __init__.py
+              equalizer.py
+              vocoder.py
+              karaoke.py
+              ...
+</pre></dl>
+The "<tt class=file>__init__.py</tt>" files are required to make Python treat the
+directories as containing packages; this is done to prevent
+directories with a common name, such as "<tt class=samp>string</tt>", from
+unintentionally hiding valid modules that occur later on the module
+search path. In the simplest case, "<tt class=file>__init__.py</tt>" can just be an
+empty file, but it can also execute initialization code for the
+package or set the <tt>__all__</tt> variable, described later.
+
+<P>
+Users of the package can import individual modules from the
+package, for example:
+
+<P>
+<dl><dd><pre class=verbatim>
+import Sound.Effects.echo
+</pre></dl>
+This loads the submodule <tt class=module>Sound.Effects.echo</tt>.  It must be referenced
+with its full name, e.g.
+
+<P>
+<dl><dd><pre class=verbatim>
+Sound.Effects.echo.echofilter(input, output, delay=0.7, atten=4)
+</pre></dl>
+An alternative way of importing the submodule is:
+
+<P>
+<dl><dd><pre class=verbatim>
+from Sound.Effects import echo
+</pre></dl>
+This also loads the submodule <tt class=module>echo</tt>, and makes it available without
+its package prefix, so it can be used as follows:
+
+<P>
+<dl><dd><pre class=verbatim>
+echo.echofilter(input, output, delay=0.7, atten=4)
+</pre></dl>
+
+<P>
+Yet another variation is to import the desired function or variable directly:
+
+<P>
+<dl><dd><pre class=verbatim>
+from Sound.Effects.echo import echofilter
+</pre></dl>
+
+<P>
+Again, this loads the submodule <tt class=module>echo</tt>, but this makes its function
+echofilter directly available:
+
+<P>
+<dl><dd><pre class=verbatim>
+echofilter(input, output, delay=0.7, atten=4)
+</pre></dl>
+
+<P>
+Note that when using <tt>from <var>package</var> import <var>item</var></tt>, the
+item can be either a submodule (or subpackage) of the package, or some
+other name defined in the package, like a function, class or
+variable.  The <tt>import</tt> statement first tests whether the item is
+defined in the package; if not, it assumes it is a module and attempts
+to load it.  If it fails to find it, <tt class=exception>ImportError</tt> is raised.
+
+<P>
+Contrarily, when using syntax like <tt>import
+<var>item.subitem.subsubitem</var></tt>, each item except for the last must be
+a package; the last item can be a module or a package but can't be a
+class or function or variable defined in the previous item.
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html680"
+ HREF="pkg-import-star.html">6.4.1 Importing * From a Package </A>
+<LI><A NAME="tex2html681"
+ HREF="node48.html">6.4.2 Intra-package References</A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html678"
+ HREF="pkg-import-star.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html675"
+ HREF="modules.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html671"
+ HREF="dir.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html677"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html679"
+ HREF="pkg-import-star.html">6.4.1 Importing * From</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html676"
+ HREF="modules.html">6. Modules</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html672"
+ HREF="dir.html">6.3 The dir() Function</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

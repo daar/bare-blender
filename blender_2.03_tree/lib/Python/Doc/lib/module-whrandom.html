@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>5.3 whrandom -- Floating point pseudo-random number generator.</TITLE>
+<META NAME="description" CONTENT="5.3 whrandom -- Floating point pseudo-random number generator.">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-random.html">
+<LINK REL="previous" HREF="module-cmath.html">
+<LINK REL="up" HREF="misc.html">
+<LINK REL="next" HREF="module-random.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1659"
+ HREF="module-random.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1655"
+ HREF="misc.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1649"
+ HREF="module-cmath.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1657"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1658"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1660"
+ HREF="module-random.html">5.4 random  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1656"
+ HREF="misc.html">5. Miscellaneous Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1650"
+ HREF="module-cmath.html">5.2 cmath  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION007300000000000000000">
+5.3 <tt class=module>whrandom</tt> --
+         Floating point pseudo-random number generator.</A>
+</H1>
+
+<P>
+
+<P>
+This module implements a Wichmann-Hill pseudo-random number generator
+class that is also named <tt>whrandom</tt>.  Instances of the
+<tt>whrandom</tt> class have the following methods:
+
+<P>
+<dl><dt><b><a name="l2h-753"><tt class=function>choice</tt></a></b> (<var>seq</var>)
+<dd>
+Chooses a random element from the non-empty sequence <var>seq</var> and returns it.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-754"><tt class=function>randint</tt></a></b> (<var>a, b</var>)
+<dd>
+Returns a random integer <var>N</var> such that <tt><var>a</var>&lt;=<var>N</var>&lt;=<var>b</var></tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-755"><tt class=function>random</tt></a></b> ()
+<dd>
+Returns the next random floating point number in the range [0.0 ... 1.0).
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-756"><tt class=function>seed</tt></a></b> (<var>x, y, z</var>)
+<dd>
+Initializes the random number generator from the integers
+<var>x</var>,
+<var>y</var>
+and
+<var>z</var>.
+When the module is first imported, the random number is initialized
+using values derived from the current time.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-757"><tt class=function>uniform</tt></a></b> (<var>a, b</var>)
+<dd>
+Returns a random real number <var>N</var> such that <tt><var>a</var>&lt;=<var>N</var>&lt;<var>b</var></tt>.
+</dl>
+
+<P>
+When imported, the <tt>whrandom</tt> module also creates an instance of
+the <tt>whrandom</tt> class, and makes the methods of that instance
+available at the module level.  Therefore one can write either 
+<tt>N = whrandom.random()</tt> or:
+<dl><dd><pre class=verbatim>
+generator = whrandom.whrandom()
+N = generator.random()
+</pre></dl>
+<div class=seealso>
+  <p class=heading><b>See Also:</b></p>
+
+<div class=seemodule>
+<p>Module <b><tt class=module><a href="module-random.html">random</a></tt></b>&nbsp;&nbsp;&nbsp;(generators for various random distributions)</p>
+</div>
+<div class=seetext><p>Wichmann, B. A. &amp; Hill, I. D., ``Algorithm AS 183: 
+An efficient and portable pseudo-random number generator'', 
+<i>Applied Statistics</i> 31 (1982) 188-190
+</div></div><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1659"
+ HREF="module-random.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1655"
+ HREF="misc.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1649"
+ HREF="module-cmath.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1657"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1658"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1660"
+ HREF="module-random.html">5.4 random  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1656"
+ HREF="misc.html">5. Miscellaneous Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1650"
+ HREF="module-cmath.html">5.2 cmath  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

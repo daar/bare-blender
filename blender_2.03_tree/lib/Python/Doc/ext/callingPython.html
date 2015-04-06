@@ -1,0 +1,248 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>1.6 Calling Python Functions from C </TITLE>
+<META NAME="description" CONTENT="1.6 Calling Python Functions from C ">
+<META NAME="keywords" CONTENT="ext">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ext.css">
+<LINK REL="next" HREF="parseTuple.html">
+<LINK REL="previous" HREF="compilation.html">
+<LINK REL="up" HREF="intro.html">
+<LINK REL="next" HREF="parseTuple.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html176"
+ HREF="parseTuple.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html173"
+ HREF="intro.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html167"
+ HREF="compilation.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Extending and Embedding the Python Interpreter</b></td>
+<td><A NAME="tex2html175"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html177"
+ HREF="parseTuple.html">1.7 Format Strings for</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html174"
+ HREF="intro.html">1. Extending Python with</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html168"
+ HREF="compilation.html">1.5 Compilation and Linkage</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION003600000000000000000"></A>
+<BR>
+1.6 Calling Python Functions from C
+         
+</H1>
+
+<P>
+So far we have concentrated on making C functions callable from
+Python.  The reverse is also useful: calling Python functions from C.
+This is especially the case for libraries that support so-called
+``callback'' functions.  If a C interface makes use of callbacks, the
+equivalent Python often needs to provide a callback mechanism to the
+Python programmer; the implementation will require calling the Python
+callback functions from a C callback.  Other uses are also imaginable.
+
+<P>
+Fortunately, the Python interpreter is easily called recursively, and
+there is a standard interface to call a Python function.  (I won't
+dwell on how to call the Python parser with a particular string as
+input -- if you're interested, have a look at the implementation of
+the "<tt class=samp>-c</tt>" command line option in "<tt class=file>Python/pythonmain.c</tt>" from
+the Python source code.)
+
+<P>
+Calling a Python function is easy.  First, the Python program must
+somehow pass you the Python function object.  You should provide a
+function (or some other interface) to do this.  When this function is
+called, save a pointer to the Python function object (be careful to
+<tt class=cfunction>Py_INCREF()</tt> it!) in a global variable -- or wherever you
+see fit. For example, the following function might be part of a module
+definition:
+
+<P>
+<dl><dd><pre class=verbatim>
+static PyObject *my_callback = NULL;
+
+static PyObject *
+my_set_callback(dummy, arg)
+    PyObject *dummy, *arg;
+{
+    PyObject *result = NULL;
+    PyObject *temp;
+
+    if (PyArg_ParseTuple(args, "O:set_callback", &amp;temp)) {
+        if (!PyCallable_Check(temp)) {
+            PyErr_SetString(PyExc_TypeError, "parameter must be callable");
+            return NULL;
+        }
+        Py_XINCREF(temp);         /* Add a reference to new callback */
+        Py_XDECREF(my_callback);  /* Dispose of previous callback */
+        my_callback = temp;       /* Remember new callback */
+        /* Boilerplate to return "None" */
+        Py_INCREF(Py_None);
+        result = Py_None;
+    }
+    return result;
+}
+</pre></dl>
+
+<P>
+This function must be registered with the interpreter using the
+<tt class=constant>METH_VARARGS</tt> flag; this is described in Section
+<A HREF="methodTable.html#methodTable">1.4</A>, ``The Module's Method Table and Initialization
+Function.''  The <tt class=cfunction>PyArg_ParseTuple()</tt> function and its
+arguments are documented in Section <A HREF="parseTuple.html#parseTuple">1.7</A>, ``Format Strings
+for <tt class=cfunction>PyArg_ParseTuple()</tt>.''
+
+<P>
+The macros <tt class=cfunction>Py_XINCREF()</tt> and <tt class=cfunction>Py_XDECREF()</tt>
+increment/decrement the reference count of an object and are safe in
+the presence of <tt>NULL</tt> pointers (but note that <var>temp</var> will not be 
+<tt>NULL</tt> in this context).  More info on them in Section
+<A HREF="refcounts.html#refcounts">1.10</A>, ``Reference Counts.''
+
+<P>
+Later, when it is time to call the function, you call the C function
+<tt class=cfunction>PyEval_CallObject()</tt>.  This function has two arguments, both
+pointers to arbitrary Python objects: the Python function, and the
+argument list.  The argument list must always be a tuple object, whose
+length is the number of arguments.  To call the Python function with
+no arguments, pass an empty tuple; to call it with one argument, pass
+a singleton tuple.  <tt class=cfunction>Py_BuildValue()</tt> returns a tuple when its
+format string consists of zero or more format codes between
+parentheses.  For example:
+
+<P>
+<dl><dd><pre class=verbatim>
+    int arg;
+    PyObject *arglist;
+    PyObject *result;
+    ...
+    arg = 123;
+    ...
+    /* Time to call the callback */
+    arglist = Py_BuildValue("(i)", arg);
+    result = PyEval_CallObject(my_callback, arglist);
+    Py_DECREF(arglist);
+</pre></dl>
+
+<P>
+<tt class=cfunction>PyEval_CallObject()</tt> returns a Python object pointer: this is
+the return value of the Python function.  <tt class=cfunction>PyEval_CallObject()</tt> is
+``reference-count-neutral'' with respect to its arguments.  In the
+example a new tuple was created to serve as the argument list, which
+is <tt class=cfunction>Py_DECREF()</tt>-ed immediately after the call.
+
+<P>
+The return value of <tt class=cfunction>PyEval_CallObject()</tt> is ``new'': either it
+is a brand new object, or it is an existing object whose reference
+count has been incremented.  So, unless you want to save it in a
+global variable, you should somehow <tt class=cfunction>Py_DECREF()</tt> the result,
+even (especially!) if you are not interested in its value.
+
+<P>
+Before you do this, however, it is important to check that the return
+value isn't <tt>NULL</tt>.  If it is, the Python function terminated by
+raising an exception.  If the C code that called
+<tt class=cfunction>PyEval_CallObject()</tt> is called from Python, it should now
+return an error indication to its Python caller, so the interpreter
+can print a stack trace, or the calling Python code can handle the
+exception.  If this is not possible or desirable, the exception should
+be cleared by calling <tt class=cfunction>PyErr_Clear()</tt>.  For example:
+
+<P>
+<dl><dd><pre class=verbatim>
+    if (result == NULL)
+        return NULL; /* Pass error back */
+    ...use result...
+    Py_DECREF(result);
+</pre></dl>
+
+<P>
+Depending on the desired interface to the Python callback function,
+you may also have to provide an argument list to
+<tt class=cfunction>PyEval_CallObject()</tt>.  In some cases the argument list is
+also provided by the Python program, through the same interface that
+specified the callback function.  It can then be saved and used in the
+same manner as the function object.  In other cases, you may have to
+construct a new tuple to pass as the argument list.  The simplest way
+to do this is to call <tt class=cfunction>Py_BuildValue()</tt>.  For example, if
+you want to pass an integral event code, you might use the following
+code:
+
+<P>
+<dl><dd><pre class=verbatim>
+    PyObject *arglist;
+    ...
+    arglist = Py_BuildValue("(l)", eventcode);
+    result = PyEval_CallObject(my_callback, arglist);
+    Py_DECREF(arglist);
+    if (result == NULL)
+        return NULL; /* Pass error back */
+    /* Here maybe use the result */
+    Py_DECREF(result);
+</pre></dl>
+
+<P>
+Note the placement of "<tt class=samp>Py_DECREF(arglist)</tt>" immediately after the
+call, before the error check!  Also note that strictly spoken this
+code is not complete: <tt class=cfunction>Py_BuildValue()</tt> may run out of
+memory, and this should be checked.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html176"
+ HREF="parseTuple.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html173"
+ HREF="intro.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html167"
+ HREF="compilation.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Extending and Embedding the Python Interpreter</b></td>
+<td><A NAME="tex2html175"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html177"
+ HREF="parseTuple.html">1.7 Format Strings for</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html174"
+ HREF="intro.html">1. Extending Python with</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html168"
+ HREF="compilation.html">1.5 Compilation and Linkage</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

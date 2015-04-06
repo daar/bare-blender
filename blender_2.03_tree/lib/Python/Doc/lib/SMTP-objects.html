@@ -1,0 +1,286 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>11.9.1 SMTP Objects</TITLE>
+<META NAME="description" CONTENT="11.9.1 SMTP Objects">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="SMTP-example.html">
+<LINK REL="previous" HREF="module-smtplib.html">
+<LINK REL="up" HREF="module-smtplib.html">
+<LINK REL="next" HREF="SMTP-example.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3105"
+ HREF="SMTP-example.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3101"
+ HREF="module-smtplib.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3095"
+ HREF="module-smtplib.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3103"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3104"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3106"
+ HREF="SMTP-example.html">11.9.2 SMTP Example</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3102"
+ HREF="module-smtplib.html">11.9 smtplib  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3096"
+ HREF="module-smtplib.html">11.9 smtplib  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0013910000000000000000"></A>
+<BR>
+11.9.1 SMTP Objects
+</H2>
+
+<P>
+An <tt class=class>SMTP</tt> instance has the following methods:
+
+<P>
+<dl><dt><b><a name="l2h-1732"><tt class=method>set_debuglevel</tt></a></b> (<var>level</var>)
+<dd>
+Set the debug output level.  A true value for <var>level</var> results in
+debug messages for connection and for all messages sent to and
+received from the server.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1733"><tt class=method>connect</tt></a></b> (<big>[</big><var>host</var><big>[</big><var>, port</var><big>]</big><big>]</big>)
+<dd>
+Connect to a host on a given port.  The defaults are to connect to the 
+local host at the standard SMTP port (25).
+
+<P>
+If the hostname ends with a colon ("<tt class=character>:</tt>") followed by a
+number, that suffix will be stripped off and the number interpreted as 
+the port number to use.
+
+<P>
+Note:  This method is automatically invoked by the constructor if a
+host is specified during instantiation.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1734"><tt class=method>docmd</tt></a></b> (<var>cmd, </var><big>[</big><var>, argstring</var><big>]</big>)
+<dd>
+Send a command <var>cmd</var> to the server.  The optional argument
+<var>argstring</var> is simply concatenated to the command, separated by a
+space.
+
+<P>
+This returns a 2-tuple composed of a numeric response code and the
+actual response line (multiline responses are joined into one long
+line.)
+
+<P>
+In normal operation it should not be necessary to call this method
+explicitly.  It is used to implement other methods and may be useful
+for testing private extensions.
+
+<P>
+If the connection to the server is lost while waiting for the reply an
+<tt class=exception>SMTPServerDisconnected</tt> exception will be raised.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1735"><tt class=method>helo</tt></a></b> (<big>[</big><var>hostname</var><big>]</big>)
+<dd>
+Identify yourself to the SMTP server using "<tt class=samp>HELO</tt>".  The hostname
+argument defaults to the fully qualified domain name of the local
+host.
+
+<P>
+In normal operation it should not be necessary to call this method
+explicitly.  It will be implicitly called by the <tt class=method>sendmail()</tt>
+when necessary.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1736"><tt class=method>ehlo</tt></a></b> (<big>[</big><var>hostname</var><big>]</big>)
+<dd>
+Identify yourself to an ESMTP server using "<tt class=samp>EHLO</tt>".  The hostname
+argument defaults to the fully qualified domain name of the local
+host.  Examine the response for ESMTP option and store them for use by
+<tt class=method>has_option()</tt>.
+
+<P>
+Unless you wish to use <tt class=method>has_option()</tt> before sending
+mail, it should not be necessary to call this method explicitly.  It
+will be implicitly called by <tt class=method>sendmail()</tt> when necessary.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1737"><tt class=method>has_extn</tt></a></b> (<var>name</var>)
+<dd>
+Return <tt>1</tt> if <var>name</var> is in the set of SMTP service extensions returned
+by the server, <tt>0</tt> otherwise.  Case is ignored.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1738"><tt class=method>verify</tt></a></b> (<var>address</var>)
+<dd>
+Check the validity of an address on this server using SMTP "<tt class=samp>VRFY</tt>".
+Returns a tuple consisting of code 250 and a full <span class=rfc><a name="rfcref-41812"
+href="http://info.internet.isi.edu/in-notes/rfc/files/rfc822.txt">RFC 822</a></span> address
+(including human name) if the user address is valid. Otherwise returns
+an SMTP error code of 400 or greater and an error string.
+
+<P>
+Note: many sites disable SMTP "<tt class=samp>VRFY</tt>" in order to foil spammers.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1739"><tt class=method>sendmail</tt></a></b> (<var>from_addr, to_addrs, msg</var><big>[</big><var>,
+mail_options, rcpt_options</var><big>]</big>)
+<dd>
+Send mail.  The required arguments are an <span class=rfc><a name="rfcref-41814"
+href="http://info.internet.isi.edu/in-notes/rfc/files/rfc822.txt">RFC 822</a></span> from-address
+string, a list of <span class=rfc><a name="rfcref-41816"
+href="http://info.internet.isi.edu/in-notes/rfc/files/rfc822.txt">RFC 822</a></span> to-address strings, and a message string.
+The caller may pass a list of ESMTP options (such as "<tt class=samp>8bitmime</tt>")
+to be used in "<tt class=samp>MAIL FROM</tt>" commands as <var>mail_options</var>.  ESMTP
+options (such as "<tt class=samp>DSN</tt>" commands) that should be used with all
+"<tt class=samp>RCPT</tt>" commands can be passed as <var>rcpt_options</var>.  (If you
+need to use different ESMTP options to different recipients you have
+to use the low-level methods such as <tt class=method>mail</tt>, <tt class=method>rcpt</tt> and
+<tt class=method>data</tt> to send the message.)
+
+<P>
+If there has been no previous "<tt class=samp>EHLO</tt>" or "<tt class=samp>HELO</tt>" command this
+session, this method tries ESMTP "<tt class=samp>EHLO</tt>" first. If the server does
+ESMTP, message size and each of the specified options will be passed
+to it (if the option is in the feature set the server advertises).  If
+"<tt class=samp>EHLO</tt>" fails, "<tt class=samp>HELO</tt>" will be tried and ESMTP options
+suppressed.
+
+<P>
+This method will return normally if the mail is accepted for at least
+one recipient. Otherwise it will throw an exception.  That is, if this
+method does not throw an exception, then someone should get your mail.
+If this method does not throw an exception, it returns a dictionary,
+with one entry for each recipient that was refused.  Each entry
+contains a tuple of the SMTP error code and the accompanying error
+message sent by the server.
+
+<P>
+This method may raise the following exceptions:
+
+<P>
+
+<UL><LI><tt class=exception>SMTPRecipientsRefused</tt>
+
+<P>
+All recipients were refused.  Nobody got the mail.  The
+<var>recipients</var> attribute of the exception object is a dictionary
+with information about the refused recipients (like the one returned
+when at least one recipient was accepted).
+
+<P>
+
+<LI><tt class=exception>SMTPHeloError</tt>
+
+<P>
+The server didn't reply properly to
+the helo greeting.  The connection has
+been closed.
+
+<P>
+
+<LI><tt class=exception>SMTPSenderRefused</tt>
+
+<P>
+The server didn't accept the from_addr.
+
+<P>
+
+<LI><tt class=exception>SMTPDataError</tt>
+
+<P>
+The server replied with an unexpected
+error code (other than a refusal of
+a recipient).
+
+<P>
+
+</UL>
+
+<P>
+Unless otherwise noted the connection will be open even after
+an exception is raised.
+
+<P>
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1740"><tt class=method>quit</tt></a></b> ()
+<dd>
+Terminate the SMTP session and close the connection.
+</dl>
+
+<P>
+Low-level methods corresponding to the standard SMTP/ESMTP commands
+"<tt class=samp>HELP</tt>", "<tt class=samp>RSET</tt>", "<tt class=samp>NOOP</tt>", "<tt class=samp>MAIL</tt>", "<tt class=samp>RCPT</tt>", and
+"<tt class=samp>DATA</tt>" are also supported.  Normally these do not need to be
+called directly, so they are not documented here.  For details,
+consult the module code.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3105"
+ HREF="SMTP-example.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3101"
+ HREF="module-smtplib.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3095"
+ HREF="module-smtplib.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3103"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3104"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3106"
+ HREF="SMTP-example.html">11.9.2 SMTP Example</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3102"
+ HREF="module-smtplib.html">11.9 smtplib  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3096"
+ HREF="module-smtplib.html">11.9 smtplib  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

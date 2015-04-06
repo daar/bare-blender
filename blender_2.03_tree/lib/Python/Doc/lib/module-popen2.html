@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>8.14 popen2 -- Subprocesses with accessible standard I/O streams</TITLE>
+<META NAME="description" CONTENT="8.14 popen2 -- Subprocesses with accessible standard I/O streams">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-commands.html">
+<LINK REL="previous" HREF="module-stat.html">
+<LINK REL="up" HREF="unix.html">
+<LINK REL="next" HREF="popen3-objects.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2553"
+ HREF="popen3-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2549"
+ HREF="unix.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2543"
+ HREF="module-stat.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2551"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2552"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2554"
+ HREF="popen3-objects.html">8.14.1 Popen3 Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2550"
+ HREF="unix.html">8. Unix Specific Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2544"
+ HREF="module-stat.html">8.13 stat  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00101400000000000000000">
+8.14 <tt class=module>popen2</tt> --
+         Subprocesses with accessible standard I/O streams</A>
+</H1>
+
+<P>
+  
+<p class=availability>Availability: <span
+ class=platform>Unix, Windows</span>.</p>
+
+<P>
+This module allows you to spawn processes and connect their 
+input/output/error pipes and obtain their return codes.
+
+<P>
+The primary interface offered by this module is a pair of factory
+functions:
+
+<P>
+<dl><dt><b><a name="l2h-1506"><tt class=function>popen2</tt></a></b> (<var>cmd</var><big>[</big><var>, bufsize</var><big>]</big>)
+<dd>
+Executes <var>cmd</var> as a sub-process.  If <var>bufsize</var> is specified, 
+it specifies the buffer size for the I/O pipes.  Returns
+<tt>(<var>child_stdout</var>, <var>child_stdin</var>)</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1507"><tt class=function>popen3</tt></a></b> (<var>cmd</var><big>[</big><var>, bufsize</var><big>]</big>)
+<dd>
+Executes <var>cmd</var> as a sub-process.  If <var>bufsize</var> is specified, 
+it specifies the buffer size for the I/O pipes.  Returns
+<tt>(<var>child_stdout</var>, <var>child_stdin</var>, <var>child_stderr</var>)</tt>.
+</dl>
+
+<P>
+The class defining the objects returned by the factory functions is
+also available:
+
+<P>
+<dl><dt><b><a name="l2h-1508"><tt class=class>Popen3</tt></a></b> (<var>cmd</var><big>[</big><var>, capturestderr</var><big>[</big><var>, bufsize</var><big>]</big><big>]</big>)
+<dd>
+This class represents a child process.  Normally, <tt class=class>Popen3</tt>
+instances are created using the factory functions described above.
+
+<P>
+If not using one off the helper functions to create <tt class=class>Popen3</tt>
+objects, the parameter <var>cmd</var> is the shell command to execute in a
+sub-process.  The <var>capturestderr</var> flag, if true, specifies that
+the object should capture standard error output of the child process.
+The default is false.  If the <var>bufsize</var> parameter is specified, it
+specifies the size of the I/O buffers to/from the child process.
+</dl>
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html2555"
+ HREF="popen3-objects.html">8.14.1 Popen3 Objects</A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2553"
+ HREF="popen3-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2549"
+ HREF="unix.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2543"
+ HREF="module-stat.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2551"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2552"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2554"
+ HREF="popen3-objects.html">8.14.1 Popen3 Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2550"
+ HREF="unix.html">8. Unix Specific Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2544"
+ HREF="module-stat.html">8.13 stat  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

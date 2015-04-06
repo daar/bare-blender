@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>11.7.2 IMAP4 Example</TITLE>
+<META NAME="description" CONTENT="11.7.2 IMAP4 Example">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="previous" HREF="imap4-objects.html">
+<LINK REL="up" HREF="module-imaplib.html">
+<LINK REL="next" HREF="module-nntplib.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3056"
+ HREF="module-nntplib.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3052"
+ HREF="module-imaplib.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3048"
+ HREF="imap4-objects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3054"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3055"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3057"
+ HREF="module-nntplib.html">11.8 nntplib  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3053"
+ HREF="module-imaplib.html">11.7 imaplib  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3049"
+ HREF="imap4-objects.html">11.7.1 IMAP4 Objects</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0013720000000000000000"></A>
+<BR>
+11.7.2 IMAP4 Example
+</H2>
+
+<P>
+Here is a minimal example (without error checking) that opens a
+mailbox and retrieves and prints all messages:
+
+<P>
+<dl><dd><pre class=verbatim>
+import getpass, imaplib, string
+M = imaplib.IMAP4()
+M.LOGIN(getpass.getuser(), getpass.getpass())
+M.SELECT()
+typ, data = M.SEARCH(None, 'ALL')
+for num in string.split(data[0]):
+    typ, data = M.FETCH(num, '(RFC822)')
+    print 'Message %s\n%s\n' % (num, data[0][1])
+M.LOGOUT()
+</pre></dl>
+
+<P>
+Note that IMAP4 message numbers change as the mailbox changes, so it
+is highly advisable to use UIDs instead, with the UID command.
+
+<P>
+At the end of the module, there is a test section that contains a more
+extensive example of usage.
+
+<P>
+<div class=seealso>
+  <p class=heading><b>See Also:</b></p>
+
+<div class=seetext><p>Documents describing the protocol, and sources and binaries
+for servers implementing it, can all be found at the University of
+Washington's <i>IMAP Information Center</i>
+(<span class=url><a href="http://www.cac.washington.edu/imap/">http://www.cac.washington.edu/imap/</a></span>).
+</div></div><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3056"
+ HREF="module-nntplib.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3052"
+ HREF="module-imaplib.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3048"
+ HREF="imap4-objects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3054"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3055"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3057"
+ HREF="module-nntplib.html">11.8 nntplib  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3053"
+ HREF="module-imaplib.html">11.7 imaplib  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3049"
+ HREF="imap4-objects.html">11.7.1 IMAP4 Objects</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,271 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>5.1 math -- Mathematical functions (sin() etc.).</TITLE>
+<META NAME="description" CONTENT="5.1 math -- Mathematical functions (sin() etc.).">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-cmath.html">
+<LINK REL="previous" HREF="misc.html">
+<LINK REL="up" HREF="misc.html">
+<LINK REL="next" HREF="module-cmath.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1635"
+ HREF="module-cmath.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1631"
+ HREF="misc.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1625"
+ HREF="misc.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1633"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1634"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1636"
+ HREF="module-cmath.html">5.2 cmath  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1632"
+ HREF="misc.html">5. Miscellaneous Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1626"
+ HREF="misc.html">5. Miscellaneous Services</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION007100000000000000000">
+5.1 <tt class=module>math</tt> --
+         Mathematical functions (<tt class=function>sin()</tt> etc.).</A>
+</H1>
+
+<P>
+
+<P>
+This module is always available.
+It provides access to the mathematical functions defined by the C
+standard.
+They are:
+
+<P>
+<dl><dt><b><a name="l2h-707"><tt class=function>acos</tt></a></b> (<var>x</var>)
+<dd>
+Return the arc cosine of <var>x</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-708"><tt class=function>asin</tt></a></b> (<var>x</var>)
+<dd>
+Return the arc sine of <var>x</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-709"><tt class=function>atan</tt></a></b> (<var>x</var>)
+<dd>
+Return the arc tangent of <var>x</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-710"><tt class=function>atan2</tt></a></b> (<var>y, x</var>)
+<dd>
+Return <tt>atan(<var>y</var> / <var>x</var>)</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-711"><tt class=function>ceil</tt></a></b> (<var>x</var>)
+<dd>
+Return the ceiling of <var>x</var> as a real.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-712"><tt class=function>cos</tt></a></b> (<var>x</var>)
+<dd>
+Return the cosine of <var>x</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-713"><tt class=function>cosh</tt></a></b> (<var>x</var>)
+<dd>
+Return the hyperbolic cosine of <var>x</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-714"><tt class=function>exp</tt></a></b> (<var>x</var>)
+<dd>
+Return <tt>e**<var>x</var></tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-715"><tt class=function>fabs</tt></a></b> (<var>x</var>)
+<dd>
+Return the absolute value of the real <var>x</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-716"><tt class=function>floor</tt></a></b> (<var>x</var>)
+<dd>
+Return the floor of <var>x</var> as a real.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-717"><tt class=function>fmod</tt></a></b> (<var>x, y</var>)
+<dd>
+Return <tt><var>x</var> % <var>y</var></tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-718"><tt class=function>frexp</tt></a></b> (<var>x</var>)
+<dd>
+Return the matissa and exponent for <var>x</var>.  The mantissa is
+positive.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-719"><tt class=function>hypot</tt></a></b> (<var>x, y</var>)
+<dd>
+Return the Euclidean distance, <tt>sqrt(<var>x</var>*<var>x</var> + <var>y</var>*<var>y</var>)</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-720"><tt class=function>ldexp</tt></a></b> (<var>x, i</var>)
+<dd>
+Return <tt><var>x</var> * (2**<var>i</var>)</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-721"><tt class=function>log</tt></a></b> (<var>x</var>)
+<dd>
+Return the natural logarithm of <var>x</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-722"><tt class=function>log10</tt></a></b> (<var>x</var>)
+<dd>
+Return the base-10 logarithm of <var>x</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-723"><tt class=function>modf</tt></a></b> (<var>x</var>)
+<dd>
+Return the fractional and integer parts of <var>x</var>.  Both results
+carry the sign of <var>x</var>.  The integer part is returned as a real.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-724"><tt class=function>pow</tt></a></b> (<var>x, y</var>)
+<dd>
+Return <tt><var>x</var>**<var>y</var></tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-725"><tt class=function>sin</tt></a></b> (<var>x</var>)
+<dd>
+Return the sine of <var>x</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-726"><tt class=function>sinh</tt></a></b> (<var>x</var>)
+<dd>
+Return the hyperbolic sine of <var>x</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-727"><tt class=function>sqrt</tt></a></b> (<var>x</var>)
+<dd>
+Return the square root of <var>x</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-728"><tt class=function>tan</tt></a></b> (<var>x</var>)
+<dd>
+Return the tangent of <var>x</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-729"><tt class=function>tanh</tt></a></b> (<var>x</var>)
+<dd>
+Return the hyperbolic tangent of <var>x</var>.
+</dl>
+
+<P>
+Note that <tt class=function>frexp()</tt> and <tt class=function>modf()</tt> have a different
+call/return pattern than their C equivalents: they take a single
+argument and return a pair of values, rather than returning their
+second return value through an `output parameter' (there is no such
+thing in Python).
+
+<P>
+The module also defines two mathematical constants:
+
+<P>
+<dl><dt><b><a name="l2h-730"><tt>pi</tt></a></b>
+<dd>
+The mathematical constant <i>pi</i>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-731"><tt>e</tt></a></b>
+<dd>
+The mathematical constant <i>e</i>.
+</dl>
+
+<P>
+<div class=seealso>
+  <p class=heading><b>See Also:</b></p>
+
+  <div class=seemodule>
+<p>Module <b><tt class=module><a href="module-cmath.html">cmath</a></tt></b>&nbsp;&nbsp;&nbsp;(Complex number versions of many of these functions.)</p>
+</div>
+</div><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1635"
+ HREF="module-cmath.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1631"
+ HREF="misc.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1625"
+ HREF="misc.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1633"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1634"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1636"
+ HREF="module-cmath.html">5.2 cmath  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1632"
+ HREF="misc.html">5. Miscellaneous Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1626"
+ HREF="misc.html">5. Miscellaneous Services</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

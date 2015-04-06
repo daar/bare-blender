@@ -1,0 +1,195 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>8.7 termios -- POSIX style tty control</TITLE>
+<META NAME="description" CONTENT="8.7 termios -- POSIX style tty control">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-TERMIOSuppercase.html">
+<LINK REL="previous" HREF="module-gdbm.html">
+<LINK REL="up" HREF="unix.html">
+<LINK REL="next" HREF="termios_Example.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2434"
+ HREF="termios_Example.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2430"
+ HREF="unix.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2424"
+ HREF="module-gdbm.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2432"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2433"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2435"
+ HREF="termios_Example.html">8.7.1 Example</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2431"
+ HREF="unix.html">8. Unix Specific Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2425"
+ HREF="module-gdbm.html">8.6 gdbm  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0010700000000000000000">
+8.7 <tt class=module>termios</tt> --
+         POSIX style tty control</A>
+</H1>
+
+<P>
+  
+<p class=availability>Availability: <span
+ class=platform>Unix</span>.</p>
+
+<P>
+<a name="l2h-1428"></a>
+<a name="l2h-1429"></a>
+
+<P>
+This module provides an interface to the POSIX calls for tty I/O
+control.  For a complete description of these calls, see the POSIX or
+Unix manual pages.  It is only available for those Unix versions
+that support POSIX <i>termios</i> style tty I/O control (and then
+only if configured at installation time).
+
+<P>
+All functions in this module take a file descriptor <var>fd</var> as their
+first argument.  This must be an integer file descriptor, such as
+returned by <tt>sys.stdin.fileno()</tt>.
+
+<P>
+This module should be used in conjunction with the
+<tt class=module><a href="module-TERMIOSuppercase.html">TERMIOS</a></tt><a name="l2h-1430"></a> module,
+which defines the relevant symbolic constants (see the next section).
+
+<P>
+The module defines the following functions:
+
+<P>
+<dl><dt><b><a name="l2h-1422"><tt class=function>tcgetattr</tt></a></b> (<var>fd</var>)
+<dd>
+Return a list containing the tty attributes for file descriptor
+<var>fd</var>, as follows: <tt>[</tt><var>iflag</var>, <var>oflag</var>, <var>cflag</var>,
+<var>lflag</var>, <var>ispeed</var>, <var>ospeed</var>, <var>cc</var><tt>]</tt> where
+<var>cc</var> is a list of the tty special characters (each a string of
+length 1, except the items with indices <tt class=constant>TERMIOS.VMIN</tt> and
+<tt class=constant>TERMIOS.VTIME</tt>, which are integers when these fields are
+defined).  The interpretation of the flags and the speeds as well as
+the indexing in the <var>cc</var> array must be done using the symbolic
+constants defined in the <tt class=module><a href="module-TERMIOSuppercase.html">TERMIOS</a></tt>
+module.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1423"><tt class=function>tcsetattr</tt></a></b> (<var>fd, when, attributes</var>)
+<dd>
+Set the tty attributes for file descriptor <var>fd</var> from the
+<var>attributes</var>, which is a list like the one returned by
+<tt class=function>tcgetattr()</tt>.  The <var>when</var> argument determines when the
+attributes are changed: <tt class=constant>TERMIOS.TCSANOW</tt> to change
+immediately, <tt class=constant>TERMIOS.TCSADRAIN</tt> to change after transmitting
+all queued output, or <tt class=constant>TERMIOS.TCSAFLUSH</tt> to change after
+transmitting all queued output and discarding all queued input.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1424"><tt class=function>tcsendbreak</tt></a></b> (<var>fd, duration</var>)
+<dd>
+Send a break on file descriptor <var>fd</var>.  A zero <var>duration</var> sends
+a break for 0.25-0.5 seconds; a nonzero <var>duration</var> has a system
+dependent meaning.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1425"><tt class=function>tcdrain</tt></a></b> (<var>fd</var>)
+<dd>
+Wait until all output written to file descriptor <var>fd</var> has been
+transmitted.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1426"><tt class=function>tcflush</tt></a></b> (<var>fd, queue</var>)
+<dd>
+Discard queued data on file descriptor <var>fd</var>.  The <var>queue</var>
+selector specifies which queue: <tt class=constant>TERMIOS.TCIFLUSH</tt> for the
+input queue, <tt class=constant>TERMIOS.TCOFLUSH</tt> for the output queue, or
+<tt class=constant>TERMIOS.TCIOFLUSH</tt> for both queues.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1427"><tt class=function>tcflow</tt></a></b> (<var>fd, action</var>)
+<dd>
+Suspend or resume input or output on file descriptor <var>fd</var>.  The
+<var>action</var> argument can be <tt class=constant>TERMIOS.TCOOFF</tt> to suspend
+output, <tt class=constant>TERMIOS.TCOON</tt> to restart output,
+<tt class=constant>TERMIOS.TCIOFF</tt> to suspend input, or
+<tt class=constant>TERMIOS.TCION</tt> to restart input. 
+</dl>
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html2436"
+ HREF="termios_Example.html">8.7.1 Example</A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2434"
+ HREF="termios_Example.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2430"
+ HREF="unix.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2424"
+ HREF="module-gdbm.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2432"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2433"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2435"
+ HREF="termios_Example.html">8.7.1 Example</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2431"
+ HREF="unix.html">8. Unix Specific Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2425"
+ HREF="module-gdbm.html">8.6 gdbm  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

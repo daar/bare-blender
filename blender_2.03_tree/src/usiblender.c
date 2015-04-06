@@ -467,11 +467,12 @@ char **argv;
 		glutDrawInit();
 
 		read_homefile();
-		load_firstfont();
-		if(G.main->vfont.first==0) {
-			printf("can't find default vectorfont\n");
-			exit(0);
-		}
+		//DB: 23-mar-2013 commented ps fonts out, need to investigate later
+		// load_firstfont();
+		// if(G.main->vfont.first==0) {
+			// printf("can't find default vectorfont\n");
+			// exit(0);
+		// }
 
 		readBlog();
 		strcpy(G.lib, G.sce);

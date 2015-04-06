@@ -1,0 +1,418 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4.1 string -- Common string operations.</TITLE>
+<META NAME="description" CONTENT="4.1 string -- Common string operations.">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-re.html">
+<LINK REL="previous" HREF="strings.html">
+<LINK REL="up" HREF="strings.html">
+<LINK REL="next" HREF="module-re.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1454"
+ HREF="module-re.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1450"
+ HREF="strings.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1444"
+ HREF="strings.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1452"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1453"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1455"
+ HREF="module-re.html">4.2 re  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1451"
+ HREF="strings.html">4. String Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1445"
+ HREF="strings.html">4. String Services</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION006100000000000000000">
+4.1 <tt class=module>string</tt> --
+         Common string operations.</A>
+</H1>
+
+<P>
+
+<P>
+This module defines some constants useful for checking character
+classes and some useful string functions.  See the module
+<tt class=module>re</tt><a name="l2h-616"></a> for string functions based on regular
+expressions.
+
+<P>
+The constants defined in this module are are:
+
+<P>
+<dl><dt><b><a name="l2h-583"><tt>digits</tt></a></b>
+<dd>
+  The string <tt>'0123456789'</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-584"><tt>hexdigits</tt></a></b>
+<dd>
+  The string <tt>'0123456789abcdefABCDEF'</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-585"><tt>letters</tt></a></b>
+<dd>
+  The concatenation of the strings <tt class=function>lowercase()</tt> and
+  <tt class=function>uppercase()</tt> described below.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-586"><tt>lowercase</tt></a></b>
+<dd>
+  A string containing all the characters that are considered lowercase
+  letters.  On most systems this is the string
+  <tt>'abcdefghijklmnopqrstuvwxyz'</tt>.  Do not change its definition --
+  the effect on the routines <tt class=function>upper()</tt> and
+  <tt class=function>swapcase()</tt> is undefined.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-587"><tt>octdigits</tt></a></b>
+<dd>
+  The string <tt>'01234567'</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-588"><tt>uppercase</tt></a></b>
+<dd>
+  A string containing all the characters that are considered uppercase
+  letters.  On most systems this is the string
+  <tt>'ABCDEFGHIJKLMNOPQRSTUVWXYZ'</tt>.  Do not change its definition --
+  the effect on the routines <tt class=function>lower()</tt> and
+  <tt class=function>swapcase()</tt> is undefined.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-589"><tt>whitespace</tt></a></b>
+<dd>
+  A string containing all characters that are considered whitespace.
+  On most systems this includes the characters space, tab, linefeed,
+  return, formfeed, and vertical tab.  Do not change its definition --
+  the effect on the routines <tt class=function>strip()</tt> and <tt class=function>split()</tt>
+  is undefined.
+</dl>
+
+<P>
+The functions defined in this module are:
+
+<P>
+<dl><dt><b><a name="l2h-590"><tt class=function>atof</tt></a></b> (<var>s</var>)
+<dd>
+  Convert a string to a floating point number.  The string must have
+  the standard syntax for a floating point literal in Python,
+  optionally preceded by a sign ("<tt class=samp>+</tt>" or "<tt class=samp>-</tt>").  Note that
+  this behaves identical to the built-in function
+  <tt class=function>float()</tt><a name="l2h-617"></a> when passed a string.
+
+<P>
+<b>Note:</b> When passing in a string, values for NaN<a name="l2h-618"></a>
+  and Infinity<a name="l2h-619"></a> may be returned, depending on the
+  underlying C library.  The specific set of strings accepted which
+  cause these values to be returned depends entirely on the C library
+  and is known to vary.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-591"><tt class=function>atoi</tt></a></b> (<var>s</var><big>[</big><var>, base</var><big>]</big>)
+<dd>
+  Convert string <var>s</var> to an integer in the given <var>base</var>.  The
+  string must consist of one or more digits, optionally preceded by a
+  sign ("<tt class=samp>+</tt>" or "<tt class=samp>-</tt>").  The <var>base</var> defaults to 10.  If it
+  is 0, a default base is chosen depending on the leading characters
+  of the string (after stripping the sign): "<tt class=samp>0x</tt>" or "<tt class=samp>0X</tt>"  means 16, "<tt class=samp>0</tt>" means 8, anything else means 10.  If <var>base</var>
+  is 16, a leading "<tt class=samp>0x</tt>" or "<tt class=samp>0X</tt>" is always accepted.  Note
+  that when invoked without <var>base</var> or with <var>base</var> set to 10,
+  this behaves identical to the built-in function <tt class=function>int()</tt>
+  when passed a string.  (Also note: for a more flexible
+  interpretation of numeric literals, use the built-in function
+  <tt class=function>eval()</tt><a name="l2h-620"></a>.)
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-592"><tt class=function>atol</tt></a></b> (<var>s</var><big>[</big><var>, base</var><big>]</big>)
+<dd>
+  Convert string <var>s</var> to a long integer in the given <var>base</var>.
+  The string must consist of one or more digits, optionally preceded
+  by a sign ("<tt class=samp>+</tt>" or "<tt class=samp>-</tt>").  The <var>base</var> argument has the
+  same meaning as for <tt class=function>atoi()</tt>.  A trailing "<tt class=samp>l</tt>" or
+  "<tt class=samp>L</tt>" is not allowed, except if the base is 0.  Note that when
+  invoked without <var>base</var> or with <var>base</var> set to 10, this
+  behaves identical to the built-in function
+  <tt class=function>long()</tt><a name="l2h-621"></a> when passed a string.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-593"><tt class=function>capitalize</tt></a></b> (<var>word</var>)
+<dd>
+  Capitalize the first character of the argument.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-594"><tt class=function>capwords</tt></a></b> (<var>s</var>)
+<dd>
+  Split the argument into words using <tt class=function>split()</tt>, capitalize
+  each word using <tt class=function>capitalize()</tt>, and join the capitalized
+  words using <tt class=function>join()</tt>.  Note that this replaces runs of
+  whitespace characters by a single space, and removes leading and
+  trailing whitespace.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-595"><tt class=function>expandtabs</tt></a></b> (<var>s, </var><big>[</big><var>tabsize</var><big>]</big>)
+<dd>
+  Expand tabs in a string, i.e. replace them by one or more spaces,
+  depending on the current column and the given tab size.  The column
+  number is reset to zero after each newline occurring in the string.
+  This doesn't understand other non-printing characters or escape
+  sequences.  The tab size defaults to 8.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-596"><tt class=function>find</tt></a></b> (<var>s, sub</var><big>[</big><var>, start</var><big>[</big><var>,end</var><big>]</big><big>]</big>)
+<dd>
+  Return the lowest index in <var>s</var> where the substring <var>sub</var> is
+  found such that <var>sub</var> is wholly contained in
+  <tt><var>s</var>[<var>start</var>:<var>end</var>]</tt>.  Return <tt>-1</tt> on failure.
+  Defaults for <var>start</var> and <var>end</var> and interpretation of
+  negative values is the same as for slices.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-597"><tt class=function>rfind</tt></a></b> (<var>s, sub</var><big>[</big><var>, start</var><big>[</big><var>, end</var><big>]</big><big>]</big>)
+<dd>
+  Like <tt class=function>find()</tt> but find the highest index.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-598"><tt class=function>index</tt></a></b> (<var>s, sub</var><big>[</big><var>, start</var><big>[</big><var>, end</var><big>]</big><big>]</big>)
+<dd>
+  Like <tt class=function>find()</tt> but raise <tt class=exception>ValueError</tt> when the
+  substring is not found.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-599"><tt class=function>rindex</tt></a></b> (<var>s, sub</var><big>[</big><var>, start</var><big>[</big><var>, end</var><big>]</big><big>]</big>)
+<dd>
+  Like <tt class=function>rfind()</tt> but raise <tt class=exception>ValueError</tt> when the
+  substring is not found.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-600"><tt class=function>count</tt></a></b> (<var>s, sub</var><big>[</big><var>, start</var><big>[</big><var>, end</var><big>]</big><big>]</big>)
+<dd>
+  Return the number of (non-overlapping) occurrences of substring
+  <var>sub</var> in string <tt><var>s</var>[<var>start</var>:<var>end</var>]</tt>.
+  Defaults for <var>start</var> and <var>end</var> and interpretation of
+  negative values is the same as for slices.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-601"><tt class=function>lower</tt></a></b> (<var>s</var>)
+<dd>
+  Return a copy of <var>s</var>, but with upper case letters converted to
+  lower case.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-602"><tt class=function>maketrans</tt></a></b> (<var>from, to</var>)
+<dd>
+  Return a translation table suitable for passing to
+  <tt class=function>translate()</tt> or <tt class=function>regex.compile()</tt>, that will map
+  each character in <var>from</var> into the character at the same position
+  in <var>to</var>; <var>from</var> and <var>to</var> must have the same length.
+
+<P>
+<b>Warning:</b> don't use strings derived from <tt>lowercase</tt>  and <tt>uppercase</tt> as arguments; in some locales, these don't have
+  the same length.  For case conversions, always use
+  <tt class=function>lower()</tt> and <tt class=function>upper()</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-603"><tt class=function>split</tt></a></b> (<var>s</var><big>[</big><var>, sep</var><big>[</big><var>, maxsplit</var><big>]</big><big>]</big>)
+<dd>
+  Return a list of the words of the string <var>s</var>.  If the optional
+  second argument <var>sep</var> is absent or <tt>None</tt>, the words are
+  separated by arbitrary strings of whitespace characters (space, tab, 
+  newline, return, formfeed).  If the second argument <var>sep</var> is
+  present and not <tt>None</tt>, it specifies a string to be used as the 
+  word separator.  The returned list will then have one more items
+  than the number of non-overlapping occurrences of the separator in
+  the string.  The optional third argument <var>maxsplit</var> defaults to
+  0.  If it is nonzero, at most <var>maxsplit</var> number of splits occur,
+  and the remainder of the string is returned as the final element of
+  the list (thus, the list will have at most <tt><var>maxsplit</var>+1</tt>  elements).
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-604"><tt class=function>splitfields</tt></a></b> (<var>s</var><big>[</big><var>, sep</var><big>[</big><var>, maxsplit</var><big>]</big><big>]</big>)
+<dd>
+  This function behaves identically to <tt class=function>split()</tt>.  (In the
+  past, <tt class=function>split()</tt> was only used with one argument, while
+  <tt class=function>splitfields()</tt> was only used with two arguments.)
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-605"><tt class=function>join</tt></a></b> (<var>words</var><big>[</big><var>, sep</var><big>]</big>)
+<dd>
+  Concatenate a list or tuple of words with intervening occurrences of 
+  <var>sep</var>.  The default value for <var>sep</var> is a single space
+  character.  It is always true that
+  "<tt class=samp>string.join(string.split(<var>s</var>, <var>sep</var>), <var>sep</var>)</tt>"  equals <var>s</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-606"><tt class=function>joinfields</tt></a></b> (<var>words</var><big>[</big><var>, sep</var><big>]</big>)
+<dd>
+  This function behaves identical to <tt class=function>join()</tt>.  (In the past, 
+  <tt class=function>join()</tt> was only used with one argument, while
+  <tt class=function>joinfields()</tt> was only used with two arguments.)
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-607"><tt class=function>lstrip</tt></a></b> (<var>s</var>)
+<dd>
+  Return a copy of <var>s</var> but without leading whitespace characters.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-608"><tt class=function>rstrip</tt></a></b> (<var>s</var>)
+<dd>
+  Return a copy of <var>s</var> but without trailing whitespace
+  characters.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-609"><tt class=function>strip</tt></a></b> (<var>s</var>)
+<dd>
+  Return a copy of <var>s</var> without leading or trailing whitespace.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-610"><tt class=function>swapcase</tt></a></b> (<var>s</var>)
+<dd>
+  Return a copy of <var>s</var>, but with lower case letters
+  converted to upper case and vice versa.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-611"><tt class=function>translate</tt></a></b> (<var>s, table</var><big>[</big><var>, deletechars</var><big>]</big>)
+<dd>
+  Delete all characters from <var>s</var> that are in <var>deletechars</var> (if 
+  present), and then translate the characters using <var>table</var>, which 
+  must be a 256-character string giving the translation for each
+  character value, indexed by its ordinal.  
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-612"><tt class=function>upper</tt></a></b> (<var>s</var>)
+<dd>
+  Return a copy of <var>s</var>, but with lower case letters converted to
+  upper case.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-613"><tt class=function>ljust</tt></a></b> (<var>s, width</var>)
+<dd>
+<dt><b><a name="l2h-622"><tt class=function>rjust</tt> (in string)</a></b> (<var>s, width</var>)
+<dd>
+<dt><b><a name="l2h-623"><tt class=function>center</tt> (in string)</a></b> (<var>s, width</var>)
+<dd>
+  These functions respectively left-justify, right-justify and center
+  a string in a field of given width.  They return a string that is at
+  least <var>width</var> characters wide, created by padding the string
+  <var>s</var> with spaces until the given width on the right, left or both
+  sides.  The string is never truncated.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-614"><tt class=function>zfill</tt></a></b> (<var>s, width</var>)
+<dd>
+  Pad a numeric string on the left with zero digits until the given
+  width is reached.  Strings starting with a sign are handled
+  correctly.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-615"><tt class=function>replace</tt></a></b> (<var>str, old, new</var><big>[</big><var>, maxsplit</var><big>]</big>)
+<dd>
+  Return a copy of string <var>str</var> with all occurrences of substring
+  <var>old</var> replaced by <var>new</var>.  If the optional argument
+  <var>maxsplit</var> is given, the first <var>maxsplit</var> occurrences are
+  replaced.
+</dl>
+
+<P>
+This module is implemented in Python.  Much of its functionality has
+been reimplemented in the built-in module
+<tt class=module>strop</tt><a name="l2h-624"></a>.  However, you
+should <i>never</i> import the latter module directly.  When
+<tt class=module>string</tt> discovers that <tt class=module>strop</tt> exists, it transparently
+replaces parts of itself with the implementation from <tt class=module>strop</tt>.
+After initialization, there is <i>no</i> overhead in using
+<tt class=module>string</tt> instead of <tt class=module>strop</tt>.
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1454"
+ HREF="module-re.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1450"
+ HREF="strings.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1444"
+ HREF="strings.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1452"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1453"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1455"
+ HREF="module-re.html">4.2 re  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1451"
+ HREF="strings.html">4. String Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1445"
+ HREF="strings.html">4. String Services</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

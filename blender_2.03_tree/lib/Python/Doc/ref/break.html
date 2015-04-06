@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>6.9 The break statement</TITLE>
+<META NAME="description" CONTENT="6.9 The break statement">
+<META NAME="keywords" CONTENT="ref">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ref.css">
+<LINK REL="next" HREF="continue.html">
+<LINK REL="previous" HREF="raise.html">
+<LINK REL="up" HREF="simple.html">
+<LINK REL="next" HREF="continue.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1111"
+ HREF="continue.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1107"
+ HREF="simple.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1101"
+ HREF="raise.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html1109"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html1110"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1112"
+ HREF="continue.html">6.10 The continue statement</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1108"
+ HREF="simple.html">6. Simple statements</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1102"
+ HREF="raise.html">6.8 The raise statement</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION008900000000000000000"></A>
+<BR>
+6.9 The <tt class=keyword>break</tt> statement
+</H1>
+<a name="l2h-618"></a>
+
+<P>
+<dl><dd><pre class=verbatim>
+break_stmt:     "break"
+</pre></dl>
+
+<P>
+<tt class=keyword>break</tt> may only occur syntactically nested in a <tt class=keyword>for</tt>
+or <tt class=keyword>while</tt> loop, but not nested in a function or class definition
+within that loop.
+<a name="l2h-619"></a>
+<a name="l2h-620"></a>
+<a name="l2h-621"></a>
+
+<P>
+It terminates the nearest enclosing loop, skipping the optional
+<tt class=keyword>else</tt> clause if the loop has one.
+<a name="l2h-622"></a>
+
+<P>
+If a <tt class=keyword>for</tt> loop is terminated by <tt class=keyword>break</tt>, the loop control
+target keeps its current value.
+<a name="l2h-623"></a>
+
+<P>
+When <tt class=keyword>break</tt> passes control out of a <tt class=keyword>try</tt> statement
+with a <tt class=keyword>finally</tt> clause, that <tt class=keyword>finally</tt> clause is executed
+before really leaving the loop.
+<a name="l2h-624"></a>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1111"
+ HREF="continue.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1107"
+ HREF="simple.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1101"
+ HREF="raise.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html1109"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html1110"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1112"
+ HREF="continue.html">6.10 The continue statement</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1108"
+ HREF="simple.html">6. Simple statements</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1102"
+ HREF="raise.html">6.8 The raise statement</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

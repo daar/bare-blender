@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>8.1 Syntax Errors </TITLE>
+<META NAME="description" CONTENT="8.1 Syntax Errors ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="exceptions.html">
+<LINK REL="previous" HREF="errors.html">
+<LINK REL="up" HREF="errors.html">
+<LINK REL="next" HREF="exceptions.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html785"
+ HREF="exceptions.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html782"
+ HREF="errors.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html776"
+ HREF="errors.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html784"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html786"
+ HREF="exceptions.html">8.2 Exceptions</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html783"
+ HREF="errors.html">8. Errors and Exceptions</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html777"
+ HREF="errors.html">8. Errors and Exceptions</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0010100000000000000000"></A>
+<BR>
+8.1 Syntax Errors 
+</H1>
+
+<P>
+Syntax errors, also known as parsing errors, are perhaps the most common
+kind of complaint you get while you are still learning Python:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; while 1 print 'Hello world'
+  File "&lt;stdin&gt;", line 1
+    while 1 print 'Hello world'
+                ^
+SyntaxError: invalid syntax
+</pre></dl>
+
+<P>
+The parser repeats the offending line and displays a little `arrow'
+pointing at the earliest point in the line where the error was detected.
+The error is caused by (or at least detected at) the token
+<i>preceding</i>
+the arrow: in the example, the error is detected at the keyword
+<tt class=keyword>print</tt>, since a colon ("<tt class=character>:</tt>") is missing before it.
+File name and line number are printed so you know where to look in case
+the input came from a script.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html785"
+ HREF="exceptions.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html782"
+ HREF="errors.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html776"
+ HREF="errors.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html784"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html786"
+ HREF="exceptions.html">8.2 Exceptions</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html783"
+ HREF="errors.html">8. Errors and Exceptions</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html777"
+ HREF="errors.html">8. Errors and Exceptions</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

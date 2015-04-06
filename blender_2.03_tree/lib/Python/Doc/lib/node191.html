@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>11.1.6 Installing your CGI script on a Unix system</TITLE>
+<META NAME="description" CONTENT="11.1.6 Installing your CGI script on a Unix system">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="node192.html">
+<LINK REL="previous" HREF="node190.html">
+<LINK REL="up" HREF="module-cgi.html">
+<LINK REL="next" HREF="node192.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2867"
+ HREF="node192.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2863"
+ HREF="module-cgi.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2857"
+ HREF="node190.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2865"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2866"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2868"
+ HREF="node192.html">11.1.7 Testing your CGI</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2864"
+ HREF="module-cgi.html">11.1 cgi  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2858"
+ HREF="node190.html">11.1.5 Caring about security</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0013160000000000000000">
+11.1.6 Installing your CGI script on a Unix system</A>
+</H2>
+
+<P>
+Read the documentation for your HTTP server and check with your local
+system administrator to find the directory where CGI scripts should be
+installed; usually this is in a directory "<tt class=file>cgi-bin</tt>" in the server tree.
+
+<P>
+Make sure that your script is readable and executable by ``others''; the
+Unix file mode should be <tt>0755</tt> octal (use "<tt class=samp>chmod 0755
+<var>filename</var></tt>").  Make sure that the first line of the script contains
+<tt>#!</tt> starting in column 1 followed by the pathname of the Python
+interpreter, for instance:
+
+<P>
+<dl><dd><pre class=verbatim>
+#!/usr/local/bin/python
+</pre></dl>
+
+<P>
+Make sure the Python interpreter exists and is executable by ``others''.
+
+<P>
+Make sure that any files your script needs to read or write are
+readable or writable, respectively, by ``others'' -- their mode
+should be <tt>0644</tt> for readable and <tt>0666</tt> for writable.  This
+is because, for security reasons, the HTTP server executes your script
+as user ``nobody'', without any special privileges.  It can only read
+(write, execute) files that everybody can read (write, execute).  The
+current directory at execution time is also different (it is usually
+the server's cgi-bin directory) and the set of environment variables
+is also different from what you get at login.  In particular, don't
+count on the shell's search path for executables (<span class=envvar><a name="l2h-1568">$PATH</a></span>) or
+the Python module search path (<span class=envvar><a name="l2h-1569">$PYTHONPATH</a></span>) to be set to
+anything interesting.
+
+<P>
+If you need to load modules from a directory which is not on Python's
+default module search path, you can change the path in your script,
+before importing other modules, e.g.:
+
+<P>
+<dl><dd><pre class=verbatim>
+import sys
+sys.path.insert(0, "/usr/home/joe/lib/python")
+sys.path.insert(0, "/usr/local/lib/python")
+</pre></dl>
+
+<P>
+(This way, the directory inserted last will be searched first!)
+
+<P>
+Instructions for non-Unix systems will vary; check your HTTP server's
+documentation (it will usually have a section on CGI scripts).
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2867"
+ HREF="node192.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2863"
+ HREF="module-cgi.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2857"
+ HREF="node190.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2865"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2866"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2868"
+ HREF="node192.html">11.1.7 Testing your CGI</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2864"
+ HREF="module-cgi.html">11.1 cgi  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2858"
+ HREF="node190.html">11.1.5 Caring about security</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

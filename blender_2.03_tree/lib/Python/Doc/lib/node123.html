@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>6.11.1 Background, details, hints, tips and caveats</TITLE>
+<META NAME="description" CONTENT="6.11.1 Background, details, hints, tips and caveats">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="embedding-locale.html">
+<LINK REL="previous" HREF="module-locale.html">
+<LINK REL="up" HREF="module-locale.html">
+<LINK REL="next" HREF="embedding-locale.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2040"
+ HREF="embedding-locale.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2036"
+ HREF="module-locale.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2030"
+ HREF="module-locale.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2038"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2039"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2041"
+ HREF="embedding-locale.html">6.11.2 For extension writers</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2037"
+ HREF="module-locale.html">6.11 locale  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2031"
+ HREF="module-locale.html">6.11 locale  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0081110000000000000000">
+6.11.1 Background, details, hints, tips and caveats</A>
+</H2>
+
+<P>
+The C standard defines the locale as a program-wide property that may
+be relatively expensive to change.  On top of that, some
+implementation are broken in such a way that frequent locale changes
+may cause core dumps.  This makes the locale somewhat painful to use
+correctly.
+
+<P>
+Initially, when a program is started, the locale is the "<tt class=samp>C</tt>" locale, no
+matter what the user's preferred locale is.  The program must
+explicitly say that it wants the user's preferred locale settings by
+calling <tt>setlocale(LC_ALL, "")</tt>.
+
+<P>
+It is generally a bad idea to call <tt class=function>setlocale()</tt> in some library
+routine, since as a side effect it affects the entire program.  Saving
+and restoring it is almost as bad: it is expensive and affects other
+threads that happen to run before the settings have been restored.
+
+<P>
+If, when coding a module for general use, you need a locale
+independent version of an operation that is affected by the locale
+(e.g. <tt class=function>string.lower()</tt>, or certain formats used with
+<tt class=function>time.strftime()</tt>)), you will have to find a way to do it
+without using the standard library routine.  Even better is convincing
+yourself that using locale settings is okay.  Only as a last resort
+should you document that your module is not compatible with
+non-"<tt class=samp>C</tt>" locale settings.
+
+<P>
+The case conversion functions in the
+<tt class=module>string</tt><a name="l2h-1221"></a> and
+<tt class=module>strop</tt><a name="l2h-1222"></a> modules are affected by the locale
+settings.  When a call to the <tt class=function>setlocale()</tt> function changes
+the <tt class=constant>LC_CTYPE</tt> settings, the variables
+<tt>string.lowercase</tt>, <tt>string.uppercase</tt> and
+<tt>string.letters</tt> (and their counterparts in <tt class=module>strop</tt>) are
+recalculated.  Note that this code that uses these variable through
+`<tt class=keyword>from</tt> ... <tt class=keyword>import</tt> ...', e.g. <tt>from string
+import letters</tt>, is not affected by subsequent <tt class=function>setlocale()</tt>
+calls.
+
+<P>
+The only way to perform numeric operations according to the locale
+is to use the special functions defined by this module:
+<tt class=function>atof()</tt>, <tt class=function>atoi()</tt>, <tt class=function>format()</tt>,
+<tt class=function>str()</tt>.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2040"
+ HREF="embedding-locale.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2036"
+ HREF="module-locale.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2030"
+ HREF="module-locale.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2038"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2039"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2041"
+ HREF="embedding-locale.html">6.11.2 For extension writers</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2037"
+ HREF="module-locale.html">6.11 locale  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2031"
+ HREF="module-locale.html">6.11 locale  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>9.6 Private Variables </TITLE>
+<META NAME="description" CONTENT="9.6 Private Variables ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="odds.html">
+<LINK REL="previous" HREF="inheritance.html">
+<LINK REL="up" HREF="classes.html">
+<LINK REL="next" HREF="odds.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html984"
+ HREF="odds.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html981"
+ HREF="classes.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html975"
+ HREF="multiple.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html983"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html985"
+ HREF="odds.html">9.7 Odds and Ends</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html982"
+ HREF="classes.html">9. Classes</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html976"
+ HREF="multiple.html">9.5.1 Multiple Inheritance</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0011600000000000000000"></A>
+<BR>
+9.6 Private Variables 
+</H1>
+
+<P>
+There is limited support for class-private
+identifiers.  Any identifier of the form <tt>__spam</tt> (at least two
+leading underscores, at most one trailing underscore) is now textually
+replaced with <tt>_classname__spam</tt>, where <tt>classname</tt> is the
+current class name with leading underscore(s) stripped.  This mangling
+is done without regard of the syntactic position of the identifier, so
+it can be used to define class-private instance and class variables,
+methods, as well as globals, and even to store instance variables
+private to this class on instances of <i>other</i> classes.  Truncation
+may occur when the mangled name would be longer than 255 characters.
+Outside classes, or when the class name consists of only underscores,
+no mangling occurs.
+
+<P>
+Name mangling is intended to give classes an easy way to define
+``private'' instance variables and methods, without having to worry
+about instance variables defined by derived classes, or mucking with
+instance variables by code outside the class.  Note that the mangling
+rules are designed mostly to avoid accidents; it still is possible for
+a determined soul to access or modify a variable that is considered
+private.  This can even be useful, e.g. for the debugger, and that's
+one reason why this loophole is not closed.  (Buglet: derivation of a
+class with the same name as the base class makes use of private
+variables of the base class possible.)
+
+<P>
+Notice that code passed to <tt>exec</tt>, <tt>eval()</tt> or
+<tt>evalfile()</tt> does not consider the classname of the invoking 
+class to be the current class; this is similar to the effect of the 
+<tt>global</tt> statement, the effect of which is likewise restricted to 
+code that is byte-compiled together.  The same restriction applies to
+<tt>getattr()</tt>, <tt>setattr()</tt> and <tt>delattr()</tt>, as well as
+when referencing <tt>__dict__</tt> directly.
+
+<P>
+Here's an example of a class that implements its own
+<tt>__getattr__</tt> and <tt>__setattr__</tt> methods and stores all
+attributes in a private variable, in a way that works in Python 1.4 as
+well as in previous versions:
+
+<P>
+<dl><dd><pre class=verbatim>
+class VirtualAttributes:
+    __vdict = None
+    __vdict_name = locals().keys()[0]
+     
+    def __init__(self):
+        self.__dict__[self.__vdict_name] = {}
+    
+    def __getattr__(self, name):
+        return self.__vdict[name]
+    
+    def __setattr__(self, name, value):
+        self.__vdict[name] = value
+</pre></dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html984"
+ HREF="odds.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html981"
+ HREF="classes.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html975"
+ HREF="multiple.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html983"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html985"
+ HREF="odds.html">9.7 Odds and Ends</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html982"
+ HREF="classes.html">9. Classes</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html976"
+ HREF="multiple.html">9.5.1 Multiple Inheritance</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

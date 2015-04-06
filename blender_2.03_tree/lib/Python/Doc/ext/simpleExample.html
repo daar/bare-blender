@@ -1,0 +1,195 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>1.1 A Simple Example </TITLE>
+<META NAME="description" CONTENT="1.1 A Simple Example ">
+<META NAME="keywords" CONTENT="ext">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ext.css">
+<LINK REL="next" HREF="errors.html">
+<LINK REL="previous" HREF="intro.html">
+<LINK REL="up" HREF="intro.html">
+<LINK REL="next" HREF="errors.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html121"
+ HREF="errors.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html118"
+ HREF="intro.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html112"
+ HREF="intro.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Extending and Embedding the Python Interpreter</b></td>
+<td><A NAME="tex2html120"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html122"
+ HREF="errors.html">1.2 Intermezzo: Errors and</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html119"
+ HREF="intro.html">1. Extending Python with</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html113"
+ HREF="intro.html">1. Extending Python with</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION003100000000000000000"></A>
+<BR>
+1.1 A Simple Example
+         
+</H1>
+
+<P>
+Let's create an extension module called "<tt class=samp>spam</tt>" (the favorite food
+of Monty Python fans...) and let's say we want to create a Python
+interface to the C library function <tt class=cfunction>system()</tt>.<A NAME="tex2html1"
+ HREF="#foot804"><SUP>1.1</SUP></A>This function takes a null-terminated character string as argument and
+returns an integer.  We want this function to be callable from Python
+as follows:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; import spam
+&gt;&gt;&gt; status = spam.system("ls -l")
+</pre></dl>
+
+<P>
+Begin by creating a file "<tt class=file>spammodule.c</tt>".  (In general, if a
+module is called "<tt class=samp>spam</tt>", the C file containing its implementation
+is called "<tt class=file>spammodule.c</tt>"; if the module name is very long, like
+"<tt class=samp>spammify</tt>", the module name can be just "<tt class=file>spammify.c</tt>".)
+
+<P>
+The first line of our file can be:
+
+<P>
+<dl><dd><pre class=verbatim>
+#include "Python.h"
+</pre></dl>
+
+<P>
+which pulls in the Python API (you can add a comment describing the
+purpose of the module and a copyright notice if you like).
+
+<P>
+All user-visible symbols defined by <tt>"Python.h"</tt> have a prefix of
+"<tt class=samp>Py</tt>" or "<tt class=samp>PY</tt>", except those defined in standard header files.
+For convenience, and since they are used extensively by the Python
+interpreter, <tt>"Python.h"</tt> includes a few standard header files:
+<tt>&lt;stdio.h&gt;</tt>, <tt>&lt;string.h&gt;</tt>, <tt>&lt;errno.h&gt;</tt>, and
+<tt>&lt;stdlib.h&gt;</tt>.  If the latter header file does not exist on your
+system, it declares the functions <tt class=cfunction>malloc()</tt>,
+<tt class=cfunction>free()</tt> and <tt class=cfunction>realloc()</tt> directly.
+
+<P>
+The next thing we add to our module file is the C function that will
+be called when the Python expression "<tt class=samp>spam.system(<var>string</var>)</tt>"is evaluated (we'll see shortly how it ends up being called):
+
+<P>
+<dl><dd><pre class=verbatim>
+static PyObject *
+spam_system(self, args)
+    PyObject *self;
+    PyObject *args;
+{
+    char *command;
+    int sts;
+
+    if (!PyArg_ParseTuple(args, "s", &amp;command))
+        return NULL;
+    sts = system(command);
+    return Py_BuildValue("i", sts);
+}
+</pre></dl>
+
+<P>
+There is a straightforward translation from the argument list in
+Python (e.g. the single expression <tt>"ls -l"</tt>) to the arguments
+passed to the C function.  The C function always has two arguments,
+conventionally named <var>self</var> and <var>args</var>.
+
+<P>
+The <var>self</var> argument is only used when the C function implements a
+built-in method, not a function. In the example, <var>self</var> will
+always be a <tt>NULL</tt> pointer, since we are defining a function, not a
+method.  (This is done so that the interpreter doesn't have to
+understand two different types of C functions.)
+
+<P>
+The <var>args</var> argument will be a pointer to a Python tuple object
+containing the arguments.  Each item of the tuple corresponds to an
+argument in the call's argument list.  The arguments are Python
+objects -- in order to do anything with them in our C function we have
+to convert them to C values.  The function <tt class=cfunction>PyArg_ParseTuple()</tt>
+in the Python API checks the argument types and converts them to C
+values.  It uses a template string to determine the required types of
+the arguments as well as the types of the C variables into which to
+store the converted values.  More about this later.
+
+<P>
+<tt class=cfunction>PyArg_ParseTuple()</tt> returns true (nonzero) if all arguments have
+the right type and its components have been stored in the variables
+whose addresses are passed.  It returns false (zero) if an invalid
+argument list was passed.  In the latter case it also raises an
+appropriate exception by so the calling function can return
+<tt>NULL</tt> immediately (as we saw in the example).
+
+<P>
+<BR><HR><H4>Footnotes</H4>
+<DL>
+<DT><A NAME="foot804">...system().</A><A NAME="foot804"
+ HREF="simpleExample.html#tex2html1"><SUP>1.1</SUP></A>
+<DD>An
+interface for this function already exists in the standard module
+<tt class=module>os</tt> -- it was chosen as a simple and straightfoward example.
+
+</DL><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html121"
+ HREF="errors.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html118"
+ HREF="intro.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html112"
+ HREF="intro.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Extending and Embedding the Python Interpreter</b></td>
+<td><A NAME="tex2html120"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html122"
+ HREF="errors.html">1.2 Intermezzo: Errors and</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html119"
+ HREF="intro.html">1. Extending Python with</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html113"
+ HREF="intro.html">1. Extending Python with</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

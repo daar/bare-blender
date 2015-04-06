@@ -1,0 +1,325 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>13.1 rexec -- Basic restricted execution framework.</TITLE>
+<META NAME="description" CONTENT="13.1 rexec -- Basic restricted execution framework.">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-Bastion.html">
+<LINK REL="previous" HREF="restricted.html">
+<LINK REL="up" HREF="restricted.html">
+<LINK REL="next" HREF="node261.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3684"
+ HREF="node261.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3680"
+ HREF="restricted.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3674"
+ HREF="restricted.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3682"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3683"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3685"
+ HREF="node261.html">13.1.1 An example</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3681"
+ HREF="restricted.html">13. Restricted Execution</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3675"
+ HREF="restricted.html">13. Restricted Execution</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0015100000000000000000">
+13.1 <tt class=module>rexec</tt> --
+         Basic restricted execution framework.</A>
+</H1>
+
+<P>
+
+<P>
+This module contains the <tt class=class>RExec</tt> class, which supports
+<tt class=method>r_eval()</tt>, <tt class=method>r_execfile()</tt>, <tt class=method>r_exec()</tt>, and
+<tt class=method>r_import()</tt> methods, which are restricted versions of the standard
+Python functions <tt class=method>eval()</tt>, <tt class=method>execfile()</tt> and
+the <tt class=keyword>exec</tt> and <tt class=keyword>import</tt> statements.
+Code executed in this restricted environment will
+only have access to modules and functions that are deemed safe; you
+can subclass <tt class=class>RExec</tt> to add or remove capabilities as desired.
+
+<P>
+<i>Note:</i> The <tt class=class>RExec</tt> class can prevent code from performing
+unsafe operations like reading or writing disk files, or using TCP/IP
+sockets.  However, it does not protect against code using extremely
+large amounts of memory or CPU time.  
+
+<P>
+<dl><dt><b><a name="l2h-2132"><tt class=class>RExec</tt></a></b> (<big>[</big><var>hooks</var><big>[</big><var>, verbose</var><big>]</big><big>]</big>)
+<dd>
+Returns an instance of the <tt class=class>RExec</tt> class.  
+
+<P>
+<var>hooks</var> is an instance of the <tt class=class>RHooks</tt> class or a subclass of it.
+If it is omitted or <tt>None</tt>, the default <tt class=class>RHooks</tt> class is
+instantiated.
+Whenever the <tt class=module>RExec</tt> module searches for a module (even a
+built-in one) or reads a module's code, it doesn't actually go out to
+the file system itself.  Rather, it calls methods of an <tt class=class>RHooks</tt>
+instance that was passed to or created by its constructor.  (Actually,
+the <tt class=class>RExec</tt> object doesn't make these calls -- they are made by
+a module loader object that's part of the <tt class=class>RExec</tt> object.  This
+allows another level of flexibility, e.g. using packages.)
+
+<P>
+By providing an alternate <tt class=class>RHooks</tt> object, we can control the
+file system accesses made to import a module, without changing the
+actual algorithm that controls the order in which those accesses are
+made.  For instance, we could substitute an <tt class=class>RHooks</tt> object that
+passes all filesystem requests to a file server elsewhere, via some
+RPC mechanism such as ILU.  Grail's applet loader uses this to support
+importing applets from a URL for a directory.
+
+<P>
+If <var>verbose</var> is true, additional debugging output may be sent to
+standard output.
+</dl>
+
+<P>
+The <tt class=class>RExec</tt> class has the following class attributes, which are
+used by the <tt class=method>__init__()</tt> method.  Changing them on an existing
+instance won't have any effect; instead, create a subclass of
+<tt class=class>RExec</tt> and assign them new values in the class definition.
+Instances of the new class will then use those new values.  All these
+attributes are tuples of strings.
+
+<P>
+<dl><dt><b><a name="l2h-2133"><tt>nok_builtin_names</tt></a></b>
+<dd>
+Contains the names of built-in functions which will <i>not</i> be
+available to programs running in the restricted environment.  The
+value for <tt class=class>RExec</tt> is <tt>('open',</tt> <tt>'reload',</tt><tt>'__import__')</tt>.  (This gives the exceptions, because by far the
+majority of built-in functions are harmless.  A subclass that wants to
+override this variable should probably start with the value from the
+base class and concatenate additional forbidden functions -- when new
+dangerous built-in functions are added to Python, they will also be
+added to this module.)
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2134"><tt>ok_builtin_modules</tt></a></b>
+<dd>
+Contains the names of built-in modules which can be safely imported.
+The value for <tt class=class>RExec</tt> is <tt>('audioop',</tt> <tt>'array',</tt><tt>'binascii',</tt> <tt>'cmath',</tt> <tt>'errno',</tt> <tt>'imageop',</tt><tt>'marshal',</tt> <tt>'math',</tt> <tt>'md5',</tt> <tt>'operator',</tt><tt>'parser',</tt> <tt>'regex',</tt> <tt>'rotor',</tt> <tt>'select',</tt><tt>'strop',</tt> <tt>'struct',</tt> <tt>'time')</tt>.  A similar remark
+about overriding this variable applies -- use the value from the base
+class as a starting point.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2135"><tt>ok_path</tt></a></b>
+<dd>
+Contains the directories which will be searched when an <tt class=keyword>import</tt>
+is performed in the restricted environment.  
+The value for <tt class=class>RExec</tt> is the same as <tt>sys.path</tt> (at the time
+the module is loaded) for unrestricted code.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2136"><tt>ok_posix_names</tt></a></b>
+<dd>
+Contains the names of the functions in the <tt class=module>os</tt> module which will be
+available to programs running in the restricted environment.  The
+value for <tt class=class>RExec</tt> is <tt>('error',</tt> <tt>'fstat',</tt><tt>'listdir',</tt> <tt>'lstat',</tt> <tt>'readlink',</tt> <tt>'stat',</tt><tt>'times',</tt> <tt>'uname',</tt> <tt>'getpid',</tt> <tt>'getppid',</tt><tt>'getcwd',</tt> <tt>'getuid',</tt> <tt>'getgid',</tt> <tt>'geteuid',</tt><tt>'getegid')</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2137"><tt>ok_sys_names</tt></a></b>
+<dd>
+Contains the names of the functions and variables in the <tt class=module>sys</tt>
+module which will be available to programs running in the restricted
+environment.  The value for <tt class=class>RExec</tt> is <tt>('ps1',</tt><tt>'ps2',</tt> <tt>'copyright',</tt> <tt>'version',</tt> <tt>'platform',</tt><tt>'exit',</tt> <tt>'maxint')</tt>.
+</dl>
+
+<P>
+<tt class=class>RExec</tt> instances support the following methods:
+
+<P>
+<dl><dt><b><a name="l2h-2138"><tt class=method>r_eval</tt></a></b> (<var>code</var>)
+<dd>
+<var>code</var> must either be a string containing a Python expression, or
+a compiled code object, which will be evaluated in the restricted
+environment's <tt class=module>__main__</tt> module.  The value of the expression or
+code object will be returned.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2139"><tt class=method>r_exec</tt></a></b> (<var>code</var>)
+<dd>
+<var>code</var> must either be a string containing one or more lines of
+Python code, or a compiled code object, which will be executed in the
+restricted environment's <tt class=module>__main__</tt> module.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2140"><tt class=method>r_execfile</tt></a></b> (<var>filename</var>)
+<dd>
+Execute the Python code contained in the file <var>filename</var> in the
+restricted environment's <tt class=module>__main__</tt> module.
+</dl>
+
+<P>
+Methods whose names begin with "<tt class=samp>s_</tt>" are similar to the functions
+beginning with "<tt class=samp>r_</tt>", but the code will be granted access to
+restricted versions of the standard I/O streams <tt>sys.stdin</tt>,
+<tt>sys.stderr</tt>, and <tt>sys.stdout</tt>.
+
+<P>
+<dl><dt><b><a name="l2h-2141"><tt class=method>s_eval</tt></a></b> (<var>code</var>)
+<dd>
+<var>code</var> must be a string containing a Python expression, which will
+be evaluated in the restricted environment.  
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2142"><tt class=method>s_exec</tt></a></b> (<var>code</var>)
+<dd>
+<var>code</var> must be a string containing one or more lines of Python code,
+which will be executed in the restricted environment.  
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2143"><tt class=method>s_execfile</tt></a></b> (<var>code</var>)
+<dd>
+Execute the Python code contained in the file <var>filename</var> in the
+restricted environment.
+</dl>
+
+<P>
+<tt class=class>RExec</tt> objects must also support various methods which will be
+implicitly called by code executing in the restricted environment.
+Overriding these methods in a subclass is used to change the policies
+enforced by a restricted environment.
+
+<P>
+<dl><dt><b><a name="l2h-2144"><tt class=method>r_import</tt></a></b> (<var>modulename</var><big>[</big><var>, globals</var><big>[</big><var>,
+                             locals</var><big>[</big><var>, fromlist</var><big>]</big><big>]</big><big>]</big>)
+<dd>
+Import the module <var>modulename</var>, raising an <tt class=exception>ImportError</tt>
+exception if the module is considered unsafe.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2145"><tt class=method>r_open</tt></a></b> (<var>filename</var><big>[</big><var>, mode</var><big>[</big><var>, bufsize</var><big>]</big><big>]</big>)
+<dd>
+Method called when <tt class=function>open()</tt> is called in the restricted
+environment.  The arguments are identical to those of <tt class=function>open()</tt>,
+and a file object (or a class instance compatible with file objects)
+should be returned.  <tt class=class>RExec</tt>'s default behaviour is allow opening
+any file for reading, but forbidding any attempt to write a file.  See
+the example below for an implementation of a less restrictive
+<tt class=method>r_open()</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2146"><tt class=method>r_reload</tt></a></b> (<var>module</var>)
+<dd>
+Reload the module object <var>module</var>, re-parsing and re-initializing it.  
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2147"><tt class=method>r_unload</tt></a></b> (<var>module</var>)
+<dd>
+Unload the module object <var>module</var> (i.e., remove it from the
+restricted environment's <tt>sys.modules</tt> dictionary).
+</dl>
+
+<P>
+And their equivalents with access to restricted standard I/O streams:
+
+<P>
+<dl><dt><b><a name="l2h-2148"><tt class=method>s_import</tt></a></b> (<var>modulename</var><big>[</big><var>, globals</var><big>[</big><var>,
+                             locals</var><big>[</big><var>, fromlist</var><big>]</big><big>]</big><big>]</big>)
+<dd>
+Import the module <var>modulename</var>, raising an <tt class=exception>ImportError</tt>
+exception if the module is considered unsafe.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2149"><tt class=method>s_reload</tt></a></b> (<var>module</var>)
+<dd>
+Reload the module object <var>module</var>, re-parsing and re-initializing it.  
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2150"><tt class=method>s_unload</tt></a></b> (<var>module</var>)
+<dd>
+Unload the module object <var>module</var>.
+</dl>
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html3686"
+ HREF="node261.html">13.1.1 An example</A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3684"
+ HREF="node261.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3680"
+ HREF="restricted.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3674"
+ HREF="restricted.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3682"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3683"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3685"
+ HREF="node261.html">13.1.1 An example</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3681"
+ HREF="restricted.html">13. Restricted Execution</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3675"
+ HREF="restricted.html">13. Restricted Execution</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

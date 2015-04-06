@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>5.2.1 Identifiers (Names)</TITLE>
+<META NAME="description" CONTENT="5.2.1 Identifiers (Names)">
+<META NAME="keywords" CONTENT="ref">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ref.css">
+<LINK REL="next" HREF="atom-literals.html">
+<LINK REL="previous" HREF="atoms.html">
+<LINK REL="up" HREF="atoms.html">
+<LINK REL="next" HREF="atom-literals.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html752"
+ HREF="atom-literals.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html748"
+ HREF="atoms.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html742"
+ HREF="atoms.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html750"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html751"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html753"
+ HREF="atom-literals.html">5.2.2 Literals</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html749"
+ HREF="atoms.html">5.2 Atoms</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html743"
+ HREF="atoms.html">5.2 Atoms</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION007210000000000000000"></A>
+<a name="l2h-436"></a>
+<a name="l2h-437"></a>
+<BR>
+5.2.1 Identifiers (Names)
+</H2>
+
+<P>
+An identifier occurring as an atom is a reference to a local, global
+or built-in name binding.  If a name is assigned to anywhere in a code
+block (even in unreachable code), and is not mentioned in a
+<tt class=keyword>global</tt> statement in that code block, then it refers to a local
+name throughout that code block.  When it is not assigned to anywhere
+in the block, or when it is assigned to but also explicitly listed in
+a <tt class=keyword>global</tt> statement, it refers to a global name if one exists,
+else to a built-in name (and this binding may dynamically change).
+<a name="l2h-438"></a>
+<a name="l2h-439"></a>
+<a name="l2h-440"></a>
+<a name="l2h-441"></a>
+<a name="l2h-442"></a>
+
+<P>
+When the name is bound to an object, evaluation of the atom yields
+that object.  When a name is not bound, an attempt to evaluate it
+raises a <tt class=exception>NameError</tt> exception.
+<a name="l2h-443"></a>
+
+<P>
+<b>Private name mangling:</b>41
+<a name="l2h-444"></a>42
+<a name="l2h-445"></a>43
+when an identifier that textually occurs in a class definition begins
+with two or more underscore characters and does not end in two or more
+underscores, it is considered a <i class=dfn>private name</i> of that class.
+Private names are transformed to a longer form before code is
+generated for them.  The transformation inserts the class name in
+front of the name, with leading underscores removed, and a single
+underscore inserted in front of the class name.  For example, the
+identifier <tt>__spam</tt> occurring in a class named <tt>Ham</tt> will be
+transformed to <tt>_Ham__spam</tt>.  This transformation is independent
+of the syntactical context in which the identifier is used.  If the
+transformed name is extremely long (longer than 255 characters),
+implementation defined truncation may happen.  If the class name
+consists only of underscores, no transformation is done.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html752"
+ HREF="atom-literals.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html748"
+ HREF="atoms.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html742"
+ HREF="atoms.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html750"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html751"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html753"
+ HREF="atom-literals.html">5.2.2 Literals</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html749"
+ HREF="atoms.html">5.2 Atoms</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html743"
+ HREF="atoms.html">5.2 Atoms</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

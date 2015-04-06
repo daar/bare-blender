@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>8.6 Defining Clean-up Actions </TITLE>
+<META NAME="description" CONTENT="8.6 Defining Clean-up Actions ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="previous" HREF="userExceptions.html">
+<LINK REL="up" HREF="errors.html">
+<LINK REL="next" HREF="classes.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html838"
+ HREF="classes.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html835"
+ HREF="errors.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html831"
+ HREF="userExceptions.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html837"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html839"
+ HREF="classes.html">9. Classes</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html836"
+ HREF="errors.html">8. Errors and Exceptions</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html832"
+ HREF="userExceptions.html">8.5 User-defined Exceptions</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0010600000000000000000"></A>
+<BR>
+8.6 Defining Clean-up Actions 
+</H1>
+
+<P>
+The <tt class=keyword>try</tt> statement has another optional clause which is
+intended to define clean-up actions that must be executed under all
+circumstances.  For example:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; try:
+...     raise KeyboardInterrupt
+... finally:
+...     print 'Goodbye, world!'
+... 
+Goodbye, world!
+Traceback (innermost last):
+  File "&lt;stdin&gt;", line 2
+KeyboardInterrupt
+</pre></dl>
+
+<P>
+A <i>finally clause</i> is executed whether or not an exception has
+occurred in the try clause.  When an exception has occurred, it is
+re-raised after the finally clause is executed.  The finally clause is
+also executed ``on the way out'' when the <tt class=keyword>try</tt> statement is
+left via a <tt class=keyword>break</tt> or <tt class=keyword>return</tt> statement.
+
+<P>
+A <tt class=keyword>try</tt> statement must either have one or more except clauses
+or one finally clause, but not both.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html838"
+ HREF="classes.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html835"
+ HREF="errors.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html831"
+ HREF="userExceptions.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html837"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html839"
+ HREF="classes.html">9. Classes</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html836"
+ HREF="errors.html">8. Errors and Exceptions</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html832"
+ HREF="userExceptions.html">8.5 User-defined Exceptions</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

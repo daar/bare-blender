@@ -1,0 +1,251 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.21 pprint -- Data pretty printer.</TITLE>
+<META NAME="description" CONTENT="3.21 pprint -- Data pretty printer.">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-repr.html">
+<LINK REL="previous" HREF="module-code.html">
+<LINK REL="up" HREF="python.html">
+<LINK REL="next" HREF="PrettyPrinter_Objects.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1290"
+ HREF="PrettyPrinter_Objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1286"
+ HREF="python.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1280"
+ HREF="module-code.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1288"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1289"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1291"
+ HREF="PrettyPrinter_Objects.html">3.21.1 PrettyPrinter Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1287"
+ HREF="python.html">3. Python Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1281"
+ HREF="module-code.html">3.20 code  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0052100000000000000000">
+3.21 <tt class=module>pprint</tt> --
+         Data pretty printer.</A>
+</H1>
+
+<P>
+
+
+<P>
+The <tt class=module>pprint</tt> module provides a capability to ``pretty-print''
+arbitrary Python data structures in a form which can be used as input
+to the interpreter.  If the formatted structures include objects which
+are not fundamental Python types, the representation may not be
+loadable.  This may be the case if objects such as files, sockets,
+classes, or instances are included, as well as many other builtin
+objects which are not representable as Python constants.
+
+<P>
+The formatted representation keeps objects on a single line if it can,
+and breaks them onto multiple lines if they don't fit within the
+allowed width.  Construct <tt class=class>PrettyPrinter</tt> objects explicitly if
+you need to adjust the width constraint.
+
+<P>
+The <tt class=module>pprint</tt> module defines one class:
+
+<P>
+<dl><dt><b><a name="l2h-520"><tt class=class>PrettyPrinter</tt></a></b> (<var>...</var>)
+<dd>
+Construct a <tt class=class>PrettyPrinter</tt> instance.  This constructor
+understands several keyword parameters.  An output stream may be set
+using the <var>stream</var> keyword; the only method used on the stream
+object is the file protocol's <tt class=method>write()</tt> method.  If not
+specified, the <tt class=class>PrettyPrinter</tt> adopts <tt>sys.stdout</tt>.  Three
+additional parameters may be used to control the formatted
+representation.  The keywords are <var>indent</var>, <var>depth</var>, and
+<var>width</var>.  The amount of indentation added for each recursive level
+is specified by <var>indent</var>; the default is one.  Other values can
+cause output to look a little odd, but can make nesting easier to
+spot.  The number of levels which may be printed is controlled by
+<var>depth</var>; if the data structure being printed is too deep, the next
+contained level is replaced by "<tt class=samp>...</tt>".  By default, there is no
+constraint on the depth of the objects being formatted.  The desired
+output width is constrained using the <var>width</var> parameter; the
+default is eighty characters.  If a structure cannot be formatted
+within the constrained width, a best effort will be made.
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; import pprint, sys
+&gt;&gt;&gt; stuff = sys.path[:]
+&gt;&gt;&gt; stuff.insert(0, stuff[:])
+&gt;&gt;&gt; pp = pprint.PrettyPrinter(indent=4)
+&gt;&gt;&gt; pp.pprint(stuff)
+[   [   '',
+        '/usr/local/lib/python1.5',
+        '/usr/local/lib/python1.5/test',
+        '/usr/local/lib/python1.5/sunos5',
+        '/usr/local/lib/python1.5/sharedmodules',
+        '/usr/local/lib/python1.5/tkinter'],
+    '',
+    '/usr/local/lib/python1.5',
+    '/usr/local/lib/python1.5/test',
+    '/usr/local/lib/python1.5/sunos5',
+    '/usr/local/lib/python1.5/sharedmodules',
+    '/usr/local/lib/python1.5/tkinter']
+&gt;&gt;&gt;
+&gt;&gt;&gt; import parser
+&gt;&gt;&gt; tup = parser.ast2tuple(
+...     parser.suite(open('pprint.py').read()))[1][1][1]
+&gt;&gt;&gt; pp = pprint.PrettyPrinter(depth=6)
+&gt;&gt;&gt; pp.pprint(tup)
+(266, (267, (307, (287, (288, (...))))))
+</pre></dl>
+</dl>
+
+<P>
+The <tt class=class>PrettyPrinter</tt> class supports several derivative functions:
+
+<P>
+<dl><dt><b><a name="l2h-521"><tt class=function>pformat</tt></a></b> (<var>object</var>)
+<dd>
+Return the formatted representation of <var>object</var> as a string.  The
+default parameters for formatting are used.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-522"><tt class=function>pprint</tt></a></b> (<var>object</var><big>[</big><var>, stream</var><big>]</big>)
+<dd>
+Prints the formatted representation of <var>object</var> on <var>stream</var>,
+followed by a newline.  If <var>stream</var> is omitted, <tt>sys.stdout</tt>is used.  This may be used in the interactive interpreter instead of a
+<tt class=keyword>print</tt> statement for inspecting values.  The default
+parameters for formatting are used.
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; stuff = sys.path[:]
+&gt;&gt;&gt; stuff.insert(0, stuff)
+&gt;&gt;&gt; pprint.pprint(stuff)
+[&lt;Recursion on list with id=869440&gt;,
+ '',
+ '/usr/local/lib/python1.5',
+ '/usr/local/lib/python1.5/test',
+ '/usr/local/lib/python1.5/sunos5',
+ '/usr/local/lib/python1.5/sharedmodules',
+ '/usr/local/lib/python1.5/tkinter']
+</pre></dl>
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-523"><tt class=function>isreadable</tt></a></b> (<var>object</var>)
+<dd>
+Determine if the formatted representation of <var>object</var> is
+``readable,'' or can be used to reconstruct the value using
+<tt class=function>eval()</tt><a name="l2h-526"></a>.  This always returns false for
+recursive objects.
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; pprint.isreadable(stuff)
+0
+</pre></dl>
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-524"><tt class=function>isrecursive</tt></a></b> (<var>object</var>)
+<dd>
+Determine if <var>object</var> requires a recursive representation.
+</dl>
+
+<P>
+One more support function is also defined:
+
+<P>
+<dl><dt><b><a name="l2h-525"><tt class=function>saferepr</tt></a></b> (<var>object</var>)
+<dd>
+Return a string representation of <var>object</var>, protected against
+recursive data structures.  If the representation of <var>object</var>
+exposes a recursive entry, the recursive reference will be represented
+as "<tt class=samp>&lt;Recursion on <var>typename</var> with id=<var>number</var>&gt;</tt>".  The
+representation is not otherwise formatted.
+</dl>
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; pprint.saferepr(stuff)
+"[&lt;Recursion on list with id=682968&gt;, '', '/usr/local/lib/python1.5', '/usr/loca
+l/lib/python1.5/test', '/usr/local/lib/python1.5/sunos5', '/usr/local/lib/python
+1.5/sharedmodules', '/usr/local/lib/python1.5/tkinter']"
+</pre></dl>
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html1292"
+ HREF="PrettyPrinter_Objects.html">3.21.1 PrettyPrinter Objects</A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1290"
+ HREF="PrettyPrinter_Objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1286"
+ HREF="python.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1280"
+ HREF="module-code.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1288"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1289"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1291"
+ HREF="PrettyPrinter_Objects.html">3.21.1 PrettyPrinter Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1287"
+ HREF="python.html">3. Python Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1281"
+ HREF="module-code.html">3.20 code  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

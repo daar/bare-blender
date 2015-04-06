@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>12.12 xdrlib -- Encode and decode XDR data.</TITLE>
+<META NAME="description" CONTENT="12.12 xdrlib -- Encode and decode XDR data.">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-mailcap.html">
+<LINK REL="previous" HREF="module-binascii.html">
+<LINK REL="up" HREF="netdata.html">
+<LINK REL="next" HREF="xdr-packer-objects.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3470"
+ HREF="xdr-packer-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3466"
+ HREF="netdata.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3460"
+ HREF="module-binascii.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3468"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3469"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3471"
+ HREF="xdr-packer-objects.html">12.12.1 Packer Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3467"
+ HREF="netdata.html">12. Internet Data Handling</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3461"
+ HREF="module-binascii.html">12.11 binascii  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00141200000000000000000">
+12.12 <tt class=module>xdrlib</tt> --
+         Encode and decode XDR data.</A>
+</H1>
+
+<P>
+
+<P>
+<a name="l2h-2019"></a>
+<a name="l2h-2020"></a>
+
+<P>
+The <tt class=module>xdrlib</tt> module supports the External Data Representation
+Standard as described in <span class=rfc><a name="rfcref-42157"
+href="http://info.internet.isi.edu/in-notes/rfc/files/rfc1014.txt">RFC 1014</a></span>, written by Sun Microsystems,
+Inc. June 1987.  It supports most of the data types described in the
+RFC.
+
+<P>
+The <tt class=module>xdrlib</tt> module defines two classes, one for packing
+variables into XDR representation, and another for unpacking from XDR
+representation.  There are also two exception classes.
+
+<P>
+<dl><dt><b><a name="l2h-2017"><tt class=class>Packer</tt></a></b> ()
+<dd>
+<tt class=class>Packer</tt> is the class for packing data into XDR representation.
+The <tt class=class>Packer</tt> class is instantiated with no arguments.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2018"><tt class=class>Unpacker</tt></a></b> (<var>data</var>)
+<dd>
+<tt>Unpacker</tt> is the complementary class which unpacks XDR data
+values from a string buffer.  The input buffer is given as
+<var>data</var>.
+</dl>
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html3472"
+ HREF="xdr-packer-objects.html">12.12.1 Packer Objects </A>
+<LI><A NAME="tex2html3473"
+ HREF="xdr-unpacker-objects.html">12.12.2 Unpacker Objects </A>
+<LI><A NAME="tex2html3474"
+ HREF="xdr-exceptions.html">12.12.3 Exceptions </A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3470"
+ HREF="xdr-packer-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3466"
+ HREF="netdata.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3460"
+ HREF="module-binascii.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3468"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3469"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3471"
+ HREF="xdr-packer-objects.html">12.12.1 Packer Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3467"
+ HREF="netdata.html">12. Internet Data Handling</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3461"
+ HREF="module-binascii.html">12.11 binascii  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

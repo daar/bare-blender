@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4.7.3 Arbitrary Argument Lists </TITLE>
+<META NAME="description" CONTENT="4.7.3 Arbitrary Argument Lists ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="lambda.html">
+<LINK REL="previous" HREF="keywordArgs.html">
+<LINK REL="up" HREF="defining.html">
+<LINK REL="next" HREF="lambda.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html483"
+ HREF="lambda.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html480"
+ HREF="defining.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html474"
+ HREF="keywordArgs.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html482"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html484"
+ HREF="lambda.html">4.7.4 Lambda Forms</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html481"
+ HREF="defining.html">4.7 More on Defining</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html475"
+ HREF="keywordArgs.html">4.7.2 Keyword Arguments</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION006730000000000000000"></A>
+<BR>
+4.7.3 Arbitrary Argument Lists 
+</H2>
+
+<P>
+Finally, the least frequently used option is to specify that a
+function can be called with an arbitrary number of arguments.  These
+arguments will be wrapped up in a tuple.  Before the variable number
+of arguments, zero or more normal arguments may occur.
+
+<P>
+<dl><dd><pre class=verbatim>
+def fprintf(file, format, *args):
+    file.write(format % args)
+</pre></dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html483"
+ HREF="lambda.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html480"
+ HREF="defining.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html474"
+ HREF="keywordArgs.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html482"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html484"
+ HREF="lambda.html">4.7.4 Lambda Forms</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html481"
+ HREF="defining.html">4.7 More on Defining</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html475"
+ HREF="keywordArgs.html">4.7.2 Keyword Arguments</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

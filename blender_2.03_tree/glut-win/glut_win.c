@@ -14,7 +14,7 @@
 #include <X11/Xatom.h>
 #endif
 
-#include <GL/glut.h>
+#include <glut.h>
 #include "glutint.h"
 
 GLUTwindow *__glutCurrentWindow = NULL;

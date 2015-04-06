@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4.7.5 Documentation Strings </TITLE>
+<META NAME="description" CONTENT="4.7.5 Documentation Strings ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="previous" HREF="lambda.html">
+<LINK REL="up" HREF="defining.html">
+<LINK REL="next" HREF="structures.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html503"
+ HREF="structures.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html500"
+ HREF="defining.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html496"
+ HREF="lambda.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html502"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html504"
+ HREF="structures.html">5. Data Structures</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html501"
+ HREF="defining.html">4.7 More on Defining</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html497"
+ HREF="lambda.html">4.7.4 Lambda Forms</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION006750000000000000000"></A>
+<BR>
+4.7.5 Documentation Strings 
+</H2>
+
+<P>
+There are emerging conventions about the content and formatting of
+documentation strings.
+
+<P>
+The first line should always be a short, concise summary of the
+object's purpose.  For brevity, it should not explicitly state the
+object's name or type, since these are available by other means
+(except if the name happens to be a verb describing a function's
+operation).  This line should begin with a capital letter and end with
+a period.
+
+<P>
+If there are more lines in the documentation string, the second line
+should be blank, visually separating the summary from the rest of the
+description.  The following lines should be one or more paragraphs
+describing the object's calling conventions, its side effects, etc.
+
+<P>
+The Python parser does not strip indentation from multi-line string
+literals in Python, so tools that process documentation have to strip
+indentation.  This is done using the following convention.  The first
+non-blank line <i>after</i> the first line of the string determines the
+amount of indentation for the entire documentation string.  (We can't
+use the first line since it is generally adjacent to the string's
+opening quotes so its indentation is not apparent in the string
+literal.)  Whitespace ``equivalent'' to this indentation is then
+stripped from the start of all lines of the string.  Lines that are
+indented less should not occur, but if they occur all their leading
+whitespace should be stripped.  Equivalence of whitespace should be
+tested after expansion of tabs (to 8 spaces, normally).
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html503"
+ HREF="structures.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html500"
+ HREF="defining.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html496"
+ HREF="lambda.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html502"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html504"
+ HREF="structures.html">5. Data Structures</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html501"
+ HREF="defining.html">4.7 More on Defining</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html497"
+ HREF="lambda.html">4.7.4 Lambda Forms</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

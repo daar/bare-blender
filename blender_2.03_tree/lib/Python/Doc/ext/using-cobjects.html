@@ -1,0 +1,335 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>1.12 Providing a C API for an Extension Module </TITLE>
+<META NAME="description" CONTENT="1.12 Providing a C API for an Extension Module ">
+<META NAME="keywords" CONTENT="ext">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ext.css">
+<LINK REL="previous" HREF="cplusplus.html">
+<LINK REL="up" HREF="intro.html">
+<LINK REL="next" HREF="building-on-unix.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html286"
+ HREF="building-on-unix.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html283"
+ HREF="intro.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html279"
+ HREF="cplusplus.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Extending and Embedding the Python Interpreter</b></td>
+<td><A NAME="tex2html285"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html287"
+ HREF="building-on-unix.html">2. Building C and</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html284"
+ HREF="intro.html">1. Extending Python with</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html280"
+ HREF="cplusplus.html">1.11 Writing Extensions in</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0031200000000000000000"></A>
+<BR>
+1.12 Providing a C API for an Extension Module
+         
+</H1>
+
+<P>
+Many extension modules just provide new functions and types to be
+used from Python, but sometimes the code in an extension module can
+be useful for other extension modules. For example, an extension
+module could implement a type ``collection'' which works like lists
+without order. Just like the standard Python list type has a C API
+which permits extension modules to create and manipulate lists, this
+new collection type should have a set of C functions for direct
+manipulation from other extension modules.
+
+<P>
+At first sight this seems easy: just write the functions (without
+declaring them <tt class=keyword>static</tt>, of course), provide an appropriate
+header file, and document the C API. And in fact this would work if
+all extension modules were always linked statically with the Python
+interpreter. When modules are used as shared libraries, however, the
+symbols defined in one module may not be visible to another module.
+The details of visibility depend on the operating system; some systems
+use one global namespace for the Python interpreter and all extension
+modules (e.g. Windows), whereas others require an explicit list of
+imported symbols at module link time (e.g. AIX), or offer a choice of
+different strategies (most Unices). And even if symbols are globally
+visible, the module whose functions one wishes to call might not have
+been loaded yet!
+
+<P>
+Portability therefore requires not to make any assumptions about
+symbol visibility. This means that all symbols in extension modules
+should be declared <tt class=keyword>static</tt>, except for the module's
+initialization function, in order to avoid name clashes with other
+extension modules (as discussed in section&nbsp;<A HREF="methodTable.html#methodTable">1.4</A>). And it
+means that symbols that <i>should</i> be accessible from other
+extension modules must be exported in a different way.
+
+<P>
+Python provides a special mechanism to pass C-level information (i.e.
+pointers) from one extension module to another one: CObjects.
+A CObject is a Python data type which stores a pointer (<tt class=ctype>void
+*</tt>).  CObjects can only be created and accessed via their C API, but
+they can be passed around like any other Python object. In particular, 
+they can be assigned to a name in an extension module's namespace.
+Other extension modules can then import this module, retrieve the
+value of this name, and then retrieve the pointer from the CObject.
+
+<P>
+There are many ways in which CObjects can be used to export the C API
+of an extension module. Each name could get its own CObject, or all C
+API pointers could be stored in an array whose address is published in
+a CObject. And the various tasks of storing and retrieving the pointers
+can be distributed in different ways between the module providing the
+code and the client modules.
+
+<P>
+The following example demonstrates an approach that puts most of the
+burden on the writer of the exporting module, which is appropriate
+for commonly used library modules. It stores all C API pointers
+(just one in the example!) in an array of <tt class=ctype>void</tt> pointers which
+becomes the value of a CObject. The header file corresponding to
+the module provides a macro that takes care of importing the module
+and retrieving its C API pointers; client modules only have to call
+this macro before accessing the C API.
+
+<P>
+The exporting module is a modification of the <tt class=module>spam</tt> module from
+section&nbsp;<A HREF="simpleExample.html#simpleExample">1.1</A>. The function <tt class=function>spam.system()</tt>
+does not call the C library function <tt class=cfunction>system()</tt> directly,
+but a function <tt class=cfunction>PySpam_System()</tt>, which would of course do
+something more complicated in reality (such as adding ``spam'' to
+every command). This function <tt class=cfunction>PySpam_System()</tt> is also
+exported to other extension modules.
+
+<P>
+The function <tt class=cfunction>PySpam_System()</tt> is a plain C function,
+declared <tt class=keyword>static</tt> like everything else:
+
+<P>
+<dl><dd><pre class=verbatim>
+static int
+PySpam_System(command)
+    char *command;
+{
+    return system(command);
+}
+</pre></dl>
+
+<P>
+The function <tt class=cfunction>spam_system()</tt> is modified in a trivial way:
+
+<P>
+<dl><dd><pre class=verbatim>
+static PyObject *
+spam_system(self, args)
+    PyObject *self;
+    PyObject *args;
+{
+    char *command;
+    int sts;
+
+    if (!PyArg_ParseTuple(args, "s", &amp;command))
+        return NULL;
+    sts = PySpam_System(command);
+    return Py_BuildValue("i", sts);
+}
+</pre></dl>
+
+<P>
+In the beginning of the module, right after the line
+
+<P>
+<dl><dd><pre class=verbatim>
+#include "Python.h"
+</pre></dl>
+
+<P>
+two more lines must be added:
+
+<P>
+<dl><dd><pre class=verbatim>
+#define SPAM_MODULE
+#include "spammodule.h"
+</pre></dl>
+
+<P>
+The <tt>#define</tt> is used to tell the header file that it is being
+included in the exporting module, not a client module. Finally,
+the module's initialization function must take care of initializing
+the C API pointer array:
+
+<P>
+<dl><dd><pre class=verbatim>
+void
+initspam()
+{
+    PyObject *m, *d;
+    static void *PySpam_API[PySpam_API_pointers];
+    PyObject *c_api_object;
+    m = Py_InitModule("spam", SpamMethods);
+
+    /* Initialize the C API pointer array */
+    PySpam_API[PySpam_System_NUM] = (void *)PySpam_System;
+
+    /* Create a CObject containing the API pointer array's address */
+    c_api_object = PyCObject_FromVoidPtr((void *)PySpam_API, NULL);
+
+    /* Create a name for this object in the module's namespace */
+    d = PyModule_GetDict(m);
+    PyDict_SetItemString(d, "_C_API", c_api_object);
+}
+</pre></dl>
+
+<P>
+Note that <tt>PySpam_API</tt> is declared <tt>static</tt>; otherwise
+the pointer array would disappear when <tt>initspam</tt> terminates!
+
+<P>
+The bulk of the work is in the header file "<tt class=file>spammodule.h</tt>",
+which looks like this:
+
+<P>
+<dl><dd><pre class=verbatim>
+#ifndef Py_SPAMMODULE_H
+#define Py_SPAMMODULE_H
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/* Header file for spammodule */
+
+/* C API functions */
+#define PySpam_System_NUM 0
+#define PySpam_System_RETURN int
+#define PySpam_System_PROTO Py_PROTO((char *command))
+
+/* Total number of C API pointers */
+#define PySpam_API_pointers 1
+
+
+#ifdef SPAM_MODULE
+/* This section is used when compiling spammodule.c */
+
+static PySpam_System_RETURN PySpam_System PySpam_System_PROTO;
+
+#else
+/* This section is used in modules that use spammodule's API */
+
+static void **PySpam_API;
+
+#define PySpam_System \
+ (*(PySpam_System_RETURN (*)PySpam_System_PROTO) PySpam_API[PySpam_System_NUM])
+
+#define import_spam() \
+{ \
+  PyObject *module = PyImport_ImportModule("spam"); \
+  if (module != NULL) { \
+    PyObject *module_dict = PyModule_GetDict(module); \
+    PyObject *c_api_object = PyDict_GetItemString(module_dict, "_C_API"); \
+    if (PyCObject_Check(c_api_object)) { \
+      PySpam_API = (void **)PyCObject_AsVoidPtr(c_api_object); \
+    } \
+  } \
+}
+
+#endif
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* !defined(Py_SPAMMODULE_H */
+</pre></dl>
+
+<P>
+All that a client module must do in order to have access to the
+function <tt class=cfunction>PySpam_System()</tt> is to call the function (or
+rather macro) <tt class=cfunction>import_spam()</tt> in its initialization
+function:
+
+<P>
+<dl><dd><pre class=verbatim>
+void
+initclient()
+{
+    PyObject *m;
+
+    Py_InitModule("client", ClientMethods);
+    import_spam();
+}
+</pre></dl>
+
+<P>
+The main disadvantage of this approach is that the file
+"<tt class=file>spammodule.h</tt>" is rather complicated. However, the
+basic structure is the same for each function that is
+exported, so it has to be learned only once.
+
+<P>
+Finally it should be mentioned that CObjects offer additional
+functionality, which is especially useful for memory allocation and
+deallocation of the pointer stored in a CObject. The details
+are described in the <i>Python/C API Reference Manual</i> in the
+section ``CObjects'' and in the implementation of CObjects (files
+"<tt class=file>Include/cobject.h</tt>" and "<tt class=file>Objects/cobject.c</tt>" in the
+Python source code distribution).
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html286"
+ HREF="building-on-unix.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html283"
+ HREF="intro.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html279"
+ HREF="cplusplus.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Extending and Embedding the Python Interpreter</b></td>
+<td><A NAME="tex2html285"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html287"
+ HREF="building-on-unix.html">2. Building C and</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html284"
+ HREF="intro.html">1. Extending Python with</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html280"
+ HREF="cplusplus.html">1.11 Writing Extensions in</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,251 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>16.3.1 Player Objects</TITLE>
+<META NAME="description" CONTENT="16.3.1 Player Objects">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="cd-parser-objects.html">
+<LINK REL="previous" HREF="module-cd.html">
+<LINK REL="up" HREF="module-cd.html">
+<LINK REL="next" HREF="cd-parser-objects.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3919"
+ HREF="cd-parser-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3915"
+ HREF="module-cd.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3909"
+ HREF="module-cd.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3917"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3918"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3920"
+ HREF="cd-parser-objects.html">16.3.2 Parser Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3916"
+ HREF="module-cd.html">16.3 cd  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3910"
+ HREF="module-cd.html">16.3 cd  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0018310000000000000000"></A>
+<BR>
+16.3.1 Player Objects
+</H2>
+
+<P>
+Player objects (returned by <tt class=function>open()</tt>) have the following
+methods:
+
+<P>
+<dl><dt><b><a name="l2h-2340"><tt class=method>allowremoval</tt></a></b> ()
+<dd>
+Unlocks the eject button on the CD-ROM drive permitting the user to
+eject the caddy if desired.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2341"><tt class=method>bestreadsize</tt></a></b> ()
+<dd>
+Returns the best value to use for the <var>num_frames</var> parameter of
+the <tt class=method>readda()</tt> method.  Best is defined as the value that
+permits a continuous flow of data from the CD-ROM drive.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2342"><tt class=method>close</tt></a></b> ()
+<dd>
+Frees the resources associated with the player object.  After calling
+<tt class=method>close()</tt>, the methods of the object should no longer be used.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2343"><tt class=method>eject</tt></a></b> ()
+<dd>
+Ejects the caddy from the CD-ROM drive.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2344"><tt class=method>getstatus</tt></a></b> ()
+<dd>
+Returns information pertaining to the current state of the CD-ROM
+drive.  The returned information is a tuple with the following values:
+<var>state</var>, <var>track</var>, <var>rtime</var>, <var>atime</var>, <var>ttime</var>,
+<var>first</var>, <var>last</var>, <var>scsi_audio</var>, <var>cur_block</var>.
+<var>rtime</var> is the time relative to the start of the current track;
+<var>atime</var> is the time relative to the beginning of the disc;
+<var>ttime</var> is the total time on the disc.  For more information on
+the meaning of the values, see the man page <span class=manpage><i>CDgetstatus</i>(3dm)</span>.
+The value of <var>state</var> is one of the following: <tt class=constant>ERROR</tt>,
+<tt class=constant>NODISC</tt>, <tt class=constant>READY</tt>, <tt class=constant>PLAYING</tt>,
+<tt class=constant>PAUSED</tt>, <tt class=constant>STILL</tt>, or <tt class=constant>CDROM</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2345"><tt class=method>gettrackinfo</tt></a></b> (<var>track</var>)
+<dd>
+Returns information about the specified track.  The returned
+information is a tuple consisting of two elements, the start time of
+the track and the duration of the track.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2346"><tt class=method>msftoblock</tt></a></b> (<var>min, sec, frame</var>)
+<dd>
+Converts a minutes, seconds, frames triple representing a time in
+absolute time code into the corresponding logical block number for the
+given CD-ROM drive.  You should use <tt class=function>msftoframe()</tt> rather than
+<tt class=method>msftoblock()</tt> for comparing times.  The logical block number
+differs from the frame number by an offset required by certain CD-ROM
+drives.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2347"><tt class=method>play</tt></a></b> (<var>start, play</var>)
+<dd>
+Starts playback of an audio CD in the CD-ROM drive at the specified
+track.  The audio output appears on the CD-ROM drive's headphone and
+audio jacks (if fitted).  Play stops at the end of the disc.
+<var>start</var> is the number of the track at which to start playing the
+CD; if <var>play</var> is 0, the CD will be set to an initial paused
+state.  The method <tt class=method>togglepause()</tt> can then be used to commence
+play.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2348"><tt class=method>playabs</tt></a></b> (<var>minutes, seconds, frames, play</var>)
+<dd>
+Like <tt class=method>play()</tt>, except that the start is given in minutes,
+seconds, and frames instead of a track number.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2349"><tt class=method>playtrack</tt></a></b> (<var>start, play</var>)
+<dd>
+Like <tt class=method>play()</tt>, except that playing stops at the end of the
+track.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2350"><tt class=method>playtrackabs</tt></a></b> (<var>track, minutes, seconds, frames, play</var>)
+<dd>
+Like <tt class=method>play()</tt>, except that playing begins at the spcified
+absolute time and ends at the end of the specified track.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2351"><tt class=method>preventremoval</tt></a></b> ()
+<dd>
+Locks the eject button on the CD-ROM drive thus preventing the user
+from arbitrarily ejecting the caddy.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2352"><tt class=method>readda</tt></a></b> (<var>num_frames</var>)
+<dd>
+Reads the specified number of frames from an audio CD mounted in the
+CD-ROM drive.  The return value is a string representing the audio
+frames.  This string can be passed unaltered to the
+<tt class=method>parseframe()</tt> method of the parser object.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2353"><tt class=method>seek</tt></a></b> (<var>minutes, seconds, frames</var>)
+<dd>
+Sets the pointer that indicates the starting point of the next read of
+digital audio data from a CD-ROM.  The pointer is set to an absolute
+time code location specified in <var>minutes</var>, <var>seconds</var>, and
+<var>frames</var>.  The return value is the logical block number to which
+the pointer has been set.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2354"><tt class=method>seekblock</tt></a></b> (<var>block</var>)
+<dd>
+Sets the pointer that indicates the starting point of the next read of
+digital audio data from a CD-ROM.  The pointer is set to the specified
+logical block number.  The return value is the logical block number to
+which the pointer has been set.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2355"><tt class=method>seektrack</tt></a></b> (<var>track</var>)
+<dd>
+Sets the pointer that indicates the starting point of the next read of
+digital audio data from a CD-ROM.  The pointer is set to the specified
+track.  The return value is the logical block number to which the
+pointer has been set.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2356"><tt class=method>stop</tt></a></b> ()
+<dd>
+Stops the current playing operation.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2357"><tt class=method>togglepause</tt></a></b> ()
+<dd>
+Pauses the CD if it is playing, and makes it play if it is paused.
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3919"
+ HREF="cd-parser-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3915"
+ HREF="module-cd.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3909"
+ HREF="module-cd.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3917"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3918"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3920"
+ HREF="cd-parser-objects.html">16.3.2 Parser Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3916"
+ HREF="module-cd.html">16.3 cd  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3910"
+ HREF="module-cd.html">16.3 cd  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

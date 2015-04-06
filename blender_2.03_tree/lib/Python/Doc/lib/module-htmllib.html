@@ -1,0 +1,232 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>12.2 htmllib -- A parser for HTML documents.</TITLE>
+<META NAME="description" CONTENT="12.2 htmllib -- A parser for HTML documents.">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-xmllib.html">
+<LINK REL="previous" HREF="module-sgmllib.html">
+<LINK REL="up" HREF="netdata.html">
+<LINK REL="next" HREF="module-xmllib.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3208"
+ HREF="module-xmllib.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3204"
+ HREF="netdata.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3198"
+ HREF="module-sgmllib.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3206"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3207"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3209"
+ HREF="module-xmllib.html">12.3 xmllib  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3205"
+ HREF="netdata.html">12. Internet Data Handling</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3199"
+ HREF="module-sgmllib.html">12.1 sgmllib  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0014200000000000000000">
+12.2 <tt class=module>htmllib</tt> --
+         A parser for HTML documents.</A>
+</H1>
+
+<P>
+
+<P>
+<a name="l2h-1856"></a>
+<a name="l2h-1857"></a>
+
+<P>
+This module defines a class which can serve as a base for parsing text
+files formatted in the HyperText Mark-up Language (HTML).  The class
+is not directly concerned with I/O -- it must be provided with input
+in string form via a method, and makes calls to methods of a
+``formatter'' object in order to produce output.  The
+<tt class=class>HTMLParser</tt> class is designed to be used as a base class for
+other classes in order to add functionality, and allows most of its
+methods to be extended or overridden.  In turn, this class is derived
+from and extends the <tt class=class>SGMLParser</tt> class defined in module
+<tt class=module>sgmllib</tt><a name="l2h-1858"></a>.  The <tt class=class>HTMLParser</tt>
+implementation supports the HTML 2.0 language as described in
+<span class=rfc><a name="rfcref-41959"
+href="http://info.internet.isi.edu/in-notes/rfc/files/rfc1866.txt">RFC 1866</a></span>.  Two implementations of formatter objects are provided in
+the <tt class=module>formatter</tt><a name="l2h-1859"></a> module; refer to the
+documentation for that module for information on the formatter
+interface.
+<a name="l2h-1860"></a>
+<a name="l2h-1847"></a><a name="l2h-1861"></a>
+
+<P>
+The following is a summary of the interface defined by
+<tt class=class>sgmllib.SGMLParser</tt>:
+
+<P>
+
+<UL><LI>The interface to feed data to an instance is through the <tt class=method>feed()</tt>
+method, which takes a string argument.  This can be called with as
+little or as much text at a time as desired; "<tt class=samp>p.feed(a);
+p.feed(b)</tt>" has the same effect as "<tt class=samp>p.feed(a+b)</tt>".  When the data
+contains complete HTML tags, these are processed immediately;
+incomplete elements are saved in a buffer.  To force processing of all
+unprocessed data, call the <tt class=method>close()</tt> method.
+
+<P>
+For example, to parse the entire contents of a file, use:
+<dl><dd><pre class=verbatim>
+parser.feed(open('myfile.html').read())
+parser.close()
+</pre></dl>
+
+<P>
+
+<LI>The interface to define semantics for HTML tags is very simple: derive
+a class and define methods called <tt>start_<var>tag</var>()</tt>,
+<tt>end_<var>tag</var>()</tt>, or <tt>do_<var>tag</var>()</tt>.  The parser will
+call these at appropriate moments: <tt>start_<var>tag</var></tt> or
+<tt>do_<var>tag</var>()</tt> is called when an opening tag of the form
+<tt>&lt;<var>tag</var> ...&gt;</tt> is encountered; <tt>end_<var>tag</var>()</tt> is called
+when a closing tag of the form <tt>&lt;<var>tag</var>&gt;</tt> is encountered.  If
+an opening tag requires a corresponding closing tag, like <tt>&lt;H1&gt;</tt>... <tt>&lt;/H1&gt;</tt>, the class should define the <tt>start_<var>tag</var>()</tt>method; if a tag requires no closing tag, like <tt>&lt;P&gt;</tt>, the class
+should define the <tt>do_<var>tag</var>()</tt> method.
+
+<P>
+
+</UL>
+
+<P>
+The module defines a single class:
+
+<P>
+<dl><dt><b><a name="l2h-1848"><tt class=class>HTMLParser</tt></a></b> (<var>formatter</var>)
+<dd>
+This is the basic HTML parser class.  It supports all entity names
+required by the HTML 2.0 specification (<span class=rfc><a name="rfcref-41964"
+href="http://info.internet.isi.edu/in-notes/rfc/files/rfc1866.txt">RFC 1866</a></span>).  It also defines
+handlers for all HTML 2.0 and many HTML 3.0 and 3.2 elements.
+</dl>
+
+<P>
+In addition to tag methods, the <tt class=class>HTMLParser</tt> class provides some
+additional methods and instance variables for use within tag methods.
+
+<P>
+<dl><dt><b><a name="l2h-1849"><tt>formatter</tt></a></b>
+<dd>
+This is the formatter instance associated with the parser.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1850"><tt>nofill</tt></a></b>
+<dd>
+Boolean flag which should be true when whitespace should not be
+collapsed, or false when it should be.  In general, this should only
+be true when character data is to be treated as ``preformatted'' text,
+as within a <tt>&lt;PRE&gt;</tt> element.  The default value is false.  This
+affects the operation of <tt class=method>handle_data()</tt> and <tt class=method>save_end()</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1851"><tt class=method>anchor_bgn</tt></a></b> (<var>href, name, type</var>)
+<dd>
+This method is called at the start of an anchor region.  The arguments
+correspond to the attributes of the <tt>&lt;A&gt;</tt> tag with the same
+names.  The default implementation maintains a list of hyperlinks
+(defined by the <tt>href</tt> attribute) within the document.  The list
+of hyperlinks is available as the data attribute <tt>anchorlist</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1852"><tt class=method>anchor_end</tt></a></b> ()
+<dd>
+This method is called at the end of an anchor region.  The default
+implementation adds a textual footnote marker using an index into the
+list of hyperlinks created by <tt class=method>anchor_bgn()</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1853"><tt class=method>handle_image</tt></a></b> (<var>source, alt</var><big>[</big><var>, ismap</var><big>[</big><var>, align</var><big>[</big><var>, width</var><big>[</big><var>, height</var><big>]</big><big>]</big><big>]</big><big>]</big>)
+<dd>
+This method is called to handle images.  The default implementation
+simply passes the <var>alt</var> value to the <tt class=method>handle_data()</tt>
+method.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1854"><tt class=method>save_bgn</tt></a></b> ()
+<dd>
+Begins saving character data in a buffer instead of sending it to the
+formatter object.  Retrieve the stored data via <tt class=method>save_end()</tt>.
+Use of the <tt class=method>save_bgn()</tt> / <tt class=method>save_end()</tt> pair may not be
+nested.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1855"><tt class=method>save_end</tt></a></b> ()
+<dd>
+Ends buffering character data and returns all data saved since the
+preceeding call to <tt class=method>save_bgn()</tt>.  If the <tt>nofill</tt> flag is
+false, whitespace is collapsed to single spaces.  A call to this
+method without a preceeding call to <tt class=method>save_bgn()</tt> will raise a
+<tt class=exception>TypeError</tt> exception.
+</dl><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3208"
+ HREF="module-xmllib.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3204"
+ HREF="netdata.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3198"
+ HREF="module-sgmllib.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3206"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3207"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3209"
+ HREF="module-xmllib.html">12.3 xmllib  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3205"
+ HREF="netdata.html">12. Internet Data Handling</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3199"
+ HREF="module-sgmllib.html">12.1 sgmllib  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

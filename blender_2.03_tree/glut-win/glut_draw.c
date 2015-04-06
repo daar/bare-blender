@@ -1,4 +1,4 @@
-#include <GL/glut.h>
+#include <glut.h>
 #include "glutint.h"
 
 extern Display *__glutDisplay;

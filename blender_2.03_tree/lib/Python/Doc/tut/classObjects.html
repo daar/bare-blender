@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>9.3.2 Class Objects </TITLE>
+<META NAME="description" CONTENT="9.3.2 Class Objects ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="instanceObjects.html">
+<LINK REL="previous" HREF="classDefinition.html">
+<LINK REL="up" HREF="firstClasses.html">
+<LINK REL="next" HREF="instanceObjects.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html921"
+ HREF="instanceObjects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html918"
+ HREF="firstClasses.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html912"
+ HREF="classDefinition.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html920"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html922"
+ HREF="instanceObjects.html">9.3.3 Instance Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html919"
+ HREF="firstClasses.html">9.3 A First Look</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html913"
+ HREF="classDefinition.html">9.3.1 Class Definition Syntax</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0011320000000000000000"></A>
+<BR>
+9.3.2 Class Objects 
+</H2>
+
+<P>
+Class objects support two kinds of operations: attribute references
+and instantiation.
+
+<P>
+<i>Attribute references</i> use the standard syntax used for all
+attribute references in Python: <tt>obj.name</tt>.  Valid attribute
+names are all the names that were in the class's name space when the
+class object was created.  So, if the class definition looked like
+this:
+
+<P>
+<dl><dd><pre class=verbatim>
+class MyClass:
+    "A simple example class"
+    i = 12345
+    def f(x):
+        return 'hello world'
+</pre></dl>
+
+<P>
+then <tt>MyClass.i</tt> and <tt>MyClass.f</tt> are valid attribute
+references, returning an integer and a function object, respectively.
+Class attributes can also be assigned to, so you can change the value
+of <tt>MyClass.i</tt> by assignment.  <tt>__doc__</tt> is also a valid
+attribute that's read-only, returning the docstring belonging to
+the class: <tt>"A simple example class"</tt>).  
+
+<P>
+Class <i>instantiation</i> uses function notation.  Just pretend that
+the class object is a parameterless function that returns a new
+instance of the class.  For example, (assuming the above class):
+
+<P>
+<dl><dd><pre class=verbatim>
+x = MyClass()
+</pre></dl>
+
+<P>
+creates a new <i>instance</i> of the class and assigns this object to
+the local variable <tt>x</tt>.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html921"
+ HREF="instanceObjects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html918"
+ HREF="firstClasses.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html912"
+ HREF="classDefinition.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html920"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html922"
+ HREF="instanceObjects.html">9.3.3 Instance Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html919"
+ HREF="firstClasses.html">9.3 A First Look</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html913"
+ HREF="classDefinition.html">9.3.1 Class Definition Syntax</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

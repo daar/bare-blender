@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>13.2 Bastion -- Restricting access to objects</TITLE>
+<META NAME="description" CONTENT="13.2 Bastion -- Restricting access to objects">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="previous" HREF="module-rexec.html">
+<LINK REL="up" HREF="restricted.html">
+<LINK REL="next" HREF="mmedia.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3705"
+ HREF="mmedia.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3701"
+ HREF="restricted.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3697"
+ HREF="node261.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3703"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3704"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3706"
+ HREF="mmedia.html">14. Multimedia Services</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3702"
+ HREF="restricted.html">13. Restricted Execution</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3698"
+ HREF="node261.html">13.1.1 An example</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0015200000000000000000">
+13.2 <tt class=module>Bastion</tt> --
+         Restricting access to objects</A>
+</H1>
+
+<P>
+
+
+<P>
+According to the dictionary, a bastion is ``a fortified area or
+position'', or ``something that is considered a stronghold.''  It's a
+suitable name for this module, which provides a way to forbid access
+to certain attributes of an object.  It must always be used with the
+<tt class=module><a href="module-rexec.html">rexec</a></tt> module, in order to allow restricted-mode programs
+access to certain safe attributes of an object, while denying access
+to other, unsafe attributes.
+
+<P>
+<dl><dt><b><a name="l2h-2152"><tt class=function>Bastion</tt></a></b> (<var>object</var><big>[</big><var>, filter</var><big>[</big><var>,
+                          name</var><big>[</big><var>, class</var><big>]</big><big>]</big><big>]</big>)
+<dd>
+Protect the object <var>object</var>, returning a bastion for the
+object.  Any attempt to access one of the object's attributes will
+have to be approved by the <var>filter</var> function; if the access is
+denied an <tt class=exception>AttributeError</tt> exception will be raised.
+
+<P>
+If present, <var>filter</var> must be a function that accepts a string
+containing an attribute name, and returns true if access to that
+attribute will be permitted; if <var>filter</var> returns false, the access
+is denied.  The default filter denies access to any function beginning
+with an underscore ("<tt class=character>_</tt>").  The bastion's string representation
+will be "<tt class=samp>&lt;Bastion for <var>name</var>&gt;</tt>" if a value for
+<var>name</var> is provided; otherwise, "<tt class=samp>repr(<var>object</var>)</tt>" will be
+used.
+
+<P>
+<var>class</var>, if present, should be a subclass of <tt class=class>BastionClass</tt>; 
+see the code in "<tt class=file>bastion.py</tt>" for the details.  Overriding the
+default <tt class=class>BastionClass</tt> will rarely be required.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2153"><tt class=class>BastionClass</tt></a></b> (<var>getfunc, name</var>)
+<dd>
+Class which actually implements bastion objects.  This is the default
+class used by <tt class=function>Bastion()</tt>.  The <var>getfunc</var> parameter is a
+function which returns the value of an attribute which should be
+exposed to the restricted execution environment when called with the
+name of the attribute as the only parameter.  <var>name</var> is used to
+construct the <tt class=function>repr()</tt> of the <tt class=class>BastionClass</tt> instance.
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3705"
+ HREF="mmedia.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3701"
+ HREF="restricted.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3697"
+ HREF="node261.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3703"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3704"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3706"
+ HREF="mmedia.html">14. Multimedia Services</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3702"
+ HREF="restricted.html">13. Restricted Execution</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3698"
+ HREF="node261.html">13.1.1 An example</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,194 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>6.11 The import statement</TITLE>
+<META NAME="description" CONTENT="6.11 The import statement">
+<META NAME="keywords" CONTENT="ref">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ref.css">
+<LINK REL="next" HREF="global.html">
+<LINK REL="previous" HREF="continue.html">
+<LINK REL="up" HREF="simple.html">
+<LINK REL="next" HREF="global.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1135"
+ HREF="global.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1131"
+ HREF="simple.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1125"
+ HREF="continue.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html1133"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html1134"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1136"
+ HREF="global.html">6.12 The global statement</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1132"
+ HREF="simple.html">6. Simple statements</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1126"
+ HREF="continue.html">6.10 The continue statement</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0081100000000000000000"></A>
+<BR>
+6.11 The <tt class=keyword>import</tt> statement
+</H1>
+<a name="l2h-632"></a>
+
+<P>
+<dl><dd><pre class=verbatim>
+import_stmt:    "import" module ("," module)* 
+              | "from" module "import" identifier ("," identifier)*
+              | "from" module "import" "*" 
+module:         (identifier ".")* identifier
+</pre></dl>
+
+<P>
+Import statements are executed in two steps: (1) find a module, and
+initialize it if necessary; (2) define a name or names in the local
+namespace (of the scope where the <tt class=keyword>import</tt> statement occurs).
+The first form (without <tt class=keyword>from</tt>) repeats these steps for each
+identifier in the list.  The form with <tt class=keyword>from</tt> performs step
+(1) once, and then performs step (2) repeatedly.
+<a name="l2h-633"></a>
+<a name="l2h-634"></a>
+<a name="l2h-635"></a>
+
+<P>
+The system maintains a table of modules that have been initialized,
+indexed by module name.  This table table
+accessible as <tt>sys.modules</tt>.  When a module name is found in
+this table, step (1) is finished.  If not, a search for a module
+definition is started.  When a module is found, it is loaded.  Details
+of the module searching and loading process are implementation and
+platform specific.  It generally involves searching for a ``built-in''
+module with the given name and then searching a list of locations
+given as <tt>sys.path</tt>.
+<a name="l2h-631"></a><a name="l2h-636"></a>
+<a name="l2h-637"></a>
+<a name="l2h-638"></a>
+<a name="l2h-639"></a>
+<a name="l2h-640"></a>
+<a name="l2h-641"></a>
+<a name="l2h-642"></a>
+
+<P>
+If a built-in module is found, its built-in initialization code is
+executed and step (1) is finished.  If no matching file is found,
+<tt class=exception>ImportError</tt> is raised.  If a file is found, it is parsed,
+yielding an executable code block.  If a syntax error occurs,
+<tt class=exception>SyntaxError</tt> is raised.  Otherwise, an empty module of the given
+name is created and inserted in the module table, and then the code
+block is executed in the context of this module.  Exceptions during
+this execution terminate step (1).
+<a name="l2h-643"></a>
+<a name="l2h-644"></a>
+<a name="l2h-645"></a>
+<a name="l2h-646"></a>
+
+<P>
+When step (1) finishes without raising an exception, step (2) can
+begin.
+
+<P>
+The first form of <tt class=keyword>import</tt> statement binds the module name in the
+local namespace to the module object, and then goes on to import the
+next identifier, if any.  The <tt class=keyword>from</tt> form does not bind the
+module name: it goes through the list of identifiers, looks each one
+of them up in the module found in step (1), and binds the name in the
+local namespace to the object thus found.  If a name is not found,
+<tt class=exception>ImportError</tt> is raised.  If the list of identifiers is replaced
+by a star (<tt>*</tt>), all names defined in the module are bound,
+except those beginning with an underscore(<tt>_</tt>).
+<a name="l2h-647"></a>
+<a name="l2h-648"></a>
+
+<P>
+Names bound by <tt class=keyword>import</tt> statements may not occur in
+<tt class=keyword>global</tt> statements in the same scope.
+<a name="l2h-649"></a>
+
+<P>
+The <tt class=keyword>from</tt> form with <tt>*</tt> may only occur in a module scope.
+<a name="l2h-650"></a>
+<a name="l2h-651"></a>
+
+<P>
+(The current implementation does not enforce the latter two
+restrictions, but programs should not abuse this freedom, as future
+implementations may enforce them or silently change the meaning of the
+program.)
+
+<P>
+<b>Hierarchical module names:</b><a name="l2h-652"></a>
+when the module names contains one or more dots, the module search
+path is carried out differently.  The sequence of identifiers up to
+the last dot is used to find a ``package''<a name="l2h-653"></a>; the final
+identifier is then searched inside the package.  A package is
+generally a subdirectory of a directory on <tt>sys.path</tt> that has a
+file "<tt class=file>__init__.py</tt>".<a name="l2h-654"></a>
+[XXX Can't be bothered to spell this out right now; see the URL
+<span class=url><a href="http://www.python.org/doc/essays/packages.html">http://www.python.org/doc/essays/packages.html</a></span> for more details, also
+about how the module search works from inside a package.]
+
+<P>
+[XXX Also should mention __import__().]
+<a name="l2h-655"></a>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1135"
+ HREF="global.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1131"
+ HREF="simple.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1125"
+ HREF="continue.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html1133"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html1134"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1136"
+ HREF="global.html">6.12 The global statement</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1132"
+ HREF="simple.html">6. Simple statements</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1126"
+ HREF="continue.html">6.10 The continue statement</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

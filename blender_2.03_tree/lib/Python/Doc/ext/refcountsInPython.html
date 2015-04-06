@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>1.10.1 Reference Counting in Python </TITLE>
+<META NAME="description" CONTENT="1.10.1 Reference Counting in Python ">
+<META NAME="keywords" CONTENT="ext">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ext.css">
+<LINK REL="next" HREF="ownershipRules.html">
+<LINK REL="previous" HREF="refcounts.html">
+<LINK REL="up" HREF="refcounts.html">
+<LINK REL="next" HREF="ownershipRules.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html235"
+ HREF="ownershipRules.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html232"
+ HREF="refcounts.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html226"
+ HREF="refcounts.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Extending and Embedding the Python Interpreter</b></td>
+<td><A NAME="tex2html234"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html236"
+ HREF="ownershipRules.html">1.10.2 Ownership Rules</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html233"
+ HREF="refcounts.html">1.10 Reference Counts</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html227"
+ HREF="refcounts.html">1.10 Reference Counts</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0031010000000000000000"></A>
+<BR>
+1.10.1 Reference Counting in Python
+            
+</H2>
+
+<P>
+There are two macros, <tt>Py_INCREF(x)</tt> and <tt>Py_DECREF(x)</tt>,
+which handle the incrementing and decrementing of the reference count.
+<tt class=cfunction>Py_DECREF()</tt> also frees the object when the count reaches zero.
+For flexibility, it doesn't call <tt class=cfunction>free()</tt> directly -- rather, it
+makes a call through a function pointer in the object's <i class=dfn>type
+object</i>.  For this purpose (and others), every object also contains a
+pointer to its type object.
+
+<P>
+The big question now remains: when to use <tt>Py_INCREF(x)</tt> and
+<tt>Py_DECREF(x)</tt>?  Let's first introduce some terms.  Nobody
+``owns'' an object; however, you can <i class=dfn>own a reference</i> to an
+object.  An object's reference count is now defined as the number of
+owned references to it.  The owner of a reference is responsible for
+calling <tt class=cfunction>Py_DECREF()</tt> when the reference is no longer
+needed.  Ownership of a reference can be transferred.  There are three
+ways to dispose of an owned reference: pass it on, store it, or call
+<tt class=cfunction>Py_DECREF()</tt>.  Forgetting to dispose of an owned reference
+creates a memory leak.
+
+<P>
+It is also possible to <i class=dfn>borrow</i><A NAME="tex2html2"
+ HREF="#foot497"><SUP>1.2</SUP></A> a reference to an object.  The borrower
+of a reference should not call <tt class=cfunction>Py_DECREF()</tt>.  The borrower must
+not hold on to the object longer than the owner from which it was
+borrowed.  Using a borrowed reference after the owner has disposed of
+it risks using freed memory and should be avoided
+completely.<A NAME="tex2html3"
+ HREF="#foot828"><SUP>1.3</SUP></A>
+<P>
+The advantage of borrowing over owning a reference is that you don't
+need to take care of disposing of the reference on all possible paths
+through the code -- in other words, with a borrowed reference you
+don't run the risk of leaking when a premature exit is taken.  The
+disadvantage of borrowing over leaking is that there are some subtle
+situations where in seemingly correct code a borrowed reference can be
+used after the owner from which it was borrowed has in fact disposed
+of it.
+
+<P>
+A borrowed reference can be changed into an owned reference by calling
+<tt class=cfunction>Py_INCREF()</tt>.  This does not affect the status of the owner from
+which the reference was borrowed -- it creates a new owned reference,
+and gives full owner responsibilities (i.e., the new owner must
+dispose of the reference properly, as well as the previous owner).
+
+<P>
+<BR><HR><H4>Footnotes</H4>
+<DL>
+<DT><A NAME="foot497">...borrow</A><A NAME="foot497"
+ HREF="refcountsInPython.html#tex2html2"><SUP>1.2</SUP></A>
+<DD>The metaphor of
+``borrowing'' a reference is not completely correct: the owner still
+has a copy of the reference.
+
+<DT><A NAME="foot828">...
+completely.</A><A NAME="foot828"
+ HREF="refcountsInPython.html#tex2html3"><SUP>1.3</SUP></A>
+<DD>Checking that the reference count is at least 1
+<b>does not work</b> -- the reference count itself could be in
+freed memory and may thus be reused for another object!
+
+</DL><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html235"
+ HREF="ownershipRules.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html232"
+ HREF="refcounts.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html226"
+ HREF="refcounts.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Extending and Embedding the Python Interpreter</b></td>
+<td><A NAME="tex2html234"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html236"
+ HREF="ownershipRules.html">1.10.2 Ownership Rules</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html233"
+ HREF="refcounts.html">1.10 Reference Counts</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html227"
+ HREF="refcounts.html">1.10 Reference Counts</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

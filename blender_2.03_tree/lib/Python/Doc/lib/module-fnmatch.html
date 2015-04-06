@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>6.9 fnmatch -- Unix style filename pattern matching</TITLE>
+<META NAME="description" CONTENT="6.9 fnmatch -- Unix style filename pattern matching">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-shutil.html">
+<LINK REL="previous" HREF="module-glob.html">
+<LINK REL="up" HREF="allos.html">
+<LINK REL="next" HREF="module-shutil.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1993"
+ HREF="module-shutil.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1989"
+ HREF="allos.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1983"
+ HREF="module-glob.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1991"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1992"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1994"
+ HREF="module-shutil.html">6.10 shutil  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1990"
+ HREF="allos.html">6. Generic Operating System</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1984"
+ HREF="module-glob.html">6.8 glob  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION008900000000000000000">
+6.9 <tt class=module>fnmatch</tt> --
+         Unix style filename pattern matching</A>
+</H1>
+
+<P>
+
+
+<P>
+This module provides support for Unix shell-style wildcards, which
+are <i>not</i> the same as regular expressions (which are documented
+in the <tt class=module><a href="module-re.html">re</a></tt><a name="l2h-1186"></a> module).  The special
+characters used in shell-style wildcards are:
+<a name="l2h-1187"></a>
+
+<P>
+
+<DT><tt>*</tt>
+
+<DL COMPACT><DD>matches everything
+<DT><tt>?</tt>
+<DD>matches any single character
+<DT><tt>[</tt><var>seq</var><tt>]</tt>
+<DD>matches any character in <var>seq</var>
+<DT><tt>[!</tt><var>seq</var><tt>]</tt>
+<DD>matches any character not in <var>seq</var>
+
+</DL>
+
+<P>
+Note that the filename separator (<tt>'/'</tt> on Unix) is <i>not</i>
+special to this module.  See module <tt>glob</tt><a name="l2h-1188"></a>
+for pathname expansion (<tt class=module>glob</tt> uses <tt class=function>fnmatch()</tt> to
+match filename segments).
+
+<P>
+<dl><dt><b><a name="l2h-1184"><tt class=function>fnmatch</tt></a></b> (<var>filename, pattern</var>)
+<dd>
+Test whether the <var>filename</var> string matches the <var>pattern</var>
+string, returning true or false.  If the operating system is
+case-insensitive, then both parameters will be normalized to all
+lower- or upper-case before the comparision is performed.  If you
+require a case-sensitive comparision regardless of whether that's
+standard for your operating system, use <tt class=function>fnmatchcase()</tt>
+instead.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1185"><tt class=function>fnmatchcase</tt></a></b> (<var>filename, pattern</var>)
+<dd>
+Test whether <var>filename</var> matches <var>pattern</var>, returning true or
+false; the comparision is case-sensitive.
+</dl>
+
+<P>
+<div class=seealso>
+  <p class=heading><b>See Also:</b></p>
+
+  <div class=seemodule>
+<p>Module <b><tt class=module><a href="module-glob.html">glob</a></tt></b>&nbsp;&nbsp;&nbsp;(Shell-style path expansion)</p>
+</div>
+</div><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1993"
+ HREF="module-shutil.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1989"
+ HREF="allos.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1983"
+ HREF="module-glob.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1991"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1992"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1994"
+ HREF="module-shutil.html">6.10 shutil  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1990"
+ HREF="allos.html">6. Generic Operating System</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1984"
+ HREF="module-glob.html">6.8 glob  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

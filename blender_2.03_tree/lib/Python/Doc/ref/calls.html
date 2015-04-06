@@ -1,0 +1,229 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>5.3.4 Calls</TITLE>
+<META NAME="description" CONTENT="5.3.4 Calls">
+<META NAME="keywords" CONTENT="ref">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ref.css">
+<LINK REL="previous" HREF="slicings.html">
+<LINK REL="up" HREF="primaries.html">
+<LINK REL="next" HREF="power.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html872"
+ HREF="power.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html868"
+ HREF="primaries.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html864"
+ HREF="slicings.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html870"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html871"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html873"
+ HREF="power.html">5.4 The power operator</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html869"
+ HREF="primaries.html">5.3 Primaries</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html865"
+ HREF="slicings.html">5.3.3 Slicings</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION007340000000000000000"></A>
+<a name="l2h-495"></a>
+<BR>
+5.3.4 Calls
+</H2>
+
+<P>
+A call calls a callable object (e.g., a function) with a possibly empty
+series of arguments:
+<a name="l2h-498"></a>
+
+<P>
+<dl><dd><pre class=verbatim>
+call:                   primary "(" [argument_list [","]] ")"
+argument_list:          positional_arguments ["," keyword_arguments]
+                      | keyword_arguments
+positional_arguments:   expression ("," expression)*
+keyword_arguments:      keyword_item ("," keyword_item)*
+keyword_item:           identifier "=" expression
+</pre></dl>
+
+<P>
+A trailing comma may be present after an argument list but does not
+affect the semantics.
+
+<P>
+The primary must evaluate to a callable object (user-defined
+functions, built-in functions, methods of built-in objects, class
+objects, methods of class instances, and certain class instances
+themselves are callable; extensions may define additional callable
+object types).  All argument expressions are evaluated before the call
+is attempted.  Please refer to section <A HREF="function.html#function">7.5</A> for the syntax
+of formal parameter lists.
+
+<P>
+If keyword arguments are present, they are first converted to
+positional arguments, as follows.  First, a list of unfilled slots is
+created for the formal parameters.  If there are N positional
+arguments, they are placed in the first N slots.  Next, for each
+keyword argument, the identifier is used to determine the
+corresponding slot (if the identifier is the same as the first formal
+parameter name, the first slot is used, and so on).  If the slot is
+already filled, a <tt class=exception>TypeError</tt> exception is raised.
+Otherwise, the value of the argument is placed in the slot, filling it
+(even if the expression is <tt>None</tt>, it fills the slot).  When all
+arguments have been processed, the slots that are still unfilled are
+filled with the corresponding default value from the function
+definition.  (Default values are calculated, once, when the function
+is defined; thus, a mutable object such as a list or dictionary used
+as default value will be shared by all calls that don't specify an
+argument value for the corresponding slot; this should usually be
+avoided.)  If there are any unfilled slots for which no default value
+is specified, a <tt class=exception>TypeError</tt> exception is raised.  Otherwise,
+the list of filled slots is used as the argument list for the call.
+
+<P>
+If there are more positional arguments than there are formal parameter
+slots, a <tt class=exception>TypeError</tt> exception is raised, unless a formal
+parameter using the syntax "<tt class=samp>*identifier</tt>" is present; in this
+case, that formal parameter receives a tuple containing the excess
+positional arguments (or an empty tuple if there were no excess
+positional arguments).
+
+<P>
+If any keyword argument does not correspond to a formal parameter
+name, a <tt class=exception>TypeError</tt> exception is raised, unless a formal
+parameter using the syntax "<tt class=samp>**identifier</tt>" is present; in this
+case, that formal parameter receives a dictionary containing the
+excess keyword arguments (using the keywords as keys and the argument
+values as corresponding values), or a (new) empty dictionary if there
+were no excess keyword arguments.
+
+<P>
+Formal parameters using the syntax "<tt class=samp>*identifier</tt>" or
+"<tt class=samp>**identifier</tt>" cannot be used as positional argument slots or
+as keyword argument names.  Formal parameters using the syntax
+"<tt class=samp>(sublist)</tt>" cannot be used as keyword argument names; the
+outermost sublist corresponds to a single unnamed argument slot, and
+the argument value is assigned to the sublist using the usual tuple
+assignment rules after all other parameter processing is done.
+
+<P>
+A call always returns some value, possibly <tt>None</tt>, unless it
+raises an exception.  How this value is computed depends on the type
+of the callable object.
+
+<P>
+If it is--
+
+<P>
+<DL>
+<DD><P>
+<DT><STRONG>a user-defined function:</STRONG>
+<DD>The code block for the function is
+executed, passing it the argument list.  The first thing the code
+block will do is bind the formal parameters to the arguments; this is
+described in section <A HREF="function.html#function">7.5</A>.  When the code block executes a
+<tt class=keyword>return</tt> statement, this specifies the return value of the
+function call.
+<a name="l2h-499"></a>
+<a name="l2h-500"></a>
+<a name="l2h-501"></a>
+<a name="l2h-502"></a>
+
+<P>
+<DT><STRONG>a built-in function or method:</STRONG>
+<DD>The result is up to the
+interpreter; see the library reference manual for the descriptions of
+built-in functions and methods.
+<a name="l2h-503"></a>
+<a name="l2h-504"></a>
+<a name="l2h-505"></a>
+<a name="l2h-506"></a>
+<a name="l2h-507"></a>
+<a name="l2h-508"></a>
+<a name="l2h-509"></a>
+<a name="l2h-510"></a>
+
+<P>
+<DT><STRONG>a class object:</STRONG>
+<DD>A new instance of that class is returned.
+<a name="l2h-511"></a>
+<a name="l2h-512"></a>
+
+<P>
+<DT><STRONG>a class instance method:</STRONG>
+<DD>The corresponding user-defined
+function is called, with an argument list that is one longer than the
+argument list of the call: the instance becomes the first argument.
+<a name="l2h-513"></a>
+<a name="l2h-514"></a>
+<a name="l2h-515"></a>
+
+<P>
+<DT><STRONG>a class instance:</STRONG>
+<DD>The class must define a <tt class=method>__call__()</tt>
+method; the effect is then the same as if that method was called.
+<a name="l2h-516"></a>
+<a name="l2h-497"></a>
+<P>
+</DL>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html872"
+ HREF="power.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html868"
+ HREF="primaries.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html864"
+ HREF="slicings.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html870"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html871"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html873"
+ HREF="power.html">5.4 The power operator</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html869"
+ HREF="primaries.html">5.3 Primaries</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html865"
+ HREF="slicings.html">5.3.3 Slicings</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

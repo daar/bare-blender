@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>5.12 Summary</TITLE>
+<META NAME="description" CONTENT="5.12 Summary">
+<META NAME="keywords" CONTENT="ref">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ref.css">
+<LINK REL="previous" HREF="exprlists.html">
+<LINK REL="up" HREF="expressions.html">
+<LINK REL="next" HREF="simple.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html978"
+ HREF="simple.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html974"
+ HREF="expressions.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html970"
+ HREF="exprlists.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html976"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html977"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html979"
+ HREF="simple.html">6. Simple statements</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html975"
+ HREF="expressions.html">5. Expressions</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html971"
+ HREF="exprlists.html">5.11 Expression lists</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0071200000000000000000"></A>
+<BR>
+5.12 Summary
+</H1>
+
+<P>
+The following table summarizes the operator precedences in Python,
+from lowest precedence (least binding) to highest precedence (most
+binding).  Operators in the same box have the same precedence.  Unless
+the syntax is explicitly given, operators are binary.  Operators in
+the same box group left to right (except for comparisons, which
+chain from left to right -- see above).
+
+<P>
+<table border align=center>
+  <tr bgcolor="#99CCFF">
+    <th><b>Operator</b></th>
+    <th><b>Description</b></th>
+    <tr><td align=center><tt class=keyword>lambda</tt></td>
+      <td align=center>Lambda expression&nbsp;</td>
+  
+    <tr><td align=center><tt class=keyword>or</tt></td>
+      <td align=center>Boolean OR&nbsp;</td>
+  
+    <tr><td align=center><tt class=keyword>and</tt></td>
+      <td align=center>Boolean AND&nbsp;</td>
+  
+    <tr><td align=center><tt class=keyword>not</tt> <var>x</var></td>
+      <td align=center>Boolean NOT&nbsp;</td>
+  
+    <tr><td align=center><tt class=keyword>in</tt>, <tt class=keyword>not</tt> <tt class=keyword>in</tt></td>
+      <td align=center>Membership tests&nbsp;</td>
+    <tr><td align=center><tt class=keyword>is</tt>, <tt class=keyword>is not</tt></td>
+      <td align=center>Identity tests&nbsp;</td>
+    <tr><td align=center><tt>&lt;</tt>, <tt>&lt;=</tt>, <tt>&gt;</tt>, <tt>&gt;=</tt>,
+            <tt>&lt;&gt;</tt>, <tt>!=</tt>, <tt>==</tt></td>
+      <td align=center>Comparisons&nbsp;</td>
+  
+    <tr><td align=center><tt>|</tt></td>
+      <td align=center>Bitwise OR&nbsp;</td>
+  
+    <tr><td align=center><tt>^</tt></td>
+      <td align=center>Bitwise XOR&nbsp;</td>
+  
+    <tr><td align=center><tt>&amp;</tt></td>
+      <td align=center>Bitwise AND&nbsp;</td>
+  
+    <tr><td align=center><tt>&lt;&lt;</tt>, <tt>&gt;&gt;</tt></td>
+      <td align=center>Shifts&nbsp;</td>
+  
+    <tr><td align=center><tt>+</tt>, <tt>-</tt></td>
+      <td align=center>Addition and subtraction&nbsp;</td>
+  
+    <tr><td align=center><tt>*</tt>, <tt>/</tt>, <tt>%</tt></td>
+      <td align=center>Multiplication, division, remainder&nbsp;</td>
+  
+    <tr><td align=center><tt>**</tt></td>
+      <td align=center>Exponentiation&nbsp;</td>
+  
+    <tr><td align=center><tt>+<var>x</var></tt>, <tt>-<var>x</var></tt></td>
+      <td align=center>Positive, negative&nbsp;</td>
+    <tr><td align=center><tt>~<var>x</var></tt></td>
+      <td align=center>Bitwise not&nbsp;</td>
+  
+    <tr><td align=center><tt><var>x</var>.<var>attribute</var></tt></td>
+      <td align=center>Attribute reference&nbsp;</td>
+    <tr><td align=center><tt><var>x</var>[<var>index</var>]</tt></td>
+      <td align=center>Subscription&nbsp;</td>
+    <tr><td align=center><tt><var>x</var>[<var>index</var>:<var>index</var>]</tt></td>
+      <td align=center>Slicing&nbsp;</td>
+    <tr><td align=center><tt><var>f</var>(<var>arguments</var>...)</tt></td>
+      <td align=center>Function call&nbsp;</td>
+
+    <tr><td align=center><tt>(<var>expressions</var>...)</tt></td>
+      <td align=center>Binding or tuple display&nbsp;</td>
+    <tr><td align=center><tt>[<var>expressions</var>...]</tt></td>
+      <td align=center>List display&nbsp;</td>
+    <tr><td align=center><tt>{<var>key</var>:<var>datum</var>...}</tt></td>
+      <td align=center>Dictionary display&nbsp;</td>
+    <tr><td align=center><tt>`<var>expressions</var>...`</tt></td>
+      <td align=center>String conversion&nbsp;</td>
+
+</table><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html978"
+ HREF="simple.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html974"
+ HREF="expressions.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html970"
+ HREF="exprlists.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html976"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html977"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html979"
+ HREF="simple.html">6. Simple statements</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html975"
+ HREF="expressions.html">5. Expressions</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html971"
+ HREF="exprlists.html">5.11 Expression lists</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

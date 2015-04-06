@@ -1,0 +1,179 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>5.1.1 Functional Programming Tools </TITLE>
+<META NAME="description" CONTENT="5.1.1 Functional Programming Tools ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="previous" HREF="moreLists.html">
+<LINK REL="up" HREF="moreLists.html">
+<LINK REL="next" HREF="del.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html542"
+ HREF="del.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html539"
+ HREF="moreLists.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html535"
+ HREF="moreLists.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html541"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html543"
+ HREF="del.html">5.2 The del statement</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html540"
+ HREF="moreLists.html">5.1 More on Lists</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html536"
+ HREF="moreLists.html">5.1 More on Lists</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION007110000000000000000"></A>
+<BR>
+5.1.1 Functional Programming Tools 
+</H2>
+
+<P>
+There are three built-in functions that are very useful when used with
+lists: <tt class=function>filter()</tt>, <tt class=function>map()</tt>, and <tt class=function>reduce()</tt>.
+
+<P>
+"<tt class=samp>filter(<var>function</var>, <var>sequence</var>)</tt>" returns a sequence (of
+the same type, if possible) consisting of those items from the
+sequence for which <tt><var>function</var>(<var>item</var>)</tt> is true.  For
+example, to compute some primes:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; def f(x): return x % 2 != 0 and x % 3 != 0
+...
+&gt;&gt;&gt; filter(f, range(2, 25))
+[5, 7, 11, 13, 17, 19, 23]
+</pre></dl>
+
+<P>
+"<tt class=samp>map(<var>function</var>, <var>sequence</var>)</tt>" calls
+<tt><var>function</var>(<var>item</var>)</tt> for each of the sequence's items and
+returns a list of the return values.  For example, to compute some
+cubes:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; def cube(x): return x*x*x
+...
+&gt;&gt;&gt; map(cube, range(1, 11))
+[1, 8, 27, 64, 125, 216, 343, 512, 729, 1000]
+</pre></dl>
+
+<P>
+More than one sequence may be passed; the function must then have as
+many arguments as there are sequences and is called with the
+corresponding item from each sequence (or <tt>None</tt> if some sequence
+is shorter than another).  If <tt>None</tt> is passed for the function,
+a function returning its argument(s) is substituted.
+
+<P>
+Combining these two special cases, we see that
+"<tt class=samp>map(None, <var>list1</var>, <var>list2</var>)</tt>" is a convenient way of
+turning a pair of lists into a list of pairs.  For example:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; seq = range(8)
+&gt;&gt;&gt; def square(x): return x*x
+...
+&gt;&gt;&gt; map(None, seq, map(square, seq))
+[(0, 0), (1, 1), (2, 4), (3, 9), (4, 16), (5, 25), (6, 36), (7, 49)]
+</pre></dl>
+
+<P>
+"<tt class=samp>reduce(<var>func</var>, <var>sequence</var>)</tt>" returns a single value
+constructed by calling the binary function <var>func</var> on the first two
+items of the sequence, then on the result and the next item, and so
+on.  For example, to compute the sum of the numbers 1 through 10:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; def add(x,y): return x+y
+...
+&gt;&gt;&gt; reduce(add, range(1, 11))
+55
+</pre></dl>
+
+<P>
+If there's only one item in the sequence, its value is returned; if
+the sequence is empty, an exception is raised.
+
+<P>
+A third argument can be passed to indicate the starting value.  In this
+case the starting value is returned for an empty sequence, and the
+function is first applied to the starting value and the first sequence
+item, then to the result and the next item, and so on.  For example,
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; def sum(seq):
+...     def add(x,y): return x+y
+...     return reduce(add, seq, 0)
+... 
+&gt;&gt;&gt; sum(range(1, 11))
+55
+&gt;&gt;&gt; sum([])
+0
+</pre></dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html542"
+ HREF="del.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html539"
+ HREF="moreLists.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html535"
+ HREF="moreLists.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html541"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html543"
+ HREF="del.html">5.2 The del statement</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html540"
+ HREF="moreLists.html">5.1 More on Lists</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html536"
+ HREF="moreLists.html">5.1 More on Lists</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

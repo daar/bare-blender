@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>14.6 sndhdr -- Determine type of sound file.</TITLE>
+<META NAME="description" CONTENT="14.6 sndhdr -- Determine type of sound file.">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="previous" HREF="module-imghdr.html">
+<LINK REL="up" HREF="mmedia.html">
+<LINK REL="next" HREF="crypto.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3787"
+ HREF="crypto.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3783"
+ HREF="mmedia.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3779"
+ HREF="module-imghdr.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3785"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3786"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3788"
+ HREF="crypto.html">15. Cryptographic Services</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3784"
+ HREF="mmedia.html">14. Multimedia Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3780"
+ HREF="module-imghdr.html">14.5 imghdr  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0016600000000000000000">
+14.6 <tt class=module>sndhdr</tt> --
+         Determine type of sound file.</A>
+</H1>
+
+<P>
+
+
+<P>
+The <tt class=module>sndhdr</tt> provides utility functions which attempt to
+determine the type of sound data which is in a file.  When these
+functions are able to determine what type of sound data is stored in a
+file, they return a tuple <tt>(<var>type</var>, <var>sampling_rate</var>,
+<var>channels</var>, <var>frames</var>, <var>bits_per_sample</var>)</tt>.  The value for
+<var>type</var> indicates the data type and will be one of the strings
+<tt>'aifc'</tt>, <tt>'aiff'</tt>, <tt>'au'</tt>, <tt>'hcom'</tt>,
+<tt>'sndr'</tt>, <tt>'sndt'</tt>, <tt>'voc'</tt>, <tt>'wav'</tt>,
+<tt>'8svx'</tt>, <tt>'sb'</tt>, <tt>'ub'</tt>, or <tt>'ul'</tt>.  The
+<var>sampling_rate</var> will be either the actual value or <tt>0</tt> if
+unknown or difficult to decode.  Similarly, <var>channels</var> will be
+either the number of channels or <tt>0</tt> if it cannot be determined
+or if the value is difficult to decode.  The value for <var>frames</var>
+will be either the number of frames or <tt>-1</tt>.  The last item in
+the tuple, <var>bits_per_sample</var>, will either be the sample size in
+bits or <tt>'A'</tt> for A-LAW<a name="l2h-2244"></a> or <tt>'U'</tt> for
+u-LAW<a name="l2h-2245"></a>.
+
+<P>
+<dl><dt><b><a name="l2h-2242"><tt class=function>what</tt></a></b> (<var>filename</var>)
+<dd>
+  Determines the type of sound data stored in the file <var>filename</var>
+  using <tt class=function>whathdr()</tt>.  If it succeeds, returns a tuple as
+  described above, otherwise <tt>None</tt> is returned.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2243"><tt class=function>whathdr</tt></a></b> (<var>filename</var>)
+<dd>
+  Determines the type of sound data stored in a file based on the file 
+  header.  The name of the file is given by <var>filename</var>.  This
+  function returns a tuple as described above on success, or
+  <tt>None</tt>.
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3787"
+ HREF="crypto.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3783"
+ HREF="mmedia.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3779"
+ HREF="module-imghdr.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3785"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3786"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3788"
+ HREF="crypto.html">15. Cryptographic Services</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3784"
+ HREF="mmedia.html">14. Multimedia Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3780"
+ HREF="module-imghdr.html">14.5 imghdr  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

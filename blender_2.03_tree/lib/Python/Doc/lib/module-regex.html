@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4.3 regex -- Regular expression search and match operations.</TITLE>
+<META NAME="description" CONTENT="4.3 regex -- Regular expression search and match operations.">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-regsub.html">
+<LINK REL="previous" HREF="module-re.html">
+<LINK REL="up" HREF="strings.html">
+<LINK REL="next" HREF="node82.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1541"
+ HREF="node82.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1537"
+ HREF="strings.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1531"
+ HREF="match-objects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1539"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1540"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1542"
+ HREF="node82.html">4.3.1 Regular Expressions</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1538"
+ HREF="strings.html">4. String Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1532"
+ HREF="match-objects.html">4.2.5 Match Objects</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION006300000000000000000">
+4.3 <tt class=module>regex</tt> --
+         Regular expression search and match operations.</A>
+</H1>
+
+<P>
+
+<P>
+This module provides regular expression matching operations similar to
+those found in Emacs.
+
+<P>
+<b>Obsolescence note:</b>
+This module is obsolete as of Python version 1.5; it is still being
+maintained because much existing code still uses it.  All new code in
+need of regular expressions should use the new
+<tt>re</tt><a name="l2h-665"></a> module, which supports the more powerful
+and regular Perl-style regular expressions.  Existing code should be
+converted.  The standard library module
+<tt>reconvert</tt><a name="l2h-666"></a> helps in converting
+<tt>regex</tt> style regular expressions to <tt>re</tt><a name="l2h-667"></a>
+style regular expressions.  (For more conversion help, see Andrew
+Kuchling's<a name="l2h-668"></a> ``<tt class=module>regex-to-re</tt> HOWTO'' at
+<span class=url><a href="http://www.python.org/doc/howto/regex-to-re/">http://www.python.org/doc/howto/regex-to-re/</a></span>.)
+
+<P>
+By default the patterns are Emacs-style regular expressions
+(with one exception).  There is
+a way to change the syntax to match that of several well-known
+Unix utilities.  The exception is that Emacs' "<tt class=samp>&#92;s</tt>"pattern is not supported, since the original implementation references
+the Emacs syntax tables.
+
+<P>
+This module is 8-bit clean: both patterns and strings may contain null
+bytes and characters whose high bit is set.
+
+<P>
+<b>Please note:</b> There is a little-known fact about Python string
+literals which means that you don't usually have to worry about
+doubling backslashes, even though they are used to escape special
+characters in string literals as well as in regular expressions.  This
+is because Python doesn't remove backslashes from string literals if
+they are followed by an unrecognized escape character.
+<i>However</i>, if you want to include a literal <i class=dfn>backslash</i> in a
+regular expression represented as a string literal, you have to
+<i>quadruple</i> it or enclose it in a singleton character class.
+E.g.  to extract <SPAN CLASS="logo LaTeX">L<SUP><SMALL>A</SMALL></SUP>T<SMALL>E</SMALL>X</SPAN> "<tt class=samp>&#92;section{ ...}</tt>" headers
+from a document, you can use this pattern:
+<tt>'[&#92;]section{&#92;(.*&#92;)}'</tt>.  <i>Another exception:</i>
+the escape sequece "<tt class=samp>&#92;b</tt>" is significant in string literals
+(where it means the ASCII bell character) as well as in Emacs regular
+expressions (where it stands for a word boundary), so in order to
+search for a word boundary, you should use the pattern <tt>'&#92;&#92;b'</tt>.
+Similarly, a backslash followed by a digit 0-7 should be doubled to
+avoid interpretation as an octal escape.
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html1543"
+ HREF="node82.html">4.3.1 Regular Expressions</A>
+<LI><A NAME="tex2html1544"
+ HREF="Contents_of_Module_regex.html">4.3.2 Module Contents</A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1541"
+ HREF="node82.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1537"
+ HREF="strings.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1531"
+ HREF="match-objects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1539"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1540"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1542"
+ HREF="node82.html">4.3.1 Regular Expressions</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1538"
+ HREF="strings.html">4. String Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1532"
+ HREF="match-objects.html">4.2.5 Match Objects</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

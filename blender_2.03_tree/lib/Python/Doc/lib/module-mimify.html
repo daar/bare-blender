@@ -1,0 +1,196 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>12.19 mimify -- Mimification and unmimification of mail messages.</TITLE>
+<META NAME="description" CONTENT="12.19 mimify -- Mimification and unmimification of mail messages.">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-netrc.html">
+<LINK REL="previous" HREF="module-mhlib.html">
+<LINK REL="up" HREF="netdata.html">
+<LINK REL="next" HREF="module-netrc.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3639"
+ HREF="module-netrc.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3635"
+ HREF="netdata.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3629"
+ HREF="mh-message-objects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3637"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3638"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3640"
+ HREF="module-netrc.html">12.20 netrc  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3636"
+ HREF="netdata.html">12. Internet Data Handling</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3630"
+ HREF="mh-message-objects.html">12.18.3 Message Objects</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00141900000000000000000">
+12.19 <tt class=module>mimify</tt> --
+         Mimification and unmimification of mail messages.</A>
+</H1>
+
+<P>
+
+<P>
+The mimify module defines two functions to convert mail messages to
+and from MIME format.  The mail message can be either a simple message
+or a so-called multipart message.  Each part is treated separately.
+Mimifying (a part of) a message entails encoding the message as
+quoted-printable if it contains any characters that cannot be
+represented using 7-bit ASCII.  Unmimifying (a part of) a message
+entails undoing the quoted-printable encoding.  Mimify and unmimify
+are especially useful when a message has to be edited before being
+sent.  Typical use would be:
+
+<P>
+<dl><dd><pre class=verbatim>
+unmimify message
+edit message
+mimify message
+send message
+</pre></dl>
+
+<P>
+The modules defines the following user-callable functions and
+user-settable variables:
+
+<P>
+<dl><dt><b><a name="l2h-2119"><tt class=function>mimify</tt></a></b> (<var>infile, outfile</var>)
+<dd>
+Copy the message in <var>infile</var> to <var>outfile</var>, converting parts to
+quoted-printable and adding MIME mail headers when necessary.
+<var>infile</var> and <var>outfile</var> can be file objects (actually, any
+object that has a <tt>readline</tt> method (for <var>infile</var>) or a
+<tt>write</tt> method (for <var>outfile</var>)) or strings naming the files.
+If <var>infile</var> and <var>outfile</var> are both strings, they may have the
+same value.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2120"><tt class=function>unmimify</tt></a></b> (<var>infile, outfile, decode_base64 = 0</var>)
+<dd> 
+Copy the message in <var>infile</var> to <var>outfile</var>, decoding all
+quoted-printable parts.  <var>infile</var> and <var>outfile</var> can be file
+objects (actually, any object that has a <tt>readline</tt> method (for
+<var>infile</var>) or a <tt>write</tt> method (for <var>outfile</var>)) or strings
+naming the files.  If <var>infile</var> and <var>outfile</var> are both strings,
+they may have the same value.
+If the <var>decode_base64</var> argument is provided and tests true, any
+parts that are coded in the base64 encoding are decoded as well.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2121"><tt class=function>mime_decode_header</tt></a></b> (<var>line</var>)
+<dd>
+Return a decoded version of the encoded header line in <var>line</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2122"><tt class=function>mime_encode_header</tt></a></b> (<var>line</var>)
+<dd>
+Return a MIME-encoded version of the header line in <var>line</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2123"><tt>MAXLEN</tt></a></b>
+<dd>
+By default, a part will be encoded as quoted-printable when it
+contains any non-ASCII characters (i.e., characters with the 8th bit
+set), or if there are any lines longer than <tt>MAXLEN</tt> characters
+(default value 200).  
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2124"><tt>CHARSET</tt></a></b>
+<dd>
+When not specified in the mail headers, a character set must be filled
+in.  The string used is stored in <tt>CHARSET</tt>, and the default
+value is ISO-8859-1 (also known as Latin1 (latin-one)).
+</dl>
+
+<P>
+This module can also be used from the command line.  Usage is as
+follows:
+<dl><dd><pre class=verbatim>
+mimify.py -e [-l length] [infile [outfile]]
+mimify.py -d [-b] [infile [outfile]]
+</pre></dl>
+to encode (mimify) and decode (unmimify) respectively.  <var>infile</var>
+defaults to standard input, <var>outfile</var> defaults to standard output.
+The same file can be specified for input and output.
+
+<P>
+If the <tt>-l</tt> option is given when encoding, if there are any lines
+longer than the specified <var>length</var>, the containing part will be
+encoded.
+
+<P>
+If the <tt>-b</tt> option is given when decoding, any base64 parts will
+be decoded as well.
+
+<P>
+<
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3639"
+ HREF="module-netrc.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3635"
+ HREF="netdata.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3629"
+ HREF="mh-message-objects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3637"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3638"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3640"
+ HREF="module-netrc.html">12.20 netrc  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3636"
+ HREF="netdata.html">12. Internet Data Handling</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3630"
+ HREF="mh-message-objects.html">12.18.3 Message Objects</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

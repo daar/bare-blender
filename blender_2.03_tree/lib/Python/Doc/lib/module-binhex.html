@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>12.9 binhex -- Encode and decode binhex4 files</TITLE>
+<META NAME="description" CONTENT="12.9 binhex -- Encode and decode binhex4 files">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-uu.html">
+<LINK REL="previous" HREF="module-multifile.html">
+<LINK REL="up" HREF="netdata.html">
+<LINK REL="next" HREF="binhex-notes.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3423"
+ HREF="binhex-notes.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3419"
+ HREF="netdata.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3413"
+ HREF="multifile-example.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3421"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3422"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3424"
+ HREF="binhex-notes.html">12.9.1 Notes</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3420"
+ HREF="netdata.html">12. Internet Data Handling</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3414"
+ HREF="multifile-example.html">12.8.2 MultiFile Example</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0014900000000000000000">
+12.9 <tt class=module>binhex</tt> --
+         Encode and decode binhex4 files</A>
+</H1>
+
+<P>
+
+
+<P>
+This module encodes and decodes files in binhex4 format, a format
+allowing representation of Macintosh files in ASCII. On the Macintosh,
+both forks of a file and the finder information are encoded (or
+decoded), on other platforms only the data fork is handled.
+
+<P>
+The <tt class=module>binhex</tt> module defines the following functions:
+
+<P>
+<dl><dt><b><a name="l2h-1995"><tt class=function>binhex</tt></a></b> (<var>input, output</var>)
+<dd>
+Convert a binary file with filename <var>input</var> to binhex file
+<var>output</var>. The <var>output</var> parameter can either be a filename or a
+file-like object (any object supporting a <var>write</var> and <var>close</var>
+method).
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1996"><tt class=function>hexbin</tt></a></b> (<var>input</var><big>[</big><var>, output</var><big>]</big>)
+<dd>
+Decode a binhex file <var>input</var>. <var>input</var> may be a filename or a
+file-like object supporting <var>read</var> and <var>close</var> methods.
+The resulting file is written to a file named <var>output</var>, unless the
+argument is empty in which case the output filename is read from the
+binhex file.
+</dl>
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html3425"
+ HREF="binhex-notes.html">12.9.1 Notes </A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3423"
+ HREF="binhex-notes.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3419"
+ HREF="netdata.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3413"
+ HREF="multifile-example.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3421"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3422"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3424"
+ HREF="binhex-notes.html">12.9.1 Notes</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3420"
+ HREF="netdata.html">12. Internet Data Handling</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3414"
+ HREF="multifile-example.html">12.8.2 MultiFile Example</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

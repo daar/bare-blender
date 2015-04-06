@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>9. Classes </TITLE>
+<META NAME="description" CONTENT="9. Classes ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="whatNow.html">
+<LINK REL="previous" HREF="errors.html">
+<LINK REL="up" HREF="tut.html">
+<LINK REL="next" HREF="terminology.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html849"
+ HREF="terminology.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html846"
+ HREF="tut.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html840"
+ HREF="cleanup.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html848"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html850"
+ HREF="terminology.html">9.1 A Word About</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html847"
+ HREF="tut.html">Python Tutorial</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html841"
+ HREF="cleanup.html">8.6 Defining Clean-up Actions</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0011000000000000000000"></A>
+<BR>
+9. Classes 
+</H1>
+
+<P>
+Python's class mechanism adds classes to the language with a minimum
+of new syntax and semantics.  It is a mixture of the class mechanisms
+found in C++ and Modula-3.  As is true for modules, classes in Python
+do not put an absolute barrier between definition and user, but rather
+rely on the politeness of the user not to ``break into the
+definition.''  The most important features of classes are retained
+with full power, however: the class inheritance mechanism allows
+multiple base classes, a derived class can override any methods of its
+base class or classes, a method can call the method of a base class with the
+same name.  Objects can contain an arbitrary amount of private data.
+
+<P>
+In C++ terminology, all class members (including the data members) are
+<i>public</i>, and all member functions are <i>virtual</i>.  There are
+no special constructors or destructors.  As in Modula-3, there are no
+shorthands for referencing the object's members from its methods: the
+method function is declared with an explicit first argument
+representing the object, which is provided implicitly by the call.  As
+in Smalltalk, classes themselves are objects, albeit in the wider
+sense of the word: in Python, all data types are objects.  This
+provides semantics for importing and renaming.  But, just like in C++
+or Modula-3, built-in types cannot be used as base classes for
+extension by the user.  Also, like in C++ but unlike in Modula-3, most
+built-in operators with special syntax (arithmetic operators,
+subscripting etc.) can be redefined for class instances.
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html851"
+ HREF="terminology.html">9.1 A Word About Terminology </A>
+<LI><A NAME="tex2html852"
+ HREF="scopes.html">9.2 Python Scopes and Name Spaces </A>
+<LI><A NAME="tex2html853"
+ HREF="firstClasses.html">9.3 A First Look at Classes </A>
+<UL>
+<LI><A NAME="tex2html854"
+ HREF="classDefinition.html">9.3.1 Class Definition Syntax </A>
+<LI><A NAME="tex2html855"
+ HREF="classObjects.html">9.3.2 Class Objects </A>
+<LI><A NAME="tex2html856"
+ HREF="instanceObjects.html">9.3.3 Instance Objects </A>
+<LI><A NAME="tex2html857"
+ HREF="methodObjects.html">9.3.4 Method Objects </A>
+</UL>
+<LI><A NAME="tex2html858"
+ HREF="remarks.html">9.4 Random Remarks </A>
+<LI><A NAME="tex2html859"
+ HREF="inheritance.html">9.5 Inheritance </A>
+<UL>
+<LI><A NAME="tex2html860"
+ HREF="multiple.html">9.5.1 Multiple Inheritance </A>
+</UL>
+<LI><A NAME="tex2html861"
+ HREF="private.html">9.6 Private Variables </A>
+<LI><A NAME="tex2html862"
+ HREF="odds.html">9.7 Odds and Ends </A>
+<UL>
+<LI><A NAME="tex2html863"
+ HREF="exceptionClasses.html">9.7.1 Exceptions Can Be Classes </A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html849"
+ HREF="terminology.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html846"
+ HREF="tut.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html840"
+ HREF="cleanup.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html848"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html850"
+ HREF="terminology.html">9.1 A Word About</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html847"
+ HREF="tut.html">Python Tutorial</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html841"
+ HREF="cleanup.html">8.6 Defining Clean-up Actions</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

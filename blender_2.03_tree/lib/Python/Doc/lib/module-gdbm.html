@@ -1,0 +1,207 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>8.6 gdbm -- GNU's reinterpretation of dbm</TITLE>
+<META NAME="description" CONTENT="8.6 gdbm -- GNU's reinterpretation of dbm">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-termios.html">
+<LINK REL="previous" HREF="module-dbm.html">
+<LINK REL="up" HREF="unix.html">
+<LINK REL="next" HREF="module-termios.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2422"
+ HREF="module-termios.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2418"
+ HREF="unix.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2412"
+ HREF="module-dbm.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2420"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2421"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2423"
+ HREF="module-termios.html">8.7 termios  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2419"
+ HREF="unix.html">8. Unix Specific Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2413"
+ HREF="module-dbm.html">8.5 dbm  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0010600000000000000000">
+8.6 <tt class=module>gdbm</tt> --
+         GNU's reinterpretation of dbm</A>
+</H1>
+
+<P>
+  
+<p class=availability>Availability: <span
+ class=platform>Unix</span>.</p>
+
+<P>
+This module is quite similar to the <tt class=module><a href="module-dbm.html">dbm</a></tt><a name="l2h-1420"></a>
+module, but uses <tt>gdbm</tt> instead to provide some additional
+functionality.  Please note that the file formats created by
+<tt>gdbm</tt> and <tt>dbm</tt> are incompatible.
+
+<P>
+The <tt class=module>gdbm</tt> module provides an interface to the GNU DBM
+library.  <tt>gdbm</tt> objects behave like mappings
+(dictionaries), except that keys and values are always strings.
+Printing a <tt>gdbm</tt> object doesn't print the keys and values, and
+the <tt class=method>items()</tt> and <tt class=method>values()</tt> methods are not supported.
+
+<P>
+The module defines the following constant and functions:
+
+<P>
+<dl><dt><b><a name="l2h-1414"><tt class=exception>error</tt></a></b>
+<dd>
+Raised on <tt>gdbm</tt>-specific errors, such as I/O errors.
+<tt class=exception>KeyError</tt> is raised for general mapping errors like
+specifying an incorrect key.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1415"><tt class=function>open</tt></a></b> (<var>filename, </var><big>[</big><var>flag, </var><big>[</big><var>mode</var><big>]</big><big>]</big>)
+<dd>
+Open a <tt>gdbm</tt> database and return a <tt>gdbm</tt> object.  The
+<var>filename</var> argument is the name of the database file.
+
+<P>
+The optional <var>flag</var> argument can be
+<tt>'r'</tt> (to open an existing database for reading only -- default),
+<tt>'w'</tt> (to open an existing database for reading and writing),
+<tt>'c'</tt> (which creates the database if it doesn't exist), or
+<tt>'n'</tt> (which always creates a new empty database).
+
+<P>
+Appending "<tt class=character>f</tt>" to the flag opens the database in fast mode;
+altered data will not automatically be written to the disk after every
+change.  This results in faster writes to the database, but may result
+in an inconsistent database if the program crashes while the database
+is still open.  Use the <tt class=method>sync()</tt> method to force any unwritten
+data to be written to the disk.
+
+<P>
+The optional <var>mode</var> argument is the Unix mode of the file, used
+only when the database has to be created.  It defaults to octal
+<tt>0666</tt>.
+</dl>
+
+<P>
+In addition to the dictionary-like methods, <tt>gdbm</tt> objects have the
+following methods:
+
+<P>
+<dl><dt><b><a name="l2h-1416"><tt class=function>firstkey</tt></a></b> ()
+<dd>
+It's possible to loop over every key in the database using this method 
+and the <tt class=method>nextkey()</tt> method.  The traversal is ordered by
+<tt>gdbm</tt>'s internal hash values, and won't be sorted by the key
+values.  This method returns the starting key.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1417"><tt class=function>nextkey</tt></a></b> (<var>key</var>)
+<dd>
+Returns the key that follows <var>key</var> in the traversal.  The
+following code prints every key in the database <tt>db</tt>, without
+having to create a list in memory that contains them all:
+
+<P>
+<dl><dd><pre class=verbatim>
+k = db.firstkey()
+while k != None:
+    print k
+    k = db.nextkey(k)
+</pre></dl>
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1418"><tt class=function>reorganize</tt></a></b> ()
+<dd>
+If you have carried out a lot of deletions and would like to shrink
+the space used by the <tt>gdbm</tt> file, this routine will reorganize
+the database.  <tt>gdbm</tt> will not shorten the length of a database
+file except by using this reorganization; otherwise, deleted file
+space will be kept and reused as new (key, value) pairs are added.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1419"><tt class=function>sync</tt></a></b> ()
+<dd>
+When the database has been opened in fast mode, this method forces any 
+unwritten data to be written to the disk.
+</dl>
+
+<P>
+<div class=seealso>
+  <p class=heading><b>See Also:</b></p>
+
+  <div class=seemodule>
+<p>Module <b><tt class=module><a href="module-anydbm.html">anydbm</a></tt></b>&nbsp;&nbsp;&nbsp;(Generic interface to <tt>dbm</tt>-style databases.)</p>
+</div>
+  <div class=seemodule>
+<p>Module <b><tt class=module><a href="module-whichdb.html">whichdb</a></tt></b>&nbsp;&nbsp;&nbsp;(Utility module used to determine the type of an
+                      existing database.)</p>
+</div>
+</div><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2422"
+ HREF="module-termios.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2418"
+ HREF="unix.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2412"
+ HREF="module-dbm.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2420"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2421"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2423"
+ HREF="module-termios.html">8.7 termios  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2419"
+ HREF="unix.html">8. Unix Specific Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2413"
+ HREF="module-dbm.html">8.5 dbm  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

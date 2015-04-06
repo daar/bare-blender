@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>5.9 calendar -- Functions that emulate the Unix cal program.</TITLE>
+<META NAME="description" CONTENT="5.9 calendar -- Functions that emulate the Unix cal program.">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-cmd.html">
+<LINK REL="previous" HREF="module-fileinput.html">
+<LINK REL="up" HREF="misc.html">
+<LINK REL="next" HREF="module-cmd.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1753"
+ HREF="module-cmd.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1749"
+ HREF="misc.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1743"
+ HREF="module-fileinput.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1751"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1752"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1754"
+ HREF="module-cmd.html">5.10 cmd  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1750"
+ HREF="misc.html">5. Miscellaneous Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1744"
+ HREF="module-fileinput.html">5.8 fileinput  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION007900000000000000000">
+5.9 <tt class=module>calendar</tt> --
+         Functions that emulate the Unix <b class=program>cal</b> program.</A>
+</H1>
+
+<P>
+
+<P>
+This module allows you to output calendars like the Unix
+<span class=manpage><i>cal</i>(1)</span> program.
+
+<P>
+<dl><dt><b><a name="l2h-819"><tt class=function>isleap</tt></a></b> (<var>year</var>)
+<dd>
+Returns <tt>1</tt> if <var>year</var> is a leap year.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-820"><tt class=function>leapdays</tt></a></b> (<var>year1, year2</var>)
+<dd>
+Return the number of leap years in the range
+[<var>year1</var>...<var>year2</var>].
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-821"><tt class=function>weekday</tt></a></b> (<var>year, month, day</var>)
+<dd>
+Returns the day of the week (<tt>0</tt> is Monday) for <var>year</var>
+(<tt>1970</tt>-...), <var>month</var> (<tt>1</tt>-<tt>12</tt>), <var>day</var>
+(<tt>1</tt>-<tt>31</tt>).
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-822"><tt class=function>monthrange</tt></a></b> (<var>year, month</var>)
+<dd>
+Returns weekday of first day of the month and number of days in month, 
+for the specified <var>year</var> and <var>month</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-823"><tt class=function>monthcalendar</tt></a></b> (<var>year, month</var>)
+<dd>
+Returns a matrix representing a month's calendar.  Each row represents
+a week; days outside of the month a represented by zeros.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-824"><tt class=function>prmonth</tt></a></b> (<var>year, month</var><big>[</big><var>, width</var><big>[</big><var>, length</var><big>]</big><big>]</big>)
+<dd>
+Prints a month's calendar.  If <var>width</var> is provided, it specifies
+the width of the columns that the numbers are centered in.  If
+<var>length</var> is given, it specifies the number of lines that each
+week will use.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-825"><tt class=function>prcal</tt></a></b> (<var>year</var>)
+<dd>
+Prints the calendar for the year <var>year</var>.
+</dl><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1753"
+ HREF="module-cmd.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1749"
+ HREF="misc.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1743"
+ HREF="module-fileinput.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1751"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1752"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1754"
+ HREF="module-cmd.html">5.10 cmd  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1750"
+ HREF="misc.html">5. Miscellaneous Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1744"
+ HREF="module-fileinput.html">5.8 fileinput  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

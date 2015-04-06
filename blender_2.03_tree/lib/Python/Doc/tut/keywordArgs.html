@@ -1,0 +1,181 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4.7.2 Keyword Arguments </TITLE>
+<META NAME="description" CONTENT="4.7.2 Keyword Arguments ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="arbitraryArgs.html">
+<LINK REL="previous" HREF="defaultArgs.html">
+<LINK REL="up" HREF="defining.html">
+<LINK REL="next" HREF="arbitraryArgs.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html472"
+ HREF="arbitraryArgs.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html469"
+ HREF="defining.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html463"
+ HREF="defaultArgs.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html471"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html473"
+ HREF="arbitraryArgs.html">4.7.3 Arbitrary Argument Lists</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html470"
+ HREF="defining.html">4.7 More on Defining</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html464"
+ HREF="defaultArgs.html">4.7.1 Default Argument Values</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION006720000000000000000"></A>
+<BR>
+4.7.2 Keyword Arguments 
+</H2>
+
+<P>
+Functions can also be called using
+keyword arguments of the form "<tt class=samp><var>keyword</var> = <var>value</var></tt>".  For
+instance, the following function:
+
+<P>
+<dl><dd><pre class=verbatim>
+def parrot(voltage, state='a stiff', action='voom', type='Norwegian Blue'):
+    print "-- This parrot wouldn't", action,
+    print "if you put", voltage, "Volts through it."
+    print "-- Lovely plumage, the", type
+    print "-- It's", state, "!"
+</pre></dl>
+
+<P>
+could be called in any of the following ways:
+
+<P>
+<dl><dd><pre class=verbatim>
+parrot(1000)
+parrot(action = 'VOOOOOM', voltage = 1000000)
+parrot('a thousand', state = 'pushing up the daisies')
+parrot('a million', 'bereft of life', 'jump')
+</pre></dl>
+
+<P>
+but the following calls would all be invalid:
+
+<P>
+<dl><dd><pre class=verbatim>
+parrot()                     # required argument missing
+parrot(voltage=5.0, 'dead')  # non-keyword argument following keyword
+parrot(110, voltage=220)     # duplicate value for argument
+parrot(actor='John Cleese')  # unknown keyword
+</pre></dl>
+
+<P>
+In general, an argument list must have any positional arguments
+followed by any keyword arguments, where the keywords must be chosen
+from the formal parameter names.  It's not important whether a formal
+parameter has a default value or not.  No argument must receive a
+value more than once -- formal parameter names corresponding to
+positional arguments cannot be used as keywords in the same calls.
+
+<P>
+When a final formal parameter of the form <tt>**<var>name</var></tt> is
+present, it receives a dictionary containing all keyword arguments
+whose keyword doesn't correspond to a formal parameter.  This may be
+combined with a formal parameter of the form <tt>*<var>name</var></tt>(described in the next subsection) which receives a tuple containing
+the positional arguments beyond the formal parameter list.
+(<tt>*<var>name</var></tt> must occur before <tt>**<var>name</var></tt>.)  For
+example, if we define a function like this:
+
+<P>
+<dl><dd><pre class=verbatim>
+def cheeseshop(kind, *arguments, **keywords):
+    print "-- Do you have any", kind, '?'
+    print "-- I'm sorry, we're all out of", kind
+    for arg in arguments: print arg
+    print '-'*40
+    for kw in keywords.keys(): print kw, ':', keywords[kw]
+</pre></dl>
+
+<P>
+It could be called like this:
+
+<P>
+<dl><dd><pre class=verbatim>
+cheeseshop('Limburger', "It's very runny, sir.",
+           "It's really very, VERY runny, sir.",
+           client='John Cleese',
+           shopkeeper='Michael Palin',
+           sketch='Cheese Shop Sketch')
+</pre></dl>
+
+<P>
+and of course it would print:
+
+<P>
+<dl><dd><pre class=verbatim>
+-- Do you have any Limburger ?
+-- I'm sorry, we're all out of Limburger
+It's very runny, sir.
+It's really very, VERY runny, sir.
+----------------------------------------
+client : John Cleese
+shopkeeper : Michael Palin
+sketch : Cheese Shop Sketch
+</pre></dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html472"
+ HREF="arbitraryArgs.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html469"
+ HREF="defining.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html463"
+ HREF="defaultArgs.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html471"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html473"
+ HREF="arbitraryArgs.html">4.7.3 Arbitrary Argument Lists</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html470"
+ HREF="defining.html">4.7 More on Defining</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html464"
+ HREF="defaultArgs.html">4.7.1 Default Argument Values</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

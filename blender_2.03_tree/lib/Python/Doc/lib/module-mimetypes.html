@@ -1,0 +1,200 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>12.14 mimetypes -- Mapping of filenames to MIME types</TITLE>
+<META NAME="description" CONTENT="12.14 mimetypes -- Mapping of filenames to MIME types">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-base64.html">
+<LINK REL="previous" HREF="module-mailcap.html">
+<LINK REL="up" HREF="netdata.html">
+<LINK REL="next" HREF="module-base64.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3531"
+ HREF="module-base64.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3527"
+ HREF="netdata.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3521"
+ HREF="module-mailcap.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3529"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3530"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3532"
+ HREF="module-base64.html">12.15 base64  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3528"
+ HREF="netdata.html">12. Internet Data Handling</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3522"
+ HREF="module-mailcap.html">12.13 mailcap  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00141400000000000000000">
+12.14 <tt class=module>mimetypes</tt> --
+         Mapping of filenames to MIME types</A>
+</H1>
+
+<P>
+
+
+<P>
+<a name="l2h-2063"></a>
+
+<P>
+The <tt class=module>mimetypes</tt> converts between a filename or URL and the MIME
+type associated with the filename extension.  Conversions are provided 
+from filename to MIME type and from MIME type to filename extension;
+encodings are not supported for the later conversion.
+
+<P>
+The functions described below provide the primary interface for this
+module.  If the module has not been initialized, they will call the
+<tt class=function>init()</tt>.
+
+<P>
+<dl><dt><b><a name="l2h-2054"><tt class=function>guess_type</tt></a></b> (<var>filename</var>)
+<dd>
+Guess the type of a file based on its filename or URL, given by
+<var>filename</var>.
+The return value is a tuple <tt>(<var>type</var>, <var>encoding</var>)</tt> where
+<var>type</var> is <tt>None</tt> if the type can't be guessed (no or unknown
+suffix) or a string of the form <tt>'<var>type</var>/<var>subtype</var>'</tt>,
+usable for a MIME <tt>content-type</tt> header<a name="l2h-2064"></a>; and 
+encoding is <tt>None</tt> for no encoding or the name of the program used
+to encode (e.g. <b class=program>compress</b> or <b class=program>gzip</b>).  The encoding
+is suitable for use as a <tt>content-encoding</tt> header,
+<i>not</i> as a <tt>content-transfer-encoding</tt> header.  The mappings
+are table driven.  Encoding suffixes are case sensitive; type suffixes
+are first tried case sensitive, then case insensitive.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2055"><tt class=function>guess_extension</tt></a></b> (<var>type</var>)
+<dd>
+Guess the extension for a file based on its MIME type, given by
+<var>type</var>.
+The return value is a string giving a filename extension, including the
+leading dot ("<tt class=character>.</tt>").  The extension is not guaranteed to have been
+associated with any particular data stream, but would be mapped to the 
+MIME type <var>type</var> by <tt class=function>guess_type()</tt>.  If no extension can
+be guessed for <var>type</var>, <tt>None</tt> is returned.
+</dl>
+
+<P>
+Some additional functions and data items are available for controlling
+the behavior of the module.
+
+<P>
+<dl><dt><b><a name="l2h-2056"><tt class=function>init</tt></a></b> (<big>[</big><var>files</var><big>]</big>)
+<dd>
+Initialize the internal data structures.  If given, <var>files</var> must
+be a sequence of file names which should be used to augment the
+default type map.  If omitted, the file names to use are taken from
+<tt>knownfiles</tt>.  Each file named in <var>files</var> or
+<tt>knownfiles</tt> takes precedence over those named before it.
+Calling <tt class=function>init()</tt> repeatedly is allowed.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2057"><tt class=function>read_mime_types</tt></a></b> (<var>filename</var>)
+<dd>
+Load the type map given in the file <var>filename</var>, if it exists.  The 
+type map is returned as a dictionary mapping filename extensions,
+including the leading dot ("<tt class=character>.</tt>"), to strings of the form
+<tt>'<var>type</var>/<var>subtype</var>'</tt>.  If the file <var>filename</var> does
+not exist or cannot be read, <tt>None</tt> is returned.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2058"><tt>inited</tt></a></b>
+<dd>
+Flag indicating whether or not the global data structures have been
+initialized.  This is set to true by <tt class=function>init()</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2059"><tt>knownfiles</tt></a></b>
+<dd>
+List of type map file names commonly installed.  These files are
+typically names "<tt class=file>mime.types</tt>" and are installed in different
+locations by different packages.<a name="l2h-2065"></a>
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2060"><tt>suffix_map</tt></a></b>
+<dd>
+Dictionary mapping suffixes to suffixes.  This is used to allow
+recognition of encoded files for which the encoding and the type are
+indicated by the same extension.  For example, the "<tt class=file>.tgz</tt>"
+extension is mapped to "<tt class=file>.tar.gz</tt>" to allow the encoding and type
+to be recognized separately.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2061"><tt>encodings_map</tt></a></b>
+<dd>
+Dictionary mapping filename extensions to encoding types.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2062"><tt>types_map</tt></a></b>
+<dd>
+Dictionary mapping filename extensions to MIME types.
+</dl><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3531"
+ HREF="module-base64.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3527"
+ HREF="netdata.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3521"
+ HREF="module-mailcap.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3529"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3530"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3532"
+ HREF="module-base64.html">12.15 base64  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3528"
+ HREF="netdata.html">12. Internet Data Handling</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3522"
+ HREF="module-mailcap.html">12.13 mailcap  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>12.13 mailcap -- Mailcap file handling.</TITLE>
+<META NAME="description" CONTENT="12.13 mailcap -- Mailcap file handling.">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-mimetypes.html">
+<LINK REL="previous" HREF="module-xdrlib.html">
+<LINK REL="up" HREF="netdata.html">
+<LINK REL="next" HREF="module-mimetypes.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3519"
+ HREF="module-mimetypes.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3515"
+ HREF="netdata.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3509"
+ HREF="xdr-exceptions.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3517"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3518"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3520"
+ HREF="module-mimetypes.html">12.14 mimetypes  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3516"
+ HREF="netdata.html">12. Internet Data Handling</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3510"
+ HREF="xdr-exceptions.html">12.12.3 Exceptions</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00141300000000000000000">
+12.13 <tt class=module>mailcap</tt> --
+         Mailcap file handling.</A>
+</H1>
+
+<P>
+
+<P>
+Mailcap files are used to configure how MIME-aware applications such
+as mail readers and Web browsers react to files with different MIME
+types. (The name ``mailcap'' is derived from the phrase ``mail
+capability''.)  For example, a mailcap file might contain a line like
+"<tt class=samp>video/mpeg; xmpeg %s</tt>".  Then, if the user encounters an email
+message or Web document with the MIME type <span class=mimetype>video/mpeg</span>,
+"<tt class=samp>%s</tt>" will be replaced by a filename (usually one belonging to a
+temporary file) and the <b class=program>xmpeg</b> program can be automatically
+started to view the file.
+
+<P>
+The mailcap format is documented in <span class=rfc><a name="rfcref-42195"
+href="http://info.internet.isi.edu/in-notes/rfc/files/rfc1524.txt">RFC 1524</a></span>, ``A User Agent
+Configuration Mechanism For Multimedia Mail Format Information,'' but
+is not an Internet standard.  However, mailcap files are supported on
+most Unix systems.
+
+<P>
+<dl><dt><b><a name="l2h-2051"><tt class=function>findmatch</tt></a></b> (<var>caps, MIMEtype<</var><big>[</big><var>, key</var><big>[</big><var>,
+                            filename</var><big>[</big><var>, plist</var><big>]</big><big>]</big><big>]</big>)
+<dd>
+Return a 2-tuple; the first element is a string containing the command
+line to be executed
+(which can be passed to <tt>os.system()</tt>), and the second element is
+the mailcap entry for a given MIME type.  If no matching MIME
+type can be found, <tt>(None, None)</tt> is returned.
+
+<P>
+<var>key</var> is the name of the field desired, which represents the type
+of activity to be performed; the default value is 'view', since in the 
+most common case you simply want to view the body of the MIME-typed
+data.  Other possible values might be 'compose' and 'edit', if you
+wanted to create a new body of the given MIME type or alter the
+existing body data.  See <span class=rfc><a name="rfcref-42197"
+href="http://info.internet.isi.edu/in-notes/rfc/files/rfc1524.txt">RFC 1524</a></span> for a complete list of these
+fields.
+
+<P>
+<var>filename</var> is the filename to be substituted for "<tt class=samp>%s</tt>" in the
+command line; the default value is
+<tt>'/dev/null'</tt> which is almost certainly not what you want, so
+usually you'll override it by specifying a filename.
+
+<P>
+<var>plist</var> can be a list containing named parameters; the default
+value is simply an empty list.  Each entry in the list must be a
+string containing the parameter name, an equals sign (<tt>=</tt>), and the
+parameter's value.  Mailcap entries can contain 
+named parameters like <tt>%{foo}</tt>, which will be replaced by the
+value of the parameter named 'foo'.  For example, if the command line
+"<tt class=samp>showpartial %{id} %{number} %{total}</tt>"was in a mailcap file, and <var>plist</var> was set to <tt>['id=1',
+'number=2', 'total=3']</tt>, the resulting command line would be 
+<tt>"showpartial 1 2 3"</tt>.  
+
+<P>
+In a mailcap file, the "test" field can optionally be specified to
+test some external condition (e.g., the machine architecture, or the
+window system in use) to determine whether or not the mailcap line
+applies.  <tt>findmatch()</tt> will automatically check such conditions
+and skip the entry if the check fails.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2052"><tt class=function>getcaps</tt></a></b> ()
+<dd>
+Returns a dictionary mapping MIME types to a list of mailcap file
+entries. This dictionary must be passed to the <tt>findmatch()</tt>function.  An entry is stored as a list of dictionaries, but it
+shouldn't be necessary to know the details of this representation.
+
+<P>
+The information is derived from all of the mailcap files found on the
+system. Settings in the user's mailcap file "<tt class=file>$HOME/.mailcap</tt>"
+will override settings in the system mailcap files
+"<tt class=file>/etc/mailcap</tt>", "<tt class=file>/usr/etc/mailcap</tt>", and
+"<tt class=file>/usr/local/etc/mailcap</tt>".
+</dl>
+
+<P>
+An example usage:
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; import mailcap
+&gt;&gt;&gt; d=mailcap.getcaps()
+&gt;&gt;&gt; mailcap.findmatch(d, 'video/mpeg', filename='/tmp/tmp1223')
+('xmpeg /tmp/tmp1223', {'view': 'xmpeg %s'})
+</pre></dl>
+<
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3519"
+ HREF="module-mimetypes.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3515"
+ HREF="netdata.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3509"
+ HREF="xdr-exceptions.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3517"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3518"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3520"
+ HREF="module-mimetypes.html">12.14 mimetypes  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3516"
+ HREF="netdata.html">12. Internet Data Handling</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3510"
+ HREF="xdr-exceptions.html">12.12.3 Exceptions</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

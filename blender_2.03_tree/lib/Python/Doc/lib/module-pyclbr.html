@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.19 pyclbr -- Python class browser information</TITLE>
+<META NAME="description" CONTENT="3.19 pyclbr -- Python class browser information">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-code.html">
+<LINK REL="previous" HREF="module-tokenize.html">
+<LINK REL="up" HREF="python.html">
+<LINK REL="next" HREF="pyclbr-class-objects.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1255"
+ HREF="pyclbr-class-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1251"
+ HREF="python.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1245"
+ HREF="module-tokenize.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1253"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1254"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1256"
+ HREF="pyclbr-class-objects.html">3.19.1 Class Descriptor Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1252"
+ HREF="python.html">3. Python Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1246"
+ HREF="module-tokenize.html">3.18 tokenize  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0051900000000000000000">
+3.19 <tt class=module>pyclbr</tt> --
+         Python class browser information</A>
+</H1>
+
+<P>
+
+
+<P>
+The <tt class=module>pyclbr</tt> can be used to determine some limited information
+about the classes and methods defined in a module.  The information
+provided is sufficient to implement a traditional three-pane class
+browser.  The information is extracted from the source code rather
+than from an imported module, so this module is safe to use with
+untrusted source code.
+
+<P>
+<dl><dt><b><a name="l2h-511"><tt class=function>readmodule</tt></a></b> (<var>module</var><big>[</big><var>, path</var><big>]</big>)
+<dd>
+ Read a module and return a dictionary mapping class names to class
+  descriptor objects.  The parameter <var>module</var> should be the name
+  of a module as a string; it may be the name of a module within a
+  package.  The <var>path</var> parameter should be a sequence, and is used
+  to augment the value of <tt>sys.path</tt>, which is used to locate
+  module source code.
+</dl>
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html1257"
+ HREF="pyclbr-class-objects.html">3.19.1 Class Descriptor Objects </A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1255"
+ HREF="pyclbr-class-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1251"
+ HREF="python.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1245"
+ HREF="module-tokenize.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1253"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1254"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1256"
+ HREF="pyclbr-class-objects.html">3.19.1 Class Descriptor Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1252"
+ HREF="python.html">3. Python Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1246"
+ HREF="module-tokenize.html">3.18 tokenize  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3. Reference Counting </TITLE>
+<META NAME="description" CONTENT="3. Reference Counting ">
+<META NAME="keywords" CONTENT="api">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="api.css">
+<LINK REL="next" HREF="exceptionHandling.html">
+<LINK REL="previous" HREF="veryhigh.html">
+<LINK REL="up" HREF="api.html">
+<LINK REL="next" HREF="exceptionHandling.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html229"
+ HREF="exceptionHandling.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html225"
+ HREF="api.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html219"
+ HREF="veryhigh.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python/C API Reference Manual</b></td>
+<td><A NAME="tex2html227"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html228"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html230"
+ HREF="exceptionHandling.html">4. Exception Handling</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html226"
+ HREF="api.html">Python/C API Reference Manual</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html220"
+ HREF="veryhigh.html">2. The Very High</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION005000000000000000000"></A>
+<BR>
+3. Reference Counting 
+</H1>
+
+<P>
+The macros in this section are used for managing reference counts
+of Python objects.
+
+<P>
+<dl><dt>void <b><a name="l2h-21"><tt class=cfunction>Py_INCREF</tt></a></b> (<var>PyObject *o</var>)
+<dd>
+Increment the reference count for object <var>o</var>.  The object must
+not be <tt>NULL</tt>; if you aren't sure that it isn't <tt>NULL</tt>, use
+<tt class=cfunction>Py_XINCREF()</tt>.
+</dl>
+
+<P>
+<dl><dt>void <b><a name="l2h-22"><tt class=cfunction>Py_XINCREF</tt></a></b> (<var>PyObject *o</var>)
+<dd>
+Increment the reference count for object <var>o</var>.  The object may be
+<tt>NULL</tt>, in which case the macro has no effect.
+</dl>
+
+<P>
+<dl><dt>void <b><a name="l2h-23"><tt class=cfunction>Py_DECREF</tt></a></b> (<var>PyObject *o</var>)
+<dd>
+Decrement the reference count for object <var>o</var>.  The object must
+not be <tt>NULL</tt>; if you aren't sure that it isn't <tt>NULL</tt>, use
+<tt class=cfunction>Py_XDECREF()</tt>.  If the reference count reaches zero, the
+object's type's deallocation function (which must not be <tt>NULL</tt>) is
+invoked.
+
+<P>
+<b>Warning:</b> The deallocation function can cause arbitrary Python
+code to be invoked (e.g. when a class instance with a <tt class=method>__del__()</tt>
+method is deallocated).  While exceptions in such code are not
+propagated, the executed code has free access to all Python global
+variables.  This means that any object that is reachable from a global
+variable should be in a consistent state before <tt class=cfunction>Py_DECREF()</tt> is
+invoked.  For example, code to delete an object from a list should
+copy a reference to the deleted object in a temporary variable, update
+the list data structure, and then call <tt class=cfunction>Py_DECREF()</tt> for the
+temporary variable.
+</dl>
+
+<P>
+<dl><dt>void <b><a name="l2h-24"><tt class=cfunction>Py_XDECREF</tt></a></b> (<var>PyObject *o</var>)
+<dd>
+Decrement the reference count for object <var>o</var>.  The object may be
+<tt>NULL</tt>, in which case the macro has no effect; otherwise the effect
+is the same as for <tt class=cfunction>Py_DECREF()</tt>, and the same warning
+applies.
+</dl>
+
+<P>
+The following functions or macros are only for internal use:
+<tt class=cfunction>_Py_Dealloc()</tt>, <tt class=cfunction>_Py_ForgetReference()</tt>,
+<tt class=cfunction>_Py_NewReference()</tt>, as well as the global variable
+<tt class=cdata>_Py_RefTotal</tt>.
+
+<P>
+XXX Should mention Py_Malloc(), Py_Realloc(), Py_Free(),
+PyMem_Malloc(), PyMem_Realloc(), PyMem_Free(), PyMem_NEW(),
+PyMem_RESIZE(), PyMem_DEL(), PyMem_XDEL().
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html229"
+ HREF="exceptionHandling.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html225"
+ HREF="api.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html219"
+ HREF="veryhigh.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python/C API Reference Manual</b></td>
+<td><A NAME="tex2html227"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html228"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html230"
+ HREF="exceptionHandling.html">4. Exception Handling</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html226"
+ HREF="api.html">Python/C API Reference Manual</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html220"
+ HREF="veryhigh.html">2. The Very High</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>A3. Key Bindings </TITLE>
+<META NAME="description" CONTENT="A3. Key Bindings ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="commentary.html">
+<LINK REL="previous" HREF="history.html">
+<LINK REL="up" HREF="interacting.html">
+<LINK REL="next" HREF="commentary.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1062"
+ HREF="commentary.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1059"
+ HREF="interacting.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1053"
+ HREF="history.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html1061"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1063"
+ HREF="commentary.html">A4. Commentary</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1060"
+ HREF="interacting.html">A. Interactive Input Editing</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1054"
+ HREF="history.html">A2. History Substitution</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0013300000000000000000"></A>
+<BR>
+A3. Key Bindings 
+</H1>
+
+<P>
+The key bindings and some other parameters of the Readline library can
+be customized by placing commands in an initialization file called
+"<tt class=file>$HOME/.inputrc</tt>".  Key bindings have the form
+
+<P>
+<dl><dd><pre class=verbatim>
+key-name: function-name
+</pre></dl>
+
+<P>
+or
+
+<P>
+<dl><dd><pre class=verbatim>
+"string": function-name
+</pre></dl>
+
+<P>
+and options can be set with
+
+<P>
+<dl><dd><pre class=verbatim>
+set option-name value
+</pre></dl>
+
+<P>
+For example:
+
+<P>
+<dl><dd><pre class=verbatim>
+# I prefer vi-style editing:
+set editing-mode vi
+# Edit using a single line:
+set horizontal-scroll-mode On
+# Rebind some keys:
+Meta-h: backward-kill-word
+"\C-u": universal-argument
+"\C-x\C-r": re-read-init-file
+</pre></dl>
+
+<P>
+Note that the default binding for TAB in Python is to insert a TAB
+instead of Readline's default filename completion function.  If you
+insist, you can override this by putting
+
+<P>
+<dl><dd><pre class=verbatim>
+TAB: complete
+</pre></dl>
+
+<P>
+in your "<tt class=file>$HOME/.inputrc</tt>".  (Of course, this makes it hard to type
+indented continuation lines...)
+
+<P>
+Automatic completion of variable and module names is optionally
+available.  To enable it in the interpreter's interactive mode, add
+the following to your "<tt class=file>$HOME/.pythonrc.py</tt>" file:<a name="l2h-21"></a>
+<a name="l2h-22"></a>
+<a name="l2h-23"></a>
+
+<P>
+<dl><dd><pre class=verbatim>
+import rlcompleter, readline
+readline.parse_and_bind('tab: complete')
+</pre></dl>
+
+<P>
+This binds the TAB key to the completion function, so hitting the TAB
+key twice suggests completions; it looks at Python statement names,
+the current local variables, and the available module names.  For
+dotted expressions such as <tt>string.a</tt>, it will evaluate the the
+expression up to the final "<tt class=character>.</tt>" and then suggest completions
+from the attributes of the resulting object.  Note that this may
+execute application-defined code if an object with a
+<tt class=method>__getattr__()</tt> method is part of the expression.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1062"
+ HREF="commentary.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1059"
+ HREF="interacting.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1053"
+ HREF="history.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html1061"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1063"
+ HREF="commentary.html">A4. Commentary</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1060"
+ HREF="interacting.html">A. Interactive Input Editing</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1054"
+ HREF="history.html">A2. History Substitution</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

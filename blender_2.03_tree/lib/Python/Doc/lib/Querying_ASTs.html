@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.14.3 Queries on AST Objects</TITLE>
+<META NAME="description" CONTENT="3.14.3 Queries on AST Objects">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="AST_Errors.html">
+<LINK REL="previous" HREF="Converting_ASTs.html">
+<LINK REL="up" HREF="module-parser.html">
+<LINK REL="next" HREF="AST_Errors.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1137"
+ HREF="AST_Errors.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1133"
+ HREF="module-parser.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1127"
+ HREF="Converting_ASTs.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1135"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1136"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1138"
+ HREF="AST_Errors.html">3.14.4 Exceptions and Error</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1134"
+ HREF="module-parser.html">3.14 parser  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1128"
+ HREF="Converting_ASTs.html">3.14.2 Converting AST Objects</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0051430000000000000000"></A>
+<BR>
+3.14.3 Queries on AST Objects
+</H2>
+
+<P>
+Two functions are provided which allow an application to determine if
+an AST was created as an expression or a suite.  Neither of these
+functions can be used to determine if an AST was created from source
+code via <tt class=function>expr()</tt> or <tt class=function>suite()</tt> or from a parse tree
+via <tt class=function>sequence2ast()</tt>.
+
+<P>
+<dl><dt><b><a name="l2h-487"><tt class=function>isexpr</tt></a></b> (<var>ast</var>)
+<dd>
+When <tt><var>ast</var></tt> represents an <tt>'eval'</tt> form, this function
+returns true, otherwise it returns false.  This is useful, since code
+objects normally cannot be queried for this information using existing
+built-in functions.  Note that the code objects created by
+<tt class=function>compileast()</tt> cannot be queried like this either, and are
+identical to those created by the built-in
+<tt class=function>compile()</tt><a name="l2h-489"></a> function.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-488"><tt class=function>issuite</tt></a></b> (<var>ast</var>)
+<dd>
+This function mirrors <tt class=function>isexpr()</tt> in that it reports whether an
+AST object represents an <tt>'exec'</tt> form, commonly known as a
+``suite.''  It is not safe to assume that this function is equivelent
+to "<tt class=samp>not isexpr(<var>ast</var>)</tt>", as additional syntactic fragments may
+be supported in the future.
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1137"
+ HREF="AST_Errors.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1133"
+ HREF="module-parser.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1127"
+ HREF="Converting_ASTs.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1135"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1136"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1138"
+ HREF="AST_Errors.html">3.14.4 Exceptions and Error</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1134"
+ HREF="module-parser.html">3.14 parser  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1128"
+ HREF="Converting_ASTs.html">3.14.2 Converting AST Objects</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

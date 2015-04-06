@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.2 Reading and Writing Files </TITLE>
+<META NAME="description" CONTENT="7.2 Reading and Writing Files ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="previous" HREF="formatting.html">
+<LINK REL="up" HREF="io.html">
+<LINK REL="next" HREF="fileMethods.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html735"
+ HREF="fileMethods.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html732"
+ HREF="io.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html728"
+ HREF="formatting.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html734"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html736"
+ HREF="fileMethods.html">7.2.1 Methods of File</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html733"
+ HREF="io.html">7. Input and Output</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html729"
+ HREF="formatting.html">7.1 Fancier Output Formatting</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION009200000000000000000"></A>
+<BR>
+7.2 Reading and Writing Files 
+</H1>
+
+<P>
+<tt class=function>open()</tt><a name="l2h-17"></a> returns a file
+object<a name="l2h-18"></a>, and is most commonly used with two arguments:
+"<tt class=samp>open(<var>filename</var>, <var>mode</var>)</tt>".
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; f=open('/tmp/workfile', 'w')
+&gt;&gt;&gt; print f
+&lt;open file '/tmp/workfile', mode 'w' at 80a0960&gt;
+</pre></dl>
+
+<P>
+The first argument is a string containing the filename.  The second
+argument is another string containing a few characters describing the
+way in which the file will be used.  <var>mode</var> can be <tt>'r'</tt> when
+the file will only be read, <tt>'w'</tt> for only writing (an existing
+file with the same name will be erased), and <tt>'a'</tt> opens the file
+for appending; any data written to the file is automatically added to
+the end.  <tt>'r+'</tt> opens the file for both reading and writing.
+The <var>mode</var> argument is optional; <tt>'r'</tt> will be assumed if
+it's omitted.
+
+<P>
+On Windows and the Macintosh, <tt>'b'</tt> appended to the
+mode opens the file in binary mode, so there are also modes like
+<tt>'rb'</tt>, <tt>'wb'</tt>, and <tt>'r+b'</tt>.  Windows makes a
+distinction between text and binary files; the end-of-line characters
+in text files are automatically altered slightly when data is read or
+written.  This behind-the-scenes modification to file data is fine for
+ASCII text files, but it'll corrupt binary data like that in JPEGs or
+"<tt class=file>.EXE</tt>" files.  Be very careful to use binary mode when reading and
+writing such files.  (Note that the precise semantics of text mode on
+the Macintosh depends on the underlying C library being used.)
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html737"
+ HREF="fileMethods.html">7.2.1 Methods of File Objects </A>
+<LI><A NAME="tex2html738"
+ HREF="pickle.html">7.2.2 The <tt class=module>pickle</tt> Module </A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html735"
+ HREF="fileMethods.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html732"
+ HREF="io.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html728"
+ HREF="formatting.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html734"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html736"
+ HREF="fileMethods.html">7.2.1 Methods of File</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html733"
+ HREF="io.html">7. Input and Output</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html729"
+ HREF="formatting.html">7.1 Fancier Output Formatting</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

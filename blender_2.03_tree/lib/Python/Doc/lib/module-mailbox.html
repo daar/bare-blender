@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>12.17 mailbox -- Read various mailbox formats</TITLE>
+<META NAME="description" CONTENT="12.17 mailbox -- Read various mailbox formats">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-mhlib.html">
+<LINK REL="previous" HREF="module-quopri.html">
+<LINK REL="up" HREF="netdata.html">
+<LINK REL="next" HREF="mailbox-objects.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3567"
+ HREF="mailbox-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3563"
+ HREF="netdata.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3557"
+ HREF="module-quopri.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3565"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3566"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3568"
+ HREF="mailbox-objects.html">12.17.1 Mailbox Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3564"
+ HREF="netdata.html">12. Internet Data Handling</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3558"
+ HREF="module-quopri.html">12.16 quopri  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00141700000000000000000">
+12.17 <tt class=module>mailbox</tt> --
+         Read various mailbox formats</A>
+</H1>
+
+<P>
+
+
+<P>
+This module defines a number of classes that allow easy and uniform
+access to mail messages in a (Unix) mailbox.
+
+<P>
+<dl><dt><b><a name="l2h-2079"><tt class=class>UnixMailbox</tt></a></b> (<var>fp</var>)
+<dd>
+Access a classic Unix-style mailbox, where all messages are contained
+in a single file and separated by ``From name time'' lines.
+The file object <var>fp</var> points to the mailbox file.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2080"><tt class=class>MmdfMailbox</tt></a></b> (<var>fp</var>)
+<dd>
+Access an MMDF-style mailbox, where all messages are contained
+in a single file and separated by lines consisting of 4 control-A
+characters.  The file object <var>fp</var> points to the mailbox file.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2081"><tt class=class>MHMailbox</tt></a></b> (<var>dirname</var>)
+<dd>
+Access an MH mailbox, a directory with each message in a separate
+file with a numeric name.
+The name of the mailbox directory is passed in <var>dirname</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2082"><tt class=class>Maildir</tt></a></b> (<var>dirname</var>)
+<dd>
+Access a Qmail mail directory.  All new and current mail for the
+mailbox specified by <var>dirname</var> is made available.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2083"><tt class=class>BabylMailbox</tt></a></b> (<var>fp</var>)
+<dd>
+Access a Babyl mailbox, which is similar to an MMDF mailbox.  Mail
+messages start with a line containing only <tt>'*** EOOH ***'</tt> and
+end with a line containing only <tt>'&#92;037&#92;014'</tt>.
+</dl>
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html3569"
+ HREF="mailbox-objects.html">12.17.1 Mailbox Objects </A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3567"
+ HREF="mailbox-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3563"
+ HREF="netdata.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3557"
+ HREF="module-quopri.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3565"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3566"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3568"
+ HREF="mailbox-objects.html">12.17.1 Mailbox Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3564"
+ HREF="netdata.html">12. Internet Data Handling</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3558"
+ HREF="module-quopri.html">12.16 quopri  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

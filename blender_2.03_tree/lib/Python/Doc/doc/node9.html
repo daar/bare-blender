@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>5.3 Module-specific Markup</TITLE>
+<META NAME="description" CONTENT="5.3 Module-specific Markup">
+<META NAME="keywords" CONTENT="doc">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="doc.css">
+<LINK REL="next" HREF="node10.html">
+<LINK REL="previous" HREF="node8.html">
+<LINK REL="up" HREF="node6.html">
+<LINK REL="next" HREF="node10.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html148"
+ HREF="node10.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html145"
+ HREF="node6.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html139"
+ HREF="node8.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Documenting Python</b></td>
+<td><A NAME="tex2html147"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html149"
+ HREF="node10.html">5.4 Library-level Markup</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html146"
+ HREF="node6.html">5. Python-specific Markup</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html140"
+ HREF="node8.html">5.2 Inline Markup</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000630000000000000000">
+5.3 Module-specific Markup</A>
+</H2>
+
+<P>
+The markup described in this section is used to provide information
+  about a module being documented.  A typical use of this markup
+  appears at the top of the section used to document a module.  A
+  typical example might look like this:
+
+<P>
+<dl><dd><pre class=verbatim>
+\section{\module{spam} ---
+         Access to the SPAM facility}
+
+\declaremodule{extension}{spam}
+  \platform{Unix}
+\modulesynopsis{Access to the SPAM facility of Unix.}
+\moduleauthor{Jane Doe}{jane.doe@frobnitz.org}
+</pre></dl>
+
+<P>
+
+<dl class='macrodesc'>
+<dt><b><tt class='macro'>&#92;declaremodule</tt></b>
+                         [<var>key</var>]{<var>type</var>}{<var>name</var>}
+<dd>
+    Requires two parameters: module type (standard, builtin,
+    extension), and the module name.  An optional parameter should be
+    given as the basis for the module's ``key'' used for linking to or
+    referencing the section.  The ``key'' should only be given if the
+    module's name contains any underscores, and should be the name
+    with the underscores stripped.  This should be the first thing
+    after the <tt class='macro'>&#92;section</tt> used to introduce the module.
+  </dl>
+
+<P>
+
+<dl class='macrodesc'>
+<dt><b><tt class='macro'>&#92;platform</tt></b>
+                         {<var>specifier</var>}
+<dd>
+    Specifies the portability of the module.  <var>specifier</var> is a
+    comma-separated list of keys that specify what platforms the
+    module is available on.  The keys are short identifiers;
+    examples that are in use include "<tt class=samp>IRIX</tt>", "<tt class=samp>Mac</tt>",
+    "<tt class=samp>Windows</tt>", and "<tt class=samp>Unix</tt>".  It is important to use a key
+    which has already been used when applicable.
+  </dl>
+
+<P>
+
+<dl class='macrodesc'>
+<dt><b><tt class='macro'>&#92;modulesynopsis</tt></b>
+                         {<var>text</var>}
+<dd>
+    The <var>text</var> is a short, ``one line'' description of the
+    module that can be used as part of the chapter introduction.
+    This is typically placed just after <tt class='macro'>&#92;declaremodule</tt>.
+    The synopsis is used in building the contents of the table
+    inserted as the <tt class='macro'>&#92;localmoduletable</tt>.  No text is
+    produced at the point of the markup.
+  </dl>
+
+<P>
+
+<dl class='macrodesc'>
+<dt><b><tt class='macro'>&#92;moduleauthor</tt></b>
+                         {<var>name</var>}{<var>email</var>}
+<dd>
+    This macro is used to encode information about who authored a
+    module.  This is currently not used to generate output, but can be
+    used to help determine the origin of the module.
+  </dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html148"
+ HREF="node10.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html145"
+ HREF="node6.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html139"
+ HREF="node8.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Documenting Python</b></td>
+<td><A NAME="tex2html147"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html149"
+ HREF="node10.html">5.4 Library-level Markup</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html146"
+ HREF="node6.html">5. Python-specific Markup</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html140"
+ HREF="node8.html">5.2 Inline Markup</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

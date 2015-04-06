@@ -1,0 +1,352 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>14.3 aifc -- Read and write AIFF and AIFC files</TITLE>
+<META NAME="description" CONTENT="14.3 aifc -- Read and write AIFF and AIFC files">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-rgbimg.html">
+<LINK REL="previous" HREF="module-imageop.html">
+<LINK REL="up" HREF="mmedia.html">
+<LINK REL="next" HREF="module-rgbimg.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3753"
+ HREF="module-rgbimg.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3749"
+ HREF="mmedia.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3743"
+ HREF="module-imageop.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3751"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3752"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3754"
+ HREF="module-rgbimg.html">14.4 rgbimg  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3750"
+ HREF="mmedia.html">14. Multimedia Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3744"
+ HREF="module-imageop.html">14.2 imageop  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0016300000000000000000">
+14.3 <tt class=module>aifc</tt> --
+         Read and write AIFF and AIFC files</A>
+</H1>
+
+<P>
+
+
+<P>
+This module provides support for reading and writing AIFF and AIFF-C
+files.  AIFF is Audio Interchange File Format, a format for storing
+digital audio samples in a file.  AIFF-C is a newer version of the
+format that includes the ability to compress the audio data.
+<a name="l2h-2226"></a>
+<a name="l2h-2227"></a>
+<a name="l2h-2228"></a>
+
+<P>
+<b>Caveat:</b>  Some operations may only work under IRIX; these will
+raise <tt class=exception>ImportError</tt> when attempting to import the
+<tt class=module>cl</tt> module, which is only available on IRIX.
+
+<P>
+Audio files have a number of parameters that describe the audio data.
+The sampling rate or frame rate is the number of times per second the
+sound is sampled.  The number of channels indicate if the audio is
+mono, stereo, or quadro.  Each frame consists of one sample per
+channel.  The sample size is the size in bytes of each sample.  Thus a
+frame consists of <var>nchannels</var>*<var>samplesize</var> bytes, and a
+second's worth of audio consists of
+<var>nchannels</var>*<var>samplesize</var>*<var>framerate</var> bytes.
+
+<P>
+For example, CD quality audio has a sample size of two bytes (16
+bits), uses two channels (stereo) and has a frame rate of 44,100
+frames/second.  This gives a frame size of 4 bytes (2*2), and a
+second's worth occupies 2*2*44100 bytes, i.e. 176,400 bytes.
+
+<P>
+Module <tt class=module>aifc</tt> defines the following function:
+
+<P>
+<dl><dt><b><a name="l2h-2198"><tt class=function>open</tt></a></b> (<var>file, mode</var>)
+<dd>
+Open an AIFF or AIFF-C file and return an object instance with
+methods that are described below.  The argument file is either a
+string naming a file or a file object.  The mode is either the string
+<tt>'r'</tt> when the file must be opened for reading, or <tt>'w'</tt>when the file must be opened for writing.  When used for writing, the
+file object should be seekable, unless you know ahead of time how many
+samples you are going to write in total and use
+<tt class=method>writeframesraw()</tt> and <tt class=method>setnframes()</tt>.
+</dl>
+
+<P>
+Objects returned by <tt class=function>open()</tt> when a file is opened for
+reading have the following methods:
+
+<P>
+<dl><dt><b><a name="l2h-2199"><tt class=method>getnchannels</tt></a></b> ()
+<dd>
+Return the number of audio channels (1 for mono, 2 for stereo).
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2200"><tt class=method>getsampwidth</tt></a></b> ()
+<dd>
+Return the size in bytes of individual samples.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2201"><tt class=method>getframerate</tt></a></b> ()
+<dd>
+Return the sampling rate (number of audio frames per second).
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2202"><tt class=method>getnframes</tt></a></b> ()
+<dd>
+Return the number of audio frames in the file.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2203"><tt class=method>getcomptype</tt></a></b> ()
+<dd>
+Return a four-character string describing the type of compression used
+in the audio file.  For AIFF files, the returned value is
+<tt>'NONE'</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2204"><tt class=method>getcompname</tt></a></b> ()
+<dd>
+Return a human-readable description of the type of compression used in
+the audio file.  For AIFF files, the returned value is <tt>'not
+compressed'</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2205"><tt class=method>getparams</tt></a></b> ()
+<dd>
+Return a tuple consisting of all of the above values in the above
+order.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2206"><tt class=method>getmarkers</tt></a></b> ()
+<dd>
+Return a list of markers in the audio file.  A marker consists of a
+tuple of three elements.  The first is the mark ID (an integer), the
+second is the mark position in frames from the beginning of the data
+(an integer), the third is the name of the mark (a string).
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2207"><tt class=method>getmark</tt></a></b> (<var>id</var>)
+<dd>
+Return the tuple as described in <tt class=method>getmarkers()</tt> for the mark
+with the given <var>id</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2208"><tt class=method>readframes</tt></a></b> (<var>nframes</var>)
+<dd>
+Read and return the next <var>nframes</var> frames from the audio file.  The
+returned data is a string containing for each frame the uncompressed
+samples of all channels.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2209"><tt class=method>rewind</tt></a></b> ()
+<dd>
+Rewind the read pointer.  The next <tt class=method>readframes()</tt> will start from
+the beginning.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2210"><tt class=method>setpos</tt></a></b> (<var>pos</var>)
+<dd>
+Seek to the specified frame number.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2211"><tt class=method>tell</tt></a></b> ()
+<dd>
+Return the current frame number.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2212"><tt class=method>close</tt></a></b> ()
+<dd>
+Close the AIFF file.  After calling this method, the object can no
+longer be used.
+</dl>
+
+<P>
+Objects returned by <tt class=function>open()</tt> when a file is opened for
+writing have all the above methods, except for <tt class=method>readframes()</tt> and
+<tt class=method>setpos()</tt>.  In addition the following methods exist.  The
+<tt class=method>get*()</tt> methods can only be called after the corresponding
+<tt class=method>set*()</tt> methods have been called.  Before the first
+<tt class=method>writeframes()</tt> or <tt class=method>writeframesraw()</tt>, all parameters
+except for the number of frames must be filled in.
+
+<P>
+<dl><dt><b><a name="l2h-2213"><tt class=method>aiff</tt></a></b> ()
+<dd>
+Create an AIFF file.  The default is that an AIFF-C file is created,
+unless the name of the file ends in <tt>'.aiff'</tt> in which case the
+default is an AIFF file.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2214"><tt class=method>aifc</tt></a></b> ()
+<dd>
+Create an AIFF-C file.  The default is that an AIFF-C file is created,
+unless the name of the file ends in <tt>'.aiff'</tt> in which case the
+default is an AIFF file.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2215"><tt class=method>setnchannels</tt></a></b> (<var>nchannels</var>)
+<dd>
+Specify the number of channels in the audio file.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2216"><tt class=method>setsampwidth</tt></a></b> (<var>width</var>)
+<dd>
+Specify the size in bytes of audio samples.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2217"><tt class=method>setframerate</tt></a></b> (<var>rate</var>)
+<dd>
+Specify the sampling frequency in frames per second.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2218"><tt class=method>setnframes</tt></a></b> (<var>nframes</var>)
+<dd>
+Specify the number of frames that are to be written to the audio file.
+If this parameter is not set, or not set correctly, the file needs to
+support seeking.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2219"><tt class=method>setcomptype</tt></a></b> (<var>type, name</var>)
+<dd>
+Specify the compression type.  If not specified, the audio data will
+not be compressed.  In AIFF files, compression is not possible.  The
+name parameter should be a human-readable description of the
+compression type, the type parameter should be a four-character
+string.  Currently the following compression types are supported:
+NONE, ULAW, ALAW, G722.
+<a name="l2h-2229"></a>
+<a name="l2h-2230"></a>
+<a name="l2h-2231"></a>
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2220"><tt class=method>setparams</tt></a></b> (<var>nchannels, sampwidth, framerate, comptype, compname</var>)
+<dd>
+Set all the above parameters at once.  The argument is a tuple
+consisting of the various parameters.  This means that it is possible
+to use the result of a <tt class=method>getparams()</tt> call as argument to
+<tt class=method>setparams()</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2221"><tt class=method>setmark</tt></a></b> (<var>id, pos, name</var>)
+<dd>
+Add a mark with the given id (larger than 0), and the given name at
+the given position.  This method can be called at any time before
+<tt class=method>close()</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2222"><tt class=method>tell</tt></a></b> ()
+<dd>
+Return the current write position in the output file.  Useful in
+combination with <tt class=method>setmark()</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2223"><tt class=method>writeframes</tt></a></b> (<var>data</var>)
+<dd>
+Write data to the output file.  This method can only be called after
+the audio file parameters have been set.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2224"><tt class=method>writeframesraw</tt></a></b> (<var>data</var>)
+<dd>
+Like <tt class=method>writeframes()</tt>, except that the header of the audio file
+is not updated.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2225"><tt class=method>close</tt></a></b> ()
+<dd>
+Close the AIFF file.  The header of the file is updated to reflect the
+actual size of the audio data. After calling this method, the object
+can no longer be used.
+</dl><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3753"
+ HREF="module-rgbimg.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3749"
+ HREF="mmedia.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3743"
+ HREF="module-imageop.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3751"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3752"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3754"
+ HREF="module-rgbimg.html">14.4 rgbimg  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3750"
+ HREF="mmedia.html">14. Multimedia Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3744"
+ HREF="module-imageop.html">14.2 imageop  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

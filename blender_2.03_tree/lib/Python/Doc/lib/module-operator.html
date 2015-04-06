@@ -1,0 +1,331 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.5 operator -- Standard operators as functions.</TITLE>
+<META NAME="description" CONTENT="3.5 operator -- Standard operators as functions.">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-traceback.html">
+<LINK REL="previous" HREF="module-UserList.html">
+<LINK REL="up" HREF="python.html">
+<LINK REL="next" HREF="module-traceback.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html974"
+ HREF="module-traceback.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html970"
+ HREF="python.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html964"
+ HREF="module-UserList.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html972"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html973"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html975"
+ HREF="module-traceback.html">3.6 traceback  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html971"
+ HREF="python.html">3. Python Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html965"
+ HREF="module-UserList.html">3.4 UserList  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION005500000000000000000">
+3.5 <tt class=module>operator</tt> --
+         Standard operators as functions.</A>
+</H1>
+
+
+<P>
+
+<P>
+The <tt class=module>operator</tt> module exports a set of functions implemented in C
+corresponding to the intrinsic operators of Python.  For example,
+<tt>operator.add(x, y)</tt> is equivalent to the expression <tt>x+y</tt>.  The
+function names are those used for special class methods; variants without
+leading and trailing "<tt class=samp>__</tt>" are also provided for convenience.
+
+<P>
+The <tt class=module>operator</tt> module defines the following functions:
+
+<P>
+<dl><dt><b><a name="l2h-327"><tt class=function>add</tt></a></b> (<var>a, b</var>)
+<dd>
+<dt><b><a name="l2h-354"><tt class=function>__add__</tt> (in operator)</a></b> (<var>a, b</var>)
+<dd>
+Return <var>a</var> <tt>+</tt> <var>b</var>, for <var>a</var> and <var>b</var> numbers.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-328"><tt class=function>sub</tt></a></b> (<var>a, b</var>)
+<dd>
+<dt><b><a name="l2h-355"><tt class=function>__sub__</tt> (in operator)</a></b> (<var>a, b</var>)
+<dd>
+Return <var>a</var> <tt>-</tt> <var>b</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-329"><tt class=function>mul</tt></a></b> (<var>a, b</var>)
+<dd>
+<dt><b><a name="l2h-356"><tt class=function>__mul__</tt> (in operator)</a></b> (<var>a, b</var>)
+<dd>
+Return <var>a</var> <tt>*</tt> <var>b</var>, for <var>a</var> and <var>b</var> numbers.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-330"><tt class=function>div</tt></a></b> (<var>a, b</var>)
+<dd>
+<dt><b><a name="l2h-357"><tt class=function>__div__</tt> (in operator)</a></b> (<var>a, b</var>)
+<dd>
+Return <var>a</var> <tt>/</tt> <var>b</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-331"><tt class=function>mod</tt></a></b> (<var>a, b</var>)
+<dd>
+<dt><b><a name="l2h-358"><tt class=function>__mod__</tt> (in operator)</a></b> (<var>a, b</var>)
+<dd>
+Return <var>a</var> <tt>%</tt> <var>b</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-332"><tt class=function>neg</tt></a></b> (<var>o</var>)
+<dd>
+<dt><b><a name="l2h-359"><tt class=function>__neg__</tt> (in operator)</a></b> (<var>o</var>)
+<dd>
+Return <var>o</var> negated.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-333"><tt class=function>pos</tt></a></b> (<var>o</var>)
+<dd>
+<dt><b><a name="l2h-360"><tt class=function>__pos__</tt> (in operator)</a></b> (<var>o</var>)
+<dd>
+Return <var>o</var> positive.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-334"><tt class=function>abs</tt></a></b> (<var>o</var>)
+<dd>
+<dt><b><a name="l2h-361"><tt class=function>__abs__</tt> (in operator)</a></b> (<var>o</var>)
+<dd>
+Return the absolute value of <var>o</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-335"><tt class=function>inv</tt></a></b> (<var>o</var>)
+<dd>
+<dt><b><a name="l2h-362"><tt class=function>__inv__</tt> (in operator)</a></b> (<var>o</var>)
+<dd>
+Return the inverse of <var>o</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-336"><tt class=function>lshift</tt></a></b> (<var>a, b</var>)
+<dd>
+<dt><b><a name="l2h-363"><tt class=function>__lshift__</tt> (in operator)</a></b> (<var>a, b</var>)
+<dd>
+Return <var>a</var> shifted left by <var>b</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-337"><tt class=function>rshift</tt></a></b> (<var>a, b</var>)
+<dd>
+<dt><b><a name="l2h-364"><tt class=function>__rshift__</tt> (in operator)</a></b> (<var>a, b</var>)
+<dd>
+Return <var>a</var> shifted right by <var>b</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-338"><tt class=function>and_</tt></a></b> (<var>a, b</var>)
+<dd>
+<dt><b><a name="l2h-365"><tt class=function>__and__</tt> (in operator)</a></b> (<var>a, b</var>)
+<dd>
+Return the bitwise and of <var>a</var> and <var>b</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-339"><tt class=function>or_</tt></a></b> (<var>a, b</var>)
+<dd>
+<dt><b><a name="l2h-366"><tt class=function>__or__</tt> (in operator)</a></b> (<var>a, b</var>)
+<dd>
+Return the bitwise or of <var>a</var> and <var>b</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-340"><tt class=function>xor</tt></a></b> (<var>a, b</var>)
+<dd>
+<dt><b><a name="l2h-367"><tt class=function>__xor__</tt> (in operator)</a></b> (<var>a, b</var>)
+<dd>
+Return the bitwise exclusive or of <var>a</var> and <var>b</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-341"><tt class=function>not_</tt></a></b> (<var>o</var>)
+<dd>
+<dt><b><a name="l2h-368"><tt class=function>__not__</tt> (in operator)</a></b> (<var>o</var>)
+<dd>
+Return the outcome of <tt class=keyword>not</tt> <var>o</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-342"><tt class=function>truth</tt></a></b> (<var>o</var>)
+<dd>
+Return <tt>1</tt> if <var>o</var> is true, and 0 otherwise.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-343"><tt class=function>concat</tt></a></b> (<var>a, b</var>)
+<dd>
+<dt><b><a name="l2h-369"><tt class=function>__concat__</tt> (in operator)</a></b> (<var>a, b</var>)
+<dd>
+Return <var>a</var> <tt>+</tt> <var>b</var> for <var>a</var> and <var>b</var> sequences.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-344"><tt class=function>repeat</tt></a></b> (<var>a, b</var>)
+<dd>
+<dt><b><a name="l2h-370"><tt class=function>__repeat__</tt> (in operator)</a></b> (<var>a, b</var>)
+<dd>
+Return <var>a</var> <tt>*</tt> <var>b</var> where <var>a</var> is a sequence and
+<var>b</var> is an integer.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-345"><tt class=function>contains</tt></a></b> (<var>a, b</var>)
+<dd>
+<dt><b><a name="l2h-371"><tt class=function>sequenceIncludes</tt> (in operator)</a></b> (<var>a, b</var>)
+<dd>
+Return the outcome of the test <var>b</var> <tt>in</tt> <var>a</var>.
+Note the reversed operands.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-346"><tt class=function>countOf</tt></a></b> (<var>a, b</var>)
+<dd>
+Return the number of occurrences of <var>b</var> in <var>a</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-347"><tt class=function>indexOf</tt></a></b> (<var>a, b</var>)
+<dd>
+Return the index of the first of occurrence of <var>b</var> in <var>a</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-348"><tt class=function>getitem</tt></a></b> (<var>a, b</var>)
+<dd>
+<dt><b><a name="l2h-372"><tt class=function>__getitem__</tt> (in operator)</a></b> (<var>a, b</var>)
+<dd>
+Return the value of <var>a</var> at index <var>b</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-349"><tt class=function>setitem</tt></a></b> (<var>a, b, c</var>)
+<dd>
+<dt><b><a name="l2h-373"><tt class=function>__setitem__</tt> (in operator)</a></b> (<var>a, b, c</var>)
+<dd>
+Set the value of <var>a</var> at index <var>b</var> to <var>c</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-350"><tt class=function>delitem</tt></a></b> (<var>a, b</var>)
+<dd>
+<dt><b><a name="l2h-374"><tt class=function>__delitem__</tt> (in operator)</a></b> (<var>a, b</var>)
+<dd>
+Remove the value of <var>a</var> at index <var>b</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-351"><tt class=function>getslice</tt></a></b> (<var>a, b, c</var>)
+<dd>
+<dt><b><a name="l2h-375"><tt class=function>__getslice__</tt> (in operator)</a></b> (<var>a, b, c</var>)
+<dd>
+Return the slice of <var>a</var> from index <var>b</var> to index <var>c</var><tt>-1</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-352"><tt class=function>setslice</tt></a></b> (<var>a, b, c, v</var>)
+<dd>
+<dt><b><a name="l2h-376"><tt class=function>__setslice__</tt> (in operator)</a></b> (<var>a, b, c, v</var>)
+<dd>
+Set the slice of <var>a</var> from index <var>b</var> to index <var>c</var><tt>-1</tt> to the
+sequence <var>v</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-353"><tt class=function>delslice</tt></a></b> (<var>a, b, c</var>)
+<dd>
+<dt><b><a name="l2h-377"><tt class=function>__delslice__</tt> (in operator)</a></b> (<var>a, b, c</var>)
+<dd>
+Delete the slice of <var>a</var> from index <var>b</var> to index <var>c</var><tt>-1</tt>.
+</dl>
+
+<P>
+Example: Build a dictionary that maps the ordinals from <tt>0</tt> to
+<tt>256</tt> to their character equivalents.
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; import operator
+&gt;&gt;&gt; d = {}
+&gt;&gt;&gt; keys = range(256)
+&gt;&gt;&gt; vals = map(chr, keys)
+&gt;&gt;&gt; map(operator.setitem, [d]*len(keys), keys, vals)
+</pre></dl><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html974"
+ HREF="module-traceback.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html970"
+ HREF="python.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html964"
+ HREF="module-UserList.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html972"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html973"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html975"
+ HREF="module-traceback.html">3.6 traceback  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html971"
+ HREF="python.html">3. Python Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html965"
+ HREF="module-UserList.html">3.4 UserList  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

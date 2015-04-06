@@ -1,0 +1,221 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.5 threading -- Higher-level threading interface</TITLE>
+<META NAME="description" CONTENT="7.5 threading -- Higher-level threading interface">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-Queue.html">
+<LINK REL="previous" HREF="module-thread.html">
+<LINK REL="up" HREF="someos.html">
+<LINK REL="next" HREF="lock-objects.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2157"
+ HREF="lock-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2153"
+ HREF="someos.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2147"
+ HREF="module-thread.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2155"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2156"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2158"
+ HREF="lock-objects.html">7.5.1 Lock Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2154"
+ HREF="someos.html">7. Optional Operating System</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2148"
+ HREF="module-thread.html">7.4 thread  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION009500000000000000000">
+7.5 <tt class=module>threading</tt> --
+         Higher-level threading interface</A>
+</H1>
+
+<P>
+
+
+<P>
+This module constructs higher-level threading interfaces on top of the 
+lower level <tt class=module>thread</tt> module.
+
+<P>
+This module is safe for use with "<tt class=samp>from threading import *</tt>".  It
+defines the following functions and objects:
+
+<P>
+<dl><dt><b><a name="l2h-1315"><tt class=function>activeCount</tt></a></b> ()
+<dd>
+Return the number of currently active <tt class=class>Thread</tt> objects.
+The returned count is equal to the length of the list returned by
+<tt class=function>enumerate()</tt>.
+A function that returns the number of currently active threads.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1316"><tt class=function>Condition</tt></a></b> ()
+<dd>
+A factory function that returns a new condition variable object.
+A condition variable allows one or more threads to wait until they
+are notified by another thread.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1317"><tt class=function>currentThread</tt></a></b> ()
+<dd>
+Return the current <tt class=class>Thread</tt> object, corresponding to the
+caller's thread of control.  If the caller's thread of control was not
+created through the
+<tt class=module>threading</tt> module, a dummy thread object with limited functionality
+is returned.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1318"><tt class=function>enumerate</tt></a></b> ()
+<dd>
+Return a list of all currently active <tt class=class>Thread</tt> objects.
+The list includes daemonic threads, dummy thread objects created
+by <tt class=function>currentThread()</tt>, and the main thread.  It excludes terminated
+threads and threads that have not yet been started.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1319"><tt class=function>Event</tt></a></b> ()
+<dd>
+A factory function that returns a new event object.  An event
+manages a flag that can be set to true with the <tt class=method>set()</tt> method and
+reset to false with the <tt class=method>clear()</tt> method.  The <tt class=method>wait()</tt> method blocks
+until the flag is true.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1320"><tt class=function>Lock</tt></a></b> ()
+<dd>
+A factory function that returns a new primitive lock object.  Once
+a thread has acquired it, subsequent attempts to acquire it block,
+until it is released; any thread may release it.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1321"><tt class=function>RLock</tt></a></b> ()
+<dd>
+A factory function that returns a new reentrant lock object.
+A reentrant lock must be released by the thread that acquired it.
+Once a thread has acquired a reentrant lock, the same thread may
+acquire it again without blocking; the thread must release it once
+for each time it has acquired it.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1322"><tt class=function>Semaphore</tt></a></b> ()
+<dd>
+A factory function that returns a new semaphore object.  A
+semaphore manages a counter representing the number of <tt class=method>release()</tt>
+calls minus the number of <tt class=method>acquire()</tt> calls, plus an initial value.
+The <tt class=method>acquire()</tt> method blocks if necessary until it can return
+without making the counter negative.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1323"><tt class=class>Thread</tt></a></b> ()
+<dd>
+A class that represents a thread of control.  This class can be safely subclassed in a limited fashion.
+</dl>
+
+<P>
+Detailed interfaces for the objects are documented below.  
+
+<P>
+The design of this module is loosely based on Java's threading model.
+However, where Java makes locks and condition variables basic behavior
+of every object, they are separate objects in Python.  Python's <tt class=class>Thread</tt>
+class supports a subset of the behavior of Java's Thread class;
+currently, there are no priorities, no thread groups, and threads
+cannot be destroyed, stopped, suspended, resumed, or interrupted.  The
+static methods of Java's Thread class, when implemented, are mapped to
+module-level functions.
+
+<P>
+All of the methods described below are executed atomically.
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html2159"
+ HREF="lock-objects.html">7.5.1 Lock Objects </A>
+<LI><A NAME="tex2html2160"
+ HREF="rlock-objects.html">7.5.2 RLock Objects </A>
+<LI><A NAME="tex2html2161"
+ HREF="condition-objects.html">7.5.3 Condition Objects </A>
+<LI><A NAME="tex2html2162"
+ HREF="semaphore-objects.html">7.5.4 Semaphore Objects </A>
+<LI><A NAME="tex2html2163"
+ HREF="event-objects.html">7.5.5 Event Objects </A>
+<LI><A NAME="tex2html2164"
+ HREF="thread-objects.html">7.5.6 Thread Objects </A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2157"
+ HREF="lock-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2153"
+ HREF="someos.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2147"
+ HREF="module-thread.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2155"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2156"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2158"
+ HREF="lock-objects.html">7.5.1 Lock Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2154"
+ HREF="someos.html">7. Optional Operating System</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2148"
+ HREF="module-thread.html">7.4 thread  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

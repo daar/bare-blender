@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>6.5 The del statement</TITLE>
+<META NAME="description" CONTENT="6.5 The del statement">
+<META NAME="keywords" CONTENT="ref">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ref.css">
+<LINK REL="next" HREF="print.html">
+<LINK REL="previous" HREF="pass.html">
+<LINK REL="up" HREF="simple.html">
+<LINK REL="next" HREF="print.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1063"
+ HREF="print.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1059"
+ HREF="simple.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1053"
+ HREF="pass.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html1061"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html1062"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1064"
+ HREF="print.html">6.6 The print statement</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1060"
+ HREF="simple.html">6. Simple statements</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1054"
+ HREF="pass.html">6.4 The pass statement</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION008500000000000000000"></A>
+<BR>
+6.5 The <tt class=keyword>del</tt> statement
+</H1>
+<a name="l2h-594"></a>
+
+<P>
+<dl><dd><pre class=verbatim>
+del_stmt:       "del" target_list
+</pre></dl>
+
+<P>
+Deletion is recursively defined very similar to the way assignment is
+defined. Rather that spelling it out in full details, here are some
+hints.
+<a name="l2h-595"></a>
+<a name="l2h-596"></a>
+
+<P>
+Deletion of a target list recursively deletes each target, from left
+to right.
+
+<P>
+Deletion of a name removes the binding of that name (which must exist)
+from the local or global namespace, depending on whether the name
+occurs in a <tt class=keyword>global</tt> statement in the same code block.
+<a name="l2h-597"></a>
+<a name="l2h-598"></a>
+
+<P>
+Deletion of attribute references, subscriptions and slicings
+is passed to the primary object involved; deletion of a slicing
+is in general equivalent to assignment of an empty slice of the
+right type (but even this is determined by the sliced object).
+<a name="l2h-599"></a>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1063"
+ HREF="print.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1059"
+ HREF="simple.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1053"
+ HREF="pass.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html1061"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html1062"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1064"
+ HREF="print.html">6.6 The print statement</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1060"
+ HREF="simple.html">6. Simple statements</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1054"
+ HREF="pass.html">6.4 The pass statement</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

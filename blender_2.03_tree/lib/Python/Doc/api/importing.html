@@ -1,0 +1,261 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>5.3 Importing Modules </TITLE>
+<META NAME="description" CONTENT="5.3 Importing Modules ">
+<META NAME="keywords" CONTENT="api">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="api.css">
+<LINK REL="previous" HREF="processControl.html">
+<LINK REL="up" HREF="utilities.html">
+<LINK REL="next" HREF="abstract.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html301"
+ HREF="abstract.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html297"
+ HREF="utilities.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html293"
+ HREF="processControl.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python/C API Reference Manual</b></td>
+<td><A NAME="tex2html299"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html300"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html302"
+ HREF="abstract.html">6. Abstract Objects Layer</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html298"
+ HREF="utilities.html">5. Utilities</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html294"
+ HREF="processControl.html">5.2 Process Control</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION007300000000000000000"></A>
+<BR>
+5.3 Importing Modules 
+</H1>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-49"><tt class=cfunction>PyImport_ImportModule</tt></a></b> (<var>char *name</var>)
+<dd>
+This is a simplified interface to <tt class=cfunction>PyImport_ImportModuleEx()</tt>
+below, leaving the <var>globals</var> and <var>locals</var> arguments set to
+<tt>NULL</tt>.  When the <var>name</var> argument contains a dot (i.e., when
+it specifies a submodule of a package), the <var>fromlist</var> argument is
+set to the list <tt>['*']</tt> so that the return value is the named
+module rather than the top-level package containing it as would
+otherwise be the case.  (Unfortunately, this has an additional side
+effect when <var>name</var> in fact specifies a subpackage instead of a
+submodule: the submodules specified in the package's <tt>__all__</tt>variable are loaded.)  Return a new reference to the imported module,
+or <tt>NULL</tt> with an exception set on failure (the module may still
+be created in this case -- examine <tt>sys.modules</tt> to find out).
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-50"><tt class=cfunction>PyImport_ImportModuleEx</tt></a></b> (<var>char *name, PyObject *globals, PyObject *locals, PyObject *fromlist</var>)
+<dd>
+Import a module.  This is best described by referring to the built-in
+Python function <tt class=function>__import__()</tt><a name="l2h-65"></a>, as
+the standard <tt class=function>__import__()</tt> function calls this function
+directly.
+
+<P>
+The return value is a new reference to the imported module or
+top-level package, or <tt>NULL</tt> with an exception set on failure
+(the module may still be created in this case).  Like for
+<tt class=function>__import__()</tt>, the return value when a submodule of a
+package was requested is normally the top-level package, unless a
+non-empty <var>fromlist</var> was given.
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-51"><tt class=cfunction>PyImport_Import</tt></a></b> (<var>PyObject *name</var>)
+<dd>
+This is a higher-level interface that calls the current ``import hook
+function''.  It invokes the <tt class=function>__import__()</tt> function from the
+<tt>__builtins__</tt> of the current globals.  This means that the
+import is done using whatever import hooks are installed in the
+current environment, e.g. by <tt class=module>rexec</tt><a name="l2h-66"></a> or
+<tt class=module>ihooks</tt><a name="l2h-67"></a>.
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-52"><tt class=cfunction>PyImport_ReloadModule</tt></a></b> (<var>PyObject *m</var>)
+<dd>
+Reload a module.  This is best described by referring to the built-in
+Python function <tt class=function>reload()</tt><a name="l2h-68"></a>, as the standard
+<tt class=function>reload()</tt> function calls this function directly.  Return a
+new reference to the reloaded module, or <tt>NULL</tt> with an exception set
+on failure (the module still exists in this case).
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-53"><tt class=cfunction>PyImport_AddModule</tt></a></b> (<var>char *name</var>)
+<dd>
+Return the module object corresponding to a module name.  The
+<var>name</var> argument may be of the form <tt>package.module</tt>).  First
+check the modules dictionary if there's one there, and if not, create
+a new one and insert in in the modules dictionary.  Because the former
+action is most common, this does not return a new reference, and you
+do not own the returned reference.
+Warning: this function does not load or import the module; if the
+module wasn't already loaded, you will get an empty module object.
+Use <tt class=cfunction>PyImport_ImportModule()</tt> or one of its variants to
+import a module.
+Return <tt>NULL</tt> with an
+exception set on failure.  <b>Note:</b> this function returns
+a ``borrowed'' reference.  
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-54"><tt class=cfunction>PyImport_ExecCodeModule</tt></a></b> (<var>char *name, PyObject *co</var>)
+<dd>
+Given a module name (possibly of the form <tt>package.module</tt>) and a
+code object read from a Python bytecode file or obtained from the
+built-in function <tt class=function>compile()</tt><a name="l2h-69"></a>, load the
+module.  Return a new reference to the module object, or <tt>NULL</tt> with
+an exception set if an error occurred (the module may still be created
+in this case).  (This function would reload the module if it was
+already imported.)
+</dl>
+
+<P>
+<dl><dt>long <b><a name="l2h-55"><tt class=cfunction>PyImport_GetMagicNumber</tt></a></b> ()
+<dd>
+Return the magic number for Python bytecode files (a.k.a. "<tt class=file>.pyc</tt>"
+and "<tt class=file>.pyo</tt>" files).  The magic number should be present in the
+first four bytes of the bytecode file, in little-endian byte order.
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-56"><tt class=cfunction>PyImport_GetModuleDict</tt></a></b> ()
+<dd>
+Return the dictionary used for the module administration
+(a.k.a. <tt>sys.modules</tt>).  Note that this is a per-interpreter
+variable.
+</dl>
+
+<P>
+<dl><dt>void <b><a name="l2h-57"><tt class=cfunction>_PyImport_Init</tt></a></b> ()
+<dd>
+Initialize the import mechanism.  For internal use only.
+</dl>
+
+<P>
+<dl><dt>void <b><a name="l2h-58"><tt class=cfunction>PyImport_Cleanup</tt></a></b> ()
+<dd>
+Empty the module table.  For internal use only.
+</dl>
+
+<P>
+<dl><dt>void <b><a name="l2h-59"><tt class=cfunction>_PyImport_Fini</tt></a></b> ()
+<dd>
+Finalize the import mechanism.  For internal use only.
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-60"><tt class=cfunction>_PyImport_FindExtension</tt></a></b> (<var>char *, char *</var>)
+<dd>
+For internal use only.
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-61"><tt class=cfunction>_PyImport_FixupExtension</tt></a></b> (<var>char *, char *</var>)
+<dd>
+For internal use only.
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-62"><tt class=cfunction>PyImport_ImportFrozenModule</tt></a></b> (<var>char *</var>)
+<dd>
+Load a frozen module.  Return <tt>1</tt> for success, <tt>0</tt> if the
+module is not found, and <tt>-1</tt> with an exception set if the
+initialization failed.  To access the imported module on a successful
+load, use <tt class=cfunction>PyImport_ImportModule()</tt>.
+(Note the misnomer -- this function would reload the module if it was
+already imported.)
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-63"><tt class=ctype>struct _frozen</tt></a></b>
+<dd>
+This is the structure type definition for frozen module descriptors,
+as generated by the <b class=program>freeze</b><a name="l2h-70"></a> utility
+(see "<tt class=file>Tools/freeze/</tt>" in the Python source distribution).  Its
+definition is:
+
+<P>
+<dl><dd><pre class=verbatim>
+struct _frozen {
+    char *name;
+    unsigned char *code;
+    int size;
+};
+</pre></dl>
+</dl>
+
+<P>
+<dl><dt>struct _frozen* <b><a name="l2h-64"><tt class=cdata>PyImport_FrozenModules</tt></a></b>
+<dd>
+This pointer is initialized to point to an array of <tt class=ctype>struct
+_frozen</tt> records, terminated by one whose members are all <tt>NULL</tt>
+or zero.  When a frozen module is imported, it is searched in this
+table.  Third-party code could play tricks with this to provide a
+dynamically created collection of frozen modules.
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html301"
+ HREF="abstract.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html297"
+ HREF="utilities.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html293"
+ HREF="processControl.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python/C API Reference Manual</b></td>
+<td><A NAME="tex2html299"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html300"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html302"
+ HREF="abstract.html">6. Abstract Objects Layer</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html298"
+ HREF="utilities.html">5. Utilities</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html294"
+ HREF="processControl.html">5.2 Process Control</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

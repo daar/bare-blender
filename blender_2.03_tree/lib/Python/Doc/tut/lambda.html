@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4.7.4 Lambda Forms </TITLE>
+<META NAME="description" CONTENT="4.7.4 Lambda Forms ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="docstrings.html">
+<LINK REL="previous" HREF="arbitraryArgs.html">
+<LINK REL="up" HREF="defining.html">
+<LINK REL="next" HREF="docstrings.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html494"
+ HREF="docstrings.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html491"
+ HREF="defining.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html485"
+ HREF="arbitraryArgs.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html493"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html495"
+ HREF="docstrings.html">4.7.5 Documentation Strings</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html492"
+ HREF="defining.html">4.7 More on Defining</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html486"
+ HREF="arbitraryArgs.html">4.7.3 Arbitrary Argument Lists</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION006740000000000000000"></A>
+<BR>
+4.7.4 Lambda Forms 
+</H2>
+
+<P>
+By popular demand, a few features commonly found in functional
+programming languages and Lisp have been added to Python.  With the
+<tt class=keyword>lambda</tt> keyword, small anonymous functions can be created.
+Here's a function that returns the sum of its two arguments:
+"<tt class=samp>lambda a, b: a+b</tt>".  Lambda forms can be used wherever function
+objects are required.  They are syntactically restricted to a single
+expression.  Semantically, they are just syntactic sugar for a normal
+function definition.  Like nested function definitions, lambda forms
+cannot reference variables from the containing scope, but this can be
+overcome through the judicious use of default argument values, e.g.
+
+<P>
+<dl><dd><pre class=verbatim>
+def make_incrementor(n):
+    return lambda x, incr=n: x+incr
+</pre></dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html494"
+ HREF="docstrings.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html491"
+ HREF="defining.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html485"
+ HREF="arbitraryArgs.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html493"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html495"
+ HREF="docstrings.html">4.7.5 Documentation Strings</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html492"
+ HREF="defining.html">4.7 More on Defining</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html486"
+ HREF="arbitraryArgs.html">4.7.3 Arbitrary Argument Lists</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

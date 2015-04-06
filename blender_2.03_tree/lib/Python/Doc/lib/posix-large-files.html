@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>8.1.1 Large File Support </TITLE>
+<META NAME="description" CONTENT="8.1.1 Large File Support ">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="posix-contents.html">
+<LINK REL="previous" HREF="module-posix.html">
+<LINK REL="up" HREF="module-posix.html">
+<LINK REL="next" HREF="posix-contents.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2352"
+ HREF="posix-contents.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2348"
+ HREF="module-posix.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2342"
+ HREF="module-posix.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2350"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2351"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2353"
+ HREF="posix-contents.html">8.1.2 Module Contents</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2349"
+ HREF="module-posix.html">8.1 posix  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2343"
+ HREF="module-posix.html">8.1 posix  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0010110000000000000000"></A>
+<BR>
+8.1.1 Large File Support 
+</H2>
+
+<a name="l2h-1393"></a>
+<a name="l2h-1394"></a>
+
+<P>
+Several operating systems (including AIX, HPUX, Irix and Solaris)
+provide support for files that are larger than 2 Gb from a C
+programming model where <tt class=ctype>int</tt> and <tt class=ctype>long</tt> are 32-bit
+values. This is typically accomplished by defining the relevant size
+and offset types as 64-bit values. Such files are sometimes referred
+to as <i class=dfn>large files</i>.
+
+<P>
+Large file support is enabled in Python when the size of an
+<tt class=ctype>off_t</tt> is larger than a <tt class=ctype>long</tt> and the <tt class=ctype>long long</tt>
+type is available and is at least as large as an <tt class=ctype>off_t</tt>. Python
+longs are then used to represent file sizes, offsets and other values
+that can exceed the range of a Python int. It may be necessary to
+configure and compile Python with certain compiler flags to enable
+this mode. For example, it is enabled by default with recent versions
+of Irix, but with Solaris 2.6 and 2.7 you need to do something like:
+
+<P>
+<dl><dd><pre class=verbatim>
+CFLAGS="-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64" OPT="-g -O2 $CFLAGS" \
+        configure
+</pre></dl> 
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2352"
+ HREF="posix-contents.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2348"
+ HREF="module-posix.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2342"
+ HREF="module-posix.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2350"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2351"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2353"
+ HREF="posix-contents.html">8.1.2 Module Contents</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2349"
+ HREF="module-posix.html">8.1 posix  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2343"
+ HREF="module-posix.html">8.1 posix  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>11.1.9 Common problems and solutions</TITLE>
+<META NAME="description" CONTENT="11.1.9 Common problems and solutions">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="previous" HREF="node193.html">
+<LINK REL="up" HREF="module-cgi.html">
+<LINK REL="next" HREF="module-urllib.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2901"
+ HREF="module-urllib.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2897"
+ HREF="module-cgi.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2893"
+ HREF="node193.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2899"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2900"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2902"
+ HREF="module-urllib.html">11.2 urllib  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2898"
+ HREF="module-cgi.html">11.1 cgi  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2894"
+ HREF="node193.html">11.1.8 Debugging CGI scripts</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0013190000000000000000">
+11.1.9 Common problems and solutions</A>
+</H2>
+
+<P>
+
+<UL><LI>Most HTTP servers buffer the output from CGI scripts until the
+script is completed.  This means that it is not possible to display a
+progress report on the client's display while the script is running.
+
+<P>
+
+<LI>Check the installation instructions above.
+
+<P>
+
+<LI>Check the HTTP server's log files.  ("<tt class=samp>tail -f logfile</tt>" in a
+separate window may be useful!)
+
+<P>
+
+<LI>Always check a script for syntax errors first, by doing something
+like "<tt class=samp>python script.py</tt>".
+
+<P>
+
+<LI>When using any of the debugging techniques, don't forget to add
+"<tt class=samp>import sys</tt>" to the top of the script.
+
+<P>
+
+<LI>When invoking external programs, make sure they can be found.
+Usually, this means using absolute path names -- <span class=envvar><a name="l2h-1570">$PATH</a></span> is
+usually not set to a very useful value in a CGI script.
+
+<P>
+
+<LI>When reading or writing external files, make sure they can be read
+or written by every user on the system.
+
+<P>
+
+<LI>Don't try to give a CGI script a set-uid mode.  This doesn't work on
+most systems, and is a security liability as well.
+
+</UL>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2901"
+ HREF="module-urllib.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2897"
+ HREF="module-cgi.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2893"
+ HREF="node193.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2899"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2900"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2902"
+ HREF="module-urllib.html">11.2 urllib  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2898"
+ HREF="module-cgi.html">11.1 cgi  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2894"
+ HREF="node193.html">11.1.8 Debugging CGI scripts</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

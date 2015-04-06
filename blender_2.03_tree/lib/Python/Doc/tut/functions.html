@@ -1,0 +1,229 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4.6 Defining Functions </TITLE>
+<META NAME="description" CONTENT="4.6 Defining Functions ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="defining.html">
+<LINK REL="previous" HREF="pass.html">
+<LINK REL="up" HREF="moreControl.html">
+<LINK REL="next" HREF="defining.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html436"
+ HREF="defining.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html433"
+ HREF="moreControl.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html427"
+ HREF="pass.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html435"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html437"
+ HREF="defining.html">4.7 More on Defining</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html434"
+ HREF="moreControl.html">4. More Control Flow</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html428"
+ HREF="pass.html">4.5 pass Statements</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION006600000000000000000"></A>
+<BR>
+4.6 Defining Functions 
+</H1>
+
+<P>
+We can create a function that writes the Fibonacci series to an
+arbitrary boundary:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; def fib(n):    # write Fibonacci series up to n
+...     "Print a Fibonacci series up to n"
+...     a, b = 0, 1
+...     while b &lt; n:
+...         print b,
+...         a, b = b, a+b
+... 
+&gt;&gt;&gt; # Now call the function we just defined:
+... fib(2000)
+1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597
+</pre></dl>
+
+<P>
+The keyword <tt class=keyword>def</tt> introduces a function <i>definition</i>.  It
+must be followed by the function name and the parenthesized list of
+formal parameters.  The statements that form the body of the function
+start at the next line, indented by a tab stop.  The first statement
+of the function body can optionally be a string literal; this string
+literal is the function's documentation string, or <i class=dfn>docstring</i>.
+There are tools which use docstrings to automatically produce printed
+documentation, or to let the user interactively browse through code;
+it's good practice to include docstrings in code that you write, so
+try to make a habit of it.
+
+<P>
+The <i>execution</i> of a function introduces a new symbol table used
+for the local variables of the function.  More precisely, all variable
+assignments in a function store the value in the local symbol table;
+whereas variable references first look in the local symbol table, then
+in the global symbol table, and then in the table of built-in names.
+Thus,  global variables cannot be directly assigned a value within a
+function (unless named in a <tt class=keyword>global</tt> statement), although
+they may be referenced.
+
+<P>
+The actual parameters (arguments) to a function call are introduced in
+the local symbol table of the called function when it is called; thus,
+arguments are passed using <i>call by value</i>.<A NAME="tex2html2"
+ HREF="#foot1120"><SUP>4.1</SUP></A>When a function calls another function, a new local symbol table is
+created for that call.
+
+<P>
+A function definition introduces the function name in the current
+symbol table.  The value of the function name
+has a type that is recognized by the interpreter as a user-defined
+function.  This value can be assigned to another name which can then
+also be used as a function.  This serves as a general renaming
+mechanism:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; fib
+&lt;function object at 10042ed0&gt;
+&gt;&gt;&gt; f = fib
+&gt;&gt;&gt; f(100)
+1 1 2 3 5 8 13 21 34 55 89
+</pre></dl>
+
+<P>
+You might object that <tt>fib</tt> is not a function but a procedure.  In
+Python, like in C, procedures are just functions that don't return a
+value.  In fact, technically speaking, procedures do return a value,
+albeit a rather boring one.  This value is called <tt>None</tt> (it's a
+built-in name).  Writing the value <tt>None</tt> is normally suppressed by
+the interpreter if it would be the only value written.  You can see it
+if you really want to:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; print fib(0)
+None
+</pre></dl>
+
+<P>
+It is simple to write a function that returns a list of the numbers of
+the Fibonacci series, instead of printing it:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; def fib2(n): # return Fibonacci series up to n
+...     "Return a list containing the Fibonacci series up to n"
+...     result = []
+...     a, b = 0, 1
+...     while b &lt; n:
+...         result.append(b)    # see below
+...         a, b = b, a+b
+...     return result
+... 
+&gt;&gt;&gt; f100 = fib2(100)    # call it
+&gt;&gt;&gt; f100                # write the result
+[1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
+</pre></dl>
+This example, as usual, demonstrates some new Python features:
+
+<P>
+
+<UL><LI>The <tt class=keyword>return</tt> statement returns with a value from a function.
+<tt class=keyword>return</tt> without an expression argument is used to return from 
+the middle of a procedure (falling off the end also returns from a
+procedure), in which case the <tt>None</tt> value is returned.
+
+<P>
+
+<LI>The statement <tt>result.append(b)</tt> calls a <i>method</i> of the list
+object <tt>result</tt>.  A method is a function that `belongs' to an
+object and is named <tt>obj.methodname</tt>, where <tt>obj</tt> is some
+object (this may be an expression), and <tt>methodname</tt> is the name
+of a method that is defined by the object's type.  Different types
+define different methods.  Methods of different types may have the
+same name without causing ambiguity.  (It is possible to define your
+own object types and methods, using <i>classes</i>, as discussed later
+in this tutorial.)
+The method <tt class=method>append()</tt> shown in the example, is defined for
+list objects; it adds a new element at the end of the list.  In this
+example it is equivalent to "<tt class=samp>result = result + [b]</tt>", but more
+efficient.
+
+<P>
+
+</UL>
+
+<P>
+<BR><HR><H4>Footnotes</H4>
+<DL>
+<DT><A NAME="foot1120">... value.</A><A NAME="foot1120"
+ HREF="functions.html#tex2html2"><SUP>4.1</SUP></A>
+<DD>
+         Actually, <i>call by object reference</i> would be a better
+         description, since if a mutable object is passed, the caller
+         will see any changes the callee makes to it (e.g., items
+         inserted into a list).
+
+
+</DL><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html436"
+ HREF="defining.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html433"
+ HREF="moreControl.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html427"
+ HREF="pass.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html435"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html437"
+ HREF="defining.html">4.7 More on Defining</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html434"
+ HREF="moreControl.html">4. More Control Flow</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html428"
+ HREF="pass.html">4.5 pass Statements</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

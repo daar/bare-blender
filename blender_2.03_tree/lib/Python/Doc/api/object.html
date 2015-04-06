@@ -1,0 +1,317 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>6.1 Object Protocol </TITLE>
+<META NAME="description" CONTENT="6.1 Object Protocol ">
+<META NAME="keywords" CONTENT="api">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="api.css">
+<LINK REL="next" HREF="number.html">
+<LINK REL="previous" HREF="abstract.html">
+<LINK REL="up" HREF="abstract.html">
+<LINK REL="next" HREF="number.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html330"
+ HREF="number.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html326"
+ HREF="abstract.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html320"
+ HREF="abstract.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python/C API Reference Manual</b></td>
+<td><A NAME="tex2html328"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html329"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html331"
+ HREF="number.html">6.2 Number Protocol</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html327"
+ HREF="abstract.html">6. Abstract Objects Layer</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html321"
+ HREF="abstract.html">6. Abstract Objects Layer</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION008100000000000000000"></A>
+<BR>
+6.1 Object Protocol 
+</H1>
+
+<P>
+<dl><dt>int <b><a name="l2h-71"><tt class=cfunction>PyObject_Print</tt></a></b> (<var>PyObject *o, FILE *fp, int flags</var>)
+<dd>
+Print an object <var>o</var>, on file <var>fp</var>.  Returns <tt>-1</tt> on error
+The flags argument is used to enable certain printing
+options. The only option currently supported is
+<tt class=constant>Py_PRINT_RAW</tt>.
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-72"><tt class=cfunction>PyObject_HasAttrString</tt></a></b> (<var>PyObject *o, char *attr_name</var>)
+<dd>
+Returns <tt>1</tt> if <var>o</var> has the attribute <var>attr_name</var>, and
+<tt>0</tt> otherwise.  This is equivalent to the Python expression
+"<tt class=samp>hasattr(<var>o</var>, <var>attr_name</var>)</tt>".
+This function always succeeds.
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-73"><tt class=cfunction>PyObject_GetAttrString</tt></a></b> (<var>PyObject *o, char *attr_name</var>)
+<dd>
+Retrieve an attribute named <var>attr_name</var> from object <var>o</var>.
+Returns the attribute value on success, or <tt>NULL</tt> on failure.
+This is the equivalent of the Python expression
+"<tt class=samp><var>o</var>.<var>attr_name</var></tt>".
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-74"><tt class=cfunction>PyObject_HasAttr</tt></a></b> (<var>PyObject *o, PyObject *attr_name</var>)
+<dd>
+Returns <tt>1</tt> if <var>o</var> has the attribute <var>attr_name</var>, and
+<tt>0</tt> otherwise.  This is equivalent to the Python expression
+"<tt class=samp>hasattr(<var>o</var>, <var>attr_name</var>)</tt>". 
+This function always succeeds.
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-75"><tt class=cfunction>PyObject_GetAttr</tt></a></b> (<var>PyObject *o, PyObject *attr_name</var>)
+<dd>
+Retrieve an attribute named <var>attr_name</var> from object <var>o</var>.
+Returns the attribute value on success, or <tt>NULL</tt> on failure.
+This is the equivalent of the Python expression
+"<tt class=samp><var>o</var>.<var>attr_name</var></tt>".
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-76"><tt class=cfunction>PyObject_SetAttrString</tt></a></b> (<var>PyObject *o, char *attr_name, PyObject *v</var>)
+<dd>
+Set the value of the attribute named <var>attr_name</var>, for object
+<var>o</var>, to the value <var>v</var>. Returns <tt>-1</tt> on failure.  This is
+the equivalent of the Python statement "<tt class=samp><var>o</var>.<var>attr_name</var> =
+<var>v</var></tt>".
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-77"><tt class=cfunction>PyObject_SetAttr</tt></a></b> (<var>PyObject *o, PyObject *attr_name, PyObject *v</var>)
+<dd>
+Set the value of the attribute named <var>attr_name</var>, for
+object <var>o</var>,
+to the value <var>v</var>. Returns <tt>-1</tt> on failure.  This is
+the equivalent of the Python statement "<tt class=samp><var>o</var>.<var>attr_name</var> =
+<var>v</var></tt>".
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-78"><tt class=cfunction>PyObject_DelAttrString</tt></a></b> (<var>PyObject *o, char *attr_name</var>)
+<dd>
+Delete attribute named <var>attr_name</var>, for object <var>o</var>. Returns
+<tt>-1</tt> on failure.  This is the equivalent of the Python
+statement: "<tt class=samp>del <var>o</var>.<var>attr_name</var></tt>".
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-79"><tt class=cfunction>PyObject_DelAttr</tt></a></b> (<var>PyObject *o, PyObject *attr_name</var>)
+<dd>
+Delete attribute named <var>attr_name</var>, for object <var>o</var>. Returns
+<tt>-1</tt> on failure.  This is the equivalent of the Python
+statement "<tt class=samp>del <var>o</var>.<var>attr_name</var></tt>".
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-80"><tt class=cfunction>PyObject_Cmp</tt></a></b> (<var>PyObject *o1, PyObject *o2, int *result</var>)
+<dd>
+Compare the values of <var>o1</var> and <var>o2</var> using a routine provided
+by <var>o1</var>, if one exists, otherwise with a routine provided by
+<var>o2</var>.  The result of the comparison is returned in <var>result</var>.
+Returns <tt>-1</tt> on failure.  This is the equivalent of the Python
+statement "<tt class=samp><var>result</var> = cmp(<var>o1</var>, <var>o2</var>)</tt>".
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-81"><tt class=cfunction>PyObject_Compare</tt></a></b> (<var>PyObject *o1, PyObject *o2</var>)
+<dd>
+Compare the values of <var>o1</var> and <var>o2</var> using a routine provided
+by <var>o1</var>, if one exists, otherwise with a routine provided by
+<var>o2</var>.  Returns the result of the comparison on success.  On error,
+the value returned is undefined; use <tt class=cfunction>PyErr_Occurred()</tt> to
+detect an error.  This is equivalent to the
+Python expression "<tt class=samp>cmp(<var>o1</var>, <var>o2</var>)</tt>".
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-82"><tt class=cfunction>PyObject_Repr</tt></a></b> (<var>PyObject *o</var>)
+<dd>
+Compute the string representation of object, <var>o</var>.  Returns the
+string representation on success, <tt>NULL</tt> on failure.  This is
+the equivalent of the Python expression "<tt class=samp>repr(<var>o</var>)</tt>".
+Called by the <tt class=function>repr()</tt><a name="l2h-95"></a> built-in function
+and by reverse quotes.
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-83"><tt class=cfunction>PyObject_Str</tt></a></b> (<var>PyObject *o</var>)
+<dd>
+Compute the string representation of object <var>o</var>.  Returns the
+string representation on success, <tt>NULL</tt> on failure.  This is
+the equivalent of the Python expression "<tt class=samp>str(<var>o</var>)</tt>".
+Called by the <tt class=function>str()</tt><a name="l2h-96"></a> built-in function and
+by the <tt class=keyword>print</tt> statement.
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-84"><tt class=cfunction>PyCallable_Check</tt></a></b> (<var>PyObject *o</var>)
+<dd>
+Determine if the object <var>o</var>, is callable.  Return <tt>1</tt> if the
+object is callable and <tt>0</tt> otherwise.
+This function always succeeds.
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-85"><tt class=cfunction>PyObject_CallObject</tt></a></b> (<var>PyObject *callable_object, PyObject *args</var>)
+<dd>
+Call a callable Python object <var>callable_object</var>, with
+arguments given by the tuple <var>args</var>.  If no arguments are
+needed, then args may be <tt>NULL</tt>.  Returns the result of the
+call on success, or <tt>NULL</tt> on failure.  This is the equivalent
+of the Python expression "<tt class=samp>apply(<var>o</var>, <var>args</var>)</tt>".
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-86"><tt class=cfunction>PyObject_CallFunction</tt></a></b> (<var>PyObject *callable_object, char *format, ...</var>)
+<dd>
+Call a callable Python object <var>callable_object</var>, with a
+variable number of C arguments. The C arguments are described
+using a <tt class=cfunction>Py_BuildValue()</tt> style format string. The format may
+be <tt>NULL</tt>, indicating that no arguments are provided.  Returns the
+result of the call on success, or <tt>NULL</tt> on failure.  This is
+the equivalent of the Python expression "<tt class=samp>apply(<var>o</var>,
+<var>args</var>)</tt>".
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-87"><tt class=cfunction>PyObject_CallMethod</tt></a></b> (<var>PyObject *o, char *m, char *format, ...</var>)
+<dd>
+Call the method named <var>m</var> of object <var>o</var> with a variable number
+of C arguments.  The C arguments are described by a
+<tt class=cfunction>Py_BuildValue()</tt> format string.  The format may be <tt>NULL</tt>,
+indicating that no arguments are provided. Returns the result of the
+call on success, or <tt>NULL</tt> on failure.  This is the equivalent of the
+Python expression "<tt class=samp><var>o</var>.<var>method</var>(<var>args</var>)</tt>".
+Note that Special method names, such as <tt class=method>__add__()</tt>,
+<tt class=method>__getitem__()</tt>, and so on are not supported. The specific
+abstract-object routines for these must be used.
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-88"><tt class=cfunction>PyObject_Hash</tt></a></b> (<var>PyObject *o</var>)
+<dd>
+Compute and return the hash value of an object <var>o</var>.  On
+failure, return <tt>-1</tt>.  This is the equivalent of the Python
+expression "<tt class=samp>hash(<var>o</var>)</tt>".
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-89"><tt class=cfunction>PyObject_IsTrue</tt></a></b> (<var>PyObject *o</var>)
+<dd>
+Returns <tt>1</tt> if the object <var>o</var> is considered to be true, and
+<tt>0</tt> otherwise. This is equivalent to the Python expression
+"<tt class=samp>not not <var>o</var></tt>".
+This function always succeeds.
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-90"><tt class=cfunction>PyObject_Type</tt></a></b> (<var>PyObject *o</var>)
+<dd>
+On success, returns a type object corresponding to the object
+type of object <var>o</var>. On failure, returns <tt>NULL</tt>.  This is
+equivalent to the Python expression "<tt class=samp>type(<var>o</var>)</tt>".
+<a name="l2h-97"></a>
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-91"><tt class=cfunction>PyObject_Length</tt></a></b> (<var>PyObject *o</var>)
+<dd>
+Return the length of object <var>o</var>.  If the object <var>o</var> provides
+both sequence and mapping protocols, the sequence length is
+returned. On error, <tt>-1</tt> is returned.  This is the equivalent
+to the Python expression "<tt class=samp>len(<var>o</var>)</tt>".
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-92"><tt class=cfunction>PyObject_GetItem</tt></a></b> (<var>PyObject *o, PyObject *key</var>)
+<dd>
+Return element of <var>o</var> corresponding to the object <var>key</var> or
+<tt>NULL</tt> on failure. This is the equivalent of the Python expression
+"<tt class=samp><var>o</var>[<var>key</var>]</tt>".
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-93"><tt class=cfunction>PyObject_SetItem</tt></a></b> (<var>PyObject *o, PyObject *key, PyObject *v</var>)
+<dd>
+Map the object <var>key</var> to the value <var>v</var>.
+Returns <tt>-1</tt> on failure.  This is the equivalent
+of the Python statement "<tt class=samp><var>o</var>[<var>key</var>] = <var>v</var></tt>".
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-94"><tt class=cfunction>PyObject_DelItem</tt></a></b> (<var>PyObject *o, PyObject *key</var>)
+<dd>
+Delete the mapping for <var>key</var> from <var>o</var>.  Returns <tt>-1</tt> on
+failure. This is the equivalent of the Python statement "<tt class=samp>del
+<var>o</var>[<var>key</var>]</tt>".
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html330"
+ HREF="number.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html326"
+ HREF="abstract.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html320"
+ HREF="abstract.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python/C API Reference Manual</b></td>
+<td><A NAME="tex2html328"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html329"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html331"
+ HREF="number.html">6.2 Number Protocol</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html327"
+ HREF="abstract.html">6. Abstract Objects Layer</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html321"
+ HREF="abstract.html">6. Abstract Objects Layer</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,198 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>2.1.6 Mapping Types </TITLE>
+<META NAME="description" CONTENT="2.1.6 Mapping Types ">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="typesother.html">
+<LINK REL="previous" HREF="typesseq.html">
+<LINK REL="up" HREF="types.html">
+<LINK REL="next" HREF="typesother.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html730"
+ HREF="typesother.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html726"
+ HREF="types.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html720"
+ HREF="typesseq-mutable.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html728"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html729"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html731"
+ HREF="typesother.html">2.1.7 Other Built-in Types</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html727"
+ HREF="types.html">2.1 Built-in Types</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html721"
+ HREF="typesseq-mutable.html">2.1.5.2 Mutable Sequence Types</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION004160000000000000000"></A>
+<BR>
+2.1.6 Mapping Types 
+</H2>
+
+<P>
+A <i class=dfn>mapping</i> object maps values of one type (the key type) to
+arbitrary objects.  Mappings are mutable objects.  There is currently
+only one standard mapping type, the <i class=dfn>dictionary</i>.  A dictionary's keys are
+almost arbitrary values.  The only types of values not acceptable as
+keys are values containing lists or dictionaries or other mutable
+types that are compared by value rather than by object identity.
+Numeric types used for keys obey the normal rules for numeric
+comparison: if two numbers compare equal (e.g. <tt>1</tt> and
+<tt>1.0</tt>) then they can be used interchangeably to index the same
+dictionary entry.
+
+<P>
+<a name="l2h-111"></a>
+<a name="l2h-112"></a>
+
+<P>
+Dictionaries are created by placing a comma-separated list of
+<tt><var>key</var>: <var>value</var></tt> pairs within braces, for example:
+<tt>{'jack': 4098, 'sjoerd': 4127}</tt> or
+<tt>{4098: 'jack', 4127: 'sjoerd'}</tt>.
+
+<P>
+The following operations are defined on mappings (where <var>a</var> is a
+mapping, <var>k</var> is a key and <var>x</var> is an arbitrary object):
+
+<P>
+<table border align=center>
+  <tr bgcolor="#99CCFF">
+    <th><b>Operation</b></th>
+    <th align=left><b>Result</b></th>
+    <th><b>Notes</b></th>
+  <tr><td align=center><code>len(<var>a</var>)</code></td>
+      <td>the number of items in <var>a</var></td>
+      <td align=center>&nbsp;</td>
+  <tr><td align=center><code><var>a</var>[<var>k</var>]</code></td>
+      <td>the item of <var>a</var> with key <var>k</var></td>
+      <td align=center>(1)&nbsp;</td>
+  <tr><td align=center><code><var>a</var>[<var>k</var>] = <var>x</var></code></td>
+      <td>set <tt><var>a</var>[<var>k</var>]</tt> to <var>x</var></td>
+      <td align=center>&nbsp;</td>
+  <tr><td align=center><code>del <var>a</var>[<var>k</var>]</code></td>
+      <td>remove <tt><var>a</var>[<var>k</var>]</tt> from <var>a</var></td>
+      <td align=center>(1)&nbsp;</td>
+  <tr><td align=center><code><var>a</var>.clear()</code></td>
+      <td>remove all items from <tt>a</tt></td>
+      <td align=center>&nbsp;</td>
+  <tr><td align=center><code><var>a</var>.copy()</code></td>
+      <td>a (shallow) copy of <tt>a</tt></td>
+      <td align=center>&nbsp;</td>
+  <tr><td align=center><code><var>a</var>.has_key(<var>k</var>)</code></td>
+      <td><tt>1</tt> if <var>a</var> has a key <var>k</var>, else <tt>0</tt></td>
+      <td align=center>&nbsp;</td>
+  <tr><td align=center><code><var>a</var>.items()</code></td>
+      <td>a copy of <var>a</var>'s list of (<var>key</var>, <var>value</var>) pairs</td>
+      <td align=center>(2)&nbsp;</td>
+  <tr><td align=center><code><var>a</var>.keys()</code></td>
+      <td>a copy of <var>a</var>'s list of keys</td>
+      <td align=center>(2)&nbsp;</td>
+  <tr><td align=center><code><var>a</var>.update(<var>b</var>)</code></td>
+      <td><tt>for k, v in <var>b</var>.items(): <var>a</var>[k] = v</tt></td>
+      <td align=center>(3)&nbsp;</td>
+  <tr><td align=center><code><var>a</var>.values()</code></td>
+      <td>a copy of <var>a</var>'s list of values</td>
+      <td align=center>(2)&nbsp;</td>
+  <tr><td align=center><code><var>a</var>.get(<var>k</var></var><big>[</big><var>, <var>f</var></var><big>]</big><var>)</code></td>
+      <td>the value of <var>a</var> with key <var>k</var></td>
+      <td align=center>(4)&nbsp;</td>
+
+</table>
+<a name="l2h-113"></a>
+<a name="l2h-114"></a>
+<a name="l2h-115"></a>
+<a name="l2h-116"></a>
+
+  <a name="l2h-103"></a>
+  <a name="l2h-104"></a>
+  <a name="l2h-105"></a>
+  <a name="l2h-106"></a>
+  <a name="l2h-107"></a>
+  <a name="l2h-108"></a>
+  <a name="l2h-109"></a>
+  <a name="l2h-110"></a>
+Notes:
+<DL>
+<DT><STRONG>(1)</STRONG>
+<DD>Raises an exception if <var>k</var> is not in the map.
+
+<P>
+<DT><STRONG>(2)</STRONG>
+<DD>Keys and values are listed in random order.
+
+<P>
+<DT><STRONG>(3)</STRONG>
+<DD><var>b</var> must be of the same type as <var>a</var>.
+
+<P>
+<DT><STRONG>(4)</STRONG>
+<DD>Never raises an exception if <var>k</var> is not in the map,
+instead it returns <var>f</var>.  <var>f</var> is optional, when not provided
+and <var>k</var> is not in the map, <tt>None</tt> is returned.
+</DL>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html730"
+ HREF="typesother.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html726"
+ HREF="types.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html720"
+ HREF="typesseq-mutable.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html728"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html729"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html731"
+ HREF="typesother.html">2.1.7 Other Built-in Types</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html727"
+ HREF="types.html">2.1 Built-in Types</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html721"
+ HREF="typesseq-mutable.html">2.1.5.2 Mutable Sequence Types</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

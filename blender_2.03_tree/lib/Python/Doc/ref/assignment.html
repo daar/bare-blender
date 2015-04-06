@@ -1,0 +1,273 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>6.3 Assignment statements</TITLE>
+<META NAME="description" CONTENT="6.3 Assignment statements">
+<META NAME="keywords" CONTENT="ref">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ref.css">
+<LINK REL="next" HREF="pass.html">
+<LINK REL="previous" HREF="assert.html">
+<LINK REL="up" HREF="simple.html">
+<LINK REL="next" HREF="pass.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1039"
+ HREF="pass.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1035"
+ HREF="simple.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1029"
+ HREF="assert.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html1037"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html1038"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1040"
+ HREF="pass.html">6.4 The pass statement</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1036"
+ HREF="simple.html">6. Simple statements</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1030"
+ HREF="assert.html">6.2 Assert statements</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION008300000000000000000"></A>
+<BR>
+6.3 Assignment statements
+</H1>
+<a name="l2h-573"></a>
+
+<P>
+Assignment statements are used to (re)bind names to values and to
+modify attributes or items of mutable objects:
+<a name="l2h-574"></a>
+<a name="l2h-575"></a>
+<a name="l2h-576"></a>
+<a name="l2h-577"></a>
+
+<P>
+<dl><dd><pre class=verbatim>
+assignment_stmt: (target_list "=")+ expression_list
+target_list:     target ("," target)* [","]
+target:          identifier | "(" target_list ")" | "[" target_list "]"
+               | attributeref | subscription | slicing
+</pre></dl>
+
+<P>
+(See section <A HREF="primaries.html#primaries">5.3</A> for the syntax definitions for the last
+three symbols.)
+
+<P>
+An assignment statement evaluates the expression list (remember that
+this can be a single expression or a comma-separated list, the latter
+yielding a tuple) and assigns the single resulting object to each of
+the target lists, from left to right.
+<a name="l2h-578"></a>
+
+<P>
+Assignment is defined recursively depending on the form of the target
+(list).  When a target is part of a mutable object (an attribute
+reference, subscription or slicing), the mutable object must
+ultimately perform the assignment and decide about its validity, and
+may raise an exception if the assignment is unacceptable.  The rules
+observed by various types and the exceptions raised are given with the
+definition of the object types (see section <A HREF="types.html#types">3.2</A>).
+<a name="l2h-579"></a>
+<a name="l2h-580"></a>
+
+<P>
+Assignment of an object to a target list is recursively defined as
+follows.
+<a name="l2h-581"></a>
+
+<P>
+
+<UL><LI>If the target list is a single target: The object is assigned to that
+target.
+
+<P>
+
+<LI>If the target list is a comma-separated list of targets: The object
+must be a sequence with the same number of items as the there are
+targets in the target list, and the items are assigned, from left to
+right, to the corresponding targets.  (This rule is relaxed as of
+Python 1.5; in earlier versions, the object had to be a tuple.  Since
+strings are sequences, an assignment like ``<tt>a, b = "xy"</tt>'' is
+now legal as long as the string has the right length.)
+
+<P>
+
+</UL>
+
+<P>
+Assignment of an object to a single target is recursively defined as
+follows.
+
+<P>
+
+ 
+<UL><LI>If the target is an identifier (name):
+
+<P>
+
+<UL><LI>If the name does not occur in a <tt class=keyword>global</tt> statement in the current
+code block: the name is bound to the object in the current local
+namespace.
+<a name="l2h-582"></a>
+
+<P>
+
+<LI>Otherwise: the name is bound to the object in the current global
+namespace.
+
+<P>
+
+</UL> 
+<P>
+The name is rebound if it was already bound.  This may cause the
+reference count for the object previously bound to the name to reach
+zero, causing the object to be deallocated and its
+destructor<a name="l2h-583"></a> (if it has one) to be called.
+
+<P>
+
+<LI>If the target is a target list enclosed in parentheses or in square
+brackets: The object must be a sequence with the same number of items
+as there are targets in the target list, and its items are assigned,
+from left to right, to the corresponding targets.
+
+<P>
+
+<LI>If the target is an attribute reference: The primary expression in the
+reference is evaluated.  It should yield an object with assignable
+attributes; if this is not the case, <tt class=exception>TypeError</tt> is raised.  That
+object is then asked to assign the assigned object to the given
+attribute; if it cannot perform the assignment, it raises an exception
+(usually but not necessarily <tt class=exception>AttributeError</tt>).
+<a name="l2h-584"></a>
+
+<P>
+
+<LI>If the target is a subscription: The primary expression in the
+reference is evaluated.  It should yield either a mutable sequence
+object (e.g., a list) or a mapping object (e.g., a dictionary).  Next,
+the subscript expression is evaluated.
+<a name="l2h-585"></a>
+<a name="l2h-586"></a>
+
+<P>
+If the primary is a mutable sequence object (e.g., a list), the subscript
+must yield a plain integer.  If it is negative, the sequence's length
+is added to it.  The resulting value must be a nonnegative integer
+less than the sequence's length, and the sequence is asked to assign
+the assigned object to its item with that index.  If the index is out
+of range, <tt class=exception>IndexError</tt> is raised (assignment to a subscripted
+sequence cannot add new items to a list).
+<a name="l2h-587"></a>
+<a name="l2h-588"></a>
+
+<P>
+If the primary is a mapping object (e.g., a dictionary), the subscript must
+have a type compatible with the mapping's key type, and the mapping is
+then asked to create a key/datum pair which maps the subscript to
+the assigned object.  This can either replace an existing key/value
+pair with the same key value, or insert a new key/value pair (if no
+key with the same value existed).
+<a name="l2h-589"></a>
+<a name="l2h-590"></a>
+
+<P>
+
+<LI>If the target is a slicing: The primary expression in the reference is
+evaluated.  It should yield a mutable sequence object (e.g., a list).  The
+assigned object should be a sequence object of the same type.  Next,
+the lower and upper bound expressions are evaluated, insofar they are
+present; defaults are zero and the sequence's length.  The bounds
+should evaluate to (small) integers.  If either bound is negative, the
+sequence's length is added to it.  The resulting bounds are clipped to
+lie between zero and the sequence's length, inclusive.  Finally, the
+sequence object is asked to replace the slice with the items of the
+assigned sequence.  The length of the slice may be different from the
+length of the assigned sequence, thus changing the length of the
+target sequence, if the object allows it.
+<a name="l2h-591"></a>
+
+<P>
+
+</UL>
+	
+(In the current implementation, the syntax for targets is taken
+to be the same as for expressions, and invalid syntax is rejected
+during the code generation phase, causing less detailed error
+messages.)
+
+<P>
+WARNING: Although the definition of assignment implies that overlaps
+between the left-hand side and the right-hand side are `safe' (e.g.,
+``<tt>a, b = b, a</tt>'' swaps two variables), overlaps <i>within</i> the
+collection of assigned-to variables are not safe!  For instance, the
+following program prints ``<tt>[0, 2]</tt>'':
+
+<P>
+<dl><dd><pre class=verbatim>
+x = [0, 1]
+i = 0
+i, x[i] = 1, 2
+print x
+</pre></dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1039"
+ HREF="pass.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1035"
+ HREF="simple.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1029"
+ HREF="assert.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html1037"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html1038"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1040"
+ HREF="pass.html">6.4 The pass statement</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1036"
+ HREF="simple.html">6. Simple statements</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1030"
+ HREF="assert.html">6.2 Assert statements</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

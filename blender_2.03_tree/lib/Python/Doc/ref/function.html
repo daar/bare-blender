@@ -1,0 +1,210 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.5 Function definitions</TITLE>
+<META NAME="description" CONTENT="7.5 Function definitions">
+<META NAME="keywords" CONTENT="ref">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ref.css">
+<LINK REL="next" HREF="class.html">
+<LINK REL="previous" HREF="try.html">
+<LINK REL="up" HREF="compound.html">
+<LINK REL="next" HREF="class.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1235"
+ HREF="class.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1231"
+ HREF="compound.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1225"
+ HREF="try.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html1233"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html1234"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1236"
+ HREF="class.html">7.6 Class definitions</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1232"
+ HREF="compound.html">7. Compound statements</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1226"
+ HREF="try.html">7.4 The try statement</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION009500000000000000000"></A>
+<BR>
+7.5 Function definitions
+</H1>
+<a name="l2h-707"></a>
+
+<P>
+A function definition defines a user-defined function object (see
+section <A HREF="types.html#types">3.2</A>):
+<a name="l2h-708"></a>
+<a name="l2h-709"></a>
+
+<P>
+<dl><dd><pre class=verbatim>
+funcdef:        "def" funcname "(" [parameter_list] ")" ":" suite
+parameter_list: (defparameter ",")* ("*" identifier [, "**" identifier] 
+                                    | "**" identifier 
+                                    | defparameter [","])
+defparameter:   parameter ["=" expression]
+sublist:        parameter ("," parameter)* [","]
+parameter:      identifier | "(" sublist ")"
+funcname:       identifier
+</pre></dl>
+
+<P>
+A function definition is an executable statement.  Its execution binds
+the function name in the current local namespace to a function object
+(a wrapper around the executable code for the function).  This
+function object contains a reference to the current global namespace
+as the global namespace to be used when the function is called.
+<a name="l2h-710"></a>
+<a name="l2h-711"></a>
+
+<P>
+The function definition does not execute the function body; this gets
+executed only when the function is called.
+
+<P>
+When one or more top-level parameters have the form <var>parameter</var>
+<tt>=</tt> <var>expression</var>, the function is said to have ``default
+parameter values.''  For a parameter with a
+default value, the corresponding argument may be omitted from a call,
+in which case the parameter's default value is substituted.  If a
+parameter has a default value, all following parameters must also have
+a default value -- this is a syntactic restriction that is not
+expressed by the grammar.<A NAME="tex2html6"
+ HREF="#foot4626"><SUP>7.1</SUP></A><a name="l2h-712"></a>
+
+<P>
+<b>Default parameter values are evaluated when the function
+definition is executed.</b>  This means that the expression is evaluated
+once, when the function is defined, and that that same
+``pre-computed'' value is used for each call.  This is especially
+important to understand when a default parameter is a mutable object,
+such as a list or a dictionary: if the function modifies the object
+(e.g. by appending an item to a list), the default value is in effect
+modified.  This is generally not what was intended.  A way around this 
+is to use <tt>None</tt> as the default, and explicitly test for it in
+the body of the function, e.g.:
+
+<P>
+<dl><dd><pre class=verbatim>
+def whats_on_the_telly(penguin=None):
+    if penguin is None:
+        penguin = []
+    penguin.append("property of the zoo")
+    return penguin
+</pre></dl>
+
+<P>
+Function call semantics are described in more detail in section
+<A HREF="calls.html#calls">5.3</A>. 
+A function call always assigns values to all parameters mentioned in
+the parameter list, either from position arguments, from keyword
+arguments, or from default values.  If the form ``<tt>*identifier</tt>''
+is present, it is initialized to a tuple receiving any excess
+positional parameters, defaulting to the empty tuple.  If the form
+``<tt>**identifier</tt>'' is present, it is initialized to a new
+dictionary receiving any excess keyword arguments, defaulting to a
+new empty dictionary.
+
+<P>
+It is also possible to create anonymous functions (functions not bound
+to a name), for immediate use in expressions.  This uses lambda forms,
+described in section <A HREF="lambda.html#lambda">5.10</A>.  Note that the lambda form is
+merely a shorthand for a simplified function definition; a function
+defined in a ``<tt class=keyword>def</tt>'' statement can be passed around or
+assigned to another name just like a function defined by a lambda
+form.  The ``<tt class=keyword>def</tt>'' form is actually more powerful since it
+allows the execution of multiple statements.
+<a name="l2h-713"></a>
+
+<P>
+<b>Programmer's note:</b> a ``<tt>def</tt>'' form executed inside a
+function definition defines a local function that can be returned or
+passed around.  Because of Python's two-scope philosophy, a local
+function defined in this way does not have access to the local
+variables of the function that contains its definition; the same rule
+applies to functions defined by a lambda form.  A standard trick to
+pass selected local variables into a locally defined function is to
+use default argument values, like this:
+
+<P>
+<dl><dd><pre class=verbatim>
+# Return a function that returns its argument incremented by 'n'
+def make_incrementer(n):
+    def increment(x, n=n):
+        return x+n
+    return increment
+
+add1 = make_incrementer(1)
+print add1(3)  # This prints '4'
+</pre></dl>
+
+<P>
+<BR><HR><H4>Footnotes</H4>
+<DL>
+<DT><A NAME="foot4626">... grammar.</A><A NAME="foot4626"
+ HREF="function.html#tex2html6"><SUP>7.1</SUP></A>
+<DD>
+Currently this is not checked; instead, <tt>def f(a=1, b)</tt> is
+interpreted as <tt>def f(a=1, b=None)</tt>.
+
+</DL><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1235"
+ HREF="class.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1231"
+ HREF="compound.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1225"
+ HREF="try.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html1233"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html1234"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1236"
+ HREF="class.html">7.6 Class definitions</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1232"
+ HREF="compound.html">7. Compound statements</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1226"
+ HREF="try.html">7.4 The try statement</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

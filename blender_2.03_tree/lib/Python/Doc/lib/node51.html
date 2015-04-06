@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.14.6.1 Emulation of compile()</TITLE>
+<META NAME="description" CONTENT="3.14.6.1 Emulation of compile()">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="node52.html">
+<LINK REL="previous" HREF="AST_Examples.html">
+<LINK REL="up" HREF="AST_Examples.html">
+<LINK REL="next" HREF="node52.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1185"
+ HREF="node52.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1181"
+ HREF="AST_Examples.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1175"
+ HREF="AST_Examples.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1183"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1184"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1186"
+ HREF="node52.html">3.14.6.2 Information Discovery</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1182"
+ HREF="AST_Examples.html">3.14.6 Examples</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1176"
+ HREF="AST_Examples.html">3.14.6 Examples</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION0051461000000000000000">
+3.14.6.1 Emulation of <tt class=function>compile()</tt></A>
+</H3>
+
+<P>
+While many useful operations may take place between parsing and
+bytecode generation, the simplest operation is to do nothing.  For
+this purpose, using the <tt class=module>parser</tt> module to produce an
+intermediate data structure is equivelent to the code
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; code = compile('a + 5', 'eval')
+&gt;&gt;&gt; a = 5
+&gt;&gt;&gt; eval(code)
+10
+</pre></dl>
+
+<P>
+The equivelent operation using the <tt class=module>parser</tt> module is somewhat
+longer, and allows the intermediate internal parse tree to be retained
+as an AST object:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; import parser
+&gt;&gt;&gt; ast = parser.expr('a + 5')
+&gt;&gt;&gt; code = parser.compileast(ast)
+&gt;&gt;&gt; a = 5
+&gt;&gt;&gt; eval(code)
+10
+</pre></dl>
+
+<P>
+An application which needs both AST and code objects can package this
+code into readily available functions:
+
+<P>
+<dl><dd><pre class=verbatim>
+import parser
+
+def load_suite(source_string):
+    ast = parser.suite(source_string)
+    code = parser.compileast(ast)
+    return ast, code
+
+def load_expression(source_string):
+    ast = parser.expr(source_string)
+    code = parser.compileast(ast)
+    return ast, code
+</pre></dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1185"
+ HREF="node52.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1181"
+ HREF="AST_Examples.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1175"
+ HREF="AST_Examples.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1183"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1184"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1186"
+ HREF="node52.html">3.14.6.2 Information Discovery</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1182"
+ HREF="AST_Examples.html">3.14.6 Examples</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1176"
+ HREF="AST_Examples.html">3.14.6 Examples</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

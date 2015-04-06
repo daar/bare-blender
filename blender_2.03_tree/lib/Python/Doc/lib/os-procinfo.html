@@ -1,0 +1,271 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>6.1.1 Process Parameters </TITLE>
+<META NAME="description" CONTENT="6.1.1 Process Parameters ">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="os-newstreams.html">
+<LINK REL="previous" HREF="module-os.html">
+<LINK REL="up" HREF="module-os.html">
+<LINK REL="next" HREF="os-newstreams.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1839"
+ HREF="os-newstreams.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1835"
+ HREF="module-os.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1829"
+ HREF="module-os.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1837"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1838"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1840"
+ HREF="os-newstreams.html">6.1.2 File Object Creation</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1836"
+ HREF="module-os.html">6.1 os  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1830"
+ HREF="module-os.html">6.1 os  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION008110000000000000000"></A>
+<BR>
+6.1.1 Process Parameters 
+</H2>
+
+<P>
+These functions and data items provide information and operate on the
+current process and user.
+
+<P>
+<dl><dt><b><a name="l2h-859"><tt class=function>chdir</tt></a></b> (<var>path</var>)
+<dd>
+Change the current working directory to <var>path</var>.
+Availability: Macintosh, Unix, Windows.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-860"><tt>environ</tt></a></b>
+<dd>
+A mapping representing the string environment. For example,
+<tt>environ['HOME']</tt> is the pathname of your home directory,
+equivalent to <tt>getenv("HOME")</tt> in C.
+
+<P>
+If the platform supports the <tt class=function>putenv()</tt> function, this
+mapping may be used to modify the environment as well as query the
+environment.  <tt class=function>putenv()</tt> will be called automatically when
+the mapping is modified.
+
+<P>
+If <tt class=function>putenv()</tt> is not provided, this mapping may be passed to
+the appropriate process-creation functions to cause child processes to 
+use a modified environment.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-861"><tt class=function>getcwd</tt></a></b> ()
+<dd>
+Return a string representing the current working directory.
+Availability: Macintosh, Unix, Windows.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-862"><tt class=function>getegid</tt></a></b> ()
+<dd>
+Return the current process' effective group id.
+Availability: Unix.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-863"><tt class=function>geteuid</tt></a></b> ()
+<dd>
+Return the current process' effective user id.
+Availability: Unix.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-864"><tt class=function>getgid</tt></a></b> ()
+<dd>
+Return the current process' group id.
+Availability: Unix.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-865"><tt class=function>getpgrp</tt></a></b> ()
+<dd>
+<a name="l2h-882"></a>
+Return the current process group id.
+Availability: Unix.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-866"><tt class=function>getpid</tt></a></b> ()
+<dd>
+<a name="l2h-883"></a>
+Return the current process id.
+Availability: Unix, Windows.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-867"><tt class=function>getppid</tt></a></b> ()
+<dd>
+<a name="l2h-884"></a>
+Return the parent's process id.
+Availability: Unix.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-868"><tt class=function>getuid</tt></a></b> ()
+<dd>
+<a name="l2h-885"></a>
+Return the current process' user id.
+Availability: Unix.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-869"><tt class=function>putenv</tt></a></b> (<var>varname, value</var>)
+<dd>
+<a name="l2h-886"></a>
+Set the environment variable named <var>varname</var> to the string
+<var>value</var>.  Such changes to the environment affect subprocesses
+started with <tt class=function>os.system()</tt>, <tt class=function>popen()</tt> or
+<tt class=function>fork()</tt> and <tt class=function>execv()</tt>.
+Availability: most flavors of Unix, Windows.
+
+<P>
+When <tt class=function>putenv()</tt> is
+supported, assignments to items in <tt>os.environ</tt> are automatically
+translated into corresponding calls to <tt class=function>putenv()</tt>; however,
+calls to <tt class=function>putenv()</tt> don't update <tt>os.environ</tt>, so it is
+actually preferable to assign to items of <tt>os.environ</tt>.  
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-870"><tt class=function>setgid</tt></a></b> (<var>gid</var>)
+<dd>
+Set the current process' group id.
+Availability: Unix.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-871"><tt class=function>setpgrp</tt></a></b> ()
+<dd>
+Calls the system call <tt class=cfunction>setpgrp()</tt> or <tt class=cfunction>setpgrp(0,
+0)</tt> depending on which version is implemented (if any).  See the
+Unix manual for the semantics.
+Availability: Unix.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-872"><tt class=function>setpgid</tt></a></b> (<var>pid, pgrp</var>)
+<dd>
+Calls the system call <tt class=cfunction>setpgid()</tt>.  See the Unix manual
+for the semantics.
+Availability: Unix.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-873"><tt class=function>setsid</tt></a></b> ()
+<dd>
+Calls the system call <tt class=cfunction>setsid()</tt>.  See the Unix manual
+for the semantics.
+Availability: Unix.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-874"><tt class=function>setuid</tt></a></b> (<var>uid</var>)
+<dd>
+Set the current process' user id.
+Availability: Unix.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-875"><tt class=function>strerror</tt></a></b> (<var>code</var>)
+<dd>
+Return the error message corresponding to the error code in
+<var>code</var>.
+Availability: Unix, Windows.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-876"><tt class=function>umask</tt></a></b> (<var>mask</var>)
+<dd>
+Set the current numeric umask and returns the previous umask.
+Availability: Unix, Windows.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-877"><tt class=function>uname</tt></a></b> ()
+<dd>
+Return a 5-tuple containing information identifying the current
+operating system.  The tuple contains 5 strings:
+<tt>(<var>sysname</var>, <var>nodename</var>, <var>release</var>, <var>version</var>,
+<var>machine</var>)</tt>.  Some systems truncate the nodename to 8
+characters or to the leading component; a better way to get the
+hostname is <tt class=function>socket.gethostname()</tt>
+<a name="l2h-879"></a>or even
+<a name="l2h-881"></a><tt>socket.gethostbyaddr(socket.gethostname())</tt>.
+Availability: recent flavors of Unix.
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1839"
+ HREF="os-newstreams.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1835"
+ HREF="module-os.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1829"
+ HREF="module-os.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1837"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1838"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1840"
+ HREF="os-newstreams.html">6.1.2 File Object Creation</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1836"
+ HREF="module-os.html">6.1 os  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1830"
+ HREF="module-os.html">6.1 os  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

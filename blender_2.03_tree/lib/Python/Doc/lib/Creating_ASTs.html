@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.14.1 Creating AST Objects</TITLE>
+<META NAME="description" CONTENT="3.14.1 Creating AST Objects">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="Converting_ASTs.html">
+<LINK REL="previous" HREF="module-parser.html">
+<LINK REL="up" HREF="module-parser.html">
+<LINK REL="next" HREF="Converting_ASTs.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1113"
+ HREF="Converting_ASTs.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1109"
+ HREF="module-parser.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1103"
+ HREF="module-parser.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1111"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1112"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1114"
+ HREF="Converting_ASTs.html">3.14.2 Converting AST Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1110"
+ HREF="module-parser.html">3.14 parser  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1104"
+ HREF="module-parser.html">3.14 parser  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0051410000000000000000"></A>
+<BR>
+3.14.1 Creating AST Objects
+</H2>
+
+<P>
+AST objects may be created from source code or from a parse tree.
+When creating an AST object from source, different functions are used
+to create the <tt>'eval'</tt> and <tt>'exec'</tt> forms.
+
+<P>
+<dl><dt><b><a name="l2h-479"><tt class=function>expr</tt></a></b> (<var>string</var>)
+<dd>
+The <tt class=function>expr()</tt> function parses the parameter <tt><var>string</var></tt>as if it were an input to "<tt class=samp>compile(<var>string</var>, 'eval')</tt>".  If
+the parse succeeds, an AST object is created to hold the internal
+parse tree representation, otherwise an appropriate exception is
+thrown.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-480"><tt class=function>suite</tt></a></b> (<var>string</var>)
+<dd>
+The <tt class=function>suite()</tt> function parses the parameter <tt><var>string</var></tt>as if it were an input to "<tt class=samp>compile(<var>string</var>, 'exec')</tt>".  If
+the parse succeeds, an AST object is created to hold the internal
+parse tree representation, otherwise an appropriate exception is
+thrown.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-481"><tt class=function>sequence2ast</tt></a></b> (<var>sequence</var>)
+<dd>
+This function accepts a parse tree represented as a sequence and
+builds an internal representation if possible.  If it can validate
+that the tree conforms to the Python grammar and all nodes are valid
+node types in the host version of Python, an AST object is created
+from the internal representation and returned to the called.  If there
+is a problem creating the internal representation, or if the tree
+cannot be validated, a <tt class=exception>ParserError</tt> exception is thrown.  An AST
+object created this way should not be assumed to compile correctly;
+normal exceptions thrown by compilation may still be initiated when
+the AST object is passed to <tt class=function>compileast()</tt>.  This may indicate
+problems not related to syntax (such as a <tt class=exception>MemoryError</tt>
+exception), but may also be due to constructs such as the result of
+parsing <tt>del f(0)</tt>, which escapes the Python parser but is
+checked by the bytecode compiler.
+
+<P>
+Sequences representing terminal tokens may be represented as either
+two-element lists of the form <tt>(1, 'name')</tt> or as three-element
+lists of the form <tt>(1, 'name', 56)</tt>.  If the third element is
+present, it is assumed to be a valid line number.  The line number
+may be specified for any subset of the terminal symbols in the input
+tree.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-482"><tt class=function>tuple2ast</tt></a></b> (<var>sequence</var>)
+<dd>
+This is the same function as <tt class=function>sequence2ast()</tt>.  This entry point
+is maintained for backward compatibility.
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1113"
+ HREF="Converting_ASTs.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1109"
+ HREF="module-parser.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1103"
+ HREF="module-parser.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1111"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1112"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1114"
+ HREF="Converting_ASTs.html">3.14.2 Converting AST Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1110"
+ HREF="module-parser.html">3.14 parser  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1104"
+ HREF="module-parser.html">3.14 parser  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

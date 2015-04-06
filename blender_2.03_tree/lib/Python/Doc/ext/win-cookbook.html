@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.1 A Cookbook Approach </TITLE>
+<META NAME="description" CONTENT="3.1 A Cookbook Approach ">
+<META NAME="keywords" CONTENT="ext">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ext.css">
+<LINK REL="next" HREF="dynamic-linking.html">
+<LINK REL="previous" HREF="building-on-windows.html">
+<LINK REL="up" HREF="building-on-windows.html">
+<LINK REL="next" HREF="dynamic-linking.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html368"
+ HREF="dynamic-linking.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html365"
+ HREF="building-on-windows.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html359"
+ HREF="building-on-windows.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Extending and Embedding the Python Interpreter</b></td>
+<td><A NAME="tex2html367"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html369"
+ HREF="dynamic-linking.html">3.2 Differences Between Unix</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html366"
+ HREF="building-on-windows.html">3. Building C and</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html360"
+ HREF="building-on-windows.html">3. Building C and</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION005100000000000000000"></A>
+<BR>
+3.1 A Cookbook Approach 
+</H1>
+
+<P>
+
+<P>
+This section provides a recipe for building a Python extension on
+Windows.
+
+<P>
+Grab the binary installer from <span class=url><a href="http://www.python.org/">http://www.python.org/</a></span> and
+install Python.  The binary installer has all of the required header
+files except for "<tt class=file>config.h</tt>".
+
+<P>
+Get the source distribution and extract it into a convenient location.
+Copy the "<tt class=file>config.h</tt>" from the "<tt class=file>PC/</tt>" directory into the
+"<tt class=file>include/</tt>" directory created by the installer.
+
+<P>
+Create a "<tt class=file>Setup</tt>" file for your extension module, as described in
+Chapter <A HREF="building-on-unix.html#building-on-unix">2</A>.
+
+<P>
+Get David Ascher's "<tt class=file>compile.py</tt>" script from
+<span class=url><a href="http://starship.skyport.net/~da/compile/">http://starship.skyport.net/~da/compile/</a></span>.  Run the script to
+create Microsoft Visual C++ project files.
+
+<P>
+Open the DSW file in VC++ and select <b>Build</b>.
+
+<P>
+If your module creates a new type, you may have trouble with this line:
+
+<P>
+<dl><dd><pre class=verbatim>
+    PyObject_HEAD_INIT(&amp;PyType_Type)
+</pre></dl>
+
+<P>
+Change it to:
+
+<P>
+<dl><dd><pre class=verbatim>
+    PyObject_HEAD_INIT(NULL)
+</pre></dl>
+
+<P>
+and add the following to the module initialization function:
+
+<P>
+<dl><dd><pre class=verbatim>
+    MyObject_Type.ob_type = &amp;PyType_Type;
+</pre></dl>
+
+<P>
+Refer to section 3 of the Python FAQ
+(<span class=url><a href="http://www.python.org/doc/FAQ.html">http://www.python.org/doc/FAQ.html</a></span>) for details on why you must
+do this.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html368"
+ HREF="dynamic-linking.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html365"
+ HREF="building-on-windows.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html359"
+ HREF="building-on-windows.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Extending and Embedding the Python Interpreter</b></td>
+<td><A NAME="tex2html367"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html369"
+ HREF="dynamic-linking.html">3.2 Differences Between Unix</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html366"
+ HREF="building-on-windows.html">3. Building C and</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html360"
+ HREF="building-on-windows.html">3. Building C and</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

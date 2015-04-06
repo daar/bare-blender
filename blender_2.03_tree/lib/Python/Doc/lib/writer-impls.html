@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>12.4.4 Writer Implementations </TITLE>
+<META NAME="description" CONTENT="12.4.4 Writer Implementations ">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="previous" HREF="writer-interface.html">
+<LINK REL="up" HREF="module-formatter.html">
+<LINK REL="next" HREF="module-rfc822.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3293"
+ HREF="module-rfc822.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3289"
+ HREF="module-formatter.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3285"
+ HREF="writer-interface.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3291"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3292"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3294"
+ HREF="module-rfc822.html">12.5 rfc822  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3290"
+ HREF="module-formatter.html">12.4 formatter  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3286"
+ HREF="writer-interface.html">12.4.3 The Writer Interface</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0014440000000000000000"></A>
+<BR>
+12.4.4 Writer Implementations 
+</H2>
+
+<P>
+Three implementations of the writer object interface are provided as
+examples by this module.  Most applications will need to derive new
+writer classes from the <tt class=class>NullWriter</tt> class.
+
+<P>
+<dl><dt><b><a name="l2h-1928"><tt class=class>NullWriter</tt></a></b> ()
+<dd>
+A writer which only provides the interface definition; no actions are
+taken on any methods.  This should be the base class for all writers
+which do not need to inherit any implementation methods.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1929"><tt class=class>AbstractWriter</tt></a></b> ()
+<dd>
+A writer which can be used in debugging formatters, but not much
+else.  Each method simply announces itself by printing its name and
+arguments on standard output.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1930"><tt class=class>DumbWriter</tt></a></b> (<big>[</big><var>file</var><big>[</big><var>, maxcol<tt> = 72</tt></var><big>]</big><big>]</big>)
+<dd>
+Simple writer class which writes output on the file object passed in
+as <var>file</var> or, if <var>file</var> is omitted, on standard output.  The
+output is simply word-wrapped to the number of columns specified by
+<var>maxcol</var>.  This class is suitable for reflowing a sequence of
+paragraphs.
+</dl><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3293"
+ HREF="module-rfc822.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3289"
+ HREF="module-formatter.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3285"
+ HREF="writer-interface.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3291"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3292"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3294"
+ HREF="module-rfc822.html">12.5 rfc822  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3290"
+ HREF="module-formatter.html">12.4 formatter  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3286"
+ HREF="writer-interface.html">12.4.3 The Writer Interface</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

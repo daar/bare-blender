@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>13. Restricted Execution</TITLE>
+<META NAME="description" CONTENT="13. Restricted Execution">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="mmedia.html">
+<LINK REL="previous" HREF="netdata.html">
+<LINK REL="up" HREF="lib.html">
+<LINK REL="next" HREF="module-rexec.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3672"
+ HREF="module-rexec.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3668"
+ HREF="lib.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3662"
+ HREF="netrc-objects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3670"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3671"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3673"
+ HREF="module-rexec.html">13.1 rexec  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3669"
+ HREF="lib.html">Python Library Reference</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3663"
+ HREF="netrc-objects.html">12.20.1 netrc Objects</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0015000000000000000000"></A>
+<BR>
+13. Restricted Execution
+</H1>
+
+<P>
+In general, Python programs have complete access to the underlying
+operating system throug the various functions and classes, For
+example, a Python program can open any file for reading and writing by
+using the <tt>open()</tt> built-in function (provided the underlying OS
+gives you permission!).  This is exactly what you want for most
+applications.
+
+<P>
+There exists a class of applications for which this ``openness'' is
+inappropriate.  Take Grail: a web browser that accepts ``applets'',
+snippets of Python code, from anywhere on the Internet for execution
+on the local system.  This can be used to improve the user interface
+of forms, for instance.  Since the originator of the code is unknown,
+it is obvious that it cannot be trusted with the full resources of the
+local machine.
+
+<P>
+<i>Restricted execution</i> is the basic framework in Python that allows
+for the segregation of trusted and untrusted code.  It is based on the
+notion that trusted Python code (a <i>supervisor</i>) can create a
+``padded cell' (or environment) with limited permissions, and run the
+untrusted code within this cell.  The untrusted code cannot break out
+of its cell, and can only interact with sensitive system resources
+through interfaces defined and managed by the trusted code.  The term
+``restricted execution'' is favored over ``safe-Python''
+since true safety is hard to define, and is determined by the way the
+restricted environment is created.  Note that the restricted
+environments can be nested, with inner cells creating subcells of
+lesser, but never greater, privilege.
+
+<P>
+An interesting aspect of Python's restricted execution model is that
+the interfaces presented to untrusted code usually have the same names
+as those presented to trusted code.  Therefore no special interfaces
+need to be learned to write code designed to run in a restricted
+environment.  And because the exact nature of the padded cell is
+determined by the supervisor, different restrictions can be imposed,
+depending on the application.  For example, it might be deemed
+``safe'' for untrusted code to read any file within a specified
+directory, but never to write a file.  In this case, the supervisor
+may redefine the built-in
+<tt>open()</tt> function so that it raises an exception whenever the
+<var>mode</var> parameter is <tt>'w'</tt>.  It might also perform a
+<tt>chroot()</tt>-like operation on the <var>filename</var> parameter, such
+that root is always relative to some safe ``sandbox'' area of the
+filesystem.  In this case, the untrusted code would still see an
+built-in <tt>open()</tt> function in its environment, with the same
+calling interface.  The semantics would be identical too, with
+<tt>IOError</tt>s being raised when the supervisor determined that an
+unallowable parameter is being used.
+
+<P>
+The Python run-time determines whether a particular code block is
+executing in restricted execution mode based on the identity of the
+<tt>__builtins__</tt> object in its global variables: if this is (the
+dictionary of) the standard <tt>__builtin__</tt> module, the code is
+deemed to be unrestricted, else it is deemed to be restricted.
+
+<P>
+Python code executing in restricted mode faces a number of limitations
+that are designed to prevent it from escaping from the padded cell.
+For instance, the function object attribute <tt>func_globals</tt> and the
+class and instance object attribute <tt>__dict__</tt> are unavailable.
+
+<P>
+Two modules provide the framework for setting up restricted execution
+environments:
+
+<P>
+<table>
+  <tr><td><b><tt><a href="module-rexec.html">rexec</a></tt></b></td>
+      <td>Basic restricted execution framework.</td></tr>
+  <tr><td><b><tt><a href="module-Bastion.html">Bastion</a></tt></b></td>
+      <td>Providing restricted access to objects.</td></tr>
+</table>
+<BR>
+
+<P>
+<div class=seealso>
+  <p class=heading><b>See Also:</b></p>
+
+<div class=seetext><p>Andrew Kuchling, ``Restricted Execution HOWTO.''  Available
+online at <span class=url><a href="http://www.python.org/doc/howto/rexec/">http://www.python.org/doc/howto/rexec/</a></span>.
+</div></div><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3672"
+ HREF="module-rexec.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3668"
+ HREF="lib.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3662"
+ HREF="netrc-objects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3670"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3671"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3673"
+ HREF="module-rexec.html">13.1 rexec  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3669"
+ HREF="lib.html">Python Library Reference</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3663"
+ HREF="netrc-objects.html">12.20.1 netrc Objects</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

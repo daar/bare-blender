@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>10.6 Limitations</TITLE>
+<META NAME="description" CONTENT="10.6 Limitations">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="node180.html">
+<LINK REL="previous" HREF="module-profile.html">
+<LINK REL="up" HREF="profile.html">
+<LINK REL="next" HREF="node180.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2716"
+ HREF="node180.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2712"
+ HREF="profile.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2706"
+ HREF="node178.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2714"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2715"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2717"
+ HREF="node180.html">10.7 Calibration</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2713"
+ HREF="profile.html">10. The Python Profiler</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2707"
+ HREF="node178.html">10.5.1 The Stats Class</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0012600000000000000000">
+10.6 Limitations</A>
+</H1>
+
+<P>
+There are two fundamental limitations on this profiler.  The first is
+that it relies on the Python interpreter to dispatch <i class=dfn>call</i>,
+<i class=dfn>return</i>, and <i class=dfn>exception</i> events.  Compiled C code does not
+get interpreted, and hence is ``invisible'' to the profiler.  All time
+spent in C code (including built-in functions) will be charged to the
+Python function that invoked the C code.  If the C code calls out
+to some native Python code, then those calls will be profiled
+properly.
+
+<P>
+The second limitation has to do with accuracy of timing information.
+There is a fundamental problem with deterministic profilers involving
+accuracy.  The most obvious restriction is that the underlying ``clock''
+is only ticking at a rate (typically) of about .001 seconds.  Hence no
+measurements will be more accurate that that underlying clock.  If
+enough measurements are taken, then the ``error'' will tend to average
+out. Unfortunately, removing this first error induces a second source
+of error...
+
+<P>
+The second problem is that it ``takes a while'' from when an event is
+dispatched until the profiler's call to get the time actually
+<i>gets</i> the state of the clock.  Similarly, there is a certain lag
+when exiting the profiler event handler from the time that the clock's
+value was obtained (and then squirreled away), until the user's code
+is once again executing.  As a result, functions that are called many
+times, or call many functions, will typically accumulate this error.
+The error that accumulates in this fashion is typically less than the
+accuracy of the clock (i.e., less than one clock tick), but it
+<i>can</i> accumulate and become very significant.  This profiler
+provides a means of calibrating itself for a given platform so that
+this error can be probabilistically (i.e., on the average) removed.
+After the profiler is calibrated, it will be more accurate (in a least
+square sense), but it will sometimes produce negative numbers (when
+call counts are exceptionally low, and the gods of probability work
+against you :-). )  Do <i>NOT</i> be alarmed by negative numbers in
+the profile.  They should <i>only</i> appear if you have calibrated
+your profiler, and the results are actually better than without
+calibration.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2716"
+ HREF="node180.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2712"
+ HREF="profile.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2706"
+ HREF="node178.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2714"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2715"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2717"
+ HREF="node180.html">10.7 Calibration</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2713"
+ HREF="profile.html">10. The Python Profiler</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2707"
+ HREF="node178.html">10.5.1 The Stats Class</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

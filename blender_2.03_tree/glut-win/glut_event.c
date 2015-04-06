@@ -46,7 +46,7 @@ extern int SYS$SETIMR(unsigned int efn, struct timeval *timeout, void *ast,
 extern int SYS$WFLOR(unsigned int efn, unsigned int mask);
 extern int SYS$CANTIM(unsigned int request_id, unsigned int mode);
 #endif /* __vms */
-#include <GL/glut.h>
+#include <glut.h>
 #include "glutint.h"
 
 static GLUTtimer *freeTimerList = NULL;

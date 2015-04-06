@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.5.5 Event Objects </TITLE>
+<META NAME="description" CONTENT="7.5.5 Event Objects ">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="thread-objects.html">
+<LINK REL="previous" HREF="semaphore-objects.html">
+<LINK REL="up" HREF="module-threading.html">
+<LINK REL="next" HREF="thread-objects.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2223"
+ HREF="thread-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2219"
+ HREF="module-threading.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2213"
+ HREF="semaphore-objects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2221"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2222"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2224"
+ HREF="thread-objects.html">7.5.6 Thread Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2220"
+ HREF="module-threading.html">7.5 threading  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2214"
+ HREF="semaphore-objects.html">7.5.4 Semaphore Objects</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION009550000000000000000"></A>
+<BR>
+7.5.5 Event Objects 
+</H2>
+
+<P>
+This is one of the simplest mechanisms for communication between
+threads: one thread signals an event and one or more other thread
+are waiting for it.
+
+<P>
+An event object manages an internal flag that can be set to true with
+the <tt class=method>set()</tt> method and reset to false with the <tt class=method>clear()</tt> method.  The
+<tt class=method>wait()</tt> method blocks until the flag is true.
+
+<P>
+<dl><dt><b><a name="l2h-1337"><tt class=class>Event</tt></a></b> ()
+<dd>
+The internal flag is initially false.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1338"><tt class=method>isSet</tt></a></b> ()
+<dd>
+Return true if and only if the internal flag is true.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1339"><tt class=method>set</tt></a></b> ()
+<dd>
+Set the internal flag to true.
+All threads waiting for it to become true are awakened.
+Threads that call <tt class=method>wait()</tt> once the flag is true will not block
+at all.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1340"><tt class=method>clear</tt></a></b> ()
+<dd>
+Reset the internal flag to false.
+Subsequently, threads calling <tt class=method>wait()</tt> will block until <tt class=method>set()</tt> is
+called to set the internal flag to true again.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1341"><tt class=method>wait</tt></a></b> (<big>[</big><var>timeout</var><big>]</big>)
+<dd>
+Block until the internal flag is true.
+If the internal flag is true on entry, return immediately.  Otherwise,
+block until another thread calls <tt class=method>set()</tt> to set the flag to
+true, or until the optional timeout occurs.
+
+<P>
+When the timeout argument is present and not <tt>None</tt>, it should be a
+floating point number specifying a timeout for the operation in
+seconds (or fractions thereof).
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2223"
+ HREF="thread-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2219"
+ HREF="module-threading.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2213"
+ HREF="semaphore-objects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2221"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2222"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2224"
+ HREF="thread-objects.html">7.5.6 Thread Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2220"
+ HREF="module-threading.html">7.5 threading  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2214"
+ HREF="semaphore-objects.html">7.5.4 Semaphore Objects</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

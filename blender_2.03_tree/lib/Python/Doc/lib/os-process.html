@@ -1,0 +1,354 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>6.1.5 Process Management </TITLE>
+<META NAME="description" CONTENT="6.1.5 Process Management ">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="os-path.html">
+<LINK REL="previous" HREF="os-file-dir.html">
+<LINK REL="up" HREF="module-os.html">
+<LINK REL="next" HREF="os-path.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1887"
+ HREF="os-path.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1883"
+ HREF="module-os.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1877"
+ HREF="os-file-dir.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1885"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1886"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1888"
+ HREF="os-path.html">6.1.6 Miscellanenous System Data</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1884"
+ HREF="module-os.html">6.1 os  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1878"
+ HREF="os-file-dir.html">6.1.4 Files and Directories</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION008150000000000000000"></A>
+<BR>
+6.1.5 Process Management 
+</H2>
+
+<P>
+These functions may be used to create and manage additional
+processes.
+
+<P>
+<dl><dt><b><a name="l2h-940"><tt class=function>execl</tt></a></b> (<var>path, arg0, arg1, ...</var>)
+<dd>
+This is equivalent to
+"<tt class=samp>execv(<var>path</var>, (<var>arg0</var>, <var>arg1</var>, ...))</tt>".
+Availability: Unix, Windows.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-941"><tt class=function>execle</tt></a></b> (<var>path, arg0, arg1, ..., env</var>)
+<dd>
+This is equivalent to
+"<tt class=samp>execve(<var>path</var>, (<var>arg0</var>, <var>arg1</var>, ...), <var>env</var>)</tt>".
+Availability: Unix, Windows.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-942"><tt class=function>execlp</tt></a></b> (<var>path, arg0, arg1, ...</var>)
+<dd>
+This is equivalent to
+"<tt class=samp>execvp(<var>path</var>, (<var>arg0</var>, <var>arg1</var>, ...))</tt>".
+Availability: Unix, Windows.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-943"><tt class=function>execv</tt></a></b> (<var>path, args</var>)
+<dd>
+Execute the executable <var>path</var> with argument list <var>args</var>,
+replacing the current process (i.e., the Python interpreter).
+The argument list may be a tuple or list of strings.
+Availability: Unix, Windows.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-944"><tt class=function>execve</tt></a></b> (<var>path, args, env</var>)
+<dd>
+Execute the executable <var>path</var> with argument list <var>args</var>,
+and environment <var>env</var>,
+replacing the current process (i.e., the Python interpreter).
+The argument list may be a tuple or list of strings.
+The environment must be a dictionary mapping strings to strings.
+Availability: Unix, Windows.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-945"><tt class=function>execvp</tt></a></b> (<var>path, args</var>)
+<dd>
+This is like "<tt class=samp>execv(<var>path</var>, <var>args</var>)</tt>" but duplicates
+the shell's actions in searching for an executable file in a list of
+directories.  The directory list is obtained from
+<tt>environ['PATH']</tt>.
+Availability: Unix, Windows.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-946"><tt class=function>execvpe</tt></a></b> (<var>path, args, env</var>)
+<dd>
+This is a cross between <tt class=function>execve()</tt> and <tt class=function>execvp()</tt>.
+The directory list is obtained from <tt><var>env</var>['PATH']</tt>.
+Availability: Unix, Windows.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-947"><tt class=function>_exit</tt></a></b> (<var>n</var>)
+<dd>
+Exit to the system with status <var>n</var>, without calling cleanup
+handlers, flushing stdio buffers, etc.
+Availability: Unix, Windows.
+
+<P>
+Note: the standard way to exit is <tt>sys.exit(<var>n</var>)</tt>.
+<tt class=function>_exit()</tt> should normally only be used in the child process
+after a <tt class=function>fork()</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-948"><tt class=function>fork</tt></a></b> ()
+<dd>
+Fork a child process.  Return <tt>0</tt> in the child, the child's
+process id in the parent.
+Availability: Unix.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-949"><tt class=function>kill</tt></a></b> (<var>pid, sig</var>)
+<dd>
+<a name="l2h-966"></a>
+<a name="l2h-967"></a>
+Kill the process <var>pid</var> with signal <var>sig</var>.
+Availability: Unix.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-950"><tt class=function>nice</tt></a></b> (<var>increment</var>)
+<dd>
+Add <var>increment</var> to the process's ``niceness''.  Return the new
+niceness.
+Availability: Unix.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-951"><tt class=function>plock</tt></a></b> (<var>op</var>)
+<dd>
+Lock program segments into memory.  The value of <var>op</var>
+(defined in <tt>&lt;sys/lock.h&gt;</tt>) determines which segments are locked.
+Availability: Unix.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-952"><tt class=function>spawnv</tt></a></b> (<var>mode, path, args</var>)
+<dd>
+Execute the program <var>path</var> in a new process, passing the arguments 
+specified in <var>args</var> as command-line parameters.  <var>args</var> may be 
+a list or a tuple.  <var>mode</var> is a magic operational constant.  See
+the Visual C++ Runtime Library documentation for further
+information.
+Availability: Windows.
+
+New in version 1.5.2.
+
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-953"><tt class=function>spawnve</tt></a></b> (<var>mode, path, args, env</var>)
+<dd>
+Execute the program <var>path</var> in a new process, passing the arguments 
+specified in <var>args</var> as command-line parameters and the contents of 
+the mapping <var>env</var> as the environment.  <var>args</var> may be a list or
+a tuple.  <var>mode</var> is a magic operational constant.  See the Visual
+C++ Runtime Library documentation for further information.
+Availability: Windows.
+
+New in version 1.5.2.
+
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-954"><tt>P_WAIT</tt></a></b>
+<dd>
+<dt><b><a name="l2h-968"><tt>P_NOWAIT</tt></a></b><dd>
+<dt><b><a name="l2h-969"><tt>P_NOWAITO</tt></a></b><dd>
+<dt><b><a name="l2h-970"><tt>P_OVERLAY</tt></a></b><dd>
+<dt><b><a name="l2h-971"><tt>P_DETACH</tt></a></b><dd>
+Possible values for the <var>mode</var> parameter to <tt class=function>spawnv()</tt>
+and <tt class=function>spawnve()</tt>.
+Availability: Windows.
+
+New in version 1.5.2.
+
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-955"><tt class=function>system</tt></a></b> (<var>command</var>)
+<dd>
+Execute the command (a string) in a subshell.  This is implemented by
+calling the Standard C function <tt class=cfunction>system()</tt>, and has the
+same limitations.  Changes to <tt>posix.environ</tt>, <tt>sys.stdin</tt>etc. are not reflected in the environment of the executed command.
+The return value is the exit status of the process encoded in the
+format specified for <tt class=function>wait()</tt>.
+Availability: Unix, Windows.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-956"><tt class=function>times</tt></a></b> ()
+<dd>
+Return a 5-tuple of floating point numbers indicating accumulated (CPU
+or other)
+times, in seconds.  The items are: user time, system time, children's
+user time, children's system time, and elapsed real time since a fixed
+point in the past, in that order.  See the Unix
+manual page <span class=manpage><i>times</i>(2)</span> or the corresponding Windows Platform
+API documentation.
+Availability: Unix, Windows.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-957"><tt class=function>wait</tt></a></b> ()
+<dd>
+Wait for completion of a child process, and return a tuple containing
+its pid and exit status indication: a 16-bit number, whose low byte is
+the signal number that killed the process, and whose high byte is the
+exit status (if the signal number is zero); the high bit of the low
+byte is set if a core file was produced.
+Availability: Unix.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-958"><tt class=function>waitpid</tt></a></b> (<var>pid, options</var>)
+<dd>
+Wait for completion of a child process given by proces id, and return
+a tuple containing its process id and exit status indication (encoded
+as for <tt class=function>wait()</tt>).  The semantics of the call are affected by
+the value of the integer <var>options</var>, which should be <tt>0</tt> for
+normal operation.
+Availability: Unix.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-959"><tt>WNOHANG</tt></a></b>
+<dd>
+The option for <tt class=function>waitpid()</tt> to avoid hanging if no child
+process status is available immediately.
+Availability: Unix.
+</dl>
+
+<P>
+The following functions take a process stats code as returned by
+<tt class=function>waitpid()</tt> as a parameter.  They may be used to determine
+the disposition of a process.
+
+<P>
+<dl><dt><b><a name="l2h-960"><tt class=function>WIFSTOPPED</tt></a></b> (<var>status</var>)
+<dd>
+Return true if the process has been stopped.
+Availability: Unix.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-961"><tt class=function>WIFSIGNALED</tt></a></b> (<var>status</var>)
+<dd>
+Return true if the process exited due to a signal.
+Availability: Unix.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-962"><tt class=function>WIFEXITED</tt></a></b> (<var>status</var>)
+<dd>
+Return true if the process exited using the <span class=manpage><i>exit</i>(2)</span> system
+call.
+Availability: Unix.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-963"><tt class=function>WEXITSTATUS</tt></a></b> (<var>status</var>)
+<dd>
+If <tt>WIFEXITED(<var>status</var>)</tt> is true, return the integer
+parameter to the <span class=manpage><i>exit</i>(2)</span> system call.  Otherwise, the return 
+value is meaningless.
+Availability: Unix.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-964"><tt class=function>WSTOPSIG</tt></a></b> (<var>status</var>)
+<dd>
+Return the signal which caused the process to stop.
+Availability: Unix.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-965"><tt class=function>WTERMSIG</tt></a></b> (<var>status</var>)
+<dd>
+Return the signal which caused the process to exit.
+Availability: Unix.
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1887"
+ HREF="os-path.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1883"
+ HREF="module-os.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1877"
+ HREF="os-file-dir.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1885"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1886"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1888"
+ HREF="os-path.html">6.1.6 Miscellanenous System Data</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1884"
+ HREF="module-os.html">6.1 os  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1878"
+ HREF="os-file-dir.html">6.1.4 Files and Directories</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

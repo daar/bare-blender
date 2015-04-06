@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4.1 Standard Exceptions </TITLE>
+<META NAME="description" CONTENT="4.1 Standard Exceptions ">
+<META NAME="keywords" CONTENT="api">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="api.css">
+<LINK REL="previous" HREF="exceptionHandling.html">
+<LINK REL="up" HREF="exceptionHandling.html">
+<LINK REL="next" HREF="utilities.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html252"
+ HREF="utilities.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html248"
+ HREF="exceptionHandling.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html244"
+ HREF="exceptionHandling.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python/C API Reference Manual</b></td>
+<td><A NAME="tex2html250"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html251"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html253"
+ HREF="utilities.html">5. Utilities</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html249"
+ HREF="exceptionHandling.html">4. Exception Handling</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html245"
+ HREF="exceptionHandling.html">4. Exception Handling</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION006100000000000000000"></A>
+<BR>
+4.1 Standard Exceptions 
+</H1>
+
+<P>
+All standard Python exceptions are available as global variables whose
+names are "<tt class=samp>PyExc_</tt>" followed by the Python exception name.
+These have the type <tt class=ctype>PyObject *</tt>; they are all either class
+objects or string objects, depending on the use of the <tt>-X</tt>option to the interpreter.  For completeness, here are all the
+variables:
+<tt class=cdata>PyExc_Exception</tt>,
+<tt class=cdata>PyExc_StandardError</tt>,
+<tt class=cdata>PyExc_ArithmeticError</tt>,
+<tt class=cdata>PyExc_LookupError</tt>,
+<tt class=cdata>PyExc_AssertionError</tt>,
+<tt class=cdata>PyExc_AttributeError</tt>,
+<tt class=cdata>PyExc_EOFError</tt>,
+<tt class=cdata>PyExc_EnvironmentError</tt>,
+<tt class=cdata>PyExc_FloatingPointError</tt>,
+<tt class=cdata>PyExc_IOError</tt>,
+<tt class=cdata>PyExc_ImportError</tt>,
+<tt class=cdata>PyExc_IndexError</tt>,
+<tt class=cdata>PyExc_KeyError</tt>,
+<tt class=cdata>PyExc_KeyboardInterrupt</tt>,
+<tt class=cdata>PyExc_MemoryError</tt>,
+<tt class=cdata>PyExc_NameError</tt>,
+<tt class=cdata>PyExc_NotImplementedError</tt>,
+<tt class=cdata>PyExc_OSError</tt>,
+<tt class=cdata>PyExc_OverflowError</tt>,
+<tt class=cdata>PyExc_RuntimeError</tt>,
+<tt class=cdata>PyExc_SyntaxError</tt>,
+<tt class=cdata>PyExc_SystemError</tt>,
+<tt class=cdata>PyExc_SystemExit</tt>,
+<tt class=cdata>PyExc_TypeError</tt>,
+<tt class=cdata>PyExc_ValueError</tt>,
+<tt class=cdata>PyExc_ZeroDivisionError</tt>.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html252"
+ HREF="utilities.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html248"
+ HREF="exceptionHandling.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html244"
+ HREF="exceptionHandling.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python/C API Reference Manual</b></td>
+<td><A NAME="tex2html250"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html251"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html253"
+ HREF="utilities.html">5. Utilities</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html249"
+ HREF="exceptionHandling.html">4. Exception Handling</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html245"
+ HREF="exceptionHandling.html">4. Exception Handling</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

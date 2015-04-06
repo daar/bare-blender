@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>2.1.7.1 Modules </TITLE>
+<META NAME="description" CONTENT="2.1.7.1 Modules ">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="typesobjects.html">
+<LINK REL="previous" HREF="typesother.html">
+<LINK REL="up" HREF="typesother.html">
+<LINK REL="next" HREF="typesobjects.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html764"
+ HREF="typesobjects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html760"
+ HREF="typesother.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html754"
+ HREF="typesother.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html762"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html763"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html765"
+ HREF="typesobjects.html">2.1.7.2 Classes and Class</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html761"
+ HREF="typesother.html">2.1.7 Other Built-in Types</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html755"
+ HREF="typesother.html">2.1.7 Other Built-in Types</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION004171000000000000000"></A>
+<BR>
+2.1.7.1 Modules 
+</H3>
+
+<P>
+The only special operation on a module is attribute access:
+<tt><var>m</var>.<var>name</var></tt>, where <var>m</var> is a module and <var>name</var>
+accesses a name defined in <var>m</var>'s symbol table.  Module attributes
+can be assigned to.  (Note that the <tt class=keyword>import</tt> statement is not,
+strictly speaking, an operation on a module object; <tt>import
+<var>foo</var></tt> does not require a module object named <var>foo</var> to exist,
+rather it requires an (external) <i>definition</i> for a module named
+<var>foo</var> somewhere.)
+
+<P>
+A special member of every module is <tt class=member>__dict__</tt>.
+This is the dictionary containing the module's symbol table.
+Modifying this dictionary will actually change the module's symbol
+table, but direct assignment to the <tt class=member>__dict__</tt> attribute is not
+possible (i.e., you can write <tt><var>m</var>.__dict__['a'] = 1</tt>, which
+defines <tt><var>m</var>.a</tt> to be <tt>1</tt>, but you can't write
+<tt><var>m</var>.__dict__ = {}</tt>.
+
+<P>
+Modules built into the interpreter are written like this:
+<tt>&lt;module 'sys' (built-in)&gt;</tt>.  If loaded from a file, they are
+written as <tt>&lt;module 'os' from '/usr/local/lib/python1.5/os.pyc'&gt;</tt>.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html764"
+ HREF="typesobjects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html760"
+ HREF="typesother.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html754"
+ HREF="typesother.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html762"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html763"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html765"
+ HREF="typesobjects.html">2.1.7.2 Classes and Class</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html761"
+ HREF="typesother.html">2.1.7 Other Built-in Types</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html755"
+ HREF="typesother.html">2.1.7 Other Built-in Types</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

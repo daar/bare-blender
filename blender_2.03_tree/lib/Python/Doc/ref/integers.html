@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>2.4.4 Integer and long integer literals</TITLE>
+<META NAME="description" CONTENT="2.4.4 Integer and long integer literals">
+<META NAME="keywords" CONTENT="ref">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ref.css">
+<LINK REL="next" HREF="floating.html">
+<LINK REL="previous" HREF="numbers.html">
+<LINK REL="up" HREF="literals.html">
+<LINK REL="next" HREF="floating.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html465"
+ HREF="floating.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html461"
+ HREF="literals.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html455"
+ HREF="numbers.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html463"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html464"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html466"
+ HREF="floating.html">2.4.5 Floating point literals</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html462"
+ HREF="literals.html">2.4 Literals</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html456"
+ HREF="numbers.html">2.4.3 Numeric literals</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION004440000000000000000"></A>
+<BR>
+2.4.4 Integer and long integer literals
+</H2>
+
+<P>
+Integer and long integer literals are described by the following
+lexical definitions:
+
+<P>
+<dl><dd><pre class=verbatim>
+longinteger:    integer ("l"|"L")
+integer:        decimalinteger | octinteger | hexinteger
+decimalinteger: nonzerodigit digit* | "0"
+octinteger:     "0" octdigit+
+hexinteger:     "0" ("x"|"X") hexdigit+
+nonzerodigit:   "1"..."9"
+octdigit:       "0"..."7"
+hexdigit:        digit|"a"..."f"|"A"..."F"
+</pre></dl>
+
+<P>
+Although both lower case `l' and upper case `L' are allowed as suffix
+for long integers, it is strongly recommended to always use `L', since
+the letter `l' looks too much like the digit `1'.
+
+<P>
+Plain integer decimal literals must be at most 2147483647 (i.e., the
+largest positive integer, using 32-bit arithmetic).  Plain octal and
+hexadecimal literals may be as large as 4294967295, but values larger
+than 2147483647 are converted to a negative value by subtracting
+4294967296.  There is no limit for long integer literals apart from
+what can be stored in available memory.
+
+<P>
+Some examples of plain and long integer literals:
+
+<P>
+<dl><dd><pre class=verbatim>
+7     2147483647                        0177    0x80000000
+3L    79228162514264337593543950336L    0377L   0x100000000L
+</pre></dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html465"
+ HREF="floating.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html461"
+ HREF="literals.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html455"
+ HREF="numbers.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html463"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html464"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html466"
+ HREF="floating.html">2.4.5 Floating point literals</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html462"
+ HREF="literals.html">2.4 Literals</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html456"
+ HREF="numbers.html">2.4.3 Numeric literals</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

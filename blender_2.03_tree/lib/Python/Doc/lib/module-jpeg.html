@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>16.12 jpeg -- Read and write JPEG files</TITLE>
+<META NAME="description" CONTENT="16.12 jpeg -- Read and write JPEG files">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="previous" HREF="module-imgfile.html">
+<LINK REL="up" HREF="sgi.html">
+<LINK REL="next" HREF="sunos.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html4072"
+ HREF="sunos.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html4068"
+ HREF="sgi.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html4064"
+ HREF="module-imgfile.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html4070"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html4071"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html4073"
+ HREF="sunos.html">17. SunOS Specific Services</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html4069"
+ HREF="sgi.html">16. SGI IRIX Specific</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html4065"
+ HREF="module-imgfile.html">16.11 imgfile  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00181200000000000000000">
+16.12 <tt class=module>jpeg</tt> --
+         Read and write JPEG files</A>
+</H1>
+
+<P>
+  
+<p class=availability>Availability: <span
+ class=platform>IRIX</span>.</p>
+
+<P>
+The module <tt class=module>jpeg</tt> provides access to the jpeg compressor and
+decompressor written by the Independent JPEG Group
+<a name="l2h-2469"></a>(IJG). JPEG is a standard for
+compressing pictures; it is defined in ISO 10918.  For details on JPEG
+or the Independent JPEG Group software refer to the JPEG standard or
+the documentation provided with the software.
+
+<P>
+A portable interface to JPEG image files is available with the Python
+Imaging Library (PIL) by Fredrik Lundh.  Information on PIL is
+available at <span class=url><a href="http://www.pythonware.com/products/pil/">http://www.pythonware.com/products/pil/</a></span>.
+<a name="l2h-2470"></a>
+<a name="l2h-2471"></a>
+<a name="l2h-2472"></a>
+
+<P>
+The <tt class=module>jpeg</tt> module defines an exception and some functions.
+
+<P>
+<dl><dt><b><a name="l2h-2465"><tt class=exception>error</tt></a></b>
+<dd>
+Exception raised by <tt class=function>compress()</tt> and <tt class=function>decompress()</tt>
+in case of errors.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2466"><tt class=function>compress</tt></a></b> (<var>data, w, h, b</var>)
+<dd>
+Treat data as a pixmap of width <var>w</var> and height <var>h</var>, with
+<var>b</var> bytes per pixel.  The data is in SGI GL order, so the first
+pixel is in the lower-left corner. This means that <tt class=function>gl.lrectread()</tt>
+return data can immediately be passed to <tt class=function>compress()</tt>.
+Currently only 1 byte and 4 byte pixels are allowed, the former being
+treated as greyscale and the latter as RGB color.
+<tt class=function>compress()</tt> returns a string that contains the compressed
+picture, in JFIF<a name="l2h-2473"></a> format.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2467"><tt class=function>decompress</tt></a></b> (<var>data</var>)
+<dd>
+Data is a string containing a picture in JFIF<a name="l2h-2474"></a> format. It
+returns a tuple <tt>(<var>data</var>, <var>width</var>, <var>height</var>,
+<var>bytesperpixel</var>)</tt>.  Again, the data is suitable to pass to
+<tt class=function>gl.lrectwrite()</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2468"><tt class=function>setoption</tt></a></b> (<var>name, value</var>)
+<dd>
+Set various options.  Subsequent <tt class=function>compress()</tt> and
+<tt class=function>decompress()</tt> calls will use these options.  The following
+options are available:
+
+<P>
+<table border align=center>
+  <tr bgcolor="#99CCFF">
+    <th align=left><b>Option</b></th>
+    <th><b>Effect</b></th>
+  <tr><td><code>'forcegray'</code></td>
+      <td>Force output to be grayscale, even if input is RGB.&nbsp;</td>
+  <tr><td><code>'quality'</code></td>
+      <td>Set the quality of the compressed image to a value between
+    <tt>0</tt> and <tt>100</tt> (default is <tt>75</tt>).  This only affects
+    compression.&nbsp;</td>
+  <tr><td><code>'optimize'</code></td>
+      <td>Perform Huffman table optimization.  Takes longer, but results in
+    smaller compressed image.  This only affects compression.&nbsp;</td>
+  <tr><td><code>'smooth'</code></td>
+      <td>Perform inter-block smoothing on uncompressed image.  Only useful
+    for low-quality images.  This only affects decompression.&nbsp;</td>
+
+</table>
+</dl>
+
+<P>
+<div class=seealso>
+  <p class=heading><b>See Also:</b></p>
+
+  <div class=seetext><p><i>JPEG Still Image Data Compression Standard</i>, by
+    Pennebaker and Mitchell, is the canonical reference for the JPEG
+    image format.
+
+<P>
+<div class=seetext><p>The ISO standard for JPEG is also published as ITU T.81.
+    This is available in PDF form at
+    <span class=url><a href="http://www.w3.org/Graphics/JPEG/itu-t81.pdf">http://www.w3.org/Graphics/JPEG/itu-t81.pdf</a></span>.
+</div>
+
+<P>
+</div></div><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html4072"
+ HREF="sunos.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html4068"
+ HREF="sgi.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html4064"
+ HREF="module-imgfile.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html4070"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html4071"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html4073"
+ HREF="sunos.html">17. SunOS Specific Services</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html4069"
+ HREF="sgi.html">16. SGI IRIX Specific</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html4065"
+ HREF="module-imgfile.html">16.11 imgfile  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

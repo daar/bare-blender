@@ -1,0 +1,222 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>10.3 Instant Users Manual</TITLE>
+<META NAME="description" CONTENT="10.3 Instant Users Manual">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="Deterministic_Profiling.html">
+<LINK REL="previous" HREF="Profiler_Changes.html">
+<LINK REL="up" HREF="profile.html">
+<LINK REL="next" HREF="Deterministic_Profiling.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2669"
+ HREF="Deterministic_Profiling.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2665"
+ HREF="profile.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2659"
+ HREF="Profiler_Changes.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2667"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2668"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2670"
+ HREF="Deterministic_Profiling.html">10.4 What Is Deterministic</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2666"
+ HREF="profile.html">10. The Python Profiler</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2660"
+ HREF="Profiler_Changes.html">10.2 How Is This</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0012300000000000000000">
+10.3 Instant Users Manual</A>
+</H1>
+
+<P>
+This section is provided for users that ``don't want to read the
+manual.'' It provides a very brief overview, and allows a user to
+rapidly perform profiling on an existing application.
+
+<P>
+To profile an application with a main entry point of "<tt class=samp>foo()</tt>", you
+would add the following to your module:
+
+<P>
+<dl><dd><pre class=verbatim>
+import profile
+profile.run('foo()')
+</pre></dl>
+The above action would cause "<tt class=samp>foo()</tt>" to be run, and a series of
+informative lines (the profile) to be printed.  The above approach is
+most useful when working with the interpreter.  If you would like to
+save the results of a profile into a file for later examination, you
+can supply a file name as the second argument to the <tt class=function>run()</tt>
+function:
+
+<P>
+<dl><dd><pre class=verbatim>
+import profile
+profile.run('foo()', 'fooprof')
+</pre></dl>
+The file "<tt class=file>profile.py</tt>" can also be invoked as
+a script to profile another script.  For example:
+
+<P>
+<dl><dd><pre class=verbatim>
+python /usr/local/lib/python1.5/profile.py myscript.py
+</pre></dl>
+
+<P>
+When you wish to review the profile, you should use the methods in the
+<tt class=module>pstats</tt> module.  Typically you would load the statistics data as
+follows:
+
+<P>
+<dl><dd><pre class=verbatim>
+import pstats
+p = pstats.Stats('fooprof')
+</pre></dl>
+The class <tt class=class>Stats</tt> (the above code just created an instance of
+this class) has a variety of methods for manipulating and printing the
+data that was just read into "<tt class=samp>p</tt>".  When you ran
+<tt class=function>profile.run()</tt> above, what was printed was the result of three
+method calls:
+
+<P>
+<dl><dd><pre class=verbatim>
+p.strip_dirs().sort_stats(-1).print_stats()
+</pre></dl>
+The first method removed the extraneous path from all the module
+names. The second method sorted all the entries according to the
+standard module/line/name string that is printed (this is to comply
+with the semantics of the old profiler).  The third method printed out
+all the statistics.  You might try the following sort calls:
+
+<P>
+<dl><dd><pre class=verbatim>
+p.sort_stats('name')
+p.print_stats()
+</pre></dl>
+The first call will actually sort the list by function name, and the
+second call will print out the statistics.  The following are some
+interesting calls to experiment with:
+
+<P>
+<dl><dd><pre class=verbatim>
+p.sort_stats('cumulative').print_stats(10)
+</pre></dl>
+This sorts the profile by cumulative time in a function, and then only
+prints the ten most significant lines.  If you want to understand what
+algorithms are taking time, the above line is what you would use.
+
+<P>
+If you were looking to see what functions were looping a lot, and
+taking a lot of time, you would do:
+
+<P>
+<dl><dd><pre class=verbatim>
+p.sort_stats('time').print_stats(10)
+</pre></dl>
+to sort according to time spent within each function, and then print
+the statistics for the top ten functions.
+
+<P>
+You might also try:
+
+<P>
+<dl><dd><pre class=verbatim>
+p.sort_stats('file').print_stats('__init__')
+</pre></dl>
+This will sort all the statistics by file name, and then print out
+statistics for only the class init methods ('cause they are spelled
+with "<tt class=samp>__init__</tt>" in them).  As one final example, you could try:
+
+<P>
+<dl><dd><pre class=verbatim>
+p.sort_stats('time', 'cum').print_stats(.5, 'init')
+</pre></dl>
+This line sorts statistics with a primary key of time, and a secondary
+key of cumulative time, and then prints out some of the statistics.
+To be specific, the list is first culled down to 50% (re: "<tt class=samp>.5</tt>")
+of its original size, then only lines containing <tt>init</tt> are
+maintained, and that sub-sub-list is printed.
+
+<P>
+If you wondered what functions called the above functions, you could
+now ("<tt class=samp>p</tt>" is still sorted according to the last criteria) do:
+
+<P>
+<dl><dd><pre class=verbatim>
+p.print_callers(.5, 'init')
+</pre></dl>
+
+<P>
+and you would get a list of callers for each of the listed functions. 
+
+<P>
+If you want more functionality, you're going to have to read the
+manual, or guess what the following functions do:
+
+<P>
+<dl><dd><pre class=verbatim>
+p.print_callees()
+p.add('fooprof')
+</pre></dl><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2669"
+ HREF="Deterministic_Profiling.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2665"
+ HREF="profile.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2659"
+ HREF="Profiler_Changes.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2667"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2668"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2670"
+ HREF="Deterministic_Profiling.html">10.4 What Is Deterministic</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2666"
+ HREF="profile.html">10. The Python Profiler</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2660"
+ HREF="Profiler_Changes.html">10.2 How Is This</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

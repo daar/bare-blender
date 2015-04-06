@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>10.2 How Is This Profiler Different From The Old Profiler?</TITLE>
+<META NAME="description" CONTENT="10.2 How Is This Profiler Different From The Old Profiler?">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="node175.html">
+<LINK REL="previous" HREF="Profiler_Introduction.html">
+<LINK REL="up" HREF="profile.html">
+<LINK REL="next" HREF="node175.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2657"
+ HREF="node175.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2653"
+ HREF="profile.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2647"
+ HREF="Profiler_Introduction.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2655"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2656"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2658"
+ HREF="node175.html">10.3 Instant Users Manual</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2654"
+ HREF="profile.html">10. The Python Profiler</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2648"
+ HREF="Profiler_Introduction.html">10.1 Introduction to the</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0012200000000000000000">
+10.2 How Is This Profiler Different From The Old Profiler?</A>
+</H1>
+
+<P>
+(This section is of historical importance only; the old profiler
+discussed here was last seen in Python 1.1.)
+
+<P>
+The big changes from old profiling module are that you get more
+information, and you pay less CPU time.  It's not a trade-off, it's a
+trade-up.
+
+<P>
+To be specific:
+
+<P>
+<DL>
+<DD><P>
+<DT><STRONG>Bugs removed:</STRONG>
+<DD>Local stack frame is no longer molested, execution time is now charged
+to correct functions.
+
+<P>
+<DT><STRONG>Accuracy increased:</STRONG>
+<DD>Profiler execution time is no longer charged to user's code,
+calibration for platform is supported, file reads are not done <i>by</i>
+profiler <i>during</i> profiling (and charged to user's code!).
+
+<P>
+<DT><STRONG>Speed increased:</STRONG>
+<DD>Overhead CPU cost was reduced by more than a factor of two (perhaps a
+factor of five), lightweight profiler module is all that must be
+loaded, and the report generating module (<tt class=module>pstats</tt>) is not needed
+during profiling.
+
+<P>
+<DT><STRONG>Recursive functions support:</STRONG>
+<DD>Cumulative times in recursive functions are correctly calculated;
+recursive entries are counted.
+
+<P>
+<DT><STRONG>Large growth in report generating UI:</STRONG>
+<DD>Distinct profiles runs can be added together forming a comprehensive
+report; functions that import statistics take arbitrary lists of
+files; sorting criteria is now based on keywords (instead of 4 integer
+options); reports shows what functions were profiled as well as what
+profile file was referenced; output format has been improved.
+
+<P>
+</DL>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2657"
+ HREF="node175.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2653"
+ HREF="profile.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2647"
+ HREF="Profiler_Introduction.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2655"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2656"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2658"
+ HREF="node175.html">10.3 Instant Users Manual</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2654"
+ HREF="profile.html">10. The Python Profiler</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2648"
+ HREF="Profiler_Introduction.html">10.1 Introduction to the</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>6.11.2 For extension writers and programs that embed Python</TITLE>
+<META NAME="description" CONTENT="6.11.2 For extension writers and programs that embed Python">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="previous" HREF="node123.html">
+<LINK REL="up" HREF="module-locale.html">
+<LINK REL="next" HREF="someos.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2050"
+ HREF="someos.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2046"
+ HREF="module-locale.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2042"
+ HREF="node123.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2048"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2049"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2051"
+ HREF="someos.html">7. Optional Operating System</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2047"
+ HREF="module-locale.html">6.11 locale  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2043"
+ HREF="node123.html">6.11.1 Background, details, hints,</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0081120000000000000000"></A>
+<BR>
+6.11.2 For extension writers and programs that embed Python
+</H2>
+
+<P>
+Extension modules should never call <tt class=function>setlocale()</tt>, except to
+find out what the current locale is.  But since the return value can
+only be used portably to restore it, that is not very useful (except
+perhaps to find out whether or not the locale is "<tt class=samp>C</tt>").
+
+<P>
+When Python is embedded in an application, if the application sets the
+locale to something specific before initializing Python, that is
+generally okay, and Python will use whatever locale is set,
+<i>except</i> that the <tt class=constant>LC_NUMERIC</tt> locale should always be
+"<tt class=samp>C</tt>".
+
+<P>
+The <tt class=function>setlocale()</tt> function in the <tt class=module>locale</tt> module contains
+gives the Python progammer the impression that you can manipulate the
+<tt class=constant>LC_NUMERIC</tt> locale setting, but this not the case at the C
+level: C code will always find that the <tt class=constant>LC_NUMERIC</tt> locale
+setting is "<tt class=samp>C</tt>".  This is because too much would break when the
+decimal point character is set to something else than a period
+(e.g. the Python parser would break).  Caveat: threads that run
+without holding Python's global interpreter lock may occasionally find
+that the numeric locale setting differs; this is because the only
+portable way to implement this feature is to set the numeric locale
+settings to what the user requests, extract the relevant
+characteristics, and then restore the "<tt class=samp>C</tt>" numeric locale.
+
+<P>
+When Python code uses the <tt class=module>locale</tt> module to change the locale,
+this also affects the embedding application.  If the embedding
+application doesn't want this to happen, it should remove the
+<tt class=module>_locale</tt> extension module (which does all the work) from the
+table of built-in modules in the "<tt class=file>config.c</tt>" file, and make sure
+that the <tt class=module>_locale</tt> module is not accessible as a shared library.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2050"
+ HREF="someos.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2046"
+ HREF="module-locale.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2042"
+ HREF="node123.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2048"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2049"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2051"
+ HREF="someos.html">7. Optional Operating System</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2047"
+ HREF="module-locale.html">6.11 locale  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2043"
+ HREF="node123.html">6.11.1 Background, details, hints,</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

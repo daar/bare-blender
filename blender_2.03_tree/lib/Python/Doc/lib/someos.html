@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7. Optional Operating System Services</TITLE>
+<META NAME="description" CONTENT="7. Optional Operating System Services">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="unix.html">
+<LINK REL="previous" HREF="allos.html">
+<LINK REL="up" HREF="lib.html">
+<LINK REL="next" HREF="module-signal.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2062"
+ HREF="module-signal.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2058"
+ HREF="lib.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2052"
+ HREF="embedding-locale.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2060"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2061"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2063"
+ HREF="module-signal.html">7.1 signal  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2059"
+ HREF="lib.html">Python Library Reference</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2053"
+ HREF="embedding-locale.html">6.11.2 For extension writers</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION009000000000000000000"></A>
+<BR>
+7. Optional Operating System Services
+</H1>
+
+<P>
+The modules described in this chapter provide interfaces to operating
+system features that are available on selected operating systems only.
+The interfaces are generally modelled after the Unix or C
+interfaces but they are available on some other systems as well
+(e.g. Windows or NT).  Here's an overview:
+
+<P>
+<table>
+  <tr><td><b><tt><a href="module-signal.html">signal</a></tt></b></td>
+      <td>Set handlers for asynchronous events.</td></tr>
+  <tr><td><b><tt><a href="module-socket.html">socket</a></tt></b></td>
+      <td>Low-level networking interface.</td></tr>
+  <tr><td><b><tt><a href="module-select.html">select</a></tt></b></td>
+      <td>Wait for I/O completion on multiple streams.</td></tr>
+  <tr><td><b><tt><a href="module-thread.html">thread</a></tt></b></td>
+      <td>Create multiple threads of control within one interpreter.</td></tr>
+  <tr><td><b><tt><a href="module-threading.html">threading</a></tt></b></td>
+      <td>Higher-level threading interface.</td></tr>
+  <tr><td><b><tt><a href="module-Queue.html">Queue</a></tt></b></td>
+      <td>A synchronized queue class.</td></tr>
+  <tr><td><b><tt><a href="module-anydbm.html">anydbm</a></tt></b></td>
+      <td>Generic interface to DBM-style database modules.</td></tr>
+  <tr><td><b><tt><a href="module-dumbdbm.html">dumbdbm</a></tt></b></td>
+      <td>Portable implementation of the simple DBM interface.</td></tr>
+  <tr><td><b><tt><a href="module-whichdb.html">whichdb</a></tt></b></td>
+      <td>Guess which DBM-style module created a given database.</td></tr>
+  <tr><td><b><tt><a href="module-zlib.html">zlib</a></tt></b></td>
+      <td>Low-level interface to compression and decompression
+routines compatible with \programgzip.</td></tr>
+  <tr><td><b><tt><a href="module-gzip.html">gzip</a></tt></b></td>
+      <td>Interfaces for \programgzip compression and
+decompression using file objects.</td></tr>
+</table>
+<BR>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2062"
+ HREF="module-signal.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2058"
+ HREF="lib.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2052"
+ HREF="embedding-locale.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2060"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2061"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2063"
+ HREF="module-signal.html">7.1 signal  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2059"
+ HREF="lib.html">Python Library Reference</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2053"
+ HREF="embedding-locale.html">6.11.2 For extension writers</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

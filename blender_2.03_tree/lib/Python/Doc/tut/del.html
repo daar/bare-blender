@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>5.2 The del statement </TITLE>
+<META NAME="description" CONTENT="5.2 The del statement ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="tuples.html">
+<LINK REL="previous" HREF="moreLists.html">
+<LINK REL="up" HREF="structures.html">
+<LINK REL="next" HREF="tuples.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html553"
+ HREF="tuples.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html550"
+ HREF="structures.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html544"
+ HREF="functional.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html552"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html554"
+ HREF="tuples.html">5.3 Tuples and Sequences</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html551"
+ HREF="structures.html">5. Data Structures</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html545"
+ HREF="functional.html">5.1.1 Functional Programming Tools</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION007200000000000000000"></A>
+<BR>
+5.2 The <tt class=keyword>del</tt> statement 
+</H1>
+
+<P>
+There is a way to remove an item from a list given its index instead
+of its value: the <tt>del</tt> statement.  This can also be used to
+remove slices from a list (which we did earlier by assignment of an
+empty list to the slice).  For example:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; a
+[-1, 1, 66.6, 333, 333, 1234.5]
+&gt;&gt;&gt; del a[0]
+&gt;&gt;&gt; a
+[1, 66.6, 333, 333, 1234.5]
+&gt;&gt;&gt; del a[2:4]
+&gt;&gt;&gt; a
+[1, 66.6, 1234.5]
+</pre></dl>
+
+<P>
+<tt class=keyword>del</tt> can also be used to delete entire variables:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; del a
+</pre></dl>
+
+<P>
+Referencing the name <tt>a</tt> hereafter is an error (at least until
+another value is assigned to it).  We'll find other uses for
+<tt class=keyword>del</tt> later.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html553"
+ HREF="tuples.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html550"
+ HREF="structures.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html544"
+ HREF="functional.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html552"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html554"
+ HREF="tuples.html">5.3 Tuples and Sequences</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html551"
+ HREF="structures.html">5. Data Structures</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html545"
+ HREF="functional.html">5.1.1 Functional Programming Tools</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

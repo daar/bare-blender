@@ -1,0 +1,210 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>15.2 mpz -- GNU arbitrary magnitude integers</TITLE>
+<META NAME="description" CONTENT="15.2 mpz -- GNU arbitrary magnitude integers">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-rotor.html">
+<LINK REL="previous" HREF="module-md5.html">
+<LINK REL="up" HREF="crypto.html">
+<LINK REL="next" HREF="module-rotor.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3823"
+ HREF="module-rotor.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3819"
+ HREF="crypto.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3813"
+ HREF="module-md5.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3821"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3822"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3824"
+ HREF="module-rotor.html">15.3 rotor  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3820"
+ HREF="crypto.html">15. Cryptographic Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3814"
+ HREF="module-md5.html">15.1 md5  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0017200000000000000000">
+15.2 <tt class=module>mpz</tt> --
+         GNU arbitrary magnitude integers</A>
+</H1>
+
+<P>
+
+
+<P>
+This is an optional module.  It is only available when Python is
+configured to include it, which requires that the GNU MP software is
+installed.
+<a name="l2h-2273"></a>
+<a name="l2h-2274"></a>
+<a name="l2h-2275"></a>
+
+<P>
+This module implements the interface to part of the GNU MP library,
+which defines arbitrary precision integer and rational number
+arithmetic routines.  Only the interfaces to the <i>integer</i>
+(<tt class=function>mpz_*()</tt>) routines are provided. If not stated
+otherwise, the description in the GNU MP documentation can be applied.
+
+<P>
+Support for rational numbers<a name="l2h-2276"></a> can be
+implemented in Python.  For an example, see the <tt class=module>Rat</tt>484
+<a name="l2h-2263"></a> module, provided as
+"<tt class=file>Demos/classes/Rat.py</tt>" in the Python source distribution.
+
+<P>
+In general, <i class=dfn>mpz</i>-numbers can be used just like other standard
+Python numbers, e.g., you can use the built-in operators like <tt>+</tt>,
+<tt>*</tt>, etc., as well as the standard built-in functions like
+<tt class=function>abs()</tt>, <tt class=function>int()</tt>, ..., <tt class=function>divmod()</tt>,
+<tt class=function>pow()</tt>.  <b>Please note:</b> the <i>bitwise-xor</i>
+operation has been implemented as a bunch of <i>and</i>s,
+<i>invert</i>s and <i>or</i>s, because the library lacks an
+<tt class=cfunction>mpz_xor()</tt> function, and I didn't need one.
+
+<P>
+You create an mpz-number by calling the function <tt class=function>mpz()</tt> (see
+below for an exact description). An mpz-number is printed like this:
+<tt>mpz(<var>value</var>)</tt>.
+
+<P>
+<dl><dt><b><a name="l2h-2264"><tt class=function>mpz</tt></a></b> (<var>value</var>)
+<dd>
+  Create a new mpz-number. <var>value</var> can be an integer, a long,
+  another mpz-number, or even a string. If it is a string, it is
+  interpreted as an array of radix-256 digits, least significant digit
+  first, resulting in a positive number. See also the <tt class=method>binary()</tt>
+  method, described below.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2265"><tt>MPZType</tt></a></b>
+<dd>
+  The type of the objects returned by <tt class=function>mpz()</tt> and most other
+  functions in this module.
+</dl>
+
+<P>
+A number of <i>extra</i> functions are defined in this module. Non
+mpz-arguments are converted to mpz-values first, and the functions
+return mpz-numbers.
+
+<P>
+<dl><dt><b><a name="l2h-2266"><tt class=function>powm</tt></a></b> (<var>base, exponent, modulus</var>)
+<dd>
+  Return <tt>pow(<var>base</var>, <var>exponent</var>) % <var>modulus</var></tt>. If
+  <tt><var>exponent</var> == 0</tt>, return <tt>mpz(1)</tt>. In contrast to the
+  C library function, this version can handle negative exponents.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2267"><tt class=function>gcd</tt></a></b> (<var>op1, op2</var>)
+<dd>
+  Return the greatest common divisor of <var>op1</var> and <var>op2</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2268"><tt class=function>gcdext</tt></a></b> (<var>a, b</var>)
+<dd>
+  Return a tuple <tt>(<var>g</var>, <var>s</var>, <var>t</var>)</tt>, such that
+  <tt><var>a</var>*<var>s</var> + <var>b</var>*<var>t</var> == <var>g</var> == gcd(<var>a</var>, <var>b</var>)</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2269"><tt class=function>sqrt</tt></a></b> (<var>op</var>)
+<dd>
+  Return the square root of <var>op</var>. The result is rounded towards zero.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2270"><tt class=function>sqrtrem</tt></a></b> (<var>op</var>)
+<dd>
+  Return a tuple <tt>(<var>root</var>, <var>remainder</var>)</tt>, such that
+  <tt><var>root</var>*<var>root</var> + <var>remainder</var> == <var>op</var></tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2271"><tt class=function>divm</tt></a></b> (<var>numerator, denominator, modulus</var>)
+<dd>
+  Returns a number <var>q</var> such that
+  <tt><var>q</var> * <var>denominator</var> % <var>modulus</var> ==
+  <var>numerator</var></tt>.  One could also implement this function in Python,
+  using <tt class=function>gcdext()</tt>.
+</dl>
+
+<P>
+An mpz-number has one method:
+
+<P>
+<dl><dt><b><a name="l2h-2272"><tt class=method>binary</tt></a></b> ()
+<dd>
+  Convert this mpz-number to a binary string, where the number has been
+  stored as an array of radix-256 digits, least significant digit first.
+
+<P>
+The mpz-number must have a value greater than or equal to zero,
+  otherwise <tt class=exception>ValueError</tt> will be raised.
+</dl><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3823"
+ HREF="module-rotor.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3819"
+ HREF="crypto.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3813"
+ HREF="module-md5.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3821"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3822"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3824"
+ HREF="module-rotor.html">15.3 rotor  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3820"
+ HREF="crypto.html">15. Cryptographic Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3814"
+ HREF="module-md5.html">15.1 md5  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

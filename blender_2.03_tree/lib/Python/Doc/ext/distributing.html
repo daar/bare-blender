@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>2.4 Distributing your extension modules </TITLE>
+<META NAME="description" CONTENT="2.4 Distributing your extension modules ">
+<META NAME="keywords" CONTENT="ext">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ext.css">
+<LINK REL="previous" HREF="module-defn-example.html">
+<LINK REL="up" HREF="building-on-unix.html">
+<LINK REL="next" HREF="building-on-windows.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html343"
+ HREF="building-on-windows.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html340"
+ HREF="building-on-unix.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html336"
+ HREF="module-defn-example.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Extending and Embedding the Python Interpreter</b></td>
+<td><A NAME="tex2html342"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html344"
+ HREF="building-on-windows.html">3. Building C and</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html341"
+ HREF="building-on-unix.html">2. Building C and</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html337"
+ HREF="module-defn-example.html">2.3 Example</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION004400000000000000000"></A>
+<BR>
+2.4 Distributing your extension modules
+         
+</H1>
+
+<P>
+When distributing your extension modules in source form, make sure to
+include a "<tt class=file>Setup</tt>" file.  The "<tt class=file>Setup</tt>" file should be named
+"<tt class=file>Setup.in</tt>" in the distribution.  The make file make file,
+"<tt class=file>Makefile.pre.in</tt>", will copy "<tt class=file>Setup.in</tt>" to "<tt class=file>Setup</tt>".
+Distributing a "<tt class=file>Setup.in</tt>" file makes it easy for people to
+customize the "<tt class=file>Setup</tt>" file while keeping the original in
+"<tt class=file>Setup.in</tt>".
+
+<P>
+It is a good idea to include a copy of "<tt class=file>Makefile.pre.in</tt>" for
+people who do not have a source distribution of Python.
+
+<P>
+Do not distribute a make file.  People building your modules
+should use "<tt class=file>Makefile.pre.in</tt>" to build their own make file.  A
+"<tt class=file>README</tt>" file included in the package should provide simple
+instructions to perform the build.
+
+<P>
+Work is being done to make building and installing Python extensions
+easier for all platforms; this work in likely to supplant the current
+approach at some point in the future.  For more information or to
+participate in the effort, refer to
+<span class=url><a href="http://www.python.org/sigs/distutils-sig/">http://www.python.org/sigs/distutils-sig/</a></span> on the Python Web
+site.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html343"
+ HREF="building-on-windows.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html340"
+ HREF="building-on-unix.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html336"
+ HREF="module-defn-example.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Extending and Embedding the Python Interpreter</b></td>
+<td><A NAME="tex2html342"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html344"
+ HREF="building-on-windows.html">3. Building C and</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html341"
+ HREF="building-on-unix.html">2. Building C and</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html337"
+ HREF="module-defn-example.html">2.3 Example</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

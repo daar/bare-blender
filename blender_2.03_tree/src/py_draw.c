@@ -1479,10 +1479,10 @@ PyTypeObject Buffer_Type = {
 
 #define BGL_Wrap(nargs, funcname, ret, arg_list) \
 static PyObject *Method_##funcname (PyObject *self, PyObject *args) {\
-	arg_def##nargs##arg_list; \
+	arg_def##nargs arg_list; \
 	ret_def_##ret; \
-	if(!PyArg_ParseTuple(args, arg_str##nargs##arg_list, arg_ref##nargs##arg_list)) return NULL;\
-	ret_set_##ret gl##funcname (arg_var##nargs##arg_list);\
+	if(!PyArg_ParseTuple(args, arg_str##nargs arg_list, arg_ref##nargs arg_list)) return NULL;\
+	ret_set_##ret gl##funcname (arg_var##nargs arg_list);\
 	ret_ret_##ret; \
 }
 

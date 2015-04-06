@@ -1,0 +1,222 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>2.1.5 Sequence Types </TITLE>
+<META NAME="description" CONTENT="2.1.5 Sequence Types ">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="typesmapping.html">
+<LINK REL="previous" HREF="typesnumeric.html">
+<LINK REL="up" HREF="types.html">
+<LINK REL="next" HREF="typesseq-strings.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html694"
+ HREF="typesseq-strings.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html690"
+ HREF="types.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html684"
+ HREF="bitstring-ops.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html692"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html693"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html695"
+ HREF="typesseq-strings.html">2.1.5.1 More String Operations</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html691"
+ HREF="types.html">2.1 Built-in Types</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html685"
+ HREF="bitstring-ops.html">2.1.4.1 Bit-string Operations on</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION004150000000000000000"></A>
+<BR>
+2.1.5 Sequence Types 
+</H2>
+
+<P>
+There are three sequence types: strings, lists and tuples.
+
+<P>
+Strings literals are written in single or double quotes:
+<tt>'xyzzy'</tt>, <tt>"frobozz"</tt>.  See Chapter 2 of the <i>Python
+Reference Manual</i> for more about string literals.  Lists are
+constructed with square brackets, separating items with commas:
+<tt>[a, b, c]</tt>.  Tuples are constructed by the comma operator (not
+within square brackets), with or without enclosing parentheses, but an
+empty tuple must have the enclosing parentheses, e.g.,
+<tt>a, b, c</tt> or <tt>()</tt>.  A single item tuple must have a trailing
+comma, e.g., <tt>(d,)</tt>.
+<a name="l2h-68"></a>
+<a name="l2h-69"></a>
+<a name="l2h-70"></a>
+<a name="l2h-71"></a>
+
+<P>
+Sequence types support the following operations.  The "<tt class=samp>in</tt>" and
+"<tt class=samp>not in</tt>" operations have the same priorities as the comparison
+operations.  The "<tt class=samp>+</tt>" and "<tt class=samp>*</tt>" operations have the same
+priority as the corresponding numeric operations.<A NAME="tex2html3"
+ HREF="#foot492"><SUP>2.3</SUP></A>
+<P>
+This table lists the sequence operations sorted in ascending priority
+(operations in the same box have the same priority).  In the table,
+<var>s</var> and <var>t</var> are sequences of the same type; <var>n</var>, <var>i</var>
+and <var>j</var> are integers:
+
+<P>
+<table border align=center>
+  <tr bgcolor="#99CCFF">
+    <th><b>Operation</b></th>
+    <th align=left><b>Result</b></th>
+    <th><b>Notes</b></th>
+  <tr><td align=center><code><var>x</var> in <var>s</var></code></td>
+      <td><tt>1</tt> if an item of <var>s</var> is equal to <var>x</var>, else <tt>0</tt></td>
+      <td align=center>&nbsp;</td>
+  <tr><td align=center><code><var>x</var> not in <var>s</var></code></td>
+      <td><tt>0</tt> if an item of <var>s</var> is
+equal to <var>x</var>, else <tt>1</tt></td>
+      <td align=center>&nbsp;</td>
+  
+  <tr><td align=center><code><var>s</var> + <var>t</var></code></td>
+      <td>the concatenation of <var>s</var> and <var>t</var></td>
+      <td align=center>&nbsp;</td>
+  <tr><td align=center><code><var>s</var> * <var>n</var> , <var>n</var> * <var>s</var></code></td>
+      <td><var>n</var> copies of <var>s</var> concatenated</td>
+      <td align=center>(3)&nbsp;</td>
+  
+  <tr><td align=center><code><var>s</var>[<var>i</var>]</code></td>
+      <td><var>i</var>'th item of <var>s</var>, origin 0</td>
+      <td align=center>(1)&nbsp;</td>
+  <tr><td align=center><code><var>s</var>[<var>i</var>:<var>j</var>]</code></td>
+      <td>slice of <var>s</var> from <var>i</var> to <var>j</var></td>
+      <td align=center>(1), (2)&nbsp;</td>
+  
+  <tr><td align=center><code>len(<var>s</var>)</code></td>
+      <td>length of <var>s</var></td>
+      <td align=center>&nbsp;</td>
+  <tr><td align=center><code>min(<var>s</var>)</code></td>
+      <td>smallest item of <var>s</var></td>
+      <td align=center>&nbsp;</td>
+  <tr><td align=center><code>max(<var>s</var>)</code></td>
+      <td>largest item of <var>s</var></td>
+      <td align=center>&nbsp;</td>
+
+</table>
+<a name="l2h-72"></a>
+<a name="l2h-73"></a>
+<a name="l2h-74"></a>
+<a name="l2h-75"></a>
+<a name="l2h-76"></a>
+<a name="l2h-77"></a>
+<a name="l2h-78"></a>
+<a name="l2h-79"></a>
+<a name="l2h-80"></a>
+<a name="l2h-81"></a>
+
+<P>
+Notes:
+
+<P>
+<DL>
+<DT><STRONG>(1)</STRONG>
+<DD>If <var>i</var> or <var>j</var> is negative, the index is relative to
+  the end of the string, i.e., <tt>len(<var>s</var>) + <var>i</var></tt> or
+  <tt>len(<var>s</var>) + <var>j</var></tt> is substituted.  But note that <tt>-0</tt> is
+  still <tt>0</tt>.
+  
+<DT><STRONG>(2)</STRONG>
+<DD>The slice of <var>s</var> from <var>i</var> to <var>j</var> is defined as
+  the sequence of items with index <var>k</var> such that <tt><var>i</var> &lt;=
+  <var>k</var> &lt; <var>j</var></tt>.  If <var>i</var> or <var>j</var> is greater than
+  <tt>len(<var>s</var>)</tt>, use <tt>len(<var>s</var>)</tt>.  If <var>i</var> is omitted,
+  use <tt>0</tt>.  If <var>j</var> is omitted, use <tt>len(<var>s</var>)</tt>.  If
+  <var>i</var> is greater than or equal to <var>j</var>, the slice is empty.
+
+<P>
+<DT><STRONG>(3)</STRONG>
+<DD>Values of <var>n</var> less than <tt>0</tt> are treated as
+  <tt>0</tt> (which yields an empty sequence of the same type as
+  <var>s</var>).
+
+<P>
+</DL>
+
+<P>
+<BR><HR><H4>Footnotes</H4>
+<DL>
+<DT><A NAME="foot492">... operations.</A><A NAME="foot492"
+ HREF="typesseq.html#tex2html3"><SUP>2.3</SUP></A>
+<DD>They must
+have since the parser can't tell the type of the operands.
+
+</DL>
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html696"
+ HREF="typesseq-strings.html">2.1.5.1 More String Operations </A>
+<LI><A NAME="tex2html697"
+ HREF="typesseq-mutable.html">2.1.5.2 Mutable Sequence Types </A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html694"
+ HREF="typesseq-strings.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html690"
+ HREF="types.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html684"
+ HREF="bitstring-ops.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html692"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html693"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html695"
+ HREF="typesseq-strings.html">2.1.5.1 More String Operations</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html691"
+ HREF="types.html">2.1 Built-in Types</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html685"
+ HREF="bitstring-ops.html">2.1.4.1 Bit-string Operations on</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

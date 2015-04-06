@@ -1,0 +1,323 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>6.1.4 Files and Directories </TITLE>
+<META NAME="description" CONTENT="6.1.4 Files and Directories ">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="os-process.html">
+<LINK REL="previous" HREF="os-fd-ops.html">
+<LINK REL="up" HREF="module-os.html">
+<LINK REL="next" HREF="os-process.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1875"
+ HREF="os-process.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1871"
+ HREF="module-os.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1865"
+ HREF="os-fd-ops.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1873"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1874"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1876"
+ HREF="os-process.html">6.1.5 Process Management</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1872"
+ HREF="module-os.html">6.1 os  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1866"
+ HREF="os-fd-ops.html">6.1.3 File Descriptor Operations</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION008140000000000000000"></A>
+<BR>
+6.1.4 Files and Directories 
+</H2>
+
+<P>
+<dl><dt><b><a name="l2h-916"><tt class=function>access</tt></a></b> (<var>path, mode</var>)
+<dd>
+Check read/write/execute permissions for this process or extance of file
+<var>path</var>.  Return <tt>1</tt> if access is granted, <tt>0</tt> if not.
+See the Unix manual for the semantics.
+Availability: Unix.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-917"><tt class=function>chmod</tt></a></b> (<var>path, mode</var>)
+<dd>
+Change the mode of <var>path</var> to the numeric <var>mode</var>.
+Availability: Unix, Windows.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-918"><tt class=function>chown</tt></a></b> (<var>path, uid, gid</var>)
+<dd>
+Change the owner and group id of <var>path</var> to the numeric <var>uid</var>
+and <var>gid</var>.
+Availability: Unix.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-919"><tt class=function>link</tt></a></b> (<var>src, dst</var>)
+<dd>
+Create a hard link pointing to <var>src</var> named <var>dst</var>.
+Availability: Unix.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-920"><tt class=function>listdir</tt></a></b> (<var>path</var>)
+<dd>
+Return a list containing the names of the entries in the directory.
+The list is in arbitrary order.  It does not include the special
+entries <tt>'.'</tt> and <tt>'..'</tt> even if they are present in the
+directory.
+Availability: Macintosh, Unix, Windows.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-921"><tt class=function>lstat</tt></a></b> (<var>path</var>)
+<dd>
+Like <tt class=function>stat()</tt>, but do not follow symbolic links.
+Availability: Unix.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-922"><tt class=function>mkfifo</tt></a></b> (<var>path</var><big>[</big><var>, mode</var><big>]</big>)
+<dd>
+Create a FIFO (a named pipe) named <var>path</var> with numeric mode
+<var>mode</var>.  The default <var>mode</var> is <tt>0666</tt> (octal).  The current
+umask value is first masked out from the mode.
+Availability: Unix.
+
+<P>
+FIFOs are pipes that can be accessed like regular files.  FIFOs exist
+until they are deleted (for example with <tt class=function>os.unlink()</tt>).
+Generally, FIFOs are used as rendezvous between ``client'' and
+``server'' type processes: the server opens the FIFO for reading, and
+the client opens it for writing.  Note that <tt class=function>mkfifo()</tt>
+doesn't open the FIFO -- it just creates the rendezvous point.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-923"><tt class=function>mkdir</tt></a></b> (<var>path</var><big>[</big><var>, mode</var><big>]</big>)
+<dd>
+Create a directory named <var>path</var> with numeric mode <var>mode</var>.
+The default <var>mode</var> is <tt>0777</tt> (octal).  On some systems,
+<var>mode</var> is ignored.  Where it is used, the current umask value is
+first masked out.
+Availability: Macintosh, Unix, Windows.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-924"><tt class=function>makedirs</tt></a></b> (<var>path</var><big>[</big><var>, mode</var><big>]</big>)
+<dd>
+<a name="l2h-936"></a>
+Recursive directory creation function.  Like <tt class=function>mkdir()</tt>,
+but makes all intermediate-level directories needed to contain the
+leaf directory.  Throws an <tt class=exception>error</tt> exception if the leaf
+directory already exists or cannot be created.  The default <var>mode</var>
+is <tt>0777</tt> (octal).
+
+New in version 1.5.2.
+
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-925"><tt class=function>readlink</tt></a></b> (<var>path</var>)
+<dd>
+Return a string representing the path to which the symbolic link
+points.
+Availability: Unix.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-926"><tt class=function>remove</tt></a></b> (<var>path</var>)
+<dd>
+Remove the file <var>path</var>.  See <tt class=function>rmdir()</tt> below to remove a
+directory.  This is identical to the <tt class=function>unlink()</tt> function
+documented below.
+Availability: Macintosh, Unix, Windows.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-927"><tt class=function>removedirs</tt></a></b> (<var>path</var>)
+<dd>
+<a name="l2h-937"></a>
+Recursive directory removal function.  Works like
+<tt class=function>rmdir()</tt> except that, if the leaf directory is
+successfully removed, directories corresponding to rightmost path
+segments will be pruned way until either the whole path is consumed or
+an error is raised (which is ignored, because it generally means that
+a parent directory is not empty).  Throws an <tt class=exception>error</tt>
+exception if the leaf directory could not be successfully removed.
+
+New in version 1.5.2.
+
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-928"><tt class=function>rename</tt></a></b> (<var>src, dst</var>)
+<dd>
+Rename the file or directory <var>src</var> to <var>dst</var>.
+Availability: Macintosh, Unix, Windows.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-929"><tt class=function>renames</tt></a></b> (<var>old, new</var>)
+<dd>
+Recursive directory or file renaming function.
+Works like <tt class=function>rename()</tt>, except creation of any intermediate
+directories needed to make the new pathname good is attempted first.
+After the rename, directories corresponding to rightmost path segments
+of the old name will be pruned away using <tt class=function>removedirs()</tt>.
+
+<P>
+Note: this function can fail with the new directory structure made if
+you lack permissions needed to remove the leaf directory or file.
+
+New in version 1.5.2.
+
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-930"><tt class=function>rmdir</tt></a></b> (<var>path</var>)
+<dd>
+Remove the directory <var>path</var>.
+Availability: Macintosh, Unix, Windows.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-931"><tt class=function>stat</tt></a></b> (<var>path</var>)
+<dd>
+Perform a <tt class=cfunction>stat()</tt> system call on the given path.  The
+return value is a tuple of at least 10 integers giving the most
+important (and portable) members of the <i>stat</i> structure, in the
+order
+<tt>st_mode</tt>,
+<tt>st_ino</tt>,
+<tt>st_dev</tt>,
+<tt>st_nlink</tt>,
+<tt>st_uid</tt>,
+<tt>st_gid</tt>,
+<tt>st_size</tt>,
+<tt>st_atime</tt>,
+<tt>st_mtime</tt>,
+<tt>st_ctime</tt>.
+More items may be added at the end by some implementations.
+(On MS Windows, some items are filled with dummy values.)
+Availability: Macintosh, Unix, Windows.
+
+<P>
+Note: The standard module <tt class=module><a href="module-stat.html">stat</a></tt><a name="l2h-938"></a> defines
+functions and constants that are useful for extracting information
+from a <tt class=ctype>stat</tt> structure.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-932"><tt class=function>statvfs</tt></a></b> (<var>path</var>)
+<dd>
+Perform a <tt class=cfunction>statvfs()</tt> system call on the given path.  The
+return value is a tuple of 10 integers giving the most common
+members of the <tt class=ctype>statvfs</tt> structure, in the order
+<tt>f_bsize</tt>,
+<tt>f_frsize</tt>,
+<tt>f_blocks</tt>,
+<tt>f_bfree</tt>,
+<tt>f_bavail</tt>,
+<tt>f_files</tt>,
+<tt>f_ffree</tt>,
+<tt>f_favail</tt>,
+<tt>f_flag</tt>,
+<tt>f_namemax</tt>.
+Availability: Unix.
+
+<P>
+Note: The standard module <tt class=module>statvfs</tt><a name="l2h-939"></a>
+defines constants that are useful for extracting information
+from a <tt class=ctype>statvfs</tt> structure.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-933"><tt class=function>symlink</tt></a></b> (<var>src, dst</var>)
+<dd>
+Create a symbolic link pointing to <var>src</var> named <var>dst</var>.
+Availability: Unix.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-934"><tt class=function>unlink</tt></a></b> (<var>path</var>)
+<dd>
+Remove the file <var>path</var>.  This is the same function as
+<tt class=function>remove()</tt>; the <tt class=function>unlink()</tt> name is its traditional
+Unix name.
+Availability: Macintosh, Unix, Windows.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-935"><tt class=function>utime</tt></a></b> (<var>path, (atime, mtime)</var>)
+<dd>
+Set the access and modified time of the file to the given values.
+(The second argument is a tuple of two items.)
+Availability: Macintosh, Unix, Windows.
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1875"
+ HREF="os-process.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1871"
+ HREF="module-os.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1865"
+ HREF="os-fd-ops.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1873"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1874"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1876"
+ HREF="os-process.html">6.1.5 Process Management</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1872"
+ HREF="module-os.html">6.1 os  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1866"
+ HREF="os-fd-ops.html">6.1.3 File Descriptor Operations</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

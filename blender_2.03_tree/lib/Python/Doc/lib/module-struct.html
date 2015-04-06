@@ -1,0 +1,349 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4.5 struct -- Interpret strings as packed binary data.</TITLE>
+<META NAME="description" CONTENT="4.5 struct -- Interpret strings as packed binary data.">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-StringIO.html">
+<LINK REL="previous" HREF="module-regsub.html">
+<LINK REL="up" HREF="strings.html">
+<LINK REL="next" HREF="module-StringIO.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1589"
+ HREF="module-StringIO.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1585"
+ HREF="strings.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1579"
+ HREF="module-regsub.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1587"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1588"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1590"
+ HREF="module-StringIO.html">4.6 StringIO  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1586"
+ HREF="strings.html">4. String Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1580"
+ HREF="module-regsub.html">4.4 regsub  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION006500000000000000000">
+4.5 <tt class=module>struct</tt> --
+         Interpret strings as packed binary data.</A>
+</H1>
+
+<P>
+
+<P>
+<a name="l2h-700"></a>
+
+<P>
+This module performs conversions between Python values and C
+structs represented as Python strings.  It uses <i class=dfn>format strings</i>
+(explained below) as compact descriptions of the lay-out of the C
+structs and the intended conversion to/from Python values.
+
+<P>
+The module defines the following exception and functions:
+
+<P>
+<dl><dt><b><a name="l2h-696"><tt class=exception>error</tt></a></b>
+<dd>
+  Exception raised on various occasions; argument is a string
+  describing what is wrong.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-697"><tt class=function>pack</tt></a></b> (<var>fmt, v1, v2,  ...</var>)
+<dd>
+  Return a string containing the values
+  <tt><var>v1</var>, <var>v2</var>,  ...</tt> packed according to the given
+  format.  The arguments must match the values required by the format
+  exactly.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-698"><tt class=function>unpack</tt></a></b> (<var>fmt, string</var>)
+<dd>
+  Unpack the string (presumably packed by <tt>pack(<var>fmt</var>,
+   ...)</tt>) according to the given format.  The result is a
+  tuple even if it contains exactly one item.  The string must contain
+  exactly the amount of data required by the format (i.e.
+  <tt>len(<var>string</var>)</tt> must equal <tt>calcsize(<var>fmt</var>)</tt>).
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-699"><tt class=function>calcsize</tt></a></b> (<var>fmt</var>)
+<dd>
+  Return the size of the struct (and hence of the string)
+  corresponding to the given format.
+</dl>
+
+<P>
+Format characters have the following meaning; the conversion between
+C and Python values should be obvious given their types:
+
+<P>
+<table border align=center>
+  <tr bgcolor="#99CCFF">
+    <th><b>Format</b></th>
+    <th align=left><b>C Type</b></th>
+    <th align=left><b>Python</b></th>
+  <tr><td align=center><samp>x</samp></td>
+      <td>pad byte</td>
+      <td>no value&nbsp;</td>
+  <tr><td align=center><samp>c</samp></td>
+      <td><tt class=ctype>char</tt></td>
+      <td>string of length 1&nbsp;</td>
+  <tr><td align=center><samp>b</samp></td>
+      <td><tt class=ctype>signed char</tt></td>
+      <td>integer&nbsp;</td>
+  <tr><td align=center><samp>B</samp></td>
+      <td><tt class=ctype>unsigned char</tt></td>
+      <td>integer&nbsp;</td>
+  <tr><td align=center><samp>h</samp></td>
+      <td><tt class=ctype>short</tt></td>
+      <td>integer&nbsp;</td>
+  <tr><td align=center><samp>H</samp></td>
+      <td><tt class=ctype>unsigned short</tt></td>
+      <td>integer&nbsp;</td>
+  <tr><td align=center><samp>i</samp></td>
+      <td><tt class=ctype>int</tt></td>
+      <td>integer&nbsp;</td>
+  <tr><td align=center><samp>I</samp></td>
+      <td><tt class=ctype>unsigned int</tt></td>
+      <td>integer&nbsp;</td>
+  <tr><td align=center><samp>l</samp></td>
+      <td><tt class=ctype>long</tt></td>
+      <td>integer&nbsp;</td>
+  <tr><td align=center><samp>L</samp></td>
+      <td><tt class=ctype>unsigned long</tt></td>
+      <td>integer&nbsp;</td>
+  <tr><td align=center><samp>f</samp></td>
+      <td><tt class=ctype>float</tt></td>
+      <td>float&nbsp;</td>
+  <tr><td align=center><samp>d</samp></td>
+      <td><tt class=ctype>double</tt></td>
+      <td>float&nbsp;</td>
+  <tr><td align=center><samp>s</samp></td>
+      <td><tt class=ctype>char[]</tt></td>
+      <td>string&nbsp;</td>
+  <tr><td align=center><samp>p</samp></td>
+      <td><tt class=ctype>char[]</tt></td>
+      <td>string&nbsp;</td>
+  <tr><td align=center><samp>P</samp></td>
+      <td><tt class=ctype>void *</tt></td>
+      <td>integer&nbsp;</td>
+
+</table>
+
+<P>
+A format character may be preceded by an integral repeat count;
+e.g. the format string <tt>'4h'</tt> means exactly the same as
+<tt>'hhhh'</tt>.
+
+<P>
+Whitespace characters between formats are ignored; a count and its
+format must not contain whitespace though.
+
+<P>
+For the "<tt class=character>s</tt>" format character, the count is interpreted as the
+size of the string, not a repeat count like for the other format
+characters; e.g. <tt>'10s'</tt> means a single 10-byte string, while
+<tt>'10c'</tt> means 10 characters.  For packing, the string is
+truncated or padded with null bytes as appropriate to make it fit.
+For unpacking, the resulting string always has exactly the specified
+number of bytes.  As a special case, <tt>'0s'</tt> means a single, empty
+string (while <tt>'0c'</tt> means 0 characters).
+
+<P>
+The "<tt class=character>p</tt>" format character can be used to encode a Pascal
+string.  The first byte is the length of the stored string, with the
+bytes of the string following.  If count is given, it is used as the
+total number of bytes used, including the length byte.  If the string
+passed in to <tt class=function>pack()</tt> is too long, the stored representation
+is truncated.  If the string is too short, padding is used to ensure
+that exactly enough bytes are used to satisfy the count.
+
+<P>
+For the "<tt class=character>I</tt>" and "<tt class=character>L</tt>" format characters, the return
+value is a Python long integer.
+
+<P>
+For the "<tt class=character>P</tt>" format character, the return value is a Python
+integer or long integer, depending on the size needed to hold a
+pointer when it has been cast to an integer type.  A <tt>NULL</tt> pointer will
+always be returned as the Python integer <tt>0</tt>. When packing pointer-sized
+values, Python integer or long integer objects may be used.  For
+example, the Alpha and Merced processors use 64-bit pointer values,
+meaning a Python long integer will be used to hold the pointer; other
+platforms use 32-bit pointers and will use a Python integer.
+
+<P>
+By default, C numbers are represented in the machine's native format
+and byte order, and properly aligned by skipping pad bytes if
+necessary (according to the rules used by the C compiler).
+
+<P>
+Alternatively, the first character of the format string can be used to
+indicate the byte order, size and alignment of the packed data,
+according to the following table:
+
+<P>
+<table border align=center>
+  <tr bgcolor="#99CCFF">
+    <th><b>Character</b></th>
+    <th align=left><b>Byte order</b></th>
+    <th align=left><b>Size and alignment</b></th>
+  <tr><td align=center><samp>@</samp></td>
+      <td>native</td>
+      <td>native&nbsp;</td>
+  <tr><td align=center><samp>=</samp></td>
+      <td>native</td>
+      <td>standard&nbsp;</td>
+  <tr><td align=center><samp>&lt;</samp></td>
+      <td>little-endian</td>
+      <td>standard&nbsp;</td>
+  <tr><td align=center><samp>&gt;</samp></td>
+      <td>big-endian</td>
+      <td>standard&nbsp;</td>
+  <tr><td align=center><samp>!</samp></td>
+      <td>network (= big-endian)</td>
+      <td>standard&nbsp;</td>
+
+</table>
+
+<P>
+If the first character is not one of these, "<tt class=character>@</tt>" is assumed.
+
+<P>
+Native byte order is big-endian or little-endian, depending on the
+host system (e.g. Motorola and Sun are big-endian; Intel and DEC are
+little-endian).
+
+<P>
+Native size and alignment are determined using the C compiler's
+<tt class=keyword>sizeof</tt> expression.  This is always combined with native byte
+order.
+
+<P>
+Standard size and alignment are as follows: no alignment is required
+for any type (so you have to use pad bytes); <tt class=ctype>short</tt> is 2 bytes;
+<tt class=ctype>int</tt> and <tt class=ctype>long</tt> are 4 bytes.  <tt class=ctype>float</tt> and
+<tt class=ctype>double</tt> are 32-bit and 64-bit IEEE floating point numbers,
+respectively.
+
+<P>
+Note the difference between "<tt class=character>@</tt>" and "<tt class=character>=</tt>": both use
+native byte order, but the size and alignment of the latter is
+standardized.
+
+<P>
+The form "<tt class=character>!</tt>" is available for those poor souls who claim they
+can't remember whether network byte order is big-endian or
+little-endian.
+
+<P>
+There is no way to indicate non-native byte order (i.e. force
+byte-swapping); use the appropriate choice of "<tt class=character>&lt;</tt>" or
+"<tt class=character>&gt;</tt>".
+
+<P>
+The "<tt class=character>P</tt>" format character is only available for the native
+byte ordering (selected as the default or with the "<tt class=character>@</tt>" byte
+order character). The byte order character "<tt class=character>=</tt>" chooses to
+use little- or big-endian ordering based on the host system. The
+struct module does not interpret this as native ordering, so the
+"<tt class=character>P</tt>" format is not available.
+
+<P>
+Examples (all using native byte order, size and alignment, on a
+big-endian machine):
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; from struct import *
+&gt;&gt;&gt; pack('hhl', 1, 2, 3)
+'\000\001\000\002\000\000\000\003'
+&gt;&gt;&gt; unpack('hhl', '\000\001\000\002\000\000\000\003')
+(1, 2, 3)
+&gt;&gt;&gt; calcsize('hhl')
+8
+&gt;&gt;&gt;
+</pre></dl>
+
+<P>
+Hint: to align the end of a structure to the alignment requirement of
+a particular type, end the format with the code for that type with a
+repeat count of zero, e.g. the format <tt>'llh0l'</tt> specifies two
+pad bytes at the end, assuming longs are aligned on 4-byte boundaries.
+This only works when native size and alignment are in effect;
+standard size and alignment does not enforce any alignment.
+
+<P>
+<div class=seealso>
+  <p class=heading><b>See Also:</b></p>
+
+<div class=seemodule>
+<p>Module <b><tt class=module><a href="module-array.html">array</a></tt></b>&nbsp;&nbsp;&nbsp;(packed binary storage of homogeneous data)</p>
+</div>
+</div><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1589"
+ HREF="module-StringIO.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1585"
+ HREF="strings.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1579"
+ HREF="module-regsub.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1587"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1588"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1590"
+ HREF="module-StringIO.html">4.6 StringIO  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1586"
+ HREF="strings.html">4. String Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1580"
+ HREF="module-regsub.html">4.4 regsub  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

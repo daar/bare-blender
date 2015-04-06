@@ -1,0 +1,219 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.1.1 Numbers </TITLE>
+<META NAME="description" CONTENT="3.1.1 Numbers ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="strings.html">
+<LINK REL="previous" HREF="calculator.html">
+<LINK REL="up" HREF="calculator.html">
+<LINK REL="next" HREF="strings.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html318"
+ HREF="strings.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html315"
+ HREF="calculator.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html309"
+ HREF="calculator.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html317"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html319"
+ HREF="strings.html">3.1.2 Strings</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html316"
+ HREF="calculator.html">3.1 Using Python as</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html310"
+ HREF="calculator.html">3.1 Using Python as</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION005110000000000000000"></A>
+<BR>
+3.1.1 Numbers 
+</H2>
+
+<P>
+The interpreter acts as a simple calculator: you can type an
+expression at it and it will write the value.  Expression syntax is
+straightforward: the operators <tt>+</tt>, <tt>-</tt>, <tt>*</tt> and <tt>/</tt>work just like in most other languages (e.g., Pascal or C); parentheses
+can be used for grouping.  For example:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; 2+2
+4
+&gt;&gt;&gt; # This is a comment
+... 2+2
+4
+&gt;&gt;&gt; 2+2  # and a comment on the same line as code
+4
+&gt;&gt;&gt; (50-5*6)/4
+5
+&gt;&gt;&gt; # Integer division returns the floor:
+... 7/3
+2
+&gt;&gt;&gt; 7/-3
+-3
+</pre></dl>
+
+<P>
+Like in C, the equal sign ("<tt class=character>=</tt>") is used to assign a value to a
+variable.  The value of an assignment is not written:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; width = 20
+&gt;&gt;&gt; height = 5*9
+&gt;&gt;&gt; width * height
+900
+</pre></dl>
+A value can be assigned to several variables simultaneously:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; x = y = z = 0  # Zero x, y and z
+&gt;&gt;&gt; x
+0
+&gt;&gt;&gt; y
+0
+&gt;&gt;&gt; z
+0
+</pre></dl>
+There is full support for floating point; operators with mixed type
+operands convert the integer operand to floating point:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; 4 * 2.5 / 3.3
+3.0303030303
+&gt;&gt;&gt; 7.0 / 2
+3.5
+</pre></dl>
+Complex numbers are also supported; imaginary numbers are written with
+a suffix of "<tt class=samp>j</tt>" or "<tt class=samp>J</tt>".  Complex numbers with a nonzero
+real component are written as "<tt class=samp>(<var>real</var>+<var>imag</var>j)</tt>", or can
+be created with the "<tt class=samp>complex(<var>real</var>, <var>imag</var>)</tt>" function.
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; 1j * 1J
+(-1+0j)
+&gt;&gt;&gt; 1j * complex(0,1)
+(-1+0j)
+&gt;&gt;&gt; 3+1j*3
+(3+3j)
+&gt;&gt;&gt; (3+1j)*3
+(9+3j)
+&gt;&gt;&gt; (1+2j)/(1+1j)
+(1.5+0.5j)
+</pre></dl>
+Complex numbers are always represented as two floating point numbers,
+the real and imaginary part.  To extract these parts from a complex
+number <var>z</var>, use <tt><var>z</var>.real</tt> and <tt><var>z</var>.imag</tt>.  
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; a=1.5+0.5j
+&gt;&gt;&gt; a.real
+1.5
+&gt;&gt;&gt; a.imag
+0.5
+</pre></dl>
+The conversion functions to floating point and integer
+(<tt class=function>float()</tt>, <tt class=function>int()</tt> and <tt class=function>long()</tt>) don't
+work for complex numbers -- there is no one correct way to convert a
+complex number to a real number.  Use <tt>abs(<var>z</var>)</tt> to get its
+magnitude (as a float) or <tt>z.real</tt> to get its real part.
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; a=1.5+0.5j
+&gt;&gt;&gt; float(a)
+Traceback (innermost last):
+  File "&lt;stdin&gt;", line 1, in ?
+TypeError: can't convert complex to float; use e.g. abs(z)
+&gt;&gt;&gt; a.real
+1.5
+&gt;&gt;&gt; abs(a)
+1.58113883008
+</pre></dl>
+In interactive mode, the last printed expression is assigned to the
+variable <tt>_</tt>.  This means that when you are using Python as a
+desk calculator, it is somewhat easier to continue calculations, for
+example:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; tax = 17.5 / 100
+&gt;&gt;&gt; price = 3.50
+&gt;&gt;&gt; price * tax
+0.6125
+&gt;&gt;&gt; price + _
+4.1125
+&gt;&gt;&gt; round(_, 2)
+4.11
+</pre></dl>
+
+<P>
+This variable should be treated as read-only by the user.  Don't
+explicitly assign a value to it -- you would create an independent
+local variable with the same name masking the built-in variable with
+its magic behavior.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html318"
+ HREF="strings.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html315"
+ HREF="calculator.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html309"
+ HREF="calculator.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html317"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html319"
+ HREF="strings.html">3.1.2 Strings</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html316"
+ HREF="calculator.html">3.1 Using Python as</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html310"
+ HREF="calculator.html">3.1 Using Python as</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

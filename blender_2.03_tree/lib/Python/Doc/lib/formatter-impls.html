@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>12.4.2 Formatter Implementations </TITLE>
+<META NAME="description" CONTENT="12.4.2 Formatter Implementations ">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="writer-interface.html">
+<LINK REL="previous" HREF="formatter-interface.html">
+<LINK REL="up" HREF="module-formatter.html">
+<LINK REL="next" HREF="writer-interface.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3271"
+ HREF="writer-interface.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3267"
+ HREF="module-formatter.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3261"
+ HREF="formatter-interface.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3269"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3270"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3272"
+ HREF="writer-interface.html">12.4.3 The Writer Interface</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3268"
+ HREF="module-formatter.html">12.4 formatter  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3262"
+ HREF="formatter-interface.html">12.4.1 The Formatter Interface</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0014420000000000000000"></A>
+<BR>
+12.4.2 Formatter Implementations 
+</H2>
+
+<P>
+Two implementations of formatter objects are provided by this module.
+Most applications may use one of these classes without modification or
+subclassing.
+
+<P>
+<dl><dt><b><a name="l2h-1914"><tt class=class>NullFormatter</tt></a></b> (<big>[</big><var>writer</var><big>]</big>)
+<dd>
+A formatter which does nothing.  If <var>writer</var> is omitted, a
+<tt class=class>NullWriter</tt> instance is created.  No methods of the writer are
+called by <tt class=class>NullFormatter</tt> instances.  Implementations should
+inherit from this class if implementing a writer interface but don't
+need to inherit any implementation.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1915"><tt class=class>AbstractFormatter</tt></a></b> (<var>writer</var>)
+<dd>
+The standard formatter.  This implementation has demonstrated wide
+applicability to many writers, and may be used directly in most
+circumstances.  It has been used to implement a full-featured
+world-wide web browser.
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3271"
+ HREF="writer-interface.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3267"
+ HREF="module-formatter.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3261"
+ HREF="formatter-interface.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3269"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3270"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3272"
+ HREF="writer-interface.html">12.4.3 The Writer Interface</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3268"
+ HREF="module-formatter.html">12.4 formatter  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3262"
+ HREF="formatter-interface.html">12.4.1 The Formatter Interface</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

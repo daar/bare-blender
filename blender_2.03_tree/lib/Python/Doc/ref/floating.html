@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>2.4.5 Floating point literals</TITLE>
+<META NAME="description" CONTENT="2.4.5 Floating point literals">
+<META NAME="keywords" CONTENT="ref">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ref.css">
+<LINK REL="next" HREF="imaginary.html">
+<LINK REL="previous" HREF="integers.html">
+<LINK REL="up" HREF="literals.html">
+<LINK REL="next" HREF="imaginary.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html477"
+ HREF="imaginary.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html473"
+ HREF="literals.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html467"
+ HREF="integers.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html475"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html476"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html478"
+ HREF="imaginary.html">2.4.6 Imaginary literals</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html474"
+ HREF="literals.html">2.4 Literals</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html468"
+ HREF="integers.html">2.4.4 Integer and long</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION004450000000000000000"></A>
+<BR>
+2.4.5 Floating point literals
+</H2>
+
+<P>
+Floating point literals are described by the following lexical
+definitions:
+
+<P>
+<dl><dd><pre class=verbatim>
+floatnumber:    pointfloat | exponentfloat
+pointfloat:     [intpart] fraction | intpart "."
+exponentfloat:  (nonzerodigit digit* | pointfloat) exponent
+intpart:        nonzerodigit digit* | "0"
+fraction:       "." digit+
+exponent:       ("e"|"E") ["+"|"-"] digit+
+</pre></dl>
+
+<P>
+Note that the integer part of a floating point number cannot look like
+an octal integer.
+The allowed range of floating point literals is
+implementation-dependent.
+Some examples of floating point literals:
+
+<P>
+<dl><dd><pre class=verbatim>
+3.14    10.    .001    1e100    3.14e-10
+</pre></dl>
+
+<P>
+Note that numeric literals do not include a sign; a phrase like
+<tt>-1</tt> is actually an expression composed of the operator
+<tt>-</tt> and the literal <tt>1</tt>.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html477"
+ HREF="imaginary.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html473"
+ HREF="literals.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html467"
+ HREF="integers.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html475"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html476"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html478"
+ HREF="imaginary.html">2.4.6 Imaginary literals</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html474"
+ HREF="literals.html">2.4 Literals</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html468"
+ HREF="integers.html">2.4.4 Integer and long</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

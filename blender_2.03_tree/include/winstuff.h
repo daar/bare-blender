@@ -46,10 +46,18 @@
 #define PROT_READ 0
 #define MAP_SHARED 0
 
+#ifndef M_PI
 #define M_PI 3.1415926535
+#endif
+#ifndef M_PI_2
 #define M_PI_2 1.5707963267
+#endif
+#ifndef M_SQRT2
 #define M_SQRT2 1.414
+#endif
+#ifndef M_SQRT1_2
 #define M_SQRT1_2 0.707
+#endif
 
 #define MAXPATHLEN MAX_PATH
 
@@ -64,7 +72,7 @@
 
 /* This was moved to the only place where pit_t was used: playanim.c */
 /*  typedef long BL_pid_t; */
-typedef unsigned int mode_t;
+//typedef unsigned int mode_t;
 
 typedef struct _DIR {
 	HANDLE handle;

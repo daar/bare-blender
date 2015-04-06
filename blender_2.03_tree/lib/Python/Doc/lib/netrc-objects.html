@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>12.20.1 netrc Objects </TITLE>
+<META NAME="description" CONTENT="12.20.1 netrc Objects ">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="previous" HREF="module-netrc.html">
+<LINK REL="up" HREF="module-netrc.html">
+<LINK REL="next" HREF="restricted.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3660"
+ HREF="restricted.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3656"
+ HREF="module-netrc.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3652"
+ HREF="module-netrc.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3658"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3659"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3661"
+ HREF="restricted.html">13. Restricted Execution</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3657"
+ HREF="module-netrc.html">12.20 netrc  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3653"
+ HREF="module-netrc.html">12.20 netrc  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00142010000000000000000"></A>
+<BR>
+12.20.1 netrc Objects 
+</H2>
+
+<P>
+A <tt class=class>netrc</tt> instance has the following methods:
+
+<P>
+<dl><dt><b><a name="l2h-2127"><tt class=method>authenticators</tt></a></b> (<var>host</var>)
+<dd>
+Return a 3-tuple <tt>(<var>login</var>, <var>account</var>, <var>password</var>)</tt>of authenticators for <var>host</var>.  If the netrc file did not
+contain an entry for the given host, return the tuple associated with
+the `default' entry.  If neither matching host nor default entry is
+available, return <tt>None</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2128"><tt class=method>__repr__</tt></a></b> (<var>host</var>)
+<dd>
+Dump the class data as a string in the format of a netrc file.
+(This discards comments and may reorder the entries.)
+</dl>
+
+<P>
+Instances of <tt class=class>netrc</tt> have public instance variables:
+
+<P>
+<dl><dt><b><a name="l2h-2129"><tt>hosts</tt></a></b>
+<dd>
+Dictionmary mapping host names to <tt>(<var>login</var>, <var>account</var>,
+<var>password</var>)</tt> tuples.  The `default' entry, if any, is represented
+as a pseudo-host by that name.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2130"><tt>macros</tt></a></b>
+<dd>
+Dictionary mapping macro names to string lists.
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3660"
+ HREF="restricted.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3656"
+ HREF="module-netrc.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3652"
+ HREF="module-netrc.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3658"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3659"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3661"
+ HREF="restricted.html">13. Restricted Execution</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3657"
+ HREF="module-netrc.html">12.20 netrc  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3653"
+ HREF="module-netrc.html">12.20 netrc  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.4 UserList -- Class wrapper for list objects.</TITLE>
+<META NAME="description" CONTENT="3.4 UserList -- Class wrapper for list objects.">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-operator.html">
+<LINK REL="previous" HREF="module-UserDict.html">
+<LINK REL="up" HREF="python.html">
+<LINK REL="next" HREF="module-operator.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html962"
+ HREF="module-operator.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html958"
+ HREF="python.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html952"
+ HREF="module-UserDict.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html960"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html961"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html963"
+ HREF="module-operator.html">3.5 operator  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html959"
+ HREF="python.html">3. Python Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html953"
+ HREF="module-UserDict.html">3.3 UserDict  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION005400000000000000000">
+3.4 <tt class=module>UserList</tt> --
+         Class wrapper for list objects.</A>
+</H1>
+
+<P>
+
+<P>
+This module defines a class that acts as a wrapper around
+list objects.  It is a useful base class for
+your own list-like classes, which can inherit from
+them and override existing methods or add new ones.  In this way one
+can add new behaviours to lists.
+
+<P>
+The <tt class=module>UserList</tt> module defines the <tt class=class>UserList</tt> class:
+
+<P>
+<dl><dt><b><a name="l2h-324"><tt class=class>UserList</tt></a></b> (<big>[</big><var>list</var><big>]</big>)
+<dd>
+Return a class instance that simulates a list.  The instance's
+contents are kept in a regular list, which is accessible via the
+<tt class=member>data</tt> attribute of <tt class=class>UserList</tt> instances.  The instance's
+contents are initially set to a copy of <var>list</var>, defaulting to the
+empty list <tt>[]</tt>.  <var>list</var> can be either a regular Python list,
+or an instance of <tt class=class>UserList</tt> (or a subclass).
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-325"><tt>data</tt></a></b>
+<dd>
+A real Python list object used to store the contents of the
+<tt class=class>UserList</tt> class.
+</dl><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html962"
+ HREF="module-operator.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html958"
+ HREF="python.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html952"
+ HREF="module-UserDict.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html960"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html961"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html963"
+ HREF="module-operator.html">3.5 operator  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html959"
+ HREF="python.html">3. Python Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html953"
+ HREF="module-UserDict.html">3.3 UserDict  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

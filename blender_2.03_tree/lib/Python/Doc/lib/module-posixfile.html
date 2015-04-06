@@ -1,0 +1,328 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>8.10 posixfile -- File-like objects with locking support</TITLE>
+<META NAME="description" CONTENT="8.10 posixfile -- File-like objects with locking support">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-resource.html">
+<LINK REL="previous" HREF="module-fcntl.html">
+<LINK REL="up" HREF="unix.html">
+<LINK REL="next" HREF="module-resource.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2481"
+ HREF="module-resource.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2477"
+ HREF="unix.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2471"
+ HREF="module-fcntl.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2479"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2480"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2482"
+ HREF="module-resource.html">8.11 resource  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2478"
+ HREF="unix.html">8. Unix Specific Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2472"
+ HREF="module-fcntl.html">8.9 fcntl  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00101000000000000000000">
+8.10 <tt class=module>posixfile</tt> --
+         File-like objects with locking support</A>
+</H1>
+
+<P>
+  
+<p class=availability>Availability: <span
+ class=platform>Unix</span>.</p>
+
+<P>
+<a name="l2h-1460"></a>
+
+<P>
+<i>Note:</i> This module will become obsolete in a future release.
+The locking operation that it provides is done better and more
+portably by the <tt class=function>fcntl.lockf()</tt> call.<a name="l2h-1447"></a>
+<P>
+This module implements some additional functionality over the built-in
+file objects.  In particular, it implements file locking, control over
+the file flags, and an easy interface to duplicate the file object.
+The module defines a new file object, the posixfile object.  It
+has all the standard file object methods and adds the methods
+described below.  This module only works for certain flavors of
+Unix, since it uses <tt class=function>fcntl.fcntl()</tt> for file locking.<a name="l2h-1449"></a>
+<P>
+To instantiate a posixfile object, use the <tt class=function>open()</tt> function
+in the <tt class=module>posixfile</tt> module.  The resulting object looks and
+feels roughly the same as a standard file object.
+
+<P>
+The <tt class=module>posixfile</tt> module defines the following constants:
+
+<P>
+<dl><dt><b><a name="l2h-1450"><tt>SEEK_SET</tt></a></b>
+<dd>
+Offset is calculated from the start of the file.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1451"><tt>SEEK_CUR</tt></a></b>
+<dd>
+Offset is calculated from the current position in the file.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1452"><tt>SEEK_END</tt></a></b>
+<dd>
+Offset is calculated from the end of the file.
+</dl>
+
+<P>
+The <tt class=module>posixfile</tt> module defines the following functions:
+
+<P>
+<dl><dt><b><a name="l2h-1453"><tt class=function>open</tt></a></b> (<var>filename</var><big>[</big><var>, mode</var><big>[</big><var>, bufsize</var><big>]</big><big>]</big>)
+<dd>
+ Create a new posixfile object with the given filename and mode.  The
+ <var>filename</var>, <var>mode</var> and <var>bufsize</var> arguments are
+ interpreted the same way as by the built-in <tt class=function>open()</tt>
+ function.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1454"><tt class=function>fileopen</tt></a></b> (<var>fileobject</var>)
+<dd>
+ Create a new posixfile object with the given standard file object.
+ The resulting object has the same filename and mode as the original
+ file object.
+</dl>
+
+<P>
+The posixfile object defines the following additional methods:
+
+<P>
+
+<dl><dt><b><a name="l2h-1455"><tt class=function>lock</tt></a></b> (<var>fmt, </var><big>[</big><var>len</var><big>[</big><var>, start</var><big>[</big><var>, whence</var><big>]</big><big>]</big><big>]</big>)
+<dd>
+ Lock the specified section of the file that the file object is
+ referring to.  The format is explained
+ below in a table.  The <var>len</var> argument specifies the length of the
+ section that should be locked. The default is <tt>0</tt>. <var>start</var>
+ specifies the starting offset of the section, where the default is
+ <tt>0</tt>.  The <var>whence</var> argument specifies where the offset is
+ relative to. It accepts one of the constants <tt class=constant>SEEK_SET</tt>,
+ <tt class=constant>SEEK_CUR</tt> or <tt class=constant>SEEK_END</tt>.  The default is
+ <tt class=constant>SEEK_SET</tt>.  For more information about the arguments refer
+ to the <span class=manpage><i>fcntl</i>(2)</span> manual page on your system.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1456"><tt class=function>flags</tt></a></b> (<big>[</big><var>flags</var><big>]</big>)
+<dd>
+ Set the specified flags for the file that the file object is referring
+ to.  The new flags are ORed with the old flags, unless specified
+ otherwise.  The format is explained below in a table.  Without
+ the <var>flags</var> argument
+ a string indicating the current flags is returned (this is
+ the same as the "<tt class=samp>?</tt>" modifier).  For more information about the
+ flags refer to the <span class=manpage><i>fcntl</i>(2)</span> manual page on your system.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1457"><tt class=function>dup</tt></a></b> ()
+<dd>
+ Duplicate the file object and the underlying file pointer and file
+ descriptor.  The resulting object behaves as if it were newly
+ opened.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1458"><tt class=function>dup2</tt></a></b> (<var>fd</var>)
+<dd>
+ Duplicate the file object and the underlying file pointer and file
+ descriptor.  The new object will have the given file descriptor.
+ Otherwise the resulting object behaves as if it were newly opened.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1459"><tt class=function>file</tt></a></b> ()
+<dd>
+ Return the standard file object that the posixfile object is based
+ on.  This is sometimes necessary for functions that insist on a
+ standard file object.
+</dl>
+
+<P>
+All methods raise <tt class=exception>IOError</tt> when the request fails.
+
+<P>
+Format characters for the <tt class=method>lock()</tt> method have the following
+meaning:
+
+<P>
+<table border align=center>
+  <tr bgcolor="#99CCFF">
+    <th><b>Format</b></th>
+    <th align=left><b>Meaning</b></th>
+  <tr><td align=center><samp>u</samp></td>
+      <td>unlock the specified region&nbsp;</td>
+  <tr><td align=center><samp>r</samp></td>
+      <td>request a read lock for the specified section&nbsp;</td>
+  <tr><td align=center><samp>w</samp></td>
+      <td>request a write lock for the specified section&nbsp;</td>
+
+</table>
+
+<P>
+In addition the following modifiers can be added to the format:
+
+<P>
+<table border align=center>
+  <tr bgcolor="#99CCFF">
+    <th><b>Modifier</b></th>
+    <th align=left><b>Meaning</b></th>
+    <th><b>Notes</b></th>
+  <tr><td align=center><samp>|</samp></td>
+      <td>wait until the lock has been granted</td>
+      <td align=center>&nbsp;</td>
+  <tr><td align=center><samp>?</samp></td>
+      <td>return the first lock conflicting with the requested lock, or
+              <tt>None</tt> if there is no conflict.</td>
+      <td align=center>(1)&nbsp;</td> 
+
+</table>
+
+<P>
+Note:
+
+<P>
+(1) The lock returned is in the format <tt>(<var>mode</var>, <var>len</var>,
+<var>start</var>, <var>whence</var>, <var>pid</var>)</tt> where <var>mode</var> is a character
+representing the type of lock ('r' or 'w').  This modifier prevents a
+request from being granted; it is for query purposes only.
+
+<P>
+Format characters for the <tt class=method>flags()</tt> method have the following
+meanings:
+
+<P>
+<table border align=center>
+  <tr bgcolor="#99CCFF">
+    <th><b>Format</b></th>
+    <th align=left><b>Meaning</b></th>
+  <tr><td align=center><samp>a</samp></td>
+      <td>append only flag&nbsp;</td>
+  <tr><td align=center><samp>c</samp></td>
+      <td>close on exec flag&nbsp;</td>
+  <tr><td align=center><samp>n</samp></td>
+      <td>no delay flag (also called non-blocking flag)&nbsp;</td>
+  <tr><td align=center><samp>s</samp></td>
+      <td>synchronization flag&nbsp;</td>
+
+</table>
+
+<P>
+In addition the following modifiers can be added to the format:
+
+<P>
+<table border align=center>
+  <tr bgcolor="#99CCFF">
+    <th><b>Modifier</b></th>
+    <th align=left><b>Meaning</b></th>
+    <th><b>Notes</b></th>
+  <tr><td align=center><samp>!</samp></td>
+      <td>turn the specified flags 'off', instead of the default 'on'</td>
+      <td align=center>(1)&nbsp;</td>
+  <tr><td align=center><samp>=</samp></td>
+      <td>replace the flags, instead of the default 'OR' operation</td>
+      <td align=center>(1)&nbsp;</td>
+  <tr><td align=center><samp>?</samp></td>
+      <td>return a string in which the characters represent the flags that
+  are set.</td>
+      <td align=center>(2)&nbsp;</td>
+
+</table>
+
+<P>
+Note:
+
+<P>
+(1) The "<tt class=samp>!</tt>" and "<tt class=samp>=</tt>" modifiers are mutually exclusive.
+
+<P>
+(2) This string represents the flags after they may have been altered
+by the same call.
+
+<P>
+Examples:
+
+<P>
+<dl><dd><pre class=verbatim>
+import posixfile
+
+file = posixfile.open('/tmp/test', 'w')
+file.lock('w|')
+...
+file.lock('u')
+file.close()
+</pre></dl><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2481"
+ HREF="module-resource.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2477"
+ HREF="unix.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2471"
+ HREF="module-fcntl.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2479"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2480"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2482"
+ HREF="module-resource.html">8.11 resource  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2478"
+ HREF="unix.html">8. Unix Specific Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2472"
+ HREF="module-fcntl.html">8.9 fcntl  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

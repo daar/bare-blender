@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>1. Introduction</TITLE>
+<META NAME="description" CONTENT="1. Introduction">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="builtin.html">
+<LINK REL="previous" HREF="contents.html">
+<LINK REL="up" HREF="lib.html">
+<LINK REL="next" HREF="builtin.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html567"
+ HREF="builtin.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html563"
+ HREF="lib.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html557"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html565"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html566"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html568"
+ HREF="builtin.html">2. Built-in Types, Exceptions</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html564"
+ HREF="lib.html">Python Library Reference</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html558"
+ HREF="contents.html">Contents</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION003000000000000000000"></A>
+<BR>
+1. Introduction
+</H1>
+
+<P>
+The ``Python library'' contains several different kinds of components.
+
+<P>
+It contains data types that would normally be considered part of the
+``core'' of a language, such as numbers and lists.  For these types,
+the Python language core defines the form of literals and places some
+constraints on their semantics, but does not fully define the
+semantics.  (On the other hand, the language core does define
+syntactic properties like the spelling and priorities of operators.)
+
+<P>
+The library also contains built-in functions and exceptions --
+objects that can be used by all Python code without the need of an
+<tt class=keyword>import</tt> statement.  Some of these are defined by the core
+language, but many are not essential for the core semantics and are
+only described here.
+
+<P>
+The bulk of the library, however, consists of a collection of modules.
+There are many ways to dissect this collection.  Some modules are
+written in C and built in to the Python interpreter; others are
+written in Python and imported in source form.  Some modules provide
+interfaces that are highly specific to Python, like printing a stack
+trace; some provide interfaces that are specific to particular
+operating systems, like socket I/O; others provide interfaces that are
+specific to a particular application domain, like the World-Wide Web.
+Some modules are avaiable in all versions and ports of Python; others
+are only available when the underlying system supports or requires
+them; yet others are available only when a particular configuration
+option was chosen at the time when Python was compiled and installed.
+
+<P>
+This manual is organized ``from the inside out'': it first describes
+the built-in data types, then the built-in functions and exceptions,
+and finally the modules, grouped in chapters of related modules.  The
+ordering of the chapters as well as the ordering of the modules within
+each chapter is roughly from most relevant to least important.
+
+<P>
+This means that if you start reading this manual from the start, and
+skip to the next chapter when you get bored, you will get a reasonable
+overview of the available modules and application areas that are
+supported by the Python library.  Of course, you don't <i>have</i> to
+read it like a novel -- you can also browse the table of contents (in
+front of the manual), or look for a specific function, module or term
+in the index (in the back).  And finally, if you enjoy learning about
+random subjects, you choose a random page number (see module
+<tt class=module>rand</tt>) and read a section or two.
+
+<P>
+Let the show begin!
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html567"
+ HREF="builtin.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html563"
+ HREF="lib.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html557"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html565"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html566"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html568"
+ HREF="builtin.html">2. Built-in Types, Exceptions</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html564"
+ HREF="lib.html">Python Library Reference</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html558"
+ HREF="contents.html">Contents</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

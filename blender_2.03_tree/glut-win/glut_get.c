@@ -6,7 +6,7 @@
    implied. This program is -not- in the public domain. */
 
 #include <assert.h>
-#include <GL/glut.h>
+#include <glut.h>
 #include "glutint.h"
 
 /* CENTRY */

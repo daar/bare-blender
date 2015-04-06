@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>6.4 Mapping Protocol </TITLE>
+<META NAME="description" CONTENT="6.4 Mapping Protocol ">
+<META NAME="keywords" CONTENT="api">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="api.css">
+<LINK REL="next" HREF="node24.html">
+<LINK REL="previous" HREF="sequence.html">
+<LINK REL="up" HREF="abstract.html">
+<LINK REL="next" HREF="node24.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html366"
+ HREF="node24.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html362"
+ HREF="abstract.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html356"
+ HREF="sequence.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python/C API Reference Manual</b></td>
+<td><A NAME="tex2html364"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html365"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html367"
+ HREF="node24.html">6.5 Constructors</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html363"
+ HREF="abstract.html">6. Abstract Objects Layer</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html357"
+ HREF="sequence.html">6.3 Sequence Protocol</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION008400000000000000000"></A>
+<BR>
+6.4 Mapping Protocol 
+</H1>
+
+<P>
+<dl><dt>int <b><a name="l2h-134"><tt class=cfunction>PyMapping_Check</tt></a></b> (<var>PyObject *o</var>)
+<dd>
+Return <tt>1</tt> if the object provides mapping protocol, and <tt>0</tt>otherwise.  
+This function always succeeds.
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-135"><tt class=cfunction>PyMapping_Length</tt></a></b> (<var>PyObject *o</var>)
+<dd>
+Returns the number of keys in object <var>o</var> on success, and <tt>-1</tt>on failure.  For objects that do not provide sequence protocol,
+this is equivalent to the Python expression "<tt class=samp>len(<var>o</var>)</tt>".
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-136"><tt class=cfunction>PyMapping_DelItemString</tt></a></b> (<var>PyObject *o, char *key</var>)
+<dd>
+Remove the mapping for object <var>key</var> from the object <var>o</var>.
+Return <tt>-1</tt> on failure.  This is equivalent to
+the Python statement "<tt class=samp>del <var>o</var>[<var>key</var>]</tt>".
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-137"><tt class=cfunction>PyMapping_DelItem</tt></a></b> (<var>PyObject *o, PyObject *key</var>)
+<dd>
+Remove the mapping for object <var>key</var> from the object <var>o</var>.
+Return <tt>-1</tt> on failure.  This is equivalent to
+the Python statement "<tt class=samp>del <var>o</var>[<var>key</var>]</tt>".
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-138"><tt class=cfunction>PyMapping_HasKeyString</tt></a></b> (<var>PyObject *o, char *key</var>)
+<dd>
+On success, return <tt>1</tt> if the mapping object has the key <var>key</var>
+and <tt>0</tt> otherwise.  This is equivalent to the Python expression
+"<tt class=samp><var>o</var>.has_key(<var>key</var>)</tt>". 
+This function always succeeds.
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-139"><tt class=cfunction>PyMapping_HasKey</tt></a></b> (<var>PyObject *o, PyObject *key</var>)
+<dd>
+Return <tt>1</tt> if the mapping object has the key <var>key</var> and
+<tt>0</tt> otherwise.  This is equivalent to the Python expression
+"<tt class=samp><var>o</var>.has_key(<var>key</var>)</tt>". 
+This function always succeeds.
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-140"><tt class=cfunction>PyMapping_Keys</tt></a></b> (<var>PyObject *o</var>)
+<dd>
+On success, return a list of the keys in object <var>o</var>.  On
+failure, return <tt>NULL</tt>. This is equivalent to the Python
+expression "<tt class=samp><var>o</var>.keys()</tt>".
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-141"><tt class=cfunction>PyMapping_Values</tt></a></b> (<var>PyObject *o</var>)
+<dd>
+On success, return a list of the values in object <var>o</var>.  On
+failure, return <tt>NULL</tt>. This is equivalent to the Python
+expression "<tt class=samp><var>o</var>.values()</tt>".
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-142"><tt class=cfunction>PyMapping_Items</tt></a></b> (<var>PyObject *o</var>)
+<dd>
+On success, return a list of the items in object <var>o</var>, where
+each item is a tuple containing a key-value pair.  On
+failure, return <tt>NULL</tt>. This is equivalent to the Python
+expression "<tt class=samp><var>o</var>.items()</tt>".
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-143"><tt class=cfunction>PyMapping_Clear</tt></a></b> (<var>PyObject *o</var>)
+<dd>
+Make object <var>o</var> empty.  Returns <tt>1</tt> on success and <tt>0</tt>on failure.  This is equivalent to the Python statement
+"<tt class=samp>for key in <var>o</var>.keys(): del <var>o</var>[key]</tt>".
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-144"><tt class=cfunction>PyMapping_GetItemString</tt></a></b> (<var>PyObject *o, char *key</var>)
+<dd>
+Return element of <var>o</var> corresponding to the object <var>key</var> or
+<tt>NULL</tt> on failure. This is the equivalent of the Python expression
+"<tt class=samp><var>o</var>[<var>key</var>]</tt>".
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-145"><tt class=cfunction>PyMapping_SetItemString</tt></a></b> (<var>PyObject *o, char *key, PyObject *v</var>)
+<dd>
+Map the object <var>key</var> to the value <var>v</var> in object <var>o</var>.
+Returns <tt>-1</tt> on failure.  This is the equivalent of the Python
+statement "<tt class=samp><var>o</var>[<var>key</var>] = <var>v</var></tt>".
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html366"
+ HREF="node24.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html362"
+ HREF="abstract.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html356"
+ HREF="sequence.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python/C API Reference Manual</b></td>
+<td><A NAME="tex2html364"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html365"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html367"
+ HREF="node24.html">6.5 Constructors</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html363"
+ HREF="abstract.html">6. Abstract Objects Layer</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html357"
+ HREF="sequence.html">6.3 Sequence Protocol</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

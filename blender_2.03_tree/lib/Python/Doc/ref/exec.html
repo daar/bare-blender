@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>6.13 The exec statement</TITLE>
+<META NAME="description" CONTENT="6.13 The exec statement">
+<META NAME="keywords" CONTENT="ref">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ref.css">
+<LINK REL="previous" HREF="global.html">
+<LINK REL="up" HREF="simple.html">
+<LINK REL="next" HREF="compound.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1157"
+ HREF="compound.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1153"
+ HREF="simple.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1149"
+ HREF="global.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html1155"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html1156"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1158"
+ HREF="compound.html">7. Compound statements</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1154"
+ HREF="simple.html">6. Simple statements</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1150"
+ HREF="global.html">6.12 The global statement</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0081300000000000000000"></A>
+<BR>
+6.13 The <tt class=keyword>exec</tt> statement
+</H1>
+<a name="l2h-662"></a>
+
+<P>
+<dl><dd><pre class=verbatim>
+exec_stmt:    "exec" expression ["in" expression ["," expression]]
+</pre></dl>
+
+<P>
+This statement supports dynamic execution of Python code.  The first
+expression should evaluate to either a string, an open file object, or
+a code object.  If it is a string, the string is parsed as a suite of
+Python statements which is then executed (unless a syntax error
+occurs).  If it is an open file, the file is parsed until EOF and
+executed.  If it is a code object, it is simply executed.
+
+<P>
+In all cases, if the optional parts are omitted, the code is executed
+in the current scope.  If only the first expression after <tt class=keyword>in</tt>
+is specified, it should be a dictionary, which will be used for both
+the global and the local variables.  If two expressions are given,
+both must be dictionaries and they are used for the global and local
+variables, respectively.
+
+<P>
+As a side effect, an implementation may insert additional keys into
+the dictionaries given besides those corresponding to variable names
+set by the executed code.  For example, the current implementation
+may add a reference to the dictionary of the built-in module
+<tt class=module>__builtin__</tt> under the key <tt>__builtins__</tt> (!).
+<a name="l2h-663"></a>
+<a name="l2h-664"></a>
+
+<P>
+<b>Programmer's hints:</b>
+dynamic evaluation of expressions is supported by the built-in
+function <tt class=function>eval()</tt>.  The built-in functions
+<tt class=function>globals()</tt> and <tt class=function>locals()</tt> return the current global
+and local dictionary, respectively, which may be useful to pass around
+for use by <tt class=keyword>exec</tt>.
+<a name="l2h-665"></a>
+<a name="l2h-666"></a>
+<a name="l2h-667"></a>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1157"
+ HREF="compound.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1153"
+ HREF="simple.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1149"
+ HREF="global.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html1155"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html1156"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1158"
+ HREF="compound.html">7. Compound statements</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1154"
+ HREF="simple.html">6. Simple statements</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1150"
+ HREF="global.html">6.12 The global statement</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

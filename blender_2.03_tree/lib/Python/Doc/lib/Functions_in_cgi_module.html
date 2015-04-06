@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>11.1.4 Functions</TITLE>
+<META NAME="description" CONTENT="11.1.4 Functions">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="node190.html">
+<LINK REL="previous" HREF="node188.html">
+<LINK REL="up" HREF="module-cgi.html">
+<LINK REL="next" HREF="node190.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2843"
+ HREF="node190.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2839"
+ HREF="module-cgi.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2833"
+ HREF="node188.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2841"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2842"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2844"
+ HREF="node190.html">11.1.5 Caring about security</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2840"
+ HREF="module-cgi.html">11.1 cgi  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2834"
+ HREF="node188.html">11.1.3 Old classes</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0013140000000000000000">
+11.1.4 Functions</A>
+</H2>
+
+<P>
+These are useful if you want more control, or if you want to employ
+some of the algorithms implemented in this module in other
+circumstances.
+
+<P>
+<dl><dt><b><a name="l2h-1558"><tt class=function>parse</tt></a></b> (<var>fp</var>)
+<dd>
+Parse a query in the environment or from a file (default
+<tt>sys.stdin</tt>).
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1559"><tt class=function>parse_qs</tt></a></b> (<var>qs</var>)
+<dd>
+Parse a query string given as a string argument (data of type 
+<span class=mimetype>application/x-www-form-urlencoded</span>).
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1560"><tt class=function>parse_multipart</tt></a></b> (<var>fp, pdict</var>)
+<dd>
+Parse input of type <span class=mimetype>multipart/form-data</span> (for 
+file uploads).  Arguments are <var>fp</var> for the input file and
+<var>pdict</var> for the dictionary containing other parameters of
+<tt>content-type</tt> header
+
+<P>
+Returns a dictionary just like <tt class=function>parse_qs()</tt> keys are the
+field names, each value is a list of values for that field.  This is
+easy to use but not much good if you are expecting megabytes to be
+uploaded -- in that case, use the <tt class=class>FieldStorage</tt> class instead
+which is much more flexible.  Note that <tt>content-type</tt> is the
+raw, unparsed contents of the <tt>content-type</tt> header.
+
+<P>
+Note that this does not parse nested multipart parts -- use
+<tt class=class>FieldStorage</tt> for that.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1561"><tt class=function>parse_header</tt></a></b> (<var>string</var>)
+<dd>
+Parse a header like <tt>content-type</tt> into a main
+content-type and a dictionary of parameters.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1562"><tt class=function>test</tt></a></b> ()
+<dd>
+Robust test CGI script, usable as main program.
+Writes minimal HTTP headers and formats all information provided to
+the script in HTML form.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1563"><tt class=function>print_environ</tt></a></b> ()
+<dd>
+Format the shell environment in HTML.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1564"><tt class=function>print_form</tt></a></b> (<var>form</var>)
+<dd>
+Format a form in HTML.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1565"><tt class=function>print_directory</tt></a></b> ()
+<dd>
+Format the current directory in HTML.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1566"><tt class=function>print_environ_usage</tt></a></b> ()
+<dd>
+Print a list of useful (used by CGI) environment variables in
+HTML.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1567"><tt class=function>escape</tt></a></b> (<var>s</var><big>[</big><var>, quote</var><big>]</big>)
+<dd>
+Convert the characters
+"<tt class=character>&amp;</tt>", "<tt class=character>&lt;</tt>" and "<tt class=character>&gt;</tt>" in string <var>s</var> to
+HTML-safe sequences.  Use this if you need to display text that might
+contain such characters in HTML.  If the optional flag <var>quote</var> is
+true, the double quote character ("<tt class=character>"</tt>") is also translated;
+this helps for inclusion in an HTML attribute value, e.g. in <tt>&lt;A
+HREF="..."&gt;</tt>.
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2843"
+ HREF="node190.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2839"
+ HREF="module-cgi.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2833"
+ HREF="node188.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2841"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2842"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2844"
+ HREF="node190.html">11.1.5 Caring about security</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2840"
+ HREF="module-cgi.html">11.1 cgi  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2834"
+ HREF="node188.html">11.1.3 Old classes</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

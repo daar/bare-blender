@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Python/C API Reference Manual</TITLE>
+<META NAME="description" CONTENT="Python/C API Reference Manual">
+<META NAME="keywords" CONTENT="api">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="api.css">
+<LINK REL="next" HREF="front.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3"
+ HREF="front.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python/C API Reference Manual</b></td>
+<td><A NAME="tex2html1"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html2"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html4"
+ HREF="front.html">Front Matter</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<P>
+
+<div class=titlepage><center>
+<h1>Python/C API Reference Manual</h1>
+<p><b><font size='+2'>Guido van Rossum</font></b></p>
+<p>
+	Corporation for National Research Initiatives (CNRI) 
+<BR>
+1895 Preston White Drive, Reston, Va 20191, USA 
+<BR>
+E-mail: <span class=email>guido@CNRI.Reston.Va.US</span>, <span class=email>guido@python.org</span>
+</p>
+<p><strong>April 13, 1999</strong><br><strong>Release 1.5.2</strong></p>
+<p>
+</center></div>
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html5"
+ HREF="front.html">Front Matter</A>
+<LI><A NAME="tex2html6"
+ HREF="contents.html">Contents</A>
+<LI><A NAME="tex2html7"
+ HREF="intro.html">1. Introduction </A>
+<UL>
+<LI><A NAME="tex2html8"
+ HREF="includes.html">1.1 Include Files </A>
+<LI><A NAME="tex2html9"
+ HREF="objects.html">1.2 Objects, Types and Reference Counts </A>
+<LI><A NAME="tex2html10"
+ HREF="exceptions.html">1.3 Exceptions </A>
+<LI><A NAME="tex2html11"
+ HREF="embedding.html">1.4 Embedding Python </A>
+</UL>
+<LI><A NAME="tex2html12"
+ HREF="veryhigh.html">2. The Very High Level Layer </A>
+<LI><A NAME="tex2html13"
+ HREF="countingRefs.html">3. Reference Counting </A>
+<LI><A NAME="tex2html14"
+ HREF="exceptionHandling.html">4. Exception Handling </A>
+<UL>
+<LI><A NAME="tex2html15"
+ HREF="standardExceptions.html">4.1 Standard Exceptions </A>
+</UL>
+<LI><A NAME="tex2html16"
+ HREF="utilities.html">5. Utilities </A>
+<UL>
+<LI><A NAME="tex2html17"
+ HREF="os.html">5.1 OS Utilities </A>
+<LI><A NAME="tex2html18"
+ HREF="processControl.html">5.2 Process Control </A>
+<LI><A NAME="tex2html19"
+ HREF="importing.html">5.3 Importing Modules </A>
+</UL>
+<LI><A NAME="tex2html20"
+ HREF="abstract.html">6. Abstract Objects Layer </A>
+<UL>
+<LI><A NAME="tex2html21"
+ HREF="object.html">6.1 Object Protocol </A>
+<LI><A NAME="tex2html22"
+ HREF="number.html">6.2 Number Protocol </A>
+<LI><A NAME="tex2html23"
+ HREF="sequence.html">6.3 Sequence Protocol </A>
+<LI><A NAME="tex2html24"
+ HREF="mapping.html">6.4 Mapping Protocol </A>
+<LI><A NAME="tex2html25"
+ HREF="node24.html">6.5 Constructors</A>
+</UL>
+<LI><A NAME="tex2html26"
+ HREF="concrete.html">7. Concrete Objects Layer </A>
+<UL>
+<LI><A NAME="tex2html27"
+ HREF="fundamental.html">7.1 Fundamental Objects </A>
+<LI><A NAME="tex2html28"
+ HREF="sequenceObjects.html">7.2 Sequence Objects </A>
+<LI><A NAME="tex2html29"
+ HREF="mapObjects.html">7.3 Mapping Objects </A>
+<LI><A NAME="tex2html30"
+ HREF="numericObjects.html">7.4 Numeric Objects </A>
+<LI><A NAME="tex2html31"
+ HREF="otherObjects.html">7.5 Other Objects </A>
+</UL>
+<LI><A NAME="tex2html32"
+ HREF="initialization.html">8. Initialization, Finalization, and Threads
+         </A>
+<UL>
+<LI><A NAME="tex2html33"
+ HREF="threads.html">8.1 Thread State and the Global Interpreter Lock
+         </A>
+</UL>
+<LI><A NAME="tex2html34"
+ HREF="newTypes.html">9. Defining New Object Types </A>
+<LI><A NAME="tex2html35"
+ HREF="debugging.html">10. Debugging </A>
+<LI><A NAME="tex2html36"
+ HREF="genindex.html">Index</A>
+<LI><A NAME="tex2html37"
+ HREF="about.html">About this document ...</A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3"
+ HREF="front.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python/C API Reference Manual</b></td>
+<td><A NAME="tex2html1"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html2"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html4"
+ HREF="front.html">Front Matter</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

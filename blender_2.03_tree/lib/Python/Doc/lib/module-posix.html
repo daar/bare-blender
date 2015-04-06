@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>8.1 posix -- The most common POSIX system calls</TITLE>
+<META NAME="description" CONTENT="8.1 posix -- The most common POSIX system calls">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-pwd.html">
+<LINK REL="previous" HREF="unix.html">
+<LINK REL="up" HREF="unix.html">
+<LINK REL="next" HREF="posix-large-files.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2338"
+ HREF="posix-large-files.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2334"
+ HREF="unix.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2328"
+ HREF="unix.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2336"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2337"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2339"
+ HREF="posix-large-files.html">8.1.1 Large File Support</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2335"
+ HREF="unix.html">8. Unix Specific Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2329"
+ HREF="unix.html">8. Unix Specific Services</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0010100000000000000000">
+8.1 <tt class=module>posix</tt> --
+         The most common POSIX system calls</A>
+</H1>
+
+<P>
+  
+<p class=availability>Availability: <span
+ class=platform>Unix</span>.</p>
+
+<P>
+This module provides access to operating system functionality that is
+standardized by the C Standard and the POSIX standard (a thinly
+disguised Unix interface).
+
+<P>
+<b>Do not import this module directly.</b>  Instead, import the
+module <tt class=module><a href="module-os.html">os</a></tt>, which provides a <i>portable</i> version of this
+interface.  On Unix, the <tt class=module>os</tt> module provides a superset of
+the <tt class=module>posix</tt> interface.  On non-Unix operating systems the
+<tt class=module>posix</tt> module is not available, but a subset is always
+available through the <tt class=module>os</tt> interface.  Once <tt class=module>os</tt> is
+imported, there is <i>no</i> performance penalty in using it instead
+of <tt class=module>posix</tt>.  In addition, <tt class=module>os</tt><a name="l2h-1392"></a>
+provides some additional functionality, such as automatically calling
+<tt class=function>putenv()</tt> when an entry in <tt>os.environ</tt> is changed.
+
+<P>
+The descriptions below are very terse; refer to the corresponding
+Unix manual (or POSIX documentation) entry for more information.
+Arguments called <var>path</var> refer to a pathname given as a string.
+
+<P>
+Errors are reported as exceptions; the usual exceptions are given for
+type errors, while errors reported by the system calls raise
+<tt class=exception>error</tt> (a synonym for the standard exception
+<tt class=exception>OSError</tt>), described below.
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html2340"
+ HREF="posix-large-files.html">8.1.1 Large File Support </A>
+<LI><A NAME="tex2html2341"
+ HREF="posix-contents.html">8.1.2 Module Contents </A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2338"
+ HREF="posix-large-files.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2334"
+ HREF="unix.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2328"
+ HREF="unix.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2336"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2337"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2339"
+ HREF="posix-large-files.html">8.1.1 Large File Support</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2335"
+ HREF="unix.html">8. Unix Specific Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2329"
+ HREF="unix.html">8. Unix Specific Services</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

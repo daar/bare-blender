@@ -39,7 +39,7 @@
 	#include "glut.h"
 #else
 	#ifdef __WIN32
-		#include <GL/glut.h>
+		#include <glut.h>
 	#else
 		#include "glut.h"
 	#endif

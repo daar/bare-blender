@@ -21,7 +21,7 @@
 #include <X11/Xutil.h>
 #include <GL/glx.h>
 #endif
-#include <GL/glut.h>
+#include <glut.h>
 #ifdef __vms
 struct timeval {
   __int64 val;

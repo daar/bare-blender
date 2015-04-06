@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4. Embedding Python in Another Application </TITLE>
+<META NAME="description" CONTENT="4. Embedding Python in Another Application ">
+<META NAME="keywords" CONTENT="ext">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ext.css">
+<LINK REL="next" HREF="makedynload.html">
+<LINK REL="previous" HREF="building-on-windows.html">
+<LINK REL="up" HREF="ext.html">
+<LINK REL="next" HREF="gnuDynload.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html399"
+ HREF="gnuDynload.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html396"
+ HREF="ext.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html390"
+ HREF="win-dlls.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Extending and Embedding the Python Interpreter</b></td>
+<td><A NAME="tex2html398"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html400"
+ HREF="gnuDynload.html">4.1 Embedding Python in</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html397"
+ HREF="ext.html">Extending and Embedding the</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html391"
+ HREF="win-dlls.html">3.3 Using DLLs in</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION006000000000000000000"></A>
+<BR>
+4. Embedding Python in Another Application
+         
+</H1>
+
+<P>
+Embedding Python is similar to extending it, but not quite.  The
+difference is that when you extend Python, the main program of the
+application is still the Python interpreter, while if you embed
+Python, the main program may have nothing to do with Python --
+instead, some parts of the application occasionally call the Python
+interpreter to run some Python code.
+
+<P>
+So if you are embedding Python, you are providing your own main
+program.  One of the things this main program has to do is initialize
+the Python interpreter.  At the very least, you have to call the
+function <tt class=cfunction>Py_Initialize()</tt>.  There are optional calls to
+pass command line arguments to Python.  Then later you can call the
+interpreter from any part of the application.
+
+<P>
+There are several different ways to call the interpreter: you can pass
+a string containing Python statements to
+<tt class=cfunction>PyRun_SimpleString()</tt>, or you can pass a stdio file pointer
+and a file name (for identification in error messages only) to
+<tt class=cfunction>PyRun_SimpleFile()</tt>.  You can also call the lower-level
+operations described in the previous chapters to construct and use
+Python objects.
+
+<P>
+A simple demo of embedding Python can be found in the directory
+"<tt class=file>Demo/embed/</tt>" of the source distribution.
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html401"
+ HREF="gnuDynload.html">4.1 Embedding Python in C++
+         </A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html399"
+ HREF="gnuDynload.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html396"
+ HREF="ext.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html390"
+ HREF="win-dlls.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Extending and Embedding the Python Interpreter</b></td>
+<td><A NAME="tex2html398"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html400"
+ HREF="gnuDynload.html">4.1 Embedding Python in</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html397"
+ HREF="ext.html">Extending and Embedding the</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html391"
+ HREF="win-dlls.html">3.3 Using DLLs in</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

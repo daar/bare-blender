@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.4.4 Complex Number Objects </TITLE>
+<META NAME="description" CONTENT="7.4.4 Complex Number Objects ">
+<META NAME="keywords" CONTENT="api">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="api.css">
+<LINK REL="previous" HREF="floatObjects.html">
+<LINK REL="up" HREF="numericObjects.html">
+<LINK REL="next" HREF="otherObjects.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html576"
+ HREF="otherObjects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html572"
+ HREF="numericObjects.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html568"
+ HREF="floatObjects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python/C API Reference Manual</b></td>
+<td><A NAME="tex2html574"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html575"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html577"
+ HREF="otherObjects.html">7.5 Other Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html573"
+ HREF="numericObjects.html">7.4 Numeric Objects</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html569"
+ HREF="floatObjects.html">7.4.3 Floating Point Objects</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION009440000000000000000"></A>
+<BR>
+7.4.4 Complex Number Objects 
+</H2>
+
+<P>
+<dl><dt><b><a name="l2h-242"><tt class=ctype>Py_complex</tt></a></b>
+<dd>
+The C structure which corresponds to the value portion of a Python
+complex number object.  Most of the functions for dealing with complex
+number objects use structures of this type as input or output values,
+as appropriate.  It is defined as:
+
+<P>
+<dl><dd><pre class=verbatim>
+typedef struct {
+   double real;
+   double imag;
+} Py_complex;
+</pre></dl>
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-243"><tt class=ctype>PyComplexObject</tt></a></b>
+<dd>
+This subtype of <tt class=ctype>PyObject</tt> represents a Python complex number object.
+</dl>
+
+<P>
+<dl><dt>PyTypeObject <b><a name="l2h-244"><tt class=cdata>PyComplex_Type</tt></a></b>
+<dd>
+This instance of <tt class=ctype>PyTypeObject</tt> represents the Python complex 
+number type.
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-245"><tt class=cfunction>PyComplex_Check</tt></a></b> (<var>PyObject *p</var>)
+<dd>
+Returns true if its argument is a <tt class=ctype>PyComplexObject</tt>.
+</dl>
+
+<P>
+<dl><dt>Py_complex <b><a name="l2h-246"><tt class=cfunction>_Py_c_sum</tt></a></b> (<var>Py_complex left, Py_complex right</var>)
+<dd>
+</dl>
+
+<P>
+<dl><dt>Py_complex <b><a name="l2h-247"><tt class=cfunction>_Py_c_diff</tt></a></b> (<var>Py_complex left, Py_complex right</var>)
+<dd>
+</dl>
+
+<P>
+<dl><dt>Py_complex <b><a name="l2h-248"><tt class=cfunction>_Py_c_neg</tt></a></b> (<var>Py_complex complex</var>)
+<dd>
+</dl>
+
+<P>
+<dl><dt>Py_complex <b><a name="l2h-249"><tt class=cfunction>_Py_c_prod</tt></a></b> (<var>Py_complex left, Py_complex right</var>)
+<dd>
+</dl>
+
+<P>
+<dl><dt>Py_complex <b><a name="l2h-250"><tt class=cfunction>_Py_c_quot</tt></a></b> (<var>Py_complex dividend,
+                                          Py_complex divisor</var>)
+<dd>
+</dl>
+
+<P>
+<dl><dt>Py_complex <b><a name="l2h-251"><tt class=cfunction>_Py_c_pow</tt></a></b> (<var>Py_complex num, Py_complex exp</var>)
+<dd>
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-252"><tt class=cfunction>PyComplex_FromCComplex</tt></a></b> (<var>Py_complex v</var>)
+<dd>
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-253"><tt class=cfunction>PyComplex_FromDoubles</tt></a></b> (<var>double real, double imag</var>)
+<dd>
+Returns a new <tt class=ctype>PyComplexObject</tt> object from <var>real</var> and <var>imag</var>.
+</dl>
+
+<P>
+<dl><dt>double <b><a name="l2h-254"><tt class=cfunction>PyComplex_RealAsDouble</tt></a></b> (<var>PyObject *op</var>)
+<dd>
+Returns the real part of <var>op</var> as a C <tt class=ctype>double</tt>.
+</dl>
+
+<P>
+<dl><dt>double <b><a name="l2h-255"><tt class=cfunction>PyComplex_ImagAsDouble</tt></a></b> (<var>PyObject *op</var>)
+<dd>
+Returns the imaginary part of <var>op</var> as a C <tt class=ctype>double</tt>.
+</dl>
+
+<P>
+<dl><dt>Py_complex <b><a name="l2h-256"><tt class=cfunction>PyComplex_AsCComplex</tt></a></b> (<var>PyObject *op</var>)
+<dd>
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html576"
+ HREF="otherObjects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html572"
+ HREF="numericObjects.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html568"
+ HREF="floatObjects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python/C API Reference Manual</b></td>
+<td><A NAME="tex2html574"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html575"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html577"
+ HREF="otherObjects.html">7.5 Other Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html573"
+ HREF="numericObjects.html">7.4 Numeric Objects</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html569"
+ HREF="floatObjects.html">7.4.3 Floating Point Objects</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

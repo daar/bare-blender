@@ -1,0 +1,292 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>16.8 gl -- Graphics Library interface</TITLE>
+<META NAME="description" CONTENT="16.8 gl -- Graphics Library interface">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-DEVICE.html">
+<LINK REL="previous" HREF="module-fm.html">
+<LINK REL="up" HREF="sgi.html">
+<LINK REL="next" HREF="module-DEVICE.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html4026"
+ HREF="module-DEVICE.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html4022"
+ HREF="sgi.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html4016"
+ HREF="module-fm.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html4024"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html4025"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html4027"
+ HREF="module-DEVICE.html">16.9 DEVICE  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html4023"
+ HREF="sgi.html">16. SGI IRIX Specific</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html4017"
+ HREF="module-fm.html">16.7 fm  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0018800000000000000000">
+16.8 <tt class=module>gl</tt> --
+         <i>Graphics Library</i> interface</A>
+</H1>
+
+<P>
+  
+<p class=availability>Availability: <span
+ class=platform>IRIX</span>.</p>
+
+<P>
+This module provides access to the Silicon Graphics
+<i>Graphics Library</i>.
+It is available only on Silicon Graphics machines.
+
+<P>
+<b>Warning:</b>
+Some illegal calls to the GL library cause the Python interpreter to dump
+core.
+In particular, the use of most GL calls is unsafe before the first
+window is opened.
+
+<P>
+The module is too large to document here in its entirety, but the
+following should help you to get started.
+The parameter conventions for the C functions are translated to Python as
+follows:
+
+<P>
+
+<UL><LI>All (short, long, unsigned) int values are represented by Python
+integers.
+
+<LI>All float and double values are represented by Python floating point
+numbers.
+In most cases, Python integers are also allowed.
+
+<LI>All arrays are represented by one-dimensional Python lists.
+In most cases, tuples are also allowed.
+
+<LI>All string and character arguments are represented by Python strings,
+for instance,
+<tt>winopen('Hi There!')</tt>and
+<tt>rotate(900, 'z')</tt>.
+
+<LI>All (short, long, unsigned) integer arguments or return values that are
+only used to specify the length of an array argument are omitted.
+For example, the C call
+
+<P>
+<dl><dd><pre class=verbatim>
+lmdef(deftype, index, np, props)
+</pre></dl>
+is translated to Python as
+
+<P>
+<dl><dd><pre class=verbatim>
+lmdef(deftype, index, props)
+</pre></dl>
+
+<LI>Output arguments are omitted from the argument list; they are
+transmitted as function return values instead.
+If more than one value must be returned, the return value is a tuple.
+If the C function has both a regular return value (that is not omitted
+because of the previous rule) and an output argument, the return value
+comes first in the tuple.
+Examples: the C call
+
+<P>
+<dl><dd><pre class=verbatim>
+getmcolor(i, &amp;red, &amp;green, &amp;blue)
+</pre></dl>
+is translated to Python as
+
+<P>
+<dl><dd><pre class=verbatim>
+red, green, blue = getmcolor(i)
+</pre></dl>
+</UL>
+
+<P>
+The following functions are non-standard or have special argument
+conventions:
+
+<P>
+<dl><dt><b><a name="l2h-2445"><tt class=function>varray</tt></a></b> (<var>argument</var>)
+<dd>
+Equivalent to but faster than a number of
+<tt>v3d()</tt>calls.
+The <var>argument</var> is a list (or tuple) of points.
+Each point must be a tuple of coordinates
+<tt>(<var>x</var>, <var>y</var>, <var>z</var>)</tt> or <tt>(<var>x</var>, <var>y</var>)</tt>.
+The points may be 2- or 3-dimensional but must all have the
+same dimension.
+Float and int values may be mixed however.
+The points are always converted to 3D double precision points
+by assuming <tt><var>z</var> = 0.0</tt> if necessary (as indicated in the man page),
+and for each point
+<tt>v3d()</tt>is called.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2446"><tt class=function>nvarray</tt></a></b> ()
+<dd>
+Equivalent to but faster than a number of
+<tt>n3f</tt>and
+<tt>v3f</tt>calls.
+The argument is an array (list or tuple) of pairs of normals and points.
+Each pair is a tuple of a point and a normal for that point.
+Each point or normal must be a tuple of coordinates
+<tt>(<var>x</var>, <var>y</var>, <var>z</var>)</tt>.
+Three coordinates must be given.
+Float and int values may be mixed.
+For each pair,
+<tt>n3f()</tt>is called for the normal, and then
+<tt>v3f()</tt>is called for the point.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2447"><tt class=function>vnarray</tt></a></b> ()
+<dd>
+Similar to 
+<tt>nvarray()</tt>but the pairs have the point first and the normal second.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2448"><tt class=function>nurbssurface</tt></a></b> (<var>s_k, t_k, ctl, s_ord, t_ord, type</var>)
+<dd>
+Defines a nurbs surface.
+The dimensions of
+<tt><var>ctl</var>[][]</tt>are computed as follows:
+<tt>[len(<var>s_k</var>) - <var>s_ord</var>]</tt>,
+<tt>[len(<var>t_k</var>) - <var>t_ord</var>]</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2449"><tt class=function>nurbscurve</tt></a></b> (<var>knots, ctlpoints, order, type</var>)
+<dd>
+Defines a nurbs curve.
+The length of ctlpoints is
+<tt>len(<var>knots</var>) - <var>order</var></tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2450"><tt class=function>pwlcurve</tt></a></b> (<var>points, type</var>)
+<dd>
+Defines a piecewise-linear curve.
+<var>points</var>
+is a list of points.
+<var>type</var>
+must be
+<tt>N_ST</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2451"><tt class=function>pick</tt></a></b> (<var>n</var>)
+<dd>
+<dt><b><a name="l2h-2453"><tt class=function>select</tt> (in gl)</a></b> (<var>n</var>)
+<dd>
+The only argument to these functions specifies the desired size of the
+pick or select buffer.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2452"><tt class=function>endpick</tt></a></b> ()
+<dd>
+<dt><b><a name="l2h-2454"><tt class=function>endselect</tt> (in gl)</a></b> ()
+<dd>
+These functions have no arguments.
+They return a list of integers representing the used part of the
+pick/select buffer.
+No method is provided to detect buffer overrun.
+</dl>
+
+<P>
+Here is a tiny but complete example GL program in Python:
+
+<P>
+<dl><dd><pre class=verbatim>
+import gl, GL, time
+
+def main():
+    gl.foreground()
+    gl.prefposition(500, 900, 500, 900)
+    w = gl.winopen('CrissCross')
+    gl.ortho2(0.0, 400.0, 0.0, 400.0)
+    gl.color(GL.WHITE)
+    gl.clear()
+    gl.color(GL.RED)
+    gl.bgnline()
+    gl.v2f(0.0, 0.0)
+    gl.v2f(400.0, 400.0)
+    gl.endline()
+    gl.bgnline()
+    gl.v2f(400.0, 0.0)
+    gl.v2f(0.0, 400.0)
+    gl.endline()
+    time.sleep(5)
+
+main()
+</pre></dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html4026"
+ HREF="module-DEVICE.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html4022"
+ HREF="sgi.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html4016"
+ HREF="module-fm.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html4024"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html4025"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html4027"
+ HREF="module-DEVICE.html">16.9 DEVICE  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html4023"
+ HREF="sgi.html">16. SGI IRIX Specific</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html4017"
+ HREF="module-fm.html">16.7 fm  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

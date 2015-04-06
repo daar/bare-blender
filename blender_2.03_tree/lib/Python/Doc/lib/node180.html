@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>10.7 Calibration</TITLE>
+<META NAME="description" CONTENT="10.7 Calibration">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="Profiler_Extensions.html">
+<LINK REL="previous" HREF="node179.html">
+<LINK REL="up" HREF="profile.html">
+<LINK REL="next" HREF="Profiler_Extensions.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2728"
+ HREF="Profiler_Extensions.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2724"
+ HREF="profile.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2718"
+ HREF="node179.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2726"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2727"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2729"
+ HREF="Profiler_Extensions.html">10.8 Extensions  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2725"
+ HREF="profile.html">10. The Python Profiler</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2719"
+ HREF="node179.html">10.6 Limitations</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0012700000000000000000">
+10.7 Calibration</A>
+</H1>
+
+<P>
+The profiler class has a hard coded constant that is added to each
+event handling time to compensate for the overhead of calling the time
+function, and socking away the results.  The following procedure can
+be used to obtain this constant for a given platform (see discussion
+in section Limitations above).
+
+<P>
+<dl><dd><pre class=verbatim>
+import profile
+pr = profile.Profile()
+print pr.calibrate(100)
+print pr.calibrate(100)
+print pr.calibrate(100)
+</pre></dl>
+
+<P>
+The argument to <tt class=method>calibrate()</tt> is the number of times to try to
+do the sample calls to get the CPU times.  If your computer is
+<i>very</i> fast, you might have to do:
+
+<P>
+<dl><dd><pre class=verbatim>
+pr.calibrate(1000)
+</pre></dl>
+
+<P>
+or even:
+
+<P>
+<dl><dd><pre class=verbatim>
+pr.calibrate(10000)
+</pre></dl>
+
+<P>
+The object of this exercise is to get a fairly consistent result.
+When you have a consistent answer, you are ready to use that number in
+the source code.  For a Sun Sparcstation 1000 running Solaris 2.3, the
+magical number is about .00053.  If you have a choice, you are better
+off with a smaller constant, and your results will ``less often'' show
+up as negative in profile statistics.
+
+<P>
+The following shows how the trace_dispatch() method in the Profile
+class should be modified to install the calibration constant on a Sun
+Sparcstation 1000:
+
+<P>
+<dl><dd><pre class=verbatim>
+def trace_dispatch(self, frame, event, arg):
+    t = self.timer()
+    t = t[0] + t[1] - self.t - .00053 # Calibration constant
+
+    if self.dispatch[event](frame,t):
+        t = self.timer()
+        self.t = t[0] + t[1]
+    else:
+        r = self.timer()
+        self.t = r[0] + r[1] - t # put back unrecorded delta
+    return
+</pre></dl>
+
+<P>
+Note that if there is no calibration constant, then the line
+containing the callibration constant should simply say:
+
+<P>
+<dl><dd><pre class=verbatim>
+t = t[0] + t[1] - self.t  # no calibration constant
+</pre></dl>
+
+<P>
+You can also achieve the same results using a derived class (and the
+profiler will actually run equally fast!!), but the above method is
+the simplest to use.  I could have made the profiler ``self
+calibrating'', but it would have made the initialization of the
+profiler class slower, and would have required some <i>very</i> fancy
+coding, or else the use of a variable where the constant "<tt class=samp>.00053</tt>"was placed in the code shown.  This is a <b>VERY</b> critical
+performance section, and there is no reason to use a variable lookup
+at this point, when a constant can be used.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2728"
+ HREF="Profiler_Extensions.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2724"
+ HREF="profile.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2718"
+ HREF="node179.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2726"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2727"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2729"
+ HREF="Profiler_Extensions.html">10.8 Extensions  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2725"
+ HREF="profile.html">10. The Python Profiler</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2719"
+ HREF="node179.html">10.6 Limitations</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

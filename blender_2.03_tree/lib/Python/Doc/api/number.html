@@ -1,0 +1,270 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>6.2 Number Protocol </TITLE>
+<META NAME="description" CONTENT="6.2 Number Protocol ">
+<META NAME="keywords" CONTENT="api">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="api.css">
+<LINK REL="next" HREF="sequence.html">
+<LINK REL="previous" HREF="object.html">
+<LINK REL="up" HREF="abstract.html">
+<LINK REL="next" HREF="sequence.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html342"
+ HREF="sequence.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html338"
+ HREF="abstract.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html332"
+ HREF="object.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python/C API Reference Manual</b></td>
+<td><A NAME="tex2html340"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html341"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html343"
+ HREF="sequence.html">6.3 Sequence Protocol</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html339"
+ HREF="abstract.html">6. Abstract Objects Layer</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html333"
+ HREF="object.html">6.1 Object Protocol</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION008200000000000000000"></A>
+<BR>
+6.2 Number Protocol 
+</H1>
+
+<P>
+<dl><dt>int <b><a name="l2h-98"><tt class=cfunction>PyNumber_Check</tt></a></b> (<var>PyObject *o</var>)
+<dd>
+Returns <tt>1</tt> if the object <var>o</var> provides numeric protocols, and
+false otherwise. 
+This function always succeeds.
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-99"><tt class=cfunction>PyNumber_Add</tt></a></b> (<var>PyObject *o1, PyObject *o2</var>)
+<dd>
+Returns the result of adding <var>o1</var> and <var>o2</var>, or <tt>NULL</tt> on
+failure.  This is the equivalent of the Python expression
+"<tt class=samp><var>o1</var> + <var>o2</var></tt>".
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-100"><tt class=cfunction>PyNumber_Subtract</tt></a></b> (<var>PyObject *o1, PyObject *o2</var>)
+<dd>
+Returns the result of subtracting <var>o2</var> from <var>o1</var>, or <tt>NULL</tt>
+on failure.  This is the equivalent of the Python expression
+"<tt class=samp><var>o1</var> - <var>o2</var></tt>".
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-101"><tt class=cfunction>PyNumber_Multiply</tt></a></b> (<var>PyObject *o1, PyObject *o2</var>)
+<dd>
+Returns the result of multiplying <var>o1</var> and <var>o2</var>, or <tt>NULL</tt> on
+failure.  This is the equivalent of the Python expression
+"<tt class=samp><var>o1</var> * <var>o2</var></tt>".
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-102"><tt class=cfunction>PyNumber_Divide</tt></a></b> (<var>PyObject *o1, PyObject *o2</var>)
+<dd>
+Returns the result of dividing <var>o1</var> by <var>o2</var>, or <tt>NULL</tt> on
+failure. 
+This is the equivalent of the Python expression "<tt class=samp><var>o1</var> /
+<var>o2</var></tt>".
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-103"><tt class=cfunction>PyNumber_Remainder</tt></a></b> (<var>PyObject *o1, PyObject *o2</var>)
+<dd>
+Returns the remainder of dividing <var>o1</var> by <var>o2</var>, or <tt>NULL</tt> on
+failure.  This is the equivalent of the Python expression
+"<tt class=samp><var>o1</var> % <var>o2</var></tt>".
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-104"><tt class=cfunction>PyNumber_Divmod</tt></a></b> (<var>PyObject *o1, PyObject *o2</var>)
+<dd>
+See the built-in function <tt class=function>divmod()</tt><a name="l2h-119"></a>.
+Returns <tt>NULL</tt> on failure.  This is the equivalent of the Python
+expression "<tt class=samp>divmod(<var>o1</var>, <var>o2</var>)</tt>".
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-105"><tt class=cfunction>PyNumber_Power</tt></a></b> (<var>PyObject *o1, PyObject *o2, PyObject *o3</var>)
+<dd>
+See the built-in function <tt class=function>pow()</tt><a name="l2h-120"></a>.  Returns
+<tt>NULL</tt> on failure. This is the equivalent of the Python expression
+"<tt class=samp>pow(<var>o1</var>, <var>o2</var>, <var>o3</var>)</tt>", where <var>o3</var> is optional.
+If <var>o3</var> is to be ignored, pass <tt class=cdata>Py_None</tt> in its place.
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-106"><tt class=cfunction>PyNumber_Negative</tt></a></b> (<var>PyObject *o</var>)
+<dd>
+Returns the negation of <var>o</var> on success, or <tt>NULL</tt> on failure.
+This is the equivalent of the Python expression "<tt class=samp>-<var>o</var></tt>".
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-107"><tt class=cfunction>PyNumber_Positive</tt></a></b> (<var>PyObject *o</var>)
+<dd>
+Returns <var>o</var> on success, or <tt>NULL</tt> on failure.
+This is the equivalent of the Python expression "<tt class=samp>+<var>o</var></tt>".
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-108"><tt class=cfunction>PyNumber_Absolute</tt></a></b> (<var>PyObject *o</var>)
+<dd>
+Returns the absolute value of <var>o</var>, or <tt>NULL</tt> on failure.  This is
+the equivalent of the Python expression "<tt class=samp>abs(<var>o</var>)</tt>".
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-109"><tt class=cfunction>PyNumber_Invert</tt></a></b> (<var>PyObject *o</var>)
+<dd>
+Returns the bitwise negation of <var>o</var> on success, or <tt>NULL</tt> on
+failure.  This is the equivalent of the Python expression
+"<tt class=samp>~<var>o</var></tt>".
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-110"><tt class=cfunction>PyNumber_Lshift</tt></a></b> (<var>PyObject *o1, PyObject *o2</var>)
+<dd>
+Returns the result of left shifting <var>o1</var> by <var>o2</var> on success,
+or <tt>NULL</tt> on failure.  This is the equivalent of the Python
+expression "<tt class=samp><var>o1</var> &lt;&lt; <var>o2</var></tt>".
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-111"><tt class=cfunction>PyNumber_Rshift</tt></a></b> (<var>PyObject *o1, PyObject *o2</var>)
+<dd>
+Returns the result of right shifting <var>o1</var> by <var>o2</var> on success,
+or <tt>NULL</tt> on failure.  This is the equivalent of the Python
+expression "<tt class=samp><var>o1</var> &gt;&gt; <var>o2</var></tt>".
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-112"><tt class=cfunction>PyNumber_And</tt></a></b> (<var>PyObject *o1, PyObject *o2</var>)
+<dd>
+Returns the result of ``anding'' <var>o2</var> and <var>o2</var> on success and
+<tt>NULL</tt> on failure. This is the equivalent of the Python
+expression "<tt class=samp><var>o1</var> and <var>o2</var></tt>".
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-113"><tt class=cfunction>PyNumber_Xor</tt></a></b> (<var>PyObject *o1, PyObject *o2</var>)
+<dd>
+Returns the bitwise exclusive or of <var>o1</var> by <var>o2</var> on success,
+or <tt>NULL</tt> on failure.  This is the equivalent of the Python
+expression "<tt class=samp><var>o1</var> ^ <var>o2</var></tt>".
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-114"><tt class=cfunction>PyNumber_Or</tt></a></b> (<var>PyObject *o1, PyObject *o2</var>)
+<dd>
+Returns the result of <var>o1</var> and <var>o2</var> on success, or <tt>NULL</tt> on
+failure.  This is the equivalent of the Python expression
+"<tt class=samp><var>o1</var> or <var>o2</var></tt>".
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-115"><tt class=cfunction>PyNumber_Coerce</tt></a></b> (<var>PyObject **p1, PyObject **p2</var>)
+<dd>
+This function takes the addresses of two variables of type
+<tt class=ctype>PyObject*</tt>.
+
+<P>
+If the objects pointed to by <tt>*<var>p1</var></tt> and <tt>*<var>p2</var></tt>have the same type, increment their reference count and return
+<tt>0</tt> (success). If the objects can be converted to a common
+numeric type, replace <tt>*p1</tt> and <tt>*p2</tt> by their converted
+value (with 'new' reference counts), and return <tt>0</tt>.
+If no conversion is possible, or if some other error occurs,
+return <tt>-1</tt> (failure) and don't increment the reference counts.
+The call <tt>PyNumber_Coerce(&amp;o1, &amp;o2)</tt> is equivalent to the
+Python statement "<tt class=samp><var>o1</var>, <var>o2</var> = coerce(<var>o1</var>,
+<var>o2</var>)</tt>".
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-116"><tt class=cfunction>PyNumber_Int</tt></a></b> (<var>PyObject *o</var>)
+<dd>
+Returns the <var>o</var> converted to an integer object on success, or
+<tt>NULL</tt> on failure.  This is the equivalent of the Python
+expression "<tt class=samp>int(<var>o</var>)</tt>".
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-117"><tt class=cfunction>PyNumber_Long</tt></a></b> (<var>PyObject *o</var>)
+<dd>
+Returns the <var>o</var> converted to a long integer object on success,
+or <tt>NULL</tt> on failure.  This is the equivalent of the Python
+expression "<tt class=samp>long(<var>o</var>)</tt>".
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-118"><tt class=cfunction>PyNumber_Float</tt></a></b> (<var>PyObject *o</var>)
+<dd>
+Returns the <var>o</var> converted to a float object on success, or <tt>NULL</tt>
+on failure.  This is the equivalent of the Python expression
+"<tt class=samp>float(<var>o</var>)</tt>".
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html342"
+ HREF="sequence.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html338"
+ HREF="abstract.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html332"
+ HREF="object.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python/C API Reference Manual</b></td>
+<td><A NAME="tex2html340"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html341"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html343"
+ HREF="sequence.html">6.3 Sequence Protocol</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html339"
+ HREF="abstract.html">6. Abstract Objects Layer</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html333"
+ HREF="object.html">6.1 Object Protocol</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

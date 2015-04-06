@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>11.6 poplib -- POP3 protocol client.</TITLE>
+<META NAME="description" CONTENT="11.6 poplib -- POP3 protocol client.">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-imaplib.html">
+<LINK REL="previous" HREF="module-gopherlib.html">
+<LINK REL="up" HREF="internet.html">
+<LINK REL="next" HREF="pop3-objects.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2996"
+ HREF="pop3-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2992"
+ HREF="internet.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2986"
+ HREF="module-gopherlib.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2994"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2995"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2997"
+ HREF="pop3-objects.html">11.6.1 POP3 Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2993"
+ HREF="internet.html">11. Internet Protocols and</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2987"
+ HREF="module-gopherlib.html">11.5 gopherlib  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0013600000000000000000">
+11.6 <tt class=module>poplib</tt> --
+         POP3 protocol client.</A>
+</H1>
+
+<P>
+
+<P>
+<a name="l2h-1648"></a>
+
+<P>
+This module defines a class, <tt class=class>POP3</tt>, which encapsulates a
+connection to an POP3 server and implements protocol as defined in
+<span class=rfc><a name="rfcref-41696"
+href="http://info.internet.isi.edu/in-notes/rfc/files/rfc1725.txt">RFC 1725</a></span>.  The <tt class=class>POP3</tt> class supports both the minmal and
+optional command sets.
+
+<P>
+A single class is provided by the <tt class=module>poplib</tt> module:
+
+<P>
+<dl><dt><b><a name="l2h-1646"><tt class=class>POP3</tt></a></b> (<var>host</var><big>[</big><var>, port</var><big>]</big>)
+<dd>
+This class implements the actual POP3 protocol.  The connection is
+created when the instance is initialized.
+If <var>port</var> is omitted, the standard POP3 port (110) is used.
+</dl>
+
+<P>
+One exception is defined as attributes of the <tt class=module>poplib</tt> module:
+
+<P>
+<dl><dt><b><a name="l2h-1647"><tt class=exception>error_proto</tt></a></b>
+<dd>
+Exception raised on any errors.  The reason for the exception is
+passed to the constructor as a string.
+</dl>
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html2998"
+ HREF="pop3-objects.html">11.6.1 POP3 Objects</A>
+<LI><A NAME="tex2html2999"
+ HREF="pop3-example.html">11.6.2 POP3 Example</A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2996"
+ HREF="pop3-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2992"
+ HREF="internet.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2986"
+ HREF="module-gopherlib.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2994"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2995"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2997"
+ HREF="pop3-objects.html">11.6.1 POP3 Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2993"
+ HREF="internet.html">11. Internet Protocols and</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2987"
+ HREF="module-gopherlib.html">11.5 gopherlib  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

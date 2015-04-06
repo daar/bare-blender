@@ -1,0 +1,242 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>8.13 stat -- Interpreting stat() results</TITLE>
+<META NAME="description" CONTENT="8.13 stat -- Interpreting stat() results">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-popen2.html">
+<LINK REL="previous" HREF="module-syslog.html">
+<LINK REL="up" HREF="unix.html">
+<LINK REL="next" HREF="module-popen2.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2541"
+ HREF="module-popen2.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2537"
+ HREF="unix.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2531"
+ HREF="module-syslog.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2539"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2540"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2542"
+ HREF="module-popen2.html">8.14 popen2  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2538"
+ HREF="unix.html">8. Unix Specific Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2532"
+ HREF="module-syslog.html">8.12 syslog  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00101300000000000000000">
+8.13 <tt class=module>stat</tt> --
+         Interpreting <tt class=function>stat()</tt> results</A>
+</H1>
+
+<P>
+  
+<p class=availability>Availability: <span
+ class=platform>Unix, Windows</span>.</p>
+
+<P>
+The <tt class=module>stat</tt> module defines constants and functions for
+interpreting the results of <tt class=function>os.stat()</tt> and
+<tt class=function>os.lstat()</tt> (if they exist).  For complete details about the
+<tt class=cfunction>stat()</tt> and <tt class=cfunction>lstat()</tt> system calls, consult your
+local man pages.
+
+<P>
+The <tt class=module>stat</tt> module defines the following functions:
+
+<P>
+<dl><dt><b><a name="l2h-1488"><tt class=function>S_ISDIR</tt></a></b> (<var>mode</var>)
+<dd>
+Return non-zero if the mode was gotten from a directory.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1489"><tt class=function>S_ISCHR</tt></a></b> (<var>mode</var>)
+<dd>
+Return non-zero if the mode was gotten from a character special device.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1490"><tt class=function>S_ISBLK</tt></a></b> (<var>mode</var>)
+<dd>
+Return non-zero if the mode was gotten from a block special device.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1491"><tt class=function>S_ISREG</tt></a></b> (<var>mode</var>)
+<dd>
+Return non-zero if the mode was gotten from a regular file.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1492"><tt class=function>S_ISFIFO</tt></a></b> (<var>mode</var>)
+<dd>
+Return non-zero if the mode was gotten from a FIFO.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1493"><tt class=function>S_ISLNK</tt></a></b> (<var>mode</var>)
+<dd>
+Return non-zero if the mode was gotten from a symbolic link.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1494"><tt class=function>S_ISSOCK</tt></a></b> (<var>mode</var>)
+<dd>
+Return non-zero if the mode was gotten from a socket.
+</dl>
+
+<P>
+All the data items below are simply symbolic indexes into the 10-tuple
+returned by <tt class=function>os.stat()</tt> or <tt class=function>os.lstat()</tt>.  
+
+<P>
+<dl><dt><b><a name="l2h-1495"><tt>ST_MODE</tt></a></b>
+<dd>
+Inode protection mode.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1496"><tt>ST_INO</tt></a></b>
+<dd>
+Inode number.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1497"><tt>ST_DEV</tt></a></b>
+<dd>
+Device inode resides on.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1498"><tt>ST_NLINK</tt></a></b>
+<dd>
+Number of links to the inode.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1499"><tt>ST_UID</tt></a></b>
+<dd>
+User id of the owner.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1500"><tt>ST_GID</tt></a></b>
+<dd>
+Group id of the owner.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1501"><tt>ST_SIZE</tt></a></b>
+<dd>
+File size in bytes.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1502"><tt>ST_ATIME</tt></a></b>
+<dd>
+Time of last access.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1503"><tt>ST_MTIME</tt></a></b>
+<dd>
+Time of last modification.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1504"><tt>ST_CTIME</tt></a></b>
+<dd>
+Time of last status change (see manual pages for details).
+</dl>
+
+<P>
+Example:
+
+<P>
+<dl><dd><pre class=verbatim>
+import os, sys
+from stat import *
+
+def process(dir, func):
+    '''recursively descend the directory rooted at dir, calling func for
+       each regular file'''
+
+    for f in os.listdir(dir):
+        mode = os.stat('%s/%s' % (dir, f))[ST_MODE]
+if S_ISDIR(mode):
+            # recurse into directory
+            process('%s/%s' % (dir, f), func)
+elif S_ISREG(mode):
+            func('%s/%s' % (dir, f))
+else:
+            print 'Skipping %s/%s' % (dir, f)
+
+def f(file):
+    print 'frobbed', file
+
+if __name__ == '__main__':
+    process(sys.argv[1], f)
+</pre></dl><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2541"
+ HREF="module-popen2.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2537"
+ HREF="unix.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2531"
+ HREF="module-syslog.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2539"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2540"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2542"
+ HREF="module-popen2.html">8.14 popen2  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2538"
+ HREF="unix.html">8. Unix Specific Services</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2532"
+ HREF="module-syslog.html">8.12 syslog  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

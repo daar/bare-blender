@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>5.1 More on Lists </TITLE>
+<META NAME="description" CONTENT="5.1 More on Lists ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="del.html">
+<LINK REL="previous" HREF="structures.html">
+<LINK REL="up" HREF="structures.html">
+<LINK REL="next" HREF="functional.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html532"
+ HREF="functional.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html529"
+ HREF="structures.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html523"
+ HREF="structures.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html531"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html533"
+ HREF="functional.html">5.1.1 Functional Programming Tools</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html530"
+ HREF="structures.html">5. Data Structures</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html524"
+ HREF="structures.html">5. Data Structures</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION007100000000000000000"></A>
+<BR>
+5.1 More on Lists 
+</H1>
+
+<P>
+The list data type has some more methods.  Here are all of the methods
+of list objects:
+
+<P>
+<DL>
+<DD><P>
+<DT><STRONG><tt>insert(i, x)</tt></STRONG>
+<DD>Insert an item at a given position.  The first argument is the index of
+the element before which to insert, so <tt>a.insert(0, x)</tt> inserts at
+the front of the list, and <tt>a.insert(len(a), x)</tt> is equivalent to
+<tt>a.append(x)</tt>.
+
+<P>
+<DT><STRONG><tt>append(x)</tt></STRONG>
+<DD>Equivalent to <tt>a.insert(len(a), x)</tt>.
+
+<P>
+<DT><STRONG><tt>index(x)</tt></STRONG>
+<DD>Return the index in the list of the first item whose value is <tt>x</tt>.
+It is an error if there is no such item.
+
+<P>
+<DT><STRONG><tt>remove(x)</tt></STRONG>
+<DD>Remove the first item from the list whose value is <tt>x</tt>.
+It is an error if there is no such item.
+
+<P>
+<DT><STRONG><tt>sort()</tt></STRONG>
+<DD>Sort the items of the list, in place.
+
+<P>
+<DT><STRONG><tt>reverse()</tt></STRONG>
+<DD>Reverse the elements of the list, in place.
+
+<P>
+<DT><STRONG><tt>count(x)</tt></STRONG>
+<DD>Return the number of times <tt>x</tt> appears in the list.
+
+<P>
+</DL>
+
+<P>
+An example that uses all list methods:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; a = [66.6, 333, 333, 1, 1234.5]
+&gt;&gt;&gt; print a.count(333), a.count(66.6), a.count('x')
+2 1 0
+&gt;&gt;&gt; a.insert(2, -1)
+&gt;&gt;&gt; a.append(333)
+&gt;&gt;&gt; a
+[66.6, 333, -1, 333, 1, 1234.5, 333]
+&gt;&gt;&gt; a.index(333)
+1
+&gt;&gt;&gt; a.remove(333)
+&gt;&gt;&gt; a
+[66.6, -1, 333, 1, 1234.5, 333]
+&gt;&gt;&gt; a.reverse()
+&gt;&gt;&gt; a
+[333, 1234.5, 1, 333, -1, 66.6]
+&gt;&gt;&gt; a.sort()
+&gt;&gt;&gt; a
+[-1, 1, 66.6, 333, 333, 1234.5]
+</pre></dl>
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html534"
+ HREF="functional.html">5.1.1 Functional Programming Tools </A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html532"
+ HREF="functional.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html529"
+ HREF="structures.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html523"
+ HREF="structures.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html531"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html533"
+ HREF="functional.html">5.1.1 Functional Programming Tools</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html530"
+ HREF="structures.html">5. Data Structures</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html524"
+ HREF="structures.html">5. Data Structures</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>9.3.4 Method Objects </TITLE>
+<META NAME="description" CONTENT="9.3.4 Method Objects ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="previous" HREF="instanceObjects.html">
+<LINK REL="up" HREF="firstClasses.html">
+<LINK REL="next" HREF="remarks.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html941"
+ HREF="remarks.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html938"
+ HREF="firstClasses.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html934"
+ HREF="instanceObjects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html940"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html942"
+ HREF="remarks.html">9.4 Random Remarks</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html939"
+ HREF="firstClasses.html">9.3 A First Look</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html935"
+ HREF="instanceObjects.html">9.3.3 Instance Objects</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0011340000000000000000"></A>
+<BR>
+9.3.4 Method Objects 
+</H2>
+
+<P>
+Usually, a method is called immediately, e.g.:
+
+<P>
+<dl><dd><pre class=verbatim>
+x.f()
+</pre></dl>
+
+<P>
+In our example, this will return the string <tt>'hello world'</tt>.
+However, it is not necessary to call a method right away:
+<tt>x.f</tt> is a method object, and can be stored away and called at a
+later time.  For example:
+
+<P>
+<dl><dd><pre class=verbatim>
+xf = x.f
+while 1:
+    print xf()
+</pre></dl>
+
+<P>
+will continue to print "<tt class=samp>hello world</tt>" until the end of time.
+
+<P>
+What exactly happens when a method is called?  You may have noticed
+that <tt>x.f()</tt> was called without an argument above, even though
+the function definition for <tt class=method>f</tt> specified an argument.  What
+happened to the argument?  Surely Python raises an exception when a
+function that requires an argument is called without any -- even if
+the argument isn't actually used...
+
+<P>
+Actually, you may have guessed the answer: the special thing about
+methods is that the object is passed as the first argument of the
+function.  In our example, the call <tt>x.f()</tt> is exactly equivalent
+to <tt>MyClass.f(x)</tt>.  In general, calling a method with a list of
+<var>n</var> arguments is equivalent to calling the corresponding function
+with an argument list that is created by inserting the method's object
+before the first argument.
+
+<P>
+If you still don't understand how methods work, a look at the
+implementation can perhaps clarify matters.  When an instance
+attribute is referenced that isn't a data attribute, its class is
+searched.  If the name denotes a valid class attribute that is a
+function object, a method object is created by packing (pointers to)
+the instance object and the function object just found together in an
+abstract object: this is the method object.  When the method object is
+called with an argument list, it is unpacked again, a new argument
+list is constructed from the instance object and the original argument
+list, and the function object is called with this new argument list.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html941"
+ HREF="remarks.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html938"
+ HREF="firstClasses.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html934"
+ HREF="instanceObjects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html940"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html942"
+ HREF="remarks.html">9.4 Random Remarks</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html939"
+ HREF="firstClasses.html">9.3 A First Look</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html935"
+ HREF="instanceObjects.html">9.3.3 Instance Objects</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

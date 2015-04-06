@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>8.2 Exceptions </TITLE>
+<META NAME="description" CONTENT="8.2 Exceptions ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="handling.html">
+<LINK REL="previous" HREF="syntaxErrors.html">
+<LINK REL="up" HREF="errors.html">
+<LINK REL="next" HREF="handling.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html796"
+ HREF="handling.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html793"
+ HREF="errors.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html787"
+ HREF="syntaxErrors.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html795"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html797"
+ HREF="handling.html">8.3 Handling Exceptions</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html794"
+ HREF="errors.html">8. Errors and Exceptions</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html788"
+ HREF="syntaxErrors.html">8.1 Syntax Errors</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0010200000000000000000"></A>
+<BR>
+8.2 Exceptions 
+</H1>
+
+<P>
+Even if a statement or expression is syntactically correct, it may
+cause an error when an attempt is made to execute it.
+Errors detected during execution are called <i>exceptions</i> and are
+not unconditionally fatal: you will soon learn how to handle them in
+Python programs.  Most exceptions are not handled by programs,
+however, and result in error messages as shown here:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; 10 * (1/0)
+Traceback (innermost last):
+  File "&lt;stdin&gt;", line 1
+ZeroDivisionError: integer division or modulo
+&gt;&gt;&gt; 4 + spam*3
+Traceback (innermost last):
+  File "&lt;stdin&gt;", line 1
+NameError: spam
+&gt;&gt;&gt; '2' + 2
+Traceback (innermost last):
+  File "&lt;stdin&gt;", line 1
+TypeError: illegal argument type for built-in operation
+</pre></dl>
+
+<P>
+The last line of the error message indicates what happened.
+Exceptions come in different types, and the type is printed as part of
+the message: the types in the example are
+<tt class=exception>ZeroDivisionError</tt>,
+<tt class=exception>NameError</tt>
+and
+<tt class=exception>TypeError</tt>.
+The string printed as the exception type is the name of the built-in
+name for the exception that occurred.  This is true for all built-in
+exceptions, but need not be true for user-defined exceptions (although
+it is a useful convention).
+Standard exception names are built-in identifiers (not reserved
+keywords).
+
+<P>
+The rest of the line is a detail whose interpretation depends on the
+exception type; its meaning is dependent on the exception type.
+
+<P>
+The preceding part of the error message shows the context where the
+exception happened, in the form of a stack backtrace.
+In general it contains a stack backtrace listing source lines; however,
+it will not display lines read from standard input.
+
+<P>
+The Library Reference lists the built-in exceptions and their
+meanings.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html796"
+ HREF="handling.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html793"
+ HREF="errors.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html787"
+ HREF="syntaxErrors.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html795"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html797"
+ HREF="handling.html">8.3 Handling Exceptions</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html794"
+ HREF="errors.html">8. Errors and Exceptions</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html788"
+ HREF="syntaxErrors.html">8.1 Syntax Errors</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

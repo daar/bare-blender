@@ -1,0 +1,200 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>11.6.1 POP3 Objects</TITLE>
+<META NAME="description" CONTENT="11.6.1 POP3 Objects">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="pop3-example.html">
+<LINK REL="previous" HREF="module-poplib.html">
+<LINK REL="up" HREF="module-poplib.html">
+<LINK REL="next" HREF="pop3-example.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3010"
+ HREF="pop3-example.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3006"
+ HREF="module-poplib.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3000"
+ HREF="module-poplib.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3008"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3009"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3011"
+ HREF="pop3-example.html">11.6.2 POP3 Example</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3007"
+ HREF="module-poplib.html">11.6 poplib  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3001"
+ HREF="module-poplib.html">11.6 poplib  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0013610000000000000000"></A>
+<BR>
+11.6.1 POP3 Objects
+</H2>
+
+<P>
+All POP3 commands are represented by methods of the same name,
+in lower-case.
+
+<P>
+Most commands return the response text sent by the server.
+
+<P>
+An <tt class=class>POP3</tt> instance has the following methods:
+
+<P>
+<dl><dt><b><a name="l2h-1649"><tt class=method>getwelcome</tt></a></b> ()
+<dd>
+Returns the greeting string sent by the POP3 server.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1650"><tt class=method>user</tt></a></b> (<var>username</var>)
+<dd>
+Send user commad, response should indicate that a password is required.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1651"><tt class=method>pass_</tt></a></b> (<var>password</var>)
+<dd>
+Send password, response includes message count and mailbox size.
+Note: the mailbox on the server is locked until <tt class=method>quit()</tt> is
+called.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1652"><tt class=method>apop</tt></a></b> (<var>user, secret</var>)
+<dd>
+Use the more secure APOP authentication to log into the POP3 server.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1653"><tt class=method>rpop</tt></a></b> (<var>user</var>)
+<dd>
+Use RPOP authentication (similar to UNIX r-commands) to log into POP3 server.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1654"><tt class=method>stat</tt></a></b> ()
+<dd>
+Get mailbox status.  The result is a tuple of 2 integers:
+<tt>(<var>message count</var>, <var>mailbox size</var>)</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1655"><tt class=method>list</tt></a></b> (<big>[</big><var>which</var><big>]</big>)
+<dd>
+Request message list, result is in the form
+<tt>['response', ['mesg_num octets', ...]]</tt>.  If <var>which</var> is
+set, it is the message to list.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1656"><tt class=method>retr</tt></a></b> (<var>which</var>)
+<dd>
+Retrieve whole message number <var>which</var>.  Result is in form 
+<tt>['response', ['line', ...], octets]</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1657"><tt class=method>dele</tt></a></b> (<var>which</var>)
+<dd>
+Delete message number <var>which</var>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1658"><tt class=method>rset</tt></a></b> ()
+<dd>
+Remove any deletion marks for the mailbox.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1659"><tt class=method>noop</tt></a></b> ()
+<dd>
+Do nothing.  Might be used as a keep-alive.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1660"><tt class=method>quit</tt></a></b> ()
+<dd>
+Signoff:  commit changes, unlock mailbox, drop connection.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1661"><tt class=method>top</tt></a></b> (<var>which, howmuch</var>)
+<dd>
+Retrieves the message header plus <var>howmuch</var> lines of the message
+after the header of message number <var>which</var>. Result is in form 
+<tt>['response', ['line', ...], octets]</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1662"><tt class=method>uidl</tt></a></b> (<big>[</big><var>which</var><big>]</big>)
+<dd>
+Return message digest (unique id) list.
+If <var>which</var> is specified, result contains unique id for that
+message, otherwise result is list <tt>['response',
+['mesgnum uid', ...], octets]</tt>.
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3010"
+ HREF="pop3-example.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3006"
+ HREF="module-poplib.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3000"
+ HREF="module-poplib.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3008"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3009"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3011"
+ HREF="pop3-example.html">11.6.2 POP3 Example</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3007"
+ HREF="module-poplib.html">11.6 poplib  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3001"
+ HREF="module-poplib.html">11.6 poplib  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

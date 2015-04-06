@@ -1,0 +1,179 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>16.1 al -- Audio functions on the SGI</TITLE>
+<META NAME="description" CONTENT="16.1 al -- Audio functions on the SGI">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="module-al-constants.html">
+<LINK REL="previous" HREF="sgi.html">
+<LINK REL="up" HREF="sgi.html">
+<LINK REL="next" HREF="al-config-objects.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3857"
+ HREF="al-config-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3853"
+ HREF="sgi.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3847"
+ HREF="sgi.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3855"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3856"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3858"
+ HREF="al-config-objects.html">16.1.1 Configuration Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3854"
+ HREF="sgi.html">16. SGI IRIX Specific</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3848"
+ HREF="sgi.html">16. SGI IRIX Specific</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0018100000000000000000">
+16.1 <tt class=module>al</tt> --
+         Audio functions on the SGI</A>
+</H1>
+
+<P>
+  
+<p class=availability>Availability: <span
+ class=platform>IRIX</span>.</p>
+
+<P>
+This module provides access to the audio facilities of the SGI Indy
+and Indigo workstations.  See section 3A of the IRIX man pages for
+details.  You'll need to read those man pages to understand what these
+functions do!  Some of the functions are not available in IRIX
+releases before 4.0.5.  Again, see the manual to check whether a
+specific function is available on your platform.
+
+<P>
+All functions and methods defined in this module are equivalent to
+the C functions with "<tt class=samp>AL</tt>" prefixed to their name.
+
+<P>
+Symbolic constants from the C header file <tt>&lt;audio.h&gt;</tt> are
+defined in the standard module <tt class=module>AL</tt><a name="l2h-2295"></a>, see
+below.
+
+<P>
+<b>Warning:</b> the current version of the audio library may dump core
+when bad argument values are passed rather than returning an error
+status.  Unfortunately, since the precise circumstances under which
+this may happen are undocumented and hard to check, the Python
+interface can provide no protection against this kind of problems.
+(One example is specifying an excessive queue size -- there is no
+documented upper limit.)
+
+<P>
+The module defines the following functions:
+
+<P>
+<dl><dt><b><a name="l2h-2290"><tt class=function>openport</tt></a></b> (<var>name, direction</var><big>[</big><var>, config</var><big>]</big>)
+<dd>
+The name and direction arguments are strings.  The optional
+<var>config</var> argument is a configuration object as returned by
+<tt class=function>newconfig()</tt>.  The return value is an <i class=dfn>audio port
+object</i>; methods of audio port objects are described below.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2291"><tt class=function>newconfig</tt></a></b> ()
+<dd>
+The return value is a new <i class=dfn>audio configuration object</i>; methods of
+audio configuration objects are described below.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2292"><tt class=function>queryparams</tt></a></b> (<var>device</var>)
+<dd>
+The device argument is an integer.  The return value is a list of
+integers containing the data returned by <tt class=cfunction>ALqueryparams()</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2293"><tt class=function>getparams</tt></a></b> (<var>device, list</var>)
+<dd>
+The <var>device</var> argument is an integer.  The list argument is a list
+such as returned by <tt class=function>queryparams()</tt>; it is modified in place
+(!).
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2294"><tt class=function>setparams</tt></a></b> (<var>device, list</var>)
+<dd>
+The <var>device</var> argument is an integer.  The <var>list</var> argument is a
+list such as returned by <tt class=function>queryparams()</tt>.
+</dl>
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html3859"
+ HREF="al-config-objects.html">16.1.1 Configuration Objects </A>
+<LI><A NAME="tex2html3860"
+ HREF="al-port-objects.html">16.1.2 Port Objects </A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3857"
+ HREF="al-config-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3853"
+ HREF="sgi.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3847"
+ HREF="sgi.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3855"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3856"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3858"
+ HREF="al-config-objects.html">16.1.1 Configuration Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3854"
+ HREF="sgi.html">16. SGI IRIX Specific</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3848"
+ HREF="sgi.html">16. SGI IRIX Specific</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

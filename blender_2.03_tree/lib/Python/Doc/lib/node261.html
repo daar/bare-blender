@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>13.1.1 An example</TITLE>
+<META NAME="description" CONTENT="13.1.1 An example">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="previous" HREF="module-rexec.html">
+<LINK REL="up" HREF="module-rexec.html">
+<LINK REL="next" HREF="module-Bastion.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3695"
+ HREF="module-Bastion.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3691"
+ HREF="module-rexec.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3687"
+ HREF="module-rexec.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3693"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3694"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3696"
+ HREF="module-Bastion.html">13.2 Bastion  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3692"
+ HREF="module-rexec.html">13.1 rexec  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3688"
+ HREF="module-rexec.html">13.1 rexec  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0015110000000000000000">
+13.1.1 An example</A>
+</H2>
+
+<P>
+Let us say that we want a slightly more relaxed policy than the
+standard <tt class=class>RExec</tt> class.  For example, if we're willing to allow
+files in "<tt class=file>/tmp</tt>" to be written, we can subclass the <tt class=class>RExec</tt>
+class:
+
+<P>
+<dl><dd><pre class=verbatim>
+class TmpWriterRExec(rexec.RExec):
+    def r_open(self, file, mode='r', buf=-1):
+        if mode in ('r', 'rb'):
+            pass
+        elif mode in ('w', 'wb', 'a', 'ab'):
+            # check filename : must begin with /tmp/
+            if file[:5]!='/tmp/': 
+                raise IOError, "can't write outside /tmp"
+            elif (string.find(file, '/../') &gt;= 0 or
+                 file[:3] == '../' or file[-3:] == '/..'):
+                raise IOError, "'..' in filename forbidden"
+        else: raise IOError, "Illegal open() mode"
+        return open(file, mode, buf)
+</pre></dl>
+Notice that the above code will occasionally forbid a perfectly valid
+filename; for example, code in the restricted environment won't be
+able to open a file called "<tt class=file>/tmp/foo/../bar</tt>".  To fix this, the
+<tt class=method>r_open()</tt> method would have to simplify the filename to
+"<tt class=file>/tmp/bar</tt>", which would require splitting apart the filename and
+performing various operations on it.  In cases where security is at
+stake, it may be preferable to write simple code which is sometimes
+overly restrictive, instead of more general code that is also more
+complex and may harbor a subtle security hole.
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3695"
+ HREF="module-Bastion.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3691"
+ HREF="module-rexec.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3687"
+ HREF="module-rexec.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3693"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3694"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3696"
+ HREF="module-Bastion.html">13.2 Bastion  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3692"
+ HREF="module-rexec.html">13.1 rexec  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3688"
+ HREF="module-rexec.html">13.1 rexec  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

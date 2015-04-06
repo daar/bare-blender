@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>5.4 Dictionaries </TITLE>
+<META NAME="description" CONTENT="5.4 Dictionaries ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="conditions.html">
+<LINK REL="previous" HREF="tuples.html">
+<LINK REL="up" HREF="structures.html">
+<LINK REL="next" HREF="conditions.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html575"
+ HREF="conditions.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html572"
+ HREF="structures.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html566"
+ HREF="tuples.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html574"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html576"
+ HREF="conditions.html">5.5 More on Conditions</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html573"
+ HREF="structures.html">5. Data Structures</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html567"
+ HREF="tuples.html">5.3 Tuples and Sequences</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION007400000000000000000"></A>
+<BR>
+5.4 Dictionaries 
+</H1>
+
+<P>
+Another useful data type built into Python is the <i>dictionary</i>.
+Dictionaries are sometimes found in other languages as ``associative
+memories'' or ``associative arrays''.  Unlike sequences, which are
+indexed by a range of numbers, dictionaries are indexed by <i>keys</i>,
+which can be any non-mutable type; strings and numbers can always be
+keys.  Tuples can be used as keys if they contain only strings,
+numbers, or tuples.  You can't use lists as keys, since lists can be
+modified in place using their <tt>append()</tt> method.
+
+<P>
+It is best to think of a dictionary as an unordered set of
+<i>key:value</i> pairs, with the requirement that the keys are unique
+(within one dictionary).
+A pair of braces creates an empty dictionary: <tt>{}</tt>.
+Placing a comma-separated list of key:value pairs within the
+braces adds initial key:value pairs to the dictionary; this is also the
+way dictionaries are written on output.
+
+<P>
+The main operations on a dictionary are storing a value with some key
+and extracting the value given the key.  It is also possible to delete
+a key:value pair
+with <tt>del</tt>.
+If you store using a key that is already in use, the old value
+associated with that key is forgotten.  It is an error to extract a
+value using a non-existent key.
+
+<P>
+The <tt>keys()</tt> method of a dictionary object returns a list of all the
+keys used in the dictionary, in random order (if you want it sorted,
+just apply the <tt>sort()</tt> method to the list of keys).  To check
+whether a single key is in the dictionary, use the <tt>has_key()</tt>method of the dictionary.
+
+<P>
+Here is a small example using a dictionary:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; tel = {'jack': 4098, 'sape': 4139}
+&gt;&gt;&gt; tel['guido'] = 4127
+&gt;&gt;&gt; tel
+{'sape': 4139, 'guido': 4127, 'jack': 4098}
+&gt;&gt;&gt; tel['jack']
+4098
+&gt;&gt;&gt; del tel['sape']
+&gt;&gt;&gt; tel['irv'] = 4127
+&gt;&gt;&gt; tel
+{'guido': 4127, 'irv': 4127, 'jack': 4098}
+&gt;&gt;&gt; tel.keys()
+['guido', 'irv', 'jack']
+&gt;&gt;&gt; tel.has_key('guido')
+1
+</pre></dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html575"
+ HREF="conditions.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html572"
+ HREF="structures.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html566"
+ HREF="tuples.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html574"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html576"
+ HREF="conditions.html">5.5 More on Conditions</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html573"
+ HREF="structures.html">5. Data Structures</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html567"
+ HREF="tuples.html">5.3 Tuples and Sequences</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

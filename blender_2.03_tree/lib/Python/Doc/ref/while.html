@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.2 The while statement</TITLE>
+<META NAME="description" CONTENT="7.2 The while statement">
+<META NAME="keywords" CONTENT="ref">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ref.css">
+<LINK REL="next" HREF="for.html">
+<LINK REL="previous" HREF="if.html">
+<LINK REL="up" HREF="compound.html">
+<LINK REL="next" HREF="for.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1199"
+ HREF="for.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1195"
+ HREF="compound.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1189"
+ HREF="if.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html1197"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html1198"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1200"
+ HREF="for.html">7.3 The for statement</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1196"
+ HREF="compound.html">7. Compound statements</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1190"
+ HREF="if.html">7.1 The if statement</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION009200000000000000000"></A>
+<BR>
+7.2 The <tt class=keyword>while</tt> statement
+</H1>
+<a name="l2h-677"></a>
+<a name="l2h-678"></a>
+
+<P>
+The <tt class=keyword>while</tt> statement is used for repeated execution as long
+as an expression is true:
+
+<P>
+<dl><dd><pre class=verbatim>
+while_stmt:     "while" expression ":" suite
+               ["else" ":" suite]
+</pre></dl>
+
+<P>
+This repeatedly tests the expression and, if it is true, executes the
+first suite; if the expression is false (which may be the first time it
+is tested) the suite of the <tt class=keyword>else</tt> clause, if present, is
+executed and the loop terminates.
+<a name="l2h-679"></a>
+
+<P>
+A <tt class=keyword>break</tt> statement executed in the first suite terminates the
+loop without executing the <tt class=keyword>else</tt> clause's suite.  A
+<tt class=keyword>continue</tt> statement executed in the first suite skips the rest
+of the suite and goes back to testing the expression.
+<a name="l2h-680"></a>
+<a name="l2h-681"></a>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1199"
+ HREF="for.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1195"
+ HREF="compound.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1189"
+ HREF="if.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html1197"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html1198"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1200"
+ HREF="for.html">7.3 The for statement</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1196"
+ HREF="compound.html">7. Compound statements</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1190"
+ HREF="if.html">7.1 The if statement</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

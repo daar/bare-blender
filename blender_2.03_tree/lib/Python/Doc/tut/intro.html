@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>1. Whetting Your Appetite </TITLE>
+<META NAME="description" CONTENT="1. Whetting Your Appetite ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="using.html">
+<LINK REL="previous" HREF="contents.html">
+<LINK REL="up" HREF="tut.html">
+<LINK REL="next" HREF="where.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html173"
+ HREF="where.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html170"
+ HREF="tut.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html164"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html172"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html174"
+ HREF="where.html">1.1 Where From Here</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html171"
+ HREF="tut.html">Python Tutorial</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html165"
+ HREF="contents.html">Contents</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION003000000000000000000"></A>
+<BR>
+1. Whetting Your Appetite 
+</H1>
+
+<P>
+If you ever wrote a large shell script, you probably know this
+feeling: you'd love to add yet another feature, but it's already so
+slow, and so big, and so complicated; or the feature involves a system
+call or other function that is only accessible from C ...Usually
+the problem at hand isn't serious enough to warrant rewriting the
+script in C; perhaps the problem requires variable-length strings or
+other data types (like sorted lists of file names) that are easy in
+the shell but lots of work to implement in C, or perhaps you're not
+sufficiently familiar with C.
+
+<P>
+Another situation: perhaps you have to work with several C libraries,
+and the usual C write/compile/test/re-compile cycle is too slow.  You
+need to develop software more quickly.  Possibly perhaps you've
+written a program that could use an extension language, and you don't
+want to design a language, write and debug an interpreter for it, then
+tie it into your application.
+
+<P>
+In such cases, Python may be just the language for you.  Python is
+simple to use, but it is a real programming language, offering much
+more structure and support for large programs than the shell has.  On
+the other hand, it also offers much more error checking than C, and,
+being a <i>very-high-level language</i>, it has high-level data types
+built in, such as flexible arrays and dictionaries that would cost you
+days to implement efficiently in C.  Because of its more general data
+types Python is applicable to a much larger problem domain than
+<i>Awk</i> or even <i>Perl</i>, yet many things are at least as easy
+in Python as in those languages.
+
+<P>
+Python allows you to split up your program in modules that can be
+reused in other Python programs.  It comes with a large collection of
+standard modules that you can use as the basis of your programs -- or
+as examples to start learning to program in Python.  There are also
+built-in modules that provide things like file I/O, system calls,
+sockets, and even interfaces to GUI toolkits like Tk.  
+
+<P>
+Python is an interpreted language, which can save you considerable time
+during program development because no compilation and linking is
+necessary.  The interpreter can be used interactively, which makes it
+easy to experiment with features of the language, to write throw-away
+programs, or to test functions during bottom-up program development.
+It is also a handy desk calculator.
+
+<P>
+Python allows writing very compact and readable programs.  Programs
+written in Python are typically much shorter than equivalent C
+programs, for several reasons:
+
+<UL><LI>the high-level data types allow you to express complex operations in a
+single statement;
+
+<LI>statement grouping is done by indentation instead of begin/end
+brackets;
+
+<LI>no variable or argument declarations are necessary.
+
+</UL>
+
+<P>
+Python is <i>extensible</i>: if you know how to program in C it is easy
+to add a new built-in function or module to the interpreter, either to
+perform critical operations at maximum speed, or to link Python
+programs to libraries that may only be available in binary form (such
+as a vendor-specific graphics library).  Once you are really hooked,
+you can link the Python interpreter into an application written in C
+and use it as an extension or command language for that application.
+
+<P>
+By the way, the language is named after the BBC show ``Monty Python's
+Flying Circus'' and has nothing to do with nasty reptiles.  Making
+references to Monty Python skits in documentation is not only allowed,
+it is encouraged!
+
+<P>
+
+<p><hr>
+<!--Table of Child-Links-->
+
+
+<UL>
+<LI><A NAME="tex2html175"
+ HREF="where.html">1.1 Where From Here </A>
+</UL>
+<!--End of Table of Child-Links-->
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html173"
+ HREF="where.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html170"
+ HREF="tut.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html164"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html172"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html174"
+ HREF="where.html">1.1 Where From Here</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html171"
+ HREF="tut.html">Python Tutorial</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html165"
+ HREF="contents.html">Contents</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

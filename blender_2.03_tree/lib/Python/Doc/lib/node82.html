@@ -1,0 +1,253 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4.3.1 Regular Expressions</TITLE>
+<META NAME="description" CONTENT="4.3.1 Regular Expressions">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="Contents_of_Module_regex.html">
+<LINK REL="previous" HREF="module-regex.html">
+<LINK REL="up" HREF="module-regex.html">
+<LINK REL="next" HREF="Contents_of_Module_regex.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1555"
+ HREF="Contents_of_Module_regex.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1551"
+ HREF="module-regex.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1545"
+ HREF="module-regex.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1553"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1554"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1556"
+ HREF="Contents_of_Module_regex.html">4.3.2 Module Contents</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1552"
+ HREF="module-regex.html">4.3 regex  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1546"
+ HREF="module-regex.html">4.3 regex  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION006310000000000000000">
+4.3.1 Regular Expressions</A>
+</H2>
+
+<P>
+A regular expression (or RE) specifies a set of strings that matches
+it; the functions in this module let you check if a particular string
+matches a given regular expression (or if a given regular expression
+matches a particular string, which comes down to the same thing).
+
+<P>
+Regular expressions can be concatenated to form new regular
+expressions; if <i>A</i> and <i>B</i> are both regular expressions,
+then <i>AB</i> is also an regular expression.  If a string <i>p</i>
+matches A and another string <i>q</i> matches B, the string <i>pq</i>
+will match AB.  Thus, complex expressions can easily be constructed
+from simpler ones like the primitives described here.  For details of
+the theory and implementation of regular expressions, consult almost
+any textbook about compiler construction.
+
+<P>
+A brief explanation of the format of regular expressions follows.
+
+<P>
+Regular expressions can contain both special and ordinary characters.
+Ordinary characters, like '<tt>A</tt>', '<tt>a</tt>', or '<tt>0</tt>', are
+the simplest regular expressions; they simply match themselves.  You
+can concatenate ordinary characters, so '<tt>last</tt>' matches the
+characters 'last'.  (In the rest of this section, we'll write RE's in
+<tt>this special font</tt>, usually without quotes, and strings to be
+matched 'in single quotes'.)
+
+<P>
+Special characters either stand for classes of ordinary characters, or
+affect how the regular expressions around them are interpreted.
+
+<P>
+The special characters are:
+<DL COMPACT>
+<DT><tt>.</tt>
+<DD>(Dot.)  Matches any character except a newline.
+<DT><tt>^</tt>
+<DD>(Caret.)  Matches the start of the string.
+<DT><tt>$</tt>
+<DD>Matches the end of the string.  
+<tt>foo</tt> matches both 'foo' and 'foobar', while the regular
+expression '<tt>foo$</tt>' matches only 'foo'.
+<DT><tt>*</tt>
+<DD>Causes the resulting RE to
+match 0 or more repetitions of the preceding RE.  <tt>ab*</tt> will
+match 'a', 'ab', or 'a' followed by any number of 'b's.
+<DT><tt>+</tt>
+<DD>Causes the
+resulting RE to match 1 or more repetitions of the preceding RE.
+<tt>ab+</tt> will match 'a' followed by any non-zero number of 'b's; it
+will not match just 'a'.
+<DT><tt>?</tt>
+<DD>Causes the resulting RE to
+match 0 or 1 repetitions of the preceding RE.  <tt>ab?</tt> will
+match either 'a' or 'ab'.
+
+<P>
+<DT><tt>&#92;</tt>
+<DD>Either escapes special characters (permitting you to match
+characters like '*?+&amp;$'), or signals a special sequence; special
+sequences are discussed below.  Remember that Python also uses the
+backslash as an escape sequence in string literals; if the escape
+sequence isn't recognized by Python's parser, the backslash and
+subsequent character are included in the resulting string.  However,
+if Python would recognize the resulting sequence, the backslash should
+be repeated twice.  
+
+<P>
+<DT><tt>[]</tt>
+<DD>Used to indicate a set of characters.  Characters can
+be listed individually, or a range is indicated by giving two
+characters and separating them by a '-'.  Special characters are
+not active inside sets.  For example, <tt>[akm$]</tt>will match any of the characters 'a', 'k', 'm', or '$'; <tt>[a-z]</tt> will
+match any lowercase letter.  
+
+<P>
+If you want to include a <tt>]</tt> inside a
+set, it must be the first character of the set; to include a <tt>-</tt>,
+place it as the first or last character. 
+
+<P>
+Characters <i>not</i> within a range can be matched by including a
+<tt>^</tt> as the first character of the set; <tt>^</tt> elsewhere will
+simply match the '<tt>^</tt>' character.  
+</DL>
+
+<P>
+The special sequences consist of '<tt>&#92;</tt>' and a character
+from the list below.  If the ordinary character is not on the list,
+then the resulting RE will match the second character.  For example,
+<tt>&#92;$</tt> matches the character '$'.  Ones where the backslash
+should be doubled in string literals are indicated.
+
+<P>
+<DL COMPACT>
+<DT><tt>&#92;|</tt>
+<DD><tt>A&#92;|B</tt>, where A and B can be arbitrary REs,
+creates a regular expression that will match either A or B.  This can
+be used inside groups (see below) as well.
+<DT><tt>&#92;( &#92;)</tt>
+<DD>Indicates the start and end of a group; the
+contents of a group can be matched later in the string with the
+<tt>&#92;[1-9]</tt> special sequence, described next.
+</DL>
+
+<P>
+<DL COMPACT>
+<DT><tt>&#92;&#92;1, ... &#92;&#92;7, &#92;8, &#92;9</tt>
+<DD>Matches the contents of the group of the same
+number.  For example, <tt>&#92;(.+&#92;) &#92;&#92;1</tt> matches 'the the' or
+'55 55', but not 'the end' (note the space after the group).  This
+special sequence can only be used to match one of the first 9 groups;
+groups with higher numbers can be matched using the <tt>&#92;v</tt>sequence.  (<tt>&#92;8</tt> and <tt>&#92;9</tt> don't need a double backslash
+because they are not octal digits.)
+</DL>
+
+<P>
+<DL COMPACT>
+<DT><tt>&#92;&#92;b</tt>
+<DD>Matches the empty string, but only at the
+beginning or end of a word.  A word is defined as a sequence of
+alphanumeric characters, so the end of a word is indicated by
+whitespace or a non-alphanumeric character.
+<DT><tt>&#92;B</tt>
+<DD>Matches the empty string, but when it is <i>not</i> at the
+beginning or end of a word.
+<DT><tt>&#92;v</tt>
+<DD>Must be followed by a two digit decimal number, and
+matches the contents of the group of the same number.  The group
+number must be between 1 and 99, inclusive.
+<DT><tt>&#92;w</tt>
+<DD>Matches any alphanumeric character; this is
+equivalent to the set <tt>[a-zA-Z0-9]</tt>.
+<DT><tt>&#92;W</tt>
+<DD>Matches any non-alphanumeric character; this is
+equivalent to the set <tt>[&#226;-zA-Z0-9]</tt>.
+<DT><tt>&#92;&lt;</tt>
+<DD>Matches the empty string, but only at the beginning of a
+word.  A word is defined as a sequence of alphanumeric characters, so
+the end of a word is indicated by whitespace or a non-alphanumeric 
+character.
+<DT><tt>&#92;&gt;</tt>
+<DD>Matches the empty string, but only at the end of a
+word.
+
+<P>
+<DT><tt>&#92;&#92;&#92;&#92;</tt>
+<DD>Matches a literal backslash.
+
+<P>
+<DT><tt>&#92;`</tt>
+<DD>Like <tt>^</tt>, this only matches at the start of the
+string.
+<DT><tt>&#92;&#92;'</tt>
+<DD>Like <tt>$</tt>, this only matches at the end of
+the string.
+</DL>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1555"
+ HREF="Contents_of_Module_regex.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1551"
+ HREF="module-regex.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1545"
+ HREF="module-regex.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1553"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1554"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1556"
+ HREF="Contents_of_Module_regex.html">4.3.2 Module Contents</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1552"
+ HREF="module-regex.html">4.3 regex  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1546"
+ HREF="module-regex.html">4.3 regex  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

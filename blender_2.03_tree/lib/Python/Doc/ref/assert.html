@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>6.2 Assert statements</TITLE>
+<META NAME="description" CONTENT="6.2 Assert statements">
+<META NAME="keywords" CONTENT="ref">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="ref.css">
+<LINK REL="next" HREF="assignment.html">
+<LINK REL="previous" HREF="exprstmts.html">
+<LINK REL="up" HREF="simple.html">
+<LINK REL="next" HREF="assignment.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1027"
+ HREF="assignment.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1023"
+ HREF="simple.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1017"
+ HREF="exprstmts.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html1025"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html1026"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1028"
+ HREF="assignment.html">6.3 Assignment statements</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1024"
+ HREF="simple.html">6. Simple statements</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1018"
+ HREF="exprstmts.html">6.1 Expression statements</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION008200000000000000000"></A>
+<BR>
+6.2 Assert statements
+</H1><a name="l2h-569"></a>
+
+<P>
+Assert statements are a convenient way to insert debugging
+assertions<a name="l2h-570"></a> into a program:
+
+<P>
+<dl><dd><pre class=verbatim>
+assert_statement: "assert" expression ["," expression]
+</pre></dl>
+
+<P>
+The simple form, ``<tt>assert expression</tt>'', is equivalent to
+
+<P>
+<dl><dd><pre class=verbatim>
+if __debug__:
+   if not expression: raise AssertionError
+</pre></dl>
+
+<P>
+The extended form, ``<tt>assert expression1, expression2</tt>'', is
+equivalent to
+
+<P>
+<dl><dd><pre class=verbatim>
+if __debug__:
+   if not expression1: raise AssertionError, expression2
+</pre></dl>
+
+<P>
+These equivalences assume that <tt>__debug__</tt><a name="l2h-571"></a> and
+<tt>AssertionError</tt><a name="l2h-572"></a> refer to the built-in
+variables with those names.  In the current implementation, the
+built-in variable <tt>__debug__</tt> is 1 under normal circumstances, 0
+when optimization is requested (command line option -O).  The current
+code generator emits no code for an assert statement when optimization
+is requested at compile time.  Note that it is unnecessary to include
+the source code for the expression that failed in the error message;
+it will be displayed as part of the stack trace.
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1027"
+ HREF="assignment.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1023"
+ HREF="simple.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1017"
+ HREF="exprstmts.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Reference Manual</b></td>
+<td><A NAME="tex2html1025"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html1026"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1028"
+ HREF="assignment.html">6.3 Assignment statements</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1024"
+ HREF="simple.html">6. Simple statements</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1018"
+ HREF="exprstmts.html">6.1 Expression statements</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

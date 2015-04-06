@@ -1,0 +1,214 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>8.3 Handling Exceptions </TITLE>
+<META NAME="description" CONTENT="8.3 Handling Exceptions ">
+<META NAME="keywords" CONTENT="tut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="tut.css">
+<LINK REL="next" HREF="raising.html">
+<LINK REL="previous" HREF="exceptions.html">
+<LINK REL="up" HREF="errors.html">
+<LINK REL="next" HREF="raising.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html807"
+ HREF="raising.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html804"
+ HREF="errors.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html798"
+ HREF="exceptions.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html806"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html808"
+ HREF="raising.html">8.4 Raising Exceptions</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html805"
+ HREF="errors.html">8. Errors and Exceptions</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html799"
+ HREF="exceptions.html">8.2 Exceptions</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0010300000000000000000"></A>
+<BR>
+8.3 Handling Exceptions 
+</H1>
+
+<P>
+It is possible to write programs that handle selected exceptions.
+Look at the following example, which prints a table of inverses of
+some floating point numbers:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; numbers = [0.3333, 2.5, 0, 10]
+&gt;&gt;&gt; for x in numbers:
+...     print x,
+...     try:
+...         print 1.0 / x
+...     except ZeroDivisionError:
+...         print '*** has no inverse ***'
+...     
+0.3333 3.00030003
+2.5 0.4
+0 *** has no inverse ***
+10 0.1
+</pre></dl>
+
+<P>
+The <tt class=keyword>try</tt> statement works as follows.
+
+<UL><LI>First, the <i>try clause</i>
+(the statement(s) between the <tt class=keyword>try</tt> and <tt class=keyword>except</tt>
+keywords) is executed.
+
+<LI>If no exception occurs, the
+<i>except clause</i>
+is skipped and execution of the <tt class=keyword>try</tt> statement is finished.
+
+<LI>If an exception occurs during execution of the try clause,
+the rest of the clause is skipped.  Then if its type matches the
+exception named after the <tt class=keyword>except</tt> keyword, the rest of the
+try clause is skipped, the except clause is executed, and then
+execution continues after the <tt class=keyword>try</tt> statement.
+
+<LI>If an exception occurs which does not match the exception named in the
+except clause, it is passed on to outer <tt class=keyword>try</tt> statements; if
+no handler is found, it is an <i>unhandled exception</i>
+and execution stops with a message as shown above.
+
+</UL>
+A <tt class=keyword>try</tt> statement may have more than one except clause, to
+specify handlers for different exceptions.
+At most one handler will be executed.
+Handlers only handle exceptions that occur in the corresponding try
+clause, not in other handlers of the same <tt class=keyword>try</tt> statement.
+An except clause may name multiple exceptions as a parenthesized list,
+e.g.:
+
+<P>
+<dl><dd><pre class=verbatim>
+... except (RuntimeError, TypeError, NameError):
+...     pass
+</pre></dl>
+
+<P>
+The last except clause may omit the exception name(s), to serve as a
+wildcard.
+Use this with extreme caution, since it is easy to mask a real
+programming error in this way!
+
+<P>
+The <tt class=keyword>try</tt> ... <tt class=keyword>except</tt> statement has an optional
+<i>else clause</i>, which must follow all except clauses.  It is
+useful to place code that must be executed if the try clause does not
+raise an exception.  For example:
+
+<P>
+<dl><dd><pre class=verbatim>
+for arg in sys.argv[1:]:
+    try:
+        f = open(arg, 'r')
+    except IOError:
+        print 'cannot open', arg
+    else:
+        print arg, 'has', len(f.readlines()), 'lines'
+        f.close()
+</pre></dl>
+
+<P>
+When an exception occurs, it may have an associated value, also known as
+the exceptions's <i>argument</i>.
+The presence and type of the argument depend on the exception type.
+For exception types which have an argument, the except clause may
+specify a variable after the exception name (or list) to receive the
+argument's value, as follows:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; try:
+...     spam()
+... except NameError, x:
+...     print 'name', x, 'undefined'
+... 
+name spam undefined
+</pre></dl>
+
+<P>
+If an exception has an argument, it is printed as the last part
+(`detail') of the message for unhandled exceptions.
+
+<P>
+Exception handlers don't just handle exceptions if they occur
+immediately in the try clause, but also if they occur inside functions
+that are called (even indirectly) in the try clause.
+For example:
+
+<P>
+<dl><dd><pre class=verbatim>
+&gt;&gt;&gt; def this_fails():
+...     x = 1/0
+... 
+&gt;&gt;&gt; try:
+...     this_fails()
+... except ZeroDivisionError, detail:
+...     print 'Handling run-time error:', detail
+... 
+Handling run-time error: integer division or modulo
+</pre></dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html807"
+ HREF="raising.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html804"
+ HREF="errors.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html798"
+ HREF="exceptions.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Tutorial</b></td>
+<td><A NAME="tex2html806"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html808"
+ HREF="raising.html">8.4 Raising Exceptions</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html805"
+ HREF="errors.html">8. Errors and Exceptions</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html799"
+ HREF="exceptions.html">8.2 Exceptions</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

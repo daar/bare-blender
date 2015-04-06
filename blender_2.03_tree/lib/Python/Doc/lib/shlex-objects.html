@@ -1,0 +1,172 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>5.11.1 shlex Objects </TITLE>
+<META NAME="description" CONTENT="5.11.1 shlex Objects ">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="previous" HREF="module-shlex.html">
+<LINK REL="up" HREF="module-shlex.html">
+<LINK REL="next" HREF="allos.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1797"
+ HREF="allos.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1793"
+ HREF="module-shlex.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1789"
+ HREF="module-shlex.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1795"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1796"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1798"
+ HREF="allos.html">6. Generic Operating System</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1794"
+ HREF="module-shlex.html">5.11 shlex  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1790"
+ HREF="module-shlex.html">5.11 shlex  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0071110000000000000000"></A>
+<BR>
+5.11.1 shlex Objects 
+</H2>
+
+<P>
+A <tt class=class>shlex</tt> instance has the following methods:
+
+<P>
+<dl><dt><b><a name="l2h-846"><tt class=method>get_token</tt></a></b> ()
+<dd>
+Return a token.  If tokens have been stacked using
+<tt class=method>push_token()</tt>, pop a token off the stack.  Otherwise, read one
+from the input stream.  If reading encounters an immediate
+end-of-file, an empty string is returned. 
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-847"><tt class=method>push_token</tt></a></b> (<var>str</var>)
+<dd>
+Push the argument onto the token stack.
+</dl>
+
+<P>
+Instances of <tt class=class>shlex</tt> subclasses have some public instance
+variables which either control lexical analysis or can be used
+for debugging:
+
+<P>
+<dl><dt><b><a name="l2h-848"><tt>commenters</tt></a></b>
+<dd>
+The string of characters that are recognized as comment beginners.
+All characters from the comment beginner to end of line are ignored.
+Includes just "<tt class=character>#</tt>" by default.   
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-849"><tt>wordchars</tt></a></b>
+<dd>
+The string of characters that will accumulate into multi-character
+tokens. By default, includes all ASCII alphanumerics and
+underscore.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-850"><tt>whitespace</tt></a></b>
+<dd>
+Characters that will be considered whitespace and skipped.  Whitespace
+bounds tokens.  By default, includes space, tab, linefeed and
+carriage-return.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-851"><tt>quotes</tt></a></b>
+<dd>
+Characters that will be considered string quotes.  The token
+accumulates until the same quote is encountered again (thus, different
+quote types protect each other as in the shall.)  By default, includes
+ASCII single and double quotes.
+</dl>
+
+<P>
+Note that any character not declared to be a word character,
+whitespace, or a quote will be returned as a single-character token.
+
+<P>
+Quote and comment characters are not recognized within words.  Thus,
+the bare words "<tt class=samp>ain't</tt>" and "<tt class=samp>ain#t</tt>" would be returned as single
+tokens by the default parser.
+
+<P>
+<dl><dt><b><a name="l2h-852"><tt>lineno</tt></a></b>
+<dd>
+Source line number (count of newlines seen so far plus one).
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-853"><tt>token</tt></a></b>
+<dd>
+The token buffer.  It may be useful to examine this when catching
+exceptions.
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1797"
+ HREF="allos.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1793"
+ HREF="module-shlex.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1789"
+ HREF="module-shlex.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1795"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1796"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1798"
+ HREF="allos.html">6. Generic Operating System</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1794"
+ HREF="module-shlex.html">5.11 shlex  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1790"
+ HREF="module-shlex.html">5.11 shlex  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

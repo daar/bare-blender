@@ -10,7 +10,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#include <GL/glut.h>
+#include <glut.h>
 #include "glutint.h"
 
 /* strdup is actually not a standard ANSI C or POSIX routine

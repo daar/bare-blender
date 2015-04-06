@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>16.1.2 Port Objects </TITLE>
+<META NAME="description" CONTENT="16.1.2 Port Objects ">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="previous" HREF="al-config-objects.html">
+<LINK REL="up" HREF="module-al.html">
+<LINK REL="next" HREF="module-al-constants.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3881"
+ HREF="module-al-constants.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3877"
+ HREF="module-al.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3873"
+ HREF="al-config-objects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3879"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3880"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3882"
+ HREF="module-al-constants.html">16.2 AL  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3878"
+ HREF="module-al.html">16.1 al  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3874"
+ HREF="al-config-objects.html">16.1.1 Configuration Objects</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0018120000000000000000"></A>
+<BR>
+16.1.2 Port Objects 
+</H2>
+
+<P>
+Port objects, as returned by <tt class=function>openport()</tt>, have the following
+methods:
+
+<P>
+<dl><dt><b><a name="l2h-2306"><tt class=method>closeport</tt></a></b> ()
+<dd>
+Close the port.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2307"><tt class=method>getfd</tt></a></b> ()
+<dd>
+Return the file descriptor as an int.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2308"><tt class=method>getfilled</tt></a></b> ()
+<dd>
+Return the number of filled samples.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2309"><tt class=method>getfillable</tt></a></b> ()
+<dd>
+Return the number of fillable samples.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2310"><tt class=method>readsamps</tt></a></b> (<var>nsamples</var>)
+<dd>
+Read a number of samples from the queue, blocking if necessary.
+Return the data as a string containing the raw data, (e.g., 2 bytes per
+sample in big-endian byte order (high byte, low byte) if you have set
+the sample width to 2 bytes).
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2311"><tt class=method>writesamps</tt></a></b> (<var>samples</var>)
+<dd>
+Write samples into the queue, blocking if necessary.  The samples are
+encoded as described for the <tt class=method>readsamps()</tt> return value.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2312"><tt class=method>getfillpoint</tt></a></b> ()
+<dd>
+Return the `fill point'.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2313"><tt class=method>setfillpoint</tt></a></b> (<var>fillpoint</var>)
+<dd>
+Set the `fill point'.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2314"><tt class=method>getconfig</tt></a></b> ()
+<dd>
+Return a configuration object containing the current configuration of
+the port.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2315"><tt class=method>setconfig</tt></a></b> (<var>config</var>)
+<dd>
+Set the configuration from the argument, a configuration object.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-2316"><tt class=method>getstatus</tt></a></b> (<var>list</var>)
+<dd>
+Get status information on last error.
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html3881"
+ HREF="module-al-constants.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html3877"
+ HREF="module-al.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html3873"
+ HREF="al-config-objects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html3879"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html3880"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html3882"
+ HREF="module-al-constants.html">16.2 AL  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html3878"
+ HREF="module-al.html">16.1 al  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html3874"
+ HREF="al-config-objects.html">16.1.1 Configuration Objects</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>6.1.6 Miscellanenous System Data </TITLE>
+<META NAME="description" CONTENT="6.1.6 Miscellanenous System Data ">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="previous" HREF="os-process.html">
+<LINK REL="up" HREF="module-os.html">
+<LINK REL="next" HREF="module-os.path.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1897"
+ HREF="module-os.path.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1893"
+ HREF="module-os.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1889"
+ HREF="os-process.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1895"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1896"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1898"
+ HREF="module-os.path.html">6.2 os.path  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1894"
+ HREF="module-os.html">6.1 os  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1890"
+ HREF="os-process.html">6.1.5 Process Management</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION008160000000000000000"></A>
+<BR>
+6.1.6 Miscellanenous System Data 
+</H2>
+
+<P>
+The follow data values are used to support path manipulation
+operations.  These are defined for all platforms.
+
+<P>
+Higher-level operations on pathnames are defined in the
+<tt class=module><a href="module-os.path.html">os.path</a></tt> module.
+
+<P>
+<dl><dt><b><a name="l2h-972"><tt>curdir</tt></a></b>
+<dd>
+The constant string used by the OS to refer to the current directory,
+e.g. <tt>'.'</tt> for POSIX or <tt>':'</tt> for the Macintosh.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-973"><tt>pardir</tt></a></b>
+<dd>
+The constant string used by the OS to refer to the parent directory,
+e.g. <tt>'..'</tt> for POSIX or <tt>'::'</tt> for the Macintosh.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-974"><tt>sep</tt></a></b>
+<dd>
+The character used by the OS to separate pathname components,
+e.g. "<tt class=character>/</tt>" for POSIX or "<tt class=character>:</tt>" for the Macintosh.
+Note that knowing this is not sufficient to be able to parse or
+concatenate pathnames -- use <tt class=function>os.path.split()</tt> and
+<tt class=function>os.path.join()</tt> -- but it is occasionally useful.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-975"><tt>altsep</tt></a></b>
+<dd>
+An alternative character used by the OS to separate pathname components,
+or <tt>None</tt> if only one separator character exists.  This is set to
+"<tt class=character>/</tt>" on DOS and Windows systems where <tt>sep</tt> is a backslash.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-976"><tt>pathsep</tt></a></b>
+<dd>
+The character conventionally used by the OS to separate search patch
+components (as in <span class=envvar><a name="l2h-979">$PATH</a></span>), e.g. "<tt class=character>:</tt>" for POSIX or
+"<tt class=character>;</tt>" for DOS and Windows.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-977"><tt>defpath</tt></a></b>
+<dd>
+The default search path used by <tt class=function>exec*p*()</tt> if the environment
+doesn't have a <tt>'PATH'</tt> key.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-978"><tt>linesep</tt></a></b>
+<dd>
+The string used to separate (or, rather, terminate) lines on the
+current platform.  This may be a single character, e.g. <tt>'&#92;n'</tt>for POSIX or <tt>'&#92;r'</tt> for MacOS, or multiple characters,
+e.g. <tt>'&#92;r&#92;n'</tt> for MS-DOS and MS Windows.
+</dl><p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html1897"
+ HREF="module-os.path.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html1893"
+ HREF="module-os.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html1889"
+ HREF="os-process.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html1895"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html1896"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html1898"
+ HREF="module-os.path.html">6.2 os.path  </A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html1894"
+ HREF="module-os.html">6.1 os  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html1890"
+ HREF="os-process.html">6.1.5 Process Management</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

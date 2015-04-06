@@ -10,7 +10,7 @@
 /***********************************************************
  *	Headers
  ***********************************************************/
-#include <GL/glut.h>
+#include <glut.h>
 #include <Application.h>
 #include "glutWindow.h"
 #include "glutMenu.h"

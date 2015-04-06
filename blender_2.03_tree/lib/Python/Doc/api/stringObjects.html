@@ -1,0 +1,213 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.2.1 String Objects </TITLE>
+<META NAME="description" CONTENT="7.2.1 String Objects ">
+<META NAME="keywords" CONTENT="api">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="api.css">
+<LINK REL="next" HREF="tupleObjects.html">
+<LINK REL="previous" HREF="sequenceObjects.html">
+<LINK REL="up" HREF="sequenceObjects.html">
+<LINK REL="next" HREF="tupleObjects.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html469"
+ HREF="tupleObjects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html465"
+ HREF="sequenceObjects.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html459"
+ HREF="sequenceObjects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python/C API Reference Manual</b></td>
+<td><A NAME="tex2html467"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html468"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html470"
+ HREF="tupleObjects.html">7.2.2 Tuple Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html466"
+ HREF="sequenceObjects.html">7.2 Sequence Objects</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html460"
+ HREF="sequenceObjects.html">7.2 Sequence Objects</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION009210000000000000000"></A>
+<BR>
+7.2.1 String Objects 
+</H2>
+
+<P>
+<dl><dt><b><a name="l2h-160"><tt class=ctype>PyStringObject</tt></a></b>
+<dd>
+This subtype of <tt class=ctype>PyObject</tt> represents a Python string object.
+</dl>
+
+<P>
+<dl><dt>PyTypeObject <b><a name="l2h-161"><tt class=cdata>PyString_Type</tt></a></b>
+<dd>
+This instance of <tt class=ctype>PyTypeObject</tt> represents the Python string type.
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-162"><tt class=cfunction>PyString_Check</tt></a></b> (<var>PyObject *o</var>)
+<dd>
+Returns true if the object <var>o</var> is a string object.
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-163"><tt class=cfunction>PyString_FromStringAndSize</tt></a></b> (<var>const char *v,
+                                                          int len</var>)
+<dd>
+Returns a new string object with the value <var>v</var> and length
+<var>len</var> on success, and <tt>NULL</tt> on failure.  If <var>v</var> is <tt>NULL</tt>,
+the contents of the string are uninitialized.
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-164"><tt class=cfunction>PyString_FromString</tt></a></b> (<var>const char *v</var>)
+<dd>
+Returns a new string object with the value <var>v</var> on success, and
+<tt>NULL</tt> on failure.
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-165"><tt class=cfunction>PyString_Size</tt></a></b> (<var>PyObject *string</var>)
+<dd>
+Returns the length of the string in string object <var>string</var>.
+</dl>
+
+<P>
+<dl><dt>char* <b><a name="l2h-166"><tt class=cfunction>PyString_AsString</tt></a></b> (<var>PyObject *string</var>)
+<dd>
+Resturns a <tt>NULL</tt> terminated representation of the contents of <var>string</var>.
+</dl>
+
+<P>
+<dl><dt>void <b><a name="l2h-167"><tt class=cfunction>PyString_Concat</tt></a></b> (<var>PyObject **string,
+                                         PyObject *newpart</var>)
+<dd>
+Creates a new string object in <var>*string</var> containing the
+contents of <var>newpart</var> appended to <var>string</var>.  The old value of
+<var>string</var> have its reference count decremented.  If the new string
+cannot be created, the old reference to <var>string</var> will still be
+discarded and the value of <var>*string</var> will be set to
+<tt>NULL</tt>; the appropriate exception will be set.
+</dl>
+
+<P>
+<dl><dt>void <b><a name="l2h-168"><tt class=cfunction>PyString_ConcatAndDel</tt></a></b> (<var>PyObject **string,
+                                               PyObject *newpart</var>)
+<dd>
+Creates a new string object in <var>*string</var> containing the contents
+of <var>newpart</var> appended to <var>string</var>.  This version decrements
+the reference count of <var>newpart</var>.
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-169"><tt class=cfunction>_PyString_Resize</tt></a></b> (<var>PyObject **string, int newsize</var>)
+<dd>
+A way to resize a string object even though it is ``immutable''.  
+Only use this to build up a brand new string object; don't use this if
+the string may already be known in other parts of the code.
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-170"><tt class=cfunction>PyString_Format</tt></a></b> (<var>PyObject *format,
+                                              PyObject *args</var>)
+<dd>
+Returns a new string object from <var>format</var> and <var>args</var>.  Analogous
+to <tt><var>format</var> % <var>args</var></tt>.  The <var>args</var> argument must be
+a tuple.
+</dl>
+
+<P>
+<dl><dt>void <b><a name="l2h-171"><tt class=cfunction>PyString_InternInPlace</tt></a></b> (<var>PyObject **string</var>)
+<dd>
+Intern the argument <var>*string</var> in place.  The argument must be the
+address of a pointer variable pointing to a Python string object.
+If there is an existing interned string that is the same as
+<var>*string</var>, it sets <var>*string</var> to it (decrementing the reference 
+count of the old string object and incrementing the reference count of
+the interned string object), otherwise it leaves <var>*string</var> alone
+and interns it (incrementing its reference count).  (Clarification:
+even though there is a lot of talk about reference counts, think of
+this function as reference-count-neutral; you own the object after
+the call if and only if you owned it before the call.)
+</dl>
+
+<P>
+<dl><dt>PyObject* <b><a name="l2h-172"><tt class=cfunction>PyString_InternFromString</tt></a></b> (<var>const char *v</var>)
+<dd>
+A combination of <tt class=cfunction>PyString_FromString()</tt> and
+<tt class=cfunction>PyString_InternInPlace()</tt>, returning either a new string object
+that has been interned, or a new (``owned'') reference to an earlier
+interned string object with the same value.
+</dl>
+
+<P>
+<dl><dt>char* <b><a name="l2h-173"><tt class=cfunction>PyString_AS_STRING</tt></a></b> (<var>PyObject *string</var>)
+<dd>
+Macro form of <tt class=cfunction>PyString_AsString()</tt> but without error checking.
+</dl>
+
+<P>
+<dl><dt>int <b><a name="l2h-174"><tt class=cfunction>PyString_GET_SIZE</tt></a></b> (<var>PyObject *string</var>)
+<dd>
+Macro form of <tt class=cfunction>PyString_GetSize()</tt> but without error checking.
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html469"
+ HREF="tupleObjects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html465"
+ HREF="sequenceObjects.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html459"
+ HREF="sequenceObjects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python/C API Reference Manual</b></td>
+<td><A NAME="tex2html467"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><img width=32 height=32 align=bottom border=0 alt=""
+ src="../icons/blank.gif"></td>
+<td><A NAME="tex2html468"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html470"
+ HREF="tupleObjects.html">7.2.2 Tuple Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html466"
+ HREF="sequenceObjects.html">7.2 Sequence Objects</A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html460"
+ HREF="sequenceObjects.html">7.2 Sequence Objects</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

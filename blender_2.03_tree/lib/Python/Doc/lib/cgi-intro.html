@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>11.1.1 Introduction</TITLE>
+<META NAME="description" CONTENT="11.1.1 Introduction">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="Using_the_cgi_module.html">
+<LINK REL="previous" HREF="module-cgi.html">
+<LINK REL="up" HREF="module-cgi.html">
+<LINK REL="next" HREF="Using_the_cgi_module.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2807"
+ HREF="Using_the_cgi_module.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2803"
+ HREF="module-cgi.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2797"
+ HREF="module-cgi.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2805"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2806"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2808"
+ HREF="Using_the_cgi_module.html">11.1.2 Using the cgi</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2804"
+ HREF="module-cgi.html">11.1 cgi  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2798"
+ HREF="module-cgi.html">11.1 cgi  </A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0013110000000000000000">
+11.1.1 Introduction</A>
+</H2>
+
+<P>
+A CGI script is invoked by an HTTP server, usually to process user
+input submitted through an HTML <tt>&lt;FORM&gt;</tt> or <tt>&lt;ISINDEX&gt;</tt> element.
+
+<P>
+Most often, CGI scripts live in the server's special "<tt class=file>cgi-bin</tt>"
+directory.  The HTTP server places all sorts of information about the
+request (such as the client's hostname, the requested URL, the query
+string, and lots of other goodies) in the script's shell environment,
+executes the script, and sends the script's output back to the client.
+
+<P>
+The script's input is connected to the client too, and sometimes the
+form data is read this way; at other times the form data is passed via
+the ``query string'' part of the URL.  This module is intended
+to take care of the different cases and provide a simpler interface to
+the Python script.  It also provides a number of utilities that help
+in debugging scripts, and the latest addition is support for file
+uploads from a form (if your browser supports it -- Grail 0.3 and
+Netscape 2.0 do).
+
+<P>
+The output of a CGI script should consist of two sections, separated
+by a blank line.  The first section contains a number of headers,
+telling the client what kind of data is following.  Python code to
+generate a minimal header section looks like this:
+
+<P>
+<dl><dd><pre class=verbatim>
+print "Content-type: text/html"     # HTML is following
+print                               # blank line, end of headers
+</pre></dl>
+
+<P>
+The second section is usually HTML, which allows the client software
+to display nicely formatted text with header, in-line images, etc.
+Here's Python code that prints a simple piece of HTML:
+
+<P>
+<dl><dd><pre class=verbatim>
+print "&lt;TITLE&gt;CGI script output&lt;/TITLE&gt;"
+print "&lt;H1&gt;This is my first CGI script&lt;/H1&gt;"
+print "Hello, world!"
+</pre></dl>
+
+<P>
+(It may not be fully legal HTML according to the letter of the
+standard, but any browser will understand it.)
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2807"
+ HREF="Using_the_cgi_module.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2803"
+ HREF="module-cgi.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2797"
+ HREF="module-cgi.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2805"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2806"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2808"
+ HREF="Using_the_cgi_module.html">11.1.2 Using the cgi</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2804"
+ HREF="module-cgi.html">11.1 cgi  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2798"
+ HREF="module-cgi.html">11.1 cgi  </A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>

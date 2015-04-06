@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--Converted with LaTeX2HTML 98.2 beta6 (August 14th, 1998)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.5.4 Semaphore Objects </TITLE>
+<META NAME="description" CONTENT="7.5.4 Semaphore Objects ">
+<META NAME="keywords" CONTENT="lib">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="lib.css">
+<LINK REL="next" HREF="event-objects.html">
+<LINK REL="previous" HREF="condition-objects.html">
+<LINK REL="up" HREF="module-threading.html">
+<LINK REL="next" HREF="event-objects.html">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<div class=navigation>
+<table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2211"
+ HREF="event-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2207"
+ HREF="module-threading.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2201"
+ HREF="condition-objects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2209"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2210"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2212"
+ HREF="event-objects.html">7.5.5 Event Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2208"
+ HREF="module-threading.html">7.5 threading  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2202"
+ HREF="condition-objects.html">7.5.3 Condition Objects</A></span>
+<br><hr></div>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION009540000000000000000"></A>
+<BR>
+7.5.4 Semaphore Objects 
+</H2>
+
+<P>
+This is one of the oldest synchronization primitives in the history of
+computer science, invented by the early Dutch computer scientist
+Edsger W. Dijkstra (he used <tt class=method>P()</tt> and <tt class=method>V()</tt> instead of
+<tt class=method>acquire()</tt> and <tt class=method>release()</tt>).
+
+<P>
+A semaphore manages an internal counter which is decremented by each
+<tt class=method>acquire()</tt> call and incremented by each <tt class=method>release()</tt>
+call.  The counter can never go below zero; when <tt class=method>acquire()</tt>
+finds that it is zero, it blocks, waiting until some other thread
+calls <tt class=method>release()</tt>.
+
+<P>
+<dl><dt><b><a name="l2h-1334"><tt class=class>Semaphore</tt></a></b> (<big>[</big><var>value</var><big>]</big>)
+<dd>
+The optional argument gives the initial value for the internal
+counter; it defaults to <tt>1</tt>.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1335"><tt class=method>acquire</tt></a></b> (<big>[</big><var>blocking</var><big>]</big>)
+<dd>
+Acquire a semaphore.
+
+<P>
+When invoked without arguments: if the internal counter is larger than
+zero on entry, decrement it by one and return immediately.  If it is
+zero on entry, block, waiting until some other thread has called
+<tt class=method>release()</tt> to make it larger than zero.  This is done with
+proper interlocking so that if multiple <tt class=method>acquire()</tt> calls are
+blocked, <tt class=method>release()</tt> will wake exactly one of them up.  The
+implementation may pick one at random, so the order in which blocked
+threads are awakened should not be relied on.  There is no return
+value in this case.
+
+<P>
+When invoked with <var>blocking</var> set to true, do the same thing as
+when called without arguments, and return true.
+
+<P>
+When invoked with <var>blocking</var> set to false, do not block.  If a
+call without an argument would block, return false immediately;
+otherwise, do the same thing as when called without arguments, and
+return true.
+</dl>
+
+<P>
+<dl><dt><b><a name="l2h-1336"><tt class=method>release</tt></a></b> ()
+<dd>
+Release a semaphore,
+incrementing the internal counter by one.  When it was zero on
+entry and another thread is waiting for it to become larger
+than zero again, wake up that thread.
+</dl>
+
+<P>
+<p>
+<div class=navigation><hr><table align=center width="100%" cellpadding=0 cellspacing=2>
+<tr>
+<td><A NAME="tex2html2211"
+ HREF="event-objects.html"><img width=32 height=32 align=bottom border=0 alt="next"
+ src="../icons/next.gif"></A></td>
+<td><A NAME="tex2html2207"
+ HREF="module-threading.html"><img width=32 height=32 align=bottom border=0 alt="up"
+ src="../icons/up.gif"></A></td>
+<td><A NAME="tex2html2201"
+ HREF="condition-objects.html"><img width=32 height=32 align=bottom border=0 alt="previous"
+ src="../icons/previous.gif"></A></td>
+<td align=center bgcolor="#99CCFF" width="100%">
+ <b class=title>Python Library Reference</b></td>
+<td><A NAME="tex2html2209"
+ HREF="contents.html"><img width=32 height=32 align=bottom border=0 alt="contents"
+ src="../icons/contents.gif"></A></td>
+<td><a
+ href="modindex.html"><img width=32 height=32 align=bottom border=0 alt="modules"
+ src="../icons/modules.gif"></a></td>
+<td><A NAME="tex2html2210"
+ HREF="genindex.html"><img width=32 height=32 align=bottom border=0 alt="index"
+ src="../icons/index.gif"></A></td>
+</tr></table><b class=navlabel>Next:</b> <span class=sectref><A NAME="tex2html2212"
+ HREF="event-objects.html">7.5.5 Event Objects</A></span>
+<b class=navlabel>Up:</b> <span class=sectref><A NAME="tex2html2208"
+ HREF="module-threading.html">7.5 threading  </A></span>
+<b class=navlabel>Previous:</b> <span class=sectref><A NAME="tex2html2202"
+ HREF="condition-objects.html">7.5.3 Condition Objects</A></span>
+</div>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<hr>Send comments to <a href="mailto:python-docs@python.org">python-docs@python.org</a>.
+</ADDRESS>
+</BODY>
+</HTML>
