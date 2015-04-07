@@ -33,7 +33,7 @@ include_directories(lib/Python/include)
 
 # output .Bfont.c
 add_custom_command( 
-    OUTPUT ${CMAKE_SOURCE_DIR}/datafiles/.Bfont.c 
+    OUTPUT ${CMAKE_SOURCE_DIR}/datafiles/Bfont.c 
     COMMAND datatoc .Bfont
 	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/datafiles
     DEPENDS datatoc
@@ -57,7 +57,7 @@ add_custom_command(
 
 # output B.blend.c
 add_custom_command( 
-    OUTPUT ${CMAKE_SOURCE_DIR}/datafiles/.B.blend.c 
+    OUTPUT ${CMAKE_SOURCE_DIR}/datafiles/B.blend.c 
     COMMAND datatoc .B.blend
 	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/datafiles
     DEPENDS datatoc
@@ -83,4 +83,4 @@ add_custom_command(
 include_directories (./include)
 include_directories (./render/extern/include/)
 add_executable (blender ${CMAKE_BINARY_DIR}/dna.c  ${OB_DATA} ./src/usiblender.c) 
-target_link_libraries (blender bf_glut bf_edit bf_imbuf bf_avi bf_jpeg bf_misc bf_render ${OPENGL_LIBRARIES} ${PYTHON_LIBRARY})
+target_link_libraries (blender bf_glut bf_edit bf_imbuf bf_avi bf_jpeg bf_misc bf_render bf_sound ${OPENGL_LIBRARIES} ${PYTHON_LIBRARY})
