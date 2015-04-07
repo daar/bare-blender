@@ -36,7 +36,6 @@
 
 #include "blender.h"
 #include "graphics.h"	/* for keyvals */
-#include "sound.h"
 #include "game.h"
 
 /* ******************* SENSORS ************************ */
@@ -339,9 +338,6 @@ void init_actuator(bActuator *act)
 	act->data= 0;
 	
 	switch(act->type) {
-	case ACT_SOUND:
-		act->data= callocN(sizeof(bSoundActuator), "soundact");
-		break;
 	case ACT_OBJECT:
 		act->data= callocN(sizeof(bObjectActuator), "objectact");
 		oa= act->data;

@@ -320,12 +320,6 @@ typedef struct {
 #define B_SEQHOME		601
 #define B_SEQCLEAR		602
 
-/* SOUND: 650 */
-#define B_SOUNDBROWSE	651
-#define B_SOUNDLOAD		652
-#define B_SOUNDHOME		653
-
-
 #define B_NOTHING		-1
 #define B_NOP			-1
 
@@ -444,7 +438,6 @@ typedef struct {
 #define REDRAWPAINT	        0x402E
 #define REDRAWTEXT	        0x402F
 #define REDRAWBUTSSCRIPT	0x4030
-#define REDRAWSOUND			0x4031
 
 /* ***************** DISPLIST ***************** */
 
@@ -625,7 +618,6 @@ typedef struct {
 #define ID_SCR	MAKE_ID2('S', 'R')
 #define ID_VF	MAKE_ID2('V', 'F')
 #define ID_TXT	MAKE_ID2('T', 'X')
-#define ID_SO	MAKE_ID2('S', 'O')
 #define ID_GR	MAKE_ID2('G', 'R')
 
 #define ID_ID	MAKE_ID2('I', 'D')

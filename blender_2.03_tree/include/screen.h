@@ -71,7 +71,6 @@
 #define SPACE_SEQ		8
 #define SPACE_TEXT		9
 #define SPACE_IMASEL	10
-#define SPACE_SOUND		11
 #define SPACE_LOGIC		12
 #define SPACE_PAINT		13
 

@@ -34,7 +34,6 @@
 #include "blender.h"
 #include "graphics.h"
 #include "render.h"
-#include "sound.h"
 #include "interface.h"
 
 #ifdef __sgi
@@ -442,10 +441,6 @@ void areawinset(short win)
 			G.stext= curarea->spacedata.first;
 			break;
 
-		case SPACE_SOUND:
-			G.ssound= curarea->spacedata.first;
-			G.v2d= &G.ssound->v2d;
-			break;
 		}
 	}
 	
@@ -530,9 +525,6 @@ void defheaddraw()
 		break;
 	case SPACE_TEXT:
 		text_buttons();
-		break;
-	case SPACE_SOUND:
-		sound_buttons();
 		break;
 	}
 	curarea->head_swap= WIN_BACK_OK;

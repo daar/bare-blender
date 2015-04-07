@@ -93,7 +93,6 @@
 #include "imasel.h"
 #include "datatoc.h"
 #include "text.h"
-#include "sound.h"
 #include "game.h"
 #include "group.h"
 
@@ -1513,11 +1512,7 @@ void lib_link_object(Main *main)
 			
 			act= ob->actuators.first;
 			while(act) {
-				if(act->type==ACT_SOUND) {
-					bSoundActuator *sa= act->data;
-					sa->sound= newlibadr_us(ob->id.lib, sa->sound);
-				}
-				else if(act->type==ACT_CAMERA) {
+				if(act->type==ACT_CAMERA) {
 					bCameraActuator *ca= act->data;
 					ca->ob= newlibadr(ob->id.lib, ca->ob);
 				}
@@ -1856,12 +1851,7 @@ void lib_link_screen(Main *main)
 							oops= oops->next;
 						}
 						so->lockpoin= 0;
-					}
-					else if(v3d->spacetype==SPACE_SOUND) {
-						SpaceSound *ssound= (SpaceSound *)v3d;
-						
-						ssound->sound= newlibadr_us(sc->id.lib, ssound->sound);
-					}
+					}					
 					v3d= v3d->next;
 				}
 				sa= sa->next;
@@ -1973,32 +1963,6 @@ void lib_link_library(Main *main)
 		lib= lib->id.next;
 	}
 
-}
-
-/* ************** READ SOUND ******************* */
-
-void direct_link_sound(bSound *sound)
-{
-	sound->data= NULL;
-	sound->alindex = -1;
-
-	sound->packedfile = newadr(sound->packedfile);
-	if (sound->packedfile) {
-		sound->packedfile->data = newadr(sound->packedfile->data);
-	}
-}
-
-void lib_link_sound(Main *main)
-{
-	bSound *sound;
-	
-	sound= main->sound.first;
-	while(sound) {
-		if(sound->id.flag & LIB_NEEDLINK) {
-			sound->id.flag -= LIB_NEEDLINK;
-		}
-		sound= sound->id.next;
-	}
 }
 
 /* ***************** READ GROUP *************** */
@@ -2175,9 +2139,6 @@ int read_libblock(Main *main, BHead *bhead, int flag)
 			break;
 		case ID_CA:
 			direct_link_camera((Camera *)id);
-			break;
-		case ID_SO:
-			direct_link_sound((bSound *)id);
 			break;
 		case ID_GR:
 			direct_link_group((Group *)id);
@@ -2745,7 +2706,6 @@ void do_versions(Main *main)
 		}
 		
 		strcpy(U.plugtexdir, U.textudir);
-		strcpy(U.sounddir, "/");
 	}
 	
 	if(main->versionfile <=193) {
@@ -2871,7 +2831,6 @@ void lib_link_all(Main *main)
 	lib_link_latt(main);
 	lib_link_ika(main);
 	lib_link_camera(main);
-	lib_link_sound(main);
 	lib_link_group(main);
 
 	// No lib_link_vfont ???
@@ -3737,8 +3696,6 @@ void expand_main(Main *main, char *filedata)
 						break;
 					case ID_TXT:
 						expand_text(main, filedata, (Text *)id);
-						break;
-					case ID_SO:
 						break;
 					}
 

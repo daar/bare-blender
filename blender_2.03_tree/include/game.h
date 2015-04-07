@@ -135,7 +135,6 @@
 #define ACT_LAMP		2
 #define ACT_CAMERA		3
 #define ACT_MATERIAL	4
-#define ACT_SOUND		5
 #define ACT_PROPERTY	6
 	/* these two obsolete since 2.02 */
 #define ACT_ADD_OBJECT	7
@@ -322,12 +321,6 @@ typedef struct bAddObjectActuator {
 	int time, pad;
 	Object *ob;
 } bAddObjectActuator;
-
-typedef struct bSoundActuator {
-	short flag, sndnr;
-	float volume;
-	struct bSound *sound;
-} bSoundActuator;
 
 typedef struct bEditObjectActuator {
 	int time;

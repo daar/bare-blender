@@ -39,7 +39,6 @@
 #include "render.h"
 #include "text.h"
 #include "packedFile.h"
-#include "sound.h"
 #include "render.h"
 #include "group.h"
 
@@ -81,9 +80,6 @@ static int std_libbuttons(uiBlock *block, int xco, int lock, int browse, ID *id,
 			ob= OBACT;
 			if(curarea->spacetype==SPACE_IMAGE) {
 				id= G.main->image.first;
-			}
-			else if(curarea->spacetype==SPACE_SOUND) {
-				id= G.main->sound.first;
 			}
 			else if(curarea->spacetype==SPACE_IPO) {
 				id= G.main->ipo.first;
@@ -250,7 +246,6 @@ void do_global_buttons(ushort event)
 		allqueue(REDRAWIPO, 0);
 		allqueue(REDRAWINFO, 1);
 		allqueue(REDRAWSEQ, 1);
-		allqueue(REDRAWSOUND, 1);
 		allqueue(REDRAWBUTSHEAD, 1);
 		allqueue(REDRAWBUTSMAT, 1);
 		allqueue(REDRAWBUTSLAMP, 1);
@@ -3104,122 +3099,8 @@ void text_buttons()
 
 
 /* ******************** TEXT  ********************** */
-/* ******************** SOUND ********************** */
-
-void load_space_sound(char *str)	/* called from fileselect */
-{
-	bSound *sound;
-	
-	sound= add_sound(str);
-	if(sound) {
-		
-		G.ssound->sound= sound;
-		
-	}
-	allqueue(REDRAWSOUND, 0);
-	allqueue(REDRAWBUTSGAME, 0);
-}
 
 
-void do_sound_buttons(ushort event)
-{
-	ID *id, *idtest;
-	int nr;
-	char name[256];
-	
-	switch(event) {
-
-	case B_SOUNDBROWSE:	
-		if(G.ssound->sndnr== -2) {
-			activate_databrowse((ID *)G.ssound->sound, ID_SO, 0, B_SOUNDBROWSE, do_sound_buttons);
-			return;
-		}
-		if(G.ssound->sndnr < 0) break;
-	
-		nr= 1;
-		id= (ID *)G.ssound->sound;
-
-		idtest= G.main->sound.first;
-		while(idtest) {
-			if(nr==G.ssound->sndnr) {
-				break;
-			}
-			nr++;
-			idtest= idtest->next;
-		}
-		if(idtest==0) {	/* geen new */
-			return;
-		}
-	
-		if(idtest!=id) {
-			G.ssound->sound= (bSound *)idtest;
-			if(idtest->us==0) idtest->us= 1;
-			allqueue(REDRAWSOUND, 0);
-		}
-		
-		break;
-	case B_SOUNDLOAD:
-		if(G.ssound->sound) strcpy(name, G.ssound->sound->name);
-		else strcpy(name, U.sounddir);
-		
-		activate_fileselect(FILE_SPECIAL, "SELECT WAV FILE", name, load_space_sound);
-		
-		break;
-		
-	case B_SOUNDHOME:
-	
-		G.v2d->cur= G.v2d->tot;
-		test_view2d();
-		addqueue(curarea->win, REDRAW, 1);
-		break;
-	}
-}
-
-void sound_buttons()
-{
-	uiBlock *block;
-	int xco;
-	char naam[256];
-	char *str;
-	
-	sprintf(naam, "header %d", curarea->headwin);
-	block= uiNewBlock(&curarea->uiblocks, naam, UI_EMBOSSX, UI_HELV, 0x808080, curarea->headwin);
-	block->col= BUTYELLOW;
-
-	uiDefBut(block, ICONROW|CHA,B_NEWSPACE, "ICON 0 0 0", 6,0,XIC,YIC, &(curarea->butspacetype), 1.0, 11.0, 0, 0, "Current window type");
-
-	/* FULL WINDOW */
-	xco= 25;
-	if(curarea->full) uiDefBut(block, BUT,B_FULL, "ICON 0 1 8",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Restore smaller windows (CTRL+Up arrow)");
-	else uiDefBut(block, BUT,B_FULL, "ICON 0 0 8",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Make fullscreen window (CTRL+Down arrow)");
-	uiDefBut(block, BUT, B_SOUNDHOME, "ICON 0 15 0",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Home (HOMEKEY)");
-
-	xco= std_libbuttons(block, xco+40, 0, B_SOUNDBROWSE, (ID *)G.ssound->sound, 0, &(G.ssound->sndnr), 1, 0, 0, 0);	
-
-	uiDefBut(block, BUT, B_SOUNDLOAD, "Load",		xco,0,2*XIC,YIC, 0, 0, 0, 0, 0, "Load Sound (wav file)");
-	xco+= 2*XIC;
-
-
-	if(G.ssound->sound) {
-		bSound *sound= G.ssound->sound;
-		if(sound->channels==2)
-			sprintf(naam, "WAV: %d kHz  Stereo  %d bits", sound->rate, sound->bits);
-		else 
-			sprintf(naam, "WAV: %d kHz  Mono  %d bits", sound->rate, sound->bits);
-		
-		cpack(0x0);
-		glRasterPos2i(xco+10, 5);
-		fmprstr(naam);
-	}
-
-	/* always as last  */
-	curarea->headbutlen= xco+2*XIC;
-
-	uiDrawBlock(block);
-}
-
-
-/* ******************** SOUND  ********************** */
 /* ******************** IMAGE ********************** */
 
 void load_space_image(char *str)	/* aangeroepen vanuit fileselect */
@@ -3555,7 +3436,6 @@ void do_headerbuttons(short event)
 	else if(event<550) do_text_buttons(event);
 	else if(event<600) do_file_buttons(event);
 	else if(event<650) do_seq_buttons(event);
-	else if(event<700) do_sound_buttons(event);
 
 }
 

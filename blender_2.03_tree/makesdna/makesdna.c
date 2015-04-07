@@ -39,7 +39,6 @@ char *includefiles[] = {
     "imasel.h",
     "game.h",
     "old_game.h",
-    "sound.h",
     "group.h",
 	
 	// empty string to indicate end of includefiles

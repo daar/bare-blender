@@ -34,7 +34,6 @@
 #include "blender.h"
 #include "graphics.h"
 #include "interface.h"
-#include "sound.h"
 #include "game.h"
 
 #define B_DIFF			1
@@ -53,7 +52,6 @@
 #define B_CHANGE_ACT	2710
 #define B_DEL_ACT		2711
 
-#define B_SOUNDACT_BROWSE	2712
 #define B_SETSECTOR			2713
 #define B_SETPROP			2714
 #define B_SETACTOR			2715
@@ -458,44 +456,7 @@ void do_gamebuts(ushort event)
 			base= base->next;
 		}
 		allqueue(REDRAWBUTSGAME, 0);
-		break;
-	
-	case B_SOUNDACT_BROWSE:
-		/* since we don't know which... */
-		didit= 0;
-		base= FIRSTBASE;
-		while(base) {
-			act= base->object->actuators.first;
-			while(act) {
-				if(act->type==ACT_SOUND) {
-					bSoundActuator *sa= act->data;
-					if(sa->sndnr) {
-						bSound *sound= G.main->sound.first;
-						int nr= 1;
-
-						while(sound) {
-							if(nr==sa->sndnr) break;
-							nr++;
-							sound= sound->id.next;
-						}
-						
-						if(sa->sound) sa->sound->id.us--;
-						sa->sound= sound;
-						if(sound) sound->id.us++;
-						
-						sa->sndnr= 0;
-						didit= 1;
-					}
-				}
-				act= act->next;
-			}
-			if(didit) break;
-			base= base->next;
-		}
-		allqueue(REDRAWBUTSGAME, 0);
-		allqueue(REDRAWSOUND, 0);
-
-		break;
+		break;	
 
 	case B_SETSECTOR:
 		/* check for inconsistant types */
@@ -585,8 +546,6 @@ char *actuator_name(int type)
 		return "Camera";
 	case ACT_MATERIAL:
 		return "Material";
-	case ACT_SOUND:
-		return "Sound";
 	case ACT_PROPERTY:
 		return "Property";
 	case ACT_EDIT_OBJECT:
@@ -603,7 +562,7 @@ char *actuator_name(int type)
 
 char *actuator_pup()
 {
-	return "Actuators  %t|Object %x0|Constraint %x9|Ipo %x1|Camera %x3|Sound %x5|Property %x6|Edit Object %x10|Scene %x11|Group %x12";
+	return "Actuators  %t|Object %x0|Constraint %x9|Ipo %x1|Camera %x3|Property %x6|Edit Object %x10|Scene %x11|Group %x12";
 }
 
 void set_sca_ob(Object *ob)
@@ -1118,8 +1077,6 @@ uint get_col_actuator(int type, int medium)
 			return(UIcol[BUTYELLOW].medium);
 		case ACT_PROPERTY:
 			return(UIcol[BUTBLUE].medium);
-		case ACT_SOUND:
-			return(UIcol[BUTSALMON].medium);
 		case ACT_CAMERA:
 			return(UIcol[BUTGREY].medium);
 		case ACT_EDIT_OBJECT:
@@ -1140,8 +1097,6 @@ uint get_col_actuator(int type, int medium)
 			return(UIcol[BUTYELLOW].grey);
 		case ACT_PROPERTY:
 			return(UIcol[BUTBLUE].grey);
-		case ACT_SOUND:
-			return(UIcol[BUTSALMON].grey);
 		case ACT_CAMERA:
 			return(UIcol[BUTGREY].grey);
 		case ACT_EDIT_OBJECT:
@@ -1163,7 +1118,6 @@ short draw_actuatorbuttons(bActuator *act, uiBlock *block, short xco, short yco,
 	extern void test_obpoin_but();
 	extern void test_meshpoin_but();
 	extern void test_scenepoin_but();
-	bSoundActuator *sa=NULL;
 	bObjectActuator *oa=NULL;
 	bIpoActuator *ia=NULL;
 	bPropertyActuator *pa= NULL;
@@ -1282,34 +1236,6 @@ short draw_actuatorbuttons(bActuator *act, uiBlock *block, short xco, short yco,
 		}
 		yco-= ysize;
         
-		break;
-    case ACT_SOUND:
-		ysize= 34;
-		
-		glRects(xco, yco-ysize, xco+width, yco);
-		uiEmbossW(&UIcol[MIDGREY], block->aspect, (float)xco, (float)yco-ysize, (float)xco+width, (float)yco, 1);
-
-		sa= act->data;
-		sa->sndnr= 0;
-
-		IDnames_to_pupstring_title("Sound files", &str, &(G.main->sound), (ID *)sa->sound, &(sa->sndnr));
-		if(str[0]) {
-			/* reset this value, it is for handling the event */
-			sa->sndnr= 0;
-			uiDefBut(block, MENU|SHO, B_SOUNDACT_BROWSE, str, xco+10,yco-24,20,19, &(sa->sndnr), 0, 0, 0, 0, "");
-			
-			if(sa->sound) 
-				uiDefBut(block, TEX, B_IDNAME, "SO:",	xco+30,yco-24,width-40,19, sa->sound->id.name+2, 0.0, 18.0, 0, 0, "");
-
-		}
-		else {
-			uiDefBut(block, LABEL, 0, "Use Sound window to load files", xco, yco-24, width, 19, NULL, 0, 0, 0, 0, "");
-		}
-
-		freeN(str);
-
-		yco-= ysize;
-		
 		break;
 		
 	case ACT_CAMERA:

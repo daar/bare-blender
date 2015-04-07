@@ -34,7 +34,6 @@
 #include "blender.h"
 #include "screen.h"
 #include "render.h"
-#include "sound.h"
 #include "group.h"
 #include "ika.h"
 
@@ -110,8 +109,6 @@ ListBase *wich_libbase(Main *main, short type)
 			return &(main->vfont);
 		case ID_TXT:
 			return &(main->text);
-		case ID_SO:
-			return &(main->sound);
 		case ID_GR:
 			return &(main->group);
 	}
@@ -146,9 +143,8 @@ int set_listbasepointers(Main *main, ListBase **lb)
 	lb[18]= &(main->library);
 
 	lb[19]= &(main->text);
-	lb[20]= &(main->sound);
-	lb[21]= &(main->group);
-	return 22;
+	lb[20]= &(main->group);
+	return 21;
 }
 
 /* *********** ALLOC EN FREE *****************
@@ -230,11 +226,8 @@ ID *alloc_libblock_notest(short type)
 		case ID_TXT:
 			id= callocN(sizeof(Text), "text");
 			break;
-		case ID_SO:
-			id= callocN(sizeof(bSound), "sound");
-			break;
 		case ID_GR:
-			id= callocN(sizeof(Group), "sound");
+			id= callocN(sizeof(Group), "group");
 			break;
 	}
 	return id;
@@ -353,9 +346,6 @@ void free_libblock(ListBase *lb, void *idv)
 			break;
 		case ID_TXT:
 			free_text((Text *)id);
-			break;
-		case ID_SO:
-			free_sound((bSound *)id);
 			break;
 		case ID_GR:
 			free_group((Group *)id);

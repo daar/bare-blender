@@ -122,7 +122,7 @@ void calc_ipogrid()
 	ipogrid_dx= IPOSTEP*space/pixels;
 	step_to_grid(&ipogrid_dx, &ipomachtx);
 	
-	if ELEM(curarea->spacetype, SPACE_SEQ, SPACE_SOUND) {
+	if (curarea->spacetype == SPACE_SEQ) {
 		if(ipogrid_dx < 0.1) ipogrid_dx= 0.1;
 		ipomachtx-= 2;
 		if(ipomachtx<-2) ipomachtx= -2;
@@ -132,7 +132,7 @@ void calc_ipogrid()
 	pixels= curarea->winy;
 	ipogrid_dy= IPOSTEP*space/pixels;
 	step_to_grid(&ipogrid_dy, &ipomachty);
-	if ELEM(curarea->spacetype, SPACE_SEQ, SPACE_SOUND) {
+	if (curarea->spacetype == SPACE_SEQ) {
 		if(ipogrid_dy < 1.0) ipogrid_dy= 1.0;
 		if(ipomachty<1) ipomachty= 1;
 	}
@@ -155,8 +155,7 @@ void draw_ipogrid()
 	
 	step= (G.v2d->mask.xmax-G.v2d->mask.xmin+1)/IPOSTEP;
 
-	if(curarea->spacetype==SPACE_SOUND) glColor3ub(0x70, 0x70, 0x60);
-	else glColor3ub(0x40, 0x40, 0x40);
+	glColor3ub(0x40, 0x40, 0x40);
 	
 	for(a=0; a<step; a++) {
 		glBegin(GL_LINE_STRIP);
@@ -167,8 +166,7 @@ void draw_ipogrid()
 	
 	vec2[0]= vec1[0]-= 0.5*ipogrid_dx;
 
-	if(curarea->spacetype==SPACE_SOUND) glColor3ub(0x80, 0x80, 0x70);
-	else glColor3ub(0x50, 0x50, 0x50);
+	glColor3ub(0x50, 0x50, 0x50);
 
 	step++;
 	for(a=0; a<=step; a++) {
@@ -178,7 +176,7 @@ void draw_ipogrid()
 		vec2[0]= vec1[0]-= ipogrid_dx;
 	}
 
-	if(curarea->spacetype!=SPACE_SOUND) {
+	{
 		
 		vec1[0]= ipogrid_startx;
 		vec1[1]= vec2[1]= ipogrid_starty;
@@ -632,11 +630,7 @@ void drawscroll(int disptype)
 				tim= ffloor(fac2);
 				fac2= fac2-tim;
 				scroll_prstr(fac, 3.0+(float)(hor.ymin), tim+G.scene->r.frs_sec*fac2/100.0, 'h', disptype);
-			}
-			else if(curarea->spacetype==SPACE_SOUND) {
-				fac2= val/(float)G.scene->r.frs_sec;
-				scroll_prstr(fac, 3.0+(float)(hor.ymin), fac2, 'h', disptype);
-			}
+			}			
 			else scroll_prstr(fac, 3.0+(float)(hor.ymin), val, 'h', disptype);
 			
 			fac+= dfac;
@@ -1420,7 +1414,7 @@ void view2dzoom()
 			
 			G.v2d->cur.xmin+= dx;
 			G.v2d->cur.xmax-= dx;
-			if(curarea->spacetype!=SPACE_SEQ && curarea->spacetype!=SPACE_SOUND) {
+			if(curarea->spacetype!=SPACE_SEQ) {
 				G.v2d->cur.ymin+= dy;
 				G.v2d->cur.ymax-= dy;
 			}
@@ -1452,7 +1446,7 @@ int view2dmove()
 	/* testen waar muis is */
 	getmouseco_areawin(mvalo);
 	
-	if ELEM4(curarea->spacetype, SPACE_IPO, SPACE_SEQ, SPACE_OOPS, SPACE_SOUND) {
+	if ELEM3(curarea->spacetype, SPACE_IPO, SPACE_SEQ, SPACE_OOPS) {
 	
 		if( in_rcti(&G.v2d->mask, (int)mvalo[0], (int)mvalo[1]) ) {
 			facx= (G.v2d->cur.xmax-G.v2d->cur.xmin)/(float)(G.v2d->mask.xmax-G.v2d->mask.xmin);
@@ -1481,9 +1475,6 @@ int view2dmove()
 		facx= (G.v2d->cur.xmax-G.v2d->cur.xmin)/(float)(curarea->winx);
 		facy= (G.v2d->cur.ymax-G.v2d->cur.ymin)/(float)(curarea->winy);		
 	}
-	
-	/* no y move in audio */
-	if(curarea->spacetype==SPACE_SOUND) facy= 0.0;
 	
 	if(get_mbut()&L_MOUSE && leftret) return 0;
 	if(facx==0.0 && facy==0.0) return 1;

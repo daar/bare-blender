@@ -422,13 +422,7 @@ int blenderqread(ushort event, short val)
 		return 0;
 		break;
 	case F12KEY:
-		if(G.qual & LR_SHIFTKEY) {
-			addqueue(curarea->headwin, REDRAW, 1);
-			curarea->butspacetype= SPACE_SOUND;
-			do_global_buttons(B_NEWSPACE);
-			return 0;
-		}
-		else RE_do_renderfg(0);
+		RE_do_renderfg(0);
 		return 0;
 		break;
 	

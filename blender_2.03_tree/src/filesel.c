@@ -33,7 +33,6 @@
 #include "file.h"
 #include "imasel.h"
 #include "interface.h"
-#include "sound.h"
 
 #if defined WIN32 || defined MIPS1 || defined __BeOS
 	int fnmatch(){return 0;}
@@ -1423,7 +1422,6 @@ void filesel_execute(SpaceFile *sfile)
 			else if(sfile->retval==B_INFOSCE) menup= &G.curscreen->scenenr;
 			else if(sfile->retval==B_INFOSCR) menup= &G.curscreen->screennr;
 			else if(sfile->retval==B_SIMABROWSE) menup= &G.sima->imanr;
-			else if(sfile->retval==B_SOUNDBROWSE) menup= &G.ssound->sndnr;
 			else menup= &G.buts->menunr;
 			
 			if(sfile->act>=0) {
@@ -2022,7 +2020,6 @@ int groupname_to_code(char *group)
 	if(strncmp(group, "Screen", 6)==0) return ID_SCR;
 	if(strncmp(group, "VFont", 5)==0) return ID_VF;
 	if(strncmp(group, "Text", 4)==0) return ID_TXT;
-	if(strncmp(group, "Sound", 4)==0) return ID_SO;
 	return 0;	
 }
 
@@ -2050,7 +2047,6 @@ char *code_to_groupname(int code)
 		case ID_TXT: str= "Text/"; break;
 		case ID_SCR: str= "Screen/"; break;
 		case ID_VF: str= "Vfont/"; break;
-		case ID_SO: str= "Sound/"; break;
 		default: str= "";
 	}
 	return str;
@@ -2212,7 +2208,6 @@ void library_to_filelist(SpaceFile *sfile)
 					case ID_LA: str= "Lamp"; break;
 					case ID_CA: str= "Camera"; break;
 					case ID_VF: str= "VFont"; break;
-					case ID_SO: str= "Sound"; break;
 					default: str=0; actual--;
 						*( (short *)group)= libdir[a-2];
 						group[3]= 0;

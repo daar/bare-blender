@@ -258,7 +258,6 @@ char **argv;
 	extern int DNAlen;
 	int a, i, stax, stay, sizx, sizy;
 	char *cp, tstr[100];
-	extern int noaudio;
 	
 #ifdef WIN32	
 	extern short forceborderless; /* To allow borderless on Windows */
@@ -354,7 +353,6 @@ char **argv;
 				
 				printf ("\nMisc options:\n");
 				printf ("  -d\t\tTurn debugging on\n");
-				printf ("  -noaudio\tDisable audio on systems that support audio\n");
 				printf ("  -h\t\tPrint this help text\n");
 				printf ("  -y\t\tDisable OnLoad scene scripts, use -Y to find out why its -y\n");
 
@@ -432,12 +430,6 @@ char **argv;
 				case 'w':
 					borderless=0;
 					break;
-				case 'n':
-				case 'N':
-					if (strcasecmp(argv[a], "-noaudio") == 0) {
-						noaudio = !noaudio;
-					}
-					break;
 
 #ifdef WIN32					
 				case 'W':
@@ -450,11 +442,6 @@ char **argv;
 
 		start_python();
 		
-		/* NOTE: initialize_sound *must be* after start_python,
-		 * at least on FreeBSD */
-
-		initialize_sound(&argc, argv);
-
 		initpatterns();
 		initscreen();	/* voor (visuele) snelheid, dit eerst, dan setscreen */
 		initcursors();

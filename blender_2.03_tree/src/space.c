@@ -32,7 +32,6 @@
 #include "sequence.h"
 #include "graphics.h"
 #include "interface.h"
-#include "sound.h"
 #include "render.h"
 
 extern void defheaddraw();	/* screen.c */
@@ -967,7 +966,6 @@ void drawinfospace()
 	uiDefBut(block, TEX, 0, "Textures:",	45+2*dx,60,dx,20, U.textudir, 1.0, 63.0, 0, 0, "The default directory to search when loading textures");
 	uiDefBut(block, TEX, 0, "TexPlugin:",	45+3*dx,60,dx,20, U.plugtexdir, 1.0, 63.0, 0, 0, "The default directory to search when loading sequence plugins");
 	uiDefBut(block, TEX, 0, "SeqPlugin:",	45+4*dx,60,dx,20, U.plugseqdir, 1.0, 63.0, 0, 0, "The default directory to search when loading sequence plugins");
-	uiDefBut(block, TEX, 0, "Sounds:",		45+5*dx,60,dx,20, U.sounddir, 1.0, 63.0, 0, 0, "The default directory to search when loading sequence plugins");
 
 	uiDrawBlock(block);
 }
@@ -1390,57 +1388,6 @@ void init_filespace(ScrArea *sa)
 	sfile->spacetype= SPACE_FILE;
 }
 
-/* ******************** SPACE: SOUND ********************** */
-
-extern void drawsoundspace();
-extern void winqreadsoundspace(ushort, short);
-
-
-void init_soundspace(ScrArea *sa)
-{
-	SpaceSound *ssound;
-	
-	ssound= callocN(sizeof(SpaceSound), "initsoundspace");
-	addhead(&sa->spacedata, ssound);
-
-	set_func_space(sa);
-	ssound->spacetype= SPACE_SOUND;
-	
-	/* sound space loopt van (0,8) tot (250, 0) */
-
-	ssound->v2d.tot.xmin= -4.0;
-	ssound->v2d.tot.ymin= -4.0;
-	ssound->v2d.tot.xmax= 250.0;
-	ssound->v2d.tot.ymax= 255.0;
-	
-	ssound->v2d.cur.xmin= -4.0;
-	ssound->v2d.cur.ymin= -4.0;
-	ssound->v2d.cur.xmax= 50.0;
-	ssound->v2d.cur.ymax= 255.0;
-
-	ssound->v2d.min[0]= 1.0;
-	ssound->v2d.min[1]= 259.0;
-
-	ssound->v2d.max[0]= 32000.0;
-	ssound->v2d.max[1]= 259;
-	
-	ssound->v2d.minzoom= 0.1;
-	ssound->v2d.maxzoom= 10.0;
-	
-	ssound->v2d.scroll= B_SCROLL;
-	ssound->v2d.keepaspect= 0;
-	ssound->v2d.keepzoom= 0;
-	ssound->v2d.keeptot= 0;
-	
-}
-
-void free_soundspace(SpaceSound *ssound)
-{
-	/* don't free ssound itself */
-	
-	
-}
-
 /* ******************** SPACE: IMAGE ********************** */
 
 extern void drawimagespace();
@@ -1756,9 +1703,6 @@ void newspace(ScrArea *sa, int type)
 			else if(type==SPACE_TEXT) {
 				init_textspace(sa);
 			}
-			else if(type==SPACE_SOUND) {
-				init_soundspace(sa);
-			}
 		}
 	}
 }
@@ -1807,9 +1751,6 @@ void freespacelist(ListBase *lb)
 		}
 		else if(sfile->spacetype==SPACE_TEXT) {
 			free_textspace(sfile);
-		}
-		else if(sfile->spacetype==SPACE_SOUND) {
-			free_soundspace((SpaceSound *)sfile);
 		}
 		sfile= sfile->next;
 	}
@@ -1969,12 +1910,6 @@ void set_func_space(ScrArea *sa)
 	case SPACE_TEXT:
 		sa->windraw= drawtextspace;
 		sa->winqread= ( void (*)() )winqreadtextspace;
-		break;
-		
-	case SPACE_SOUND:
-		sa->windraw= drawsoundspace;
-		sa->winqread= ( void (*)() )winqreadsoundspace;
-
 		break;
 		
 	}
@@ -2190,12 +2125,6 @@ void allqueue(ushort event, short val)
 				break;
 			case REDRAWTEXT:
 				if(sa->spacetype==SPACE_TEXT) {
-					addqueue(sa->win, REDRAW, 1);
-				}
-				break;
-			case REDRAWSOUND:
-				if(sa->spacetype==SPACE_SOUND) {
-					addqueue(sa->headwin, REDRAW, 1);
 					addqueue(sa->win, REDRAW, 1);
 				}
 				break;

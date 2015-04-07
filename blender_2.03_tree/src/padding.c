@@ -33,7 +33,6 @@
 #include "imasel.h"
 #include "sector.h"
 #include "game.h"
-#include "sound.h"
 #include "iff.h"
 
 
@@ -155,13 +154,10 @@ printf("  bController 104 %d \n",  sizeof(struct bController) );
 printf("  bExpressionCont 128 %d \n",  sizeof(struct bExpressionCont) );
 printf("  bActuator 80 %d \n",  sizeof(struct bActuator) );
 printf("  bAddObjectActuator 16 %d \n",  sizeof(struct bAddObjectActuator) );
-printf("  bSoundActuator 16 %d \n",  sizeof(struct bSoundActuator) );
-printf("  bSound 264 %d \n",  sizeof(struct bSound) );
 printf("  bPropertyActuator 72 %d \n",  sizeof(struct bPropertyActuator) );
 printf("  bObjectActuator 80 %d \n",  sizeof(struct bObjectActuator) );
 printf("  bIpoActuator 48 %d \n",  sizeof(struct bIpoActuator) );
 printf("  bCameraActuator 32 %d \n",  sizeof(struct bCameraActuator) );
 printf("  bConstraintActuator 56 %d \n",  sizeof(struct bConstraintActuator) );
-printf("  SpaceSound 156 %d \n",  sizeof(struct SpaceSound) );
 }
 

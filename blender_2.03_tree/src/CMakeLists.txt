@@ -7,7 +7,7 @@ ENDIF(WIN32)
 
 set(OB_EDIT edit.c editcurve.c editfont.c editipo.c 
 	editmesh.c editobject.c isect.c scanfill.c editface.c
-	editsound.c sector.c life.c editgroup.c)
+	sector.c life.c editgroup.c)
 
 set(OB_GRAPHICS buttons.c drawimage.c 
 	drawimasel.c drawipo.c displist.c 
@@ -18,7 +18,7 @@ set(OB_GRAPHICS buttons.c drawimage.c
 	editseq.c editsima.c editview.c filesel.c 
 	headerbuttons.c mywindow.c os_specific.c playanim.c 
 	screen.c space.c toets.c 
-	toolbox.c view.c view2d.c drawsound.c 
+	toolbox.c view.c view2d.c 
 	vpaint.c interface.c editsca.c packedFile.c)
 
 set(OB_FILE genfile.c fileops.c readfile.c writefile.c)

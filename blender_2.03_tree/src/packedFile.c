@@ -24,7 +24,6 @@
 
 #include "blender.h"
 #include "file.h"
-#include "sound.h"
 #include "packedFile.h"
 #include "render.h"
 
@@ -89,7 +88,6 @@ int countPackedFiles()
 	int count = 0;
 	Image * ima;
 	VFont * vf;
-	bSound * bs;
 	
 	// let's check if there are packed files...
 	ima = G.main->image.first;
@@ -106,14 +104,6 @@ int countPackedFiles()
 			count++;
 		}
 		vf = vf->id.next;
-	}
-
-	bs = G.main->sound.first;
-	while (bs) {
-		if (bs->packedfile) {
-			count++;
-		}
-		bs = bs->id.next;
 	}
 
 	return(count);
@@ -185,7 +175,6 @@ void packAll()
 {
 	Image *ima;
 	VFont *vf;
-	bSound *bs;
 	
 	ima = G.main->image.first;
 	while (ima) {
@@ -201,15 +190,6 @@ void packAll()
 			vf->packedfile = newPackedFile(vf->name);
 		}
 		vf = vf->id.next;
-	}
-
-
-	bs = G.main->sound.first;
-	while (bs) {
-		if (bs->packedfile == NULL) {
-			bs->packedfile = newPackedFile(bs->name);
-		}
-		bs = bs->id.next;
 	}
 
 	allqueue(REDRAWINFO, 0);
@@ -491,28 +471,6 @@ int unpackVFont(VFont * vfont, int how)
 	return (ret_value);
 }
 
-int unpackSound(bSound * bs, int how)
-{
-	char localname[FILE_MAXDIR + FILE_MAXFILE];
-	char * newname;
-	int ret_value = RET_ERROR;
-	
-	if (bs != NULL) {
-		sprintf(localname, "//sounds/%s", bs->id.name + 2);
-		
-		newname = unpackFile(bs->name, localname, bs->packedfile, how);
-		if (newname != NULL) {
-			ret_value = RET_OK;
-			freePackedFile(bs->packedfile);
-			bs->packedfile = 0;
-			strcpy(bs->name, newname);
-			freeN(newname);
-		}
-	}
-	
-	return(ret_value);
-}
-
 int unpackImage(Image * ima, int how)
 {
 	char localname[FILE_MAXDIR + FILE_MAXFILE];
@@ -540,7 +498,6 @@ void unpackAll(int how)
 {
 	Image *ima;
 	VFont *vf;
-	bSound *bs;
 		
 	ima = G.main->image.first;
 	while (ima) {
@@ -556,14 +513,6 @@ void unpackAll(int how)
 			unpackVFont(vf, how);
 		}
 		vf = vf->id.next;
-	}
-
-	bs = G.main->sound.first;
-	while (bs) {
-		if (bs->packedfile) {
-			unpackSound(bs, how);
-		}
-		bs = bs->id.next;
 	}
 }
 

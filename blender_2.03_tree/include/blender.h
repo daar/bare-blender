@@ -187,7 +187,6 @@ typedef struct Main {
 	ListBase screen;
 	ListBase vfont;
 	ListBase text;
-	ListBase sound;
 	ListBase group;
 } Main;
 
@@ -876,10 +875,6 @@ typedef struct World {
 } World;
 
 
-/* **************** SOUND ********************* */
-
-/* in sound.h */
-
 /* **************** GROUP ********************* */
 
 /* in group.h */
@@ -1195,7 +1190,6 @@ typedef struct UserDef {
 	char textudir[64];
 	char plugtexdir[64];
 	char plugseqdir[64];
-	char sounddir[64];
 	short versions, rt;
 } UserDef;
 
@@ -1212,7 +1206,6 @@ typedef struct Global {
     SpaceImage *sima;
     SpaceOops *soops;
     SpaceText *stext;
-    struct SpaceSound *ssound;
     Main *main;
     Scene *scene;				/* denk aan file.c */
     struct bScreen *curscreen;

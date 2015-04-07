@@ -35,7 +35,6 @@
 #include "ipo.h"
 #include "group.h"
 #include "sector.h"
-#include "sound.h"
 
 extern Object *Glifebuf[LF_MAXLIFE];
 extern Object *Gsectorbuf[256], *Gcursector;
@@ -1494,7 +1493,6 @@ void activate_actuator(bActuator *act, short val, short valo)
 	bCameraActuator *ca;
 	bIpoActuator *ia;
 	bPropertyActuator *pa;
-	bSoundActuator *sa;
 	bProperty *prop;
 	bEditObjectActuator *eoa;
 	bConstraintActuator *coa;
@@ -1565,15 +1563,6 @@ void activate_actuator(bActuator *act, short val, short valo)
 		else if(sca->type==ACT_SCENE_RESTART) {
 			G.simulf |= G_RESTART;
 		}
-		break;
-	case ACT_SOUND:
-		sa= act->data;
-		if (valo==0) {	/* KEY_IN */
-			if (sa->sound) {
-				init_sound(sa->sound);
-				play_sound(ob, sa->sound->alindex);
-			}
-		}	
 		break;
 	case ACT_PROPERTY:
 		pa= act->data;

@@ -24,7 +24,6 @@ add_subdirectory(imbuf)
 add_subdirectory(jpeg)
 add_subdirectory(misc)
 add_subdirectory(render) 
-add_subdirectory(sound)
 add_subdirectory(makesdna)
 add_subdirectory(src)
 
@@ -83,4 +82,4 @@ add_custom_command(
 include_directories (./include)
 include_directories (./render/extern/include/)
 add_executable (blender ${CMAKE_BINARY_DIR}/dna.c  ${OB_DATA} ./src/usiblender.c) 
-target_link_libraries (blender bf_glut bf_edit bf_imbuf bf_avi bf_jpeg bf_misc bf_render bf_sound ${OPENGL_LIBRARIES} ${PYTHON_LIBRARY})
+target_link_libraries (blender bf_glut bf_edit bf_imbuf bf_avi bf_jpeg bf_misc bf_render ${OPENGL_LIBRARIES} ${PYTHON_LIBRARY})

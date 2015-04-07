@@ -78,7 +78,6 @@
 #include "imasel.h"
 #include "text.h"
 #include "game.h"
-#include "sound.h"
 #include "group.h"
 
 #include <fcntl.h>
@@ -423,9 +422,6 @@ void write_actuators(ListBase *lb)
 		writestruct(DATA, "bActuator", 1, act);
 
 		switch(act->type) {
-		case ACT_SOUND:
-			writestruct(DATA, "bSoundActuator", 1, act->data);
-			break;
 		case ACT_OBJECT:
 			writestruct(DATA, "bObjectActuator", 1, act->data);
 			break;
@@ -952,9 +948,6 @@ void write_screens(ListBase *scrbase)
 				else if(v3d->spacetype==SPACE_TEXT) {
 					writestruct(DATA, "SpaceText", 1, v3d);
 				}
-				else if(v3d->spacetype==SPACE_SOUND) {
-					writestruct(DATA, "SpaceSound", 1, v3d);
-				}
 				v3d= v3d->next;
 			}
 			
@@ -1037,27 +1030,6 @@ void write_texts(ListBase *idbase)
 			}
 		}
 		text= text->id.next;
-	}
-}
-
-void write_sounds(ListBase *idbase)
-{
-	bSound *sound;
-	PackedFile * pf;
-
-	sound= idbase->first;
-	while(sound) {
-		if(sound->id.us>0) {
-			/* write LibData */
-			writestruct(ID_SO, "bSound", 1, sound);
-	
-			if (sound->packedfile) {
-				pf = sound->packedfile;
-				writestruct(DATA, "PackedFile", 1, pf);
-				writedata(DATA, pf->size, pf->data);
-			}
-		}
-		sound= sound->id.next;
 	}
 }
 
@@ -1229,7 +1201,6 @@ void write_file(char *dir)
 	write_worlds(&G.main->world);
 	write_texts(&G.main->text);
 	write_libraries(G.main->next);
-	write_sounds(&G.main->sound);
 	write_groups(&G.main->group);
 	write_global();
 	write_userdef();
