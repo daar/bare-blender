@@ -7,7 +7,7 @@ int main(int argc, char**argv) {
 	long size;
 	int i;
 	
-	if (argc<1) {
+	if (argc<2) {
 			printf ("Usage: datatoc <data_file>\n");
 			exit(1);
 	}

@@ -18,7 +18,7 @@ set(OB_GRAPHICS buttons.c drawimage.c
 	editseq.c editsima.c editview.c filesel.c 
 	headerbuttons.c mywindow.c os_specific.c playanim.c 
 	screen.c space.c toets.c 
-	toolbox.c usiblender.c view.c view2d.c drawsound.c 
+	toolbox.c view.c view2d.c drawsound.c 
 	vpaint.c interface.c editsca.c packedFile.c)
 
 set(OB_FILE genfile.c fileops.c readfile.c writefile.c)
@@ -33,8 +33,6 @@ set(OB_MIXMODEL anim.c arithb.c blender.c curve.c effect.c
 
 set(OB_RENDER writeavi.c writemovie.c)
 
-set(OB_DATA Bfont.c splash.jpg.c blenderbuttons.c cmap.tga.c cmovie.tga.c B.blend.c Bfs.c)
-
 set(OB_RADIO radio.c radfactors.c radnode.c radpreprocess.c radpostprocess.c 
 	raddisplay.c)
 
@@ -43,7 +41,7 @@ set(OB_PYTHON py_main.c py_vector.c py_matrix.c py_datablock.c
 
 	
 add_library (bf_edit
-	${OB_EDIT} ${OB_GRAPHICS} ${OB_FILE} ${OB_STANDALONE} ${OB_MIXMODEL} ${OB_RENDER} ${OB_DATA} ${OB_RADIO} ${OB_PYTHON} ${OB_ADD})
+	${OB_EDIT} ${OB_GRAPHICS} ${OB_FILE} ${OB_STANDALONE} ${OB_MIXMODEL} ${OB_RENDER} ${OB_RADIO} ${OB_PYTHON} ${OB_ADD})
 target_link_libraries (bf_edit bf_glut)
 
 add_executable (padding padding.c) 
