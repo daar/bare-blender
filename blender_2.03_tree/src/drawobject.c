@@ -21,9 +21,9 @@
 
 /* drawobject.c  		GRAPHICS
 
- * 
+ *
  * jan 95
- * 
+ *
  * Version: $Id: drawobject.c,v 1.19 2000/09/17 21:16:25 ton Exp $
  */
 
@@ -56,10 +56,10 @@ uint selcol= 0xFF88FF;
 uint actselcol= 0xFFBBFF;
 
 uint colortab[24]=
-	{0x0,		0xFF88FF, 0xFFBBFF, 
-	 0x403000,	0xFFFF88, 0xFFFFBB, 
-	 0x104040,	0x66CCCC, 0x77CCCC, 
-	 0x101040,	0x5588FF, 0x88BBFF, 
+	{0x0,		0xFF88FF, 0xFFBBFF,
+	 0x403000,	0xFFFF88, 0xFFFFBB,
+	 0x104040,	0x66CCCC, 0x77CCCC,
+	 0x101040,	0x5588FF, 0x88BBFF,
 	 0xFFFFFF
 	};
 
@@ -91,19 +91,19 @@ void init_draw_rects()
 	if(G.order==B_ENDIAN) {
 		convert_rgba_to_abgr(16, rect_desel);
 		convert_rgba_to_abgr(16, rect_sel);
-		
+
 		convert_rgba_to_abgr(16, rectu_desel);
 		convert_rgba_to_abgr(16, rectu_sel);
-		
+
 		convert_rgba_to_abgr(81, rectl_desel);
 		convert_rgba_to_abgr(81, rectl_sel);
-	
+
 		convert_rgba_to_abgr(81, rectlus_desel);
 		convert_rgba_to_abgr(81, rectlus_sel);
-	
+
 		convert_rgba_to_abgr(81, rectllib_desel);
 		convert_rgba_to_abgr(81, rectllib_sel);
-				
+
 		convert_rgba_to_abgr(81, rectl_set);
 	}
 }
@@ -111,7 +111,7 @@ void init_draw_rects()
 void tekenrect9(float *vec, uint *rect)
 {
 	const GLubyte dummy=0;
-	
+
 	if(vec) {
 		glRasterPos3f(vec[0], vec[1], vec[2]);
 		/* bitmap is used as a patch to move the rasterpos a few pixels */
@@ -124,7 +124,7 @@ void tekenrect9(float *vec, uint *rect)
 void tekenrect4(float *vec, uint *rect)
 {
 	const GLubyte dummy=0;
-	
+
 	if(vec) {
 		glRasterPos3f(vec[0], vec[1], vec[2]);
 		/* bitmap is used as a patch to move the rasterpos a few pixels */
@@ -137,7 +137,7 @@ void tekenrect4(float *vec, uint *rect)
 void tekenrect3(float *vec, uint *rect)
 {
 	const GLubyte dummy=0;
-	
+
 	if(vec) {
 		glRasterPos3f(vec[0], vec[1], vec[2]);
 		/* bitmap is used as a patch to move the rasterpos a few pixels */
@@ -159,18 +159,18 @@ void helpline(float *vec)
 	project_short_noclip(vecrot, mval1);
 
 	persp(0);
-	
+
 	glDrawBuffer(GL_FRONT);
-	
+
 	cpack(0);
 
 	setlinestyle(3);
-	glBegin(GL_LINE_STRIP); 
-		glVertex2sv(mval); 
-		glVertex2sv(mval1); 
+	glBegin(GL_LINE_STRIP);
+		glVertex2sv(mval);
+		glVertex2sv(mval1);
 	glEnd();
 	setlinestyle(0);
-	
+
 	persp(1);
 
 	glDrawBuffer(GL_BACK);
@@ -186,7 +186,7 @@ void drawaxes(float size)
 	f125= 0.125*size;
 	f800= 0.8*size;
 	v1[0]=v1[1]=v1[2]=v2[0]=v2[1]=v2[2]= 0.0;
-	
+
 	/* X-AS: pijl */
 	v2[0]= size;
 	LINE3F(v1, v2);
@@ -195,10 +195,10 @@ void drawaxes(float size)
 	LINE3F(v1, v2);
 	v1[1]= f125;
 	LINE3F(v1, v2);
-	
+
 	glRasterPos3f(size+f125,  0.0,  0.0);
 	fmprstr("x");
-	
+
 	/* Y-AS: pijl */
 	v1[0]=v1[1]=v1[2]=v2[0]=v2[1]=v2[2]= 0.0;
 	v2[1]= size;
@@ -208,10 +208,10 @@ void drawaxes(float size)
 	LINE3F(v1, v2);
 	v1[0]= f125;
 	LINE3F(v1, v2);
-	
+
 	glRasterPos3f(0.0,  size+f125,  0.0);
 	fmprstr("y");
-	
+
 	/* Z-AS: pijl */
 	v1[0]=v1[1]=v1[2]=v2[0]=v2[1]=v2[2]= 0.0;
 	v2[2]= size;
@@ -224,7 +224,7 @@ void drawaxes(float size)
 
 	glRasterPos3f(0.0,  0.0,  size+f125);
 	fmprstr("z");
-	
+
 }
 
 void drawgourcube()
@@ -235,42 +235,42 @@ void drawgourcube()
 	n[0]=0; n[1]=0; n[2]=0;
 	glBegin(GL_POLYGON);
 		n[0]= -1.0;
-		glNormal3fv(n); 
+		glNormal3fv(n);
 		glVertex3fv(cube[0]); glVertex3fv(cube[1]); glVertex3fv(cube[2]); glVertex3fv(cube[3]);
 		n[0]=0;
 	glEnd();
 
 	glBegin(GL_POLYGON);
 		n[1]= -1.0;
-		glNormal3fv(n); 
+		glNormal3fv(n);
 		glVertex3fv(cube[0]); glVertex3fv(cube[4]); glVertex3fv(cube[5]); glVertex3fv(cube[1]);
 		n[1]=0;
 	glEnd();
 
 	glBegin(GL_POLYGON);
 		n[0]= 1.0;
-		glNormal3fv(n); 
+		glNormal3fv(n);
 		glVertex3fv(cube[4]); glVertex3fv(cube[7]); glVertex3fv(cube[6]); glVertex3fv(cube[5]);
 		n[0]=0;
 	glEnd();
 
 	glBegin(GL_POLYGON);
 		n[1]= 1.0;
-		glNormal3fv(n); 
+		glNormal3fv(n);
 		glVertex3fv(cube[7]); glVertex3fv(cube[3]); glVertex3fv(cube[2]); glVertex3fv(cube[6]);
 		n[1]=0;
 	glEnd();
 
 	glBegin(GL_POLYGON);
 		n[2]= 1.0;
-		glNormal3fv(n); 
+		glNormal3fv(n);
 		glVertex3fv(cube[1]); glVertex3fv(cube[5]); glVertex3fv(cube[6]); glVertex3fv(cube[2]);
 		n[2]=0;
 	glEnd();
 
 	glBegin(GL_POLYGON);
 		n[2]= -1.0;
-		glNormal3fv(n); 
+		glNormal3fv(n);
 		glVertex3fv(cube[7]); glVertex3fv(cube[4]); glVertex3fv(cube[0]); glVertex3fv(cube[3]);
 	glEnd();
 }
@@ -302,7 +302,7 @@ void drawcube_size(float *size)
 
 	glPushMatrix();
 	glScalef(size[0],  size[1],  size[2]);
-	
+
 
 	glBegin(GL_LINE_STRIP);
 		glVertex3fv(cube[0]); glVertex3fv(cube[1]);glVertex3fv(cube[2]); glVertex3fv(cube[3]);
@@ -321,7 +321,7 @@ void drawcube_size(float *size)
 	glBegin(GL_LINE_STRIP);
 		glVertex3fv(cube[3]); glVertex3fv(cube[7]);
 	glEnd();
-	
+
 	glPopMatrix();
 }
 
@@ -383,8 +383,8 @@ float *lvec,*vvec,inp;
 	/* roteer om uitproduct vector van (0,0,1) en vlakvector, inproduct graden */
 	/* volgens defenitie volgt dat uitproduct is (plane[1],-plane[0],0), en cos() = plane[2]);*/
 
-	q[1] = plane[1] ; 
-	q[2] = -plane[0] ; 
+	q[1] = plane[1] ;
+	q[2] = -plane[0] ;
 	q[3] = 0 ;
 	Normalise(&q[1]);
 
@@ -401,8 +401,8 @@ float *lvec,*vvec,inp;
 
 	/* lampvector nu over acos(inp) graden roteren */
 
-	vvec[0] = lvec[0] ; 
-	vvec[1] = lvec[1] ; 
+	vvec[0] = lvec[0] ;
+	vvec[1] = lvec[1] ;
 	vvec[2] = lvec[2] ;
 
 	Mat3One(mat2);
@@ -434,15 +434,15 @@ void drawlamp(Object *ob)
 {
 	Lamp *la;
 	float vec[3], lvec[3], vvec[3],x,y,z;
-	
+
 	la= ob->data;
 	vec[0]=vec[1]=vec[2]= 0.0;
-	
+
 	setlinestyle(4);
-	
+
 	if(la->type==LA_SPOT) {
-		
-		lvec[0]=lvec[1]= 0.0; 
+
+		lvec[0]=lvec[1]= 0.0;
 		lvec[2] = 1.0;
 		x = G.vd->persmat[0][2];
 		y = G.vd->persmat[1][2];
@@ -454,11 +454,11 @@ void drawlamp(Object *ob)
 		y = fcos( M_PI*la->spotsize/360.0 );
 		spotvolume(lvec, vvec, y);
 		x = -la->dist;
-		lvec[0] *=  x ; 
-		lvec[1] *=  x ; 
+		lvec[0] *=  x ;
+		lvec[1] *=  x ;
 		lvec[2] *=  x;
-		vvec[0] *= x ; 
-		vvec[1] *= x ; 
+		vvec[0] *= x ;
+		vvec[1] *= x ;
 		vvec[2] *= x;
 
 		glBegin(GL_LINE_STRIP);
@@ -466,7 +466,7 @@ void drawlamp(Object *ob)
 			glVertex3fv(vec);
 			glVertex3fv(lvec);
 		glEnd();
-		
+
 		z = x*fsqrt(1.0 - y*y);
 		x *= y;
 
@@ -486,12 +486,12 @@ void drawlamp(Object *ob)
 			glEnd();
 		}
 		else circ(0.0, 0.0, fabs(z));
-		
+
 	}
 	else if ELEM(la->type, LA_HEMI, LA_SUN) {
 		glBegin(GL_LINE_STRIP);
-			glVertex3fv(vec); 
-			vec[2]= -la->dist; 
+			glVertex3fv(vec);
+			vec[2]= -la->dist;
 			glVertex3fv(vec);
 		glEnd();
 	}
@@ -499,26 +499,26 @@ void drawlamp(Object *ob)
 		if(la->mode & LA_SPHERE) {
 
 			float tmat[4][4], imat[4][4];
-			
+
 			vec[0]= vec[1]= vec[2]= 0.0;
 			getmatrix(tmat);
 			Mat4Invert(imat, tmat);
-			
+
 			drawcircball(vec, la->dist, imat);
 
 		}
 	}
 	loadmatrix(G.vd->viewmat);
-	
+
 	VECCOPY(vec, ob->obmat[3]);
-	
+
 	glBegin(GL_LINE_STRIP);
-		glVertex3fv(vec); 
-		vec[2]= 0; 
+		glVertex3fv(vec);
+		vec[2]= 0;
 		glVertex3fv(vec);
 	glEnd();
 	setlinestyle(0);
-		
+
 	if(la->type==LA_SPOT && (la->mode & LA_SHAD) ) {
 		tekenshadbuflimits(la, ob->obmat);
 	}
@@ -528,7 +528,7 @@ void draw_limit_line(float sta, float end, uint col)
 {
 	float vec[2][3];
 	short mval[2];
-	
+
 	vec[0][0]= 0.0;
 	vec[0][1]= 0.0;
 	vec[0][2]= -sta;
@@ -536,7 +536,7 @@ void draw_limit_line(float sta, float end, uint col)
 	vec[1][0]= 0.0;
 	vec[1][1]= 0.0;
 	vec[1][2]= -end;
-	
+
 	LINE3F(vec[0], vec[1]);
 
 	glPointSize(3.0);
@@ -546,7 +546,7 @@ void draw_limit_line(float sta, float end, uint col)
 	glVertex3fv(vec[1]);
 	glEnd();
 	glPointSize(1.0);
-}		
+}
 
 
 void drawcamera(Object *ob)
@@ -560,15 +560,15 @@ void drawcamera(Object *ob)
 	cam= ob->data;
 	glDisable(GL_LIGHTING);
 	glDisable(GL_CULL_FACE);
-	
+
 	/* zo is ie altijd te zien */
 	fac= cam->drawsize;
 	if(G.vd->persp>=2) fac= cam->clipsta+0.1;
-	
+
 	depth= - fac*cam->lens/16.0;
 	facx= fac*1.28;
 	facy= fac*1.024;
-	
+
 	vec[0][0]= 0; vec[0][1]= 0; vec[0][2]= 0.001;	/* GLBUG: z niet op nul vanwege picking op entry */
 	vec[1][0]= facx; vec[1][1]= facy; vec[1][2]= depth;
 	vec[2][0]= facx; vec[2][1]= -facy; vec[2][2]= depth;
@@ -576,62 +576,62 @@ void drawcamera(Object *ob)
 	vec[4][0]= -facx; vec[4][1]= facy; vec[4][2]= depth;
 
 	glBegin(GL_LINE_LOOP);
-		glVertex3fv(vec[0]); 
-		glVertex3fv(vec[1]); 
-		glVertex3fv(vec[2]); 
-		glVertex3fv(vec[0]); 
-		glVertex3fv(vec[3]); 
+		glVertex3fv(vec[0]);
+		glVertex3fv(vec[1]);
+		glVertex3fv(vec[2]);
+		glVertex3fv(vec[0]);
+		glVertex3fv(vec[3]);
 		glVertex3fv(vec[4]);
 	glEnd();
 
 	glBegin(GL_LINES);
-		glVertex3fv(vec[2]); 
+		glVertex3fv(vec[2]);
 		glVertex3fv(vec[3]);
 	glEnd();
 
 	glBegin(GL_LINES);
-		glVertex3fv(vec[4]); 
+		glVertex3fv(vec[4]);
 		glVertex3fv(vec[1]);
 	glEnd();
 
 	if(G.vd->persp>=2) return;
 	if(G.f & G_BACKBUFSEL) return;
-	
+
 	/* pijl aan top */
 	vec[0][2]= depth;
 
 	glBegin(GL_POLYGON);
 
-		vec[0][0]= -0.2*cam->drawsize; 
+		vec[0][0]= -0.2*cam->drawsize;
 		vec[0][1]= cam->drawsize;
 		glVertex3fv(vec[0]);
-		
+
 		vec[0][0]= 0.2*cam->drawsize;
 		glVertex3fv(vec[0]);
-		
+
 		vec[0][1]= 1.6*cam->drawsize;
 		glVertex3fv(vec[0]);
-		
-		vec[0][0]= -0.2*cam->drawsize; 
+
+		vec[0][0]= -0.2*cam->drawsize;
 		glVertex3fv(vec[0]);
 	glEnd();
 
 	glBegin(GL_POLYGON);
-	
+
 		vec[0][0]= -0.4*cam->drawsize;
 		vec[0][1]= 1.6*cam->drawsize;
 		glVertex3fv(vec[0]);
-		
-		vec[0][0]= 0.0; 
+
+		vec[0][0]= 0.0;
 		vec[0][1]= 2.0*cam->drawsize;
 		glVertex3fv(vec[0]);
-		
-		vec[0][0]= 0.4*cam->drawsize; 
+
+		vec[0][0]= 0.4*cam->drawsize;
 		vec[0][1]= 1.6*cam->drawsize;
 		glVertex3fv(vec[0]);
-	
+
 	glEnd();
-	
+
 	if(cam->flag & (CAM_SHOWLIMITS+CAM_SHOWMIST)) {
 		loadmatrix(G.vd->viewmat);
 		Mat4CpyMat4(vec, ob->obmat);
@@ -641,13 +641,13 @@ void drawcamera(Object *ob)
 		Mat4SwapMat4(G.vd->persmat, tmat);
 		mygetsingmatrix(G.vd->persmat);
 
-		if(cam->flag & CAM_SHOWLIMITS) 
+		if(cam->flag & CAM_SHOWLIMITS)
 			draw_limit_line(cam->clipsta, cam->clipend, B_YELLOW);
 
 		wrld= G.scene->world;
-		if(cam->flag & CAM_SHOWMIST) 
+		if(cam->flag & CAM_SHOWMIST)
 			if(wrld) draw_limit_line(wrld->miststa, wrld->miststa+wrld->mistdist, 0xFFFFFF);
-			
+
 		Mat4SwapMat4(G.vd->persmat, tmat);
 	}
 }
@@ -668,14 +668,14 @@ void tekenvertslatt(short sel)
 
 	bp= editLatt->def;
 	lt= editLatt;
-	
+
 	if(lt->flag & LT_OUTSIDE) {
-		
+
 		for(w=0; w<lt->pntsw; w++) {
 			if(w==0 || w==lt->pntsw-1) wxt= 1; else wxt= 0;
 			for(v=0; v<lt->pntsv; v++) {
 				if(v==0 || v==lt->pntsv-1) vxt= 1; else vxt= 0;
-				
+
 				for(u=0; u<lt->pntsu; u++, bp++) {
 					if(u==0 || u==lt->pntsu-1) uxt= 1; else uxt= 0;
 					if(uxt || vxt || wxt) {
@@ -697,9 +697,9 @@ void tekenvertslatt(short sel)
 			bp++;
 		}
 	}
-	
+
 	glPointSize(1.0);
-	glEnd();	
+	glEnd();
 }
 
 void calc_lattverts()
@@ -711,9 +711,9 @@ void calc_lattverts()
 
 	Mat4SwapMat4(G.vd->persmat, mat);
 	mygetsingmatrix(G.vd->persmat);
-	
+
 	 bp= editLatt->def;
-	
+
 	a= editLatt->pntsu*editLatt->pntsv*editLatt->pntsw;
 	while(a--) {
 		project_short(bp->vec, bp->s);
@@ -731,7 +731,7 @@ void calc_lattverts_ext()
 	multmatrix(G.obedit->obmat);
 	calc_lattverts();
 	loadmatrix(G.vd->viewmat);
-	
+
 }
 
 
@@ -744,32 +744,32 @@ void drawlattice(Object *ob)
 	lt= ob->data;
 	if(ob==G.obedit) {
 		bp= editLatt->def;
-		
+
 		cpack(0x004000);
 	}
 	else {
 		bp= lt->def;
 	}
-	
+
 	dv= lt->pntsu;
 	dw= dv*lt->pntsv;
-	
+
 	if(lt->flag & LT_OUTSIDE) {
-		
+
 		for(w=0; w<lt->pntsw; w++) {
-			
+
 			if(w==0 || w==lt->pntsw-1) wxt= 1; else wxt= 0;
-			
+
 			for(v=0; v<lt->pntsv; v++) {
-				
+
 				if(v==0 || v==lt->pntsv-1) vxt= 1; else vxt= 0;
-				
+
 				for(u=0, bpu=0; u<lt->pntsu; u++, bp++) {
-				
+
 					if(u==0 || u==lt->pntsu-1) uxt= 1; else uxt= 0;
-					
+
 					if(uxt || vxt || wxt) {
-					
+
 						if(w && (uxt || vxt)) {
 
 							glBegin(GL_LINE_STRIP);
@@ -789,19 +789,19 @@ void drawlattice(Object *ob)
 							glEnd();
 						}
 					}
-					
+
 					bpu= bp;
 				}
 			}
-		}		
+		}
 	}
 	else {
 		for(w=0; w<lt->pntsw; w++) {
-			
+
 			for(v=0; v<lt->pntsv; v++) {
-				
+
 				for(u=0, bpu=0; u<lt->pntsu; u++, bp++) {
-				
+
 					if(w) {
 
 						glBegin(GL_LINES);
@@ -825,17 +825,17 @@ void drawlattice(Object *ob)
 			}
 		}
 	}
-	
+
 	if(ob==G.obedit) {
-		
+
 		calc_lattverts();
-		
+
 		if(G.zbuf) glDisable(GL_DEPTH_TEST);
-		
+
 		tekenvertslatt(0);
 		tekenvertslatt(1);
-		
-		if(G.zbuf) glEnable(GL_DEPTH_TEST); 
+
+		if(G.zbuf) glEnable(GL_DEPTH_TEST);
 	}
 }
 
@@ -869,7 +869,7 @@ void calc_meshverts_ext()
 	multmatrix(G.obedit->obmat);
 	calc_meshverts();
 	loadmatrix(G.vd->viewmat);
-	
+
 }
 
 void calc_Nurbverts(Nurb *nurb)
@@ -917,7 +917,7 @@ void calc_nurbverts_ext()
 	multmatrix(G.obedit->obmat);
 	calc_Nurbverts(editNurb.first);
 	loadmatrix(G.vd->viewmat);
-	
+
 }
 
 void tekenvertices(short sel)
@@ -926,10 +926,10 @@ void tekenvertices(short sel)
 	short xs,ys;
 
 	glPointSize(2.0);
-	
+
 	if(sel) cpack(B_YELLOW);
 	else cpack(B_PURPLE);
-	
+
 	glBegin(GL_POINTS);
 
 	eve= (EditVert *)G.edve.first;
@@ -948,14 +948,14 @@ void tekenvertices_ext(int mode)
 {
 	ScrArea *tempsa, *sa;
 	View3D *vd;
-	
+
 	if(G.f & (G_FACESELECT+G_DRAWFACES)) {
 		allqueue(REDRAWVIEW3D, 0);
 		return;
 	}
-	
+
 	if(G.zbuf) glDisable(GL_DEPTH_TEST);
-	
+
 	glDrawBuffer(GL_FRONT);
 
 	/* alle views aflopen */
@@ -972,14 +972,14 @@ void tekenvertices_ext(int mode)
 				if(mode==0 || mode==2) tekenvertices(0);
 				if(mode==1 || mode==2) tekenvertices(1);
 				sa->win_swap= WIN_FRONT_OK;
-				
+
 				loadmatrix(G.vd->viewmat);
 			}
 		}
 		sa= sa->next;
 	}
 	if(curarea!=tempsa) areawinset(tempsa->win);
-	
+
 	glDrawBuffer(GL_BACK);
 	if(G.zbuf) glEnable(GL_DEPTH_TEST);
 }
@@ -1000,7 +1000,7 @@ void drawDispListwire(ListBase *dlbase)
 	dl= dlbase->first;
 	while(dl) {
 		data= dl->verts;
-	
+
 		switch(dl->type) {
 		case DL_SEGM:
 			parts= dl->parts;
@@ -1046,7 +1046,7 @@ void drawDispListwire(ListBase *dlbase)
 				parts= dl->parts;
 				if(dl->flag & 2) glBegin(GL_LINE_LOOP);
 				else glBegin(GL_LINE_STRIP);
-				
+
 				while(parts--) {
 					glVertex3fv(data);
 					data+=ofs;
@@ -1054,7 +1054,7 @@ void drawDispListwire(ListBase *dlbase)
 				glEnd();
 			}
 			break;
-			
+
 		case DL_INDEX3:
 			if(draw_index_wire) {
 				parts= dl->parts;
@@ -1071,7 +1071,7 @@ void drawDispListwire(ListBase *dlbase)
 				}
 			}
 			break;
-			
+
 		case DL_INDEX4:
 			if(draw_index_wire) {
 				parts= dl->parts;
@@ -1089,7 +1089,7 @@ void drawDispListwire(ListBase *dlbase)
 				}
 			}
 			break;
-			
+
 		}
 		dl= dl->next;
 	}
@@ -1105,11 +1105,11 @@ void drawDispListsolid(ListBase *lb, Object *ob)
 	char *cp;
 
 	if(lb==0) return;
-	if( (G.f & G_BACKBUFSEL)==0 ) { 
+	if( (G.f & G_BACKBUFSEL)==0 ) {
 		glShadeModel(GL_SMOOTH);
 		glEnable(GL_LIGHTING);
 	}
-	
+
 	dl= lb->first;
 	while(dl) {
 		data= dl->verts;
@@ -1119,67 +1119,67 @@ void drawDispListsolid(ListBase *lb, Object *ob)
 		case DL_SURF:
 			if(G.f & G_BACKBUFSEL) {
 				for(a=0; a<dl->parts; a++) {
-	
+
 					DL_SURFINDEX(dl->flag & 1, dl->flag & 2, dl->nr, dl->parts);
-	
-					v1= data+ 3*p1; 
+
+					v1= data+ 3*p1;
 					v2= data+ 3*p2;
-					v3= data+ 3*p3; 
+					v3= data+ 3*p3;
 					v4= data+ 3*p4;
-	
+
 					glBegin(GL_QUAD_STRIP);
-					
+
 					glVertex3fv(v2);
 					glVertex3fv(v4);
 
 					for(; b<dl->nr; b++) {
-						
+
 						glVertex3fv(v1);
 						glVertex3fv(v3);
 
 						v2= v1; v1+= 3;
 						v4= v3; v3+= 3;
 					}
-					
-					
+
+
 					glEnd();
 				}
 			}
 			else {
 
 				set_gl_material(dl->col+1);
-/*				
+/*
 				glBegin(GL_LINES);
 				for(a=0; a<dl->parts*dl->nr; a++) {
 					float nor[3];
-					
+
 					VECCOPY(nor, data+3*a);
 					glVertex3fv(nor);
 					VecAddf(nor, nor, ndata+3*a);
 					glVertex3fv(nor);
 				}
 				glEnd();
-*/				
+*/
 				for(a=0; a<dl->parts; a++) {
-					
+
 					DL_SURFINDEX(dl->flag & 1, dl->flag & 2, dl->nr, dl->parts);
-	
-					v1= data+ 3*p1; 
+
+					v1= data+ 3*p1;
 					v2= data+ 3*p2;
-					v3= data+ 3*p3; 
+					v3= data+ 3*p3;
 					v4= data+ 3*p4;
-					n1= ndata+ 3*p1; 
+					n1= ndata+ 3*p1;
 					n2= ndata+ 3*p2;
-					n3= ndata+ 3*p3; 
+					n3= ndata+ 3*p3;
 					n4= ndata+ 3*p4;
-					
+
 					glBegin(GL_QUAD_STRIP);
-					
+
 					glNormal3fv(n2); glVertex3fv(v2);
 					glNormal3fv(n4); glVertex3fv(v4);
 
 					for(; b<dl->nr; b++) {
-						
+
 						glNormal3fv(n1); glVertex3fv(v1);
 						glNormal3fv(n3); glVertex3fv(v3);
 
@@ -1188,20 +1188,20 @@ void drawDispListsolid(ListBase *lb, Object *ob)
 						n2= n1; n1+= 3;
 						n4= n3; n3+= 3;
 					}
-					
-					
+
+
 					glEnd();
 				}
 			}
 			break;
 
 		case DL_INDEX3:
-		
+
 			parts= dl->parts;
 			data= dl->verts;
 			ndata= dl->nors;
 			index= dl->index;
-			
+
 			if(G.f & G_BACKBUFSEL) {
 				while(parts--) {
 
@@ -1216,7 +1216,7 @@ void drawDispListsolid(ListBase *lb, Object *ob)
 			else {
 
 				set_gl_material(dl->col+1);
-								
+
 				/* voor poly's is er maar 1 normaal nodig */
 				if(index3_nors_incr==0) {
 					while(parts--) {
@@ -1267,9 +1267,9 @@ void drawDispListsolid(ListBase *lb, Object *ob)
 				}
 			}
 			else {
-				
+
 				set_gl_material(dl->col+1);
-			
+
 				while(parts--) {
 
 					glBegin(GL_POLYGON);
@@ -1288,7 +1288,7 @@ void drawDispListsolid(ListBase *lb, Object *ob)
 				}
 			}
 			break;
-			
+
 		}
 		dl= dl->next;
 	}
@@ -1315,11 +1315,11 @@ void drawDispListshaded(ListBase *lb, Object *ob)
 	dl= lb->first;
 	dlob= ob->disp.first;
 	while(dl && dlob) {
-		
+
 		cdata= dlob->col1;
 		data= dl->verts;
 		if(cdata==0) break;
-		
+
 		switch(dl->type) {
 		case DL_SURF:
 
@@ -1327,13 +1327,13 @@ void drawDispListshaded(ListBase *lb, Object *ob)
 
 				DL_SURFINDEX(dl->flag & 1, dl->flag & 2, dl->nr, dl->parts);
 
-				v1= data+ 3*p1; 
+				v1= data+ 3*p1;
 				v2= data+ 3*p2;
-				v3= data+ 3*p3; 
+				v3= data+ 3*p3;
 				v4= data+ 3*p4;
-				c1= cdata+ p1; 
+				c1= cdata+ p1;
 				c2= cdata+ p2;
-				c3= cdata+ p3; 
+				c3= cdata+ p3;
 				c4= cdata+ p4;
 
 				for(; b<dl->nr; b++) {
@@ -1362,23 +1362,23 @@ void drawDispListshaded(ListBase *lb, Object *ob)
 			break;
 
 		case DL_INDEX3:
-			
+
 			parts= dl->parts;
 			index= dl->index;
-			
+
 			while(parts--) {
 
 				glBegin(GL_POLYGON);
 					cp= (char *)(cdata+index[0]);
-					glColor3ub(cp[3], cp[2], cp[1]);					
+					glColor3ub(cp[3], cp[2], cp[1]);
 					glVertex3fv(data+3*index[0]);
 
 					cp= (char *)(cdata+index[1]);
-					glColor3ub(cp[3], cp[2], cp[1]);					
+					glColor3ub(cp[3], cp[2], cp[1]);
 					glVertex3fv(data+3*index[1]);
 
 					cp= (char *)(cdata+index[2]);
-					glColor3ub(cp[3], cp[2], cp[1]);					
+					glColor3ub(cp[3], cp[2], cp[1]);
 					glVertex3fv(data+3*index[2]);
 				glEnd();
 				index+= 3;
@@ -1386,40 +1386,40 @@ void drawDispListshaded(ListBase *lb, Object *ob)
 			break;
 
 		case DL_INDEX4:
-		
+
 			parts= dl->parts;
 			index= dl->index;
 			while(parts--) {
 
 				glBegin(GL_POLYGON);
 					cp= (char *)(cdata+index[0]);
-					glColor3ub(cp[3], cp[2], cp[1]);					
+					glColor3ub(cp[3], cp[2], cp[1]);
 					glVertex3fv(data+3*index[0]);
 
 					cp= (char *)(cdata+index[1]);
-					glColor3ub(cp[3], cp[2], cp[1]);					
+					glColor3ub(cp[3], cp[2], cp[1]);
 					glVertex3fv(data+3*index[1]);
 
 					cp= (char *)(cdata+index[2]);
-					glColor3ub(cp[3], cp[2], cp[1]);					
+					glColor3ub(cp[3], cp[2], cp[1]);
 					glVertex3fv(data+3*index[2]);
-					
+
 					if(index[3]) {
-					
+
 						cp= (char *)(cdata+index[3]);
-						glColor3ub(cp[3], cp[2], cp[1]);	
+						glColor3ub(cp[3], cp[2], cp[1]);
 						glVertex3fv(data+3*index[3]);
 					}
 				glEnd();
 				index+= 4;
 			}
 			break;
-			
+
 		}
 		dl= dl->next;
 		dlob= dlob->next;
 	}
-	
+
 	glShadeModel(GL_FLAT);
 }
 
@@ -1435,9 +1435,9 @@ void drawmeshsolid(Object *ob, float *nors)
 	float *extverts=0, *v1, *v2, *v3, *v4;
 	int glmode, setsmooth=0, a, start, end, matnr= -1, vertexpaint, i;
 	short no[3], *n1, *n2, *n3, *n4;
-	
+
 	vertexpaint= (G.f & (G_VERTEXPAINT+G_FACESELECT)) && (ob==OBACT);
-	
+
 	me= get_mesh(ob);
 	if(me==0) return;
 
@@ -1460,18 +1460,18 @@ void drawmeshsolid(Object *ob, float *nors)
 	/* if ELEM(ob->type, OB_SECTOR, OB_LIFE) glEnable(GL_CULL_FACE); */
 
 	if(ob==G.obedit || (G.obedit && ob->data==G.obedit->data)) {
-		
+
 		evl= G.edvl.first;
 		while(evl) {
 			if(evl->v1->h==0 && evl->v2->h==0 && evl->v3->h==0) {
-				
+
 				if(evl->mat_nr!=matnr) {
 					matnr= evl->mat_nr;
 					set_gl_material(matnr+1);
 				}
-				
+
 				if(evl->v4 && evl->v4->h==0) {
-				
+
 					glBegin(GL_QUADS);
 						glNormal3fv(evl->n);
 						glVertex3fv(evl->v1->co);
@@ -1492,19 +1492,19 @@ void drawmeshsolid(Object *ob, float *nors)
 			}
 			evl= evl->next;
 		}
-		
+
 		glDisable(GL_LIGHTING);
 		glShadeModel(GL_FLAT);
-		
+
 		if(ob==G.obedit) {
 			calc_meshverts();
-		
+
 			if(G.zbuf) glDisable(GL_DEPTH_TEST);
 			tekenvertices(0);
 			tekenvertices(1);
 			if(G.zbuf) glEnable(GL_DEPTH_TEST);
 		}
-		
+
 	}
 	else {
 
@@ -1512,13 +1512,13 @@ void drawmeshsolid(Object *ob, float *nors)
 		set_buildvars(ob, &start, &end);
 		mface+= start;
 		if(tface) tface+= start;
-		
+
 		dl= find_displist(&ob->disp, DL_VERTS);
 		if(dl) extverts= dl->verts;
-	
+
 		glBegin(GL_QUADS);
 		glmode= GL_QUADS;
-		
+
 		for(a=start; a<end; a++, mface++, nors+=3) {
 			if(mface->v3) {
 				if(tface && (tface->flag & TF_HIDE)) {
@@ -1547,38 +1547,38 @@ void drawmeshsolid(Object *ob, float *nors)
 						if(mface->v4) v4= (mvert+mface->v4)->co;
 						else v4= 0;
 					}
-					
-					
+
+
 					if(tface) {
 						if(tface->mode & TF_TWOSIDE) glEnable(GL_CULL_FACE);
 						else glDisable(GL_CULL_FACE);
 					}
-					
-	
+
+
 					/* dit GL_QUADS grapje is op snelheid getest: factor 2! */
-						
+
 					if(v4) {if(glmode==GL_TRIANGLES) {glmode= GL_QUADS; glEnd(); glBegin(GL_QUADS);}}
 					else {if(glmode==GL_QUADS) {glmode= GL_TRIANGLES; glEnd(); glBegin(GL_TRIANGLES);}}
-						
+
 					if(G.f & G_BACKBUFSEL) {
 						if(vertexpaint) {
 							i= index_to_framebuffer(a+1);
 							cpack(i);
 						}
-	
+
 						glVertex3fv( v1 );
 						glVertex3fv( v2 );
 						glVertex3fv( v3 );
 						if(v4) glVertex3fv( v4 );
-						
+
 					}
 					else {
-						
+
 						if(mface->mat_nr!=matnr) {
 							matnr= mface->mat_nr;
 							set_gl_material(matnr+1);
 						}
-	
+
 						if( (me->flag & ME_AUTOSMOOTH)==0 && (mface->flag & ME_SMOOTH)) {
 							if(setsmooth==0) {
 								glEnd();
@@ -1591,28 +1591,28 @@ void drawmeshsolid(Object *ob, float *nors)
 							n2= (mvert+mface->v2)->no;
 							n3= (mvert+mface->v3)->no;
 							if(v4) n4= (mvert+mface->v4)->no;
-						
+
 							if(mface->puno & ME_FLIPV1) {
 								no[0]= -n1[0]; no[1]= -n1[1]; no[2]= -n1[2];
 								glNormal3sv(no);
 							}
 							else glNormal3sv(n1);
 							glVertex3fv( v1 );
-							
+
 							if(mface->puno & ME_FLIPV2) {
 								no[0]= -n2[0]; no[1]= -n2[1]; no[2]= -n2[2];
 								glNormal3sv(no);
 							}
 							else glNormal3sv(n2);
 							glVertex3fv( v2 );
-							
+
 							if(mface->puno & ME_FLIPV3) {
 								no[0]= -n3[0]; no[1]= -n3[1]; no[2]= -n3[2];
 								glNormal3sv(no);
 							}
 							else glNormal3sv(n3);
 							glVertex3fv( v3 );
-							
+
 							if(v4) {
 								if(mface->puno & ME_FLIPV4) {
 									no[0]= -n4[0]; no[1]= -n4[1]; no[2]= -n4[2];
@@ -1641,10 +1641,10 @@ void drawmeshsolid(Object *ob, float *nors)
 				if(tface) tface++;
 			}
 		}
-		
+
 		glEnd();
 	}
-	
+
 	/* SOLVE */
 /* 	if ELEM(ob->type, OB_SECTOR, OB_LIFE) glDisable(GL_CULL_FACE); */
 
@@ -1665,37 +1665,37 @@ void drawmeshshaded(Object *ob, uint *col1, uint *col2)
 	float *extverts=0, *v1, *v2, *v3, *v4;
 	int a, start, end, twoside;
 	char *cp1, *cp2;
-	
+
 	glShadeModel(GL_SMOOTH);
 	glDisable(GL_LIGHTING);
 
 	me= ob->data;
 	mface= me->mface;
-	
+
 	/* tekent ie geen hide */
 	if( (G.f & G_FACESELECT) && ob==OBACT) tface= me->tface;
 	else tface= 0;
-	
+
 	mvert= me->mvert;
 	a= me->totface;
-	
+
 	twoside= me->flag & ME_TWOSIDED;
 	if(col2==0) twoside= 0;
-	
+
 	if(twoside) glEnable(GL_CULL_FACE);
-	
+
 	start= 0; end= me->totface;
 	set_buildvars(ob, &start, &end);
 	mface+= start;
 	if(tface) tface+= start;
 	col1+= 4*start;
 	if(col2) col2+= 4*start;
-	
+
 	dl= find_displist(&ob->disp, DL_VERTS);
 	if(dl) extverts= dl->verts;
 
 	glBegin(GL_QUADS);
-	
+
 	cp1= (char *)col1;
 	if(col2) cp2= (char *)col2;
 
@@ -1722,7 +1722,7 @@ void drawmeshshaded(Object *ob, uint *col1, uint *col2)
 					if(tface->mode & TF_TWOSIDE) glEnable(GL_CULL_FACE);
 					else glDisable(GL_CULL_FACE);
 				}
-				
+
 				glColor3ub(cp1[3], cp1[2], cp1[1]);
 				glVertex3fv( v1 );
 				glColor3ub(cp1[7], cp1[6], cp1[5]);
@@ -1734,8 +1734,8 @@ void drawmeshshaded(Object *ob, uint *col1, uint *col2)
 					glVertex3fv( v4 );
 				}
 				else glVertex3fv( v3 );
-				
-				
+
+
 				if(twoside) {
 
 					glColor3ub(cp2[11], cp2[10], cp2[9]);
@@ -1749,17 +1749,17 @@ void drawmeshshaded(Object *ob, uint *col1, uint *col2)
 						glVertex3fv( v4 );
 					}
 					else glVertex3fv( v1 );
-						
+
 				}
 			}
 		}
 		if(col2) cp2+= 16;
 	}
-	
+
 	glEnd();
 	glShadeModel(GL_FLAT);
 	if(twoside) glDisable(GL_CULL_FACE);
-	
+
 }
 
 
@@ -1769,89 +1769,89 @@ void drawDispList(Object *ob, int dt)
 	DispList *dl;
 	Mesh *me;
 	int a, solid;
-	
+
 	solid= (dt > OB_WIRE);
 
 	switch(ob->type) {
 	case OB_MESH:
-		
+
 		me= get_mesh(ob);
 		if(me==0) return;
-		
+
 		if(me->bb==0) tex_space_mesh(me);
 		if(me->totface>4) if(boundbox_clip(ob->obmat, me->bb)==0) return;
-		
+
 		if(dt==OB_SOLID ) {
-			
+
 			lb= &me->disp;
 			if(lb->first==0) addnormalsDispList(ob, lb);
-			
+
 			dl= lb->first;
 			if(dl==0) return;
-			
+
 			if(me->flag & ME_SMESH) {
 				init_gl_materials(ob);
 				two_sided(0);
 				drawDispListsolid(lb, ob);
 			}
 			else drawmeshsolid(ob, dl->nors);
-			
+
 		}
 		else if(dt==OB_SHADED) {
 			if( G.f & G_VERTEXPAINT) {
 				/* in deze volgorde: vertexpaint heeft soms al mcol gemaakt */
-				if(me->mcol) 
+				if(me->mcol)
 					drawmeshshaded(ob, (uint *)me->mcol, 0);
 				else if(me->tface) {
 					tface_to_mcol(me);
 					drawmeshshaded(ob, (uint *)me->mcol, 0);
 					freeN(me->mcol); me->mcol= 0;
 				}
-				else 
+				else
 					drawmeshwire(ob);
-				
+
 			}
 			else {
 				dl= ob->disp.first;
-				
+
 				if(dl==0 || dl->col1==0) {
 					shadeDispList(ob);
 					dl= ob->disp.first;
 				}
 				if(dl) {
-					if(me->flag & ME_SMESH) 
+					if(me->flag & ME_SMESH)
 						drawDispListshaded(&me->disp, ob);
-					else 
+					else
 						drawmeshshaded(ob, dl->col1, dl->col2);
 				}
 			}
 		}
-		
+
 		if(ob==OBACT && (G.f & G_FACESELECT)) {
 			draw_tfaces3D(ob, me);
 		}
-		
+
 		break;
-		
+
 	case OB_FONT:
 	case OB_CURVE:
-	
+
 		lb= &((Curve *)ob->data)->disp;
 		if(lb->first==0) makeDispList(ob);
-		
+
 		if(solid && ob!=G.obedit) {
 			dl= lb->first;
 			if(dl==0) return;
-			
+
 			/* regel: dl->type INDEX3 altijd vooraan in lijst */
 			if(dl->type!=DL_INDEX3) {
 				curve_to_filledpoly(ob->data, lb);
 				dl= lb->first;
 			}
 			if(dl->nors==0) addnormalsDispList(ob, lb);
-			
+
 			index3_nors_incr= 0;
-			
+
 			if(dt==OB_SHADED) {
 				if(ob->disp.first==0) shadeDispList(ob);
 				drawDispListshaded(lb, ob);
@@ -1870,16 +1870,16 @@ void drawDispList(Object *ob, int dt)
 		}
 		break;
 	case OB_SURF:
-	
+
 		lb= &((Curve *)ob->data)->disp;
 		if(lb->first==0) makeDispList(ob);
-		
+
 		if(solid) {
 			dl= lb->first;
 			if(dl==0) return;
-			
+
 			if(dl->nors==0) addnormalsDispList(ob, lb);
-			
+
 			if(dt==OB_SHADED) {
 				if(ob->disp.first==0) shadeDispList(ob);
 				drawDispListshaded(lb, ob);
@@ -1887,7 +1887,7 @@ void drawDispList(Object *ob, int dt)
 			else {
 				init_gl_materials(ob);
 				two_sided(0);
-			
+
 				drawDispListsolid(lb, ob);
 			}
 		}
@@ -1906,16 +1906,16 @@ void draw_particle_system(Object *ob, PartEff *paf)
 	Particle *pa;
 	float ptime, ctime, vec[3], vec1[3];
 	int a;
-	
+
 	pa= paf->keys;
 	if(pa==0) {
 		build_particle_system(ob);
 		pa= paf->keys;
 		if(pa==0) return;
 	}
-	
+
 	loadmatrix(G.vd->viewmat);
-	
+
 	if(ob->ipoflag & OB_OFFS_PARTICLE) ptime= ob->sf;
 	else ptime= 0.0;
 	ctime= bsystem_time(ob, 0, (float)CFRA, ptime);
@@ -1924,26 +1924,26 @@ void draw_particle_system(Object *ob, PartEff *paf)
 	if(paf->stype!=PAF_VECT) glBegin(GL_POINTS);
 
 	for(a=0; a<paf->totpart; a++, pa+=paf->totkey) {
-		
+
 		if(ctime > pa->time) {
 			if(ctime < pa->time+pa->lifetime) {
-			
+
 				if(paf->stype==PAF_VECT) {
 					where_is_particle(paf, pa, ctime, vec);
 					where_is_particle(paf, pa, ctime+1.0, vec1);
-		
+
 
 					glBegin(GL_LINE_STRIP);
 						glVertex3fv(vec);
 						glVertex3fv(vec1);
 					glEnd();
-					
+
 				}
 				else {
 					where_is_particle(paf, pa, ctime, vec);
-					
+
 					glVertex3fv(vec);
-						
+
 				}
 			}
 		}
@@ -1957,28 +1957,28 @@ void draw_static_particle_system(Object *ob, PartEff *paf)
 	Particle *pa;
 	float ptime, ctime, mtime, vec[3], vec1[3];
 	int a;
-	
+
 	pa= paf->keys;
 	if(pa==0) {
 		build_particle_system(ob);
 		pa= paf->keys;
 		if(pa==0) return;
 	}
-	
+
 	glPointSize(1.0);
 	if(paf->stype!=PAF_VECT) glBegin(GL_POINTS);
 
 	for(a=0; a<paf->totpart; a++, pa+=paf->totkey) {
-		
+
 		where_is_particle(paf, pa, pa->time, vec1);
-		
+
 		mtime= pa->time+pa->lifetime+paf->staticstep-1;
-		
+
 		for(ctime= pa->time; ctime<mtime; ctime+=paf->staticstep) {
-			
-			/* make sure hair grows until the end.. */ 
+
+			/* make sure hair grows until the end.. */
 			if(ctime>pa->time+pa->lifetime) ctime= pa->time+pa->lifetime;
-			
+
 			if(paf->stype==PAF_VECT) {
 				where_is_particle(paf, pa, ctime+1, vec);
 
@@ -1986,14 +1986,14 @@ void draw_static_particle_system(Object *ob, PartEff *paf)
 					glVertex3fv(vec);
 					glVertex3fv(vec1);
 				glEnd();
-				
+
 				VECCOPY(vec1, vec);
 			}
 			else {
 				where_is_particle(paf, pa, ctime, vec);
-				
+
 				glVertex3fv(vec);
-					
+
 			}
 		}
 	}
@@ -2018,13 +2018,13 @@ void drawmeshwire(Object *ob)
 	me= get_mesh(ob);
 
 	if(ob==G.obedit || (G.obedit && ob->data==G.obedit->data)) {
-		
+
 		if(G.zbuf==0 && me->flag & ME_SMESH) {
 			cpack(0x505050);
 			drawDispListwire(&me->disp);
 		}
 		cpack(0x0);
-		
+
 		eed= G.eded.first;
 
 		glBegin(GL_LINES);
@@ -2036,9 +2036,9 @@ void drawmeshwire(Object *ob)
 			eed= eed->next;
 		}
 		glEnd();
-		
+
 		if(ob!=G.obedit) return;
-		
+
 		calc_meshverts();
 
 		if(G.zbuf) glDisable(GL_DEPTH_TEST);
@@ -2050,7 +2050,7 @@ void drawmeshwire(Object *ob)
 			cpack(0xDDDD22);
 
 			glBegin(GL_LINES);
-			
+
 			evl= G.edvl.first;
 			while(evl) {
 				if(evl->v1->h==0 && evl->v2->h==0 && evl->v3->h==0) {
@@ -2062,25 +2062,25 @@ void drawmeshwire(Object *ob)
 					fvec[1]+= editbutsize*evl->n[1];
 					fvec[2]+= editbutsize*evl->n[2];
 					glVertex3fv(fvec);
-					
+
 				}
 				evl= evl->next;
 			}
 
 			if(me->flag & ME_SMESH) {
 				cpack(0xEE4422);
-			
+
 				eve= G.edve.first;
 				while(eve) {
 					if(eve->h==0) {
 						VECCOPY(fvec, eve->co);
-	
+
 						glVertex3fv(fvec);
 						fvec[0]+= editbutsize*eve->no[0];
 						fvec[1]+= editbutsize*eve->no[1];
 						fvec[2]+= editbutsize*eve->no[2];
 						glVertex3fv(fvec);
-						
+
 					}
 					eve= eve->next;
 				}
@@ -2088,16 +2088,16 @@ void drawmeshwire(Object *ob)
 			glEnd();
 		}
 		if(G.f & (G_FACESELECT+G_DRAWFACES)) {	/* vlakken */
-			
+
 			evl= G.edvl.first;
 			while(evl) {
 				if(evl->v1->h==0 && evl->v2->h==0 && evl->v3->h==0) {
-					
+
 					if(vlakselectedAND(evl, 1)) cpack(0x559999);
 					else cpack(0x664466);
-				
+
 					if(evl->v4 && evl->v4->h==0) {
-					
+
 						CalcCent4f(cent, evl->v1->co, evl->v2->co, evl->v3->co, evl->v4->co);
 						glBegin(GL_LINE_LOOP);
 							VecMidf(fvec, cent, evl->v1->co); glVertex3fv(fvec);
@@ -2121,36 +2121,36 @@ void drawmeshwire(Object *ob)
 		}
 	}
 	else {
-		
+
 		if(me==0) return;
-		
+
 		if(me->bb==0) tex_space_mesh(me);
 		if(me->totface>4) if(boundbox_clip(ob->obmat, me->bb)==0) return;
-		
+
 		if(me->flag & ME_SMESH) drawDispListwire(&me->disp);
 		else {
-			
+
 			mvert= me->mvert;
 			mface= me->mface;
-			
+
 			ok= 0;
 			if(me->totface==0) ok= 1;
 			else {
 				ma= give_current_material(ob, 1);
 				if(ma && (ma->mode & MA_HALO)) ok= 1;
 			}
-			
+
 			dl= find_displist(&ob->disp, DL_VERTS);
 			if(dl) extverts= dl->verts;
-			
+
 			if(ok) {
-				
+
 				start= 0; end= me->totvert;
 				set_buildvars(ob, &start, &end);
-				
+
 				glPointSize(1.5);
 				glBegin(GL_POINTS);
-				
+
 				if(extverts) {
 					extverts+= 3*start;
 					for(a= start; a<end; a++, extverts+=3) {
@@ -2163,19 +2163,19 @@ void drawmeshwire(Object *ob)
 						glVertex3fv(mvert->co);
 					}
 				}
-				
+
 				glEnd();
 				glPointSize(1.0);
 			}
 			else {
-				
+
 				start= 0; end= me->totface;
 				set_buildvars(ob, &start, &end);
 				mface+= start;
-				
+
 				for(a=start; a<end; a++, mface++) {
 					test= mface->edcode;
-					
+
 					if(test) {
 						if(extverts) {
 							f1= extverts+3*mface->v1;
@@ -2185,7 +2185,7 @@ void drawmeshwire(Object *ob)
 							f1= (mvert+mface->v1)->co;
 							f2= (mvert+mface->v2)->co;
 						}
-						
+
 						if(mface->v4) {
 							if(extverts) {
 								f3= extverts+3*mface->v3;
@@ -2195,57 +2195,57 @@ void drawmeshwire(Object *ob)
 								f3= (mvert+mface->v3)->co;
 								f4= (mvert+mface->v4)->co;
 							}
-							
+
 							if(test== ME_V1V2+ME_V2V3+ME_V3V4+ME_V4V1) {
 								glBegin(GL_LINE_LOOP);
 									glVertex3fv(f1); glVertex3fv(f2); glVertex3fv(f3); glVertex3fv(f4);
 								glEnd();
 							}
 							else if(test== ME_V1V2+ME_V2V3+ME_V3V4) {
-	
+
 								glBegin(GL_LINE_STRIP);
 									glVertex3fv(f1); glVertex3fv(f2); glVertex3fv(f3); glVertex3fv(f4);
 								glEnd();
 							}
 							else if(test== ME_V2V3+ME_V3V4+ME_V4V1) {
-	
+
 								glBegin(GL_LINE_STRIP);
 									glVertex3fv(f2); glVertex3fv(f3); glVertex3fv(f4); glVertex3fv(f1);
 								glEnd();
 							}
 							else if(test== ME_V3V4+ME_V4V1+ME_V1V2) {
-	
+
 								glBegin(GL_LINE_STRIP);
 									glVertex3fv(f3); glVertex3fv(f4); glVertex3fv(f1); glVertex3fv(f2);
 								glEnd();
 							}
 							else if(test== ME_V4V1+ME_V1V2+ME_V2V3) {
-	
+
 								glBegin(GL_LINE_STRIP);
 									glVertex3fv(f4); glVertex3fv(f1); glVertex3fv(f2); glVertex3fv(f3);
 								glEnd();
 							}
 							else {
 								if(test & ME_V1V2) {
-	
+
 									glBegin(GL_LINE_STRIP);
 										glVertex3fv(f1); glVertex3fv(f2);
 									glEnd();
 								}
 								if(test & ME_V2V3) {
-	
+
 									glBegin(GL_LINE_STRIP);
 										glVertex3fv(f2); glVertex3fv(f3);
 									glEnd();
 								}
 								if(test & ME_V3V4) {
-	
+
 									glBegin(GL_LINE_STRIP);
 										glVertex3fv(f3); glVertex3fv(f4);
 									glEnd();
 								}
 								if(test & ME_V4V1) {
-	
+
 									glBegin(GL_LINE_STRIP);
 										glVertex3fv(f4); glVertex3fv(f1);
 									glEnd();
@@ -2255,45 +2255,45 @@ void drawmeshwire(Object *ob)
 						else if(mface->v3) {
 							if(extverts) f3= extverts+3*mface->v3;
 							else f3= (mvert+mface->v3)->co;
-		
+
 							if(test== ME_V1V2+ME_V2V3+ME_V3V1) {
 								glBegin(GL_LINE_LOOP);
 									glVertex3fv(f1); glVertex3fv(f2); glVertex3fv(f3);
 								glEnd();
 							}
 							else if(test== ME_V1V2+ME_V2V3) {
-	
+
 								glBegin(GL_LINE_STRIP);
 									glVertex3fv(f1); glVertex3fv(f2); glVertex3fv(f3);
 								glEnd();
 							}
 							else if(test== ME_V2V3+ME_V3V1) {
-	
+
 								glBegin(GL_LINE_STRIP);
 									glVertex3fv(f2); glVertex3fv(f3); glVertex3fv(f1);
 								glEnd();
 							}
 							else if(test== ME_V1V2+ME_V3V1) {
-	
+
 								glBegin(GL_LINE_STRIP);
 									glVertex3fv(f3); glVertex3fv(f1); glVertex3fv(f2);
 								glEnd();
 							}
 							else {
 								if(test & ME_V1V2) {
-	
+
 									glBegin(GL_LINE_STRIP);
 										glVertex3fv(f1); glVertex3fv(f2);
 									glEnd();
 								}
 								if(test & ME_V2V3) {
-	
+
 									glBegin(GL_LINE_STRIP);
 										glVertex3fv(f2); glVertex3fv(f3);
 									glEnd();
 								}
 								if(test & ME_V3V1) {
-	
+
 									glBegin(GL_LINE_STRIP);
 										glVertex3fv(f3); glVertex3fv(f1);
 									glEnd();
@@ -2301,7 +2301,7 @@ void drawmeshwire(Object *ob)
 							}
 						}
 						else if(test & ME_V1V2) {
-	
+
 							glBegin(GL_LINE_STRIP);
 								glVertex3fv(f1); glVertex3fv(f2);
 							glEnd();
@@ -2309,7 +2309,7 @@ void drawmeshwire(Object *ob)
 					}
 				}
 			}
-			
+
 		}
 	}
 }
@@ -2339,33 +2339,33 @@ short sel;
 					fp= bezt->vec[0];
 					cpack(col[bezt->h1]);
 
-					glBegin(GL_LINE_STRIP); 
+					glBegin(GL_LINE_STRIP);
 					glVertex3fv(fp);
-					glVertex3fv(fp+3); 
+					glVertex3fv(fp+3);
 					glEnd();
 					cpack(col[bezt->h2]);
 
-					glBegin(GL_LINE_STRIP); 
-					glVertex3fv(fp+3); 
-					glVertex3fv(fp+6); 
+					glBegin(GL_LINE_STRIP);
+					glVertex3fv(fp+3);
+					glVertex3fv(fp+6);
 					glEnd();
 				}
 				else if( (bezt->f1 & 1)==sel) {
 					fp= bezt->vec[0];
 					cpack(col[bezt->h1]);
 
-					glBegin(GL_LINE_STRIP); 
-					glVertex3fv(fp); 
-					glVertex3fv(fp+3); 
+					glBegin(GL_LINE_STRIP);
+					glVertex3fv(fp);
+					glVertex3fv(fp+3);
 					glEnd();
 				}
 				else if( (bezt->f3 & 1)==sel) {
 					fp= bezt->vec[1];
 					cpack(col[bezt->h2]);
 
-					glBegin(GL_LINE_STRIP); 
-					glVertex3fv(fp); 
-					glVertex3fv(fp+3); 
+					glBegin(GL_LINE_STRIP);
+					glVertex3fv(fp);
+					glVertex3fv(fp+3);
 					glEnd();
 				}
 			}
@@ -2388,9 +2388,9 @@ short sel;
 	if(sel) cpack(B_YELLOW);
 	else cpack(B_PURPLE);
 	glPointSize(3.0);
-	
+
 	glBegin(GL_POINTS);
-	
+
 	if((nu->type & 7)==1) {
 
 		bezt= nu->bezt;
@@ -2414,7 +2414,7 @@ short sel;
 			bp++;
 		}
 	}
-	
+
 	glEnd();
 	glPointSize(1.0);
 }
@@ -2424,7 +2424,7 @@ void draw_editnurb(Object *ob, Nurb *nurb, int sel)
 	Nurb *nu;
 	BPoint *bp, *bp1;
 	int a, b, ofs;
-	
+
 	nu= nurb;
 	while(nu) {
 		if(nu->hide==0) {
@@ -2456,9 +2456,9 @@ void draw_editnurb(Object *ob, Nurb *nurb, int sel)
 							if(sel) {
 								if( (bp->f1 & 1) && ( bp1->f1 & 1) ) {
 									cpack(nurbcol[5]);
-		
+
 									glBegin(GL_LINE_STRIP);
-									glVertex3fv(bp->vec); 
+									glVertex3fv(bp->vec);
 									glVertex3fv(bp1->vec);
 									glEnd();
 								}
@@ -2467,9 +2467,9 @@ void draw_editnurb(Object *ob, Nurb *nurb, int sel)
 								if( (bp->f1 & 1) && ( bp1->f1 & 1) );
 								else {
 									cpack(nurbcol[1]);
-		
+
 									glBegin(GL_LINE_STRIP);
-									glVertex3fv(bp->vec); 
+									glVertex3fv(bp->vec);
 									glVertex3fv(bp1->vec);
 									glEnd();
 								}
@@ -2489,9 +2489,9 @@ void draw_editnurb(Object *ob, Nurb *nurb, int sel)
 								if(sel) {
 									if( (bp->f1 & 1) && ( bp1->f1 & 1) ) {
 										cpack(nurbcol[7]);
-			
+
 										glBegin(GL_LINE_STRIP);
-										glVertex3fv(bp->vec); 
+										glVertex3fv(bp->vec);
 										glVertex3fv(bp1->vec);
 										glEnd();
 									}
@@ -2500,9 +2500,9 @@ void draw_editnurb(Object *ob, Nurb *nurb, int sel)
 									if( (bp->f1 & 1) && ( bp1->f1 & 1) );
 									else {
 										cpack(nurbcol[3]);
-			
+
 										glBegin(GL_LINE_STRIP);
-										glVertex3fv(bp->vec); 
+										glVertex3fv(bp->vec);
 										glVertex3fv(bp1->vec);
 										glEnd();
 									}
@@ -2540,9 +2540,9 @@ void drawnurb(Object *ob, Nurb *nurb, int dt)
 		}
 		nu= nu->next;
 	}
-	
+
 	/* dan DispList */
-	
+
 	cpack(0);
 	cu= ob->data;
 	drawDispList(ob, dt);
@@ -2551,20 +2551,20 @@ void drawnurb(Object *ob, Nurb *nurb, int dt)
 	draw_editnurb(ob, nurb, 1);
 
 	if(cu->flag & CU_3D) {
-	
+
 		if(cu->bev.first==0) makeBevelList(ob);
-		
+
 		cpack(0x0);
 		bl= cu->bev.first;
 		nu= nurb;
 		while(nu && bl) {
-			bevp= (BevPoint *)(bl+1);		
+			bevp= (BevPoint *)(bl+1);
 			nr= bl->nr;
-			
+
 			skip= nu->resolu/16;
-			
+
 			while(nr-- > 0) {
-				
+
 				glBegin(GL_LINE_STRIP);
 				vec[0]= bevp->x-editbutsize*bevp->mat[0][0];
 				vec[1]= bevp->y-editbutsize*bevp->mat[0][1];
@@ -2576,9 +2576,9 @@ void drawnurb(Object *ob, Nurb *nurb, int dt)
 				glVertex3fv(vec);
 
 				glEnd();
-				
+
 				bevp++;
-				
+
 				a= skip;
 				while(a--) {
 					bevp++;
@@ -2594,7 +2594,7 @@ void drawnurb(Object *ob, Nurb *nurb, int dt)
 	calc_Nurbverts(nurb);
 
 	if(G.zbuf) glDisable(GL_DEPTH_TEST);
-	
+
 	nu= nurb;
 	while(nu) {
 		if((nu->type & 7)==1) tekenhandlesN(nu, 1);
@@ -2607,8 +2607,8 @@ void drawnurb(Object *ob, Nurb *nurb, int dt)
 		tekenvertsN(nu, 1);
 		nu= nu->next;
 	}
-	
-	if(G.zbuf) glEnable(GL_DEPTH_TEST); 
+
+	if(G.zbuf) glEnable(GL_DEPTH_TEST);
 }
 
 void tekentextcurs()
@@ -2627,15 +2627,15 @@ void drawcircball(float *cent, float rad, float tmat[][4])
 {
 	float si, co, phi, dphi, vec[3], vx[3], vy[3];
 	int a, tot=32;
-		
+
 	VECCOPY(vx, tmat[0]);
 	VECCOPY(vy, tmat[1]);
 	VecMulf(vx, rad);
 	VecMulf(vy, rad);
-	
+
 	dphi= 2.0*M_PI/tot;
 	phi= 0.0;
-	
+
 	glBegin(GL_LINE_LOOP);
 	for(a=0; a<tot; a++, phi+= dphi) {
 		si= fsin(phi);
@@ -2671,14 +2671,14 @@ void draw_bb_box(BoundBox *bb)
 	glBegin(GL_LINE_STRIP);
 		glVertex3fv(vec+9); glVertex3fv(vec+21);
 	glEnd();
-	
+
 }
 
 void get_local_bounds(Object *ob, float *centre, float *size)
 {
 	BoundBox *bb= NULL;
 	/* uses boundbox, function used by Ketsji */
-	
+
 	if(ob->type==OB_MESH) {
 		bb= ( (Mesh *)ob->data )->bb;
 		if(bb==0) {
@@ -2689,7 +2689,7 @@ void get_local_bounds(Object *ob, float *centre, float *size)
 	else if ELEM3(ob->type, OB_CURVE, OB_SURF, OB_FONT) {
 		bb= ( (Curve *)ob->data )->bb;
 	}
-	
+
 	if(bb==NULL) {
 		centre[0]= centre[1]= centre[2]= 0.0;
 		VECCOPY(size, ob->size);
@@ -2698,7 +2698,7 @@ void get_local_bounds(Object *ob, float *centre, float *size)
 		size[0]= 0.5*fabs(bb->vec[0][0] - bb->vec[4][0]);
 		size[1]= 0.5*fabs(bb->vec[0][1] - bb->vec[2][1]);
 		size[2]= 0.5*fabs(bb->vec[0][2] - bb->vec[1][2]);
-		
+
 		centre[0]= (bb->vec[0][0] + bb->vec[4][0])/2.0;
 		centre[1]= (bb->vec[0][1] + bb->vec[2][1])/2.0;
 		centre[2]= (bb->vec[0][2] + bb->vec[1][2])/2.0;
@@ -2710,25 +2710,25 @@ void get_local_bounds(Object *ob, float *centre, float *size)
 void draw_bb_quadric(BoundBox *bb, short type)
 {
 	float *vec, size[3], cent[3];
-	GLUquadricObj *qobj = gluNewQuadric(); 
-	
-	gluQuadricDrawStyle(qobj, GLU_SILHOUETTE); 
-	
+	GLUquadricObj *qobj = gluNewQuadric();
+
+	gluQuadricDrawStyle(qobj, GLU_SILHOUETTE);
+
 	vec= bb->vec[0];
-	
+
 	size[0]= 0.5*fabs(bb->vec[0][0] - bb->vec[4][0]);
 	size[1]= 0.5*fabs(bb->vec[0][1] - bb->vec[2][1]);
 	size[2]= 0.5*fabs(bb->vec[0][2] - bb->vec[1][2]);
-	
+
 	cent[0]= (bb->vec[0][0] + bb->vec[4][0])/2.0;
 	cent[1]= (bb->vec[0][1] + bb->vec[2][1])/2.0;
 	cent[2]= (bb->vec[0][2] + bb->vec[1][2])/2.0;
-	
+
 	if(type==OB_BOUND_SPHERE) {
 		glTranslatef(cent[0], cent[1], cent[2]);
 		glScalef(size[0], size[1], size[2]);
 		gluSphere(qobj, 1.0, 8, 5);
-	}	
+	}
 	else if(type==OB_BOUND_CYLINDER) {
 		glTranslatef(cent[0], cent[1], cent[2]-size[2]);
 		glScalef(size[0], size[1], 2.0*size[2]);
@@ -2739,8 +2739,8 @@ void draw_bb_quadric(BoundBox *bb, short type)
 		glScalef(size[0], size[1], 2.0*size[2]);
 		gluCylinder(qobj, 1.0, 0.0, 1.0, 8, 1);
 	}
-	
-	gluDeleteQuadric(qobj); 
+
+	gluDeleteQuadric(qobj);
 }
 
 void draw_bounding_volume(Object *ob)
@@ -2748,7 +2748,7 @@ void draw_bounding_volume(Object *ob)
 	Mesh *me;
 	BoundBox *bb=0;
 	float *vec;
-	
+
 	if(ob->type==OB_MESH) {
 		bb= ( (Mesh *)ob->data )->bb;
 		if(bb==0) {
@@ -2767,12 +2767,12 @@ void draw_bounding_volume(Object *ob)
 		drawcube();
 		return;
 	}
-	
+
 	if(bb==0) return;
-	
+
 	if(ob->boundtype==OB_BOUND_BOX) draw_bb_box(bb);
 	else draw_bb_quadric(bb, ob->boundtype);
-	
+
 }
 
 void drawtexspace(Object *ob)
@@ -2782,7 +2782,7 @@ void drawtexspace(Object *ob)
 	Curve *cu;
 	BoundBox bb;
 	float *vec, *loc, *size;
-	
+
 	if(ob->type==OB_MESH) {
 		me= ob->data;
 		size= me->size;
@@ -2794,18 +2794,18 @@ void drawtexspace(Object *ob)
 		loc= cu->loc;
 	}
 	else return;
-	
+
 	bb.vec[0][0]=bb.vec[1][0]=bb.vec[2][0]=bb.vec[3][0]= loc[0]-size[0];
 	bb.vec[4][0]=bb.vec[5][0]=bb.vec[6][0]=bb.vec[7][0]= loc[0]+size[0];
-	
+
 	bb.vec[0][1]=bb.vec[1][1]=bb.vec[4][1]=bb.vec[5][1]= loc[1]-size[1];
 	bb.vec[2][1]=bb.vec[3][1]=bb.vec[6][1]=bb.vec[7][1]= loc[1]+size[1];
 
 	bb.vec[0][2]=bb.vec[3][2]=bb.vec[4][2]=bb.vec[7][2]= loc[2]-size[2];
 	bb.vec[1][2]=bb.vec[2][2]=bb.vec[5][2]=bb.vec[6][2]= loc[2]+size[2];
-	
+
 	setlinestyle(2);
-		
+
 	vec= bb.vec[0];
 
 	glBegin(GL_LINE_STRIP);
@@ -2825,7 +2825,7 @@ void drawtexspace(Object *ob)
 	glBegin(GL_LINE_STRIP);
 		glVertex3fv(vec+9); glVertex3fv(vec+21);
 	glEnd();
-	
+
 	setlinestyle(0);
 }
 
@@ -2844,7 +2844,7 @@ void draw_object(Base *base)
 	int sel, drawtype, colindex= 0, ipoflag;
 	short dt, dtx, zbufoff= 0;
 	char str[4];
-	
+
 	ob= base->object;
 
 	/* keys tekenen? */
@@ -2854,19 +2854,19 @@ void draw_object(Base *base)
 				float temp[7][3];
 
 				warning_recursive= 1;
-				
+
 				elems.first= elems.last= 0;
 				make_cfra_list(ob->ipo, &elems);
-		
+
 				cfraont= CFRA;
 				drawtype= G.vd->drawtype;
 				if(drawtype>OB_WIRE) G.vd->drawtype= OB_WIRE;
 				sel= base->flag;
 				memcpy(temp, &ob->loc, 7*3*sizeof(float));
-				
+
 				ipoflag= ob->ipoflag;
 				ob->ipoflag &= ~OB_OFFS_OB;
-				
+
 				set_no_parent_ipo(1);
 				disable_speed_curve(1);
 
@@ -2875,23 +2875,23 @@ void draw_object(Base *base)
 					while(ce) {
 						if(!ce->sel) {
 							CFRA= ce->cfra/G.scene->r.framelen;
-						
+
 							base->flag= 0;
-						
+
 							where_is_object_time(ob, CFRA);
 							draw_object(base);
 						}
 						ce= ce->next;
 					}
 				}
-				
+
 				ce= elems.first;
 				while(ce) {
 					if(ce->sel) {
 						CFRA= ce->cfra/G.scene->r.framelen;
-						
+
 						base->flag= SELECT;
-						
+
 						where_is_object_time(ob, CFRA);
 						draw_object(base);
 					}
@@ -2900,24 +2900,24 @@ void draw_object(Base *base)
 
 				set_no_parent_ipo(0);
 				disable_speed_curve(0);
-				
+
 				base->flag= sel;
 				ob->ipoflag= ipoflag;
-				
+
 				/* restore icu->curval */
 				CFRA= cfraont;
-				
+
 				memcpy(&ob->loc, temp, 7*3*sizeof(float));
 				where_is_object(ob);
 				G.vd->drawtype= drawtype;
-				
+
 				freelistN(&elems);
 
 				warning_recursive= 0;
 			}
 		}
 	}
-	
+
 	/* patch? kinderen met timeoffs verprutsen ouders. Hoe los je dat op! */
 	/* if( ((int)ob->ctime) != F_CFRA) where_is_object(ob); */
 
@@ -2926,7 +2926,7 @@ void draw_object(Base *base)
 	/* welke wire kleur */
 	if((G.f & (G_BACKBUFSEL+G_PICKSEL)) == 0) {
 		project_short(ob->obmat[3], &base->sx);
-		
+
 		if(G.moving==1 && (base->flag & (SELECT+BA_PARSEL))) colindex= 12;
 		else {
 			if(BASACT==base) {
@@ -2938,27 +2938,27 @@ void draw_object(Base *base)
 			if(ob->id.lib) colindex+= 3;
 			else if(warning_recursive==1) colindex+= 6;
 			else if(ob->flag & OB_FROMGROUP) colindex+= 9;
-		}	
-		
+		}
+
 		col= colortab[colindex];
 		cpack(col);
 
 	}
-	
+
 	/* maximum drawtype */
 	dt= MIN2(G.vd->drawtype, ob->dt);
 	if(G.zbuf==0 && dt>OB_WIRE) dt= OB_WIRE;
 	dtx= 0;
-	
+
 	/* faceselect uitzondering: ook solid tekenen als dt==wire, behalve in editmode */
 	if(ob==OBACT && (G.f & (G_FACESELECT+G_VERTEXPAINT))) {
 		if(ob->type==OB_MESH) {
-			
+
 			if(ob==G.obedit) dt= OB_WIRE;
 			else {
 				if(G.f & G_BACKBUFSEL) dt= OB_SOLID;
 				else dt= OB_SHADED;
-		
+
 				glClearDepth(1.0); glClear(GL_DEPTH_BUFFER_BIT);
 				glEnable(GL_DEPTH_TEST);
 				zbufoff= 1;
@@ -2982,23 +2982,23 @@ void draw_object(Base *base)
 			if(dtx & OB_TEXSPACE) dtx= OB_TEXSPACE;
 			else dtx= 0;
 		}
-		
+
 		if(G.f & G_DRAW_EXT) {
 			if(ob->type==OB_EMPTY || ob->type==OB_CAMERA || ob->type==OB_LAMP) dt= OB_WIRE;
 		}
-		
+
 	}
 
 	if( (G.f & G_DRAW_EXT) && dt>OB_WIRE) {
-		
+
 	}
 	else {
 
 		switch( ob->type) {
-			
+
 		case OB_MESH:
 			me= ob->data;
-			
+
 			if(base->flag & OB_RADIO);
 			else if(ob==G.obedit || (G.obedit && ob->data==G.obedit->data)) {
 				if(dt<=OB_WIRE) drawmeshwire(ob);
@@ -3015,7 +3015,7 @@ void draw_object(Base *base)
 			}
 			else {
 				Material *ma= give_current_material(ob, 1);
-				
+
 				if(dt==OB_BOUNDBOX) draw_bounding_volume(ob);
 				else if(dt==OB_WIRE) drawmeshwire(ob);
 				else if(ma && (ma->mode & MA_HALO)) drawmeshwire(ob);
@@ -3034,7 +3034,7 @@ void draw_object(Base *base)
 					cpack(col);
 				}
 			}
-			
+
 			break;
 		case OB_FONT:
 			cu= ob->data;
@@ -3045,21 +3045,21 @@ void draw_object(Base *base)
 			}
 			else if(dt==OB_BOUNDBOX) draw_bounding_volume(ob);
 			else if(boundbox_clip(ob->obmat, cu->bb)) drawDispList(ob, dt);
-				
+
 			break;
 		case OB_CURVE:
 		case OB_SURF:
 			cu= ob->data;
 			/* een pad niet solid tekenen: wel dus!!! */
 			/* if(cu->flag & CU_PATH) if(dt>OB_WIRE) dt= OB_WIRE; */
-			
+
 			if(ob==G.obedit) {
 				drawnurb(ob, editNurb.first, dt);
 				if((G.f & G_PROPORTIONAL)) draw_prop_circle();
 			}
 			else if(dt==OB_BOUNDBOX) draw_bounding_volume(ob);
 			else if(boundbox_clip(ob->obmat, cu->bb)) drawDispList(ob, dt);
-			
+
 			break;
 		case OB_EMPTY:
 			drawaxes(1.0);
@@ -3074,9 +3074,6 @@ void draw_object(Base *base)
 		case OB_LATTICE:
 			drawlattice(ob);
 			if(ob==G.obedit && (G.f & G_PROPORTIONAL)) draw_prop_circle();
-			break;
-		case OB_IKA:
-			draw_ika(ob, base->flag & SELECT);
 			break;
 		default:
 			drawaxes(1.0);
@@ -3105,11 +3102,11 @@ void draw_object(Base *base)
 	if(dt<OB_SHADED) {
 		if( ob->gameflag & OB_DYNAMIC) {
 			float tmat[4][4], imat[4][4], vec[3];
-			
+
 			vec[0]= vec[1]= vec[2]= 0.0;
 			getmatrix(tmat);
 			Mat4Invert(imat, tmat);
-			
+
 			setlinestyle(2);
 			drawcircball(vec, ob->inertia, imat);
 			setlinestyle(0);
@@ -3127,13 +3124,13 @@ void draw_object(Base *base)
 
 	if((G.f & (G_BACKBUFSEL+G_PICKSEL))==0) {
 		/* hulplijnen e.d. */
-		
+
 		if(ob->parent && (ob->parent->lay & G.vd->lay)) {
 			setlinestyle(3);
 			LINE3F(ob->obmat[3], ob->orig);
 			setlinestyle(0);
 		}
-		
+
 		/* object centers */
 		if(G.zbuf) glDisable(GL_DEPTH_TEST);
 		if(ob->type == OB_LAMP) {
@@ -3164,14 +3161,14 @@ void draw_object(Base *base)
 			tekenrect4(ob->obmat[3], rect);
 		}
 		if(G.zbuf) glEnable(GL_DEPTH_TEST);
-		
+
 	}
 	else if((G.f & (G_VERTEXPAINT|G_FACESELECT))==0) {
-	
+
 		glBegin(GL_POINTS);
 			glVertex3fv(ob->obmat[3]);
 		glEnd();
-		
+
 	}
 }
 
@@ -3179,16 +3176,16 @@ void draw_object_ext(Base *base)
 {
 	ScrArea *tempsa, *sa;
 	View3D *vd;
-	
+
 	if(G.vd==0) return;
-	
+
 	if(G.vd->drawtype > OB_WIRE) {
 		G.zbuf= 1;
 		glEnable(GL_DEPTH_TEST);
 	}
-	
+
 	G.f |= G_DRAW_EXT;
-	
+
 	glDrawBuffer(GL_FRONT);
 
 	/* alle views aflopen */
@@ -3197,7 +3194,7 @@ void draw_object_ext(Base *base)
 	while(sa) {
 		if(sa->spacetype==SPACE_VIEW3D) {
 			/* er wordt beperkt in beide buffers getekend: selectbuffer! */
-			
+
 			vd= sa->spacedata.first;
 			if(base->lay & vd->lay) {
 
@@ -3217,18 +3214,18 @@ void draw_object_ext(Base *base)
 					sa->win_swap= WIN_FRONT_OK;
 				}
 				draw_object(base);
-				
+
 				#endif
 			}
 		}
 		sa= sa->next;
 	}
 	if(curarea!=tempsa) areawinset(tempsa->win);
-	
+
 	G.f &= ~G_DRAW_EXT;
 
 	glDrawBuffer(GL_BACK);
-	
+
 	if(G.zbuf) {
 		G.zbuf= 0;
 		glDisable(GL_DEPTH_TEST);

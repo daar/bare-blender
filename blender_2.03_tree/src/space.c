@@ -22,9 +22,9 @@
 
 
 /*  space.c   jan/juli 94     GRAPHICS
- * 
+ *
  *  - hier het initialiseren en vrijgeven van SPACE data
- * 
+ *
  * Version: $Id: space.c,v 1.34 2000/09/25 22:02:55 ton Exp $
  */
 
@@ -45,9 +45,9 @@ void force_draw_plus(int type);
 void drawemptyspace()
 {
 
-	glClearColor(0.5, 0.5, 0.5, 0.0); 
+	glClearColor(0.5, 0.5, 0.5, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT);
-	
+
 }
 
 /* ************* SPACE: VIEW3D  ************* */
@@ -61,10 +61,10 @@ void copy_view3d_lock(short val)
 	ScrArea *sa;
 	bScreen *sc;
 	int bit;
-	
+
 	/* van G.scene naar andere views kopieeren */
 	sc= G.main->screen.first;
-	
+
 	while(sc) {
 		if(sc->scene==G.scene) {
 			sa= sc->areabase.first;
@@ -79,9 +79,9 @@ void copy_view3d_lock(short val)
 						if(vd->localview==0) {
 							vd->lay= G.scene->lay;
 							vd->camera= G.scene->camera;
-							
+
 							if(vd->camera==0 && vd->persp>1) vd->persp= 1;
-							
+
 							if( (vd->lay & vd->layact) == 0) {
 								bit= 0;
 								while(bit<32) {
@@ -92,7 +92,7 @@ void copy_view3d_lock(short val)
 									bit++;
 								}
 							}
-							
+
 							if(val==REDRAW && vd==sa->spacedata.first) {
 								if(sa->win) addqueue(sa->win, REDRAW, 1);
 								if(sa->headwin) addqueue(sa->headwin, REDRAW, 1);
@@ -116,33 +116,31 @@ void handle_view3d_lock()
 		/* naar scene kopieeren */
 		G.scene->lay= G.vd->lay;
 		G.scene->camera= G.vd->camera;
-	
+
 		copy_view3d_lock(REDRAW);
 	}
 }
- 
+
 void start_game()
 {
 	int oldframe;
 #ifdef NAN_GAME
 	/* can start from header */
 	winset(curarea->win);
-    
+
 	oldframe= CFRA;
 	CFRA= 1;
 	do_all_ipos();
 	do_all_scripts(SCRIPT_FRAMECHANGED);
 	do_all_keys();
-	do_all_ikas();
 
 	Ketsji_Start1(&G, curarea);
-    
+
 	CFRA= oldframe;
 	do_all_ipos();
 	do_all_scripts(SCRIPT_FRAMECHANGED);
 	do_all_keys();
-	do_all_ikas();
-    
+
 #else
 	sector_simulate();
 #endif
@@ -154,9 +152,9 @@ void start_game()
 
 void changeview3d()
 {
-	
+
 	setwinmatrixview3d(0);	/* 0= geen pick rect */
-	
+
 }
 
 
@@ -166,10 +164,10 @@ void winqread3d(ushort event, short val)
 	static int padevent= 0;
 	float *curs;
 	int doredraw= 0, textedit, pupval;
-	
+
 	if(curarea->win==0) return;	/* hier komtie vanuit sa->headqread() */
 	if(event==MOUSEY) return;
-	
+
 	if(val) {
 
 		if( uiDoBlocks(&curarea->uiblocks, event)!=UI_NOTHING ) event= 0;
@@ -177,7 +175,7 @@ void winqread3d(ushort event, short val)
 		/* TEXTEDITING?? */
 		if(G.obedit && G.obedit->type==OB_FONT) {
 			switch(event) {
-			
+
 			case LEFTMOUSE:
 				mouse_cursor();
 				break;
@@ -212,7 +210,7 @@ void winqread3d(ushort event, short val)
 				padevent= 2;
 				doredraw= 1;
 				break;
-				
+
 			default:
 				do_textedit(event, val);
 				break;
@@ -221,11 +219,11 @@ void winqread3d(ushort event, short val)
 		}
 		else {
 			switch(event) {
-			
+
 			case BACKBUFDRAW:
 				backdrawview3d(1);
 				break;
-				
+
 			case LEFTMOUSE:
 				if(G.f & G_VERTEXPAINT) vertex_paint();
 				else mouse_cursor();
@@ -253,7 +251,7 @@ void winqread3d(ushort event, short val)
 				else if( G.f & G_VERTEXPAINT) sample_vpaint();
 				else mouse_select();
 				break;
-			
+
 			case ONEKEY:
 				do_layer_toets(0); break;
 			case TWOKEY:
@@ -280,7 +278,7 @@ void winqread3d(ushort event, short val)
 				do_layer_toets(11); break;
 			case ACCENTGRAVEKEY:
 				do_layer_toets(-1); break;
-				
+
 			case AKEY:
 				if(G.qual & LR_CTRLKEY) apply_object();
 				else if(G.qual & LR_SHIFTKEY) {
@@ -328,7 +326,7 @@ void winqread3d(ushort event, short val)
 					G.vd->ofs[2]= -curs[2];
 					addqueue(curarea->win, REDRAW, 1);
 				}
-			
+
 				break;
 			case DKEY:
 				if(G.qual & LR_SHIFTKEY) {
@@ -349,20 +347,16 @@ void winqread3d(ushort event, short val)
 					if(pupval>0) {
 						G.vd->drawtype= pupval;
 						doredraw= 1;
-					
+
 					}
 				}
-				
+
 				break;
 			case EKEY:
 				if(G.obedit) {
 					if(G.obedit->type==OB_MESH) extrude_mesh();
 					else if(G.obedit->type==OB_CURVE) addvert_Nurb('e');
 					else if(G.obedit->type==OB_SURF) extrude_nurb();
-				}
-				else {
-					ob= OBACT;
-					if(ob && ob->type==OB_IKA) if(okee("extrude IKA")) extrude_ika(ob, 1);
 				}
 				break;
 			case FKEY:
@@ -379,7 +373,7 @@ void winqread3d(ushort event, short val)
 				else {
 						set_faceselect();
 					}
-				
+
 				break;
 			case GKEY:
 				if(G.qual & LR_CTRLKEY) add_selected_to_group();
@@ -398,22 +392,22 @@ void winqread3d(ushort event, short val)
 						else hideNurb(G.qual & LR_SHIFTKEY);
 					}
 					else if(G.obedit->type==OB_CURVE) {
-					
+
 						if(G.qual & 48) autocalchandlesNurb_all(1);	/* flag=1, selected */
 						else if(G.qual & 3) sethandlesNurb(1);
 						else sethandlesNurb(3);
-						
+
 						makeDispList(G.obedit);
-						
+
 						allqueue(REDRAWVIEW3D, 0);
 					}
 				}
 				else if(G.f & G_FACESELECT) hide_tface();
-				
+
 				break;
 			case IKEY:
 				break;
-				
+
 			case JKEY:
 				if(G.qual & LR_CTRLKEY) {
 					if(ob= OBACT) {
@@ -432,11 +426,10 @@ void winqread3d(ushort event, short val)
 						if(G.f & G_VERTEXPAINT) clear_vpaint();
 						else select_select_keys();
 					}
-					else if(G.qual & LR_CTRLKEY) make_skeleton();
 /* 					else if(G.qual & LR_ALTKEY) delete_skeleton(); */
 					else set_ob_ipoflags();
 				}
-				
+
 				break;
 			case LKEY:
 				if(G.obedit) {
@@ -444,7 +437,7 @@ void winqread3d(ushort event, short val)
 					else if ELEM(G.obedit->type, OB_CURVE, OB_SURF) selectconnected_nurb();
 				}
 				else {
-				
+
 					if(G.qual & LR_SHIFTKEY) selectlinks();
 					else if(G.qual & LR_CTRLKEY) linkmenu();
 					else if(G.f & G_FACESELECT) select_linked_tfaces();
@@ -479,7 +472,7 @@ void winqread3d(ushort event, short val)
 				}
 				break;
 			case PKEY:
-				
+
 				if(G.obedit) {
 					if(G.qual) {
 						if(G.qual & LR_CTRLKEY) make_parent();
@@ -529,7 +522,7 @@ void winqread3d(ushort event, short val)
 					if(G.obedit) transform('t');
 					else texspace_edit();
 				}
-				
+
 				break;
 			case UKEY:
 				if(G.obedit) {
@@ -540,10 +533,10 @@ void winqread3d(ushort event, short val)
 				else if(G.f & G_FACESELECT) uv_autocalc_tface();
 				else if(G.f & G_VERTEXPAINT) vpaint_undo();
 				else single_user();
-				
+
 				break;
 			case VKEY:
-			
+
 				if(G.obedit) {
 					if(G.obedit->type==OB_CURVE) {
 						sethandlesNurb(2);
@@ -553,7 +546,7 @@ void winqread3d(ushort event, short val)
 				}
 				else if(G.qual & LR_ALTKEY) image_aspect();
 				else set_vpaint();
-				
+
 				break;
 			case WKEY:
 				if(G.qual & LR_SHIFTKEY) {
@@ -570,7 +563,7 @@ void winqread3d(ushort event, short val)
 					}
 				}
 				else special_editmenu();
-				
+
 				break;
 			case XKEY:
 			case DELKEY:
@@ -602,13 +595,13 @@ void winqread3d(ushort event, short val)
 					if(G.vd->drawtype==OB_SOLID || G.vd->drawtype==OB_SHADED) G.vd->drawtype= OB_WIRE;
 					else G.vd->drawtype= OB_SOLID;
 				}
-				
-				
+
+
 				addqueue(curarea->headwin, REDRAW, 1);
 				addqueue(curarea->win, REDRAW, 1);
 				break;
-				
-			
+
+
 			case HOMEKEY:
 				view3d_home(0);
 				break;
@@ -616,12 +609,12 @@ void winqread3d(ushort event, short val)
 				G.vd->around= V3D_CENTRE;
 				addqueue(curarea->headwin, REDRAW, 1);
 				break;
-				
+
 			case PERIODKEY:
 				G.vd->around= V3D_CURSOR;
 				addqueue(curarea->headwin, REDRAW, 1);
 				break;
-			
+
 			case PADVIRGULEKEY:	/* '/' */
 				if(G.vd->localview) {
 					G.vd->localview= 0;
@@ -644,7 +637,7 @@ void winqread3d(ushort event, short val)
 			case PADPERIOD:	/* '.' */
 				centreview();
 				break;
-			
+
 			case PAGEUPKEY:
 				if(G.qual & LR_CTRLKEY) movekey_obipo(1);
 				else nextkey_obipo(1);	/* in editipo.c */
@@ -654,19 +647,19 @@ void winqread3d(ushort event, short val)
 				if(G.qual & LR_CTRLKEY) movekey_obipo(-1);
 				else nextkey_obipo(-1);
 				break;
-				
+
 			case PAD0: case PAD1: case PAD2: case PAD3: case PAD4:
 			case PAD5: case PAD6: case PAD7: case PAD8: case PAD9:
 			case PADMINUS: case PADPLUSKEY: case PADENTER:
 				persptoetsen(event);
 				doredraw= 1;
 				break;
-			
+
 				break;
 			}
 		}
 	}
-	
+
 	if(doredraw) {
 		addqueue(curarea->win, REDRAW, 1);
 		addqueue(curarea->headwin, REDRAW, 1);
@@ -676,12 +669,12 @@ void winqread3d(ushort event, short val)
 void initview3d(ScrArea *sa)
 {
 	View3D *vd;
-	
+
 	vd= callocN(sizeof(View3D), "initview3d");
 	addhead(&sa->spacedata, vd);	/* addhead! niet addtail */
 
 	set_func_space(sa);
-	
+
 	vd->spacetype= SPACE_VIEW3D;
 	vd->viewquat[0]= 1.0;
 	vd->viewquat[1]= vd->viewquat[2]= vd->viewquat[3]= 0.0;
@@ -711,9 +704,9 @@ void changeview2d()
 {
 	View2D *v2d;
 	float xmin, xmax, ymin, ymax;
-	
+
 	if(G.v2d==0) return;
-	
+
 	ortho2(G.v2d->cur.xmin, G.v2d->cur.xmax, G.v2d->cur.ymin, G.v2d->cur.ymax);
 	test_view2d();
 }
@@ -724,7 +717,7 @@ void winqreadipo(ushort event, short val)
 	float dx, dy;
 	int cfra, doredraw= 0;
 	short mval[2];
-	
+
 	if(curarea->win==0) return;
 
 	if(val) {
@@ -738,25 +731,25 @@ void winqreadipo(ushort event, short val)
 			if( in_ipo_buttons() ) {
 				do_ipo_selectbuttons();
 				doredraw= 1;
-			}			
+			}
 			else if(G.qual & LR_CTRLKEY) add_vert_ipo();
 			else {
 				do {
 					getmouseco_areawin(mval);
 					areamouseco_to_ipoco(mval, &dx, &dy);
-					
+
 					cfra= (int)dx;
 					if(cfra< 1) cfra= 1;
-					
+
 					if( cfra!=CFRA ) {
 						CFRA= cfra;
 						do_global_buttons(B_NEWFRAME);
 						force_draw_plus(SPACE_VIEW3D);
 					}
-				
+
 				} while(get_mbut()&L_MOUSE);
 			}
-			
+
 			break;
 		case MIDDLEMOUSE:
 			if(in_ipo_buttons()) {
@@ -804,7 +797,7 @@ void winqreadipo(ushort event, short val)
 		case HOMEKEY:
 			do_ipo_buttons(B_IPOHOME);
 			break;
-			
+
 		case AKEY:
 			if(in_ipo_buttons()) {
 				swap_visible_editipo();
@@ -870,12 +863,12 @@ void winqreadipo(ushort event, short val)
 void initipo(ScrArea *sa)
 {
 	SpaceIpo *sipo;
-	
+
 	sipo= callocN(sizeof(SpaceIpo), "initipo");
 	addhead(&sa->spacedata, sipo);
 
 	set_func_space(sa);
-	
+
 	sipo->spacetype= SPACE_IPO;
 	/* sipo space loopt van (0,-?) tot (??,?) */
 	sipo->v2d.tot.xmin= 0.0;
@@ -890,7 +883,7 @@ void initipo(ScrArea *sa)
 
 	sipo->v2d.max[0]= 15000.0;
 	sipo->v2d.max[1]= 10000.0;
-	
+
 	sipo->v2d.scroll= L_SCROLL+B_SCROLL;
 	sipo->v2d.keeptot= 0;
 
@@ -910,15 +903,15 @@ void drawinfospace()
 
 	if(curarea->win==0) return;
 
-	glClearColor(0.5, 0.5, 0.5, 0.0); 
+	glClearColor(0.5, 0.5, 0.5, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	fac= ((float)curarea->winx)/1280.0;
 	ortho2(0.0, 1280.0, 0.0, curarea->winy/fac);
-	
+
 	sprintf(naam, "infowin %d", curarea->win);
 	block= uiNewBlock(&curarea->uiblocks, naam, UI_EMBOSSX, UI_HELV, 0x808080, curarea->win);
-	
+
 	block->col= BUTBLUE;
 	but= uiDefBut(block, TOG|SHO|BIT|0, 0, "Auto Temp Save", 45,32,126,20, &(U.flag), 0, 0, 0, 0, "Enables/Disables the automatic temp. file saving");
 	but->func= (reset_autosave);
@@ -930,7 +923,7 @@ void drawinfospace()
 
 	block->col= BUTGREY;
 	uiDefBut(block, NUM|SHO, 0, "Versions:", 281,10,86,42, &U.versions, 0.0, 32.0, 0, 0, "The number of old versions to maintain when saving");
-	
+
 	block->col= BUTGREEN;
 	uiDefBut(block, TOG|SHO|BIT|4, 0, "Scene Global", 389,32,86,20, &(U.flag), 0, 0, 0, 0, "Forces the current Scene to be displayed in all Screens");
 	uiDefBut(block, TOG|SHO|BIT|5, 0, "TrackBall",	389,10,84,20, &(U.flag), 0, 0, 0, 0, "Switches between trackball and turntable view rotation methods (MiddleMouse)");
@@ -940,11 +933,11 @@ void drawinfospace()
 	uiDefBut(block, TOG|SHO|BIT|10, 0, "Viewmove",	569,32,76,20, &(U.flag), 0, 0, 0, 0, "Sets the default action for the middle mouse button");
 
 	uiDefBut(block, TOG|SHO|BIT|11, 0, "ToolTips",	663,10,66,43, &(U.flag), 0, 0, 0, 0, "Enables/Disables tooltips");
-	
+
 	uiDefBut(block, TOG|SHO|BIT|1, 0, "Grab Grid",	743,32,146,20, &(U.flag), 0, 0, 0, 0, "Changes default step mode for grabbing");
 	uiDefBut(block, TOG|SHO|BIT|2, 0, "Rot Grid",	815,10,74,20, &(U.flag), 0, 0, 0, 0, "Changes default step mode for rotation");
 	uiDefBut(block, TOG|SHO|BIT|3, 0, "Size Grid",	743,10,68,20, &(U.flag), 0, 0, 0, 0, "Changes default step mode for scaling");
-	
+
 	uiDefBut(block, TOG|SHO|BIT|0, 0, "Dupli Mesh",	902,10,90,42, &(U.dupflag), 0, 0, 0, 0, "Causes Mesh data to be duplicated with CTRL+d");
 	uiDefBut(block, TOG|SHO|BIT|1, 0, "Curve",		995,32,50,20, &(U.dupflag), 0, 0, 0, 0, "Causes Curve data to be duplicated with CTRL+d");
 	uiDefBut(block, TOG|SHO|BIT|2, 0, "Surf",		995,10,50,20, &(U.dupflag), 0, 0, 0, 0, "Causes Surface data to be duplicated with CTRL+d");
@@ -968,20 +961,20 @@ void drawinfospace()
 void winqreadinfospace(ushort event, short val)
 {
 	char *str;
-	
+
 	if(val) {
 
 		if( uiDoBlocks(&curarea->uiblocks, event)!=UI_NOTHING ) event= 0;
 
 		switch(event) {
-		
+
 		case UI_BUT_EVENT:
-			
+
 			/* if(val==B_U_CAPSLOCK) disable_capslock(U.flag & NO_CAPSLOCK); */
 			/* else  */
 			do_global_buttons(val);
-			
-			break;	
+
+			break;
 		}
 	}
 }
@@ -994,9 +987,9 @@ void changebutspace()
 {
 	View2D *v2d;
 	float xmin, xmax, ymin, ymax;
-	
+
 	if(G.v2d==0) return;
-	
+
 	test_view2d();
 	ortho2(G.v2d->cur.xmin, G.v2d->cur.xmax, G.v2d->cur.ymin, G.v2d->cur.ymax);
 }
@@ -1007,18 +1000,18 @@ void winqreadbutspace(ushort event, short val)
 	char *str;
 	float dx, dy;
 	int doredraw= 0;
-	
+
 	if(curarea->win==0) return;
 
 	if(val) {
-		
+
 		if( uiDoBlocks(&curarea->uiblocks, event)!=UI_NOTHING ) event= 0;
 
 		switch(event) {
 		case UI_BUT_EVENT:
 			do_blenderbuttons(val);
 			break;
-			
+
 		case MIDDLEMOUSE:
 			view2dmove();	/* in drawipo.c */
 			break;
@@ -1030,7 +1023,7 @@ void winqreadbutspace(ushort event, short val)
 		case RENDERPREVIEW:
 			RE_previewrender();
 			break;
-		
+
 		case HOMEKEY:
 			do_buts_buttons(B_BUTSHOME);
 			break;
@@ -1052,11 +1045,11 @@ void winqreadbutspace(ushort event, short val)
 			if(sa3d) {
 				sa= curarea;
 				areawinset(sa3d->win);
-				
+
 				if(event==PKEY) start_game();
 				else if(event==ZKEY) winqread3d(event, val);
 				else persptoetsen(event);
-				
+
 				addqueue(sa3d->win, REDRAW, 1);
 				addqueue(sa3d->headwin, REDRAW, 1);
 				areawinset(sa->win);
@@ -1075,29 +1068,29 @@ void set_rects_butspace(SpaceButs *buts)
 	buts->v2d.tot.ymin= 0.0;
 	buts->v2d.tot.xmax= 1279.0;
 	buts->v2d.tot.ymax= 228.0;
-	
+
 	buts->v2d.min[0]= 256.0;
 	buts->v2d.min[1]= 42.0;
 
 	buts->v2d.max[0]= 1600.0;
 	buts->v2d.max[1]= 450.0;
-	
+
 	buts->v2d.minzoom= 0.5;
 	buts->v2d.maxzoom= 1.41;
-	
+
 	buts->v2d.scroll= 0;
 	buts->v2d.keepaspect= 1;
 	buts->v2d.keepzoom= 1;
 	buts->v2d.keeptot= 1;
-	
+
 }
 
 void test_butspace()
 {
 	uiBlock *block;
-	
+
 	G.buts->v2d.tot.ymin= 0.0;
-	
+
 	block= curarea->uiblocks.first;
 	while(block) {
 		if(block->miny < G.buts->v2d.tot.ymin)
@@ -1109,7 +1102,7 @@ void test_butspace()
 void init_butspace(ScrArea *sa)
 {
 	SpaceButs *buts;
-	
+
 	buts= callocN(sizeof(SpaceButs), "initbuts");
 	addhead(&sa->spacedata, buts);
 
@@ -1126,7 +1119,7 @@ void extern_set_butspace(int fkey)
 {
 	ScrArea *sa;
 	SpaceButs *buts;
-	
+
 	/* als een ftoets ingedrukt: de dichtsbijzijnde buttonwindow wordt gezet */
 	if(curarea->spacetype==SPACE_BUTS) sa= curarea;
 	else {
@@ -1137,13 +1130,13 @@ void extern_set_butspace(int fkey)
 			sa= sa->next;
 		}
 	}
-	
+
 	if(sa==0) return;
-	
+
 	if(sa!=curarea) areawinset(sa->win);
-	
+
 	buts= sa->spacedata.first;
-	
+
 	if(fkey==F4KEY) buts->mainb= BUTS_LAMP;
 	else if(fkey==F5KEY) buts->mainb= BUTS_MAT;
 	else if(fkey==F6KEY) buts->mainb= BUTS_TEX;
@@ -1169,41 +1162,41 @@ void winqreadsequence(ushort event, short val)
 	float dx, dy;
 	int doredraw= 0, cfra, first;
 	short mval[2];
-	
+
 	if(curarea->win==0) return;
 
 	sseq= curarea->spacedata.first;
 
 	if(val) {
-		
+
 		if( uiDoBlocks(&curarea->uiblocks, event)!=UI_NOTHING ) event= 0;
 
 		switch(event) {
 		case LEFTMOUSE:
 			if(sseq->mainb || view2dmove()==0) {
-				
-				first= 1;		
+
+				first= 1;
 				set_special_seq_update(1);
 
 				do {
 					getmouseco_areawin(mval);
 					areamouseco_to_ipoco(mval, &dx, &dy);
-					
+
 					cfra= (int)dx;
 					if(cfra< 1) cfra= 1;
 					/* else if(cfra> EFRA) cfra= EFRA; */
-					
+
 					if( cfra!=CFRA || first ) {
 						first= 0;
-				
+
 						CFRA= cfra;
 						force_draw();
 					}
-				
+
 				} while(get_mbut()&L_MOUSE);
-				
+
 				set_special_seq_update(0);
-				
+
 				do_global_buttons(B_NEWFRAME);
 			}
 			break;
@@ -1256,7 +1249,7 @@ void winqreadsequence(ushort event, short val)
 		case HOMEKEY:
 			do_seq_buttons(B_SEQHOME);
 			break;
-		case PADPERIOD:	
+		case PADPERIOD:
 			if(last_seq) {
 				CFRA= last_seq->startdisp;
 				G.v2d->cur.xmin= last_seq->startdisp- (last_seq->len/20);
@@ -1264,7 +1257,7 @@ void winqreadsequence(ushort event, short val)
 				do_global_buttons(B_NEWFRAME);
 			}
 			break;
-			
+
 		case AKEY:
 			if(sseq->mainb) break;
 			if(G.qual & LR_SHIFTKEY) {
@@ -1280,7 +1273,7 @@ void winqreadsequence(ushort event, short val)
 			if(last_seq && (last_seq->flag & (SEQ_LEFTSEL+SEQ_RIGHTSEL))) {
 				if(last_seq->flag & SEQ_LEFTSEL) CFRA= last_seq->startdisp;
 				else CFRA= last_seq->enddisp-1;
-				
+
 				dx= CFRA-(G.v2d->cur.xmax+G.v2d->cur.xmin)/2;
 				G.v2d->cur.xmax+= dx;
 				G.v2d->cur.xmin+= dx;
@@ -1327,22 +1320,22 @@ void winqreadsequence(ushort event, short val)
 void init_seqspace(ScrArea *sa)
 {
 	SpaceSeq *sseq;
-	
+
 	sseq= callocN(sizeof(SpaceSeq), "initseqspace");
 	addhead(&sa->spacedata, sseq);
 
 	set_func_space(sa);
-	
+
 	sseq->spacetype= SPACE_SEQ;
 	sseq->zoom= 1;
-	
+
 	/* seq space loopt van (0,8) tot (250, 0) */
 
 	sseq->v2d.tot.xmin= 0.0;
 	sseq->v2d.tot.ymin= 0.0;
 	sseq->v2d.tot.xmax= 250.0;
 	sseq->v2d.tot.ymax= 8.0;
-	
+
 	sseq->v2d.cur= sseq->v2d.tot;
 
 	sseq->v2d.min[0]= 10.0;
@@ -1350,10 +1343,10 @@ void init_seqspace(ScrArea *sa)
 
 	sseq->v2d.max[0]= 32000.0;
 	sseq->v2d.max[1]= MAXSEQ;
-	
+
 	sseq->v2d.minzoom= 0.1;
 	sseq->v2d.maxzoom= 10.0;
-	
+
 	sseq->v2d.scroll= L_SCROLL+B_SCROLL;
 	sseq->v2d.keepaspect= 0;
 	sseq->v2d.keepzoom= 0;
@@ -1371,7 +1364,7 @@ extern void winqreadfilespace(ushort, short);
 void init_filespace(ScrArea *sa)
 {
 	SpaceFile *sfile;
-	
+
 	sfile= callocN(sizeof(SpaceFile), "initfilespace");
 	addhead(&sa->spacedata, sfile);
 
@@ -1390,13 +1383,13 @@ extern void drawimagespace();
 void winqreadimagespace(ushort event, short val)
 {
 	SpaceImage *sima;
-	
+
 	if(val==0) return;
 
 	if( uiDoBlocks(&curarea->uiblocks, event)!=UI_NOTHING ) event= 0;
 
 	sima= curarea->spacedata.first;
-	
+
 	switch(event) {
 	case LEFTMOUSE:
 		if(G.qual & LR_SHIFTKEY) mouseco_to_curtile();
@@ -1421,7 +1414,7 @@ void winqreadimagespace(ushort event, short val)
 			addqueue(curarea->win, REDRAW, 1);
 		}
 		break;
-		
+
 	case AKEY:
 		select_swap_tface_uv();
 		break;
@@ -1447,12 +1440,12 @@ void winqreadimagespace(ushort event, short val)
 void init_imagespace(ScrArea *sa)
 {
 	SpaceImage *sima;
-	
+
 	sima= callocN(sizeof(SpaceImage), "initimaspace");
 	addhead(&sa->spacedata, sima);
 
 	set_func_space(sa);
-	
+
 	sima->spacetype= SPACE_IMAGE;
 	sima->zoom= 1;
 }
@@ -1481,7 +1474,7 @@ void winqreadoopsspace(ushort event, short val)
 	if( uiDoBlocks(&curarea->uiblocks, event)!=UI_NOTHING ) event= 0;
 
 	soops= curarea->spacedata.first;
-	
+
 	switch(event) {
 	case LEFTMOUSE:
 		gesture();
@@ -1493,7 +1486,7 @@ void winqreadoopsspace(ushort event, short val)
 		mouse_select_oops();
 		break;
 	case PADPLUSKEY:
-	
+
 		dx= 0.1154*(G.v2d->cur.xmax-G.v2d->cur.xmin);
 		dy= 0.1154*(G.v2d->cur.ymax-G.v2d->cur.ymin);
 		G.v2d->cur.xmin+= dx;
@@ -1503,7 +1496,7 @@ void winqreadoopsspace(ushort event, short val)
 		test_view2d();
 		addqueue(curarea->win, REDRAW, 1);
 		break;
-	
+
 	case PADMINUS:
 
 		dx= 0.15*(G.v2d->cur.xmax-G.v2d->cur.xmin);
@@ -1515,11 +1508,11 @@ void winqreadoopsspace(ushort event, short val)
 		test_view2d();
 		addqueue(curarea->win, REDRAW, 1);
 		break;
-		
-	case HOMEKEY:	
+
+	case HOMEKEY:
 		do_oops_buttons(B_OOPSHOME);
 		break;
-		
+
 	case AKEY:
 		swap_select_all_oops();
 		addqueue(curarea->win, REDRAW, 1);
@@ -1535,7 +1528,7 @@ void winqreadoopsspace(ushort event, short val)
 		else select_linked_oops();
 		break;
 	case SKEY:
-		
+
 		if(G.qual & LR_ALTKEY) shrink_oops();
 		else if(G.qual & LR_SHIFTKEY) shuffle_oops();
 		else transform_oops('s');
@@ -1567,7 +1560,7 @@ void winqreadoopsspace(ushort event, short val)
 		do_layer_toets(11); break;
 	case ACCENTGRAVEKEY:
 		do_layer_toets(-1); break;
-	
+
 	}
 }
 
@@ -1577,7 +1570,7 @@ void init_v2d_oops(View2D *v2d)
 	v2d->tot.xmax= 28.0;
 	v2d->tot.ymin= -28.0;
 	v2d->tot.ymax= 28.0;
-	
+
 	v2d->cur= v2d->tot;
 
 	v2d->min[0]= 10.0;
@@ -1585,29 +1578,29 @@ void init_v2d_oops(View2D *v2d)
 
 	v2d->max[0]= 320.0;
 	v2d->max[1]= 320.0;
-	
+
 	v2d->minzoom= 0.01;
 	v2d->maxzoom= 2.0;
-	
+
 	/* v2d->scroll= L_SCROLL+B_SCROLL; */
 	v2d->scroll= 0;
 	v2d->keepaspect= 1;
 	v2d->keepzoom= 0;
 	v2d->keeptot= 0;
-	
+
 }
 
 void init_oopsspace(ScrArea *sa)
 {
 	SpaceOops *soops;
-	
+
 	soops= callocN(sizeof(SpaceOops), "initoopsspace");
 	addhead(&sa->spacedata, soops);
 
 	set_func_space(sa);
-	
+
 	soops->visiflag= OOPS_OB+OOPS_MA+OOPS_ME+OOPS_TE+OOPS_CU+OOPS_IP;
-	
+
 	soops->spacetype= SPACE_OOPS;
 	init_v2d_oops(&soops->v2d);
 }
@@ -1630,18 +1623,18 @@ extern void winqreadtextspace(ushort, short);
 void newspace(ScrArea *sa, int type)
 {
 	View3D *v3d;
-	
+
 	if(type>=0) {
-		
+
 		if(sa->spacetype != type) {
-			
+
 			sa->spacetype= type;
 			sa->butspacetype= type;
 			sa->headbutofs= 0;
-			
+
 			uiFreeBlocks(&sa->uiblocks);
 			wich_cursor(sa);
-			
+
 			addqueue(sa->headwin, CHANGED, 1);
 			addqueue(sa->win, CHANGED, 1);
 
@@ -1650,7 +1643,7 @@ void newspace(ScrArea *sa, int type)
 			/* zoeken of er al een bestaat, we gebruiken v3d als algemeen voorbeeld */
 			v3d= sa->spacedata.first;
 			while(v3d) {
-			
+
 				if(v3d->spacetype==type) {
 					remlink(&sa->spacedata, v3d);
 					addhead(&sa->spacedata, v3d);
@@ -1662,7 +1655,7 @@ void newspace(ScrArea *sa, int type)
 			}
 
 			/* er bestaat er nog geen: nieuwe maken */
-			
+
 			if(type==SPACE_EMPTY) {
 				set_func_space(sa);
 			}
@@ -1711,7 +1704,7 @@ void freespacelist(ListBase *lb)
 
 	sfile= lb->first;
 	while(sfile) {
-	
+
 		if(sfile->spacetype==SPACE_FILE) {
 			if(sfile->libfiledata) freeN(sfile->libfiledata);
 		}
@@ -1758,11 +1751,11 @@ void duplicatespacelist(ListBase *lb1, ListBase *lb2)
 	SpaceButs *buts;
 	SpaceIpo *si;
 	View3D *vd;
-	
+
 	duplicatelist(lb1, lb2);
-	
+
 	/* lb1 is kopie van lb2, van lb2 geven we de filelist vrij */
-	
+
 	sfile= lb2->first;
 	while(sfile) {
 		if(sfile->spacetype==SPACE_FILE) {
@@ -1783,7 +1776,7 @@ void duplicatespacelist(ListBase *lb1, ListBase *lb2)
 		}
 		sfile= sfile->next;
 	}
-	
+
 	sfile= lb1->first;
 	while(sfile) {
 		if(sfile->spacetype==SPACE_BUTS) {
@@ -1827,14 +1820,14 @@ void set_func_space(ScrArea *sa)
 	SpaceButs *buts;
 
 	/* ook na file inlezen: terugzetten functie pointers */
-	
+
 	/* default */
 	sa->windraw= 0;
 	sa->winchange= 0;
 	sa->winqread= 0;
-	
+
 	if(sa->headertype) sa->headdraw= defheaddraw;
-	
+
 	sa->headchange= 0;
 	sa->headqread= 0;
 
@@ -1874,16 +1867,16 @@ void set_func_space(ScrArea *sa)
 		sa->windraw= drawinfospace;
 		sa->winqread= ( void (*)() )winqreadinfospace;
 		break;
-		
+
 	case SPACE_SEQ:
 		sa->windraw= drawseqspace;
 		sa->winchange= changeview2d;
 		sa->winqread= ( void (*)() )winqreadsequence;
-		
+
 		/* voor oude files */
 		sseq= sa->spacedata.first;
 		sseq->v2d.keeptot= 0;
-		
+
 		break;
 	case SPACE_IMAGE:
 		sa->windraw= drawimagespace;
@@ -1901,12 +1894,12 @@ void set_func_space(ScrArea *sa)
 		break;
 	case SPACE_PAINT:
 		break;
-		
+
 	case SPACE_TEXT:
 		sa->windraw= drawtextspace;
 		sa->winqread= ( void (*)() )winqreadtextspace;
 		break;
-		
+
 	}
 }
 
@@ -1927,7 +1920,7 @@ void allqueue(ushort event, short val)
 		}
 		else if(sa->win != val) {
 			switch(event) {
-				
+
 			case REDRAWHEADERS:
 				addqueue(sa->headwin, REDRAW, 1);
 				break;
@@ -1976,9 +1969,9 @@ void allqueue(ushort event, short val)
 				else if(sa->spacetype==SPACE_OOPS) {
 					addqueue(sa->win, REDRAW, 1);
 				}
-				
+
 				break;
-				
+
 			case REDRAWBUTSALL:
 				if(sa->spacetype==SPACE_BUTS) {
 					addqueue(sa->win, REDRAW, 1);
@@ -2135,17 +2128,17 @@ void allspace(ushort event, short val)
 	ScrArea *sa;
 	View3D *v3d;
 	SpaceButs *buts;
-	
+
 
 	sc= G.main->screen.first;
 	while(sc) {
 		sa= sc->areabase.first;
 		while(sa) {
-		
+
 			v3d= sa->spacedata.first;
 			while(v3d) {
 				switch(event) {
-				
+
 				case REMAKEIPO:
 					if(v3d->spacetype==SPACE_IPO) {
 						SpaceIpo *si= (SpaceIpo *)v3d;
@@ -2154,7 +2147,7 @@ void allspace(ushort event, short val)
 						free_ipokey(&si->ipokey);
 					}
 					break;
-										
+
 				case OOPS_TEST:
 					if(v3d->spacetype==SPACE_OOPS) {
 						SpaceOops *so= (SpaceOops *)v3d;
@@ -2178,7 +2171,7 @@ void force_draw()
 	ScrArea *tempsa, *sa;
 
 	curarea->windraw();
-	
+
 	tempsa= curarea;
 	sa= G.curscreen->areabase.first;
 	while(sa) {

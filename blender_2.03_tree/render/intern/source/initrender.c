@@ -22,9 +22,9 @@
 
 
 /*  initrender.c        RENDER
- * 
+ *
  *  april 95
- * 
+ *
  * Version: $Id: initrender.c,v 1.11 2000/09/21 13:46:22 nzc Exp $
  */
 
@@ -36,7 +36,6 @@
 #include "render.h"
 #include "file.h"
 #include "ipo.h"
-#include "ika.h"
 #include "writeavi.h"
 #include <math.h>
 #include <stdio.h>
@@ -49,7 +48,6 @@
 #include "toets_ext.h"
 #include "drawview_ext.h"
 #include "ipo_ext.h"
-#include "ika_ext.h"
 #include "displist_ext.h"
 #include "imageprocess_ext.h"
 #include "editlattice_ext.h"
@@ -102,7 +100,7 @@ void init_def_material(void)
 	Material *ma;
 
 	ma= &defmaterial;
-	
+
 	init_material(&defmaterial);
 
 	init_render_material(ma);
@@ -654,7 +652,7 @@ HaloRen *inithalo(Material *ma, float *vec, float *vec1, float *orco, float hasi
 		har->ys= 0.5*R.recty*(hoco[1]/zn);
 		har->zs= 0x7FFFFF*(1.0+hoco[2]/zn);
 
-      har->zBufDist = 0x7FFFFFFF*(hoco[2]/zn); 
+      har->zBufDist = 0x7FFFFFFF*(hoco[2]/zn);
 
 		xn=  har->xs - 0.5*R.rectx*(hoco1[0]/hoco1[3]);
 		yn=  har->ys - 0.5*R.recty*(hoco1[1]/hoco1[3]);
@@ -666,7 +664,7 @@ HaloRen *inithalo(Material *ma, float *vec, float *vec1, float *orco, float hasi
 		zn= VecLenf(vec1, vec);
 
 		har->hasize= vectsize*zn + (1.0-vectsize)*hasize;
-		
+
 		VecSubf(har->no, vec, vec1);
 		Normalise(har->no);
 	}
@@ -1010,7 +1008,7 @@ void init_render_surf(Object *ob)
 		}
 	}
 
-	if(ob->parent && (ob->parent->type==OB_IKA || ob->parent->type==OB_LATTICE)) need_orco= 1;
+	if(ob->parent && (ob->parent->type==OB_LATTICE)) need_orco= 1;
 
 	if(cu->orco==0 && need_orco) make_orco_surf(cu);
 	orco= cu->orco;
@@ -1054,21 +1052,6 @@ void init_render_surf(Object *ob)
 			dl= dl->next;
 		}
 		end_latt_deform();
-	}
-	
-	if(ob->parent && ob->parent->type==OB_IKA) {
-		Ika *ika= ob->parent->data;
-		
-		init_skel_deform(ob->parent, ob);
-		dl= displist.first;
-		while(dl) {
-
-			fp= dl->verts;
-			len= dl->nr*dl->parts;
-			for(a=0; a<len; a++, fp+=3)  calc_skel_deform(ika, fp);
-
-			dl= dl->next;
-		}
 	}
 
 	dl= displist.first;
@@ -1149,7 +1132,6 @@ void init_render_surf(Object *ob)
 
 void init_render_curve(Object *ob)
 {
-	Ika *ika=0;
 	Lattice *lt=0;
 	Curve *cu;
 	VertRen *ver;
@@ -1217,10 +1199,10 @@ void init_render_curve(Object *ob)
 				}
 				bl= bl->next;
 			}
-			
+
 			if(totvert) {
 				fp= cu->orco= mallocN(3*sizeof(float)*totvert, "cu->orco");
-	
+
 				bl= cu->bev.first;
 				while(bl) {
 					dlb= dlbev.first;
@@ -1244,12 +1226,6 @@ void init_render_curve(Object *ob)
 	if(ob->parent && ob->parent->type==OB_LATTICE) {
 		lt= ob->parent->data;
 		init_latt_deform(ob->parent, ob);
-		need_orco= 1;
-	}
-	
-	if(ob->parent && ob->parent->type==OB_IKA) {
-		ika= ob->parent->data;
-		init_skel_deform(ob->parent, ob);
 		need_orco= 1;
 	}
 
@@ -1313,10 +1289,9 @@ void init_render_curve(Object *ob)
 
 				while(nr--) {
 					ver= addvert(R.totvert++);
-					
+
 					if(lt) calc_latt_deform(fp);
-					else if(ika) calc_skel_deform(ika, fp);
-					
+
 					VECCOPY(ver->co, fp);
 					MTC_Mat4MulVecfl(mat, ver->co);
 					fp+= 3;
@@ -1353,7 +1328,7 @@ void init_render_curve(Object *ob)
 
 						if(frontside)
 							vlr->len= CalcNormFloat(vlr->v2->co, vlr->v3->co, vlr->v4->co, vlr->n);
-						else 
+						else
 							vlr->len= CalcNormFloat(vlr->v1->co, vlr->v2->co, vlr->v3->co, vlr->n);
 
 						vlr->mat= matar[ nu->mat_nr ];
@@ -1637,14 +1612,14 @@ void render_static_particle_system(Object *ob, PartEff *paf)
 
 		where_is_particle(paf, pa, pa->time, vec1);
 		MTC_Mat4MulVecfl(mat, vec1);
-		
+
 		mtime= pa->time+pa->lifetime+paf->staticstep-1;
-		
+
 		for(ctime= pa->time; ctime<mtime; ctime+=paf->staticstep) {
-			
-			/* make sure hair grows until the end.. */ 
+
+			/* make sure hair grows until the end.. */
 			if(ctime>pa->time+pa->lifetime) ctime= pa->time+pa->lifetime;
-			
+
 
 			/* let op: ook nog de normaal van de particle berekenen */
 			if(paf->stype==PAF_VECT || ma->mode & MA_HALO_SHADE) {
@@ -1902,7 +1877,7 @@ void normalenrender(int startvert, int startvlak)
 			adrve2= vlr->v2;
 			adrve3= vlr->v3;
 			adrve4= vlr->v4;
-	
+
 			vlr->puno= 0;
 			fac= vlr->n[0]*adrve1->n[0]+vlr->n[1]*adrve1->n[1]+vlr->n[2]*adrve1->n[2];
 			if(fac<0.0) vlr->puno= 1;
@@ -1910,7 +1885,7 @@ void normalenrender(int startvert, int startvlak)
 			if(fac<0.0) vlr->puno+= 2;
 			fac= vlr->n[0]*adrve3->n[0]+vlr->n[1]*adrve3->n[1]+vlr->n[2]*adrve3->n[2];
 			if(fac<0.0) vlr->puno+= 4;
-	
+
 			if(adrve4) {
 				fac= vlr->n[0]*adrve4->n[0]+vlr->n[1]*adrve4->n[1]+vlr->n[2]*adrve4->n[2];
 				if(fac<0.0) vlr->puno+= 8;
@@ -1939,16 +1914,16 @@ void as_addvert(VertRen *v1, VlakRen *vlr)
 	ASvert *asv;
 	ASface *asf;
 	int a;
-	
+
 	if(v1 == NULL) return;
-	
+
 	if(v1->svert==0) {
 		v1->svert= callocN(sizeof(ASvert), "asvert");
 		asv= v1->svert;
 		asf= callocN(sizeof(ASface), "asface");
 		addtail(&asv->faces, asf);
 	}
-	
+
 	asv= v1->svert;
 	asf= asv->faces.last;
 	for(a=0; a<4; a++) {
@@ -1958,7 +1933,7 @@ void as_addvert(VertRen *v1, VlakRen *vlr)
 			break;
 		}
 	}
-	
+
 	/* new face struct */
 	if(a==4) {
 		asf= callocN(sizeof(ASface), "asface");
@@ -1978,15 +1953,15 @@ void as_freevert(VertRen *ver)
 	ver->svert= NULL;
 }
 
-int as_testvertex(VlakRen *vlr, VertRen *ver, ASvert *asv, float thresh) 
+int as_testvertex(VlakRen *vlr, VertRen *ver, ASvert *asv, float thresh)
 {
 	/* return 1: vertex needs a copy */
 	ASface *asf;
 	float inp;
 	int a;
-	
+
 	if(vlr==0) return 0;
-	
+
 	asf= asv->faces.first;
 	while(asf) {
 		for(a=0; a<4; a++) {
@@ -1997,17 +1972,17 @@ int as_testvertex(VlakRen *vlr, VertRen *ver, ASvert *asv, float thresh)
 		}
 		asf= asf->next;
 	}
-	
+
 	return 0;
 }
 
-VertRen *as_findvertex(VlakRen *vlr, VertRen *ver, ASvert *asv, float thresh) 
+VertRen *as_findvertex(VlakRen *vlr, VertRen *ver, ASvert *asv, float thresh)
 {
 	/* return when new vertex already was made */
 	ASface *asf;
 	float inp;
 	int a;
-	
+
 	asf= asv->faces.first;
 	while(asf) {
 		for(a=0; a<4; a++) {
@@ -2023,7 +1998,7 @@ VertRen *as_findvertex(VlakRen *vlr, VertRen *ver, ASvert *asv, float thresh)
 		}
 		asf= asf->next;
 	}
-	
+
 	return NULL;
 }
 
@@ -2035,40 +2010,40 @@ void autosmooth(int startvert, int startvlak, int degr)
 	VlakRen *vlr;
 	float thresh;
 	int a, b, totvert;
-	
+
 	thresh= fcos( M_PI*((float)degr)/180.0 );
-	
+
 	/* initialize */
 	for(a=startvert; a<R.totvert; a++) {
 		ver= addvert(a);
 		ver->svert= 0;
 	}
-	
+
 	/* step one: construct listbase of all vertices and pointers to faces */
 	for(a=startvlak; a<R.totvlak; a++) {
 		vlr= addvlak(a);
-		
+
 		as_addvert(vlr->v1, vlr);
 		as_addvert(vlr->v2, vlr);
 		as_addvert(vlr->v3, vlr);
 		as_addvert(vlr->v4, vlr);
 	}
-	
+
 	/* we now test all vertices, when faces have a normal too much different: they get a new vertex */
 	totvert= R.totvert;
 	for(a=startvert; a<totvert; a++) {
 		ver= addvert(a);
 		asv= ver->svert;
 		if(asv && asv->totface>1) {
-			
+
 			asf= asv->faces.first;
 			while(asf) {
 				for(b=0; b<4; b++) {
-				
+
 					/* is there a reason to make a new vertex? */
 					vlr= asf->vlr[b];
 					if( as_testvertex(vlr, ver, asv, thresh) ) {
-						
+
 						/* already made a new vertex within threshold? */
 						v1= as_findvertex(vlr, ver, asv, thresh);
 						if(v1==0) {
@@ -2088,13 +2063,13 @@ void autosmooth(int startvert, int startvlak, int degr)
 			}
 		}
 	}
-	
+
 	/* free */
 	for(a=startvert; a<R.totvert; a++) {
 		ver= addvert(a);
 		if(ver->svert) as_freevert(ver);
 	}
-	
+
 }
 
 
@@ -2108,50 +2083,50 @@ void make_orco_s_mesh(Object *ob)
 	DispList *dl;
 	float *fp;
 	int a, tot;
-	
+
 	clear_workob();
-	
+
 	me= ob->data;
 	workob.data= me;
 	workob.type= OB_MESH;
-	
+
 	/* if there's a key, set the first one */
 	if(me->key && me->texcomesh==0) {
 		showkeypos(me->key, me->key->refkey);
 	}
-	
-	
+
+
 	lbo= me->disp;
 	me->disp.first= me->disp.last= 0;
 
 	/* make the s-mesh */
 	makeDispList(&workob);
-	
+
 	/* restore the original mesh */
 	do_ob_key(ob);
 
 	freedisplist(&workob.disp);
-	
+
 	lb= me->disp;
 	me->disp= lbo;
-	
+
 	tot= 0;
 	dl= lb.first;
 	while(dl) {
 		tot+= dl->parts*dl->nr;
 		dl= dl->next;
 	}
-	
+
 	if(tot) {
 		fp=me->orco= mallocN(tot*3*sizeof(float), "smesh orco");
-		
+
 		dl= lb.first;
 		while(dl) {
 			memcpy(fp, dl->verts, dl->parts*dl->nr*3*sizeof(float));
 			fp+= 3*dl->parts*dl->nr;
 			dl= dl->next;
 		}
-		
+
 		fp= me->orco;
 		for(a=0; a<tot; a++, fp+=3) {
 			fp[0]= (fp[0]-me->loc[0])/me->size[0];
@@ -2159,9 +2134,9 @@ void make_orco_s_mesh(Object *ob)
 			fp[2]= (fp[2]-me->loc[2])/me->size[2];
 		}
 	}
-	
+
 	freedisplist(&lb);
-	
+
 }
 
 
@@ -2169,7 +2144,7 @@ int mesh_test_flipnorm(Object *ob, MFace *mface, VlakRen *vlr, float imat[][3])
 {
 	DispList *dl;
 	Mesh *me= ob->data;
-	float *v1, *v2, *v3, xn, nor[3], vec[3];	
+	float *v1, *v2, *v3, xn, nor[3], vec[3];
 
 	dl= find_displist(&ob->disp, DL_VERTS);
 	if(dl) {
@@ -2182,7 +2157,7 @@ int mesh_test_flipnorm(Object *ob, MFace *mface, VlakRen *vlr, float imat[][3])
 		v2= (me->mvert+mface->v2)->co;
 		v3= (me->mvert+mface->v3)->co;
 	}
-	
+
 	CalcNormFloat(v1, v2, v3, nor);
 	vec[0]= imat[0][0]*nor[0]+ imat[0][1]*nor[1]+ imat[0][2]*nor[2];
 	vec[1]= imat[1][0]*nor[0]+ imat[1][1]*nor[1]+ imat[1][2]*nor[2];
@@ -2226,20 +2201,20 @@ void init_render_s_mesh(Object *ob)
 	if(dl==0) makeDispList(ob);
 	dl= me->disp.first;
 	if(dl==0) return;
-	
+
 	if(need_orco) {
 		make_orco_s_mesh(ob);
 		orco= me->orco;
 	}
 
-	
+
 	while(dl) {
 		if(dl->type==DL_SURF) {
 			startvert= R.totvert;
 			a= dl->nr*dl->parts;
 			data= dl->verts;
 			nors= dl->nors;
-			
+
 			while(a--) {
 				ver= addvert(R.totvert++);
 				VECCOPY(ver->co, data);
@@ -2250,20 +2225,20 @@ void init_render_s_mesh(Object *ob)
 				else {
 					ver->orco= data;
 				}
-				
+
 				MTC_Mat4MulVecfl(mat, ver->co);
-				
+
 				xn= nors[0];
 				yn= nors[1];
 				zn= nors[2];
-		
+
 				/* transpose ! */
 				ver->n[0]= imat[0][0]*xn+imat[0][1]*yn+imat[0][2]*zn;
 				ver->n[1]= imat[1][0]*xn+imat[1][1]*yn+imat[1][2]*zn;
 				ver->n[2]= imat[2][0]*xn+imat[2][1]*yn+imat[2][2]*zn;
 
 				Normalise(ver->n);
-						
+
 				data+= 3;
 				nors+= 3;
 			}
@@ -2294,13 +2269,13 @@ void init_render_s_mesh(Object *ob)
 						VECCOPY(vlr->n, n1);
 						vlr->len= flen;
 						vlr->lay= ob->lay;
-						
+
 						vlr->mat= matar[ dl->col];
 						vlr->ec= ME_V1V2+ME_V2V3;
 						vlr->flag= ME_SMOOTH;
-						
+
 						if(flipnorm== -1) flipnorm= mesh_test_flipnorm(ob, me->mface, vlr, imat);
-						
+
 						if(flipnorm) {
 							vlr->n[0]= -vlr->n[0];
 							vlr->n[1]= -vlr->n[1];
@@ -2322,7 +2297,7 @@ void init_render_s_mesh(Object *ob)
 		}
 		dl= dl->next;
 	}
-	
+
 }
 
 void init_render_mesh(Object *ob)
@@ -2362,7 +2337,7 @@ void init_render_mesh(Object *ob)
 	MTC_Mat4MulMat4(mat, ob->obmat, R.viewmat);
 	MTC_Mat4Invert(ob->imat, mat);
 	MTC_Mat3CpyMat4(imat, ob->imat);
-	
+
 	if(me->totvert==0) return;
 	mvert= me->mvert;
 
@@ -2397,7 +2372,7 @@ void init_render_mesh(Object *ob)
 			make_orco_mesh(me);
 		}
 	}
-	
+
 	orco= me->orco;
 	ms= me->msticky;
 	tface= me->tface;
@@ -2477,7 +2452,7 @@ void init_render_mesh(Object *ob)
 				mface= me->mface;
 				mface+= start;
 				if(tface) tface+= start;
-				
+
 				for(a=start; a<end; a++, mface++) {
 
 					if( mface->mat_nr==a1 ) {
@@ -2523,9 +2498,9 @@ void init_render_mesh(Object *ob)
 									else vlr->vcol= vertcol+sizeof(int)*a;
 								}
 								else vlr->vcol= 0;
-								
+
 								vlr->tface= tface;
-								
+
 								/* testen of een vierhoek als driehoek gerenderd moet */
 								if(vlr->v4) {
 
@@ -2537,13 +2512,13 @@ void init_render_mesh(Object *ob)
 											nor[1]= -nor[1];
 											nor[2]= -nor[2];
 										}
-								
+
 										xn= INPR(nor, vlr->n);
 										if( xn < 0.9990 ) {
 											/* recalc this nor, previous calc was with calcnormfloat4 */
 											if(flipnorm) CalcNormFloat(vlr->v1->co, vlr->v2->co, vlr->v3->co, vlr->n);
 											else CalcNormFloat(vlr->v3->co, vlr->v2->co, vlr->v1->co, vlr->n);
-											
+
 											vlr1= addvlak(R.totvlak++);
 											*vlr1= *vlr;
 											vlr1->flag |= R_FACE_SPLIT;
@@ -2551,12 +2526,12 @@ void init_render_mesh(Object *ob)
 											vlr1->v2= vlr->v3;
 											vlr1->v3= vlr->v4;
 											vlr->v4= vlr1->v4= 0;
-								
+
 											vlr1->puno= 0;
 											if(vlr->puno & ME_FLIPV1) vlr1->puno |= ME_FLIPV1;
 											if(vlr->puno & ME_FLIPV3) vlr1->puno |= ME_FLIPV2;
 											if(vlr->puno & ME_FLIPV4) vlr1->puno |= ME_FLIPV3;
-								
+
 										}
 									}
 								}
@@ -2579,18 +2554,18 @@ void init_render_mesh(Object *ob)
 							vlr->lay= ob->lay;
 						}
 					}
-					
+
 					if(tface) tface++;
 				}
 			}
 		}
 	}
-	
+
 	if(me->flag & ME_AUTOSMOOTH) {
 		autosmooth(totverto, totvlako, me->smoothresh);
 		do_puno= 1;
 	}
-	
+
 	if(do_puno) normalenrender(totverto, totvlako);
 
 }
@@ -2679,7 +2654,7 @@ void setzbufvlaggen( void (*projectfunc)(float *, float *) )
 			zn= hoco[3]/2.0;
 			har->xs= 0.5*R.rectx*(1.0+hoco[0]/zn); /* the 0.5 negates the previous 2...*/
 			har->ys= 0.5*R.recty*(1.0+hoco[1]/zn);
-		
+
 			/* this should be the zbuffer coordinate */
 			har->zs= 0x7FFFFF*(1.0+hoco[2]/zn);
 			/* taking this from the face clip functions? seems ok... */
@@ -2689,32 +2664,32 @@ void setzbufvlaggen( void (*projectfunc)(float *, float *) )
 			vec[0]-= har->hasize;
 			zn= hoco[3];
 			har->rad= fabs(har->xs- 0.5*R.rectx*(1.0+hoco[0]/zn));
-		
+
 			/* deze clip is eigenlijk niet OK */
 			if(har->type & HA_ONLYSKY) {
 				if(har->rad>3.0) har->rad= 3.0;
 			}
-		
+
 			har->radsq= har->rad*har->rad;
-		
+
 			har->miny= har->ys - har->rad/R.ycor;
 			har->maxy= har->ys + har->rad/R.ycor;
-		
+
 			/* de Zd is bij pano nog steeds verkeerd: zie testfile in blenderbugs/halo+pano.blend */
-		
+
 			vec[2]-= har->hasize;	/* z is negatief, wordt anders geclipt */
 			projectfunc(vec, hoco);
 			zn= hoco[3];
 			zn= fabs(har->zs - 0x7FFFFF*(1.0+hoco[2]/zn));
 			har->zd= CLAMPIS(zn, 0, INT_MAX);
-		
+
 			/* if( har->zs < 2*har->zd) { */
 			/* PRINT2(d, d, har->zs, har->zd); */
 			/* har->alfa= har->mat->alpha * ((float)(har->zs))/(float)(2*har->zd); */
 			/* } */
-		
+
 		}
-		
+
 	}
 
 	/* vlaggen op 0 zetten als eruit geclipt */
@@ -2735,7 +2710,7 @@ void setzbufvlaggen( void (*projectfunc)(float *, float *) )
 int verghalo(const void *a1, const void *a2)
 {
 	const struct halosort *x1=a1, *x2=a2;
-	
+
 	if( x1->z < x2->z ) return 1;
 	else if( x1->z > x2->z) return -1;
 	return 0;
@@ -2905,9 +2880,9 @@ void schrijfplaatje(char *name)
 			if(R.r.mode & R_FIELDS) ibuf->ftype= JPG_VID|R.r.quality;
 			else ibuf->ftype= JPG|R.r.quality;
 		}
-	
+
 		RE_make_existing_file(name);
-		
+
 		if(R.r.imtype==R_CMBB) write_cmbb(ibuf, name);
 		else if(saveiff(ibuf, name, IB_rect | IB_zbuf)==0) {
 			perror(name);
@@ -3004,18 +2979,18 @@ void RE_setwindowclip(int mode, int jmode)
 	}
 
 	/* I think these offsets are wrong. They do not coincide with shadow     */
-	/* calculations, btw.                                                    */	
-  	minx= R.xstart+.5; 
-  	miny= R.ycor*(R.ystart+.5); 
-  	maxx= R.xend+.4999; 
-  	maxy= R.ycor*(R.yend+.4999); 
+	/* calculations, btw.                                                    */
+  	minx= R.xstart+.5;
+  	miny= R.ycor*(R.ystart+.5);
+  	maxx= R.xend+.4999;
+  	maxy= R.ycor*(R.yend+.4999);
 	/* My guess: (or rather, what should be) */
 /*    	minx= R.xstart - 0.5;  */
 /*    	miny= R.ycor * (R.ystart - 0.5);  */
 	/* Since the SCS-s map directly to the pixel center coordinates, we need */
 	/* to stretch the clip area a bit, not just shift it. However, this gives*/
 	/* nasty problems for parts...                                           */
-	   
+
 	if(R.flag & R_SEC_FIELD) {
 		if(R.r.mode & R_ODDFIELD) {
 			miny-= .5*R.ycor;
@@ -3038,9 +3013,9 @@ void RE_setwindowclip(int mode, int jmode)
 		if(G.scene->camera->type==OB_CAMERA) {
 			cam= G.scene->camera->data;
 			if(cam->flag & CAM_HOLO2) {
-				
+
 				if(cam->netend==0.0) cam->netend= EFRA;
-				
+
 				fac= (CFRA-1.0)/(cam->netend)-0.5;
 				fac*= (R.rectx);
 				fac*= cam->hololen1;
@@ -3261,7 +3236,7 @@ extern unsigned char hash[512];
 /* - er moet een 'vast' aantal sterren gegenereerd worden tussen near en far.
  * - alle sterren moeten bij voorkeur op de far liggen en uitsluitend in
  *   helderheid / kleur verschillen.
- * - 
+ * -
  */
 
 void RE_make_stars(int wire)
@@ -3452,7 +3427,7 @@ void set_normalflags()
 	VlakRen *vlr = NULL;
 	float vec[3], xn, yn, zn;
 	int a1;
-	
+
 	/* KLAP NORMAAL EN SNIJ PROJECTIE */
 	for(a1=0; a1<R.totvlak; a1++) {
 		if((a1 & 255)==0) vlr= R.blovl[a1>>8];
@@ -3508,7 +3483,6 @@ void roteerscene()
 	do_all_ipos();
 	do_all_scripts(SCRIPT_FRAMECHANGED);
 	do_all_keys();
-	do_all_ikas();
 	test_all_displists();
 
 	/* niet erg nette calc_ipo en where_is forceer */
@@ -3565,9 +3539,9 @@ void roteerscene()
 
 	base= FIRSTBASE;
 	while(base) {
-		
+
 		ob= base->object;
-		
+
 		if(ob->flag & OB_DONE);
 		else {
 
@@ -3586,7 +3560,7 @@ void roteerscene()
 							/* exception, in background render it doesnt make the displist */
 							if ELEM(obd->type, OB_CURVE, OB_SURF) {
 								Curve *cu;
-							
+
 								cu= obd->data;
 								if(cu->disp.first==0) {
 									obd->flag &= ~OB_FROMDUPLI;
@@ -3640,7 +3614,7 @@ void roteerscene()
 	if(RE_test_break()) return;
 
 	/* if(R.totlamp==0) defaultlamp(); */
-	
+
 	set_normalflags();
 }
 
@@ -3719,7 +3693,7 @@ void render()  /* hierbinnen de PART en FIELD lussen */
 	uint *border_buf= NULL;
 	uint border_x= 0;
 	uint border_y= 0;
-	
+
 	if((R.r.mode & R_BORDER) && !(R.r.mode & R_MOVIECROP)) {
 		border_buf= R.rectot;
 		border_x= R.rectx;
@@ -3746,23 +3720,23 @@ void render()  /* hierbinnen de PART en FIELD lussen */
 
 	}
 
-	
+
 	for(fi=0; fi<fields; fi++) {
 
 		/* INIT */
 		srand48( 2*CFRA+fi);
-	
+
 
 		R.vlaknr= -1;
 		R.flag|= R_RENDERING;
 		if(fi==1) R.flag |= R_SEC_FIELD;
-	
+
 
 		/* MOTIONBLUR lus */
 		if(R.r.mode & R_MBLUR) blur= R.osa;
 		else blur= 1;
 
-	
+
 		while(blur--) {
 
 			/* WINDOW */
@@ -3773,12 +3747,12 @@ void render()  /* hierbinnen de PART en FIELD lussen */
 			R.xend= R.xstart+R.rectx-1;
 			R.yend= R.ystart+R.recty-1;
 
-	
+
 			if(R.r.mode & R_MBLUR) set_mblur_offs(R.osa-blur);
 
 			initparts(); /* altijd doen ivm border */
 			setpart(0);
-	
+
 			init_render_display();
 			clear_render_display();
 			RE_set_timecursor(CFRA);
@@ -3800,13 +3774,13 @@ void render()  /* hierbinnen de PART en FIELD lussen */
 
 			/* ENVIRONMENT MAPS */
 			make_envmaps();
-			
+
 			/* PARTS */
 			R.parts.first= R.parts.last= 0;
 			for(pa=0; pa<parts; pa++) {
-				
+
 				if(RE_test_break()) break;
-				
+
 				if(pa) {	/* want pa==0 is al gedaan */
 					if(setpart(pa)==0) break;
 				}
@@ -3824,7 +3798,7 @@ void render()  /* hierbinnen de PART en FIELD lussen */
 				setzbufvlaggen(RE_projectverto);
 				if(RE_test_break()) break;
 
-				
+
 				/* ZBUFFER & SHADE: zbuffer stores int distances, int face indices */
 				R.rectot= (uint *)callocN(sizeof(int)*R.rectx*R.recty, "rectot");
 				/* R.rectz isn't used in the unified renderer*/
@@ -3834,26 +3808,26 @@ void render()  /* hierbinnen de PART en FIELD lussen */
 
 				if(R.r.mode & R_MBLUR) printrenderinfo(R.osa - blur);
 				else printrenderinfo(-1);
-				
+
 				/* choose render pipeline type, and whether or not to use the */
 				/* delta accumulation buffer. 3 choices.                      */
 				if(G.magic)               zBufShadeAdvanced();
 				else if(R.r.mode & R_OSA) zbufshadeDA();
 				else                      zbufshade();
-				
+
 				if(RE_test_break()) break;
-				
+
 				/* uitzondering */
 				if( (R.r.mode & R_BORDER) && (R.r.mode & R_MOVIECROP));
 				else {
 					/* PART OF BORDER AFHANDELEN */
 					if(parts>1 || (R.r.mode & R_BORDER)) {
-						
+
 						part= callocN(sizeof(Part), "part");
 						addtail(&R.parts, part);
 						part->rect= R.rectot;
 						R.rectot= 0;
-						
+
 						if (R.rectz) {
 							freeN(R.rectz);
 							R.rectz= 0;
@@ -3878,18 +3852,18 @@ void render()  /* hierbinnen de PART en FIELD lussen */
 					if(R.r.mode & R_BORDER) {
 						if(border_x<R.rectx || border_y<R.recty || border_buf==NULL)
 							R.rectot= (uint *)callocN(sizeof(int)*R.rectx*R.recty, "rectot");
-						else 
+						else
 							R.rectot= border_buf;
 					}
 /* 					if(R.r.mode & R_BORDER) R.rectot= (uint *)callocN(sizeof(int)*R.rectx*R.recty, "rectot"); */
-/* END BAD ZR */					
+/* END BAD ZR */
 					else R.rectot=(uint *)mallocN(sizeof(int)*R.rectx*R.recty, "rectot");
-					
+
 					part= R.parts.first;
 					for(pa=0; pa<parts; pa++) {
 						if(allparts[pa][0]== -1) break;
 						if(part==0) break;
-						
+
 						if(R.r.mode & R_PANORAMA) {
 							if(pa) {
 								allparts[pa][0] += pa*R.r.xsch;
@@ -3897,10 +3871,10 @@ void render()  /* hierbinnen de PART en FIELD lussen */
 							}
 						}
 						addparttorect(pa, part);
-						
+
 						part= part->next;
 					}
-					
+
 					part= R.parts.first;
 					while(part) {
 						freeN(part->rect);
@@ -4054,7 +4028,7 @@ void RE_end_timer(int *real, int *cpu)
 #endif
 }
 
-#else 
+#else
 
 #ifdef WIN32
 static int old_time;
@@ -4096,7 +4070,7 @@ void RE_initrender()
 	Image *bima;
 	extern ushort usegamtab;
 	char name[256];
-	
+
 	/* scenedata naar R */
 	R.r= G.scene->r;
 	/* voor zekerheid: bij voortijdige return */
@@ -4112,7 +4086,7 @@ void RE_initrender()
 		return;
 	}
 
-	
+
 	if(R.r.xparts*R.r.yparts>64) {
 		error("No more than 64 parts");
 		G.afbreek= 1;
@@ -4125,7 +4099,7 @@ void RE_initrender()
 		return;
 	}
 
-	
+
 	/* BACKBUF TESTEN */
 	if((R.r.bufflag & 1) && (G.scene->r.scemode & R_OGL)==0) {
 		if(R.r.alphamode == R_ADDSKY) {
@@ -4151,7 +4125,7 @@ void RE_initrender()
 		}
 	}
 
-	
+
 	usegamtab= 0; /* zie hieronder */
 
 	if(R.r.mode & (R_OSA|R_MBLUR)) {
@@ -4180,7 +4154,7 @@ void RE_initrender()
 	R.near= 0.1;
 	R.far= 1000.0;
 
-	
+
 	if(R.afmx<1 || R.afmy<1) {
 		error("Image too small");
 		return;
@@ -4235,19 +4209,19 @@ void RE_initrender()
 			render(); /* keert terug met complete rect xsch-ysch */
 		}
 	}
-	
+
 	/* nog eens displayen: fields/seq/parts/pano etc */
-	if(R.rectot) {	
+	if(R.rectot) {
 		init_render_display();
-		RE_render_display(0, R.recty-1); 
+		RE_render_display(0, R.recty-1);
 	}
 	else RE_close_render_display();
 
 	/* TIJD berekenen */
 	RE_end_timer(&G.time, &G.cputime);
-	
+
 	printrenderinfo(-1);
-	
+
 	/* variabelen weer goed */
 	R.osatex= 0;
 	R.vlr= 0;	/* bij cubemap */
@@ -4275,7 +4249,7 @@ void RE_animrender()
 	cfrao= CFRA;
 
 	if(G.scene->r.scemode & R_OGL) R.r.mode &= ~R_PANORAMA;
-	
+
 	if(R.r.imtype==R_MOVIE) {
 		R.rectx= (R.r.size*R.r.xsch)/100;
 		R.recty= (R.r.size*R.r.ysch)/100;
@@ -4283,7 +4257,7 @@ void RE_animrender()
 			R.rectx*= R.r.xparts;
 			R.recty*= R.r.yparts;
 		}
-#ifdef __sgi		
+#ifdef __sgi
 		start_movie();
 #endif
 	} else if ELEM3(R.r.imtype, R_AVIRAW, R_AVIJPEG, R_AVIJMF ) {
@@ -4301,12 +4275,12 @@ void RE_animrender()
 		R.flag= R_ANIMRENDER;
 
 		RE_initrender();
-		
+
 		/* SCHRIJF PLAATJE */
 		if(RE_test_break()==0) {
 
 			if(R.r.imtype==R_MOVIE) {
-#ifdef __sgi	
+#ifdef __sgi
 				append_movie(CFRA);
 #endif
 			} else if (ELEM3(R.r.imtype, R_AVIRAW, R_AVIJPEG, R_AVIJMF)) {
@@ -4334,11 +4308,10 @@ void RE_animrender()
 	if(R.r.mode & (R_FIELDS|R_MBLUR)) {
 		do_all_ipos();
 		do_all_keys();
-		do_all_ikas();
 	}
 
 	if(R.r.imtype==R_MOVIE) {
-#ifdef __sgi	
+#ifdef __sgi
 		end_movie();
 #endif
 	} else if ELEM3(R.r.imtype, R_AVIRAW, R_AVIJPEG, R_AVIJMF ) {
@@ -4358,18 +4331,18 @@ static int dumptype;
 void write_screendump(char *name)
 {
 	ImBuf *ibuf;
-	
+
 	if(dumprect) {
 
 		strcpy(G.ima, name);
 		convertstringcode(name);
-		
+
 		if(saveover(name)) {
 			waitcursor(1);
-			
+
 			ibuf= allocImBuf(dumpsx, dumpsy, 24, 0, 0);
 			ibuf->rect= dumprect;
-			
+
 			if(G.scene->r.imtype== R_IRIS) ibuf->ftype= IMAGIC;
 			else if(G.scene->r.imtype==R_IRIZ) ibuf->ftype= IMAGIC;
 			else if(G.scene->r.imtype==R_TARGA) ibuf->ftype= TGA;
@@ -4378,11 +4351,11 @@ void write_screendump(char *name)
 			else if(ELEM5(G.scene->r.imtype, R_MOVIE, R_AVIRAW, R_AVIJPEG, R_AVIJMF, R_JPEG90)) {
 				ibuf->ftype= JPG|G.scene->r.quality;
 			}
-			else ibuf->ftype= TGA;	
+			else ibuf->ftype= TGA;
 
 			saveiff(ibuf, name, IB_rect);
 			freeImBuf(ibuf);
-			
+
 			waitcursor(0);
 		}
 		freeN(dumprect);
@@ -4395,26 +4368,26 @@ void RE_screendump()
 	/* dump pakken van frontbuffer */
 	int x=0, y=0;
 	char imstr[32];
-	
+
 	dumpsx= 0;
 	dumpsy= 0;
-	
+
 	if(dumprect) freeN(dumprect);
 	dumprect= 0;
-	
+
 	if (G.qual & LR_SHIFTKEY) {
 		x= 0;
 		y= 0;
-		
+
 		dumpsx= G.curscreen->sizex;
 		dumpsy= G.curscreen->sizey;
-		
-	} 
+
+	}
 	else {
 		extern bWindow *swinarray[]; /* mywindow.c */
 		bWindow *win= swinarray[mywinget()];
 		if(!win) return;
-			
+
 		if(mywin_inmenu()) {
 			mywin_getmenu_rect(&x, &y, &dumpsx, &dumpsy);
 		} else {
@@ -4424,18 +4397,18 @@ void RE_screendump()
 			dumpsy= win->ymax-win->ymin+1;
 		}
 	}
-	
+
 	if (dumpsx && dumpsy) {
 		dumptype= G.scene->r.imtype;
 		save_image_filesel_str(imstr);
-		
+
 		dumprect= mallocN(sizeof(int)*dumpsx*dumpsy, "dumprect");
 		glReadBuffer(GL_FRONT);
 		glReadPixels(x, y, dumpsx, dumpsy, GL_RGBA, GL_UNSIGNED_BYTE, dumprect);
-	
+
 		/* filesel openen */
-		
+
 		activate_fileselect(FILE_SPECIAL, imstr, G.ima, write_screendump);
-	}	
+	}
 }
 

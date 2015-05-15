@@ -22,9 +22,9 @@
 
 
 /*  headerbuttons.c   mei 94     GRAPHICS
- * 
- * 
- * 
+ *
+ *
+ *
  * Version: $Id: headerbuttons.c,v 1.46 2000/09/24 20:22:10 ton Exp $
  */
 
@@ -66,10 +66,10 @@ static int std_libbuttons(uiBlock *block, int xco, int lock, int browse, ID *id,
 	uiBut *but;
 	int len, idwasnul=0, idtype, oldcol;
 	char *str, str1[10], *str2;
-	
+
 	oldcol= block->col;
 
-	if(id && lock) {	
+	if(id && lock) {
 		uiDefBut(block, TOG|SHO,lock, "ICON 0 3 4",	xco,0,XIC,YIC, &(G.buts->lock), 0, 0, 0, 0, "");
 		xco+= XIC;
 	}
@@ -106,28 +106,28 @@ static int std_libbuttons(uiBlock *block, int xco, int lock, int browse, ID *id,
 		if(id) {
 			idtype= GS(id->name);
 			lb= wich_libbase(G.main, GS(id->name));
-			
+
 			if(idwasnul) id= 0;
 			else if(id->us>1) block->col= BUTDBLUE;
-			
+
 			if( idtype==ID_IP ) IPOnames_to_pupstring(&str, lb, id, menupoin, G.sipo->blocktype);
 			else IDnames_to_pupstring(&str, lb, id, menupoin);
 
 			if ELEM6( idtype, ID_SCE, ID_SCR, ID_MA, ID_TE, ID_WO, ID_IP) strcat(str, "|ADD NEW %x 32767");
 			else if (idtype==ID_TXT) strcat(str, "|OPEN NEW %x 32766 |ADD NEW %x 32767");
-			
+
 			uiSetButLock(G.scene->id.lib!=0, "Can't edit library data");
 			if( idtype==ID_SCE || idtype==ID_SCR ) uiClearButLock();
-			
+
 			if(curarea->spacetype==SPACE_BUTS)
 				uiSetButLock(idtype!=ID_SCR && G.obedit!=0 && G.buts->mainb==BUTS_EDIT, NULL);
-			
+
 			if(parid) uiSetButLock(parid->lib!=0, "Can't edit library data");
-			
+
 			uiDefBut(block, MENU|SHO, browse, str, xco,0,XIC,YIC, menupoin, 0, 0, 0, 0, "Browse Datablock or Add NEW");
-			
+
 			uiClearButLock();
-		
+
 			freeN(str);
 			xco+= XIC;
 		}
@@ -151,34 +151,34 @@ static int std_libbuttons(uiBlock *block, int xco, int lock, int browse, ID *id,
 	}
 
 	if(id) {
-	
+
 		/* naam */
 		if(id->us>1) block->col= BUTDBLUE;
 		if(id->us<=0) {
 			block->col= (REDALERT);
 		}
 		uiSetButLock(id->lib!=0, "Can't edit library data");
-		
+
 		str1[0]= id->name[0];
 		str1[1]= id->name[1];
 		str1[2]= ':';
 		str1[3]= 0;
 		if(strcmp(str1, "SC:")==0) strcpy(str1, "SCE:");
 		else if(strcmp(str1, "SR:")==0) strcpy(str1, "SCR:");
-		
+
 		if( GS(id->name)==ID_IP) len= 110;
 		else len= 120;
-		
+
 		but= uiDefBut(block, TEX, B_IDNAME, str1,	xco, 0, len, YIC, id->name+2, 0.0, 19.0, 0, 0, "Datablock name");
 		but->func= test_idbutton;
 		uiClearButLock();
 		xco+= len;
-		
+
 		if(id->lib) {
-			
+
 			if(parid && parid->lib) uiDefBut(block, BUT, 0, "ICON 0 6 4",	xco,0,XIC,YIC, 0, 0, 0, 0, 0, "Indirect Library Datablock");
 			else uiDefBut(block, BUT, lib, "ICON 0 5 4",	xco,0,XIC,YIC, 0, 0, 0, 0, 0, "Library DataBlock, press to make local");
-			
+
 			xco+= XIC;
 		}
 		if(users && id->us>1) {
@@ -192,7 +192,7 @@ static int std_libbuttons(uiBlock *block, int xco, int lock, int browse, ID *id,
 				xco+= XIC+10;
 			}
 		}
-	
+
 		if(del) {
 			if(parid && parid->lib);
 			else {
@@ -209,8 +209,8 @@ static int std_libbuttons(uiBlock *block, int xco, int lock, int browse, ID *id,
 		}
 	}
 	else xco+=XIC;
-	
-	block->col= oldcol;	
+
+	block->col= oldcol;
 
 	return xco;
 }
@@ -232,13 +232,13 @@ void do_global_buttons(ushort event)
 	Sequence *seq;
 	ID *id, *idtest, *from;
 	int nr= 1;
-	
+
 	ob= OBACT;
-	
+
 	id= 0;	/* id op nul voor texbrowse */
-	
+
 	switch(event) {
-	
+
 	case B_NEWFRAME:
 		addqueue(curarea->win, REDRAW, 1);
 		addqueue(curarea->headwin, REDRAW, 1);
@@ -254,10 +254,9 @@ void do_global_buttons(ushort event)
 		do_all_ipos();
 		do_all_scripts(SCRIPT_FRAMECHANGED);
 		do_all_keys();
-		do_all_ikas();
 		test_all_displists();
-		
-		break;		
+
+		break;
 	case B_REDR:
 		addqueue(curarea->win, REDRAW, 1);
 		addqueue(curarea->headwin, REDRAW, 1);
@@ -273,7 +272,7 @@ void do_global_buttons(ushort event)
 			return;
 		}
 		if(G.buts->menunr < 0) return;
-		
+
 		lb= wich_libbase(G.main, GS(id->name));
 		idtest= lb->first;
 		while(idtest) {
@@ -281,11 +280,11 @@ void do_global_buttons(ushort event)
 				if(idtest!=id) {
 					id->us--;
 					id_us_plus(idtest);
-					
+
 					ob->data= idtest;
-					
+
 					test_object_materials(idtest);
-					
+
 					if( GS(idtest->name)==ID_CU ) {
 						test_curve_type(ob);
 						allqueue(REDRAWBUTSEDIT, 0);
@@ -294,7 +293,7 @@ void do_global_buttons(ushort event)
 					else if( ob->type==OB_MESH ) {
 						makeDispList(ob);
 					}
-					
+
 					allqueue(REDRAWBUTSEDIT, 0);
 					allqueue(REDRAWVIEW3D, 0);
 					allqueue(REDRAWIPO, 0);
@@ -309,24 +308,24 @@ void do_global_buttons(ushort event)
 	case B_MESHBROWSE:
 		if(ob==0) return;
 		if(ob->id.lib) return;
-		
+
 		id= ob->data;
 		if(id==0) id= G.main->mesh.first;
 		if(id==0) return;
-		
+
 		if(G.buts->menunr== -2) {
 			activate_databrowse((ID *)G.buts->lockpoin, GS(id->name), 0, B_MESHBROWSE, do_global_buttons);
 			return;
 		}
 		if(G.buts->menunr < 0) return;
-		
+
 
 		idtest= G.main->mesh.first;
 		while(idtest) {
 			if(nr==G.buts->menunr) {
-					
+
 				set_mesh(ob, (Mesh *)idtest);
-				
+
 				allqueue(REDRAWBUTSEDIT, 0);
 				allqueue(REDRAWVIEW3D, 0);
 				allqueue(REDRAWIPO, 0);
@@ -343,19 +342,19 @@ void do_global_buttons(ushort event)
 			activate_databrowse((ID *)G.buts->lockpoin, ID_MA, 0, B_MATBROWSE, do_global_buttons);
 			return;
 		}
-		
+
 		if(G.buts->menunr < 0) return;
-		
+
 		if(G.buts->lock) {
-			
+
 		}
 		else {
-			
+
 			ma= give_current_material(ob, ob->actcol);
 			nr= 1;
-			
+
 			id= (ID *)ma;
-			
+
 			idtest= G.main->mat.first;
 			while(idtest) {
 				if(nr==G.buts->menunr) {
@@ -373,18 +372,18 @@ void do_global_buttons(ushort event)
 			}
 			if(idtest!=id) {
 				assign_material(ob, (Material *)idtest, ob->actcol);
-				
+
 				allqueue(REDRAWBUTSHEAD, 0);
 				allqueue(REDRAWBUTSMAT, 0);
 				allqueue(REDRAWIPO, 0);
 				RE_preview_changed(curarea->win);
 			}
-			
+
 		}
 		break;
 	case B_MATDELETE:
 		if(G.buts->lock) {
-			
+
 		}
 		else {
 			ma= give_current_material(ob, ob->actcol);
@@ -399,7 +398,7 @@ void do_global_buttons(ushort event)
 		break;
 	case B_TEXDELETE:
 		if(G.buts->lock) {
-			
+
 		}
 		else {
 			if(G.buts->texfrom==0) {	/* from mat */
@@ -446,11 +445,11 @@ void do_global_buttons(ushort event)
 			}
 		}
 		break;
-	case B_EXTEXBROWSE:	
+	case B_EXTEXBROWSE:
 	case B_TEXBROWSE:
 
 		if(G.buts->texnr== -2) {
-			
+
 			id= G.buts->lockpoin;
 			if(event==B_EXTEXBROWSE) {
 				id= 0;
@@ -460,18 +459,18 @@ void do_global_buttons(ushort event)
 					if(mtex) id= (ID *)mtex->tex;
 				}
 			}
-			
+
 			activate_databrowse(id, ID_TE, 0, B_TEXBROWSE, do_global_buttons);
 			return;
 		}
 		if(G.buts->texnr < 0) break;
-		
+
 		if(G.buts->lock) {
-			
+
 		}
 		else {
 			id= 0;
-			
+
 			ma= give_current_material(ob, ob->actcol);
 			if(ma) {
 				mtex= ma->mtex[ ma->texact ];
@@ -492,13 +491,13 @@ void do_global_buttons(ushort event)
 				idtest->us--;
 			}
 			if(idtest!=id && ma) {
-				
+
 				if( ma->mtex[ma->texact]==0) ma->mtex[ma->texact]= add_mtex();
-				
+
 				ma->mtex[ ma->texact ]->tex= (Tex *)idtest;
 				id_us_plus(idtest);
 				if(id) id->us--;
-				
+
 				allqueue(REDRAWBUTSHEAD, 0);
 				allqueue(REDRAWBUTSTEX, 0);
 				allqueue(REDRAWBUTSMAT, 0);
@@ -512,7 +511,7 @@ void do_global_buttons(ushort event)
 		ipo= get_ipo_to_edit(&from);
 		id= (ID *)ipo;
 		if(from==0) return;
-		
+
 		if(G.sipo->menunr== -2) {
 			activate_databrowse((ID *)G.sipo->ipo, ID_IP, GS(from->name), B_IPOBROWSE, do_global_buttons);
 			return;
@@ -548,7 +547,7 @@ void do_global_buttons(ushort event)
 		}
 		if(idtest!=id && from) {
 			ipo= (Ipo *)idtest;
-	
+
 			if(ipo->blocktype==ID_OB) {
 				( (Object *)from)->ipo= ipo;
 				id_us_plus(idtest);
@@ -573,10 +572,10 @@ void do_global_buttons(ushort event)
 			}
 			else if(ipo->blocktype==ID_KE) {
 				( (Key *)from)->ipo= ipo;
-				
+
 				id_us_plus(idtest);
 				allqueue(REDRAWVIEW3D, 0);
-				
+
 			}
 			else if(ipo->blocktype==ID_WO) {
 				( (World *)from)->ipo= ipo;
@@ -594,9 +593,9 @@ void do_global_buttons(ushort event)
 				allqueue(REDRAWBUTSEDIT, 0);
 			}
 			else printf("error in browse ipo \n");
-			
+
 			if(id) id->us--;
-			
+
 			addqueue(curarea->win, REDRAW, 1);
 			addqueue(curarea->headwin, REDRAW, 1);
 			allqueue(REDRAWIPO, 0);
@@ -605,9 +604,9 @@ void do_global_buttons(ushort event)
 	case B_IPODELETE:
 		ipo= get_ipo_to_edit(&from);
 		if(from==0) return;
-		
+
 		ipo->id.us--;
-		
+
 		if(ipo->blocktype==ID_OB) ( (Object *)from)->ipo= 0;
 		else if(ipo->blocktype==ID_MA) ( (Material *)from)->ipo= 0;
 		else if(ipo->blocktype==ID_SEQ) ( (Sequence *)from)->ipo= 0;
@@ -618,21 +617,21 @@ void do_global_buttons(ushort event)
 		else if(ipo->blocktype==ID_WO) ( (World *)from)->ipo= 0;
 		else if(ipo->blocktype==ID_CA) ( (Camera *)from)->ipo= 0;
 		else error("Warn ton!");
-		
+
 		editipo_changed(1);	/* doredraw */
 		allqueue(REDRAWIPO, 0);
-		
+
 		break;
 	case B_WORLDBROWSE:
 
 		if(G.buts->menunr < 0) break;
 		/* geen lock */
-			
+
 		wrld= G.scene->world;
 		nr= 1;
-		
+
 		id= (ID *)wrld;
-		
+
 		idtest= G.main->world.first;
 		while(idtest) {
 			if(nr==G.buts->menunr) {
@@ -650,7 +649,7 @@ void do_global_buttons(ushort event)
 			G.scene->world= (World *)idtest;
 			id_us_plus(idtest);
 			if(id) id->us--;
-			
+
 			allqueue(REDRAWBUTSHEAD, 0);
 			allqueue(REDRAWBUTSWORLD, 0);
 			allqueue(REDRAWIPO, 0);
@@ -664,7 +663,7 @@ void do_global_buttons(ushort event)
 			allqueue(REDRAWBUTSWORLD, 0);
 			allqueue(REDRAWIPO, 0);
 		}
-		
+
 		break;
 	case B_WTEXBROWSE:
 
@@ -682,11 +681,11 @@ void do_global_buttons(ushort event)
 		if(G.buts->texnr < 0) break;
 
 		if(G.buts->lock) {
-			
+
 		}
 		else {
 			id= 0;
-			
+
 			wrld= G.scene->world;
 			if(wrld) {
 				mtex= wrld->mtex[ wrld->texact ];
@@ -707,7 +706,7 @@ void do_global_buttons(ushort event)
 				idtest->us--;
 			}
 			if(idtest!=id && wrld) {
-				
+
 				if( wrld->mtex[wrld->texact]==0) {
 					wrld->mtex[wrld->texact]= add_mtex();
 					wrld->mtex[wrld->texact]->texco= TEXCO_VIEW;
@@ -715,7 +714,7 @@ void do_global_buttons(ushort event)
 				wrld->mtex[ wrld->texact ]->tex= (Tex *)idtest;
 				id_us_plus(idtest);
 				if(id) id->us--;
-				
+
 				allqueue(REDRAWBUTSHEAD, 0);
 				allqueue(REDRAWBUTSTEX, 0);
 				allqueue(REDRAWBUTSWORLD, 0);
@@ -734,11 +733,11 @@ void do_global_buttons(ushort event)
 			return;
 		}
 		if(G.buts->menunr < 0) break;
-		
+
 		la= ob->data;
 		nr= 1;
 		id= (ID *)la;
-		
+
 		idtest= G.main->lamp.first;
 		while(idtest) {
 			if(nr==G.buts->menunr) {
@@ -754,7 +753,7 @@ void do_global_buttons(ushort event)
 			ob->data= (Lamp *)idtest;
 			id_us_plus(idtest);
 			if(id) id->us--;
-			
+
 			allqueue(REDRAWBUTSHEAD, 0);
 			allqueue(REDRAWBUTSLAMP, 0);
 			allqueue(REDRAWVIEW3D, 0);
@@ -762,7 +761,7 @@ void do_global_buttons(ushort event)
 			RE_preview_changed(curarea->win);
 		}
 		break;
-	
+
 	case B_LTEXBROWSE:
 
 		if(ob==0) return;
@@ -780,11 +779,11 @@ void do_global_buttons(ushort event)
 		if(G.buts->texnr < 0) break;
 
 		if(G.buts->lock) {
-			
+
 		}
 		else {
 			id= 0;
-			
+
 			la= ob->data;
 			mtex= la->mtex[ la->texact ];
 			if(mtex) id= (ID *)mtex->tex;
@@ -803,7 +802,7 @@ void do_global_buttons(ushort event)
 				idtest->us--;
 			}
 			if(idtest!=id && la) {
-				
+
 				if( la->mtex[la->texact]==0) {
 					la->mtex[la->texact]= add_mtex();
 					la->mtex[la->texact]->texco= TEXCO_GLOB;
@@ -811,7 +810,7 @@ void do_global_buttons(ushort event)
 				la->mtex[ la->texact ]->tex= (Tex *)idtest;
 				id_us_plus(idtest);
 				if(id) id->us--;
-				
+
 				allqueue(REDRAWBUTSHEAD, 0);
 				allqueue(REDRAWBUTSTEX, 0);
 				allqueue(REDRAWBUTSLAMP, 0);
@@ -820,17 +819,17 @@ void do_global_buttons(ushort event)
 			}
 		}
 		break;
-	
+
 	case B_IMAGEDELETE:
 		G.sima->image= 0;
 		image_changed(G.sima, 0);
 		allqueue(REDRAWIMAGE, 0);
 		break;
-	
+
 	case B_AUTOMATNAME:
 		automatname(G.buts->lockpoin);
 		allqueue(REDRAWBUTSHEAD, 0);
-		break;		
+		break;
 	case B_AUTOTEXNAME:
 		if(G.buts->mainb==BUTS_TEX) {
 			autotexname(G.buts->lockpoin);
@@ -854,16 +853,16 @@ void do_global_buttons(ushort event)
 		}
 		break;
 	case B_NEWSPACE:
-			
+
 		newspace(curarea, curarea->butspacetype);
-		
+
 		/* uitzondering: filespace */
 		if(curarea->spacetype==SPACE_FILE) {
 			sfile= curarea->spacedata.first;
-			
+
 			if(sfile->type==FILE_MAIN) freefilelist(sfile);
 			else sfile->type= FILE_UNIX;
-			
+
 			sfile->returnfunc= 0;
 			sfile->title[0]= 0;
 			if(sfile->filelist) test_flags_file(sfile);
@@ -879,12 +878,12 @@ void do_global_buttons(ushort event)
 	case B_LOADTEMP: 	/* is button uit space.c */
 		read_autosavefile();
 		break;
-		
+
 	case B_FULL:
 		if(curarea->spacetype!=SPACE_INFO) {
 			area_fullscreen();
 		}
-		break;	
+		break;
 
 	case B_IDNAME:
 		/* redraw omdat naam veranderd is: nieuwe pup */
@@ -894,10 +893,10 @@ void do_global_buttons(ushort event)
 		allqueue(REDRAWOOPS, 1);
 		/* naam scene ook in set PUPmenu */
 		if ELEM(curarea->spacetype, SPACE_BUTS, SPACE_INFO) allqueue(REDRAWBUTSALL, 0);
-		
+
 		/* voorkeurnamen */
 		set_obact_names(OBACT);
-		
+
 		break;
 	}
 }
@@ -916,16 +915,16 @@ void do_global_buttons2(short event)
 	Lamp *la;
 	Lattice *lt;
 	World *wrld;
-	ID *id, *idtest, *idfrom;	
-	
-	/* algemeen: Single User mag als from==LOCAL 
+	ID *id, *idtest, *idfrom;
+
+	/* algemeen: Single User mag als from==LOCAL
 	 *			 Make Local mag als (from==LOCAL && id==LIB)
 	 */
-	
+
 	ob= OBACT;
-	
+
 	switch(event) {
-		
+
 	case B_LAMPALONE:
 		if(ob && ob->id.lib==0) {
 			la= ob->data;
@@ -947,7 +946,7 @@ void do_global_buttons2(short event)
 			}
 		}
 		break;
-	
+
 	case B_CAMERAALONE:
 		if(ob && ob->id.lib==0) {
 			Camera *ca= ob->data;
@@ -1008,7 +1007,7 @@ void do_global_buttons2(short event)
 			}
 		}
 		break;
-	
+
 	case B_MATALONE:
 		if(ob==0) return;
 		ma= give_current_material(ob, ob->actcol);
@@ -1073,7 +1072,7 @@ void do_global_buttons2(short event)
 			}
 		}
 		break;
-		
+
 	case B_TEXALONE:
 		if(G.buts->texfrom==0) {	/* from mat */
 			if(ob==0) return;
@@ -1151,10 +1150,10 @@ void do_global_buttons2(short event)
 			}
 		}
 		break;
-	
+
 	case B_IPOALONE:
 		ipo= get_ipo_to_edit(&idfrom);
-		
+
 		if(idfrom && idfrom->lib==0) {
 			if(ipo->id.us>1) {
 				if(okee("Single user")) {
@@ -1167,7 +1166,7 @@ void do_global_buttons2(short event)
 					else if(ipo->blocktype==ID_WO) ((World *)idfrom)->ipo= copy_ipo(ipo);
 					else if(ipo->blocktype==ID_CA) ((Camera *)idfrom)->ipo= copy_ipo(ipo);
 					else error("Warn ton!");
-					
+
 					ipo->id.us--;
 					allqueue(REDRAWIPO, 0);
 				}
@@ -1176,7 +1175,7 @@ void do_global_buttons2(short event)
 		break;
 	case B_IPOLOCAL:
 		ipo= get_ipo_to_edit(&idfrom);
-		
+
 		if(idfrom && idfrom->lib==0) {
 			if(ipo->id.lib) {
 				if(okee("Make local")) {
@@ -1217,23 +1216,23 @@ void do_global_buttons2(short event)
 		break;
 	case B_MESHALONE:
 		if(ob && ob->id.lib==0) {
-			
+
 			me= ob->data;
-			
+
 			if(me && me->id.us>1) {
 				if(okee("Single user")) {
 					Mesh *men= copy_mesh(me);
 					men->id.us= 0;
-					
+
 					set_mesh(ob, men);
-					
+
 					if(ob==G.obedit) allqueue(REDRAWVIEW3D, 0);
 				}
 			}
 		}
 		break;
 	}
-	
+
 	allqueue(REDRAWBUTSALL, 0);
 	allqueue(REDRAWOOPS, 0);
 }
@@ -1256,27 +1255,27 @@ int buttons_do_unpack()
 		} else {
 			sprintf(menu, "Unpack %d files%%t", count);
 		}
-		
+
 		sprintf(line, "|Use files in current directory (create when necessary)%%x%d", PF_USE_LOCAL);
 		strcat(menu, line);
-	
+
 		sprintf(line, "|Write files to current directory (overwrite existing files)%%x%d", PF_WRITE_LOCAL);
 		strcat(menu, line);
-	
+
 		sprintf(line, "|%%l|Use files in original location (create when necessary)%%x%d", PF_USE_ORIGINAL);
 		strcat(menu, line);
-	
+
 		sprintf(line, "|Write files to original location (overwrite existing files)%%x%d", PF_WRITE_ORIGINAL);
 		strcat(menu, line);
-	
+
 		sprintf(line, "|%%l|Disable AutoPack, keep all packed files %%x%d", PF_KEEP);
 		strcat(menu, line);
-	
+
 		sprintf(line, "|Ask for each file %%x%d", PF_ASK);
 		strcat(menu, line);
-		
+
 		how = pupmenu(menu);
-		
+
 		if(how != -1) {
 			if (how != PF_KEEP) {
 				unpackAll(how);
@@ -1288,7 +1287,7 @@ int buttons_do_unpack()
 	} else {
 		pupmenu("No packed files. Autopack disabled");
 	}
-	
+
 	return (ret_value);
 }
 
@@ -1298,9 +1297,9 @@ void do_info_buttons(ushort event)
 	Scene *sce, *sce1;
 	ScrArea *sa;
 	int nr, doit;
-	
+
 	switch(event) {
-	
+
 	case B_INFOSCR:		/* menu select screen */
 
 		if( G.curscreen->screennr== -2) {
@@ -1312,7 +1311,7 @@ void do_info_buttons(ushort event)
 			return;
 		}
 		if( G.curscreen->screennr < 0) return;
-		
+
 		sc= G.main->screen.first;
 		nr= 1;
 		while(sc) {
@@ -1339,7 +1338,7 @@ void do_info_buttons(ushort event)
 		else return;
 		if(okee("Delete current screen")) {
 			/* vind nieuwe G.curscreen */
-			
+
 			oldscreen= G.curscreen;
 			setscreen(sc);		/* deze test of sc een full heeft */
 			free_libblock(&G.main->screen, oldscreen);
@@ -1348,7 +1347,7 @@ void do_info_buttons(ushort event)
 
 		break;
 	case B_INFOSCE:		/* menu select scene */
-		
+
 		if( G.obedit) {
 			error("Unable to perform function in EditMode");
 			return;
@@ -1382,28 +1381,28 @@ void do_info_buttons(ushort event)
 				sce->r= G.scene->r;
 			}
 			else sce= copy_scene(G.scene, nr-2);
-			
+
 			set_scene(sce);
 		}
 
 		break;
 	case B_INFODELSCE:
-		
+
 		if(G.scene->id.prev) sce= G.scene->id.prev;
 		else if(G.scene->id.next) sce= G.scene->id.next;
 		else return;
 		if(okee("Delete current scene")) {
-			
+
 			/* alle sets aflopen */
 			sce1= G.main->scene.first;
 			while(sce1) {
 				if(sce1->set == G.scene) sce1->set= 0;
 				sce1= sce1->id.next;
 			}
-			
+
 			/* alle sequences aflopen */
 			clear_scene_in_allseqs(G.scene);
-			
+
 			/* alle schermen */
 			sc= G.main->screen.first;
 			while(sc) {
@@ -1413,7 +1412,7 @@ void do_info_buttons(ushort event)
 			free_libblock(&G.main->scene, G.scene);
 			set_scene(sce);
 		}
-	
+
 		break;
 	case B_FILEMENU:
 		tbox_setmain(9);
@@ -1431,7 +1430,7 @@ void info_text(int x, int y)
 	float fac1, fac2, fac3;
 	char str[300];
 	int colorval;
-	
+
 	if(G.obedit) {
 		sprintf(str,"Ve:%d-%d Fa:%d-%d  Mem:%.2fM  ",
 		G.totvertsel, G.totvert, G.totfacesel, G.totface,
@@ -1450,27 +1449,27 @@ void info_text(int x, int y)
 	fac1= fabs(hashvectf[ 2*G.version+2]);
 	fac2= 0.5+0.1*hashvectf[ G.version+2];
 	fac3= 0.7;
-	
+
 	cpack( hsv_to_cpack( fac1 , fac2, fac3) );
-	
+
 	glRecti(x-24,  y-4,  x+100,  y+13);
 
 	glColor3ub(0, 0, 0);
 	fmsetfont(G.fonts);
 	glRasterPos2i(x,  y);
 	fmprstr(versionstr);
-		
+
 	fmsetfont(G.fonts);
 	glRasterPos2i(x+120,  y);
 	fmprstr(str);
-	
+
 }
 
 void about_menu()
 {
-	
-	
-	
+
+
+
 }
 
 
@@ -1478,7 +1477,7 @@ void do_info_filemenu(int event)
 {
 	ScrArea *sa;
 	char dir[FILE_MAXDIR];
-	
+
 	if(curarea->spacetype==SPACE_INFO) {
 		sa= closest_bigger_area();
 		areawinset(sa->win);
@@ -1526,7 +1525,7 @@ void do_info_filemenu(int event)
 		break;
 	case 10:
 		exit_usiblender();
-		break;		
+		break;
 	}
 }
 
@@ -1534,10 +1533,10 @@ uiBlock *info_filemenu()
 {
 	uiBlock *block;
 	int xco=0;
-	
+
 	block= uiNewBlock(&curarea->uiblocks, "filemenu", UI_EMBOSSW, UI_HELV, 0x808080, curarea->headwin);
 	block->func= do_info_filemenu;
-	
+
 	uiDefBut(block, BUTM, 1, "New |Ctrl X",			0, xco-=20, 160, 19, NULL, 0.0, 0.0, 1, 0, "");
 	uiDefBut(block, BUTM, 1, "Open |F1",			0, xco-=20, 160, 19, NULL, 0.0, 0.0, 1, 1, "");
 	uiDefBut(block, BUTM, 1, "Reopen last|Ctrl O",	0, xco-=20, 160, 19, NULL, 0.0, 0.0, 1, 2, "");
@@ -1554,7 +1553,7 @@ uiBlock *info_filemenu()
 	uiDefBut(block, BUTM, 1, "Quit | Q",			0, xco-=20, 160, 19, NULL, 0.0, 0.0, 1, 10, "");
 
 	block->direction= UI_DOWN;
-	
+
 	return block;
 }
 
@@ -1563,7 +1562,7 @@ void do_info_editmenu(int event)
 	int oldqual;
 
 	switch(event) {
-		
+
 	case 0:
 		if(select_area(SPACE_VIEW3D)) qenter(AKEY, 1);
 		break;
@@ -1621,7 +1620,7 @@ uiBlock *info_editmenu()
 	static short tog=0;
 	uiBlock *block;
 	int xco= 0;
-	
+
 	block= uiNewBlock(&curarea->uiblocks, "filemenu", UI_EMBOSSW, UI_HELV, 0x808080, curarea->headwin);
 	block->func= do_info_editmenu;
 
@@ -1636,9 +1635,9 @@ uiBlock *info_editmenu()
 	uiDefBut(block, BUTM, 1, "Grabber|G",			0, xco-=20, 120, 19, NULL, 0.0, 0.0, 1, 6, "");
 	uiDefBut(block, BUTM, 1, "Rotate|R",			0, xco-=20, 120, 19, NULL, 0.0, 0.0, 1, 7, "");
 	uiDefBut(block, BUTM, 1, "Scale|S",				0, xco-=20, 120, 19, NULL, 0.0, 0.0, 1, 8, "");
-	
+
 	block->direction= UI_DOWN;
-		
+
 	return block;
 }
 
@@ -1678,12 +1677,12 @@ uiBlock *info_viewmenu()
 	static short tog=0;
 	uiBlock *block;
 	int xco= 0;
-	
+
 	block= uiNewBlock(&curarea->uiblocks, "filemenu", UI_EMBOSSW, UI_HELV, 0x808080, curarea->headwin);
 	block->func= do_info_viewmenu;
 
 	// block->col= BUTBLUE;
-	
+
 	uiDefBut(block, BUTM, 1, "Front|NumPad 1",		0, xco-=20, 140, 19, NULL, 0.0, 0.0, 0, 0, "");
 	uiDefBut(block, BUTM, 1, "Right|NumPad 3",		0, xco-=20, 140, 19, NULL, 0.0, 0.0, 0, 1, "");
 	uiDefBut(block, BUTM, 1, "Top|NumPad 7",		0, xco-=20, 140, 19, NULL, 0.0, 0.0, 0, 2, "");
@@ -1692,19 +1691,19 @@ uiBlock *info_viewmenu()
 	uiDefBut(block, SEPR, 0, "",					0, xco-=6, 140, 6, NULL, 0.0, 0.0, 0, 0, "");
 	uiDefBut(block, BUTM, 1, "Zoom in|NumPad +",	0, xco-=20, 140, 19, NULL, 0.0, 0.0, 0, 4, "");
 	uiDefBut(block, BUTM, 1, "Zoom out|NumPad -",	0, xco-=20, 140, 19, NULL, 0.0, 0.0, 0, 5, "");
-	
+
 	uiDefBut(block, SEPR, 0, "",					0, xco-=6, 140, 6, NULL, 0.0, 0.0, 0, 0, "");
 	uiDefBut(block, BUTM, 1, "Center|c",			0, xco-=20, 140, 19, NULL, 0.0, 0.0, 0, 6, "");
 	uiDefBut(block, BUTM, 1, "ViewAll|Home",		0, xco-=20, 140, 19, NULL, 0.0, 0.0, 0, 7, "");
-	
+
 	block->direction= UI_DOWN;
-	
+
 	return block;
 }
 
 void do_info_toolsmenu(int event)
 {
-	
+
 	switch(event) {
 	case 0:
 		packAll();
@@ -1716,7 +1715,7 @@ void do_info_toolsmenu(int event)
 		break;
 	case 2:
 		if (buttons_do_unpack() != RET_CANCEL) {
-			// clear autopack bit only if 
+			// clear autopack bit only if
 			// user selected one of the unpack options
 			G.fileflags &= ~G_AUTOPACK;
 		}
@@ -1731,17 +1730,17 @@ uiBlock *info_toolsmenu()
 	static short tog=0;
 	uiBlock *block;
 	int xco= 0;
-	
+
 	block= uiNewBlock(&curarea->uiblocks, "toolsmenu", UI_EMBOSSW, UI_HELV, 0x808080, curarea->headwin);
 	// block->col= BUTBLUE;
 	block->func= do_info_toolsmenu;
-	
+
 	uiDefBut(block, BUTM, 1, "Pack Data",						0, xco-=20, 160, 19, NULL, 0.0, 0.0, 1, 0, "");
 	uiDefBut(block, BUTM, 1, "Unpack Data to current dir",		0, xco-=20, 160, 19, NULL, 0.0, 0.0, 1, 1, "");
 	uiDefBut(block, BUTM, 1, "Advanced Unpack",					0, xco-=20, 160, 19, NULL, 0.0, 0.0, 1, 2, "");
-	
+
 	block->direction= UI_DOWN;
-	
+
 	return block;
 }
 
@@ -1754,13 +1753,13 @@ void info_buttons()
 	uint paper;
 	int xco= 32;
 	char naam[20], *str;
-	
+
 	paper= rgb_to_cpack(0.65, 0.65, 0.65);
 	if(G.curscreen->winakt) {
 		if ELEM(G.curscreen->winakt, curarea->win, curarea->headwin) paper= rgb_to_cpack(0.75, 0.75, 0.75);
 	}
 
-	sprintf(naam, "header %d", curarea->headwin);	
+	sprintf(naam, "header %d", curarea->headwin);
 	block= uiNewBlock(&curarea->uiblocks, naam, UI_EMBOSSX, UI_HELV, paper, curarea->headwin);
 	block->col= BUTGREY;
 
@@ -1785,23 +1784,23 @@ void info_buttons()
 		xco += 15;
 		block->dt = UI_EMBOSSX;
 	}
-	
+
 	if (curarea->full == 0) {
-	
+
 		uiDefBut(block, ICONROW|CHA,B_NEWSPACE, "ICON 0 0 0", 6,0,XIC,YIC, &(curarea->butspacetype), 1.0, 11.0, 0, 0, "Current window type ");
-		
+
 		/* STD SCREEN BUTTONS */
 		xco+= XIC;
 		xco= std_libbuttons(block, xco, 0, B_INFOSCR, (ID *)G.curscreen, 0, &G.curscreen->screennr, 1, 1, B_INFODELSCR, 0);
-	
+
 		/* STD SCENE BUTTONS */
 		xco+= 5;
 		xco= std_libbuttons(block, xco, 0, B_INFOSCE, (ID *)G.scene, 0, &G.curscreen->scenenr, 1, 1, B_INFODELSCE, 0);
 	}
 	else xco= 430;
-	
+
 	info_text(xco+24, 6);
-	
+
 	block->dt= UI_EMBOSSN;
 	but= uiDefBut(block, BUT, 0, "ICON 0 0 9", xco+1, 0,XIC,YIC, 0, 0, 0, 0, 0, "");
 	but->flag |= UI_NO_BACK;
@@ -1810,11 +1809,11 @@ void info_buttons()
 
 	/* altijd als laatste doen */
 	curarea->headbutlen= xco+2*XIC;
-	
+
 	if(curarea->headbutlen + 4*XIC < curarea->winx) {
 		uiDefBut(block, BUT, B_FILEMENU, "ICON 0 0 5", curarea->winx-XIC-2, 0,XIC,YIC, 0, 0, 0, 0, 0, "Toolbox menu, hotkey: SPACE");
 	}
-	
+
 	uiDrawBlock(block);
 }
 
@@ -1825,10 +1824,10 @@ void do_seq_buttons(short event)
 {
 	Sequence *seq;
 	Editing *ed;
-	
+
 	ed= G.scene->ed;
 	if(ed==0) return;
-	
+
 	switch(event) {
 	case B_SEQHOME:
 		G.v2d->cur= G.v2d->tot;
@@ -1840,7 +1839,7 @@ void do_seq_buttons(short event)
 		allqueue(REDRAWSEQ, 1);
 		break;
 	}
-	
+
 }
 
 void seq_buttons()
@@ -1850,9 +1849,9 @@ void seq_buttons()
 	char naam[20], str[256];
 	uiBlock *block;
 	uiBut *but;
-	
+
 	sseq= curarea->spacedata.first;
-	
+
 	sprintf(naam, "header %d", curarea->headwin);
 	block= uiNewBlock(&curarea->uiblocks, naam, UI_EMBOSSX, UI_HELV, 0x808080, curarea->headwin);
 	block->col= BUTPURPLE;
@@ -1863,11 +1862,11 @@ void seq_buttons()
 	xco= 25;
 	if(curarea->full) uiDefBut(block, BUT,B_FULL, "ICON 0 1 8",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Restore smaller windows (CTRL+Up arrow)");
 	else uiDefBut(block, BUT,B_FULL, "ICON 0 0 8",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Make fullscreen window (CTRL+Down arrow)");
-	
+
 	/* HOME */
-	uiDefBut(block, BUT, B_SEQHOME, "ICON 0 15 0",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Home (HOMEKEY)");	
+	uiDefBut(block, BUT, B_SEQHOME, "ICON 0 15 0",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Home (HOMEKEY)");
 	xco+= XIC;
-	
+
 	/* IMAGE */
 	uiDefBut(block, TOG|SHO, B_REDR, "ICON 0 5 0",	xco+=XIC,0,XIC,YIC, &sseq->mainb, 0, 0, 0, 0, "Toggles image display");
 
@@ -1879,7 +1878,7 @@ void seq_buttons()
 	/* CLEAR MEM */
 	xco+= XIC;
 	uiDefBut(block, BUT, B_SEQCLEAR, "Clear",	xco+=XIC,0,2*XIC,YIC, 0, 0, 0, 0, 0, "Forces a clear of all buffered images in memory");
-	
+
 	uiDrawBlock(block);
 }
 
@@ -1923,7 +1922,7 @@ void do_view3d_buttons(short event)
 		else exit_editmode(1);
 		addqueue(curarea->headwin, REDRAW, 1);
 		break;
-	
+
 	case B_VPAINT:
 		if(G.obedit) {
 			error("Unable to perform function in EditMode");
@@ -1932,7 +1931,7 @@ void do_view3d_buttons(short event)
 		}
 		else set_vpaint();
 		break;
-		
+
 	case B_FACESEL:
 		if(G.obedit) {
 			error("Unable to perform function in EditMode");
@@ -1941,22 +1940,22 @@ void do_view3d_buttons(short event)
 		}
 		else set_faceselect();
 		break;
-		
+
 	case B_VIEWBUT:
-	
+
 		if(G.vd->viewbut==1) persptoetsen(PAD7);
 		else if(G.vd->viewbut==2) persptoetsen(PAD1);
 		else if(G.vd->viewbut==3) persptoetsen(PAD3);
 		break;
 
 	case B_PERSP:
-	
+
 		if(G.vd->persp==2) persptoetsen(PAD0);
 		else {
 			G.vd->persp= 1-G.vd->persp;
 			persptoetsen(PAD5);
 		}
-		
+
 		break;
 	case B_PROPTOOL:
 		allqueue(REDRAWHEADERS, 0);
@@ -1969,7 +1968,7 @@ void do_view3d_buttons(short event)
 		break;
 	case B_STARTGAME:
     	start_game();
-		
+
 		break;
 	case B_VIEWZOOM:
 		viewmovetemp= 0;
@@ -1981,14 +1980,14 @@ void do_view3d_buttons(short event)
 		viewmove(1);
 		addqueue(curarea->headwin, REDRAW, 1);
 		break;
-	
+
 	default:
 
 		if(event>=B_LAY && event<B_LAY+31) {
 			if(G.vd->lay!=0 && (G.qual & LR_SHIFTKEY)) {
-				
+
 				/* wel actieve layer zoeken */
-				
+
 				bit= event-B_LAY;
 				if( G.vd->lay & (1<<bit)) G.vd->layact= 1<<bit;
 				else {
@@ -2012,7 +2011,7 @@ void do_view3d_buttons(short event)
 			}
 			addqueue(curarea->win, REDRAW, 1);
 			countall();
-			
+
 			if(G.vd->scenelock) handle_view3d_lock();
 			allqueue(REDRAWOOPS, 0);
 		}
@@ -2023,10 +2022,10 @@ void do_view3d_buttons(short event)
 void do_layer_toets(short event)
 {
 	static int oldlay= 1;
-	
+
 	if(G.vd==0) return;
 	if(G.vd->localview) return;
-	
+
 	if(event== -1) {
 		if(G.vd->lay== (2<<20)-1) {
 			if(G.qual & LR_SHIFTKEY) G.vd->lay= oldlay;
@@ -2035,7 +2034,7 @@ void do_layer_toets(short event)
 			oldlay= G.vd->lay;
 			G.vd->lay= (2<<20)-1;
 		}
-		
+
 		if(G.vd->scenelock) handle_view3d_lock();
 		addqueue(curarea->win, REDRAW, 1);
 	}
@@ -2051,9 +2050,9 @@ void do_layer_toets(short event)
 	}
 	/* redraw lijkt dubbelop: wordt in queue netjes afgehandeld */
 	addqueue(curarea->headwin, REDRAW, 1);
-	
+
 	if(curarea->spacetype==SPACE_OOPS) allqueue(REDRAWVIEW3D, 1);	/* 1==ook headwin */
-	
+
 }
 
 void view3d_buttons()
@@ -2064,21 +2063,21 @@ void view3d_buttons()
 	static int temp1=1, temp2=2;
 	int a, b, xco;
 	char naam[20], str[256];
-	
+
 	sprintf(naam, "header %d", curarea->headwin);
 	block= uiNewBlock(&curarea->uiblocks, naam, UI_EMBOSSX, UI_HELV, 0x808080, curarea->headwin);
-	block->col= BUTBLUE;	
+	block->col= BUTBLUE;
 
 	uiDefBut(block, ICONROW|CHA,B_NEWSPACE, "ICON 0 0 0", 6,0,XIC,YIC, &(curarea->butspacetype), 1.0, 11.0, 0, 0, "Current window type ");
-	
+
 
 	/* FULL WINDOW */
 	xco= 25;
 	if(curarea->full) uiDefBut(block, BUT,B_FULL, "ICON 0 1 8",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Restore smaller windows (CTRL+Up arrow)");
 	else uiDefBut(block, BUT,B_FULL, "ICON 0 0 8",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Make fullscreen window (CTRL+Down arrow)");
-	
+
 	/* HOME */
-	uiDefBut(block, BUT, B_HOME, "ICON 0 15 0",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Home (HOMEKEY)");	
+	uiDefBut(block, BUT, B_HOME, "ICON 0 15 0",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Home (HOMEKEY)");
 
 	xco+= XIC+8;
 	if(G.vd->localview==0) {
@@ -2096,24 +2095,24 @@ void view3d_buttons()
 
 	}
 	else xco+= (10+2)*(XIC/2)+10;
-	
+
 	/* LOCALVIEW */
 	uiDefBut(block, ICONROW|SHO, B_LOCALVIEW, "ICON 0 10 1",	xco+=XIC,0,XIC,YIC, &(G.vd->localview), 0.0, 2.0, 0, 0, "Local View (NumPad /)");
-	
+
 	/* PERSP */
 	xco+= XIC/2;
 	uiDefBut(block, ICONROW|SHO, B_PERSP, "ICON 0 0 1",	xco+=XIC,0,XIC,YIC, &(G.vd->persp), 0.0, 2.0, 0, 0, "Perspective mode (NumPad 5, Numpad 0)");
-	
+
 	xco+= XIC/2;
 	/* AANZICHT */
-	
+
 	if(G.vd->view==7) G.vd->viewbut= 1;
 	else if(G.vd->view==1) G.vd->viewbut= 2;
 	else if(G.vd->view==3) G.vd->viewbut= 3;
 	else G.vd->viewbut= 0;
-	
+
 	uiDefBut(block, ICONROW|SHO, B_VIEWBUT, "ICON 0 2 2", xco+=XIC,0,XIC,YIC, &G.vd->viewbut, 0.0, 3.0, 0, 0, "Top/Front or Side views (Numpad 7, 1, 3)");
-	
+
 	/* DRAWTYPE */
 	xco+= XIC/2;
 	uiDefBut(block, ICONROW|SHO, B_REDR, "ICON 0 4 1",	xco+=XIC,0,XIC,YIC, &(G.vd->drawtype), 1.0, 5.0, 0, 0, "Drawtype: boundbox/wire/solid/shaded (ZKEY, SHIFT+Z)");
@@ -2135,14 +2134,14 @@ void view3d_buttons()
 	if(G.obedit) G.vd->flag |= V3D_EDITMODE;
 	if(G.f & G_VERTEXPAINT) G.vd->flag |= V3D_VERTEXPAINT;
 		if(G.f & G_FACESELECT) G.vd->flag |= V3D_FACESELECT;
-	
-	
+
+
 	xco+= XIC/2;
 	uiDefBut(block, ICONTOG|SHO|BIT|4, B_EDITMODE, "ICON 0 14 4",	xco+=XIC,0,XIC,YIC, &G.vd->flag, 0, 0, 0, 0, "EditMode (TAB)");
 	uiDefBut(block, ICONTOG|SHO|BIT|5, B_VPAINT, "ICON 0 16 4",	xco+=XIC,0,XIC,YIC, &G.vd->flag, 0, 0, 0, 0, "VertexPaint Mode (VKEY)");
 		uiDefBut(block, ICONTOG|SHO|BIT|6, B_FACESEL, "ICON 0 18 4",	xco+=XIC,0,XIC,YIC, &G.vd->flag, 0, 0, 0, 0, "FaceSelect Mode");
-	
-	
+
+
 	if(G.vd->bgpic) {
 		xco+= XIC/2;
 		uiDefBut(block, TOG|SHO|BIT|1, B_REDR, "ICON 0 5 0",	xco+=XIC,0,XIC,YIC, &G.vd->flag, 0, 0, 0, 0, "Display Background picture");
@@ -2156,12 +2155,12 @@ void view3d_buttons()
 			uiDefBut(block, ROW|INT, 0, "ICON 0 12 5",	xco+=XIC,0,XIC,YIC, &prop_mode, 4.0, 1.0, 0, 0, "Smooth falloff");
 		}
 	}
-	
+
 	xco+=XIC;
 	uiDefBut(block, BUT, B_VIEWRENDER, "ICON 0 5 8",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Render this view. (Hold SHIFT for Anim render)");
 	xco+=XIC;
 	uiDefBut(block, BUT, B_STARTGAME, "ICON 0 8 7",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Start game");
-	
+
 	/* altijd als laatste doen */
 	curarea->headbutlen= xco+2*XIC;
 
@@ -2187,19 +2186,19 @@ void do_ipo_buttons(short event)
 
 	switch(event) {
 	case B_IPOHOME:
-		
+
 		/* boundbox */
-			
+
 		v2d= &(G.sipo->v2d);
 		first= 1;
-		
+
 		ei= G.sipo->editipo;
 		if(ei==0) return;
 		for(a=0; a<G.sipo->totipo; a++, ei++) {
 			if ISPOIN(ei, flag & IPO_VISIBLE, icu) {
-			
+
 				boundbox_ipocurve(ei->icu);
-				
+
 				if(first) {
 					v2d->tot= ei->icu->totrct;
 					first= 0;
@@ -2217,10 +2216,10 @@ void do_ipo_buttons(short event)
 		/* beetje uitzoomen */
 		dx= 0.10*(v2d->tot.xmax-v2d->tot.xmin);
 		dy= 0.10*(v2d->tot.ymax-v2d->tot.ymin);
-		
+
 		if(dx<v2d->min[0]) dx= v2d->min[0];
 		if(dy<v2d->min[1]) dy= v2d->min[1];
-		
+
 		v2d->cur.xmin= v2d->tot.xmin- dx;
 		v2d->cur.xmax= v2d->tot.xmax+ dx;
 		v2d->cur.ymin= v2d->tot.ymin- dy;
@@ -2240,7 +2239,7 @@ void do_ipo_buttons(short event)
 			areamouseco_to_ipoco(mval, &(G.v2d->cur.xmax), &(G.v2d->cur.ymax));
 			G.v2d->cur.xmin= xmin;
 			G.v2d->cur.ymin= ymin;
-			
+
 			test_view2d();
 			addqueue(curarea->win, REDRAW, 1);
 		}
@@ -2279,8 +2278,8 @@ void do_ipo_buttons(short event)
 		view2dzoom();
 		addqueue(curarea->headwin, REDRAW, 1);
 		break;
-			
-	}	
+
+	}
 }
 
 void ipo_buttons()
@@ -2325,7 +2324,7 @@ void ipo_buttons()
 			xco-= 4;
 		}
 	}
-	
+
 	if(ob && ob->type==OB_CURVE)
 		uiDefBut(block, ROW|SHO, B_IPOMAIN, "ICON 0 4 7",	xco+=XIC,0,XIC,YIC, &G.sipo->blocktype, 1.0, (float)ID_CU, 0, 0, "Display Curve Ipos");
 
@@ -2339,7 +2338,7 @@ void ipo_buttons()
 			xco-= 4;
 		}
 	}
-	
+
 	if(ob) {
 		if ELEM4(ob->type, OB_MESH, OB_CURVE, OB_SURF, OB_LATTICE)
 			uiDefBut(block, ROW|SHO, B_IPOMAIN, "ICON 0 7 7",	xco+=XIC,0,XIC,YIC, &G.sipo->blocktype, 1.0, (float)ID_KE, 0, 0, "Display VertexKeys Ipos");
@@ -2348,7 +2347,7 @@ void ipo_buttons()
 
 	/* NAME ETC */
 	id= (ID *)get_ipo_to_edit(&from);
-	xco= std_libbuttons(block, xco+1.5*XIC, 0, B_IPOBROWSE, id, from, &(G.sipo->menunr), B_IPOALONE, B_IPOLOCAL, B_IPODELETE, 0);	
+	xco= std_libbuttons(block, xco+1.5*XIC, 0, B_IPOBROWSE, id, from, &(G.sipo->menunr), B_IPOALONE, B_IPOLOCAL, B_IPODELETE, 0);
 
 	uiSetButLock(id && id->lib, "Can't edit library data");
 
@@ -2365,7 +2364,7 @@ void ipo_buttons()
 		uiDefBut(block, BUT, B_IPOPASTE, "ICON 0 13 6",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Pastes the curves from the buffer");
 	}
 	xco+=XIC/2;
-	
+
 	/* EXTRAP */
 	uiDefBut(block, BUT, B_IPOCONT, "ICON 0 15 6",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Sets the extend mode to constant");
 	uiDefBut(block, BUT, B_IPOEXTRAP, "ICON 0 16 6",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Sets the extend mode to extrapolation");
@@ -2377,7 +2376,7 @@ void ipo_buttons()
 	/* ZOOM en BORDER */
 	but= uiDefBut(block, TOG|INT, B_VIEW2DZOOM, "ICON 0 13 0",	xco+=XIC,0,XIC,YIC, &viewmovetemp, 0, 0, 0, 0, "Zoom view (CTRL+MiddleMouse)");
 	uiDefBut(block, BUT, B_IPOBORDER, "ICON 0 8 2",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Translate view (MiddleMouse)");
-	
+
 	/* draw LOCK */
 	xco+= XIC/2;
 	uiDefBut(block, ICONTOG|SHO, 1, "ICON 0 3 4",	xco+=XIC,0,XIC,YIC, &(G.sipo->lock), 0, 0, 0, 0, "Lock redraw of other windows while editing");
@@ -2402,14 +2401,14 @@ void free_matcopybuf()	/* wordt ook vanuit library.c aangeroepen als safety bij 
 {
 	extern MTex mtexcopybuf;	/* buttons.c */
 	int a;
-	
+
 	for(a=0; a<8; a++) {
 		if(matcopybuf.mtex[a]) {
 			freeN(matcopybuf.mtex[a]);
 			matcopybuf.mtex[a]= 0;
 		}
 	}
-	
+
 	default_mtex(&mtexcopybuf);
 }
 
@@ -2420,7 +2419,7 @@ void do_buts_buttons(short event)
 	Material *ma;
 	ID id;
 	int a;
-	
+
 	if(curarea->win==0) return;
 
 	switch(event) {
@@ -2436,9 +2435,9 @@ void do_buts_buttons(short event)
 		break;
 	case B_MATCOPY:
 		if(G.buts->lockpoin) {
-			
+
 			if(matcopied) free_matcopybuf();
-			
+
 			memcpy(&matcopybuf, G.buts->lockpoin, sizeof(Material));
 			for(a=0; a<8; a++) {
 				mtex= matcopybuf.mtex[a];
@@ -2458,11 +2457,11 @@ void do_buts_buttons(short event)
 				if(mtex && mtex->tex) mtex->tex->id.us--;
 				if(mtex) freeN(mtex);
 			}
-			
+
 			id= (ma->id);
 			memcpy(G.buts->lockpoin, &matcopybuf, sizeof(Material));
 			(ma->id)= id;
-			
+
 			for(a=0; a<8; a++) {
 				mtex= ma->mtex[a];
 				if(mtex) {
@@ -2485,10 +2484,10 @@ void buttons_active_id(ID **id, ID **idfrom)
 {
 	Object *ob= OBACT;
 	Material *ma;
-	
+
 	*id= NULL;
 	*idfrom= (ID *)ob;
-	
+
 	if(G.buts->mainb==BUTS_LAMP) {
 		if(ob && ob->type==OB_LAMP) {
 			*id= ob->data;
@@ -2502,7 +2501,7 @@ void buttons_active_id(ID **id, ID **idfrom)
 	}
 	else if(G.buts->mainb==BUTS_TEX) {
 		MTex *mtex;
-		
+
 		if(G.buts->mainbo != G.buts->mainb) {
 			if(G.buts->mainbo==BUTS_LAMP) G.buts->texfrom= 2;
 			else if(G.buts->mainbo==BUTS_WORLD) G.buts->texfrom= 1;
@@ -2549,7 +2548,7 @@ void buttons_active_id(ID **id, ID **idfrom)
 	}
 	else if(G.buts->mainb==BUTS_RENDER) {
 		*id= (ID *)G.scene;
-		
+
 	}
 	else if(G.buts->mainb==BUTS_EDIT) {
 		if(ob && ob->data) {
@@ -2581,7 +2580,7 @@ void buts_buttons()
 
 	/* HOME */
 	uiDefBut(block, BUT, B_BUTSHOME, "ICON 0 15 0",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Home (HOMEKEY)");
-	
+
 	/* keuzemenu */
 	xco+= 2*XIC;
 	uiDefBut(block, ROW|SHO, B_REDR,			"ICON 0 0 7 View",	xco+=XIC, 0, 30, YIC, &(G.buts->mainb), 1.0, (float)BUTS_VIEW, 0, 0, "View buttons");
@@ -2597,23 +2596,23 @@ void buts_buttons()
 	uiDefBut(block, ROW|SHO, B_REDR,			"ICON 0 11 7 Script",xco+=30, 0, 30, YIC, &(G.buts->mainb), 1.0, (float)BUTS_SCRIPT, 0, 0, "Script buttons");
 	uiDefBut(block, ROW|SHO, B_REDR,			"ICON 0 6 7 Scene",	xco+=30, 0, 50, YIC, &(G.buts->mainb), 1.0, (float)BUTS_RENDER, 0, 0, "Display buttons (F10)");
 	xco+= 80;
-	
+
 	ob= OBACT;
-	
+
 	buttons_active_id(&id, &idfrom);
-	
+
 	G.buts->lockpoin= id;
-	
+
 	if(G.buts->mainb==BUTS_LAMP) {
 		if(id) {
-			xco= std_libbuttons(block, xco, 0, B_LAMPBROWSE, id, (ID *)ob, &(G.buts->menunr), B_LAMPALONE, B_LAMPLOCAL, 0, 0);	
+			xco= std_libbuttons(block, xco, 0, B_LAMPBROWSE, id, (ID *)ob, &(G.buts->menunr), B_LAMPALONE, B_LAMPLOCAL, 0, 0);
 		}
 	}
 	else if(G.buts->mainb==BUTS_MAT) {
 		if(ob && (ob->type<OB_LAMP) && ob->type) {
 			xco= std_libbuttons(block, xco, 0, B_MATBROWSE, id, idfrom, &(G.buts->menunr), B_MATALONE, B_MATLOCAL, B_MATDELETE, B_AUTOMATNAME);
 		}
-	
+
 		/* COPY PASTE */
 		if(curarea->headertype==HEADERTOP) {
 			uiDefBut(block, BUT, B_MATCOPY, "ICON 0 14 7",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Copy Material to the buffer");
@@ -2648,7 +2647,7 @@ void buts_buttons()
 	else if(G.buts->mainb==BUTS_ANIM) {
 		if(id) {
 			xco= std_libbuttons(block, xco, 0, 0, id, idfrom, &(G.buts->menunr), B_OBALONE, B_OBLOCAL, 0, 0);
-			
+
 			if(G.scene->group) {
 				Group *group= G.scene->group;
 				but= uiDefBut(block, TEX, B_IDNAME, "GR:",	xco, 0, 135, YIC, group->id.name+2, 0.0, 19.0, 0, 0, "Active Group name");
@@ -2670,12 +2669,12 @@ void buts_buttons()
 	}
 	else if(G.buts->mainb==BUTS_EDIT) {
 		if(id) {
-			
+
 			alone= 0;
 			local= 0;
 			browse= B_EDITBROWSE;
 			xco+= 10;
-			
+
 			if(ob->type==OB_MESH) {
 				browse= B_MESHBROWSE;
 				alone= B_MESHALONE;
@@ -2698,9 +2697,9 @@ void buts_buttons()
 				alone= B_LATTALONE;
 				local= B_LATTLOCAL;
 			}
-			
+
 			xco= std_libbuttons(block, xco, 0, browse, id, idfrom, &(G.buts->menunr), alone, local, 0, 0);
-			
+
 			xco+= XIC;
 		}
 		if(ob) {
@@ -2716,9 +2715,9 @@ void buts_buttons()
 		if(ob && (ma=give_current_material(ob, ob->actcol)))
 			uiDefBut(block, ROW|SHO, B_REDR, "ICON 0 8 4",	xco+=XIC,0,XIC,YIC, &G.buts->scriptblock, 2.0, (float)ID_MA, 0, 0, "Display Material script links ");
 
-		if(G.scene->world) 
+		if(G.scene->world)
 			uiDefBut(block, ROW|SHO, B_REDR, "ICON 0 5 7",	xco+=XIC,0,XIC,YIC, &G.buts->scriptblock, 2.0, (float)ID_WO, 0, 0, "Display World script links");
-	
+
 		if(ob && ob->type==OB_CAMERA)
 			uiDefBut(block, ROW|SHO, B_REDR, "ICON 0 2 1",	xco+=XIC,0,XIC,YIC, &G.buts->scriptblock, 2.0, (float)ID_CA, 0, 0, "Display Camera script links");
 
@@ -2727,7 +2726,7 @@ void buts_buttons()
 
 		xco+= 20;
 	}
-	
+
 	uiDefBut(block, NUM|SHO, B_NEWFRAME, "",		xco+20,0,60,YIC, &(G.scene->r.cfra), 1.0, 18000.0, 0, 0, "Current Frame");
 	xco+= 80;
 
@@ -2744,10 +2743,10 @@ void buts_buttons()
 void do_file_buttons(short event)
 {
 	SpaceFile *sfile;
-	
+
 	if(curarea->win==0) return;
 	sfile= curarea->spacedata.first;
-	
+
 	switch(event) {
 	case B_SORTFILELIST:
 		sort_filelist(sfile);
@@ -2758,7 +2757,7 @@ void do_file_buttons(short event)
 		addqueue(curarea->win, REDRAW, 1);
 		break;
 	}
-	
+
 }
 
 void file_buttons()
@@ -2781,19 +2780,19 @@ void file_buttons()
 	xco= 25;
 	if(curarea->full) uiDefBut(block, BUT,B_FULL, "ICON 0 1 8",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Restore smaller windows (CTRL+Up arrow)");
 	else uiDefBut(block, BUT,B_FULL, "ICON 0 0 8",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Make fullscreen window (CTRL+Down arrow)");
-	
+
 	/* SORT TYPE */
 	xco+=XIC;
 	uiDefBut(block, ROW|SHO, B_SORTFILELIST, "ICON 0 14 1",	xco+=XIC,0,XIC,YIC, &sfile->sort, 1.0, 0.0, 0, 0, "Sort files alphabetically");
 	uiDefBut(block, ROW|SHO, B_SORTFILELIST, "ICON 0 15 1",	xco+=XIC,0,XIC,YIC, &sfile->sort, 1.0, 1.0, 0, 0, "Sort files by time");
-	uiDefBut(block, ROW|SHO, B_SORTFILELIST, "ICON 0 16 1",	xco+=XIC,0,XIC,YIC, &sfile->sort, 1.0, 2.0, 0, 0, "Sort files by size");	
+	uiDefBut(block, ROW|SHO, B_SORTFILELIST, "ICON 0 16 1",	xco+=XIC,0,XIC,YIC, &sfile->sort, 1.0, 2.0, 0, 0, "Sort files by size");
 
 	cpack(0x0);
 	glRasterPos2i(xco+=XIC+10,  5);
 	fmprstr(sfile->title);
-	
+
 	xco+= fmgetstrwidth(G.font, sfile->title);
-	
+
 	uiDefBut(block, ICONTOG|SHO|BIT|0, B_SORTFILELIST, "ICON 0 17 1",xco+=XIC,0,XIC,YIC, &sfile->flag, 0, 0, 0, 0, "Toggle long info");
 	uiDefBut(block, TOG|SHO|BIT|3, B_RELOADDIR, "ICON 0 10 5",xco+=XIC,0,XIC,YIC, &sfile->flag, 0, 0, 0, 0, "Hide dot files");
 
@@ -2808,17 +2807,17 @@ void file_buttons()
 		df= diskfree(sfile->dir)/(1048576.0);
 
 		filesel_statistics(sfile, &totfile, &selfile, &totlen, &sellen);
-		
-		sprintf(naam, "Free: %.3f Mb   Files: (%d) %d    (%.3f) %.3f Mb", 
+
+		sprintf(naam, "Free: %.3f Mb   Files: (%d) %d    (%.3f) %.3f Mb",
 					df, selfile,totfile, sellen, totlen);
-		
+
 		cpack(0x0);
 		glRasterPos2i(xco,  5);
 		fmprstr(naam);
 	}
 	/* altijd als laatste doen */
 	curarea->headbutlen= xco+2*XIC;
-	
+
 	uiDrawBlock(block);
 }
 
@@ -2829,7 +2828,7 @@ void file_buttons()
 void do_oops_buttons(short event)
 {
 	float dx, dy;
-	
+
 	if(curarea->win==0) return;
 
 	switch(event) {
@@ -2841,18 +2840,18 @@ void do_oops_buttons(short event)
 		G.v2d->cur.xmin-= dx;
 		G.v2d->cur.xmax+= dx;
 		G.v2d->cur.ymin-= dy;
-		G.v2d->cur.ymax+= dy;		
+		G.v2d->cur.ymax+= dy;
 		test_view2d();
 		addqueue(curarea->win, REDRAW, 1);
 		break;
-		
+
 	case B_NEWOOPS:
 		addqueue(curarea->win, REDRAW, 1);
 		addqueue(curarea->headwin, REDRAW, 1);
 		G.soops->lockpoin= 0;
 		break;
 	}
-	
+
 }
 
 void oops_buttons()
@@ -2876,11 +2875,11 @@ void oops_buttons()
 	xco= 25;
 	if(curarea->full) uiDefBut(block, BUT,B_FULL, "ICON 0 1 8",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Restore smaller windows (CTRL+Up arrow)");
 	else uiDefBut(block, BUT,B_FULL, "ICON 0 0 8",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Make fullscreen window (CTRL+Down arrow)");
-	
+
 	/* HOME */
-	uiDefBut(block, BUT, B_OOPSHOME, "ICON 0 15 0",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Home (HOMEKEY)");	
+	uiDefBut(block, BUT, B_OOPSHOME, "ICON 0 15 0",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Home (HOMEKEY)");
 	xco+= XIC;
-	
+
 	/* ZOOM en BORDER */
 	xco+= XIC;
 	but= uiDefBut(block, TOG|INT, B_VIEW2DZOOM, "ICON 0 13 0",	xco+=XIC,0,XIC,YIC, &viewmovetemp, 0, 0, 0, 0, "Zoom view (CTRL+MiddleMouse)");
@@ -2907,7 +2906,7 @@ void oops_buttons()
 		oops= G.soops->lockpoin;
 		if(oops->type==ID_LI) strcpy(naam, ((Library *)oops->id)->name);
 		else strcpy(naam, oops->id->name);
-		
+
 		cpack(0x0);
 		glRasterPos2i(xco+=XIC+10,  5);
 		fmprstr(naam);
@@ -2916,7 +2915,7 @@ void oops_buttons()
 
 	/* altijd als laatste doen */
 	curarea->headbutlen= xco+2*XIC;
-	
+
 	uiDrawBlock(block);
 }
 
@@ -2930,33 +2929,33 @@ void do_text_buttons(ushort event)
 	ID *id, *idtest;
 	int nr= 1;
 	Text *text;
-		
+
 	if (!st) return;
 	if (st->spacetype != SPACE_TEXT) return;
-	
+
 	switch (event) {
 	case B_TEXTBROWSE:
 
 		if(st->menunr < 0) break;
-			
+
 		text= st->text;
 
 		nr= 1;
 		id= (ID *)text;
-		
+
 		if (st->menunr==32767) {
 			st->text= add_empty_text();
 
 			st->top= 0;
-			
+
 			allqueue(REDRAWTEXT, 0);
-			allqueue(REDRAWHEADERS, 0);	
+			allqueue(REDRAWHEADERS, 0);
 		}
 		else if (st->menunr==32766) {
-			activate_fileselect(FILE_SPECIAL, "LOAD TEXT FILE", G.sce, add_text_fs); 
+			activate_fileselect(FILE_SPECIAL, "LOAD TEXT FILE", G.sce, add_text_fs);
 			return;
 		}
-		else {		
+		else {
 			idtest= G.main->text.first;
 			while(idtest) {
 				if(nr==st->menunr) {
@@ -2966,40 +2965,40 @@ void do_text_buttons(ushort event)
 				idtest= idtest->next;
 			}
 			if(idtest==0) {	/* new text */
-				activate_fileselect(FILE_SPECIAL, "LOAD TEXT FILE", G.sce, add_text_fs); 
+				activate_fileselect(FILE_SPECIAL, "LOAD TEXT FILE", G.sce, add_text_fs);
 				return;
 			}
 			if(idtest!=id) {
 				st->text= (Text *)idtest;
 				st->top= 0;
-				
+
 				pop_space_text(st);
-			
+
 				allqueue(REDRAWTEXT, 0);
 				allqueue(REDRAWHEADERS, 0);
 			}
 		}
 		break;
-				
+
 	case B_TEXTDELETE:
 		if(!okee("Really delete text?")) return;
-		
+
 		text= st->text;
 		if (!text) return;
-		
+
 		clear_bad_scriptlinks(text);
-	
+
 		free_libblock(&G.main->text, text);
 
 		break;
-		
+
 /*
 	case B_TEXTSTORE:
 		st->text->flags ^= TXT_ISEXT;
-		
+
 		allqueue(REDRAWHEADERS, 0);
 		break;
-*/		 
+*/
 	case B_TEXTFONT:
 		switch(st->font_id) {
 		case 0:
@@ -3023,7 +3022,7 @@ void text_buttons()
 	int xco;
 	char naam[256];
 	char *str;
-	
+
 	if (!st || st->spacetype != SPACE_TEXT) return;
 
 	sprintf(naam, "header %d", curarea->headwin);
@@ -3036,7 +3035,7 @@ void text_buttons()
 	xco= 25;
 	if(curarea->full) uiDefBut(block, BUT,B_FULL, "ICON 0 1 8",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Restore smaller windows (CTRL+Up arrow)");
 	else uiDefBut(block, BUT,B_FULL, "ICON 0 0 8",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Make fullscreen window (CTRL+Down arrow)");
-		
+
 
 	/* STD TEXT BUTTONS */
 
@@ -3050,19 +3049,19 @@ void text_buttons()
 
 		if (text->flags & TXT_ISDIRTY && (text->flags & TXT_ISEXT || !(text->flags & TXT_ISMEM)))
 			uiDefBut(block, BUT,0, "ICON 0 1 5", xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "The text has been changed");
-		if (text->flags & TXT_ISEXT) 
+		if (text->flags & TXT_ISEXT)
 			uiDefBut(block, BUT,B_TEXTSTORE, "ICON 0 2 8",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Store text in .blend file");
-		else 
+		else
 			uiDefBut(block, BUT,B_TEXTSTORE, "ICON 0 3 8",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Don't store text in .blend file");
 		xco+=10;
 	}
-	*/		
+	*/
 
 	xco+=XIC;
 	if(st->font_id>1) st->font_id= 0;
 	uiDefBut(block, MENU|INT, B_TEXTFONT, "Screen 12 %x0|Screen 15%x1", xco,0,100,YIC, &st->font_id, 0, 0, 0, 0, "Font display menu");
 	xco+=100;
-	
+
 	/* always as last  */
 	curarea->headbutlen= xco+2*XIC;
 
@@ -3079,7 +3078,7 @@ void text_buttons()
 void load_space_image(char *str)	/* aangeroepen vanuit fileselect */
 {
 	Image *ima=0;
-	
+
 	if(G.obedit) {
 		error("Can't perfom this in editmode");
 		return;
@@ -3087,13 +3086,13 @@ void load_space_image(char *str)	/* aangeroepen vanuit fileselect */
 
 	ima= add_image(str);
 	if(ima) {
-		
+
 		G.sima->image= ima;
-		
+
 		free_image_buffers(ima);	/* forceer opnieuw inlezen */
 		ima->ok= 1;
 		image_changed(G.sima, 0);
-		
+
 	}
 	allqueue(REDRAWIMAGE, 0);
 	allqueue(REDRAWPAINT, 0);
@@ -3105,16 +3104,16 @@ void image_replace(Image *old, Image *new)
 	TFace *tface;
 	Mesh *me;
 	int a, rep=0;
-	
+
 	new->tpageflag= old->tpageflag;
 	new->twsta= old->twsta;
 	new->twend= old->twend;
 	new->xrep= old->xrep;
 	new->yrep= old->yrep;
-	
+
 	me= G.main->mesh.first;
 	while(me) {
-		
+
 		if(me->tface) {
 			tface= me->tface;
 			a= me->totface;
@@ -3127,7 +3126,7 @@ void image_replace(Image *old, Image *new)
 			}
 		}
 		me= me->id.next;
-		
+
 	}
 	if(rep) {
 		if(new->id.us==0) new->id.us= 1;
@@ -3138,7 +3137,7 @@ void image_replace(Image *old, Image *new)
 void replace_space_image(char *str)		/* aangeroepen vanuit fileselect */
 {
 	Image *ima=0;
-	
+
 	if(G.obedit) {
 		error("Can't perfom this in editmode");
 		return;
@@ -3146,18 +3145,18 @@ void replace_space_image(char *str)		/* aangeroepen vanuit fileselect */
 
 	ima= add_image(str);
 	if(ima) {
-		
+
 		if(G.sima->image != ima) {
 			image_replace(G.sima->image, ima);
 		}
-		
+
 		G.sima->image= ima;
-		
+
 		free_image_buffers(ima);	/* forceer opnieuw inlezen */
 		ima->ok= 1;
 		/* replace kent ook toe: */
 		image_changed(G.sima, 0);
-		
+
 	}
 	allqueue(REDRAWIMAGE, 0);
 	allqueue(REDRAWPAINT, 0);
@@ -3171,21 +3170,21 @@ void do_image_buttons(ushort event)
 	ID *id, *idtest;
 	int nr;
 	char name[256];
-	
+
 	if(curarea->win==0) return;
-	
+
 	switch(event) {
 	case B_SIMAGEHOME:
 		image_home();
 		break;
-		
-	case B_SIMABROWSE:	
+
+	case B_SIMABROWSE:
 		if(G.sima->imanr== -2) {
 			activate_databrowse((ID *)G.sima->image, ID_IM, 0, B_SIMABROWSE, do_image_buttons);
 			return;
 		}
 		if(G.sima->imanr < 0) break;
-	
+
 		nr= 1;
 		id= (ID *)G.sima->image;
 
@@ -3200,33 +3199,33 @@ void do_image_buttons(ushort event)
 		if(idtest==0) {	/* geen new */
 			return;
 		}
-	
+
 		if(idtest!=id) {
 			G.sima->image= (Image *)idtest;
 			if(idtest->us==0) idtest->us= 1;
 			allqueue(REDRAWIMAGE, 0);
 		}
 		image_changed(G.sima, 0);	/* ook als image gelijk is: assign! 0==geen tileflag */
-		
+
 		break;
 	case B_SIMAGELOAD:
-		
+
 		if(G.sima->image) strcpy(name, G.sima->image->name);
 		else strcpy(name, U.textudir);
-		
+
 		activate_fileselect(FILE_SPECIAL, "SELECT IMAGE", name, load_space_image);
-		
+
 		break;
 	case B_SIMAGEREPLACE:
-		
+
 		if(G.sima->image) strcpy(name, G.sima->image->name);
 		else strcpy(name, U.textudir);
-		
+
 		activate_fileselect(FILE_SPECIAL, "REPLACE IMAGE", name, replace_space_image);
-		
+
 		break;
 	case B_SIMAGEDRAW:
-		
+
 		if(G.f & G_FACESELECT) {
 			make_repbind(G.sima->image);
 			image_changed(G.sima, 1);
@@ -3240,7 +3239,7 @@ void do_image_buttons(ushort event)
 		allqueue(REDRAWVIEW3D, 0);
 		allqueue(REDRAWIMAGE, 0);
 		break;
-		
+
 	case B_TWINANIM:
 		if(ima=G.sima->image) {
 			if(ima->flag & IMA_TWINANIM) {
@@ -3258,7 +3257,7 @@ void do_image_buttons(ushort event)
 		allqueue(REDRAWVIEW3D, 0);
 		break;
 	}
-	
+
 }
 
 void image_buttons()
@@ -3279,25 +3278,25 @@ void image_buttons()
 	xco= 25;
 	if(curarea->full) uiDefBut(block, BUT,B_FULL, "ICON 0 1 8",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Restore smaller windows (CTRL+Up arrow)");
 	else uiDefBut(block, BUT,B_FULL, "ICON 0 0 8",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Make fullscreen window (CTRL+Down arrow)");
-	
+
 	/* HOME*/
 	uiDefBut(block, BUT, B_SIMAGEHOME, "ICON 0 15 0",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "Home (HOMEKEY)");
 	uiDefBut(block, TOG|SHO|BIT|0, B_BE_SQUARE, "ICON 0 12 4",	xco+=XIC,0,XIC,YIC, &G.sima->flag, 0, 0, 0, 0, "Keep UV polygons square while editing");
-	uiDefBut(block, ICONTOG|SHO|BIT|2, B_CLIP_UV, "ICON 0 16 0",	xco+=XIC,0,XIC,YIC, &G.sima->flag, 0, 0, 0, 0, "Clip UV with image size");		
+	uiDefBut(block, ICONTOG|SHO|BIT|2, B_CLIP_UV, "ICON 0 16 0",	xco+=XIC,0,XIC,YIC, &G.sima->flag, 0, 0, 0, 0, "Clip UV with image size");
 
 	xco= std_libbuttons(block, xco+40, 0, B_SIMABROWSE, (ID *)G.sima->image, 0, &(G.sima->imanr), 0, 0, B_IMAGEDELETE, 0);
-	
+
 	uiDefBut(block, BUT, B_SIMAGELOAD, "Load",		xco,0,2*XIC,YIC, 0, 0, 0, 0, 0, "Load Image");
 	xco+= 2*XIC;
 
 	if (G.sima->image) {
 		uiDefBut(block, BUT, B_SIMAGEREPLACE, "Replace",	xco,0,3*XIC,YIC, 0, 0, 0, 0, 0, "Replace current Image");
 		xco+= 3*XIC;
-	
+
 		uiDefBut(block, TOG|SHO|BIT|0, B_SIMAGEDRAW1, "ICON 0 20 6", xco+=XIC,0,XIC,YIC, &G.sima->image->tpageflag, 0, 0, 0, 0, "");
 		uiDefBut(block, NUM|SHO, B_SIMAGEDRAW, "",	xco+=XIC,0,XIC,YIC, &G.sima->image->xrep, 1.0, 16.0, 0, 0, "");
 		uiDefBut(block, NUM|SHO, B_SIMAGEDRAW, "",	xco+=XIC,0,XIC,YIC, &G.sima->image->yrep, 1.0, 16.0, 0, 0, "");
-		
+
 		uiDefBut(block, TOG|SHO|BIT|1, B_TWINANIM, "Anim", xco+=XIC,0,2*XIC,YIC, &G.sima->image->tpageflag, 0, 0, 0, 0, "");
 		uiDefBut(block, NUM|SHO, B_TWINANIM, "",	xco+=2*XIC,0,XIC,YIC, &G.sima->image->twsta, 0.0, 128.0, 0, 0, "");
 		uiDefBut(block, NUM|SHO, B_TWINANIM, "",	xco+=XIC,0,XIC,YIC, &G.sima->image->twend, 0.0, 128.0, 0, 0, "");
@@ -3309,10 +3308,10 @@ void image_buttons()
 	xco+= XIC/2;
 	uiDefBut(block, ICONTOG|SHO, 0, "ICON 0 3 4",	xco+=XIC,0,XIC,YIC, &(G.sima->lock), 0, 0, 0, 0, "Lock redraw of other windows while editing");
 
-	
+
 	/* altijd als laatste doen */
 	curarea->headbutlen= xco+2*XIC;
-	
+
 	uiDrawBlock(block);
 }
 
@@ -3324,24 +3323,24 @@ void do_imasel_buttons(short event)
 {
 	SpaceImaSel *simasel;
 	char name[256];
-	
+
 	simasel= curarea->spacedata.first;
-	
+
 	if(curarea->win==0) return;
 
 	switch(event) {
 	case B_IMASELHOME:
 		break;
-		
+
 	case B_IMASELREMOVEBIP:
-		
+
 		if(bitset(simasel->fase, IMS_FOUND_BIP)){
-		
+
 			strcpy(name, simasel->dir);
 			strcat(name, ".Bpib");
-		
+
 			remove(name);
-		
+
 			simasel->fase &= ~ IMS_FOUND_BIP;
 		}
 		break;
@@ -3354,7 +3353,7 @@ void imasel_buttons()
 	uiBlock *block;
 	int xco;
 	char naam[256];
-	
+
 	simasel= curarea->spacedata.first;
 
 	sprintf(naam, "header %d", curarea->headwin);
@@ -3362,12 +3361,12 @@ void imasel_buttons()
 	block->col= BUTBLUE;
 
 	uiDefBut(block, ICONROW|CHA,B_NEWSPACE, "ICON 0 0 0", 6,0,XIC,YIC, &(curarea->butspacetype), 1.0, 11.0, 0, 0, "");
-	
+
 	/* FULL WINDOW */
 	xco= 25;
 	if(curarea->full) uiDefBut(block, BUT,B_FULL, "ICON 0 1 8",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "");
 	else uiDefBut(block, BUT,B_FULL, "ICON 0 0 8",	xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "");
-	
+
 	xco+=XIC;
 	if (simasel->title){
 		xco+=25;
@@ -3378,12 +3377,12 @@ void imasel_buttons()
 		xco+=25;
 	}
 	uiDefBut(block, BUT, B_IMASELREMOVEBIP, "ICON 0 17 5", xco+=XIC,0,XIC,YIC, 0, 0, 0, 0, 0, "");/* remove  */
-	
+
 	uiDefBut(block, TOG|SHO|BIT|0, B_REDR, "ICON 0 18 5", xco+=XIC,0,XIC,YIC, &simasel->mode, 0, 0, 0, 0, "");/* dir   */
 	uiDefBut(block, TOG|SHO|BIT|1, B_REDR, "ICON 0 20 5", xco+=XIC,0,XIC,YIC, &simasel->mode, 0, 0, 0, 0, "");/* info  */
 	uiDefBut(block, TOG|SHO|BIT|2, B_REDR, "ICON 0  5 0", xco+=XIC,0,XIC,YIC, &simasel->mode, 0, 0, 0, 0, "");/* image */
 	uiDefBut(block, TOG|SHO|BIT|3, B_REDR, "ICON 0 19 5", xco+=XIC,0,XIC,YIC, &simasel->mode, 0, 0, 0, 0, "");/* loep */
-	
+
 	/* altijd als laatste doen */
 	curarea->headbutlen= xco+2*XIC;
 

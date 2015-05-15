@@ -35,7 +35,6 @@
 #include "screen.h"
 #include "render.h"
 #include "group.h"
-#include "ika.h"
 
 #define MAX_IDPUP	24
 
@@ -85,8 +84,6 @@ ListBase *wich_libbase(Main *main, short type)
 			return &(main->tex);
 		case ID_IM:
 			return &(main->image);
-		case ID_IK:
-			return &(main->ika);
 		case ID_WV:
 			return &(main->wave);
 		case ID_LT:
@@ -127,21 +124,20 @@ int set_listbasepointers(Main *main, ListBase **lb)
 
 	lb[6]= &(main->mesh);
 	lb[7]= &(main->curve);
-	lb[8]= &(main->ika);
-	lb[9]= &(main->wave);
-	lb[10]= &(main->latt);
-	lb[11]= &(main->lamp);
-	lb[12]= &(main->camera);
+	lb[8]= &(main->wave);
+	lb[9]= &(main->latt);
+	lb[10]= &(main->lamp);
+	lb[11]= &(main->camera);
 
-	lb[13]= &(main->world);
-	lb[14]= &(main->screen);
-	lb[15]= &(main->object);
-	lb[16]= &(main->scene);
-	lb[17]= &(main->library);
+	lb[12]= &(main->world);
+	lb[13]= &(main->screen);
+	lb[14]= &(main->object);
+	lb[15]= &(main->scene);
+	lb[16]= &(main->library);
 
-	lb[18]= &(main->text);
-	lb[19]= &(main->group);
-	return 19;
+	lb[17]= &(main->text);
+	lb[18]= &(main->group);
+	return 18;
 }
 
 /* *********** ALLOC EN FREE *****************
@@ -186,9 +182,6 @@ ID *alloc_libblock_notest(short type)
 			break;
 		case ID_IM:
 			id= callocN(sizeof(Image), "image");
-			break;
-		case ID_IK:
-			id= callocN(sizeof(Ika), "ika");
 			break;
 		case ID_WV:
 			id= callocN(sizeof(Wave), "wave");
@@ -304,9 +297,6 @@ void free_libblock(ListBase *lb, void *idv)
 			break;
 		case ID_IM:
 			free_image((Image *)id);
-			break;
-		case ID_IK:
-			free_ika((Ika *)id);
 			break;
 		case ID_WV:
 			/* free_wave(id); */

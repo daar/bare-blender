@@ -28,7 +28,6 @@
 #include "file.h"
 #include "sequence.h"
 #include "effect.h"
-#include "ika.h"
 #include "oops.h"
 #include "imasel.h"
 #include "sector.h"
@@ -134,9 +133,6 @@ printf("  BuildEff 32 %d \n",  sizeof(struct BuildEff) );
 printf("  PartEff 168 %d \n",  sizeof(struct PartEff) );
 printf("  Particle 0 %d \n",  sizeof(struct Particle) );
 printf("  WaveEff 64 %d \n",  sizeof(struct WaveEff) );
-printf("  Deform 240 %d \n",  sizeof(struct Deform) );
-printf("  Limb 48 %d \n",  sizeof(struct Limb) );
-printf("  Ika 192 %d \n",  sizeof(struct Ika) );
 printf("  Oops 64 %d \n",  sizeof(struct Oops) );
 printf("  SpaceImaSel 752 %d \n",  sizeof(struct SpaceImaSel) );
 printf("  ImaDir 0 %d \n",  sizeof(struct ImaDir) );

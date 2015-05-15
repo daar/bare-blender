@@ -22,9 +22,9 @@
 
 
 /* editipo.c 		GRAPHICS
- * 
+ *
  * april 95
- * 
+ *
  * Version: $Id: editipo.c,v 1.15 2000/09/24 20:22:10 ton Exp $
  */
 
@@ -33,7 +33,6 @@
 #include "interface.h"
 #include "edit.h"
 #include "ipo.h"
-#include "ika.h"
 #include "sequence.h"
 #include "group.h"
 
@@ -83,7 +82,7 @@ void getname_ob_ei(int nr, char *str, int colipo)
 		strcpy(str, "dRotY"); break;
 	case OB_DROT_Z:
 		strcpy(str, "dRotZ"); break;
-		
+
 	case OB_SIZE_X:
 		strcpy(str, "SizeX"); break;
 	case OB_SIZE_Y:
@@ -96,7 +95,7 @@ void getname_ob_ei(int nr, char *str, int colipo)
 		strcpy(str, "dSizeY"); break;
 	case OB_DSIZE_Z:
 		strcpy(str, "dSizeZ"); break;
-	
+
 	case OB_LAY:
 		strcpy(str, "Layer"); break;
 
@@ -116,7 +115,7 @@ void getname_ob_ei(int nr, char *str, int colipo)
 		break;
 	default:
 		str[0]= 0;
-	}	
+	}
 
 }
 
@@ -341,10 +340,10 @@ void boundbox_ipocurve(IpoCurve *icu)
 	float vec[3]={0.0,0.0,0.0};
 	float min[3], max[3];
 	int a;
-	
+
 	if(icu->totvert) {
 		INIT_MINMAX(min, max);
-		
+
 		if(icu->bezt ) {
 			a= icu->totvert;
 			bezt= icu->bezt;
@@ -353,7 +352,7 @@ void boundbox_ipocurve(IpoCurve *icu)
 					vec[0]= bezt->vec[1][0];
 					vec[1]= 0.0;
 					DO_MINMAX(vec, min, max);
-					
+
 					vec[1]= 16.0;
 					DO_MINMAX(vec, min, max);
 				}
@@ -366,13 +365,13 @@ void boundbox_ipocurve(IpoCurve *icu)
 						DO_MINMAX(bezt->vec[2], min, max);
 					}
 				}
-				
+
 				bezt++;
 			}
 		}
 		if(min[0]==max[0]) max[0]= min[0]+1.0;
 		if(min[1]==max[1]) max[1]= min[1]+0.1;
-		
+
 		icu->totrct.xmin= min[0];
 		icu->totrct.ymin= min[1];
 		icu->totrct.xmax= max[0];
@@ -389,18 +388,18 @@ void boundbox_ipo(Ipo *ipo, rctf *bb)
 {
 	IpoCurve *icu;
 	int first= 1;
-	
+
 	icu= ipo->curve.first;
 	while(icu) {
-			
+
 		boundbox_ipocurve(icu);
-				
+
 		if(first) {
 			*bb= icu->totrct;
 			first= 0;
 		}
 		else union_rctf(bb, &(icu->totrct));
-		
+
 		icu= icu->next;
 	}
 }
@@ -415,22 +414,22 @@ void editipo_changed(int doredraw)
 	KeyBlock *kb;
 	float dx, dy;
 	int a, first=1;
-	
+
 	ei= G.sipo->editipo;
 	if(ei==0) return;
 	for(a=0; a<G.sipo->totipo; a++, ei++) {
-		
+
 		if(ei->icu) {
-			
+
 				/* 2 keer i.v.m. ittereren nieuwe autohandle */
 			calchandles_ipocurve(ei->icu);
 			calchandles_ipocurve(ei->icu);
-			
+
 			if(ei->flag & IPO_VISIBLE) {
-		
+
 				boundbox_ipocurve(ei->icu);
 				sort_time_ipocurve(ei->icu);
-				
+
 				if(first) {
 					G.sipo->v2d.tot= ei->icu->totrct;
 					first= 0;
@@ -441,7 +440,7 @@ void editipo_changed(int doredraw)
 	}
 
 	v2d= &(G.sipo->v2d);
-	
+
 	/* keylijnen? */
 	if(G.sipo->blocktype==ID_KE) {
 		key= (Key *)G.sipo->from;
@@ -452,15 +451,15 @@ void editipo_changed(int doredraw)
 			if(kb->pos > v2d->tot.ymax) v2d->tot.ymax= kb->pos;
 		}
 	}
-	
-	
+
+
 	/* is er geen curve? */
 	if(first) {
 		v2d->tot.xmin= 0.0;
 		v2d->tot.xmax= EFRA;
 		v2d->tot.ymin= -0.1;
 		v2d->tot.ymax= 1.1;
-	
+
 		if(G.sipo->blocktype==ID_SEQ) {
 			v2d->tot.xmin= -5.0;
 			v2d->tot.xmax= 105.0;
@@ -468,29 +467,28 @@ void editipo_changed(int doredraw)
 			v2d->tot.ymax= 1.1;
 		}
 	}
-	
-	G.sipo->tot= v2d->tot;	
-	
+
+	G.sipo->tot= v2d->tot;
+
 	if(doredraw) {
 		/* als do_ipo altijd wordt aangeroepen: problemen met insertkey, bijvoorbeeld
 		 * als alleen een 'loc' wordt ge-insert wordt de 'ob->rot' veranderd.
 		 */
 
 
-		if(G.sipo->blocktype==ID_OB) { 			
+		if(G.sipo->blocktype==ID_OB) {
 				/* clear delta loc,rot,size (bij ipo vrijgeven/deleten) */
 			clear_delta_obipo(G.sipo->ipo);
-			
+
 		}
-	
+
 		do_ipo(G.sipo->ipo);
 
 		allqueue(REDRAWIPO, 0);
 		allqueue(REDRAWBUTSANIM, 0);
-		
+
 		if(G.sipo->blocktype==ID_OB) {
-			Object *ob= (Object *)G.sipo->from;			
-			if(ob && ob->type==OB_IKA) itterate_ika(ob);
+			Object *ob= (Object *)G.sipo->from;
 			allqueue(REDRAWVIEW3D, 0);
 		}
 		else if(G.sipo->blocktype==ID_MA) allqueue(REDRAWBUTSMAT, 0);
@@ -517,15 +515,15 @@ void editipo_changed(int doredraw)
 void scale_editipo()
 {
 	/* komt uit buttons, scale met G.sipo->tot rect */
-	
+
 	EditIpo *ei;
 	BezTriple *bezt;
 	float facx, facy;
-	int a, b;	
-	
+	int a, b;
+
 	facx= (G.sipo->tot.xmax-G.sipo->tot.xmin)/(G.sipo->v2d.tot.xmax-G.sipo->v2d.tot.xmin);
 	facy= (G.sipo->tot.ymax-G.sipo->tot.ymin)/(G.sipo->v2d.tot.ymax-G.sipo->v2d.tot.ymin);
-	
+
 	ei= G.sipo->editipo;
 	if(ei==0) return;
 	for(a=0; a<G.sipo->totipo; a++, ei++) {
@@ -533,11 +531,11 @@ void scale_editipo()
 			bezt= ei->icu->bezt;
 			b= ei->icu->totvert;
 			while(b--) {
-				
+
 				bezt->vec[0][0]= facx*(bezt->vec[0][0] - G.sipo->v2d.tot.xmin) + G.sipo->tot.xmin;
 				bezt->vec[1][0]= facx*(bezt->vec[1][0] - G.sipo->v2d.tot.xmin) + G.sipo->tot.xmin;
 				bezt->vec[2][0]= facx*(bezt->vec[2][0] - G.sipo->v2d.tot.xmin) + G.sipo->tot.xmin;
-			
+
 				bezt->vec[0][1]= facy*(bezt->vec[0][1] - G.sipo->v2d.tot.ymin) + G.sipo->tot.ymin;
 				bezt->vec[1][1]= facy*(bezt->vec[1][1] - G.sipo->v2d.tot.ymin) + G.sipo->tot.ymin;
 				bezt->vec[2][1]= facy*(bezt->vec[2][1] - G.sipo->v2d.tot.ymin) + G.sipo->tot.ymin;
@@ -554,12 +552,12 @@ void scale_editipo()
 Ipo *get_ipo_to_edit(ID **from)
 {
 	Object *ob= OBACT;
-	
+
 	*from= 0;
-	
+
 	if(G.sipo->blocktype==ID_SEQ) {
 		extern Sequence *last_seq;
-		
+
 		*from= (ID *)last_seq;
 		if(last_seq) return last_seq->ipo;
 	}
@@ -622,28 +620,28 @@ uint ipo_rainbow(int cur, int tot)
 	/* deze berekening zorgt voor twee verschillende cycles regenboogkleuren */
 	if(cur< tot/2) fac= cur*2.0*dfac;
 	else fac= (cur-tot/2)*2.0*dfac +dfac;
-	
+
 	if(fac>0.5 && fac<0.8) sat= 0.4;
 	else sat= 0.5;
-	
+
 	return hsv_to_cpack(fac, sat, 1.0);
-}		
+}
 
 void make_ob_editipo(Object *ob, SpaceIpo *si)
 {
 	EditIpo *ei;
 	int a, len, colipo=0;
-	
+
 	if(ob->type==OB_MESH) colipo= 1;
 
 	ei= si->editipo= callocN(OB_TOTIPO*sizeof(EditIpo), "editipo");
-	
+
 	si->totipo= OB_TOTIPO;
-	
+
 	for(a=0; a<OB_TOTIPO; a++) {
 		getname_ob_ei(ob_ar[a], ei->name, colipo);
 		ei->adrcode= ob_ar[a];
-		
+
 		if ELEM6(ei->adrcode, OB_ROT_X, OB_ROT_Y, OB_ROT_Z, OB_DROT_X, OB_DROT_Y, OB_DROT_Z) ei->disptype= IPO_DISPDEGR;
 		else if(ei->adrcode==OB_LAY) ei->disptype= IPO_DISPBITS;
 		else if(ei->adrcode==OB_TIME) ei->disptype= IPO_DISPTIME;
@@ -658,12 +656,12 @@ void make_ob_editipo(Object *ob, SpaceIpo *si)
 				else if( ei->name[ len-1 ]=='B') ei->col= 0xFF7050;
 			}
 		}
-		
+
 		ei->icu= find_ipocurve(si->ipo, ei->adrcode);
 		if(ei->icu) {
 			ei->flag= ei->icu->flag;
 		}
-		
+
 		ei++;
 	}
 }
@@ -672,24 +670,24 @@ void make_seq_editipo(SpaceIpo *si)
 {
 	EditIpo *ei;
 	int a;
-	
+
 	ei= si->editipo= callocN(SEQ_TOTIPO*sizeof(EditIpo), "editipo");
-	
+
 	si->totipo= SEQ_TOTIPO;
-	
-	
+
+
 	for(a=0; a<SEQ_TOTIPO; a++) {
 		getname_seq_ei(seq_ar[a], ei->name);
 		ei->adrcode= seq_ar[a];
-		
+
 		ei->col= ipo_rainbow(a, SEQ_TOTIPO);
-		
+
 		ei->icu= find_ipocurve(si->ipo, ei->adrcode);
 		if(ei->icu) {
 			ei->flag= ei->icu->flag;
 		}
 		else ei->flag |= IPO_VISIBLE;
-		
+
 		ei++;
 	}
 }
@@ -698,24 +696,24 @@ void make_cu_editipo(SpaceIpo *si)
 {
 	EditIpo *ei;
 	int a;
-	
+
 	ei= si->editipo= callocN(CU_TOTIPO*sizeof(EditIpo), "editipo");
-	
+
 	si->totipo= CU_TOTIPO;
-	
-	
+
+
 	for(a=0; a<CU_TOTIPO; a++) {
 		getname_cu_ei(cu_ar[a], ei->name);
 		ei->adrcode= cu_ar[a];
-		
+
 		ei->col= ipo_rainbow(a, CU_TOTIPO);
-		
+
 		ei->icu= find_ipocurve(si->ipo, ei->adrcode);
 		if(ei->icu) {
 			ei->flag= ei->icu->flag;
 		}
 		else ei->flag |= IPO_VISIBLE;
-		 
+
 		ei++;
 	}
 }
@@ -725,26 +723,26 @@ void make_key_editipo(SpaceIpo *si)
 	Key *key;
 	EditIpo *ei;
 	int a;
-	
+
 	ei= si->editipo= callocN(KEY_TOTIPO*sizeof(EditIpo), "editipo");
-	
+
 	si->totipo= KEY_TOTIPO;
-	
+
 	for(a=0; a<KEY_TOTIPO; a++) {
 		getname_key_ei(key_ar[a], ei->name);
 		ei->adrcode= key_ar[a];
-		
+
 		ei->col= ipo_rainbow(a, KEY_TOTIPO);
-		
+
 		ei->icu= find_ipocurve(si->ipo, ei->adrcode);
 		if(ei->icu) {
 			ei->flag= ei->icu->flag;
 		}
 		else if(a==0) ei->flag |= IPO_VISIBLE;
-		 
+
 		ei++;
 	}
-	
+
 	ei= si->editipo;
 	key= (Key *)G.sipo->from;
 	if(key && key->type==KEY_RELATIVE) {
@@ -759,13 +757,13 @@ int texchannel_to_adrcode(int channel)
 {
 	switch(channel) {
 		case 0: return MA_MAP1;
-		case 1: return MA_MAP2; 
-		case 2: return MA_MAP3; 
-		case 3: return MA_MAP4; 
-		case 4: return MA_MAP5; 
-		case 5: return MA_MAP6; 
-		case 6: return MA_MAP7; 
-		case 7: return MA_MAP8; 
+		case 1: return MA_MAP2;
+		case 2: return MA_MAP3;
+		case 3: return MA_MAP4;
+		case 4: return MA_MAP5;
+		case 5: return MA_MAP6;
+		case 6: return MA_MAP7;
+		case 7: return MA_MAP8;
 		default: return 0;
 	}
 }
@@ -775,20 +773,20 @@ void make_mat_editipo(SpaceIpo *si)
 	EditIpo *ei;
 	float fac, dfac, sat;
 	int a, len;
-	
+
 	if(si->from==0) return;
-	
+
 	ei= si->editipo= callocN(MA_TOTIPO*sizeof(EditIpo), "editipo");
-	
+
 	si->totipo= MA_TOTIPO;
-	
+
 	dfac= 1.0/(MA_TOTIPO+1);
 	fac= 0.0;
-	
+
 	for(a=0; a<MA_TOTIPO; a++) {
 		getname_mat_ei(ma_ar[a], ei->name);
 		ei->adrcode= ma_ar[a];
-		
+
 		if(ei->adrcode & MA_MAP1) {
 			ei->adrcode-= MA_MAP1;
 			ei->adrcode |= texchannel_to_adrcode(si->channel);
@@ -797,21 +795,21 @@ void make_mat_editipo(SpaceIpo *si)
 			/* dit was weggecommentaard. Waarom? */
 			if(ei->adrcode==MA_MODE) ei->disptype= IPO_DISPBITS;
 		}
-		
+
 		ei->col= ipo_rainbow(a, WO_TOTIPO);
-		
+
 		len= strlen(ei->name);
 		if(len) {
 			if( ei->name[ len-1 ]=='R') ei->col= 0x5050FF;
 			else if( ei->name[ len-1 ]=='G') ei->col= 0x50FF50;
 			else if( ei->name[ len-1 ]=='B') ei->col= 0xFF7050;
 		}
-		
+
 		ei->icu= find_ipocurve(si->ipo, ei->adrcode);
 		if(ei->icu) {
 			ei->flag= ei->icu->flag;
 		}
-		
+
 		ei++;
 	}
 }
@@ -821,20 +819,20 @@ void make_world_editipo(SpaceIpo *si)
 	EditIpo *ei;
 	float fac, dfac, sat;
 	int a, len;
-	
+
 	if(si->from==0) return;
-	
+
 	ei= si->editipo= callocN(WO_TOTIPO*sizeof(EditIpo), "editipo");
-	
+
 	si->totipo= WO_TOTIPO;
-	
+
 	dfac= 1.0/(WO_TOTIPO+1);
 	fac= 0.0;
-	
+
 	for(a=0; a<WO_TOTIPO; a++) {
 		getname_world_ei(wo_ar[a], ei->name);
 		ei->adrcode= wo_ar[a];
-		
+
 		if(ei->adrcode & MA_MAP1) {
 			ei->adrcode-= MA_MAP1;
 			ei->adrcode |= texchannel_to_adrcode(si->channel);
@@ -842,21 +840,21 @@ void make_world_editipo(SpaceIpo *si)
 		else {
 			if(ei->adrcode==MA_MODE) ei->disptype= IPO_DISPBITS;
 		}
-		
+
 		ei->col= ipo_rainbow(a, MA_TOTIPO);
-		
+
 		len= strlen(ei->name);
 		if(len) {
 			if( ei->name[ len-1 ]=='R') ei->col= 0x5050FF;
 			else if( ei->name[ len-1 ]=='G') ei->col= 0x50FF50;
 			else if( ei->name[ len-1 ]=='B') ei->col= 0xFF7050;
 		}
-		
+
 		ei->icu= find_ipocurve(si->ipo, ei->adrcode);
 		if(ei->icu) {
 			ei->flag= ei->icu->flag;
 		}
-		
+
 		ei++;
 	}
 }
@@ -865,12 +863,12 @@ void make_lamp_editipo(SpaceIpo *si)
 {
 	EditIpo *ei;
 	int a;
-	
+
 	ei= si->editipo= callocN(LA_TOTIPO*sizeof(EditIpo), "editipo");
-	
+
 	si->totipo= LA_TOTIPO;
-	
-	
+
+
 	for(a=0; a<LA_TOTIPO; a++) {
 		getname_la_ei(la_ar[a], ei->name);
 		ei->adrcode= la_ar[a];
@@ -881,12 +879,12 @@ void make_lamp_editipo(SpaceIpo *si)
 		}
 
 		ei->col= ipo_rainbow(a, LA_TOTIPO);
-		
+
 		ei->icu= find_ipocurve(si->ipo, ei->adrcode);
 		if(ei->icu) {
 			ei->flag= ei->icu->flag;
 		}
-		
+
 		ei++;
 	}
 }
@@ -895,23 +893,23 @@ void make_camera_editipo(SpaceIpo *si)
 {
 	EditIpo *ei;
 	int a;
-	
+
 	ei= si->editipo= callocN(CAM_TOTIPO*sizeof(EditIpo), "editipo");
-	
+
 	si->totipo= CAM_TOTIPO;
-	
-	
+
+
 	for(a=0; a<CAM_TOTIPO; a++) {
 		getname_cam_ei(cam_ar[a], ei->name);
 		ei->adrcode= cam_ar[a];
 
 		ei->col= ipo_rainbow(a, CAM_TOTIPO);
-		
+
 		ei->icu= find_ipocurve(si->ipo, ei->adrcode);
 		if(ei->icu) {
 			ei->flag= ei->icu->flag;
 		}
-		
+
 		ei++;
 	}
 }
@@ -932,13 +930,13 @@ void make_editipo()
 	G.sipo->ipo= get_ipo_to_edit(&from);
 	G.sipo->from= from;
 	if(G.sipo->ipo) G.sipo->showkey= G.sipo->ipo->showkey;
-	
+
 	if(G.sipo->blocktype==ID_SEQ) {
 		make_seq_editipo(G.sipo);
 	}
 	else if(G.sipo->blocktype==ID_WO) {
 		make_world_editipo(G.sipo);
-	} 
+	}
 	else if(G.sipo->blocktype==ID_OB) {
 		if (ob) {
 			ob->ipowin= ID_OB;
@@ -975,16 +973,16 @@ void make_editipo()
 			make_camera_editipo(G.sipo);
 		}
 	}
-	
+
 	if(G.sipo->editipo==0) return;
-	
+
 	/* rowbut voor VISIBLE select */
 	G.sipo->rowbut= 0;
 	ei= G.sipo->editipo;
 	for(a=0; a<G.sipo->totipo; a++, ei++) {
-		
+
 		if(ei->flag & IPO_VISIBLE) G.sipo->rowbut |= (1<<a);
-		
+
 		if(ei->icu) ei->icu->flag= ei->flag;
 	}
 	editipo_changed(0);
@@ -1032,13 +1030,13 @@ void test_editipo()
 {
 	Ipo *ipo;
 	ID *from;
-	
+
 	if(G.sipo->editipo==0) make_editipo();
 	else {
-		
+
 		ipo= get_ipo_to_edit(&from);
 		if(G.sipo->ipo != ipo || G.sipo->from!=from) make_editipo();
-		
+
 	}
 	/* kopie current view */
 	if(G.sipo->ipo) G.sipo->ipo->cur= G.v2d->cur;
@@ -1054,7 +1052,7 @@ void get_status_editipo()
 	IpoKey *ik;
 	BezTriple *bezt;
 	int a, b;
-	
+
 	totipo_vis= 0;
 	totipo_sel= 0;
 	totipo_edit= 0;
@@ -1062,9 +1060,9 @@ void get_status_editipo()
 	totipo_vertsel= 0;
 	totipo_key= 0;
 	totipo_keysel= 0;
-	
+
 	if(G.sipo->ipo && G.sipo->ipo->id.lib) return;
-	
+
 	ei= G.sipo->editipo;
 	if(ei==0) return;
 	for(a=0; a<G.sipo->totipo; a++) {
@@ -1072,10 +1070,10 @@ void get_status_editipo()
 			totipo_vis++;
 			if(ei->flag & IPO_SELECT) totipo_sel++;
 			if(G.sipo->showkey || (ei->flag & IPO_EDIT)) {
-				
+
 				/* als showkey: wel de vertices tellen (voor grab) */
 				if(G.sipo->showkey==0) totipo_edit++;
-				
+
 				if(ei->icu) {
 					if(ei->icu->bezt) {
 						bezt= ei->icu->bezt;
@@ -1087,7 +1085,7 @@ void get_status_editipo()
 								totipo_vert+= 2;
 							}
 							if(bezt->f2 & 1) totipo_vertsel++;
-							
+
 							totipo_vert++;
 							bezt++;
 						}
@@ -1097,7 +1095,7 @@ void get_status_editipo()
 		}
 		ei++;
 	}
-	
+
 	if(G.sipo->showkey) {
 		ik= G.sipo->ipokey.first;
 		while(ik) {
@@ -1116,16 +1114,16 @@ void update_editipo_flags()
 	IpoKey *ik;
 	uint flag;
 	int a;
-	
+
 	ei= G.sipo->editipo;
 	if(ei) {
 		for(a=0; a<G.sipo->totipo; a++, ei++) {
 			ei->flag &= ~IPO_VISIBLE;
 			flag= (1<<a);
 			if( G.sipo->rowbut & flag ) ei->flag |= IPO_VISIBLE;
-			
+
 			if(ei->icu) ei->icu->flag= ei->flag;
-			
+
 		}
 	}
 	if(G.sipo->showkey) {
@@ -1154,7 +1152,7 @@ void set_editflag_editipo()
 {
 	EditIpo *ei;
 	int a, tot= 0, ok= 0;
-	
+
 	/* van showkey direkt door naar editen geselecteerde punten */
 	if(G.sipo->showkey) {
 		G.sipo->showkey= 0;
@@ -1164,16 +1162,16 @@ void set_editflag_editipo()
 		addqueue(curarea->headwin, REDRAW, 1);
 		allqueue(REDRAWVIEW3D, 0);
 	}
-	
+
 	get_status_editipo();
-	
+
 	if(G.sipo->ipo && G.sipo->ipo->id.lib) return;
-	
+
 	ei= G.sipo->editipo;
-	for(a=0; a<G.sipo->totipo; a++, ei++) {		
+	for(a=0; a<G.sipo->totipo; a++, ei++) {
 		if(ei->icu) {
 			if(ei->flag & IPO_VISIBLE) {
-				
+
 				if(totipo_edit==0 && (ei->flag & IPO_SELECT)) {
 					ei->flag |= IPO_EDIT;
 					ei->icu->flag= ei->flag;
@@ -1190,7 +1188,7 @@ void set_editflag_editipo()
 			}
 		}
 	}
-	
+
 	addqueue(curarea->win, REDRAW, 1);
 }
 
@@ -1201,11 +1199,11 @@ void swap_selectall_editipo()
 	IpoKey *ik;
 	BezTriple *bezt;
 	int a, b, sel=0;
-	
+
 	deselectall_key();
 
 	get_status_editipo();
-	
+
 	if(G.sipo->showkey) {
 		ik= G.sipo->ipokey.first;
 		while(ik) {
@@ -1221,7 +1219,7 @@ void swap_selectall_editipo()
 		}
 	}
 	else if(totipo_edit==0) {
-		
+
 		ei= G.sipo->editipo;
 		for(a=0; a<G.sipo->totipo; a++) {
 			if( ei->flag & IPO_VISIBLE ) {
@@ -1252,9 +1250,9 @@ void swap_selectall_editipo()
 			}
 			ei++;
 		}
-		
+
 	}
-	
+
 	addqueue(curarea->win, REDRAW, 1);
 }
 
@@ -1263,11 +1261,11 @@ void swap_visible_editipo()
 	EditIpo *ei;
 	Object *ob;
 	int a, sel=0;
-	
+
 	get_status_editipo();
-	
+
 	G.sipo->rowbut= 0;
-	
+
 	ei= G.sipo->editipo;
 	for(a=0; a<G.sipo->totipo; a++) {
 		if(totipo_vis==0) {
@@ -1279,19 +1277,19 @@ void swap_visible_editipo()
 		else ei->flag &= ~IPO_VISIBLE;
 		ei++;
 	}
-	
+
 	update_editipo_flags();
-	
+
 	if(G.sipo->showkey) {
-		
+
 		make_ipokey();
-		
+
 		ob= OBACT;
 		if(ob && (ob->ipoflag & OB_DRAWKEY)) allqueue(REDRAWVIEW3D, 0);
 	}
 
 	addqueue(curarea->win, REDRAW, 1);
-	
+
 }
 
 void deselectall_editipo()
@@ -1300,11 +1298,11 @@ void deselectall_editipo()
 	IpoKey *ik;
 	BezTriple *bezt;
 	int a, b, sel=0;
-	
+
 	deselectall_key();
 
 	get_status_editipo();
-	
+
 	if(G.sipo->showkey) {
 		ik= G.sipo->ipokey.first;
 		while(ik) {
@@ -1315,7 +1313,7 @@ void deselectall_editipo()
 
 	}
 	else if(totipo_edit==0) {
-		
+
 		ei= G.sipo->editipo;
 		for(a=0; a<G.sipo->totipo; a++) {
 			if( ei->flag & IPO_VISIBLE ) {
@@ -1341,7 +1339,7 @@ void deselectall_editipo()
 			ei++;
 		}
 	}
-	
+
 	addqueue(curarea->win, REDRAW, 1);
 }
 
@@ -1363,7 +1361,7 @@ short findnearest_ipovert(IpoCurve **icu, BezTriple **bezt)
 	ei= G.sipo->editipo;
 	for(a=0; a<G.sipo->totipo; a++, ei++) {
 		if ISPOIN3(ei, flag & IPO_VISIBLE, flag & IPO_EDIT, icu) {
-			
+
 			if(ei->icu->bezt) {
 				bezt1= ei->icu->bezt;
 				b= ei->icu->totvert;
@@ -1372,38 +1370,38 @@ short findnearest_ipovert(IpoCurve **icu, BezTriple **bezt)
 					ipoco_to_areaco_noclip(bezt1->vec[0], bezt1->s[0]);
 					ipoco_to_areaco_noclip(bezt1->vec[1], bezt1->s[1]);
 					ipoco_to_areaco_noclip(bezt1->vec[2], bezt1->s[2]);
-										
+
 					if(ei->disptype==IPO_DISPBITS) {
 						temp= abs(mval[0]- bezt1->s[1][0]);
 					}
 					else temp= abs(mval[0]- bezt1->s[1][0])+ abs(mval[1]- bezt1->s[1][1]);
 
 					if( bezt1->f2 & 1) temp+=5;
-					if(temp<dist) { 
-						hpoint= 1; 
-						*bezt= bezt1; 
-						dist= temp; 
-						*icu= ei->icu; 
+					if(temp<dist) {
+						hpoint= 1;
+						*bezt= bezt1;
+						dist= temp;
+						*icu= ei->icu;
 					}
-					
+
 					if(ei->disptype!=IPO_DISPBITS && ei->icu->ipo==IPO_BEZ) {
 						/* middelste punten een klein voordeel */
 						temp= -3+abs(mval[0]- bezt1->s[0][0])+ abs(mval[1]- bezt1->s[0][1]);
 						if( bezt1->f1 & 1) temp+=5;
-						if(temp<dist) { 
-							hpoint= 0; 
-							*bezt= bezt1; 
-							dist= temp; 
-							*icu= ei->icu; 
+						if(temp<dist) {
+							hpoint= 0;
+							*bezt= bezt1;
+							dist= temp;
+							*icu= ei->icu;
 						}
-		
+
 						temp= abs(mval[0]- bezt1->s[2][0])+ abs(mval[1]- bezt1->s[2][1]);
 						if( bezt1->f3 & 1) temp+=5;
-						if(temp<dist) { 
-							hpoint= 2; 
-							*bezt=bezt1; 
-							dist= temp; 
-							*icu= ei->icu; 
+						if(temp<dist) {
+							hpoint= 2;
+							*bezt=bezt1;
+							dist= temp;
+							*icu= ei->icu;
 						}
 					}
 					bezt1++;
@@ -1423,7 +1421,7 @@ void move_to_frame()
 	ID *id;
 	float cfra;
 	int a, b;
-	
+
 	if(G.sipo->editipo==0) return;
 
 	ei= G.sipo->editipo;
@@ -1431,14 +1429,14 @@ void move_to_frame()
 	for(a=0; a<G.sipo->totipo; a++, ei++) {
 		if ISPOIN(ei, flag & IPO_VISIBLE, icu) {
 			if(G.sipo->showkey || (ei->flag & IPO_EDIT)) {
-			
+
 				if(ei->icu->bezt) {
-					
+
 					b= ei->icu->totvert;
 					bezt= ei->icu->bezt;
 					while(b--) {
 						if(BEZSELECTED(bezt)) {
-						
+
 							cfra=  bezt->vec[1][0]/G.scene->r.framelen;
 
 							id= G.sipo->from;
@@ -1449,10 +1447,10 @@ void move_to_frame()
 								}
 							}
 							CFRA= ffloor(cfra+0.5);
-						
+
 							if(CFRA < 1) CFRA= 1;
 							do_global_buttons(B_NEWFRAME);
-							
+
 							break;
 						}
 						bezt++;
@@ -1471,7 +1469,7 @@ void do_ipowin_buts(short event)
 		G.sipo->rowbut= (1<<event);
 	}
 	addqueue(curarea->win, REDRAW, 1);
-	
+
 	update_editipo_flags();
 
 	if(G.sipo->showkey) {
@@ -1486,15 +1484,15 @@ void do_ipo_selectbuttons()
 	EditIpo *ei, *ei1;
 	int a, nr;
 	short mval[2];
-	
+
 	if(G.sipo->showkey) return;
-	
+
 	/* geen editipo toestaan: editipo's naar selected omzetten */
 	get_status_editipo();
 	if(totipo_edit) {
 		set_editflag_editipo();
 	}
-	
+
 	/* welke */
 	getmouseco_areawin(mval);
 
@@ -1502,13 +1500,13 @@ void do_ipo_selectbuttons()
 	if(nr>=0 && nr<G.sipo->totipo) {
 		ei= G.sipo->editipo;
 		ei+= nr;
-		
+
 		if(ei->icu) {
 			if((ei->flag & IPO_VISIBLE)==0) {
 				ei->flag |= IPO_VISIBLE;
 				G.sipo->rowbut |= (1<<nr);
 			}
-	
+
 			if((G.qual & LR_SHIFTKEY)==0) {
 				ei1= G.sipo->editipo;
 				for(a=0; a<G.sipo->totipo; a++) {
@@ -1536,21 +1534,21 @@ EditIpo *get_editipo()
 {
 	EditIpo *ei;
 	int a, sel=0;
-	
+
 	get_status_editipo();
-	
+
 	if(totipo_edit>1) {
 		error("Too many editipo's");
 		return 0;
 	}
 	if(G.sipo->editipo==0) return 0;
-	
+
 	ei= G.sipo->editipo;
 	for(a=0; a<G.sipo->totipo; a++) {
 		if(ei->flag & IPO_VISIBLE) {
 			if( ei->flag & IPO_EDIT ) return ei;
 			else if(totipo_vis==1) return ei;
-			
+
 			if(ei->flag & IPO_SELECT) {
 				if(totipo_sel==1) return ei;
 			}
@@ -1571,19 +1569,19 @@ Ipo *get_ipo(ID *from, int make)
 	Lamp *la;
 	Camera *ca;
 	Ipo *ipo= 0;
-	
+
 	if( GS(from->name)==ID_OB) {
 		ob= (Object *)from;
 		if(ob->id.lib) return 0;
 		ipo= ob->ipo;
-		
+
 		if(make && ipo==0) ipo= ob->ipo= add_ipo("ObIpo", ID_OB);
 	}
 	else if( GS(from->name)==ID_MA) {
 		ma= (Material *)from;
 		if(ma->id.lib) return 0;
 		ipo= ma->ipo;
-		
+
 		if(make && ipo==0) ipo= ma->ipo= add_ipo("MatIpo", ID_MA);
 	}
 	else if( GS(from->name)==ID_SEQ) {
@@ -1594,60 +1592,60 @@ Ipo *get_ipo(ID *from, int make)
 			if(make && ipo==0) ipo= seq->ipo= add_ipo("SeqIpo", ID_SEQ);
 		}
 		else return 0;
-	}	
+	}
 	else if( GS(from->name)==ID_CU) {
 		cu= (Curve *)from;
 		if(cu->id.lib) return 0;
 		ipo= cu->ipo;
-		
+
 		if(make && ipo==0) ipo= cu->ipo= add_ipo("CuIpo", ID_CU);
 	}
 	else if( GS(from->name)==ID_KE) {
 		key= (Key *)from;
 		if(key->id.lib) return 0;
 		ipo= key->ipo;
-		
+
 		if(make && ipo==0) ipo= key->ipo= add_ipo("KeyIpo", ID_KE);
 	}
 	else if( GS(from->name)==ID_WO) {
 		wo= (World *)from;
 		if(wo->id.lib) return 0;
 		ipo= wo->ipo;
-		
+
 		if(make && ipo==0) ipo= wo->ipo= add_ipo("WoIpo", ID_WO);
 	}
 	else if( GS(from->name)==ID_LA) {
 		la= (Lamp *)from;
 		if(la->id.lib) return 0;
 		ipo= la->ipo;
-		
+
 		if(make && ipo==0) ipo= la->ipo= add_ipo("LaIpo", ID_LA);
 	}
 	else if( GS(from->name)==ID_CA) {
 		ca= (Camera *)from;
 		if(ca->id.lib) return 0;
 		ipo= ca->ipo;
-		
+
 		if(make && ipo==0) ipo= ca->ipo= add_ipo("CaIpo", ID_CA);
 	}
 	else return 0;
-	
-	return ipo;	
+
+	return ipo;
 }
 
 IpoCurve *get_ipocurve(ID *from, int adrcode)
 {
 	Ipo *ipo= 0;
 	IpoCurve *icu=0;
-	
+
 	/* return 0 als lib */
 	/* ook testen of ipo en ipocurve bestaan */
-	
+
 	ipo= get_ipo(from, 1);	/* 1= make */
 	if(G.sipo) G.sipo->ipo= ipo;
-	
+
 	if(ipo && ipo->id.lib==0) {
-	
+
 		icu= ipo->curve.first;
 		while(icu) {
 			if(icu->adrcode==adrcode) break;
@@ -1655,13 +1653,13 @@ IpoCurve *get_ipocurve(ID *from, int adrcode)
 		}
 		if(icu==0) {
 			icu= callocN(sizeof(IpoCurve), "ipocurve");
-			
+
 			icu->flag |= IPO_VISIBLE;
 			icu->blocktype= GS(from->name);
 			icu->adrcode= adrcode;
-			
+
 			set_icu_vars(icu);
-			
+
 			addtail( &(ipo->curve), icu);
 		}
 	}
@@ -1673,16 +1671,16 @@ void insert_vert_ipo(IpoCurve *icu, float x, float y)
 	BezTriple *bezt, beztr, *newbezt;
 	int a, h1, h2;
 	char str[20];
-	
+
 	bzero(&beztr, sizeof(BezTriple));
 	beztr.vec[1][0]= x;
 	beztr.vec[1][1]= y;
 	beztr.hide= IPO_BEZ;
 	beztr.f1= beztr.f2= beztr.f3= SELECT;
 	beztr.h1= beztr.h2= HD_AUTO;
-		
+
 	bezt= icu->bezt;
-		
+
 	if(bezt==0) {
 		icu->bezt= callocN( sizeof(BezTriple), "beztriple");
 		*(icu->bezt)= beztr;
@@ -1693,10 +1691,10 @@ void insert_vert_ipo(IpoCurve *icu, float x, float y)
 		for(a=0; a<icu->totvert; a++, bezt++) {
 			bezt->f1= bezt->f2= bezt->f3= 0;
 		}
-	
+
 		bezt= icu->bezt;
 		for(a=0; a<=icu->totvert; a++, bezt++) {
-			
+
 			/* geen dubbele punten */
 			if(a<icu->totvert && (bezt->vec[1][0]>x-IPOTHRESH && bezt->vec[1][0]<x+IPOTHRESH)) {
 				*(bezt)= beztr;
@@ -1704,26 +1702,26 @@ void insert_vert_ipo(IpoCurve *icu, float x, float y)
 			}
 			if(a==icu->totvert || bezt->vec[1][0] > x) {
 				newbezt= callocN( (icu->totvert+1)*sizeof(BezTriple), "beztriple");
-				
+
 				if(a>0) memcpy(newbezt, icu->bezt, a*sizeof(BezTriple));
-				
+
 				bezt= newbezt+a;
 				*(bezt)= beztr;
-				
+
 				if(a<icu->totvert) memcpy(newbezt+a+1, icu->bezt+a, (icu->totvert-a)*sizeof(BezTriple));
-				
+
 				freeN(icu->bezt);
 				icu->bezt= newbezt;
-				
+
 				icu->totvert++;
 				break;
 			}
 		}
 	}
-	
-	
+
+
 	calchandles_ipocurve(icu);
-	
+
 	/* handletype goedzetten */
 	if(icu->totvert>2) {
 		h1= h2= HD_AUTO;
@@ -1748,16 +1746,16 @@ void add_vert_ipo()
 		G.sipo->showkey= 0;
 		free_ipokey(&G.sipo->ipokey);
 	}
-	
+
 	getmouseco_areawin(mval);
-	
+
 	if(mval[0]>G.v2d->mask.xmax) return;
-	
+
 	ei= get_editipo();
 	if(ei==0) return;
 
 	areamouseco_to_ipoco(mval, &x, &y);
-	
+
 	if(ei->icu==0) {
 		if(G.sipo->from)
 			ei->icu= get_ipocurve(G.sipo->from, ei->adrcode);
@@ -1770,7 +1768,7 @@ void add_vert_ipo()
 		if(val<0) val= 0;
 		y= (float)(1 << val);
 	}
-	
+
 	insert_vert_ipo(ei->icu, x, y);
 
 	/* voor zekerheid: als icu 0 was, of maar 1 curve visible */
@@ -1787,16 +1785,16 @@ void add_duplicate_editipo()
 	IpoCurve *icu;
 	BezTriple *bezt, *beztn, *newb;
 	int tot, a, b;
-	
+
 	get_status_editipo();
 	if(totipo_vertsel==0) return;
-	
+
 	ei= G.sipo->editipo;
 	for(a=0; a<G.sipo->totipo; a++, ei++) {
 		if ISPOIN3(ei, flag & IPO_VISIBLE, icu, icu->bezt) {
 			if(G.sipo->showkey || (ei->flag & IPO_EDIT)) {
 				icu= ei->icu;
-				
+
 				/* hoeveel punten */
 				tot= 0;
 				b= icu->totvert;
@@ -1805,7 +1803,7 @@ void add_duplicate_editipo()
 					if(bezt->f2 & 1) tot++;
 					bezt++;
 				}
-				
+
 				if(tot) {
 					icu->totvert+= tot;
 					newb= beztn= mallocN(icu->totvert*sizeof(BezTriple), "bezt");
@@ -1823,13 +1821,13 @@ void add_duplicate_editipo()
 					}
 					freeN(icu->bezt);
 					icu->bezt= newb;
-					
+
 					calchandles_ipocurve(icu);
 				}
 			}
 		}
 	}
-	
+
 	if(G.sipo->showkey) {
 		make_ipokey();
 		if(G.sipo->blocktype==ID_OB) {
@@ -1847,16 +1845,16 @@ void remove_doubles_ipo()
 	BezTriple *bezt, *newb, *new1;
 	float newy, val;
 	int mode, a, b;
-	
+
 	ei= G.sipo->editipo;
 	for(a=0; a<G.sipo->totipo; a++, ei++) {
 		if ISPOIN3(ei, flag & IPO_VISIBLE, icu, icu->bezt) {
-			
+
 			/* OF de curve is selected OF in editmode OF in keymode */
 			mode= 0;
 			if(G.sipo->showkey || (ei->flag & IPO_EDIT)) mode= 1;
 			else if(ei->flag & IPO_SELECT) mode= 2;
-			
+
 			if(mode) {
 				bezt= ei->icu->bezt;
 				newb= new1= mallocN(ei->icu->totvert*sizeof(BezTriple), "newbezt");
@@ -1864,10 +1862,10 @@ void remove_doubles_ipo()
 				b= ei->icu->totvert-1;
 				bezt++;
 				while(b--) {
-					
+
 					/* mag er verwijderd worden? */
 					if(mode==2 || (bezt->f2 & 1)) {
-					
+
 						/* verschillen de punten? */
 						if( fabs( bezt->vec[1][0]-newb->vec[1][0] ) > 0.9 ) {
 							newb++;
@@ -1878,12 +1876,12 @@ void remove_doubles_ipo()
 							VecMidf(newb->vec[0], newb->vec[0], bezt->vec[0]);
 							VecMidf(newb->vec[1], newb->vec[1], bezt->vec[1]);
 							VecMidf(newb->vec[2], newb->vec[2], bezt->vec[2]);
-							
+
 							newb->h1= newb->h2= HD_FREE;
-							
+
 							ei->icu->totvert--;
 						}
-						
+
 					}
 					else {
 						newb++;
@@ -1891,30 +1889,30 @@ void remove_doubles_ipo()
 					}
 					bezt++;
 				}
-				
+
 				freeN(ei->icu->bezt);
 				ei->icu->bezt= new1;
-				
-				calchandles_ipocurve(ei->icu);				
+
+				calchandles_ipocurve(ei->icu);
 			}
 		}
 	}
-	
+
 	editipo_changed(1);	/* maakt ook ipokeys opnieuw! */
 
 	/* dubbele keys weg */
 	if(G.sipo->showkey) {
 		ik= G.sipo->ipokey.first;
 		ikn= ik->next;
-		
+
 		while(ik && ikn) {
 			if( (ik->flag & 1) && (ikn->flag & 1) ) {
 				if( fabs(ik->val-ikn->val) < 0.9 ) {
 					val= (ik->val + ikn->val)/2.0;
-					
+
 					for(a=0; a<G.sipo->totipo; a++) {
 						if(ik->data[a]) ik->data[a]->vec[1][0]= val;
-						if(ikn->data[a]) ikn->data[a]->vec[1][0]= val;						
+						if(ikn->data[a]) ikn->data[a]->vec[1][0]= val;
 					}
 				}
 			}
@@ -1922,7 +1920,7 @@ void remove_doubles_ipo()
 			ikn= ikn->next;
 
 		}
-		
+
 		editipo_changed(1);	/* maakt ook ipokeys opnieuw! */
 
 	}
@@ -1938,23 +1936,23 @@ void join_ipo()
 	BezTriple *bezt, *beztn, *newb;
 	float val;
 	int mode, tot, a, b;
-	
+
 	get_status_editipo();
-	
+
 	mode= pupmenu("Join %t|All Selected %x1|Selected doubles %x2");
 	if( mode==2 ) {
 		remove_doubles_ipo();
 		return;
 	}
 	else if(mode!=1) return;
-	
+
 	/* eerst: meerdere geselecteerde verts in 1 curve */
 	ei= G.sipo->editipo;
 	for(a=0; a<G.sipo->totipo; a++, ei++) {
 		if ISPOIN3(ei, flag & IPO_VISIBLE, icu, icu->bezt) {
 			if(G.sipo->showkey || (ei->flag & IPO_EDIT)) {
 				icu= ei->icu;
-				
+
 				/* hoeveel punten */
 				tot= 0;
 				b= icu->totvert;
@@ -1963,20 +1961,20 @@ void join_ipo()
 					if(bezt->f2 & 1) tot++;
 					bezt++;
 				}
-				
+
 				if(tot>1) {
 					tot--;
 					icu->totvert-= tot;
-					
+
 					newb= mallocN(icu->totvert*sizeof(BezTriple), "bezt");
 					/* het eerste punt wordt het nieuwe punt */
 					beztn= newb+1;
 					tot= 0;
-					
+
 					bezt= icu->bezt;
 					b= icu->totvert+tot+1;
 					while(b--) {
-						
+
 						if(bezt->f2 & 1) {
 							if(tot==0) *newb= *bezt;
 							else {
@@ -1992,25 +1990,25 @@ void join_ipo()
 						}
 						bezt++;
 					}
-					
+
 					VecMulf(newb->vec[0], 1.0/((float)tot));
 					VecMulf(newb->vec[1], 1.0/((float)tot));
 					VecMulf(newb->vec[2], 1.0/((float)tot));
-					
+
 					freeN(icu->bezt);
 					icu->bezt= newb;
-					
+
 					sort_time_ipocurve(icu);
 					calchandles_ipocurve(icu);
 				}
 			}
 		}
 	}
-	
+
 	/* dan: in keymode: meerdere geselecteerde keys samenvoegen */
-	
+
 	editipo_changed(1);	/* maakt ook ipokeys opnieuw! */
-	
+
 	if(G.sipo->showkey) {
 		ik= G.sipo->ipokey.first;
 		val= 0.0;
@@ -2029,7 +2027,7 @@ void join_ipo()
 		}
 		if(tot>1) {
 			val/= (float)tot;
-			
+
 			ik= G.sipo->ipokey.first;
 			while(ik) {
 				if(ik->flag & 1) {
@@ -2055,21 +2053,21 @@ void ipo_snapmenu()
 	float dx;
 	int a, b;
 	short event, ok, ok2;
-	
+
 	event= pupmenu("Snap %t|Horizontal %x1|To next %x2|To frame %x3|To current frame%x4");
 	if(event < 1) return;
-	
+
 	get_status_editipo();
 
 	ei= G.sipo->editipo;
 	for(b=0; b<G.sipo->totipo; b++, ei++) {
 		if ISPOIN3(ei, flag & IPO_VISIBLE, icu, icu->bezt) {
-		
+
 			ok2= 0;
 			if(G.sipo->showkey) ok2= 1;
 			else if(totipo_vert && (ei->flag & IPO_EDIT)) ok2= 2;
 			else if(totipo_vert==0 && (ei->flag & IPO_SELECT)) ok2= 3;
-			
+
 			if(ok2) {
 				bezt= ei->icu->bezt;
 				a= ei->icu->totvert;
@@ -2079,7 +2077,7 @@ void ipo_snapmenu()
 						 if(bezt->f2 & 1) ok= 1;
 					}
 					else ok= 1;
-					
+
 					if(ok) {
 						if(event==1) {
 							bezt->vec[0][1]= bezt->vec[2][1]= bezt->vec[1][1];
@@ -2097,29 +2095,29 @@ void ipo_snapmenu()
 							bezt->vec[1][0]= ffloor(bezt->vec[1][0]+0.5);
 						}
 						else if(event==4) {	/* to current frame */
-							
+
 							if(ok2==1 || ok2==2) {
-								
+
 								if(G.sipo->blocktype==ID_SEQ) {
 									Sequence *seq;
-							
+
 									seq= (Sequence *)G.sipo->from;
 									if(seq) {
 										dx= (CFRA-seq->startdisp);
 										dx= 100.0*dx/((float)(seq->enddisp-seq->startdisp));
-										
+
 										dx-= bezt->vec[1][0];
 									}
 								}
 								else dx= G.scene->r.framelen*CFRA - bezt->vec[1][0];
-								
+
 								bezt->vec[0][0]+= dx;
 								bezt->vec[1][0]+= dx;
 								bezt->vec[2][0]+= dx;
 							}
 						}
 					}
-					
+
 					bezt++;
 				}
 				calchandles_ipocurve(ei->icu);
@@ -2143,14 +2141,14 @@ void mouse_select_ipo()
 	float x, y, dist, mindist;
 	int a, oldflag, hand, ok;
 	short mval[2], xo, yo;
-	
+
 	if(G.sipo->editipo==0) return;
-	
+
 	get_status_editipo();
-	
+
 	if(G.sipo->showkey) {
 		getmouseco_areawin(mval);
-	
+
 		areamouseco_to_ipoco(mval, &x, &y);
 		actik= 0;
 		mindist= 1000.0;
@@ -2166,10 +2164,10 @@ void mouse_select_ipo()
 		}
 		if(actik) {
 			oldflag= actik->flag;
-			
+
 			if(G.qual & LR_SHIFTKEY);
 			else deselectall_editipo();
-			
+
 			if(G.qual & LR_SHIFTKEY) {
 				if(oldflag & 1) actik->flag &= ~1;
 				else actik->flag |= 1;
@@ -2180,7 +2178,7 @@ void mouse_select_ipo()
 		}
 	}
 	else if(totipo_edit) {
-	
+
 		hand= findnearest_ipovert(&icu, &bezt);
 
 		if(G.qual & LR_SHIFTKEY) {
@@ -2201,11 +2199,11 @@ void mouse_select_ipo()
 					if(bezt->f3 & 1) bezt->f3= 0;
 					else bezt->f3= 1;
 				}
-			}				
+			}
 		}
 		else {
 			deselectall_editipo();
-		
+
 			if(bezt) {
 				if(hand==1) {
 					bezt->f1|= 1; bezt->f2|= 1; bezt->f3|= 1;
@@ -2216,20 +2214,20 @@ void mouse_select_ipo()
 		}
 	}
 	else {
-		
+
 		/* vertex keys ? */
-		
+
 		if(G.sipo->blocktype==ID_KE && G.sipo->from) {
 			key= (Key *)G.sipo->from;
-			
+
 			ei= G.sipo->editipo;
 			if(key->type==KEY_NORMAL || (ei->flag & IPO_VISIBLE)) {
 				getmouseco_areawin(mval);
-				
+
 				areamouseco_to_ipoco(mval, &x, &y);
 				/* hoeveel is 20 pixels? */
 				mindist= 20.0*(G.v2d->cur.ymax-G.v2d->cur.ymin)/(float)curarea->winy;
-				
+
 				kb= key->block.first;
 				while(kb) {
 					dist= fabs(kb->pos-y);
@@ -2248,14 +2246,14 @@ void mouse_select_ipo()
 					if(ok) {
 						/* doet ook alle keypos */
 						deselectall_editipo();
-						
+
 						/* oldflag= actkb->flag; */
-						
+
 						/* if(G.qual & LR_SHIFTKEY); */
 						/* else { */
 						/* 	deselectall_key(); */
 						/* } */
-						
+
 						/* if(G.qual & LR_SHIFTKEY) { */
 						/* 	if(oldflag & 1) actkb->flag &= ~1; */
 						/* 	else actkb->flag |= 1; */
@@ -2263,14 +2261,14 @@ void mouse_select_ipo()
 						/* else { */
 							actkb->flag |= 1;
 						/* } */
-						
+
 						/* bereken keypos */
 						showkeypos((Key *)G.sipo->from, actkb);
 					}
 				}
 			}
 		}
-			
+
 		/* select curve */
 		if(actkb==0) {
 			if(totipo_vis==1) {
@@ -2284,12 +2282,12 @@ void mouse_select_ipo()
 			else if(totipo_vis>1) {
 				actei= select_proj_ipo(0, 0);
 			}
-			
+
 			if(actei) oldflag= actei->flag;
-			
+
 			if(G.qual & LR_SHIFTKEY);
 			else deselectall_editipo();
-			
+
 			if(actei) {
 				if(G.qual & LR_SHIFTKEY) {
 					if(oldflag & IPO_SELECT) actei->flag &= ~IPO_SELECT;
@@ -2301,29 +2299,29 @@ void mouse_select_ipo()
 			}
 		}
 	}
-	
+
 	update_editipo_flags();
-	
+
 	force_draw();
-	
+
 	if(G.sipo->showkey && G.sipo->blocktype==ID_OB) {
 		ob= OBACT;
 		if(ob && (ob->ipoflag & OB_DRAWKEY)) draw_object_ext(BASACT);
 	}
-	
+
 	getmouseco_areawin(mval);
-	xo= mval[0]; 
+	xo= mval[0];
 	yo= mval[1];
 
 	while(get_mbut()&R_MOUSE) {
 		usleep(1);
-		
+
 		getmouseco_areawin(mval);
 		if(abs(mval[0]-xo)+abs(mval[1]-yo) > 4) {
-			
+
 			if(actkb) move_keys();
 			else transform_ipo('g');
-			
+
 			return;
 		}
 	}
@@ -2350,7 +2348,7 @@ void sethandles_ipo(int code)
 					if(bezt->f1 || bezt->f3) {
 						if(bezt->f1) bezt->h1= code;
 						if(bezt->f3) bezt->h2= code;
-						
+
 						if(bezt->h1!=bezt->h2) {
 							if ELEM(bezt->h1, HD_ALIGN, HD_AUTO) bezt->h1= HD_FREE;
 							if ELEM(bezt->h2, HD_ALIGN, HD_AUTO) bezt->h2= HD_FREE;
@@ -2364,7 +2362,7 @@ void sethandles_ipo(int code)
 	}
 	else {
 		/* is er 1 handle NIET vrij: alles vrijmaken, else ALIGNED maken */
-		
+
 		ei= G.sipo->editipo;
 		for(a=0; a<G.sipo->totipo; a++, ei++) {
 			if ISPOIN4(ei, flag & IPO_VISIBLE, flag & IPO_EDIT, icu, icu->bezt) {
@@ -2380,7 +2378,7 @@ void sethandles_ipo(int code)
 		}
 		if(ok) ok= HD_FREE;
 		else ok= HD_ALIGN;
-		
+
 		ei= G.sipo->editipo;
 		for(a=0; a<G.sipo->totipo; a++, ei++) {
 			if ISPOIN4(ei, flag & IPO_VISIBLE, flag & IPO_EDIT, icu, icu->bezt) {
@@ -2389,7 +2387,7 @@ void sethandles_ipo(int code)
 				while(b--) {
 					if(bezt->f1) bezt->h1= ok;
 					if(bezt->f3 ) bezt->h2= ok;
-	
+
 					bezt++;
 				}
 				calchandles_ipocurve(ei->icu);
@@ -2410,14 +2408,14 @@ void set_ipotype()
 	if(G.sipo->ipo && G.sipo->ipo->id.lib) return;
 	if(G.sipo->showkey) return;
 	get_status_editipo();
-	
+
 	if(G.sipo->blocktype==ID_KE && totipo_edit==0 && totipo_sel==0) {
 		key= (Key *)G.sipo->from;
 		if(key==0) return;
-		
+
 		event= pupmenu("Key Type %t|Linear %x1|Cardinal %x2|B spline %x3");
 		if(event < 1) return;
-		
+
 		kb= key->block.first;
 		while(kb) {
 			if(kb->flag & SELECT) {
@@ -2432,7 +2430,7 @@ void set_ipotype()
 	else {
 		event= pupmenu("Ipo Type %t|Constant %x1|Linear %x2|Bezier %x3");
 		if(event < 1) return;
-		
+
 		ei= G.sipo->editipo;
 		for(a=0; a<G.sipo->totipo; a++, ei++) {
 			if ISPOIN3(ei, flag & IPO_VISIBLE, flag & IPO_SELECT, icu) {
@@ -2456,7 +2454,7 @@ void borderselect_ipo()
 	short mval[2];
 
 	get_status_editipo();
-	
+
 	val= get_border(&rect, 3);
 
 	if(val) {
@@ -2483,7 +2481,7 @@ void borderselect_ipo()
 				select_proj_ipo(&rectf, val);
 		}
 		else {
-			
+
 			ei= G.sipo->editipo;
 			for(a=0; a<G.sipo->totipo; a++, ei++) {
 				if ISPOIN3(ei, flag & IPO_VISIBLE, flag & IPO_EDIT, icu) {
@@ -2491,14 +2489,14 @@ void borderselect_ipo()
 						b= ei->icu->totvert;
 						bezt= ei->icu->bezt;
 						while(b--) {
-							
+
 							ok= 0;
 							if( ei->icu->ipo==IPO_BEZ ) {
 								if(in_rctf(&rectf, bezt->vec[0][0], bezt->vec[0][1])) ok= 1;
 								if(in_rctf(&rectf, bezt->vec[2][0], bezt->vec[2][1])) ok= 1;
 							}
 							if(in_rctf(&rectf, bezt->vec[1][0], bezt->vec[1][1])) ok= 1;
-							
+
 							if(ok) {
 								if(val==LEFTMOUSE) {
 									bezt->f1 |= 1;
@@ -2511,7 +2509,7 @@ void borderselect_ipo()
 									bezt->f3 &= ~1;
 								}
 							}
-							
+
 							bezt++;
 						}
 					}
@@ -2533,20 +2531,20 @@ void del_ipo()
 
 	get_status_editipo();
 	if(G.sipo->ipo && G.sipo->ipo->id.lib) return;
-	
+
 	if(totipo_edit==0 && totipo_sel==0 && totipo_vertsel==0) {
 		delete_key();
 		return;
 	}
-	
+
 	if( okee("Erase selected")==0 ) return;
 
 	/* eerste doorloop, kunnen hele stukken weg? */
 	ei= G.sipo->editipo;
 	for(a=0; a<G.sipo->totipo; a++, ei++) {
-	
+
 		del= 0;
-		
+
 		if(G.sipo->showkey==0 && totipo_edit==0) {
 			if ISPOIN3(ei, flag & IPO_VISIBLE, flag & IPO_SELECT, icu) {
 				del= 1;
@@ -2571,26 +2569,26 @@ void del_ipo()
 				}
 			}
 		}
-		
+
 		if(del) {
 			remlink( &(G.sipo->ipo->curve), ei->icu);
 			if(ei->icu->bezt) freeN(ei->icu->bezt);
 			freeN(ei->icu);
 			ei->flag &= ~IPO_SELECT;
 			ei->flag &= ~IPO_EDIT;
-			ei->icu= 0;	
+			ei->icu= 0;
 		}
 	}
-	
+
 	/* tweede doorloop, kleine stukken weg: alleen curves */
 	ei= G.sipo->editipo;
 	for(b=0; b<G.sipo->totipo; b++, ei++) {
 		if ISPOIN(ei, flag & IPO_VISIBLE, icu) {
 			if(G.sipo->showkey || (ei->flag & IPO_EDIT)) {
-			
+
 				event= 0;
 				if(ei->icu->bezt) {
-				
+
 					bezt= ei->icu->bezt;
 					for(a=0; a<ei->icu->totvert; a++) {
 						if( BEZSELECTED(bezt) ) {
@@ -2611,10 +2609,10 @@ void del_ipo()
 			}
 		}
 	}
-	
+
 	allqueue(REDRAWIPO, 0);
 	allspace(REMAKEIPO, 0);
-	
+
 }
 
 ListBase ipocopybuf={0, 0};
@@ -2623,7 +2621,7 @@ int totipocopybuf=0;
 void free_ipocopybuf()
 {
 	IpoCurve *icu;
-	
+
 	while(icu= ipocopybuf.first) {
 		if(icu->bezt) freeN(icu->bezt);
 		remlink(&ipocopybuf, icu);
@@ -2637,14 +2635,14 @@ void copy_editipo()
 	EditIpo *ei;
 	IpoCurve *icu;
 	int a;
-	
+
 	if(G.sipo->showkey) {
 		error("cannot copy\n");
 		return;
 	}
-	
+
 	free_ipocopybuf();
-	
+
 	ei= G.sipo->editipo;
 	for(a=0; a<G.sipo->totipo; a++, ei++) {
 		if ISPOIN(ei, flag & IPO_VISIBLE, icu) {
@@ -2660,7 +2658,7 @@ void copy_editipo()
 			}
 		}
 	}
-	
+
 	if(totipocopybuf==0) error("Copybuf is empty");
 }
 
@@ -2669,15 +2667,15 @@ void paste_editipo()
 	EditIpo *ei;
 	IpoCurve *icu;
 	int a, ok;
-	
+
 	if(G.sipo->showkey) return;
-	
+
 	if(totipocopybuf==0) return;
 	if(G.sipo->ipo==0) return;
 	if(G.sipo->ipo && G.sipo->ipo->id.lib) return;
 
 	get_status_editipo();
-	
+
 	if(totipo_vis==0) {
 		error("No visible splines");
 	}
@@ -2687,7 +2685,7 @@ void paste_editipo()
 	else {
 		/* problemen voorkomen: andere splines visible dan select */
 		if(totipo_vis==totipo_sel) totipo_vis= 0;
-		
+
 		icu= ipocopybuf.first;
 		if(icu==0) return;
 
@@ -2697,27 +2695,27 @@ void paste_editipo()
 				ok= 0;
 				if(totipo_vis==totipocopybuf) ok= 1;
 				if(totipo_sel==totipocopybuf && (ei->flag & IPO_SELECT)) ok= 1;
-	
+
 				if(ok) {
-			
+
 					ei->icu= get_ipocurve(G.sipo->from, ei->adrcode);
 					if(ei->icu==0) return;
-					
+
 					if(ei->icu->bezt) freeN(ei->icu->bezt);
 					ei->icu->bezt= 0;
-					
+
 					ei->icu->totvert= icu->totvert;
 					ei->icu->flag= ei->flag= icu->flag;
 					ei->icu->extrap= icu->extrap;
 					ei->icu->ipo= icu->ipo;
-					
+
 					if(icu->bezt) {
 						ei->icu->bezt= mallocN(icu->totvert*sizeof(BezTriple), "ipocopybuf");
 						memcpy(ei->icu->bezt, icu->bezt, icu->totvert*sizeof(BezTriple));
 					}
-					
+
 					icu= icu->next;
-					
+
 				}
 			}
 		}
@@ -2729,7 +2727,7 @@ void set_exprap_ipo(int mode)
 {
 	EditIpo *ei;
 	int a;
-		
+
 	if(G.sipo->ipo && G.sipo->ipo->id.lib) return;
 	/* in geval van keys: altijd ok */
 
@@ -2749,14 +2747,14 @@ int find_other_handles(EditIpo *eicur, float ctime, BezTriple **beztar)
 	EditIpo *ei;
 	BezTriple *bezt;
 	int a, b, c= 1, totvert;
-	
+
 	ei= G.sipo->editipo;
 	for(a=0; a<G.sipo->totipo; a++, ei++) {
 		if(ei!=eicur && ei->icu && (ei->flag & IPO_VISIBLE)) {
-			
+
 			bezt= ei->icu->bezt;
 			totvert= ei->icu->totvert;
-			
+
 			for(b=0; b<totvert; b++, bezt++) {
 				if( bezt->vec[1][0] < ctime+IPOTHRESH &&  bezt->vec[1][0] > ctime-IPOTHRESH) {
 					if(c>2) return 0;
@@ -2766,7 +2764,7 @@ int find_other_handles(EditIpo *eicur, float ctime, BezTriple **beztar)
 			}
 		}
 	}
-	
+
 	if(c==3) return 1;
 	return 0;
 }
@@ -2777,7 +2775,7 @@ void set_speed_editipo(float speed)
 	BezTriple *bezt, *beztar[3];
 	float si, co, vec1[3], vec2[3];
 	int a, b, totvert, didit=0;
-		
+
 	if(G.sipo->ipo && G.sipo->ipo->id.lib) return;
 
 	/* uitgaande van 1 visible curve, selected punt, bijhorende punten: lencorr! */
@@ -2787,41 +2785,41 @@ void set_speed_editipo(float speed)
 		if ISPOIN(ei, flag & IPO_VISIBLE, icu) {
 			bezt= ei->icu->bezt;
 			totvert= ei->icu->totvert;
-			
+
 			for(b=0; b<totvert; b++, bezt++) {
 				if(BEZSELECTED(bezt)) {
-					
+
 					beztar[0]= bezt;
-					
+
 					if( find_other_handles(ei, bezt->vec[1][0], beztar) ) {
 						beztar[0]->h1= beztar[0]->h2= HD_ALIGN;
 						beztar[1]->h1= beztar[1]->h2= HD_ALIGN;
 						beztar[2]->h1= beztar[2]->h2= HD_ALIGN;
-						
+
 						vec1[0]= (beztar[0]->vec[1][1] - beztar[0]->vec[0][1]) / (beztar[0]->vec[1][0] - beztar[0]->vec[0][0]) ;
 						vec2[0]= (beztar[0]->vec[1][1] - beztar[0]->vec[2][1]) / (beztar[0]->vec[2][0] - beztar[0]->vec[1][0]) ;
-						
+
 						vec1[1]= (beztar[1]->vec[1][1] - beztar[1]->vec[0][1]) / (beztar[1]->vec[1][0] - beztar[1]->vec[0][0]) ;
 						vec2[1]= (beztar[1]->vec[1][1] - beztar[1]->vec[2][1]) / (beztar[1]->vec[2][0] - beztar[1]->vec[1][0]) ;
-						
+
 						vec1[2]= (beztar[2]->vec[1][1] - beztar[2]->vec[0][1]) / (beztar[2]->vec[1][0] - beztar[2]->vec[0][0]) ;
 						vec2[2]= (beztar[2]->vec[1][1] - beztar[2]->vec[2][1]) / (beztar[2]->vec[2][0] - beztar[2]->vec[1][0]) ;
-						
+
 						Normalise(vec1);
 						Normalise(vec2);
-						
+
 						VecMulf(vec1, speed);
 						VecMulf(vec2, speed);
-						
+
 						beztar[0]->vec[0][1]= beztar[0]->vec[1][1] - vec1[0]*(beztar[0]->vec[1][0] - beztar[0]->vec[0][0]) ;
 						beztar[0]->vec[2][1]= beztar[0]->vec[1][1] - vec2[0]*(beztar[0]->vec[2][0] - beztar[0]->vec[1][0]) ;
-						
+
 						beztar[1]->vec[0][1]= beztar[1]->vec[1][1] - vec1[1]*(beztar[1]->vec[1][0] - beztar[1]->vec[0][0]) ;
 						beztar[1]->vec[2][1]= beztar[1]->vec[1][1] - vec2[1]*(beztar[1]->vec[2][0] - beztar[1]->vec[1][0]) ;
-						
+
 						beztar[2]->vec[0][1]= beztar[2]->vec[1][1] - vec1[2]*(beztar[2]->vec[1][0] - beztar[2]->vec[0][0]) ;
 						beztar[2]->vec[2][1]= beztar[2]->vec[1][1] - vec2[2]*(beztar[2]->vec[2][0] - beztar[2]->vec[1][0]) ;
-						
+
 						didit= 1;
 					}
 					else {
@@ -2829,12 +2827,12 @@ void set_speed_editipo(float speed)
 					}
 				}
 			}
-			break;	
+			break;
 		}
 	}
-	
+
 	if(didit==0) error("Did not set speed");
-	
+
 	editipo_changed(1);
 	allqueue(REDRAWIPO, 0);
 }
@@ -2847,17 +2845,17 @@ void insertkey(ID *id, int adrcode)
 	void *poin;
 	float curval, cfra;
 	int type;
-	
+
 	if(id) {
 		icu= get_ipocurve(id, adrcode);
-		
+
 		if(icu) {
 			poin= get_ipo_poin(id, icu, &type);
 			if(poin) {
 				curval= read_ipo_poin(poin, type);
-				
+
 				cfra= frame_to_float(CFRA);
-				
+
 				if( GS(id->name)==ID_OB ) {
 					ob= (Object *)id;
 					if(ob->sf!=0.0 && (ob->ipoflag & OB_OFFS_OB) ) {
@@ -2865,7 +2863,7 @@ void insertkey(ID *id, int adrcode)
 						cfra-= ob->sf*G.scene->r.framelen;
 					}
 				}
-				
+
 				insert_vert_ipo(icu, cfra, curval);
 			}
 		}
@@ -2881,18 +2879,18 @@ void insertkey_editipo()
 	float *fp, cfra, *insertvals;
 	int a, nr, ok, tot;
 	short event;
-	
+
 	if(G.sipo->showkey)
 		event= pupmenu("Insert KeyVertices %t|Current frame %x1|Selected Keys %x2");
-	else 
+	else
 		event= pupmenu("Insert KeyVertices %t|Current frame %x1");
-	
+
 	if(event<1) return;
-	
+
 	ei= G.sipo->editipo;
 	for(nr=0; nr<G.sipo->totipo; nr++, ei++) {
 		if ISPOIN(ei, flag & IPO_VISIBLE, icu) {
-		
+
 			ok= 0;
 			if(G.sipo->showkey) ok= 1;
 			else if(ei->flag & IPO_SELECT) ok= 1;
@@ -2909,10 +2907,10 @@ void insertkey_editipo()
 					}
 				}
 				if(tot) {
-				
+
 					/* correctie voor ob timeoffs */
 					cfra= frame_to_float(CFRA);
-					id= G.sipo->from;	
+					id= G.sipo->from;
 					if(id && GS(id->name)==ID_OB ) {
 						Object *ob= (Object *)id;
 						if(ob->sf!=0.0 && (ob->ipoflag & OB_OFFS_OB) ) {
@@ -2921,19 +2919,19 @@ void insertkey_editipo()
 					}
 					else if(id && GS(id->name)==ID_SEQ) {
 						extern Sequence *last_seq;	/* editsequence.c */
-						
+
 						if(last_seq) {
 							cfra= 100.0*(cfra-last_seq->startdisp)/((float)(last_seq->enddisp-last_seq->startdisp));
 						}
 					}
-			
+
 					insertvals= mallocN(sizeof(float)*2*tot, "insertkey_editipo");
 					/* zeker zijn dat icu->curval klopt */
 					calc_ipo(G.sipo->ipo, cfra);
-					
+
 					if(event==1) {
 						insertvals[0]= cfra;
-						
+
 						insertvals[1]= ei->icu->curval;
 					}
 					else {
@@ -2954,7 +2952,7 @@ void insertkey_editipo()
 					for(a=0; a<tot; a++, fp+=2) {
 						insert_vert_ipo(ei->icu, fp[0], fp[1]);
 					}
-					
+
 					freeN(insertvals);
 					calc_ipo(G.sipo->ipo, (float)CFRA);
 				}
@@ -2978,21 +2976,21 @@ void common_insertkey()
 	Camera *ca;
 	int tlay, map, event;
 	char menustr[256];
-	
+
 	if(curarea->spacetype==SPACE_IPO) {
 		insertkey_editipo();
 	}
 	else if(curarea->spacetype==SPACE_BUTS) {
-		
+
 		if(G.buts->mainb==BUTS_MAT) {
 			id= G.buts->lockpoin;
 			ma= G.buts->lockpoin;
 			if(id) {
 				event= pupmenu("Insert Key %t|RGB%x0|Alpha%x1|HaSize%x2|Mode %x3|All Color%x10|Ofs%x12|Size%x13|All Mapping%x11");
 				if(event== -1) return;
-				
+
 				map= texchannel_to_adrcode(ma->texact);
-				
+
 				if(event==0 || event==10) {
 					insertkey(id, MA_COL_R);
 					insertkey(id, MA_COL_G);
@@ -3045,9 +3043,9 @@ void common_insertkey()
 			if(id) {
 				event= pupmenu("Insert Key %t|ZenRGB%x0|HorRGB%x1|Mist%x2|stars %x3|Ofs%x12|Size%x13");
 				if(event== -1) return;
-				
+
 				map= texchannel_to_adrcode(wo->texact);
-				
+
 				if(event==0) {
 					insertkey(id, WO_ZEN_R);
 					insertkey(id, WO_ZEN_G);
@@ -3089,9 +3087,9 @@ void common_insertkey()
 			if(id) {
 				event= pupmenu("Insert Key %t|RGB%x0|Energy%x1|Spotsi%x2|Ofs%x12|Size%x13");
 				if(event== -1) return;
-				
+
 				map= texchannel_to_adrcode(la->texact);
-				
+
 				if(event==0) {
 					insertkey(id, LA_COL_R);
 					insertkey(id, LA_COL_G);
@@ -3113,7 +3111,7 @@ void common_insertkey()
 					insertkey(id, map+MAP_SIZE_Y);
 					insertkey(id, map+MAP_SIZE_Z);
 				}
-				
+
 			}
 		}
 		else if(G.buts->mainb==BUTS_EDIT) {
@@ -3135,46 +3133,45 @@ void common_insertkey()
 				}
 			}
 		}
-		
+
 		allqueue(REDRAWIPO, 0);
 		allspace(REMAKEIPO, 0);
 	}
 	else if(curarea->spacetype==SPACE_VIEW3D) {
-		
+
 		base= FIRSTBASE;
 		while(base) {
 			if TESTBASELIB(base) break;
 			base= base->next;
 		}
 		if(base==0) return;
-		
+
 		strcpy(menustr, "Insert Key %t|Loc%x0|Rot%x1|Size%x2|LocRot%x3|LocRotSize%x4|Layer%x5|Avail%x9");
-		
+
 		if(ob= OBACT) {
 			if(ob->type==OB_MESH) strcat(menustr, "| %x6|Mesh%x7");
 			else if(ob->type==OB_LATTICE) strcat(menustr, "| %x6|Lattice%x7");
 			else if(ob->type==OB_CURVE) strcat(menustr, "| %x6|Curve%x7");
 			else if(ob->type==OB_SURF) strcat(menustr, "| %x6|Surface%x7");
-			else if(ob->type==OB_IKA) strcat(menustr, "| %x6|Effector%x8");
-			
+
 			if(ob->flag & OB_FROMGROUP) {
 				strcat(menustr, "| %x6|Entire Group%x10");
 			}
 		}
-		
+
 		event= pupmenu(menustr);
 		if(event== -1) return;
-		
+
 		if(event==7) {
 			if(ob->type==OB_MESH) insert_meshkey(ob->data);
 			else if ELEM(ob->type, OB_CURVE, OB_SURF) insert_curvekey(ob->data);
 			else if(ob->type==OB_LATTICE) insert_lattkey(ob->data);
-			
+
 			allqueue(REDRAWIPO, 0);
 			allqueue(REDRAWBUTSANIM, 0);
 			return;
 		}
-		
+
 		if(event==10) {
 			Group *group= find_group(ob);
 			if(group) {
@@ -3182,12 +3179,12 @@ void common_insertkey()
 				allqueue(REDRAWBUTSANIM, 0);
 			}
 		}
-		
+
 		base= FIRSTBASE;
 		while(base) {
 			if TESTBASELIB(base) {
 				id= (ID *)(base->object);
-				
+
 				/* alle curves in ipo deselect */
 				if(base->object->ipo) {
 					icu= base->object->ipo->curve.first;
@@ -3197,7 +3194,7 @@ void common_insertkey()
 						icu= icu->next;
 					}
 				}
-				
+
 				if(event==0 || event==3 ||event==4) {
 					insertkey(id, OB_LOC_X);
 					insertkey(id, OB_LOC_Y);
@@ -3220,15 +3217,6 @@ void common_insertkey()
 					insertkey(id, OB_LAY);
 					base->object->lay= tlay;
 				}
-				if(event==8) {
-					/* deze patch moet omdat duplicators de positie van effg veranderen */
-					Ika *ika= ob->data;
-					VecMat4MulVecfl(ika->effg, ob->obmat, ika->effn);
-
-					insertkey(id, OB_EFF_X);
-					insertkey(id, OB_EFF_Y);
-					insertkey(id, OB_EFF_Z);
-				}
 			}
 			base= base->next;
 		}
@@ -3236,26 +3224,26 @@ void common_insertkey()
 		allqueue(REDRAWIPO, 0);
 		allqueue(REDRAWVIEW3D, 0);
 	}
-	
+
 }
 
 
 /* **************************************************** */
 
 /* IPOKEY:
- * 
+ *
  *   er zijn drie manieren om hiermee om te gaan:
  *   1. hieronder: voor tekenen en editen in Ipo window
  *   2. voor tekenen keys in View3D (zie ipo.c en drawobject.c)
  *   3. voor editen keys in View3D (hieronder en editobject.c)
- * 
+ *
  */
 
 
 void free_ipokey(ListBase *lb)
 {
 	IpoKey *ik;
-	
+
 	ik= lb->first;
 	while(ik) {
 		if(ik->data) freeN(ik->data);
@@ -3268,10 +3256,10 @@ void free_ipokey(ListBase *lb)
 void add_to_ipokey(ListBase *lb, BezTriple *bezt, int nr, int len)
 {
 	IpoKey *ik, *ikn;
-	
+
 	ik= lb->first;
 	while(ik) {
-		
+
 		if( ik->val==bezt->vec[1][0] ) {
 			if(ik->data[nr]==0) {	/* dubbele punten! */
 				ik->data[nr]= bezt;
@@ -3280,11 +3268,11 @@ void add_to_ipokey(ListBase *lb, BezTriple *bezt, int nr, int len)
 			}
 		}
 		else if(ik->val > bezt->vec[1][0]) break;
-		
+
 		ik= ik->next;
-	}	
-	
-	ikn= callocN(sizeof(IpoKey), "add_to_ipokey");	
+	}
+
+	ikn= callocN(sizeof(IpoKey), "add_to_ipokey");
 	if(ik) insertlinkbefore(lb, ik, ikn);
 	else addtail(lb, ikn);
 
@@ -3302,10 +3290,10 @@ void make_ipokey_spec(ListBase *lb, Ipo *ipo)
 	IpoKey *ik;
 	BezTriple *bezt;
 	int a, b, sel, desel, totvert, totcu=0;
-	
+
 	if(ipo==0 || lb==0) return;
 	free_ipokey(lb);
-	
+
 	icu= ipo->curve.first;
 	while(icu) {
 		totcu++;
@@ -3317,7 +3305,7 @@ void make_ipokey_spec(ListBase *lb, Ipo *ipo)
 		if(icu->flag & IPO_VISIBLE) {
 			bezt= icu->bezt;
 			totvert= icu->totvert;
-			
+
 			for(b=0; b<totvert; b++, bezt++) {
 				add_to_ipokey(lb, bezt, a, totcu);
 			}
@@ -3335,27 +3323,27 @@ void make_ipokey(void)
 	ListBase *lb;
 	BezTriple *bezt;
 	int a, b, sel, desel, totvert;
-	
+
 	lb= &G.sipo->ipokey;
 	free_ipokey(lb);
-	
+
 	ei= G.sipo->editipo;
 	if(ei==0) return;
 	for(a=0; a<G.sipo->totipo; a++, ei++) {
 		if ISPOIN(ei, flag & IPO_VISIBLE, icu) {
 			bezt= ei->icu->bezt;
 			totvert= ei->icu->totvert;
-			
+
 			for(b=0; b<totvert; b++, bezt++) {
 				add_to_ipokey(lb, bezt, a, G.sipo->totipo);
 			}
-			
+
 			ei->flag &= ~IPO_SELECT;
 			ei->flag &= ~IPO_EDIT;
 			ei->icu->flag= ei->flag;
 		}
 	}
-	
+
 	/* selectflags testen */
 	ik= lb->first;
 	while(ik) {
@@ -3385,7 +3373,7 @@ void make_ipokey(void)
 		}
 		if(sel) ik->flag = 1;
 		else ik->flag= 0;
-		
+
 		ik= ik->next;
 	}
 	get_status_editipo();
@@ -3396,10 +3384,10 @@ void make_ipokey_transform(Object *ob, ListBase *lb, int sel)
 	IpoCurve *icu;
 	BezTriple *bezt;
 	int a, adrcode, ok, dloc=0, drot=0, dsize=0;
-	
+
 	if(ob->ipo==0) return;
 	if(ob->ipo->showkey==0) return;
-	
+
 	/* testen: zijn er delta curves? */
 	icu= ob->ipo->curve.first;
 	while(icu) {
@@ -3429,7 +3417,7 @@ void make_ipokey_transform(Object *ob, ListBase *lb, int sel)
 	while(icu) {
 		if(icu->flag & IPO_VISIBLE) {
 			ok= 0;
-			
+
 			switch(icu->adrcode) {
 			case OB_DLOC_X:
 			case OB_DLOC_Y:
@@ -3442,7 +3430,7 @@ void make_ipokey_transform(Object *ob, ListBase *lb, int sel)
 			case OB_DSIZE_Z:
 				ok= 1;
 				break;
-				
+
 			case OB_LOC_X:
 			case OB_LOC_Y:
 			case OB_LOC_Z:
@@ -3466,7 +3454,7 @@ void make_ipokey_transform(Object *ob, ListBase *lb, int sel)
 						break;
 					}
 				}
-			
+
 				bezt= icu->bezt;
 				a= icu->totvert;
 				while(a--) {
@@ -3485,7 +3473,7 @@ void update_ipokey_val()	/* na verplaatsen vertices */
 {
 	IpoKey *ik;
 	int a;
-	
+
 	ik= G.sipo->ipokey.first;
 	while(ik) {
 		for(a=0; a<G.sipo->totipo; a++) {
@@ -3513,11 +3501,11 @@ void set_ipo_pointers_transob(IpoKey *ik, TransOb *tob)
 	tob->locx= tob->locy= tob->locz= 0;
 	tob->rotx= tob->roty= tob->rotz= 0;
 	tob->sizex= tob->sizey= tob->sizez= 0;
-	
+
 	for(a=0; a<OB_TOTIPO; a++) {
 		if(ik->data[a]) {
 			bezt= ik->data[a];
-		
+
 			switch( ob_ar[a] ) {
 			case OB_LOC_X:
 			case OB_DLOC_X:
@@ -3528,7 +3516,7 @@ void set_ipo_pointers_transob(IpoKey *ik, TransOb *tob)
 			case OB_LOC_Z:
 			case OB_DLOC_Z:
 				tob->locz= &(bezt->vec[1][1]); break;
-		
+
 			case OB_DROT_X:
 				delta= 1;
 			case OB_ROT_X:
@@ -3541,7 +3529,7 @@ void set_ipo_pointers_transob(IpoKey *ik, TransOb *tob)
 				delta= 1;
 			case OB_ROT_Z:
 				tob->rotz= &(bezt->vec[1][1]); break;
-				
+
 			case OB_SIZE_X:
 			case OB_DSIZE_X:
 				tob->sizex= &(bezt->vec[1][1]); break;
@@ -3550,21 +3538,21 @@ void set_ipo_pointers_transob(IpoKey *ik, TransOb *tob)
 				tob->sizey= &(bezt->vec[1][1]); break;
 			case OB_SIZE_Z:
 			case OB_DSIZE_Z:
-				tob->sizez= &(bezt->vec[1][1]); break;		
-			}	
+				tob->sizez= &(bezt->vec[1][1]); break;
+			}
 		}
 	}
-	
+
 	/* oldvals voor o.a. undo */
 	if(tob->locx) set_tob_old(tob->oldloc, tob->locx);
 	if(tob->locy) set_tob_old(tob->oldloc+1, tob->locy);
 	if(tob->locz) set_tob_old(tob->oldloc+2, tob->locz);
-		
+
 		/* bewaar de eerste oldrot, ivm mapping curves ('1'=10 graden) en correcte berekening */
 	if(tob->rotx) set_tob_old(tob->oldrot+3, tob->rotx);
 	if(tob->roty) set_tob_old(tob->oldrot+4, tob->roty);
 	if(tob->rotz) set_tob_old(tob->oldrot+5, tob->rotz);
-	
+
 		/* bewaar de eerste oldsize, dit mag niet de dsize zijn! */
 	if(tob->sizex) set_tob_old(tob->oldsize+3, tob->sizex);
 	if(tob->sizey) set_tob_old(tob->oldsize+4, tob->sizey);
@@ -3580,47 +3568,47 @@ void nextkey(ListBase *elems, int dir)
 {
 	IpoKey *ik, *previk;
 	int a, totsel;
-	
+
 	if(dir==1) ik= elems->last;
 	else ik= elems->first;
 	previk= 0;
 	totsel= 0;
-	
+
 	while(ik) {
-		
+
 		if(ik->flag) totsel++;
-		
+
 		if(previk) {
 			if(G.qual & LR_SHIFTKEY) {
 				if(ik->flag) previk->flag= 1;
 			}
 			else previk->flag= ik->flag;
 		}
-		
+
 		previk= ik;
 		if(dir==1) ik= ik->prev;
 		else ik= ik->next;
-		
+
 		if(G.qual & LR_SHIFTKEY);
 		else if(ik==0) previk->flag= 0;
 	}
-	
+
 	/* als geen een key select: */
 	if(totsel==0) {
 		if(dir==1) ik= elems->first;
 		else ik= elems->last;
-		
+
 		if(ik) ik->flag= 1;
 	}
 }
 
-static int float_to_frame (float frame) 
+static int float_to_frame (float frame)
 {
 	int to= (int) frame;
-	
+
 	if (frame-to>0.5) to++;
-	
-	return to;	
+
+	return to;
 }
 
 void movekey_ipo(int dir)		/* alleen extern aanroepen vanuit view3d queue */
@@ -3628,7 +3616,7 @@ void movekey_ipo(int dir)		/* alleen extern aanroepen vanuit view3d queue */
 	IpoKey *ik;
 	float toframe;
 	int a;
-	
+
 	if(G.sipo->showkey==0) return;
 
 	ik= G.sipo->ipokey.first;
@@ -3643,15 +3631,15 @@ void movekey_ipo(int dir)		/* alleen extern aanroepen vanuit view3d queue */
 		}
 		if (ik) toframe= ik->val;
 	}
-	
+
 	a= float_to_frame(toframe);
-	
+
 	if (a!=CFRA && a>0) {
 		CFRA= a;
-		
+
 		do_global_buttons(B_NEWFRAME);
 	}
-	
+
 	allqueue(REDRAWVIEW3D, 0);
 	allqueue(REDRAWIPO, 0);
 	allspace(REMAKEIPO, 0);
@@ -3666,7 +3654,7 @@ void movekey_obipo(int dir)		/* alleen extern aanroepen vanuit view3d queue */
 	IpoKey *ik, *previk;
 	int a, totsel;
 	float toframe= CFRA;
-	
+
 	base= FIRSTBASE;
 	while(base) {
 		if TESTBASE(base) {
@@ -3688,23 +3676,23 @@ void movekey_obipo(int dir)		/* alleen extern aanroepen vanuit view3d queue */
 						}
 						if (ik) toframe= ik->val;
 					}
-										
+
 					free_ipokey(&elems);
 				}
 			}
 		}
-		
+
 		base= base->next;
 	}
-	
+
 	a= float_to_frame(toframe);
-	
+
 	if (a!=CFRA && a>0) {
 		CFRA= a;
-		
+
 		do_global_buttons(B_NEWFRAME);
 	}
-	
+
 	allqueue(REDRAWVIEW3D, 0);
 	allqueue(REDRAWIPO, 0);
 	allspace(REMAKEIPO, 0);
@@ -3714,11 +3702,11 @@ void nextkey_ipo(int dir)			/* aanroepen vanuit ipo queue */
 {
 	IpoKey *ik;
 	int a;
-	
+
 	if(G.sipo->showkey==0) return;
-	
+
 	nextkey(&G.sipo->ipokey, dir);
-	
+
 	/* kopieeren naar beziers */
 	ik= G.sipo->ipokey.first;
 	while(ik) {
@@ -3726,7 +3714,7 @@ void nextkey_ipo(int dir)			/* aanroepen vanuit ipo queue */
 			if(ik->data[a]) ik->data[a]->f1= ik->data[a]->f2= ik->data[a]->f3= ik->flag;
 		}
 		ik= ik->next;
-	}		
+	}
 
 	allqueue(REDRAWIPO, 0);
 	if(G.sipo->blocktype == ID_OB) allqueue(REDRAWVIEW3D, 0);
@@ -3740,9 +3728,9 @@ void nextkey_obipo(int dir)		/* alleen extern aanroepen vanuit view3d queue */
 	BezTriple *bezt;
 	IpoKey *ik, *previk;
 	int a, totsel;
-	
+
 	/* problem: this doesnt work when you mix dLoc keys with Loc keys */
-	
+
 	base= FIRSTBASE;
 	while(base) {
 		if TESTBASE(base) {
@@ -3752,9 +3740,9 @@ void nextkey_obipo(int dir)		/* alleen extern aanroepen vanuit view3d queue */
 				make_ipokey_transform(ob, &elems, 0);
 
 				if(elems.first) {
-					
+
 					nextkey(&elems, dir);
-					
+
 					/* kopieeren naar beziers */
 					ik= elems.first;
 					while(ik) {
@@ -3763,12 +3751,12 @@ void nextkey_obipo(int dir)		/* alleen extern aanroepen vanuit view3d queue */
 						}
 						ik= ik->next;
 					}
-					
+
 					free_ipokey(&elems);
 				}
 			}
 		}
-		
+
 		base= base->next;
 	}
 	allqueue(REDRAWVIEW3D, 0);
@@ -3785,12 +3773,12 @@ void remake_ipo_transverts(TransVert *transmain, float *dvec, int tot)
 	TransVert *tv;
 	BezTriple *bezt;
 	int a, b;
-	
+
 	ei= G.sipo->editipo;
 	for(a=0; a<G.sipo->totipo; a++, ei++) {
-		
+
 		if ISPOIN(ei, flag & IPO_VISIBLE, icu) {
-				
+
 			if(ei->icu->bezt) {
 				sort_time_ipocurve(ei->icu);
 			}
@@ -3800,7 +3788,7 @@ void remake_ipo_transverts(TransVert *transmain, float *dvec, int tot)
 	ei= G.sipo->editipo;
 	tv= transmain;
 	for(a=0; a<G.sipo->totipo; a++, ei++) {
-		
+
 		if ISPOIN(ei, flag & IPO_VISIBLE, icu) {
 			if( (ei->flag & IPO_EDIT) || G.sipo->showkey) {
 				if(ei->icu->bezt) {
@@ -3821,7 +3809,7 @@ void remake_ipo_transverts(TransVert *transmain, float *dvec, int tot)
 							tv->loc= bezt->vec[1];
 							tv++;
 						}
-						
+
 						bezt++;
 					}
 					testhandles_ipocurve(ei->icu);
@@ -3829,11 +3817,11 @@ void remake_ipo_transverts(TransVert *transmain, float *dvec, int tot)
 			}
 		}
 	}
-	
+
 	if(G.sipo->showkey) make_ipokey();
-	
+
 	if(dvec==0) return;
-	
+
 	tv= transmain;
 	for(a=0; a<tot; a++, tv++) {
 		tv->oldloc[0]= tv->loc[0]-dvec[0];
@@ -3852,26 +3840,26 @@ void transform_ipo(int mode)
 	ushort event;
 	short mval[2], val, xo, yo, xn, yn, xc, yc;
 	char str[32];
-	
+
 	if(G.sipo->ipo && G.sipo->ipo->id.lib) return;
 	if(G.sipo->editipo==0) return;
 	if(mode=='r') return;	/* vanuit gesture */
-	
+
 	INIT_MINMAX(min, max);
-	
+
 	/* welke vertices doen mee */
 	get_status_editipo();
 	if(totipo_vertsel) {
 		tot= totipo_vertsel;
 		tv=transmain= callocN(tot*sizeof(TransVert), "transmain");
-		
+
 		ei= G.sipo->editipo;
 		for(a=0; a<G.sipo->totipo; a++, ei++) {
-			
+
 			if ISPOIN(ei, flag & IPO_VISIBLE, icu) {
 				if( (ei->flag & IPO_EDIT) || G.sipo->showkey) {
 
-				
+
 					if(ei->icu->bezt) {
 						bezt= ei->icu->bezt;
 						b= ei->icu->totvert;
@@ -3881,7 +3869,7 @@ void transform_ipo(int mode)
 									tv->loc= bezt->vec[0];
 									VECCOPY(tv->oldloc, tv->loc);
 									if(ei->disptype==IPO_DISPBITS) tv->flag= 1;
-									
+
 									/* let op: we nemen middelste vertex */
 									DO_MINMAX2(bezt->vec[1], min, max);
 
@@ -3891,7 +3879,7 @@ void transform_ipo(int mode)
 									tv->loc= bezt->vec[2];
 									VECCOPY(tv->oldloc, tv->loc);
 									if(ei->disptype==IPO_DISPBITS) tv->flag= 1;
-									
+
 									/* let op: we nemen middelste vertex */
 									DO_MINMAX2(bezt->vec[1], min, max);
 
@@ -3911,10 +3899,10 @@ void transform_ipo(int mode)
 				}
 			}
 		}
-		
+
 	}
 	else if(totipo_edit==0 && totipo_sel!=0) {
-		
+
 		ei= G.sipo->editipo;
 		for(a=0; a<G.sipo->totipo; a++, ei++) {
 			if ISPOIN3(ei, flag & IPO_VISIBLE, flag & IPO_SELECT, icu) {
@@ -3923,14 +3911,14 @@ void transform_ipo(int mode)
 			}
 		}
 		if(tot==0) return;
-		
+
 		tv=transmain= callocN(tot*sizeof(TransVert), "transmain");
 
 		ei= G.sipo->editipo;
 		for(a=0; a<G.sipo->totipo; a++, ei++) {
 			if ISPOIN3(ei, flag & IPO_VISIBLE, flag & IPO_SELECT, icu) {
 				if(ei->icu->bezt) {
-					
+
 					bezt= ei->icu->bezt;
 					b= ei->icu->totvert;
 					while(b--) {
@@ -3939,7 +3927,7 @@ void transform_ipo(int mode)
 							VECCOPY(tv->oldloc, tv->loc);
 							if(ei->disptype==IPO_DISPBITS) tv->flag= 1;
 							tv++;
-						
+
 							tv->loc= bezt->vec[2];
 							VECCOPY(tv->oldloc, tv->loc);
 							if(ei->disptype==IPO_DISPBITS) tv->flag= 1;
@@ -3948,11 +3936,11 @@ void transform_ipo(int mode)
 						tv->loc= bezt->vec[1];
 						VECCOPY(tv->oldloc, tv->loc);
 						if(ei->disptype==IPO_DISPBITS) tv->flag= 1;
-						
+
 						DO_MINMAX2(bezt->vec[1], min, max);
-						
+
 						tv++;
-						
+
 						bezt++;
 					}
 				}
@@ -3973,61 +3961,61 @@ void transform_ipo(int mode)
 		midtog= 1;
 		proj= 1;
 	}
-	
+
 	ipoco_to_areaco(cent, mval);
 	xc= mval[0];
 	yc= mval[1];
-	
+
 	getmouseco_areawin(mval);
 	xo= xn= mval[0];
 	yo= yn= mval[1];
 	dvec[0]= dvec[1]= 0.0;
-	
+
 	sizefac= fsqrt( (float)((yc-yn)*(yc-yn)+(xn-xc)*(xn-xc)) );
 	if(sizefac<2.0) sizefac= 2.0;
 
 	while(afbreek==0) {
 		getmouseco_areawin(mval);
 		if(mval[0]!=xo || mval[1]!=yo || firsttime) {
-			
+
 			if(mode=='g') {
-			
+
 				dx= mval[0]- xo;
 				dy= mval[1]- yo;
-	
+
 				div= G.v2d->mask.xmax-G.v2d->mask.xmin;
 				dvec[0]+= (G.v2d->cur.xmax-G.v2d->cur.xmin)*(dx)/div;
-	
+
 				div= G.v2d->mask.ymax-G.v2d->mask.ymin;
 				dvec[1]+= (G.v2d->cur.ymax-G.v2d->cur.ymin)*(dy)/div;
-				
+
 				if(midtog) dvec[proj]= 0.0;
-				
+
 				/* vec wordt verderop nog gebruikt: remake_ipo_transverts */
 				vec[0]= dvec[0];
 				vec[1]= dvec[1];
-				
+
 				apply_keyb_grid(vec, 0.0, 1.0, 0.1, U.flag & AUTOGRABGRID);
 				apply_keyb_grid(vec+1, 0.0, 1.0, 0.1, 0);
-				
+
 				tv= transmain;
 				for(a=0; a<tot; a++, tv++) {
 					tv->loc[0]= tv->oldloc[0]+vec[0];
 
 					if(tv->flag==0) tv->loc[1]= tv->oldloc[1]+vec[1];
 				}
-				
+
 				sprintf(str, "X: %.3f   Y: %.3f  ", vec[0], vec[1]);
 				headerprint(str);
 			}
 			else if(mode=='s') {
-				
+
 				size[0]=size[1]= (fsqrt( (float)((yc-mval[1])*(yc-mval[1])+(mval[0]-xc)*(mval[0]-xc)) ))/sizefac;
-				
+
 				if(midtog) size[proj]= 1.0;
 				size[0]*= xref;
 				size[1]*= yref;
-				
+
 				apply_keyb_grid(size, 0.0, 0.2, 0.1, U.flag & AUTOSIZEGRID);
 				apply_keyb_grid(size+1, 0.0, 0.2, 0.1, U.flag & AUTOSIZEGRID);
 
@@ -4037,32 +4025,32 @@ void transform_ipo(int mode)
 					tv->loc[0]= size[0]*(tv->oldloc[0]-cent[0])+ cent[0];
 					if(tv->flag==0) tv->loc[1]= size[1]*(tv->oldloc[1]-cent[1])+ cent[1];
 				}
-				
+
 				sprintf(str, "sizeX: %.3f   sizeY: %.3f  ", size[0], size[1]);
 				headerprint(str);
-				
+
 			}
-			
+
 			xo= mval[0];
 			yo= mval[1];
-				
+
 			dosort= 0;
 			ei= G.sipo->editipo;
 			for(a=0; a<G.sipo->totipo; a++, ei++) {
 				if ISPOIN(ei, flag & IPO_VISIBLE, icu) {
-					
+
 					/* let op: als de tijd verkeerd is: niet de handles corrigeren */
 					if (test_time_ipocurve(ei->icu) ) dosort++;
 					else testhandles_ipocurve(ei->icu);
 				}
 			}
-			
+
 			if(dosort) {
 				if(mode=='g') remake_ipo_transverts(transmain, vec, tot);
 				else remake_ipo_transverts(transmain, 0, tot);
 			}
 			if(G.sipo->showkey) update_ipokey_val();
-			
+
 			calc_ipo(G.sipo->ipo, (float)CFRA);
 
 			/* update realtime */
@@ -4077,7 +4065,7 @@ void transform_ipo(int mode)
 				}
 				else if(G.sipo->blocktype==ID_OB) {
 					Base *base= FIRSTBASE;
-					
+
 					while(base) {
 						if(base->object->ipo==G.sipo->ipo) do_ob_ipo(base->object);
 						base= base->next;
@@ -4092,7 +4080,7 @@ void transform_ipo(int mode)
 			firsttime= 0;
 		}
 		else usleep(1);
-		
+
 		while(qtest()) {
 			event= extern_qread(&val);
 			if(val) {
@@ -4140,14 +4128,14 @@ void transform_ipo(int mode)
 			if(afbreek) break;
 		}
 	}
-	
+
 	if(event==ESCKEY || event==RIGHTMOUSE) {
 		tv= transmain;
 		for(a=0; a<tot; a++, tv++) {
 			tv->loc[0]= tv->oldloc[0];
 			tv->loc[1]= tv->oldloc[1];
 		}
-		
+
 		dosort= 0;
 		ei= G.sipo->editipo;
 		for(a=0; a<G.sipo->totipo; a++, ei++) {
@@ -4160,9 +4148,9 @@ void transform_ipo(int mode)
 				}
 			}
 		}
-		
+
 		if(dosort) remake_ipo_transverts(transmain, 0, tot);
-		
+
 		ei= G.sipo->editipo;
 		for(a=0; a<G.sipo->totipo; a++, ei++) {
 			if ISPOIN(ei, flag & IPO_VISIBLE, icu) {
@@ -4173,7 +4161,7 @@ void transform_ipo(int mode)
 		}
 		calc_ipo(G.sipo->ipo, (float)CFRA);
 	}
-	
+
 	editipo_changed(1);
 
 	freeN(transmain);
@@ -4190,7 +4178,7 @@ void clever_numbuts_ipo()
 
 	if(G.sipo->ipo && G.sipo->ipo->id.lib) return;
 	if(G.sipo->editipo==0) return;
-	
+
 	/* welke vertices doen mee */
 	get_status_editipo();
 
@@ -4203,7 +4191,7 @@ void clever_numbuts_ipo()
 
 		ei= G.sipo->editipo;
 		for(a=0; a<G.sipo->totipo; a++, ei++) {
-			
+
 			if ISPOIN(ei, flag & IPO_VISIBLE, icu) {
 				if( (ei->flag & IPO_EDIT) || G.sipo->showkey) {
 
@@ -4217,19 +4205,19 @@ void clever_numbuts_ipo()
 							}
 							bezt1++;
 						}
-						
+
 					}
 				}
 			}
 			if(bezt) break;
 		}
-		
+
 		if(bezt==0) return;
 
 		if(bezt->f2 & 1) {
-			
+
 			VECCOPY(old, bezt->vec[1]);
-			
+
 			if(totipo_vis==1 && G.sipo->blocktype==ID_OB) {
 				if ELEM4(ei->icu->adrcode, OB_TIME, OB_ROT_X, OB_ROT_Y, OB_ROT_Z) scale10= 1;
 				if ELEM3(ei->icu->adrcode, OB_DROT_X, OB_DROT_Y, OB_DROT_Z) scale10= 1;
@@ -4244,7 +4232,7 @@ void clever_numbuts_ipo()
 
 			VecSubf(delta, bezt->vec[1], old);
 			VECCOPY(bezt->vec[1], old);
-			
+
 			/* apply */
 			ei= G.sipo->editipo;
 			for(a=0; a<G.sipo->totipo; a++, ei++) {
@@ -4282,33 +4270,33 @@ void clever_numbuts_ipo()
 		else if(bezt->f1 & 1) {
 			add_numbut(0, NUM|FLO, "LocX:", -1000, 10000, bezt->vec[0], 0);
 			if(totbut==2) add_numbut(1, NUM|FLO, "LocY:", -far, far, bezt->vec[0]+1, 0);
-		
+
 			do_clever_numbuts("Active HandlePoint", totbut, REDRAW);
 		}
 		else if(bezt->f3 & 1) {
 			add_numbut(0, NUM|FLO, "LocX:", -1000, 10000, bezt->vec[0], 0);
 			if(totbut==2) add_numbut(1, NUM|FLO, "LocY:", -far, far, bezt->vec[2]+1, 0);
-		
+
 			do_clever_numbuts("Active HandlePoint", totbut, REDRAW);
 		}
 
 		editipo_changed(1);
 	}
 	else {
-		
+
 		if(G.sipo->blocktype==ID_KE) {
 			key= (Key *)G.sipo->from;
-			
+
 			if(key==0) return;
-			
+
 			kb= key->block.first;
 			while(kb) {
 				if(kb->flag & SELECT) break;
 				kb= kb->next;
-			}			
+			}
 			if(kb && G.sipo->rowbut&1) {
 				add_numbut(0, NUM|FLO, "Pos:", -100, 100, &kb->pos, 0);
-				do_clever_numbuts("Active Key", 1, REDRAW);		
+				do_clever_numbuts("Active Key", 1, REDRAW);
 				sort_keys(key);
 			}
 		}
@@ -4319,12 +4307,12 @@ void filter_sampledata(float *data, int sfra, int efra)
 {
 	float *da;
 	int a;
-	
+
 	da= data+1;
 	for(a=sfra+1; a<efra; a++, da++) {
 		da[0]= 0.25*da[-1] + 0.5*da[0] + 0.25*da[1];
 	}
-	
+
 }
 
 void sampledata_to_ipocurve(float *data, int sfra, int efra, IpoCurve *icu)
@@ -4332,21 +4320,21 @@ void sampledata_to_ipocurve(float *data, int sfra, int efra, IpoCurve *icu)
 	BezTriple *bezt;
 	float *da;
 	int a, tot;
-	
+
 	filter_sampledata(data, sfra, efra);
 	filter_sampledata(data, sfra, efra);
-	
+
 	icu->ipo= IPO_LIN;
-	
+
 	if(icu->bezt) freeN(icu->bezt);
 	icu->bezt= 0;
-	
+
 	tot= 1;	/* eerste punt */
 	da= data+1;
 	for(a=sfra+1; a<efra; a++, da++) {
 		if( IS_EQ(da[0], da[1])==0 && IS_EQ(da[1], da[2])==0 ) tot++;
 	}
-	
+
 	icu->totvert= tot;
 	bezt= icu->bezt= callocN(tot*sizeof(BezTriple), "samplebezt");
 	bezt->vec[1][0]= sfra;
@@ -4359,13 +4347,13 @@ void sampledata_to_ipocurve(float *data, int sfra, int efra, IpoCurve *icu)
 			bezt->vec[1][1]= da[0];
 			bezt++;
 		}
-	}	
+	}
 }
 
 void ipo_record()
 {
 	/* 1 of 2 aktieve curves
-	 * kopie maken (ESC) 
+	 * kopie maken (ESC)
 	 *
 	 * nulpunt is de huidige stand (of 0)
 	 * dx (dy identiek) is de hoogteverhouding
@@ -4382,10 +4370,10 @@ void ipo_record()
 	ushort event;
 	short anim, val, xn, yn, mvalo[2], mval[2];
 	char str[128];
-	
+
 	if(G.sipo->from==0) return;
 	if(SFRA>=EFRA) return;
-	
+
 	anim= pupmenu("Record Mouse %t|Still %x1|Play anim %x2");
 	if(anim < 1) return;
 	if(anim!=2) anim= 0;
@@ -4394,11 +4382,11 @@ void ipo_record()
 	if(G.sipo) G.sipo->ipo= ipo;
 
 	/* find the curves... */
-	
+
 	ei= G.sipo->editipo;
 	for(a=0; a<G.sipo->totipo; a++) {
 		if(ei->flag & IPO_VISIBLE) {
-			
+
 			if(ei1==0) ei1= ei;
 			else if(ei2==0) ei2= ei;
 			else {
@@ -4413,7 +4401,7 @@ void ipo_record()
 		error("Select 1 or 2 channels");
 		return;
 	}
-	
+
 	/* curves gereedmaken, startwaardes */
 	if(ei1->icu==0) ei1->icu= get_ipocurve(G.sipo->from, ei1->adrcode);
 	if(ei1->icu==0) return;
@@ -4421,7 +4409,7 @@ void ipo_record()
 	if(poin) ei1->icu->curval= read_ipo_poin(poin, type);
 	or1= ei1->icu->curval;
 	ei1->icu->flag |= IPO_LOCK;
-	
+
 	if(ei2) {
 		if(ei2->icu==0)  ei2->icu= get_ipocurve(G.sipo->from, ei2->adrcode);
 		if(ei2->icu==0) return;
@@ -4445,36 +4433,36 @@ void ipo_record()
 			else {
 				if(sa->spacetype==SPACE_VIEW3D) break;
 			}
-		}		
-		sa= sa->next;	
+		}
+		sa= sa->next;
 	}
 	if(sa) areawinset(sa->win);
-	
+
 	/* kandie? */
 	while(get_mbut()&L_MOUSE) usleep(2);
 	data1= callocN(sizeof(float)*(EFRA-SFRA+1), "data1");
 	data2= callocN(sizeof(float)*(EFRA-SFRA+1), "data2");
-	
+
 	getmouseco_areawin(mvalo);
 	xn= mvalo[0]; yn= mvalo[1];
 	waitcursor(1);
-	
+
 	tottime= 0.0;
 	swaptime= speed_to_swaptime(G.animspeed);
 	cfrao= CFRA;
 	cfra=efra= SFRA;
 	sfra= EFRA;
-	
+
 	while(afbreek==0) {
-		
+
 		getmouseco_areawin(mval);
-		
+
 		if(mval[0]!= mvalo[0] || mval[1]!=mvalo[1] || firsttime || (G.qual & LR_CTRLKEY)) {
 			if(anim) CFRA= cfra;
 			else firsttime= 0;
 
 			RE_set_timecursor(cfra);
-			
+
 			/* ipo doen: eerst alles daarna de specifieke */
 			if(anim==2) {
 				do_all_ipos();
@@ -4485,18 +4473,17 @@ void ipo_record()
 			if(ei2) ei2->icu->curval= or2 + fac*(mval[1]-yn);
 
 			do_ipo_nocalc(G.sipo->ipo);
-			do_all_visible_ikas();
-			
+
 			if(G.qual & LR_CTRLKEY) {
 				sprintf(str, "Recording... %d\n", cfra);
 				data1[ cfra-SFRA ]= ei1->icu->curval;
 				if(ei2) data2[ cfra-SFRA ]= ei2->icu->curval;
-				
+
 				sfra= MIN2(sfra, cfra);
 				efra= MAX2(efra, cfra);
 			}
 			else sprintf(str, "Mouse Recording. Use CTRL to start. LeftMouse or Space to end");
-			
+
 			do_ob_key(OBACT);
 
 			headerprint(str);
@@ -4508,18 +4495,18 @@ void ipo_record()
 			while (update_time()) usleep(1);
 
 			screen_swapbuffers();
-			
+
 			tottime= 0.0;
-			
+
 			mvalo[0]= mval[0];
 			mvalo[1]= mval[1];
-			
+
 			if(anim || (G.qual & LR_CTRLKEY)) {
 				cfra++;
 				if(cfra>EFRA) cfra= SFRA;
 			}
 		}
-		
+
 		while(qtest()) {
 			event= extern_qread(&val);
 			if(val) {
@@ -4532,7 +4519,7 @@ void ipo_record()
 			if(afbreek) break;
 		}
 	}
-	
+
 	if(event!=ESCKEY) {
 		sampledata_to_ipocurve(data1+sfra-SFRA, sfra, efra, ei1->icu);
 		if(ei2) sampledata_to_ipocurve(data2+sfra-SFRA, sfra, efra, ei2->icu);
@@ -4562,10 +4549,10 @@ void ipo_record()
 			}
 		}
 	}
-	
-	if(ei1->icu) ei1->icu->flag &= ~IPO_LOCK;	
-	if(ei2 && ei2->icu) ei2->icu->flag &= ~IPO_LOCK;	
-	
+
+	if(ei1->icu) ei1->icu->flag &= ~IPO_LOCK;
+	if(ei2 && ei2->icu) ei2->icu->flag &= ~IPO_LOCK;
+
 	editipo_changed(0);
 	do_ipo(G.sipo->ipo);
 	waitcursor(0);
@@ -4574,10 +4561,10 @@ void ipo_record()
 	addqueue(oldarea->headwin, REDRAW, 1);
 	addqueue(oldarea->win, REDRAW, 1);
 	CFRA= cfrao;
-	
+
 	/* vooropig? */
 	do_global_buttons(B_NEWFRAME);
-	
+
 	freeN(data1);
 	freeN(data2);
 }

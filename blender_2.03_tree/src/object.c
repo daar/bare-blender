@@ -21,9 +21,9 @@
 
 /* object.c  		MIXED MODEL
 
- * 
+ *
  * jan 95
- * 
+ *
  * Version: $Id: object.c,v 1.20 2000/09/17 19:07:20 ton Exp $
  */
 
@@ -31,10 +31,10 @@
 #include "graphics.h"
 #include "edit.h"
 #include "ipo.h"
-#include "ika.h"
 #include "render.h"
 #include "game.h"
 #include "group.h"
+#include "exports.h"
 
 float originmat[3][3];	/* na where_is_object(), kan her en der gebruikt worden */
 Object workob;
@@ -43,15 +43,15 @@ Object workob;
 void clear_workob()
 {
 	bzero(&workob, sizeof(Object));
-	
+
 	workob.size[0]= workob.size[1]= workob.size[2]= 1.0;
-	
+
 }
 
 void copy_baseflags()
 {
 	Base *base= FIRSTBASE;
-	
+
 	while(base) {
 		base->object->flag= base->flag;
 		base= base->next;
@@ -61,7 +61,7 @@ void copy_baseflags()
 void copy_objectflags()
 {
 	Base *base= FIRSTBASE;
-	
+
 	while(base) {
 		base->flag= base->object->flag;
 		base= base->next;
@@ -90,7 +90,7 @@ void free_object(Object *ob)
 	Group *group;
 	ID *id;
 	int a, b;
-	
+
 	/* specifieke data loskoppelen */
 	if(ob->data) {
 		id= ob->data;
@@ -101,27 +101,27 @@ void free_object(Object *ob)
 		}
 		ob->data= 0;
 	}
-	
+
 	for(a=0; a<ob->totcol; a++) {
 		if(ob->mat[a]) ob->mat[a]->id.us--;
 	}
 	if(ob->mat) freeN(ob->mat);
 	ob->mat= 0;
-	if(ob->bb) freeN(ob->bb); 
+	if(ob->bb) freeN(ob->bb);
 	ob->bb= 0;
-	if(ob->path) free_path(ob->path); 
+	if(ob->path) free_path(ob->path);
 	ob->path= 0;
 	if(ob->ipo) ob->ipo->id.us--;
-	
+
 	free_effects(&ob->effect);
 	freelistN(&ob->network);
 	free_properties(&ob->prop);
 	free_sensors(&ob->sensors);
 	free_controllers(&ob->controllers);
 	free_actuators(&ob->actuators);
-	
+
 	freedisplist(&ob->disp);
-	
+
 	/* alle objecten aflopen: parentflags */
 	/* tevens portals */
 	temp= G.main->object.first;
@@ -132,22 +132,22 @@ void free_object(Object *ob)
 		}
 		temp= temp->id.next;
 	}
-	
+
 	/* materialen */
-	
+
 	/* bevels */
-	
+
 	free_scriptlink(&ob->scriptlink);
-	
+
 	/* camera's */
 	sce= G.main->scene.first;
 	while(sce) {
 		if(sce->camera==ob) sce->camera= 0;
 		sce= sce->id.next;
 	}
-	
+
 	/* keys */
-	
+
 	/* screens */
 	sc= G.main->screen.first;
 	while(sc) {
@@ -167,7 +167,7 @@ void free_object(Object *ob)
 		}
 		sc= sc->id.next;
 	}
-	
+
 	/* groups */
 	group= G.main->group.first;
 	while(group) {
@@ -187,12 +187,10 @@ void free_object_fromscene(Object *ob)
 	ScrArea *sa;
 	Scene *sce;
 	Curve *cu;
-	Ika *ika;
-	Deform *def;
 	ID *id;
 	Tex *tex;
 	int a;
-	
+
 	/* alle objecten aflopen: parents en bevels */
 	obt= G.main->object.first;
 	while(obt) {
@@ -207,30 +205,16 @@ void free_object_fromscene(Object *ob)
 				if(cu->bevobj==ob) cu->bevobj= 0;
 				if(cu->textoncurve==ob) cu->textoncurve= 0;
 			}
-			if(obt->type==OB_IKA) {
-				ika= obt->data;
-				if(ika->parent==ob) ika->parent= 0;
-				a= ika->totdef;
-				def= ika->def;
-				while(a--) {
-					if(def->ob==ob) {
-						ika->totdef= 0;
-						freeN(ika->def);
-						ika->def= 0;
-						break;
-					}
-					def++;
-				}
-			}
+
 			sca_remove_ob_poin(obt, ob);
 		}
 		obt= obt->id.next;
 	}
-	
+
 	/* materialen */
 	mat= G.main->mat.first;
 	while(mat) {
-	
+
 		for(a=0; a<8; a++) {
 			if(mat->mtex[a] && ob==mat->mtex[a]->object) {
 				/* eigenlijk testen op lib */
@@ -240,7 +224,7 @@ void free_object_fromscene(Object *ob)
 
 		mat= mat->id.next;
 	}
-	
+
 	/* textures */
 	tex= G.main->tex.first;
 	while(tex) {
@@ -249,7 +233,7 @@ void free_object_fromscene(Object *ob)
 		}
 		tex= tex->id.next;
 	}
-		
+
 	/* worlds */
 	wrld= G.main->world.first;
 	while(wrld) {
@@ -259,10 +243,10 @@ void free_object_fromscene(Object *ob)
 					wrld->mtex[a]->object =0;
 			}
 		}
-		
+
 		wrld= wrld->id.next;
 	}
-		
+
 	/* scene's */
 	sce= G.main->scene.first;
 	while(sce) {
@@ -272,7 +256,7 @@ void free_object_fromscene(Object *ob)
 		sce= sce->id.next;
 	}
 	/* keys */
-	
+
 	/* screens */
 	sc= G.main->screen.first;
 	while(sc) {
@@ -303,7 +287,7 @@ void free_object_fromscene(Object *ob)
 int exist_object(Object *obtest)
 {
 	Object *ob;
-	
+
 	ob= G.main->object.first;
 	while(ob) {
 		if(ob==obtest) return 1;
@@ -315,7 +299,7 @@ int exist_object(Object *obtest)
 void *add_camera()
 {
 	Camera *cam;
-	
+
 	cam=  alloc_libblock(&G.main->camera, ID_CA, "Camera");
 
 	cam->lens= 35.0;
@@ -325,19 +309,19 @@ void *add_camera()
 	cam->netsta= 0.5;
 	cam->netend= 10.0;
 	cam->hold= 50;
-	
+
 	return cam;
 }
 
 Camera *copy_camera(Camera *cam)
 {
 	Camera *camn;
-	
+
 	camn= copy_libblock(cam);
 	id_us_plus((ID *)camn->ipo);
 
 	copy_scriptlink(&camn->scriptlink);
-	
+
 	return camn;
 }
 
@@ -346,12 +330,12 @@ void make_local_camera(Camera *cam)
 	Object *ob;
 	Camera *camn;
 	int local=0, lib=0;
-	
+
 	/* - zijn er alleen lib users: niet doen
 	 * - zijn er alleen locale users: flag zetten
 	 * - mixed: copy
 	 */
-	
+
 	if(cam->id.lib==0) return;
 	if(cam->id.us==1) {
 		cam->id.lib= 0;
@@ -359,7 +343,7 @@ void make_local_camera(Camera *cam)
 		new_id(0, (ID *)cam, 0);
 		return;
 	}
-	
+
 	ob= G.main->object.first;
 	while(ob) {
 		if(ob->data==cam) {
@@ -368,7 +352,7 @@ void make_local_camera(Camera *cam)
 		}
 		ob= ob->id.next;
 	}
-	
+
 	if(local && lib==0) {
 		cam->id.lib= 0;
 		cam->id.flag= LIB_LOCAL;
@@ -377,11 +361,11 @@ void make_local_camera(Camera *cam)
 	else if(local && lib) {
 		camn= copy_camera(cam);
 		camn->id.us= 0;
-		
+
 		ob= G.main->object.first;
 		while(ob) {
 			if(ob->data==cam) {
-				
+
 				if(ob->id.lib==0) {
 					ob->data= camn;
 					camn->id.us++;
@@ -398,9 +382,9 @@ void make_local_camera(Camera *cam)
 void *add_lamp()
 {
 	Lamp *la;
-	
+
 	la=  alloc_libblock(&G.main->lamp, ID_LA, "Lamp");
-	
+
 	la->r= la->g= la->b= 1.0;
 	la->haint= la->energy= 1.0;
 	la->dist= 20.0*G.vd->grid;
@@ -423,7 +407,7 @@ Lamp *copy_lamp(Lamp *la)
 {
 	Lamp *lan;
 	int a;
-	
+
 	lan= copy_libblock(la);
 
 	for(a=0; a<8; a++) {
@@ -433,11 +417,11 @@ Lamp *copy_lamp(Lamp *la)
 			id_us_plus((ID *)lan->mtex[a]->tex);
 		}
 	}
-	
+
 	id_us_plus((ID *)lan->ipo);
 
 	copy_scriptlink(&la->scriptlink);
-	
+
 	return lan;
 }
 
@@ -446,12 +430,12 @@ void make_local_lamp(Lamp *la)
 	Object *ob;
 	Lamp *lan;
 	int local=0, lib=0;
-	
+
 	/* - zijn er alleen lib users: niet doen
 	 * - zijn er alleen locale users: flag zetten
 	 * - mixed: copy
 	 */
-	
+
 	if(la->id.lib==0) return;
 	if(la->id.us==1) {
 		la->id.lib= 0;
@@ -459,7 +443,7 @@ void make_local_lamp(Lamp *la)
 		new_id(0, (ID *)la, 0);
 		return;
 	}
-	
+
 	ob= G.main->object.first;
 	while(ob) {
 		if(ob->data==la) {
@@ -468,7 +452,7 @@ void make_local_lamp(Lamp *la)
 		}
 		ob= ob->id.next;
 	}
-	
+
 	if(local && lib==0) {
 		la->id.lib= 0;
 		la->id.flag= LIB_LOCAL;
@@ -477,11 +461,11 @@ void make_local_lamp(Lamp *la)
 	else if(local && lib) {
 		lan= copy_lamp(la);
 		lan->id.us= 0;
-		
+
 		ob= G.main->object.first;
 		while(ob) {
 			if(ob->data==la) {
-				
+
 				if(ob->id.lib==0) {
 					ob->data= lan;
 					lan->id.us++;
@@ -504,9 +488,9 @@ void free_lamp(Lamp *la)
 	int a;
 
 	/* scriptlinks */
-		
+
 	free_scriptlink(&la->scriptlink);
-	
+
 	for(a=0; a<8; a++) {
 		mtex= la->mtex[a];
 		if(mtex && mtex->tex) mtex->tex->id.us--;
@@ -563,15 +547,15 @@ Object *add_object(int type)
 	Base *base;
 	float *curs;
 	char name[32];
-	
+
 	G.f &= ~(G_VERTEXPAINT+G_FACESELECT);
 	setcursor_space(SPACE_VIEW3D, CURSOR_STD);
-	
+
 	/* de defaultnaam werkt (voorlopig) niet bij mesh, curve en surf (door add_prim) */
-	
+
 	ob= OBACT;
 	if(ob==0) clear_obact_names();	/* veiligheid */
-	
+
 	switch(type) {
 		case OB_MESH: if(n_mesh) strcpy(name, n_mesh); else strcpy(name, "Mesh"); break;
 		case OB_CURVE: if(n_curve) strcpy(name, n_curve); else strcpy(name, "Curve"); break;
@@ -579,24 +563,23 @@ Object *add_object(int type)
 		case OB_FONT: if(n_font) strcpy(name, n_font); else strcpy(name, "Text"); break;
 		case OB_CAMERA: if(n_camera) strcpy(name, n_camera); else strcpy(name, "Camera"); break;
 		case OB_LAMP: if(n_lamp) strcpy(name, n_lamp); else strcpy(name, "Lamp"); break;
-		case OB_IKA: strcpy(name, "Ika"); break;
 		case OB_LATTICE: strcpy(name, "Lattice"); break;
 		case OB_WAVE: strcpy(name, "Wave"); break;
 		default:  strcpy(name, "Empty");
 	}
-	
+
 	ob= alloc_libblock(&G.main->object, ID_OB, name);
-	
+
 	/* default object vars */
 	ob->type= type;
 	/* ob->transflag= OB_QUAT; */
-	
+
 	curs= give_cursor();
 	VECCOPY(ob->loc, curs)
-	
+
 	QuatOne(ob->quat);
 	QuatOne(ob->dquat);
-	
+
 	if(G.vd) {
 		G.vd->viewquat[0]= -G.vd->viewquat[0];
 		if(ob->transflag & OB_QUAT) {
@@ -605,12 +588,12 @@ Object *add_object(int type)
 		else QuatToEul(G.vd->viewquat, ob->rot);
 		G.vd->viewquat[0]= -G.vd->viewquat[0];
 	}
-	
-	ob->size[0]= ob->size[1]= ob->size[2]= 1.0;				
+
+	ob->size[0]= ob->size[1]= ob->size[2]= 1.0;
 	Mat4One(ob->parentinv);
 	ob->dt= OB_SHADED;
 	if(U.flag & MAT_ON_OB) ob->colbits= -1;
-	
+
 	if(type==OB_CAMERA || type==OB_LAMP) {
 		ob->trackflag= OB_NEGZ;
 		ob->upflag= OB_POSY;
@@ -620,7 +603,7 @@ Object *add_object(int type)
 		ob->upflag= OB_POSZ;
 	}
 	ob->ipoflag = OB_OFFS_OB+OB_OFFS_PARENT;
-	
+
 	ob->dupon= 1; ob->dupoff= 0;
 	ob->dupsta= 1; ob->dupend= 100;
 
@@ -628,9 +611,9 @@ Object *add_object(int type)
 	ob->damping= 0.04;
 	ob->rdamping= 0.1;
 	ob->gameflag= OB_PROP|OB_DO_FH;
-	
+
 	G.totobj++;
-	
+
 	/* specific data */
 	switch(type) {
 		case OB_MESH: ob->data= add_mesh(); G.totmesh++; break;
@@ -639,26 +622,25 @@ Object *add_object(int type)
 		case OB_FONT: ob->data= add_curve(OB_FONT); break;
 		case OB_CAMERA: ob->data= add_camera(); break;
 		case OB_LAMP: ob->data= add_lamp(); G.totlamp++; break;
-		case OB_IKA: ob->data= add_ika(); ob->dt= OB_WIRE; break;
 		case OB_LATTICE: ob->data= add_lattice(); ob->dt= OB_WIRE; break;
 		case OB_WAVE: ob->data= add_wave(); break;
 	}
-		
+
 	/* aan de scene hangen */
 	base= callocN( sizeof(Base), "add_base");
 	addhead(&G.scene->base, base);
-	
+
 	if(G.vd->localview) base->lay= ob->lay= G.vd->layact+G.vd->lay;
 	else base->lay= ob->lay= G.vd->layact;
-	
+
 	base->object= ob;
-	
+
 	redraw_test_buttons(base);
 	allqueue(REDRAWIPO, 0);
 	allqueue(REDRAWHEADERS, 0);
 	deselect_all_area_oops();
 	set_select_flag_oops();
-	
+
 	/* deselecteren */
 	BASACT= base;
 	base= FIRSTBASE;
@@ -669,7 +651,7 @@ Object *add_object(int type)
 	}
 	BASACT->flag |= SELECT;
 	ob->flag |= SELECT;
-	
+
 	allqueue(REDRAWINFO, 1); 	/* 1, want header->win==0! */
 
 	return ob;
@@ -679,45 +661,45 @@ Object *copy_object(Object *ob)
 {
 	Object *obn;
 	int a;
-	
+
 	obn= copy_libblock(ob);
-	
+
 	if(ob->totcol) {
 		obn->mat= dupallocN(ob->mat);
 	}
-	
+
 	if(ob->bb) obn->bb= dupallocN(ob->bb);
 	obn->path= 0;
 	obn->flag &= ~OB_FROMGROUP;
-	
+
 	copy_effects(&obn->effect, &ob->effect);
-	
+
 	obn->network.first= obn->network.last= 0;
-	
+
 	copy_scriptlink(&ob->scriptlink);
-	
+
 	copy_properties(&obn->prop, &ob->prop);
 	copy_sensors(&obn->sensors, &ob->sensors);
 	copy_controllers(&obn->controllers, &ob->controllers);
 	copy_actuators(&obn->actuators, &ob->actuators);
-	
+
 	/* usernummers ophogen */
 	id_us_plus((ID *)obn->data);
 	id_us_plus((ID *)obn->ipo);
 	for(a=0; a<obn->totcol; a++) id_us_plus((ID *)obn->mat[a]);
-	
+
 	obn->disp.first= obn->disp.last= 0;
-	
+
 	return obn;
 }
 
 void expand_local_object(Object *ob)
 {
 	int a;
-	
+
 	id_lib_extern((ID *)ob->ipo);
 	id_lib_extern((ID *)ob->data);
-	
+
 	for(a=0; a<ob->totcol; a++) {
 		id_lib_extern((ID *)ob->mat[a]);
 	}
@@ -729,12 +711,12 @@ void make_local_object(Object *ob)
 	Scene *sce;
 	Base *base;
 	int local=0, lib=0;
-	
+
 	/* - zijn er alleen lib users: niet doen
 	 * - zijn er alleen locale users: flag zetten
 	 * - mixed: copy
 	 */
-	
+
 	if(ob->id.lib==0) return;
 	if(ob->id.us==1) {
 		ob->id.lib= 0;
@@ -756,7 +738,7 @@ void make_local_object(Object *ob)
 			}
 			sce= sce->id.next;
 		}
-		
+
 		if(local && lib==0) {
 			ob->id.lib= 0;
 			ob->id.flag= LIB_LOCAL;
@@ -765,7 +747,7 @@ void make_local_object(Object *ob)
 		else if(local && lib) {
 			obn= copy_object(ob);
 			obn->id.us= 0;
-			
+
 			sce= G.main->scene.first;
 			while(sce) {
 				if(sce->id.lib==0) {
@@ -783,7 +765,7 @@ void make_local_object(Object *ob)
 			}
 		}
 	}
-	
+
 	expand_local_object(ob);
 }
 
@@ -799,7 +781,7 @@ void set_mblur_offs(int blur)
 	bluroffs= R.r.blurfac*((float)blur);
 	bluroffs/= (float)R.r.osa;
 }
-	
+
 void disable_speed_curve(int val)
 {
 	no_speed_curve= val;
@@ -811,7 +793,7 @@ float bsystem_time(Object *ob, Object *par, float cfra, float ofs)
 	float sf, f;
 
 	if(no_speed_curve==0) if(ob && ob->ipo) cfra= calc_ipo_time(ob->ipo, cfra);
-	
+
 	/* tweede field */
 	if(R.flag & R_SEC_FIELD) {
 		if(R.r.mode & R_FIELDSTILL); else cfra+= .5;
@@ -821,13 +803,13 @@ float bsystem_time(Object *ob, Object *par, float cfra, float ofs)
 	cfra+= bluroffs;
 
 	/* global time */
-	cfra*= G.scene->r.framelen;	
-	
+	cfra*= G.scene->r.framelen;
+
 	/* ofset frames */
 	if(ob && (ob->ipoflag & OB_OFFS_PARENT)) {
 		if((ob->partype & PARSLOW)==0) cfra-= ob->sf;
 	}
-	
+
 	cfra-= ofs;
 
 	return cfra;
@@ -838,7 +820,7 @@ void object_to_mat3(Object *ob, float mat[][3])	/* no parent */
 	float smat[3][3], vec[3];
 	float rmat[3][3];
 	float q1[4];
-	
+
 	/* size */
 	if(ob->ipo) {
 		vec[0]= ob->size[0]+ob->dsize[0];
@@ -877,11 +859,11 @@ void object_to_mat3(Object *ob, float mat[][3])	/* no parent */
 void object_to_mat4(Object *ob, float mat[][4])
 {
 	float tmat[3][3];
-	
+
 	object_to_mat3(ob, tmat);
-	
+
 	Mat4CpyMat3(mat, tmat);
-	
+
 	VECCOPY(mat[3], ob->loc);
 	if(ob->ipo) {
 		mat[3][0]+= ob->dloc[0];
@@ -897,17 +879,17 @@ void ob_parcurve(Object *ob, Object *par, float mat[][4])
 {
 	Curve *cu;
 	float q[4], vec[4], dir[3], *quat, x1, ctime;
-	
+
 	Mat4One(mat);
-	
+
 	cu= par->data;
 	if(cu->path==0 || cu->path->data==0) calc_curvepath(par);
 	if(cu->path==0) return;
-	
+
 	/* uitzondering afvangen: curve paden die als duplicator worden gebruikt */
 	if(enable_cu_speed) {
 		ctime= bsystem_time(ob, par, (float)CFRA, 0.0);
-		
+
 		if(calc_ipo_spec(cu->ipo, CU_SPEED, &ctime)==0) {
 			ctime /= cu->pathlen;
 			CLAMP(ctime, 0.0, 1.0);
@@ -916,7 +898,7 @@ void ob_parcurve(Object *ob, Object *par, float mat[][4])
 	else {
 		ctime= CFRA - ob->sf;
 		ctime /= cu->pathlen;
-		
+
 		CLAMP(ctime, 0.0, 1.0);
 	}
 
@@ -932,44 +914,16 @@ void ob_parcurve(Object *ob, Object *par, float mat[][4])
 			q[2]= -x1*dir[1];
 			q[3]= -x1*dir[2];
 			QuatMul(quat, q, quat);
-			
+
 			QuatToMat4(quat, mat);
 		}
-		
+
 		VECCOPY(mat[3], vec);
-		
+
 	}
 }
 
-void ob_parlimb(Object *ob, Object *par, float mat[][4])
-{	
-	Ika *ika;
-	Limb *li;
-	float cmat[3][3], ang=0.0;
-	int cur=0;
-	
-	/* in lokale ob space */
-	Mat4One(mat);
-	
-	ika= par->data;
-	li= ika->limbbase.first;
-	while(li) {
-		ang+= li->alpha;
-		if(cur==ob->par1 || li->next==0) break;
-		
-		cur++;
-		li= li->next;
-	}
-	
-	mat[0][0]= fcos(ang);
-	mat[1][0]= -fsin(ang);
-	mat[0][1]= fsin(ang);
-	mat[1][1]= fcos(ang);
-	
-	mat[3][0]= li->eff[0];
-	mat[3][1]= li->eff[1];
-	
-}
+
 
 void give_parvert(Object *par, int nr, float *vec)
 {
@@ -984,9 +938,9 @@ void give_parvert(Object *par, int nr, float *vec)
 	BezTriple *bezt;
 	float *fp;
 	int a, count;
-	
+
 	vec[0]=vec[1]=vec[2]= 0.0;
-	
+
 	if(par->type==OB_MESH) {
 		if(par==G.obedit) {
 			if(nr >= G.totvert) nr= 0;
@@ -1006,7 +960,7 @@ void give_parvert(Object *par, int nr, float *vec)
 			me= par->data;
 			if(me->totvert) {
 				if(nr >= me->totvert) nr= 0;
-				
+
 				/* is er deform */
 				dl= find_displist(&par->disp, DL_VERTS);
 				if(dl) {
@@ -1025,7 +979,7 @@ void give_parvert(Object *par, int nr, float *vec)
 		cu= par->data;
 		nu= cu->nurb.first;
 		if(par==G.obedit) nu= editNurb.first;
-		
+
 		count= 0;
 		while(nu) {
 			if((nu->type & 7)==CU_BEZIER) {
@@ -1056,20 +1010,6 @@ void give_parvert(Object *par, int nr, float *vec)
 		}
 
 	}
-	else if(par->type==OB_IKA) {
-		Ika *ika= par->data;
-		Limb *li= ika->limbbase.first;
-		int cur= 1;
-		if(nr) {
-			while(li) {
-				if(cur==nr || li->next==0) break;
-				cur++;
-				li= li->next;
-			}
-			vec[0]= li->eff[0];
-			vec[1]= li->eff[1];
-		}
-	}
 	else return;
 }
 
@@ -1080,17 +1020,17 @@ void ob_parvert3(Object *ob, Object *par, float mat[][4])
 
 	/* in lokale ob space */
 	Mat4One(mat);
-	
+
 	if ELEM3(par->type, OB_MESH, OB_SURF, OB_CURVE) {
-		
+
 		give_parvert(par, ob->par1, v1);
 		give_parvert(par, ob->par2, v2);
 		give_parvert(par, ob->par3, v3);
-				
+
 		triatoquat(v1, v2, v3, q);
 		QuatToMat3(q, cmat);
 		Mat4CpyMat3(mat, cmat);
-		
+
 		if(ob->type==OB_CURVE) {
 			VECCOPY(mat[3], v1);
 		}
@@ -1119,7 +1059,7 @@ static int during_script_flag=0;
 
 void disable_where_script(short on)
 {
-	during_script_flag= on;	
+	during_script_flag= on;
 }
 
 int during_script(void) {
@@ -1132,52 +1072,47 @@ void where_is_object_time(Object *ob, float ctime)
 	float *fp1, *fp2, tmat[4][4], obmat[4][4], totmat[4][4], slowmat[4][4];
 	float stime, fac1, fac2, vec[3];
 	int a, ok, pop;
-	
+
 	/* nieuwe versie: correcte parent+vertexparent en track+parent */
 	/* deze berekent alleen de directe relatie met de parent en track */
 	/* hij is sneller, maar moet wel de timeoffs in de gaten houden */
-	
+
 	if(ob==0) return;
 
 	if( ctime != ob->ctime) {
 		ob->ctime= ctime;
-		
+
 		if(ob->ipo) {
-			
+
 			stime= bsystem_time(ob, 0, ctime, 0.0);
 
 			calc_ipo(ob->ipo, stime);
 			execute_ipo((ID *)ob, ob->ipo);
-		}			
-	}
-
-	if(ob->type==OB_IKA) {
-		Ika *ika= ob->data;
-		if(ika->parent) where_is_object_time(ika->parent, ctime);
+		}
 	}
 
 	if(ob->parent) {
 		par= ob->parent;
 
 		if(ob->ipoflag & OB_OFFS_PARENT) ctime-= ob->sf;
-		
+
 		pop= 0;
 		if(no_parent_ipo==0 && ctime != par->ctime) {
-		
+
 			/* alleen voor ipo systemen? */
 			pushdata(par, sizeof(Object));
 			pop= 1;
-			
+
 			where_is_object_time(par, ctime);
 		}
-		
+
 		object_to_mat4(ob, obmat);
 
 		if(ob->partype & PARSLOW) Mat4CpyMat4(slowmat, ob->obmat);
 
 		switch(ob->partype & PARTYPE) {
 		case PAROBJECT:
-			
+
 			ok= 0;
 			if(par->type==OB_CURVE) {
 				if( ((Curve *)par->data)->flag & CU_PATH ) {
@@ -1185,51 +1120,43 @@ void where_is_object_time(Object *ob, float ctime)
 					ok= 1;
 				}
 			}
-			
-			if(ok) Mat4MulSerie(totmat, par->obmat, tmat, 
+
+			if(ok) Mat4MulSerie(totmat, par->obmat, tmat,
                              NULL, NULL, NULL, NULL, NULL, NULL);
 			else Mat4CpyMat4(totmat, par->obmat);
-			
+
 			break;
-			
-		case PARLIMB:
-			
-			ob_parlimb(ob, par, tmat);
-			
-			Mat4MulSerie(totmat, par->obmat, tmat,         
-                      NULL, NULL, NULL, NULL, NULL, NULL);
-         break;
-			
+
 		case PARVERT1:
-			
+
 			Mat4One(totmat);
 			give_parvert(par, ob->par1, vec);
 			VecMat4MulVecfl(totmat[3], par->obmat, vec);
-			
+
 			break;
 		case PARVERT3:
-			
+
 			ob_parvert3(ob, par, tmat);
-			
-			Mat4MulSerie(totmat, par->obmat, tmat,         
+
+			Mat4MulSerie(totmat, par->obmat, tmat,
                       NULL, NULL, NULL, NULL, NULL, NULL);
 			break;
-			
+
 		case PARSKEL:
-			
+
 			Mat4One(totmat);
 			break;
 		}
-		
+
 		/* totaal */
-		Mat4MulSerie(tmat, totmat, ob->parentinv,         
+		Mat4MulSerie(tmat, totmat, ob->parentinv,
                    NULL, NULL, NULL, NULL, NULL, NULL);
-		Mat4MulSerie(ob->obmat, tmat, obmat,         
+		Mat4MulSerie(ob->obmat, tmat, obmat,
                    NULL, NULL, NULL, NULL, NULL, NULL);
-	
+
 		/* dit is een extern bruikbare originmat */
 		Mat3CpyMat4(originmat, tmat);
-		
+
 		/* origin, voor hulplijntje */
 		if( (ob->partype & 15)==PARSKEL ) {
 			VECCOPY(ob->orig, par->obmat[3]);
@@ -1237,18 +1164,18 @@ void where_is_object_time(Object *ob, float ctime)
 		else {
 			VECCOPY(ob->orig, totmat[3]);
 		}
-		
+
 		if(pop) {
 			poplast(par);
 		}
-		
+
 		if(ob->partype & PARSLOW) {
 			/* framerate meetellen */
 
 			fac1= timefac/(1.0+ fabs(ob->sf));
 			if(fac1>=1.0) return;
 			fac2= 1.0-fac1;
-			
+
 			fp1= ob->obmat[0];
 			fp2= slowmat[0];
 			for(a=0; a<16; a++, fp1++, fp2++) {
@@ -1259,16 +1186,16 @@ void where_is_object_time(Object *ob, float ctime)
 	else {
 		object_to_mat4(ob, ob->obmat);
 	}
-	
+
 	if(ob->track) {
 		float *quat;
-		
+
 		if( ctime != ob->track->ctime) where_is_object_time(ob->track, ctime);
-		
+
 		VecSubf(vec, ob->obmat[3], ob->track->obmat[3]);
 		quat= vectoquat(vec, ob->trackflag, ob->upflag);
 		QuatToMat3(quat, totmat);
-		
+
 		if(ob->parent && (ob->transflag & OB_POWERTRACK)) {
 			/* 'tijdelijk' : parent info wissen */
 			object_to_mat4(ob, tmat);
@@ -1281,7 +1208,7 @@ void where_is_object_time(Object *ob, float ctime)
 			tmat[3][3]= ob->obmat[3][3];
 		}
 		else Mat4CpyMat4(tmat, ob->obmat);
-		
+
 		Mat4MulMat34(ob->obmat, totmat, tmat);
 
 	}
@@ -1295,10 +1222,10 @@ void where_is_object_time(Object *ob, float ctime)
 
 void where_is_object(Object *ob)
 {
-	
+
 	/* deze zijn gememcopied */
 	if(ob->flag & OB_FROMDUPLI) return;
-	
+
 	where_is_object_time(ob, F_CFRA);
 }
 
@@ -1310,11 +1237,11 @@ void where_is_object_simul(Object *ob)
 	float *fp1, *fp2, tmat[4][4], obmat[4][4], totmat[4][4], slowmat[4][4];
 	float stime, fac1, fac2, vec[3];
 	int a, ok;
-	
+
 	/* nieuwe versie: correcte parent+vertexparent en track+parent */
 	/* deze berekent alleen de directe relatie met de parent en track */
 	/* GEEN TIMEOFFS */
-	
+
 	/* geen ipo! (ivm dloc en realtime-ipos) */
 	ipo= ob->ipo;
 	ob->ipo= 0;
@@ -1328,7 +1255,7 @@ void where_is_object_simul(Object *ob)
 
 		switch(ob->partype & 15) {
 		case PAROBJECT:
-			
+
 			ok= 0;
 			if(par->type==OB_CURVE) {
 				if( ((Curve *)par->data)->flag & CU_PATH ) {
@@ -1336,47 +1263,39 @@ void where_is_object_simul(Object *ob)
 					ok= 1;
 				}
 			}
-			
-			if(ok) Mat4MulSerie(totmat, par->obmat, tmat,         
+
+			if(ok) Mat4MulSerie(totmat, par->obmat, tmat,
                              NULL, NULL, NULL, NULL, NULL, NULL);
 			else Mat4CpyMat4(totmat, par->obmat);
-			
+
 			break;
-			
-		case PARLIMB:
-			
-			ob_parlimb(ob, par, tmat);
-			
-			Mat4MulSerie(totmat, par->obmat, tmat,         
-                      NULL, NULL, NULL, NULL, NULL, NULL);			
-			break;
-			
+
 		case PARVERT1:
-			
+
 			Mat4One(totmat);
 			VECCOPY(totmat[3], par->obmat[3]);
-			
+
 			break;
 		case PARVERT3:
-			
+
 			ob_parvert3(ob, par, tmat);
-			
-			Mat4MulSerie(totmat, par->obmat, tmat, 
-                      NULL, NULL, NULL, NULL, NULL, NULL);			
+
+			Mat4MulSerie(totmat, par->obmat, tmat,
+                      NULL, NULL, NULL, NULL, NULL, NULL);
 			break;
-			
+
 		case PARSKEL:
-			
+
 			Mat4One(totmat);
 			break;
 		}
-		
+
 		/* totaal */
-		Mat4MulSerie(tmat, totmat, ob->parentinv, 
+		Mat4MulSerie(tmat, totmat, ob->parentinv,
                    NULL, NULL, NULL, NULL, NULL, NULL);
-		Mat4MulSerie(ob->obmat, tmat, obmat, 
+		Mat4MulSerie(ob->obmat, tmat, obmat,
                    NULL, NULL, NULL, NULL, NULL, NULL);
-	
+
 		if(ob->partype & PARSLOW) {
 
 			fac1= 1.0/(1.0+ fabs(ob->sf));
@@ -1391,14 +1310,14 @@ void where_is_object_simul(Object *ob)
 	else {
 		object_to_mat4(ob, ob->obmat);
 	}
-	
+
 	if(ob->track) {
 		float *quat;
-		
+
 		VecSubf(vec, ob->obmat[3], ob->track->obmat[3]);
 		quat= vectoquat(vec, ob->trackflag, ob->upflag);
 		QuatToMat3(quat, totmat);
-		
+
 		if(ob->parent && (ob->transflag & OB_POWERTRACK)) {
 			/* 'tijdelijk' : parent info wissen */
 			object_to_mat4(ob, tmat);
@@ -1411,14 +1330,14 @@ void where_is_object_simul(Object *ob)
 			tmat[3][3]= ob->obmat[3][3];
 		}
 		else Mat4CpyMat4(tmat, ob->obmat);
-		
+
 		Mat4MulMat34(ob->obmat, totmat, tmat);
 
 	}
-	
+
 	/*  LET OP!!! */
 	ob->ipo= ipo;
-	
+
 }
 
 
@@ -1428,7 +1347,7 @@ void what_does_parent1(Object *par, int partype, int par1, int par2, int par3)
 	clear_workob();
 	Mat4One(workob.parentinv);
 	workob.parent= par;
-	if(par) 
+	if(par)
 		workob.track= par->track;	/* LET OP: NIET ECHT NETJES */
 	workob.partype= partype;
 	workob.par1= par1;
@@ -1449,7 +1368,7 @@ void what_does_parent(Object *ob)
 
 	workob.trackflag= ob->trackflag;
 	workob.upflag= ob->upflag;
-	
+
 	workob.partype= ob->partype;
 	workob.par1= ob->par1;
 	workob.par2= ob->par2;
@@ -1461,18 +1380,18 @@ void what_does_parent(Object *ob)
 BoundBox *unit_boundbox()
 {
 	BoundBox *bb;
-	
+
 	bb= mallocN(sizeof(BoundBox), "bb");
 
 	bb->vec[0][0]=bb->vec[1][0]=bb->vec[2][0]=bb->vec[3][0]= -1.0;
 	bb->vec[4][0]=bb->vec[5][0]=bb->vec[6][0]=bb->vec[7][0]= 1.0;
-	
+
 	bb->vec[0][1]=bb->vec[1][1]=bb->vec[4][1]=bb->vec[5][1]= -1.0;
 	bb->vec[2][1]=bb->vec[3][1]=bb->vec[6][1]=bb->vec[7][1]= 1.0;
 
 	bb->vec[0][2]=bb->vec[3][2]=bb->vec[4][2]=bb->vec[7][2]= -1.0;
 	bb->vec[1][2]=bb->vec[2][2]=bb->vec[5][2]=bb->vec[6][2]= 1.0;
-	
+
 	return bb;
 }
 
@@ -1483,17 +1402,17 @@ void minmax_object(Object *ob, float *min, float *max)
 	Curve *cu;
 	float vec[3];
 	int a;
-	
+
 	switch(ob->type) {
-		
+
 	case OB_CURVE:
 	case OB_FONT:
 	case OB_SURF:
 		cu= ob->data;
-		
+
 		if(cu->bb==0) tex_space_curve(cu);
 		bb= *(cu->bb);
-		
+
 		for(a=0; a<8; a++) {
 			Mat4MulVecfl(ob->obmat, bb.vec[a]);
 			DO_MINMAX(bb.vec[a], min, max);
@@ -1502,20 +1421,20 @@ void minmax_object(Object *ob, float *min, float *max)
 
 	case OB_MESH:
 		me= get_mesh(ob);
-		
+
 		if(me) {
 			if(me->bb==0) tex_space_mesh(me);
 			bb= *(me->bb);
-			
+
 			for(a=0; a<8; a++) {
 				Mat4MulVecfl(ob->obmat, bb.vec[a]);
 				DO_MINMAX(bb.vec[a], min, max);
 			}
 		}
 		if(min[0] < max[0] ) break;
-		
+
 		/* else here no break!!!, mesh can be zero sized */
-		
+
 	default:
 		DO_MINMAX(ob->obmat[3], min, max);
 

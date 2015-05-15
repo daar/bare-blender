@@ -35,7 +35,7 @@ static PyObject *init_blender(void);
 void copy_scriptlink(ScriptLink *scriptlink)
 {
 	void *tmp;
-	
+
 	if (scriptlink->totscript) {
 		tmp= scriptlink->scripts;
 		scriptlink->scripts= mallocN(sizeof(ID*)*scriptlink->totscript, "scriptlistL");
@@ -68,13 +68,13 @@ void clear_bad_scriptlink(ID *id, Text *byebye)
 	else if (GS(id->name)==ID_MA) structname= "Material";
 	else if (GS(id->name)==ID_WO) structname= "World";
 	else if (GS(id->name)==ID_SCE) structname= "Scene";
-	
+
 	if (!structname) return;
-	
+
 	offset= findstruct_offset(structname, "scriptlink");
-	
+
 	if (offset<0) return;
-	
+
 	scriptlink= (ScriptLink *) (((char *)id) + offset);
 
 	for(i=0; i<scriptlink->totscript; i++)
@@ -89,7 +89,7 @@ void clear_bad_scriptlist(ListBase *list, Text *byebye)
 	id= list->first;
 	while (id) {
 		clear_bad_scriptlink(id, byebye);
-		
+
 		id= id->next;
 	}
 }
@@ -101,14 +101,14 @@ void clear_bad_scriptlinks(Text *byebye)
 	clear_bad_scriptlist(&G.main->camera,	byebye);
 	clear_bad_scriptlist(&G.main->mat,		byebye);
 	clear_bad_scriptlist(&G.main->world,	byebye);
-	
+
 	clear_bad_scriptlink(&G.scene->id, byebye);
-	
-	allqueue(REDRAWBUTSSCRIPT, 0);	
+
+	allqueue(REDRAWBUTSSCRIPT, 0);
 }
 
 
-void start_python (void) 
+void start_python (void)
 {
 	static int started=0;
 	PyObject *mod;
@@ -117,26 +117,26 @@ void start_python (void)
 	extern int Py_UseClassExceptionsFlag;
 	extern int Py_VerboseFlag;
 	extern int Py_DebugFlag;
-	
+
 	if (started) return;
 	started= 1;
-	
+
 	/* This gave too annoying warnings and
 	 * no one seemed to use it.	*/
 	if (0 && G.f & G_DEBUG) {
 		Py_VerboseFlag= 1;
-		Py_DebugFlag= 1;		
+		Py_DebugFlag= 1;
 	} else {
 		Py_FrozenFlag= 1;
 		Py_NoSiteFlag= 1;
 		Py_UseClassExceptionsFlag= 0;
 	}
-		
+
 	Py_SetProgramName("blender");
 	Py_Initialize();
-	
+
 	mdict= init_blender();
-	
+
 	gdict= PyDict_New();
 	PyDict_SetItemString(gdict, "__builtins__", PyEval_GetBuiltins());
 
@@ -149,13 +149,13 @@ void end_python(void) {
 
 	dictlist= PyDict_Items(gdict);
 	len= PyList_Size(dictlist);
-	
+
 	for (i=0; i<len; i++) {
 		PyObject *ob= PyList_GetItem(dictlist, i);
 		PyDict_DelItem(gdict, PyTuple_GetItem(ob, 0));
 	}
 	Py_DECREF(dictlist);
-	
+
 	Py_Finalize();
 }
 
@@ -164,11 +164,11 @@ int py_check_err(Text *text)
 	if (PyErr_Occurred()) {
 		PyErr_Print();
 		text->compiled= NULL;
-		
+
 		return 0;
 	} else {
 		return 1;
-	}	
+	}
 }
 
 static int compile_script (Text *text)
@@ -177,13 +177,13 @@ static int compile_script (Text *text)
 	char *buf;
 
 	if (text->compiled) return 1;
-	
+
 	buf= txt_to_buf(text);
 	strcat(buf, "\n");
-	
+
 	text->compiled= Py_CompileString(buf, text->id.name+2, Py_file_input);
 	freeN(buf);
-	
+
 	return py_check_err(text);
 }
 
@@ -227,156 +227,147 @@ PyObject *make_icu_list (ListBase *curves) {
 	ListBase lb= *curves;
 	IpoCurve *icu= (IpoCurve *) lb.first;
 	PyObject *list= PyList_New(0);
-	
+
 	while (icu) {
 		PyList_Append(list, pyicu_from_icu(icu));
 		icu= icu->next;
 	}
-	
-	return list;	
+
+	return list;
 }
 
 DataBlockProperty Ipo_Properties[]= {
-	{"curves", "curve", DBP_TYPE_FUN, 0, 0.0, 0.0, {0}, {0}, 0, 0, make_icu_list}, 
-	{NULL}	
+	{"curves", "curve", DBP_TYPE_FUN, 0, 0.0, 0.0, {0}, {0}, 0, 0, make_icu_list},
+	{NULL}
 };
 
 /*
 NamedEnum TextureTypes[]= {
-	{"Clouds",	TEX_CLOUDS}, 
-	{"Wood",	TEX_WOOD}, 
-	{"Marble",	TEX_MARBLE}, 
-	{"Magic",	TEX_MAGIC}, 
-	{"Blend",	TEX_BLEND}, 
-	{"Stucci",	TEX_STUCCI}, 
-	{"Noise",	TEX_NOISE}, 
-	{"Image",	TEX_IMAGE}, 
-	{"Plugin",	TEX_PLUGIN}, 
-	{"Envmap",	TEX_ENVMAP}, 
+	{"Clouds",	TEX_CLOUDS},
+	{"Wood",	TEX_WOOD},
+	{"Marble",	TEX_MARBLE},
+	{"Magic",	TEX_MAGIC},
+	{"Blend",	TEX_BLEND},
+	{"Stucci",	TEX_STUCCI},
+	{"Noise",	TEX_NOISE},
+	{"Image",	TEX_IMAGE},
+	{"Plugin",	TEX_PLUGIN},
+	{"Envmap",	TEX_ENVMAP},
 	{NULL}
 };
 
 DataBlockProperty Texture_Properties[]= {
-	DBP_NamedEnum("type",	"type",			TextureTypes), 
-	DBP_Short("stype",		"stype",		0.0, 0.0,	0),  
+	DBP_NamedEnum("type",	"type",			TextureTypes),
+	DBP_Short("stype",		"stype",		0.0, 0.0,	0),
 
-	DBP_Float("noisesize",	"noisesize",	0.0, 0.0,	0),  
-	DBP_Float("turbulence",	"turbul",		0.0, 0.0,	0), 
-	DBP_Float("brightness",	"bright",		0.0, 0.0,	0),  
-	DBP_Float("contrast",	"contrast",		0.0, 0.0,	0),  
-	DBP_Float("rfac",		"rfac",			0.0, 0.0,	0),  
-	DBP_Float("gfac",		"gfac",			0.0, 0.0,	0),  
-	DBP_Float("bfac",		"bfac",			0.0, 0.0,	0),  
-	DBP_Float("filtersize",	"filtersize",	0.0, 0.0,	0),  
+	DBP_Float("noisesize",	"noisesize",	0.0, 0.0,	0),
+	DBP_Float("turbulence",	"turbul",		0.0, 0.0,	0),
+	DBP_Float("brightness",	"bright",		0.0, 0.0,	0),
+	DBP_Float("contrast",	"contrast",		0.0, 0.0,	0),
+	DBP_Float("rfac",		"rfac",			0.0, 0.0,	0),
+	DBP_Float("gfac",		"gfac",			0.0, 0.0,	0),
+	DBP_Float("bfac",		"bfac",			0.0, 0.0,	0),
+	DBP_Float("filtersize",	"filtersize",	0.0, 0.0,	0),
 
-	DBP_Short("noisedepth",	"noisedepth",	0.0, 0.0,	0),  
-	DBP_Short("noisetype",	"noisetype",	0.0, 0.0,	0),  
+	DBP_Short("noisedepth",	"noisedepth",	0.0, 0.0,	0),
+	DBP_Short("noisetype",	"noisetype",	0.0, 0.0,	0),
 
-	{NULL}	
+	{NULL}
 };
 */
 
 DataBlockProperty Camera_Properties[]= {
-	{"Lens",	"lens",		DBP_TYPE_FLO, 0, 1.0,	250.0}, 
-	{"ClSta",	"clipsta",	DBP_TYPE_FLO, 0, 0.0,	100.0}, 
-	{"ClEnd",	"clipend",	DBP_TYPE_FLO, 0, 1.0,	5000.0}, 
+	{"Lens",	"lens",		DBP_TYPE_FLO, 0, 1.0,	250.0},
+	{"ClSta",	"clipsta",	DBP_TYPE_FLO, 0, 0.0,	100.0},
+	{"ClEnd",	"clipend",	DBP_TYPE_FLO, 0, 1.0,	5000.0},
 
-	{"ipo",		"*ipo",		DBP_TYPE_FUN, 0, 0.0,	0.0, {0}, {0}, 0, 0, get_pyblock_func}, 
-	
+	{"ipo",		"*ipo",		DBP_TYPE_FUN, 0, 0.0,	0.0, {0}, {0}, 0, 0, get_pyblock_func},
+
 	{NULL}
 };
 
 DataBlockProperty World_Properties[]= {
-	{"HorR",	"horr",		DBP_TYPE_FLO, 0, 0.0,	1.0}, 
-	{"HorG",	"horg",		DBP_TYPE_FLO, 0, 0.0,	1.0}, 
-	{"HorB",	"horb",		DBP_TYPE_FLO, 0, 0.0,	1.0}, 
-	{"ZenR",	"zenr",		DBP_TYPE_FLO, 0, 0.0,	1.0}, 
-	{"ZenG",	"zeng",		DBP_TYPE_FLO, 0, 0.0,	1.0}, 
-	{"ZenB",	"zenb",		DBP_TYPE_FLO, 0, 0.0,	1.0}, 
-	{"Expos",	"exposure",	DBP_TYPE_FLO, 0, 0.0,	5.0}, 
-	{"MisSta",	"miststa",	DBP_TYPE_FLO, 0, 0.0,	1000.0}, 
-	{"MisDi",	"mistdist",	DBP_TYPE_FLO, 0, 0.0,	1000.0}, 
-	{"MisHi",	"misthi",	DBP_TYPE_FLO, 0, 0.0,	100.0}, 
-	{"StarDi",	"stardist",	DBP_TYPE_FLO, 0, 2.0,	1000.0}, 
-	{"StarSi",	"starsize",	DBP_TYPE_FLO, 0, 0.0,	10.0}, 
+	{"HorR",	"horr",		DBP_TYPE_FLO, 0, 0.0,	1.0},
+	{"HorG",	"horg",		DBP_TYPE_FLO, 0, 0.0,	1.0},
+	{"HorB",	"horb",		DBP_TYPE_FLO, 0, 0.0,	1.0},
+	{"ZenR",	"zenr",		DBP_TYPE_FLO, 0, 0.0,	1.0},
+	{"ZenG",	"zeng",		DBP_TYPE_FLO, 0, 0.0,	1.0},
+	{"ZenB",	"zenb",		DBP_TYPE_FLO, 0, 0.0,	1.0},
+	{"Expos",	"exposure",	DBP_TYPE_FLO, 0, 0.0,	5.0},
+	{"MisSta",	"miststa",	DBP_TYPE_FLO, 0, 0.0,	1000.0},
+	{"MisDi",	"mistdist",	DBP_TYPE_FLO, 0, 0.0,	1000.0},
+	{"MisHi",	"misthi",	DBP_TYPE_FLO, 0, 0.0,	100.0},
+	{"StarDi",	"stardist",	DBP_TYPE_FLO, 0, 2.0,	1000.0},
+	{"StarSi",	"starsize",	DBP_TYPE_FLO, 0, 0.0,	10.0},
 
-	{"ipo",		"*ipo",		DBP_TYPE_FUN, 0, 0.0,	0.0, {0}, {0}, 0, 0, get_pyblock_func}, 
-	
+	{"ipo",		"*ipo",		DBP_TYPE_FUN, 0, 0.0,	0.0, {0}, {0}, 0, 0, get_pyblock_func},
+
 	{NULL}
 };
 
 DataBlockProperty Lamp_Properties[]= {
-	{"R",		"r",			DBP_TYPE_FLO, 0, 0.0,	1.0}, 
-	{"G",		"g",			DBP_TYPE_FLO, 0, 0.0,	1.0}, 
-	{"B",		"b",			DBP_TYPE_FLO, 0, 0.0,	1.0}, 
-	{"Energ",	"energy",		DBP_TYPE_FLO, 0, 0.0,	10.0}, 
-	{"Dist",	"dist",			DBP_TYPE_FLO, 0, 0.01,	5000.0}, 
-	{"SpoSi",	"spotsize",		DBP_TYPE_FLO, 0, 1.0,	180.0}, 
-	{"SpoBl",	"spotblend",	DBP_TYPE_FLO, 0, 0.0,	1.0}, 
-	{"HaInt",	"haint",		DBP_TYPE_FLO, 0, 1.0,	5.0}, 
-	{"Quad1",	"att1",			DBP_TYPE_FLO, 0, 0.0,	1.0}, 
-	{"Quad2",	"att2",			DBP_TYPE_FLO, 0, 0.0,	1.0}, 
+	{"R",		"r",			DBP_TYPE_FLO, 0, 0.0,	1.0},
+	{"G",		"g",			DBP_TYPE_FLO, 0, 0.0,	1.0},
+	{"B",		"b",			DBP_TYPE_FLO, 0, 0.0,	1.0},
+	{"Energ",	"energy",		DBP_TYPE_FLO, 0, 0.0,	10.0},
+	{"Dist",	"dist",			DBP_TYPE_FLO, 0, 0.01,	5000.0},
+	{"SpoSi",	"spotsize",		DBP_TYPE_FLO, 0, 1.0,	180.0},
+	{"SpoBl",	"spotblend",	DBP_TYPE_FLO, 0, 0.0,	1.0},
+	{"HaInt",	"haint",		DBP_TYPE_FLO, 0, 1.0,	5.0},
+	{"Quad1",	"att1",			DBP_TYPE_FLO, 0, 0.0,	1.0},
+	{"Quad2",	"att2",			DBP_TYPE_FLO, 0, 0.0,	1.0},
 
-	{"ipo",		"*ipo",		DBP_TYPE_FUN, 0, 0.0,	0.0, {0}, {0}, 0, 0, get_pyblock_func}, 
-	
+	{"ipo",		"*ipo",		DBP_TYPE_FUN, 0, 0.0,	0.0, {0}, {0}, 0, 0, get_pyblock_func},
+
 	{NULL}
 };
 
 DataBlockProperty Material_Properties[]= {
-	{"R",		"r",		DBP_TYPE_FLO, 0, 0.0,	1.0}, 
-	{"G",		"g",		DBP_TYPE_FLO, 0, 0.0,	1.0}, 
-	{"B",		"b",		DBP_TYPE_FLO, 0, 0.0,	1.0}, 
-	{"SpecR",	"specr",	DBP_TYPE_FLO, 0, 0.0,	1.0}, 
-	{"SpecG",	"specg",	DBP_TYPE_FLO, 0, 0.0,	1.0}, 
-	{"SpecB",	"specb",	DBP_TYPE_FLO, 0, 0.0,	1.0}, 
-	{"MirR",	"mirr",		DBP_TYPE_FLO, 0, 0.0,	1.0}, 
-	{"MirG",	"mirg",		DBP_TYPE_FLO, 0, 0.0,	1.0}, 
-	{"MirB",	"mirb",		DBP_TYPE_FLO, 0, 0.0,	1.0}, 
-	{"Ref",		"ref",		DBP_TYPE_FLO, 0, 0.0,	1.0}, 
-	{"Alpha",	"alpha",	DBP_TYPE_FLO, 0, 0.0,	1.0}, 
-	{"Emit",	"emit",		DBP_TYPE_FLO, 0, 0.0,	1.0}, 
-	{"Amb",		"amb",		DBP_TYPE_FLO, 0, 0.0,	1.0}, 
-	{"Spec",	"spec",		DBP_TYPE_FLO, 0, 0.0,	1.0}, 
-	{"SpTra",	"spectra",	DBP_TYPE_FLO, 0, 0.0,	1.0}, 
-	{"HaSize",	"hasize",	DBP_TYPE_FLO, 0, 0.0,	10000.0}, 
+	{"R",		"r",		DBP_TYPE_FLO, 0, 0.0,	1.0},
+	{"G",		"g",		DBP_TYPE_FLO, 0, 0.0,	1.0},
+	{"B",		"b",		DBP_TYPE_FLO, 0, 0.0,	1.0},
+	{"SpecR",	"specr",	DBP_TYPE_FLO, 0, 0.0,	1.0},
+	{"SpecG",	"specg",	DBP_TYPE_FLO, 0, 0.0,	1.0},
+	{"SpecB",	"specb",	DBP_TYPE_FLO, 0, 0.0,	1.0},
+	{"MirR",	"mirr",		DBP_TYPE_FLO, 0, 0.0,	1.0},
+	{"MirG",	"mirg",		DBP_TYPE_FLO, 0, 0.0,	1.0},
+	{"MirB",	"mirb",		DBP_TYPE_FLO, 0, 0.0,	1.0},
+	{"Ref",		"ref",		DBP_TYPE_FLO, 0, 0.0,	1.0},
+	{"Alpha",	"alpha",	DBP_TYPE_FLO, 0, 0.0,	1.0},
+	{"Emit",	"emit",		DBP_TYPE_FLO, 0, 0.0,	1.0},
+	{"Amb",		"amb",		DBP_TYPE_FLO, 0, 0.0,	1.0},
+	{"Spec",	"spec",		DBP_TYPE_FLO, 0, 0.0,	1.0},
+	{"SpTra",	"spectra",	DBP_TYPE_FLO, 0, 0.0,	1.0},
+	{"HaSize",	"hasize",	DBP_TYPE_FLO, 0, 0.0,	10000.0},
 
-	{"Mode",	"mode",		DBP_TYPE_INT, 0, 0.0,	0.0},  
-	{"Hard",	"har",		DBP_TYPE_SHO, 0, 1.0,	128.0},  
+	{"Mode",	"mode",		DBP_TYPE_INT, 0, 0.0,	0.0},
+	{"Hard",	"har",		DBP_TYPE_SHO, 0, 1.0,	128.0},
 
-	{"ipo",		"*ipo",		DBP_TYPE_FUN, 0, 0.0,	0.0, {0}, {0}, 0, 0, get_pyblock_func}, 
+	{"ipo",		"*ipo",		DBP_TYPE_FUN, 0, 0.0,	0.0, {0}, {0}, 0, 0, get_pyblock_func},
 
-	{NULL} 
+	{NULL}
 };
-
-#include "ika.h"
 
 static float zero_float= 0.0;
 
 void *Object_getattr(void *vdata, char *name) {
 	Object *ob= (Object *) vdata;
-	
+
 	if (STREQ(name, "layer")) {
 		return &ob->lay;
-		
-	} else if (strncmp(name, "eff", 3)==0) {
-		Ika *ika= ob->data;
 
-		if (ob->type==OB_IKA && ika) {
-			if (name[3]=='x') return &ika->effg[0];
-			else if (name[3]=='y') return &ika->effg[1];
-			else if (name[3]=='z') return &ika->effg[2];
-		}
-	
+	} else if (strncmp(name, "eff", 3)==0) {
+
 		return &zero_float;
 
 	} else if (STREQ(name, "mat")) {
 		disable_where_script(1);
 		where_is_object(ob);
 		disable_where_script(0);
-		
+
 		return &ob->obmat;
 	}
-	
+
 	return py_err_ret_ob(PyExc_AttributeError, name);
 }
 
@@ -386,11 +377,11 @@ int Object_setattr(void *vdata, char *name, PyObject *py_ob) {
 	if (STREQ(name, "layer")) {
 		Base *base;
 		int ival;
-		
+
 		if (!PyArg_Parse(py_ob, "i", &ival)) return -1;
-		
+
 		ob->lay= ival;
-			
+
 		base= FIRSTBASE;
 		while (base) {
 			if (base->object == ob) base->lay= ob->lay;
@@ -398,18 +389,10 @@ int Object_setattr(void *vdata, char *name, PyObject *py_ob) {
 		}
 		return 0;
 	} else if (strncmp(name, "eff", 3)==0) {
-		Ika *ika= ob->data;
 		float fval;
-		
+
 		if (!PyArg_Parse(py_ob, "f", &fval)) return -1;
-		
-		if (ob->type==OB_IKA && ika) {
-			if (name[3]=='x') ika->effg[0]= fval;
-			else if (name[3]=='y') ika->effg[1]= fval;
-			else if (name[3]=='z') ika->effg[2]= fval;
-			
-			itterate_ika(ob);
-		}
+
 		return 0;
 	}
 
@@ -418,49 +401,49 @@ int Object_setattr(void *vdata, char *name, PyObject *py_ob) {
 }
 
 DataBlockProperty Object_Properties[]= {
-	{"LocX",	"loc[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {0}, {3, -sizeof(float)}}, 
-	{"LocY",	"loc[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {1}, {3, -sizeof(float)}}, 
-	{"LocZ",	"loc[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {2}, {3, -sizeof(float)}}, 
-	{"loc",		"loc[3]",	DBP_TYPE_VEC, 0, 3.0}, 
+	{"LocX",	"loc[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {0}, {3, -sizeof(float)}},
+	{"LocY",	"loc[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {1}, {3, -sizeof(float)}},
+	{"LocZ",	"loc[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {2}, {3, -sizeof(float)}},
+	{"loc",		"loc[3]",	DBP_TYPE_VEC, 0, 3.0},
 
-	{"dLocX",	"dloc[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {0}, {3, -sizeof(float)}}, 
-	{"dLocY",	"dloc[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {1}, {3, -sizeof(float)}}, 
-	{"dLocZ",	"dloc[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {2}, {3, -sizeof(float)}}, 
-	{"dloc",	"dloc[3]",	DBP_TYPE_VEC, 0, 3.0}, 
+	{"dLocX",	"dloc[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {0}, {3, -sizeof(float)}},
+	{"dLocY",	"dloc[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {1}, {3, -sizeof(float)}},
+	{"dLocZ",	"dloc[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {2}, {3, -sizeof(float)}},
+	{"dloc",	"dloc[3]",	DBP_TYPE_VEC, 0, 3.0},
 
-	{"RotX",	"rot[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {0}, {3, -sizeof(float)}}, 
-	{"RotY",	"rot[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {1}, {3, -sizeof(float)}}, 
-	{"RotZ",	"rot[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {2}, {3, -sizeof(float)}}, 
-	{"rot",		"rot[3]",	DBP_TYPE_VEC, 0, 3.0}, 
+	{"RotX",	"rot[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {0}, {3, -sizeof(float)}},
+	{"RotY",	"rot[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {1}, {3, -sizeof(float)}},
+	{"RotZ",	"rot[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {2}, {3, -sizeof(float)}},
+	{"rot",		"rot[3]",	DBP_TYPE_VEC, 0, 3.0},
 
-	{"dRotX",	"drot[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {0}, {3, -sizeof(float)}}, 
-	{"dRotY",	"drot[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {1}, {3, -sizeof(float)}}, 
-	{"dRotZ",	"drot[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {2}, {3, -sizeof(float)}}, 
-	{"drot",	"drot[3]",	DBP_TYPE_VEC, 0, 3.0}, 
+	{"dRotX",	"drot[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {0}, {3, -sizeof(float)}},
+	{"dRotY",	"drot[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {1}, {3, -sizeof(float)}},
+	{"dRotZ",	"drot[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {2}, {3, -sizeof(float)}},
+	{"drot",	"drot[3]",	DBP_TYPE_VEC, 0, 3.0},
 
-	{"SizeX",	"size[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {0}, {3, -sizeof(float)}}, 
-	{"SizeY",	"size[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {1}, {3, -sizeof(float)}}, 
-	{"SizeZ",	"size[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {2}, {3, -sizeof(float)}}, 
-	{"size",	"size[3]",	DBP_TYPE_VEC, 0, 3.0}, 
+	{"SizeX",	"size[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {0}, {3, -sizeof(float)}},
+	{"SizeY",	"size[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {1}, {3, -sizeof(float)}},
+	{"SizeZ",	"size[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {2}, {3, -sizeof(float)}},
+	{"size",	"size[3]",	DBP_TYPE_VEC, 0, 3.0},
 
-	{"dSizeX",	"dsize[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {0}, {3, -sizeof(float)}}, 
-	{"dSizeY",	"dsize[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {1}, {3, -sizeof(float)}}, 
-	{"dSizeZ",	"dsize[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {2}, {3, -sizeof(float)}}, 
-	{"dsize",	"dsize[3]",	DBP_TYPE_VEC, 0, 3.0}, 
+	{"dSizeX",	"dsize[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {0}, {3, -sizeof(float)}},
+	{"dSizeY",	"dsize[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {1}, {3, -sizeof(float)}},
+	{"dSizeZ",	"dsize[3]",	DBP_TYPE_FLO, 0, 0.0,	0.0, {2}, {3, -sizeof(float)}},
+	{"dsize",	"dsize[3]",	DBP_TYPE_VEC, 0, 3.0},
 
-	{"EffX",	"effx",		DBP_TYPE_FLO, DBP_TYPE_FUN, 0.0,	0.0, {0}, {0}, DBP_HANDLING_FUNC, Object_getattr, 0, Object_setattr}, 
-	{"EffY",	"effy",		DBP_TYPE_FLO, DBP_TYPE_FUN, 0.0,	0.0, {0}, {0}, DBP_HANDLING_FUNC, Object_getattr, 0, Object_setattr}, 
-	{"EffZ",	"effz",		DBP_TYPE_FLO, DBP_TYPE_FUN, 0.0,	0.0, {0}, {0}, DBP_HANDLING_FUNC, Object_getattr, 0, Object_setattr}, 
+	{"EffX",	"effx",		DBP_TYPE_FLO, DBP_TYPE_FUN, 0.0,	0.0, {0}, {0}, DBP_HANDLING_FUNC, Object_getattr, 0, Object_setattr},
+	{"EffY",	"effy",		DBP_TYPE_FLO, DBP_TYPE_FUN, 0.0,	0.0, {0}, {0}, DBP_HANDLING_FUNC, Object_getattr, 0, Object_setattr},
+	{"EffZ",	"effz",		DBP_TYPE_FLO, DBP_TYPE_FUN, 0.0,	0.0, {0}, {0}, DBP_HANDLING_FUNC, Object_getattr, 0, Object_setattr},
 
-	{"Layer",	"layer",	DBP_TYPE_INT, DBP_TYPE_FUN, 0.0,	0.0, {0}, {0}, DBP_HANDLING_FUNC, Object_getattr, 0, Object_setattr}, 
+	{"Layer",	"layer",	DBP_TYPE_INT, DBP_TYPE_FUN, 0.0,	0.0, {0}, {0}, DBP_HANDLING_FUNC, Object_getattr, 0, Object_setattr},
 
-	{"parent",	"*parent",	DBP_TYPE_FUN, 0, 0.0,	0.0, {0}, {0}, 0, 0, get_pyblock_func}, 
-	{"track",	"*track",	DBP_TYPE_FUN, 0, 0.0,	0.0, {0}, {0}, 0, 0, get_pyblock_func}, 
-	{"data",	"*data",	DBP_TYPE_FUN, 0, 0.0,	0.0, {0}, {0}, 0, 0, get_pyblock_func}, 
-	{"ipo",		"*ipo",		DBP_TYPE_FUN, 0, 0.0,	0.0, {0}, {0}, 0, 0, get_pyblock_func}, 
+	{"parent",	"*parent",	DBP_TYPE_FUN, 0, 0.0,	0.0, {0}, {0}, 0, 0, get_pyblock_func},
+	{"track",	"*track",	DBP_TYPE_FUN, 0, 0.0,	0.0, {0}, {0}, 0, 0, get_pyblock_func},
+	{"data",	"*data",	DBP_TYPE_FUN, 0, 0.0,	0.0, {0}, {0}, 0, 0, get_pyblock_func},
+	{"ipo",		"*ipo",		DBP_TYPE_FUN, 0, 0.0,	0.0, {0}, {0}, 0, 0, get_pyblock_func},
 
-	{"mat",		"mat",		DBP_TYPE_FUN, 0, 0.0, 0.0, {0}, {0}, DBP_HANDLING_FUNC, Object_getattr, newMatrixObject}, 
-	
+	{"mat",		"mat",		DBP_TYPE_FUN, 0, 0.0, 0.0, {0}, {0}, DBP_HANDLING_FUNC, Object_getattr, newMatrixObject},
+
 	{NULL}
 };
 
@@ -470,9 +453,9 @@ void pyblock_dealloc(PyObject *self) {
 
 int pyblock_print(PyObject *self, FILE *fp, int flags) {
 	PyBlock *block= (PyBlock *) self;
-	
+
 	fprintf (fp, "[%s %s]", block->type, ((ID*)block->data)->name+2);
-	
+
 	return 0;
 }
 
@@ -483,7 +466,7 @@ PyObject *pyblock_getattr(PyObject *self, char *name) {
 		return PyString_FromString((((ID*)block->data)->name)+2);
 	else if (STREQ(name, "block_type"))
 		return PyString_FromString(block->type);
-	
+
 	return datablock_getattr(block->properties, block->type, name, block->data);
 }
 
@@ -494,10 +477,10 @@ int pyblock_setattr(PyObject *self, char *name, PyObject *ob) {
 		if (!PyArg_Parse(ob, "s", &name)) return -1;
 
 		new_id(block->type_list, (ID*)block->data, name);
-		
+
 		return 0;
 	}
-	
+
 	return datablock_setattr(block->properties, block->type, name, block->data, ob);
 }
 
@@ -510,11 +493,11 @@ PyObject *add_pyblock(void *data) {
 	PyBlock *newb;
 	ID *id= (ID *) data;
 	int idn;
-	
+
 	if (!data) return py_incr_ret(Py_None);
 
 	idn= GS(id->name);
-	
+
 	if (idn==ID_OB) {
 		newb= PyObject_NEW(PyBlock, &Block_Type);
 		newb->type= "Object";
@@ -524,20 +507,20 @@ PyObject *add_pyblock(void *data) {
 	} else if (idn==ID_ME) {
 		/* Special case, should be fixed
 		 * by proper high-level mesh access.
-		 * 
+		 *
 		 * Later.
 		 */
-		 
-		return newNMeshObject(data);			
+
+		return newNMeshObject(data);
 
 	} else if (idn==ID_CU) {
 		/* Special case, should be fixed
 		 * by proper high-level NURBS access.
-		 * 
+		 *
 		 * Later.
 		 */
-		 
-		return newNCurveObject(data);			
+
+		return newNCurveObject(data);
 
 	} else if (idn==ID_LA) {
 		newb= PyObject_NEW(PyBlock, &Block_Type);
@@ -556,7 +539,7 @@ PyObject *add_pyblock(void *data) {
 		newb->type= "Material";
 		newb->type_list= &G.main->mat;
 		newb->properties= Material_Properties;
-		
+
 	} else if (idn==ID_WO) {
 		newb= PyObject_NEW(PyBlock, &Block_Type);
 		newb->type= "World";
@@ -567,51 +550,51 @@ PyObject *add_pyblock(void *data) {
 		newb= PyObject_NEW(PyBlock, &Block_Type);
 		newb->type= "Ipo";
 		newb->type_list= &G.main->ipo;
-		newb->properties= Ipo_Properties;		
+		newb->properties= Ipo_Properties;
 
 /*
 	} else if (idn==ID_TE) {
 		newb= PyObject_NEW(PyBlock, &Block_Type);
 		newb->type= "Tex";
 		newb->type_list= &G.main->tex;
-		newb->properties= Texture_Properties;		
+		newb->properties= Texture_Properties;
 */
 
 	} else return py_err_ret_ob(PyExc_SystemError, "unable to create Block for data");
-	
+
 	newb->data= data;
-	
+
 	return (PyObject *) newb;
 }
 
 PyObject *py_find_from_list(ID *list, PyObject *args) {
 	char *name= NULL;
-	
+
 	Py_Try(PyArg_ParseTuple(args, "|s", &name));
-	
+
 	if (name) {
 		while (list) {
-			if (strcmp(name, list->name+2)==0) 
+			if (strcmp(name, list->name+2)==0)
 				return add_pyblock(list);
 
 			list= list->next;
 		}
 		return py_incr_ret(Py_None);
-		
+
 	} else {
 		PyObject *pylist= PyList_New(countlist((ListBase*)&list));
 		int i=0;
-	
+
 		while (list) {
 			PyObject *ob= add_pyblock(list);
-			
+
 			if (!ob) {
 				Py_DECREF(pylist);
 				return NULL;
 			}
-			
-			PyList_SetItem(pylist, i, ob);	
-		
+
+			PyList_SetItem(pylist, i, ob);
+
 			list= list->next; i++;
 		}
 		return pylist;
@@ -631,7 +614,7 @@ char *py_event_to_name(short event) {
 	}
 }
 
-void do_pyscript(ID *id, short event) 
+void do_pyscript(ID *id, short event)
 {
 	ScriptLink *scriptlink;
 	int offset;
@@ -646,16 +629,16 @@ void do_pyscript(ID *id, short event)
 	else if (GS(id->name)==ID_WO) structname= "World";
 	else if (GS(id->name)==ID_SCE) structname= "Scene";
 	else return;
-	
+
 	offset= findstruct_offset(structname, "scriptlink");
 	if (offset<0) {
 		printf ("Internal error, unable to find script link\n");
 		return;
 	}
-	
+
 	scriptlink= (ScriptLink *) (((char *)id) + offset);
 	if (!scriptlink->totscript) return;
-		
+
 	if (GS(id->name)==ID_SCE)
 		arg= py_incr_ret(Py_None);
 	else
@@ -664,17 +647,17 @@ void do_pyscript(ID *id, short event)
 		printf ("Internal error, unable to create PyBlock for script link\n");
 		return;
 	}
-	
+
 	evt= PyString_FromString(py_event_to_name(event));
-	
+
 	PyDict_SetItemString(mdict, "link", arg);
 	PyDict_SetItemString(mdict, "event", evt);
 	PyDict_SetItemString(mdict, "bylink", py_incr_ret(Py_True));
-	
+
 	disable_where_script(1);
 	for(i=0; i<scriptlink->totscript; i++)	{
 		if (scriptlink->flag[i]==event && scriptlink->scripts[i]) {
-				
+
 			if (compile_script((Text*) scriptlink->scripts[i])) {
 				PyEval_EvalCode(((Text*) scriptlink->scripts[i])->compiled, gdict, NULL);
 
@@ -685,38 +668,38 @@ void do_pyscript(ID *id, short event)
 			}
 		}
 	}
-	disable_where_script(0);	
+	disable_where_script(0);
 
 	if(PyDict_GetItemString(mdict, "link")) PyDict_DelItemString(mdict, "link");
 	if(PyDict_GetItemString(mdict, "event")) PyDict_DelItemString(mdict, "event");
-	
+
 	if(PyErr_Occurred()) PyErr_Print();
-	
+
 	PyDict_SetItemString(mdict, "bylink", py_incr_ret(Py_False));
-	
+
 }
 
 void do_all_scriptlist(ListBase *list, short event)
 {
 	ID *id;
-	
+
 	id= list->first;
 	while (id) {
 		do_pyscript (id, event);
-		
+
 		id= id->next;
 	}
-	
+
 }
 
-void do_all_scripts(short event) 
+void do_all_scripts(short event)
 {
 	do_all_scriptlist(&G.main->object, event);
 	do_all_scriptlist(&G.main->lamp, event);
 	do_all_scriptlist(&G.main->camera, event);
 	do_all_scriptlist(&G.main->mat, event);
 	do_all_scriptlist(&G.main->world, event);
-	
+
 	do_pyscript(&G.scene->id, event);
 }
 
@@ -726,7 +709,7 @@ void do_all_scripts(short event)
 
 PyObject *py_incr_ret(PyObject *ob) {
 	Py_INCREF(ob);
-	
+
 	return ob;
 }
 
@@ -745,7 +728,7 @@ int py_check_sequence_consistency(PyObject *seq, PyTypeObject *against)
 	PyObject *ob;
 	int len= PySequence_Length(seq);
 	int i;
-	
+
 	for (i=0; i<len; i++) {
 		ob= PySequence_GetItem(seq, i);
 		if (ob->ob_type != against) {
@@ -758,13 +741,13 @@ int py_check_sequence_consistency(PyObject *seq, PyTypeObject *against)
 }
 
 static char Method_Redraw_doc[]= "() - Force a redraw of all 3d windows";
-static PyObject *Method_Redraw(PyObject *self, PyObject *args) 
+static PyObject *Method_Redraw(PyObject *self, PyObject *args)
 {
 	ScrArea *tempsa, *sa;
 	int queue= 0;
-	
+
 	Py_Try(PyArg_ParseTuple(args, "|i", &queue));
-	
+
 	if (!during_script()) {
 		if (queue) {
 			allqueue(REDRAWVIEW3D, 0);
@@ -802,18 +785,18 @@ static PyObject *Method_Set (PyObject *self, PyObject *args)
 {
 	char *name;
 	PyObject *arg;
-	
+
 	Py_Try(PyArg_ParseTuple(args, "sO", &name, &arg));
 
 	if (STREQ(name, "curframe")) {
 		int framenum;
-		
+
 		Py_Try(PyArg_Parse(arg, "i", &framenum));
-		
+
 		CFRA= framenum;
-		
+
 		do_global_buttons(B_NEWFRAME);
-		
+
 	} else {
 		return py_err_ret_ob(PyExc_AttributeError, "bad request identifier");
 	}
@@ -833,14 +816,14 @@ static char Method_Get_doc[]=
 	'version'	- Returns the Blender version number";
 
 static PyObject *Method_Get (PyObject *self, PyObject *args)
-{	
+{
 	PyObject *ob;
 
 	Py_Try(PyArg_ParseTuple(args, "O", &ob));
 
 	if (PyInt_Check(ob) && G.version<180) {
 		int item= PyInt_AsLong(ob);
-		
+
 		switch (item) {
 		case BP_CURFRAME:
 			return PyInt_FromLong(CFRA);
@@ -850,28 +833,28 @@ static PyObject *Method_Get (PyObject *self, PyObject *args)
 
 		case BP_FILENAME:
 			return PyString_FromString(G.sce);
-		
+
 		default:
 			break;
 		}
 	} else if (PyString_Check(ob)) {
 		char *str= PyString_AsString(ob);
-		
-		if (STREQ(str, "curframe")) 
+
+		if (STREQ(str, "curframe"))
 			return PyInt_FromLong(CFRA);
-			
+
 		else if (STREQ(str, "curtime"))
 			return PyFloat_FromDouble(frame_to_float(CFRA));
-			
-		else if (STREQ(str, "staframe")) 
+
+		else if (STREQ(str, "staframe"))
 			return PyInt_FromLong(SFRA);
-			
-		else if (STREQ(str, "endframe")) 
+
+		else if (STREQ(str, "endframe"))
 			return PyInt_FromLong(EFRA);
-			
+
 		else if (STREQ(str, "filename"))
 			return PyString_FromString(G.sce);
-			
+
 		else if (STREQ(str, "version"))
 			return PyInt_FromLong(G.version);
 	} else {
@@ -882,9 +865,9 @@ static PyObject *Method_Get (PyObject *self, PyObject *args)
 }
 
 static struct PyMethodDef Blender_methods[] = {
-	MethodDef(Redraw), 
+	MethodDef(Redraw),
 	MethodDef(Get),
-	MethodDef(Set), 
+	MethodDef(Set),
 	{NULL, NULL}
 };
 
@@ -897,7 +880,7 @@ static PyObject *init_blender(void)
 	PyObject *mod, *dict, *tmod, *tdict;
 
 	Block_Type.ob_type = &PyType_Type;
-	
+
 	mod= Py_InitModule("Blender", Blender_methods);
 
 	dict= PyModule_GetDict(mod);
@@ -925,7 +908,7 @@ static PyObject *init_blender(void)
 	if (G.version<180) {
 		tmod= Py_InitModule("Blender.Const", Null_methods);
 		PyDict_SetItemString(dict, "Const", tmod);
-	
+
 		tdict= PyModule_GetDict(tmod);
 
 		PyDict_SetItemString(tdict, "BP_CURFRAME", PyInt_FromLong(BP_CURFRAME));
@@ -938,7 +921,7 @@ static PyObject *init_blender(void)
 
 	tmod= Py_InitModule("Blender.Types", Null_methods);
 	PyDict_SetItemString(dict, "Types", tmod);
-	
+
 	tdict= PyModule_GetDict(tmod);
 
 	PyDict_SetItemString(tdict, "IpoCurve", (PyObject *)&PyIpoCurve_Type);
@@ -954,7 +937,7 @@ static PyObject *init_blender(void)
 	PyDict_SetItemString(tdict, "NMColType", (PyObject *)&NMCol_Type);
 
 	PyDict_SetItemString(tdict, "BlockType", (PyObject *)&Block_Type);
-	
+
 	/* Setup external types */
 	PyDict_SetItemString(tdict, "VectorType", (PyObject *)&Vector_Type);
 	PyDict_SetItemString(tdict, "MatrixType", (PyObject *)&Matrix_Type);
@@ -971,32 +954,32 @@ typedef struct actvar {
 	Object *ob;			/* bij lokale variable */
 	char *name;
 	short *poin;		/* staat op ->var of op life */
-	short nr, var, flag, rt;	
+	short nr, var, flag, rt;
 } actvar;
 
 int py_eval_string_ret_int(char *str, actvar *vars, int numvars) {
 	PyObject *result, *dict;
 	int ret= -1;
-	
+
 	dict= PyDict_New();
-	
+
 	while (numvars--) {
 		PyDict_SetItemString(dict,vars->name,PyInt_FromLong(vars->var));
 		vars++;
 	}
-	
+
 	result= PyRun_String(str,Py_eval_input,gdict,dict);
 
 	if (!result) PyErr_Print();
 	else {
 		if (PyNumber_Check(result))
 			ret= PyInt_AsLong(result);
-	
+
 		Py_DECREF(result);
 	}
 
 	Py_DECREF(dict);
-	
+
 	return ret;
 }
 

@@ -21,9 +21,9 @@
 
 /* ipo.c  		MIXED MODEL
 
- * 
+ *
  * jan 95
- * 
+ *
  * Version: $Id: ipo.c,v 1.5 2000/07/21 09:05:26 nzc Exp $
  */
 
@@ -31,7 +31,6 @@
 #include "ipo.h"
 #include "render.h"
 #include "edit.h"
-#include "ika.h"
 #include "sequence.h"
 
 #define SMALL -1.0e-10
@@ -41,22 +40,22 @@
    Zo kan met een for-next lus alles worden afgelopen */
 
 int ob_ar[OB_TOTIPO]= {
-	OB_LOC_X, OB_LOC_Y, OB_LOC_Z, OB_DLOC_X, OB_DLOC_Y, OB_DLOC_Z, 
-	OB_ROT_X, OB_ROT_Y, OB_ROT_Z, OB_DROT_X, OB_DROT_Y, OB_DROT_Z, 
-	OB_SIZE_X, OB_SIZE_Y, OB_SIZE_Z, OB_DSIZE_X, OB_DSIZE_Y, OB_DSIZE_Z, 
+	OB_LOC_X, OB_LOC_Y, OB_LOC_Z, OB_DLOC_X, OB_DLOC_Y, OB_DLOC_Z,
+	OB_ROT_X, OB_ROT_Y, OB_ROT_Z, OB_DROT_X, OB_DROT_Y, OB_DROT_Z,
+	OB_SIZE_X, OB_SIZE_Y, OB_SIZE_Z, OB_DSIZE_X, OB_DSIZE_Y, OB_DSIZE_Z,
 	OB_LAY, OB_TIME, OB_EFF_X, OB_EFF_Y, OB_EFF_Z
 };
 
 int ma_ar[MA_TOTIPO]= {
-	MA_COL_R, MA_COL_G, MA_COL_B, 
-	MA_SPEC_R, MA_SPEC_G, MA_SPEC_B, 
-	MA_MIR_R, MA_MIR_G, MA_MIR_B, 
-	MA_REF, MA_ALPHA, MA_EMIT, MA_AMB, 
-	MA_SPEC, MA_HARD, MA_SPTR, MA_ANG, 
-	MA_MODE, MA_HASIZE, 
-	
-	MA_MAP1+MAP_OFS_X, MA_MAP1+MAP_OFS_Y, MA_MAP1+MAP_OFS_Z, 
-	MA_MAP1+MAP_SIZE_X, MA_MAP1+MAP_SIZE_Y, MA_MAP1+MAP_SIZE_Z, 
+	MA_COL_R, MA_COL_G, MA_COL_B,
+	MA_SPEC_R, MA_SPEC_G, MA_SPEC_B,
+	MA_MIR_R, MA_MIR_G, MA_MIR_B,
+	MA_REF, MA_ALPHA, MA_EMIT, MA_AMB,
+	MA_SPEC, MA_HARD, MA_SPTR, MA_ANG,
+	MA_MODE, MA_HASIZE,
+
+	MA_MAP1+MAP_OFS_X, MA_MAP1+MAP_OFS_Y, MA_MAP1+MAP_OFS_Z,
+	MA_MAP1+MAP_SIZE_X, MA_MAP1+MAP_SIZE_Y, MA_MAP1+MAP_SIZE_Z,
 	MA_MAP1+MAP_R, MA_MAP1+MAP_G, MA_MAP1+MAP_B,
 	MA_MAP1+MAP_DVAR, MA_MAP1+MAP_COLF, MA_MAP1+MAP_NORF, MA_MAP1+MAP_VARF
 };
@@ -70,29 +69,29 @@ int cu_ar[CU_TOTIPO]= {
 };
 
 int key_ar[KEY_TOTIPO]= {
-	KEY_SPEED, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 
-	11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 
+	KEY_SPEED, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+	11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
 	21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31
 };
 
 int wo_ar[WO_TOTIPO]= {
-	WO_HOR_R, WO_HOR_G, WO_HOR_B, WO_ZEN_R, WO_ZEN_G, WO_ZEN_B, 
+	WO_HOR_R, WO_HOR_G, WO_HOR_B, WO_ZEN_R, WO_ZEN_G, WO_ZEN_B,
 	WO_EXPOS, WO_MISI, WO_MISTDI, WO_MISTSTA, WO_MISTHI,
-	WO_STAR_R, WO_STAR_G, WO_STAR_B, WO_STARDIST, WO_STARSIZE, 
+	WO_STAR_R, WO_STAR_G, WO_STAR_B, WO_STARDIST, WO_STARSIZE,
 
-	MA_MAP1+MAP_OFS_X, MA_MAP1+MAP_OFS_Y, MA_MAP1+MAP_OFS_Z, 
-	MA_MAP1+MAP_SIZE_X, MA_MAP1+MAP_SIZE_Y, MA_MAP1+MAP_SIZE_Z, 
+	MA_MAP1+MAP_OFS_X, MA_MAP1+MAP_OFS_Y, MA_MAP1+MAP_OFS_Z,
+	MA_MAP1+MAP_SIZE_X, MA_MAP1+MAP_SIZE_Y, MA_MAP1+MAP_SIZE_Z,
 	MA_MAP1+MAP_R, MA_MAP1+MAP_G, MA_MAP1+MAP_B,
 	MA_MAP1+MAP_DVAR, MA_MAP1+MAP_COLF, MA_MAP1+MAP_NORF, MA_MAP1+MAP_VARF
 };
 
 int la_ar[LA_TOTIPO]= {
-	LA_ENERGY,  LA_COL_R, LA_COL_G,  LA_COL_B, 
-	LA_DIST, LA_SPOTSI, LA_SPOTBL, 
-	LA_QUAD1,  LA_QUAD2,  LA_HALOINT,  
+	LA_ENERGY,  LA_COL_R, LA_COL_G,  LA_COL_B,
+	LA_DIST, LA_SPOTSI, LA_SPOTBL,
+	LA_QUAD1,  LA_QUAD2,  LA_HALOINT,
 
-	MA_MAP1+MAP_OFS_X, MA_MAP1+MAP_OFS_Y, MA_MAP1+MAP_OFS_Z, 
-	MA_MAP1+MAP_SIZE_X, MA_MAP1+MAP_SIZE_Y, MA_MAP1+MAP_SIZE_Z, 
+	MA_MAP1+MAP_OFS_X, MA_MAP1+MAP_OFS_Y, MA_MAP1+MAP_OFS_Z,
+	MA_MAP1+MAP_SIZE_X, MA_MAP1+MAP_SIZE_Y, MA_MAP1+MAP_SIZE_Z,
 	MA_MAP1+MAP_R, MA_MAP1+MAP_G, MA_MAP1+MAP_B,
 	MA_MAP1+MAP_DVAR, MA_MAP1+MAP_COLF, MA_MAP1+MAP_NORF, MA_MAP1+MAP_VARF
 };
@@ -105,14 +104,14 @@ float frame_to_float(int cfra)		/* zie ook bsystem_time in object.c */
 {
 	extern float bluroffs;	/* object.c */
 	float ctime;
-	
+
 	ctime= (float)cfra;
 	if(R.flag & R_SEC_FIELD) {
 		if((R.r.mode & R_FIELDSTILL)==0) ctime+= 0.5;
 	}
 	ctime+= bluroffs;
 	ctime*= G.scene->r.framelen;
-	
+
 	return ctime;
 }
 
@@ -120,7 +119,7 @@ float frame_to_float(int cfra)		/* zie ook bsystem_time in object.c */
 void free_ipo(Ipo *ipo)
 {
 	IpoCurve *icu;
-	
+
 	icu= ipo->curve.first;
 	while(icu) {
 		if(icu->bezt) freeN(icu->bezt);
@@ -132,10 +131,10 @@ void free_ipo(Ipo *ipo)
 Ipo *add_ipo(char *name, int idcode)
 {
 	Ipo *ipo;
-	
+
 	ipo= alloc_libblock(&G.main->ipo, ID_IP, name);
 	ipo->blocktype= idcode;
-	
+
 	return ipo;
 }
 
@@ -143,19 +142,19 @@ Ipo *copy_ipo(Ipo *ipo)
 {
 	Ipo *ipon;
 	IpoCurve *icu;
-	
+
 	if(ipo==0) return 0;
-	
+
 	ipon= copy_libblock(ipo);
-	
+
 	duplicatelist(&(ipon->curve), &(ipo->curve));
-	
+
 	icu= ipon->curve.first;
 	while(icu) {
 		icu->bezt= dupallocN(icu->bezt);
 		icu= icu->next;
 	}
-	
+
 	return ipon;
 }
 
@@ -164,7 +163,7 @@ void make_local_obipo(Ipo *ipo)
 	Object *ob;
 	Ipo *ipon;
 	int local=0, lib=0;
-	
+
 	/* - zijn er alleen lib users: niet doen
 	 * - zijn er alleen locale users: flag zetten
 	 * - mixed: copy
@@ -178,7 +177,7 @@ void make_local_obipo(Ipo *ipo)
 		}
 		ob= ob->id.next;
 	}
-	
+
 	if(local && lib==0) {
 		ipo->id.lib= 0;
 		ipo->id.flag= LIB_LOCAL;
@@ -187,11 +186,11 @@ void make_local_obipo(Ipo *ipo)
 	else if(local && lib) {
 		ipon= copy_ipo(ipo);
 		ipon->id.us= 0;
-		
+
 		ob= G.main->object.first;
 		while(ob) {
 			if(ob->ipo==ipo) {
-				
+
 				if(ob->id.lib==0) {
 					ob->ipo= ipon;
 					ipon->id.us++;
@@ -208,7 +207,7 @@ void make_local_matipo(Ipo *ipo)
 	Material *ma;
 	Ipo *ipon;
 	int local=0, lib=0;
-	
+
 	/* - zijn er alleen lib users: niet doen
 	 * - zijn er alleen locale users: flag zetten
 	 * - mixed: copy
@@ -222,7 +221,7 @@ void make_local_matipo(Ipo *ipo)
 		}
 		ma= ma->id.next;
 	}
-	
+
 	if(local && lib==0) {
 		ipo->id.lib= 0;
 		ipo->id.flag= LIB_LOCAL;
@@ -231,11 +230,11 @@ void make_local_matipo(Ipo *ipo)
 	else if(local && lib) {
 		ipon= copy_ipo(ipo);
 		ipon->id.us= 0;
-		
+
 		ma= G.main->mat.first;
 		while(ma) {
 			if(ma->ipo==ipo) {
-				
+
 				if(ma->id.lib==0) {
 					ma->ipo= ipon;
 					ipon->id.us++;
@@ -252,7 +251,7 @@ void make_local_keyipo(Ipo *ipo)
 	Key *key;
 	Ipo *ipon;
 	int local=0, lib=0;
-	
+
 	/* - zijn er alleen lib users: niet doen
 	 * - zijn er alleen locale users: flag zetten
 	 * - mixed: copy
@@ -266,7 +265,7 @@ void make_local_keyipo(Ipo *ipo)
 		}
 		key= key->id.next;
 	}
-	
+
 	if(local && lib==0) {
 		ipo->id.lib= 0;
 		ipo->id.flag= LIB_LOCAL;
@@ -275,11 +274,11 @@ void make_local_keyipo(Ipo *ipo)
 	else if(local && lib) {
 		ipon= copy_ipo(ipo);
 		ipon->id.us= 0;
-		
+
 		key= G.main->key.first;
 		while(key) {
 			if(key->ipo==ipo) {
-				
+
 				if(key->id.lib==0) {
 					key->ipo= ipon;
 					ipon->id.us++;
@@ -294,7 +293,7 @@ void make_local_keyipo(Ipo *ipo)
 
 void make_local_ipo(Ipo *ipo)
 {
-	
+
 	if(ipo->id.lib==0) return;
 	if(ipo->id.us==1) {
 		ipo->id.lib= 0;
@@ -302,11 +301,11 @@ void make_local_ipo(Ipo *ipo)
 		new_id(0, (ID *)ipo, 0);
 		return;
 	}
-	
+
 	if(ipo->blocktype==ID_OB) make_local_obipo(ipo);
 	else if(ipo->blocktype==ID_MA) make_local_matipo(ipo);
 	else if(ipo->blocktype==ID_KE) make_local_keyipo(ipo);
-	
+
 }
 
 
@@ -317,7 +316,7 @@ void calchandles_ipocurve(IpoCurve *icu)
 
 	a= icu->totvert;
 	if(a<2) return;
-	
+
 	bezt= icu->bezt;
 	prev= 0;
 	next= bezt+1;
@@ -334,7 +333,7 @@ void calchandles_ipocurve(IpoCurve *icu)
 			next= 0;
 		}
 		else next++;
-			
+
 		/* voor automatische ease in en out */
 		if(bezt->h1==HD_AUTO && bezt->h2==HD_AUTO) {
 			if(a==0 || a==icu->totvert-1) {
@@ -343,7 +342,7 @@ void calchandles_ipocurve(IpoCurve *icu)
 				}
 			}
 		}
-		
+
 		bezt++;
 	}
 }
@@ -354,7 +353,7 @@ void testhandles_ipocurve(IpoCurve *icu)
 	 * Loopt alle BezTriples af met de volgende regels:
      * FASE 1: types veranderen?
      *  Autocalchandles: worden ligned als NOT(000 || 111)
-     *  Vectorhandles worden 'niets' als (selected en andere niet) 
+     *  Vectorhandles worden 'niets' als (selected en andere niet)
      * FASE 2: handles herberekenen
      */
 	BezTriple *bezt;
@@ -362,7 +361,7 @@ void testhandles_ipocurve(IpoCurve *icu)
 
 	bezt= icu->bezt;
 	if(bezt==0) return;
-	
+
 	a= icu->totvert;
 	while(a--) {
 		flag= 0;
@@ -397,7 +396,7 @@ void sort_time_ipocurve(IpoCurve *icu)
 	BezTriple *bezt;
 	BPoint *bp;
 	int a, ok= 1;
-	
+
 	while(ok) {
 		ok= 0;
 
@@ -423,7 +422,7 @@ void sort_time_ipocurve(IpoCurve *icu)
 			}
 		}
 		else {
-			
+
 		}
 	}
 }
@@ -433,7 +432,7 @@ int test_time_ipocurve(IpoCurve *icu)
 	BezTriple *bezt;
 	BPoint *bp;
 	int a, ok= 1;
-	
+
 	if(icu->bezt) {
 		bezt= icu->bezt;
 		a= icu->totvert-1;
@@ -442,10 +441,10 @@ int test_time_ipocurve(IpoCurve *icu)
 				return 1;
 			}
 			bezt++;
-		}	
+		}
 	}
 	else {
-		
+
 	}
 
 	return 0;
@@ -457,26 +456,26 @@ void correct_bezpart(float *v1, float *v2, float *v3, float *v4)
 	 * dan de horizontale afstand tussen de punten (v1-v4)
 	 */
 	float h1[2], h2[2], len1, len2, len, fac;
-	
+
 	h1[0]= v1[0]-v2[0];
 	h1[1]= v1[1]-v2[1];
 	h2[0]= v4[0]-v3[0];
 	h2[1]= v4[1]-v3[1];
-	
+
 	len= v4[0]- v1[0];
 	len1= fabs(h1[0]);
 	len2= fabs(h2[0]);
-	
+
 	if(len1+len2==0.0) return;
 	if(len1+len2 > len) {
 		fac= len/(len1+len2);
-		
+
 		v2[0]= (v1[0]-fac*h1[0]);
 		v2[1]= (v1[1]-fac*h1[1]);
-		
+
 		v3[0]= (v4[0]-fac*h2[0]);
 		v3[1]= (v4[1]-fac*h2[1]);
-		
+
 	}
 }
 
@@ -491,7 +490,7 @@ int findzero(float x, float q0, float q1, float q2, float q3, float *o)
 	c1= 3*(q1-q0);
 	c2= 3*(q0-2*q1+q2);
 	c3= q3-q0+3*(q1-q2);
-	
+
 	if(c3!=0.0) {
 		a= c2/c3;
 		b= c1/c3;
@@ -534,7 +533,7 @@ int findzero(float x, float q0, float q1, float q2, float q3, float *o)
 		a=c2;
 		b=c1;
 		c=c0;
-		
+
 		if(a!=0.0) {
 			p=b*b-4*a*c;
 			if(p>0) {
@@ -560,7 +559,7 @@ int findzero(float x, float q0, float q1, float q2, float q3, float *o)
 			o[0]= 0.0;
 			return 1;
 		}
-		return 0;	
+		return 0;
 	}
 }
 
@@ -573,7 +572,7 @@ void berekeny(float f1, float f2, float f3, float f4, float *o, int b)
 	c1= 3.0*(f2 - f1);
 	c2= 3.0*(f1 - 2.0*f2 + f3);
 	c3= f4 - f1 + 3.0*(f2-f3);
-	
+
 	for(a=0; a<b; a++) {
 		t= o[a];
 		o[a]= c0+t*c1+t*t*c2+t*t*t*c3;
@@ -594,28 +593,28 @@ void berekenx(float *f, float *o, int b)
 	}
 }
 
-float eval_icu(IpoCurve *icu, float ipotime) 
+float eval_icu(IpoCurve *icu, float ipotime)
 {
 	BezTriple *bezt, *prevbezt;
 	BPoint *bp, *prevbp;
 	float v1[2], v2[2], v3[2], v4[2], opl[32], dx, fac;
 	float cycdx, cycdy, ofs, cycyofs, cvalue;
 	int a, b;
-	
+
 	cycyofs= 0.0;
-	
+
 	if(icu->bezt) {
 		prevbezt= icu->bezt;
 		bezt= prevbezt+1;
 		a= icu->totvert-1;
-		
+
 		/* cyclic? */
 		if(icu->extrap & IPO_CYCL) {
 			ofs= icu->bezt->vec[1][0];
 			cycdx= (icu->bezt+icu->totvert-1)->vec[1][0] - ofs;
 			cycdy= (icu->bezt+icu->totvert-1)->vec[1][1] - icu->bezt->vec[1][1];
 			if(cycdx!=0.0) {
-				
+
 				if(icu->extrap & IPO_DIR) {
 					cycyofs= ffloor((ipotime-ofs)/cycdx);
 					cycyofs*= cycdy;
@@ -625,9 +624,9 @@ float eval_icu(IpoCurve *icu, float ipotime)
 				if(ipotime<ofs) ipotime+= cycdx;
 			}
 		}
-		
+
 		/* uiteinden? */
-	
+
 		if(prevbezt->vec[1][0]>=ipotime) {
 			if( (icu->extrap & IPO_DIR) && icu->ipo!=IPO_CONST) {
 				dx= prevbezt->vec[1][0]-ipotime;
@@ -639,7 +638,7 @@ float eval_icu(IpoCurve *icu, float ipotime)
 				else cvalue= prevbezt->vec[1][1];
 			}
 			else cvalue= prevbezt->vec[1][1];
-			
+
 			cvalue+= cycyofs;
 		}
 		else if( (prevbezt+a)->vec[1][0]<=ipotime) {
@@ -647,7 +646,7 @@ float eval_icu(IpoCurve *icu, float ipotime)
 				prevbezt+= a;
 				dx= ipotime-prevbezt->vec[1][0];
 				fac= prevbezt->vec[2][0]-prevbezt->vec[1][0];
-				
+
 				if(fac!=0) {
 					fac= (prevbezt->vec[2][1]-prevbezt->vec[1][1])/fac;
 					cvalue= prevbezt->vec[1][1]+fac*dx;
@@ -655,7 +654,7 @@ float eval_icu(IpoCurve *icu, float ipotime)
 				else cvalue= prevbezt->vec[1][1];
 			}
 			else cvalue= (prevbezt+a)->vec[1][1];
-			
+
 			cvalue+= cycyofs;
 		}
 		else {
@@ -677,14 +676,14 @@ float eval_icu(IpoCurve *icu, float ipotime)
 						v1[1]= prevbezt->vec[1][1];
 						v2[0]= prevbezt->vec[2][0];
 						v2[1]= prevbezt->vec[2][1];
-						
+
 						v3[0]= bezt->vec[0][0];
 						v3[1]= bezt->vec[0][1];
 						v4[0]= bezt->vec[1][0];
 						v4[1]= bezt->vec[1][1];
 
 						correct_bezpart(v1, v2, v3, v4);
-						
+
 						b= findzero(ipotime, v1[0], v2[0], v3[0], v4[0], opl);
 						if(b) {
 							berekeny(v1[1], v2[1], v3[1], v4[1], opl, 1);
@@ -703,7 +702,7 @@ float eval_icu(IpoCurve *icu, float ipotime)
 		if(cvalue < icu->ymin) cvalue= icu->ymin;
 		else if(cvalue > icu->ymax) cvalue= icu->ymax;
 	}
-	
+
 	return cvalue;
 }
 
@@ -724,21 +723,21 @@ float calc_ipo_time(Ipo *ipo, float ctime)
 				return 10.0*icu->curval;
 			}
 			icu= icu->next;
-		}	
+		}
 	}
-	
+
 	return ctime;
 }
 
 void calc_ipo(Ipo *ipo, float ctime)
 {
 	IpoCurve *icu;
-	
+
 	icu= ipo->curve.first;
 	while(icu) {
-		
+
 		if( (icu->flag & IPO_LOCK)==0) calc_icu(icu, ctime);
-		
+
 		icu= icu->next;
 	}
 }
@@ -776,7 +775,7 @@ void write_ipo_poin(void *poin, int type, float val)
 float read_ipo_poin(void *poin, int type)
 {
 	float val;
-	
+
 	switch(type) {
 	case IPO_FLOAT:
 		val= *( (float *)poin);
@@ -805,7 +804,7 @@ float read_ipo_poin(void *poin, int type)
 void *give_mtex_poin(MTex *mtex, int adrcode )
 {
 	void *poin=0;
-		
+
 	switch(adrcode) {
 	case MAP_OFS_X:
 		poin= &(mtex->ofs[0]); break;
@@ -834,7 +833,7 @@ void *give_mtex_poin(MTex *mtex, int adrcode )
 	case MAP_VARF:
 		poin= &(mtex->varfac); break;
 	}
-	
+
 	return poin;
 }
 
@@ -845,19 +844,16 @@ void *get_ipo_poin(ID *id, IpoCurve *icu, int *type)
 	Object *ob;
 	Material *ma;
 	MTex *mtex;
-	Ika *ika= 0;
 	Lamp *la;
 	Sequence *seq;
 	World *wo;
-	
+
 	*type= IPO_FLOAT;
 
 	if( GS(id->name)==ID_OB) {
-		
+
 		ob= (Object *)id;
-		
-		if(ob->type==OB_IKA) ika= ob->data;
-		
+
 		switch(icu->adrcode) {
 		case OB_LOC_X:
 			poin= &(ob->loc[0]); break;
@@ -871,7 +867,7 @@ void *get_ipo_poin(ID *id, IpoCurve *icu, int *type)
 			poin= &(ob->dloc[1]); break;
 		case OB_DLOC_Z:
 			poin= &(ob->dloc[2]); break;
-	
+
 		case OB_ROT_X:
 			poin= &(ob->rot[0]); *type= IPO_FLOAT_DEGR; break;
 		case OB_ROT_Y:
@@ -884,7 +880,7 @@ void *get_ipo_poin(ID *id, IpoCurve *icu, int *type)
 			poin= &(ob->drot[1]); *type= IPO_FLOAT_DEGR; break;
 		case OB_DROT_Z:
 			poin= &(ob->drot[2]); *type= IPO_FLOAT_DEGR; break;
-			
+
 		case OB_SIZE_X:
 			poin= &(ob->size[0]); break;
 		case OB_SIZE_Y:
@@ -897,28 +893,25 @@ void *get_ipo_poin(ID *id, IpoCurve *icu, int *type)
 			poin= &(ob->dsize[1]); break;
 		case OB_DSIZE_Z:
 			poin= &(ob->dsize[2]); break;
-		
+
 		case OB_LAY:
 			poin= &(ob->lay); *type= IPO_INT_BIT; break;
-			
+
 		case OB_EFF_X:	/* OB_COL_R */
-			if(ika) poin= &(ika->effg[0]);
-			else poin= &(ob->col[0]);
+			poin= &(ob->col[0]);
 			break;
 		case OB_EFF_Y:	/* OB_COL_G */
-			if(ika) poin= &(ika->effg[1]);
-			else poin= &(ob->col[1]);
+			poin= &(ob->col[1]);
 			break;
 		case OB_EFF_Z:	/* OB_COL_B */
-			if(ika) poin= &(ika->effg[2]);
-			else poin= &(ob->col[2]);
+			poin= &(ob->col[2]);
 			break;
 		}
 	}
 	else if( GS(id->name)==ID_MA) {
-		
+
 		ma= (Material *)id;
-		
+
 		switch(icu->adrcode) {
 		case MA_COL_R:
 			poin= &(ma->r); break;
@@ -959,7 +952,7 @@ void *get_ipo_poin(ID *id, IpoCurve *icu, int *type)
 		case MA_HASIZE:
 			poin= &(ma->hasize); break;
 		}
-		
+
 		if(poin==0) {
 			mtex= 0;
 			if(icu->adrcode & MA_MAP1) mtex= ma->mtex[0];
@@ -970,7 +963,7 @@ void *get_ipo_poin(ID *id, IpoCurve *icu, int *type)
 			else if(icu->adrcode & MA_MAP6) mtex= ma->mtex[5];
 			else if(icu->adrcode & MA_MAP7) mtex= ma->mtex[6];
 			else if(icu->adrcode & MA_MAP8) mtex= ma->mtex[7];
-			
+
 			if(mtex) {
 				poin= give_mtex_poin(mtex, icu->adrcode & (MA_MAP1-1) );
 			}
@@ -978,26 +971,26 @@ void *get_ipo_poin(ID *id, IpoCurve *icu, int *type)
 	}
 	else if( GS(id->name)==ID_SEQ) {
 		seq= (Sequence *)id;
-		
+
 		switch(icu->adrcode) {
 		case SEQ_FAC1:
 			poin= &(seq->facf0); break;
 		}
 	}
 	else if( GS(id->name)==ID_CU) {
-		
+
 		poin= &(icu->curval);
-		
+
 	}
 	else if( GS(id->name)==ID_KE) {
-		
+
 		poin= &(icu->curval);
-		
+
 	}
 	else if(GS(id->name)==ID_WO) {
-		
+
 		wo= (World *)id;
-		
+
 		switch(icu->adrcode) {
 		case WO_HOR_R:
 			poin= &(wo->horr); break;
@@ -1047,19 +1040,19 @@ void *get_ipo_poin(ID *id, IpoCurve *icu, int *type)
 			else if(icu->adrcode & MA_MAP6) mtex= wo->mtex[5];
 			else if(icu->adrcode & MA_MAP7) mtex= wo->mtex[6];
 			else if(icu->adrcode & MA_MAP8) mtex= wo->mtex[7];
-			
+
 			if(mtex) {
 				poin= give_mtex_poin(mtex, icu->adrcode & (MA_MAP1-1) );
 			}
 		}
 	}
 	else if( GS(id->name)==ID_LA) {
-		
+
 		la= (Lamp *)id;
-	
+
 		switch(icu->adrcode) {
 		case LA_ENERGY:
-			poin= &(la->energy); break;		
+			poin= &(la->energy); break;
 		case LA_COL_R:
 			poin= &(la->r); break;
 		case LA_COL_G:
@@ -1067,7 +1060,7 @@ void *get_ipo_poin(ID *id, IpoCurve *icu, int *type)
 		case LA_COL_B:
 			poin= &(la->b); break;
 		case LA_DIST:
-			poin= &(la->dist); break;		
+			poin= &(la->dist); break;
 		case LA_SPOTSI:
 			poin= &(la->spotsize); break;
 		case LA_SPOTBL:
@@ -1079,7 +1072,7 @@ void *get_ipo_poin(ID *id, IpoCurve *icu, int *type)
 		case LA_HALOINT:
 			poin= &(la->haint); break;
 		}
-		
+
 		if(poin==0) {
 			mtex= 0;
 			if(icu->adrcode & MA_MAP1) mtex= la->mtex[0];
@@ -1090,7 +1083,7 @@ void *get_ipo_poin(ID *id, IpoCurve *icu, int *type)
 			else if(icu->adrcode & MA_MAP6) mtex= la->mtex[5];
 			else if(icu->adrcode & MA_MAP7) mtex= la->mtex[6];
 			else if(icu->adrcode & MA_MAP8) mtex= la->mtex[7];
-			
+
 			if(mtex) {
 				poin= give_mtex_poin(mtex, icu->adrcode & (MA_MAP1-1) );
 			}
@@ -1098,7 +1091,7 @@ void *get_ipo_poin(ID *id, IpoCurve *icu, int *type)
 	}
 	else if(GS(id->name)==ID_CA) {
 		Camera *ca= (Camera *)id;
-		
+
 		switch(icu->adrcode) {
 		case CAM_LENS:
 			poin= &(ca->lens); break;
@@ -1108,26 +1101,26 @@ void *get_ipo_poin(ID *id, IpoCurve *icu, int *type)
 			poin= &(ca->clipend); break;
 		}
 	}
-	
+
 	return poin;
 }
 
 void set_icu_vars(IpoCurve *icu)
 {
-	
+
 	icu->ymin= icu->ymax= 0.0;
 	icu->ipo= IPO_BEZ;
-	
+
 	if(icu->blocktype==ID_OB) {
-	
+
 		if(icu->adrcode==OB_LAY) {
 			icu->ipo= IPO_CONST;
 			icu->vartype= IPO_BITS;
 		}
-		
+
 	}
 	else if(icu->blocktype==ID_MA) {
-		
+
 		if(icu->adrcode < MA_MAP1) {
 			switch(icu->adrcode) {
 			case MA_HASIZE:
@@ -1138,7 +1131,7 @@ void set_icu_vars(IpoCurve *icu)
 				icu->ipo= IPO_CONST;
 				icu->vartype= IPO_BITS;
 				break;
-				
+
 			default:
 				icu->ymax= 1.0;
 				break;
@@ -1154,7 +1147,7 @@ void set_icu_vars(IpoCurve *icu)
 			case MAP_SIZE_Z:
 				icu->ymax= 1000.0;
 				icu->ymin= -1000.0;
-			
+
 				break;
 			case MAP_R:
 			case MAP_G:
@@ -1171,17 +1164,17 @@ void set_icu_vars(IpoCurve *icu)
 		}
 	}
 	else if(icu->blocktype==ID_SEQ) {
-	
+
 		icu->ymax= 1.0;
-		
+
 	}
 	else if(icu->blocktype==ID_CU) {
-	
+
 		icu->ymax= 1.0;
-		
+
 	}
 	else if(icu->blocktype==ID_WO) {
-		
+
 		if(icu->adrcode < MA_MAP1) {
 			switch(icu->adrcode) {
 			case WO_EXPOS:
@@ -1192,7 +1185,7 @@ void set_icu_vars(IpoCurve *icu)
 			case WO_STARDIST:
 			case WO_STARSIZE:
 				break;
-				
+
 			default:
 				icu->ymax= 1.0;
 				break;
@@ -1208,7 +1201,7 @@ void set_icu_vars(IpoCurve *icu)
 			case MAP_SIZE_Z:
 				icu->ymax= 100.0;
 				icu->ymin= -100.0;
-			
+
 				break;
 			case MAP_R:
 			case MAP_G:
@@ -1226,8 +1219,8 @@ void set_icu_vars(IpoCurve *icu)
 			switch(icu->adrcode) {
 			case LA_ENERGY:
 			case LA_DIST:
-				break;		
-	
+				break;
+
 			case LA_COL_R:
 			case LA_COL_G:
 			case LA_COL_B:
@@ -1262,7 +1255,7 @@ void set_icu_vars(IpoCurve *icu)
 				icu->ymax= 1.0;
 			}
 		}
-	}	
+	}
 	else if(icu->blocktype==ID_CA) {
 
 		switch(icu->adrcode) {
@@ -1284,9 +1277,9 @@ void execute_ipo(ID *id, Ipo *ipo)
 	IpoCurve *icu;
 	void *poin;
 	int type;
-	
+
 	if(ipo==0) return;
-	
+
 	icu= ipo->curve.first;
 	while(icu) {
 		poin= get_ipo_poin(id, icu, &type);
@@ -1305,9 +1298,9 @@ void do_ipo_nocalc(Ipo *ipo)
 	World *wo;
 	Lamp *la;
 	Camera *ca;
-	
+
 	if(ipo==0) return;
-	
+
 	switch(ipo->blocktype) {
 	case ID_OB:
 		ob= G.main->object.first;
@@ -1355,7 +1348,7 @@ void do_ipo(Ipo *ipo)
 	if(ipo) {
 		float ctime= frame_to_float(CFRA);
 		calc_ipo(ipo, ctime);
-	
+
 		do_ipo_nocalc(ipo);
 	}
 }
@@ -1366,14 +1359,14 @@ void do_mat_ipo(Material *ma)
 {
 	float ctime;
 	uint lay;
-	
+
 	if(ma==0 || ma->ipo==0) return;
-	
+
 	ctime= frame_to_float(CFRA);
 	/* if(ob->ipoflag & OB_OFFS_OB) ctime-= ob->sf; */
 
 	calc_ipo(ma->ipo, ctime);
-	
+
 	execute_ipo((ID *)ma, ma->ipo);
 }
 
@@ -1381,18 +1374,18 @@ void do_ob_ipo(Object *ob)
 {
 	float ctime;
 	uint lay;
-	
+
 	if(ob->ipo==0) return;
 
 	/* hier NIET ob->ctime zetten: bijv bij parent in onzichtb. layer */
-	
+
 	ctime= bsystem_time(ob, 0, F_CFRA, 0.0);
 
 	calc_ipo(ob->ipo, ctime);
 
 	/* Patch: de localview onthouden */
 	lay= ob->lay & 0xFF000000;
-	
+
 	execute_ipo((ID *)ob, ob->ipo);
 
 	ob->lay |= lay;
@@ -1409,14 +1402,14 @@ void do_seq_ipo(Sequence *seq)
 {
 	Editing *ed;
 	float ctime, div;
-	
+
 	/* seq_ipo gaat iets anders: beide fields direkt berekenen */
-	
+
 	if(seq->ipo) {
 		ctime= frame_to_float(CFRA-seq->startdisp);
 		div= (seq->enddisp - seq->startdisp)/100.0;
 		if(div==0) return;
-		
+
 		/* tweede field */
 		calc_ipo(seq->ipo, (ctime+0.5)/div);
 		execute_ipo((ID *)seq, seq->ipo);
@@ -1433,14 +1426,14 @@ void do_seq_ipo(Sequence *seq)
 int has_ipo_code(Ipo *ipo, int code)
 {
 	IpoCurve *icu;
-	
+
 	if(ipo==0) return 0;
-	
+
 	icu= ipo->curve.first;
 	while(icu) {
-	
+
 		if(icu->adrcode==code) return 1;
-		
+
 		icu= icu->next;
 	}
 	return 0;
@@ -1459,11 +1452,11 @@ void do_all_ipos()
 	int set, lay;
 
 	ctime= gtime= frame_to_float(CFRA);
-	
+
 	if(R.flag & R_RENDERING) lay= G.scene->lay;
 	else if(G.vd) lay= G.vd->lay;
 	else return;
-	
+
 	ipo= G.main->ipo.first;
 	while(ipo) {
 		if(ipo->id.us && ipo->blocktype!=ID_OB) {
@@ -1481,7 +1474,7 @@ void do_all_ipos()
 			do_ob_ipo(base->object);
 		}
 		base= base->next;
-		
+
 		if(base==0 && set==0 && G.scene->set) {
 			set= 1;
 			base= G.scene->set->base.first;
@@ -1515,25 +1508,25 @@ void do_all_ipos()
 	/* voor het geval dat...  LET OP: 2x */
 	base= FIRSTBASE;
 	while(base) {
-		
+
 		/* alleen layer updaten als ipo */
 		if( has_ipo_code(base->object->ipo, OB_LAY) ) {
 			base->lay= base->object->lay;
 		}
-		
+
 		base= base->next;
 	}
-	
+
 	/* voor het geval dat...*/
 	if(G.scene->set) {
 		base= G.scene->set->base.first;
 		while(base) {
-			
+
 			/* alleen layer updaten als ipo */
 			if( has_ipo_code(base->object->ipo, OB_LAY) ) {
 				base->lay= base->object->lay;
 			}
-			
+
 			base= base->next;
 		}
 	}
@@ -1551,13 +1544,13 @@ int calc_ipo_spec(Ipo *ipo, int adrcode, float *ctime)
 		if(icu->adrcode == adrcode) {
 			if(icu->flag & IPO_LOCK);
 			else calc_icu(icu, *ctime);
-			
+
 			*ctime= icu->curval;
 			return 1;
 		}
 		icu= icu->next;
 	}
-	
+
 	return 0;
 }
 
@@ -1567,9 +1560,9 @@ int calc_ipo_spec(Ipo *ipo, int adrcode, float *ctime)
 void clear_delta_obipo(Ipo *ipo)
 {
 	Object *ob;
-	
+
 	if(ipo==0) return;
-	
+
 	ob= G.main->object.first;
 	while(ob) {
 		if(ob->id.lib==0) {
@@ -1586,21 +1579,21 @@ void clear_delta_obipo(Ipo *ipo)
 void add_to_cfra_elem(ListBase *lb, BezTriple *bezt)
 {
 	CfraElem *ce, *cen;
-	
+
 	ce= lb->first;
 	while(ce) {
-		
+
 		if( ce->cfra==bezt->vec[1][0] ) {
 			/* doen ivm dubbele keys */
 			if(bezt->f2 & 1) ce->sel= bezt->f2;
 			return;
 		}
 		else if(ce->cfra > bezt->vec[1][0]) break;
-		
+
 		ce= ce->next;
-	}	
-	
-	cen= callocN(sizeof(CfraElem), "add_to_cfra_elem");	
+	}
+
+	cen= callocN(sizeof(CfraElem), "add_to_cfra_elem");
 	if(ce) insertlinkbefore(lb, ce, cen);
 	else addtail(lb, cen);
 
@@ -1617,7 +1610,7 @@ void make_cfra_list(Ipo *ipo, ListBase *elems)
 	BezTriple *bezt;
 	float *fp;
 	int a;
-	
+
 	if(ipo->blocktype==ID_OB) {
 		icu= ipo->curve.first;
 		while(icu) {

@@ -22,10 +22,10 @@
 
 
 /*  buttons.c   aug 94     GRAPHICS
- * 
+ *
  *  maart 95
  *
- * Version: $Id: buttons.c,v 1.54 2000/09/26 10:00:31 frank Exp $ 
+ * Version: $Id: buttons.c,v 1.54 2000/09/26 10:00:31 frank Exp $
  */
 
 #include <time.h>
@@ -33,7 +33,6 @@
 #include "graphics.h"
 #include "edit.h"
 #include "effect.h"
-#include "ika.h"
 #include "plugin.h"
 #include "interface.h"
 #include "game.h"
@@ -50,12 +49,10 @@ float extr_offs= 1.0, editbutweight=1.0, editbutsize=0.1, cumapsize= 1.0;
 MTex emptytex;
 char texstr[15][8]= {"None","Clouds","Wood","Marble","Magic","Blend","Stucci","Noise","Image","Plugin","EnvMap","","",""};
 
-#define MAX_IKA_LINES 9
-
 /* *********************** */
 
 /* event for buttons (ROW) to indicate the backbuffer isn't OK (ogl) */
-#define B_DIFF			1	
+#define B_DIFF			1
 
 
 /* *********************** */
@@ -145,7 +142,7 @@ char texstr[15][8]= {"None","Clouds","Wood","Marble","Magic","Blend","Stucci","N
 #define B_RELKEY		1415
 
 	/* heeft MAX_EFFECT standen! Volgende pas 1450... */
-#define B_SELEFFECT	1430	
+#define B_SELEFFECT	1430
 
 
 /* *********************** */
@@ -270,12 +267,6 @@ char texstr[15][8]= {"None","Clouds","Wood","Marble","Magic","Blend","Stucci","N
 #define B_PACKFONT		2206
 
 /* *********************** */
-#define B_IKABUTS		2400
-
-#define B_IKASETREF		2301
-#define B_IKARECALC		2302
-
-/* *********************** */
 #define B_CAMBUTS		2500
 
 /* *********************** */
@@ -357,7 +348,7 @@ static int packdummy = 0;
 void test_scriptpoin_but(char *name, ID **idpp)
 {
 	ID *id;
-	
+
 	id= G.main->text.first;
 	while(id) {
 		if(id->lib==0) {
@@ -374,13 +365,13 @@ void test_scriptpoin_but(char *name, ID **idpp)
 void test_obpoin_but(char *name, ID **idpp)
 {
 	ID *id;
-	
+
 	if(idpp == (ID **)&(emptytex.object)) {
 		error("Add texture first");
 		*idpp= 0;
 		return;
 	}
-	
+
 	id= G.main->object.first;
 	while(id) {
 		if(id->lib==0) {
@@ -397,13 +388,13 @@ void test_obpoin_but(char *name, ID **idpp)
 void test_obcurpoin_but(char *name, ID **idpp)
 {
 	ID *id;
-	
+
 	if(idpp == (ID **)&(emptytex.object)) {
 		error("Add texture first");
 		*idpp= 0;
 		return;
 	}
-	
+
 	id= G.main->object.first;
 	while(id) {
 		if(id->lib==0) {
@@ -411,7 +402,7 @@ void test_obcurpoin_but(char *name, ID **idpp)
 				if (((Object *)id)->type != OB_CURVE) {
 					error ("Bevel object must be a Curve");
 					break;
-				} 
+				}
 				*idpp= id;
 				return;
 			}
@@ -426,7 +417,7 @@ void test_meshpoin_but(char *name, ID **idpp)
 	ID *id;
 
 	if( *idpp ) (*idpp)->us--;
-	
+
 	id= G.main->mesh.first;
 	while(id) {
 		if(id->lib==0) {
@@ -446,7 +437,7 @@ void test_matpoin_but(char *name, ID **idpp)
 	ID *id;
 
 	if( *idpp ) (*idpp)->us--;
-	
+
 	id= G.main->mat.first;
 	while(id) {
 		if(id->lib==0) {
@@ -464,9 +455,9 @@ void test_matpoin_but(char *name, ID **idpp)
 void test_scenepoin_but(char *name, ID **idpp)
 {
 	ID *id;
-	
+
 	if( *idpp ) (*idpp)->us--;
-	
+
 	id= G.main->scene.first;
 	while(id) {
 		if(id->lib==0) {
@@ -500,7 +491,7 @@ void do_common_editbuts(ushort event)
 	int a, bit, index= -1;
 
 	switch(event) {
-		
+
 	case B_MATWICH:
 		if(G.obedit && G.obedit->actcol>0) {
 			if(G.obedit->type == OB_MESH) {
@@ -527,7 +518,7 @@ void do_common_editbuts(ushort event)
 						}
 					}
 					nu= nu->next;
-				}				
+				}
 			}
 			if(index>=0) {
 				G.obedit->actcol= index+1;
@@ -641,7 +632,7 @@ void do_common_editbuts(ushort event)
 			else if ELEM(G.obedit->type, OB_CURVE, OB_SURF) revealNurb();
 		}
 		else if(G.f & G_FACESELECT) reveal_tface();
-		
+
 		break;
 	case B_SELSWAP:
 		if(G.obedit) {
@@ -678,7 +669,7 @@ void do_common_editbuts(ushort event)
 					}
 					nu= nu->next;
 				}
-				
+
 			}
 		}
 		else {
@@ -723,7 +714,7 @@ void do_common_editbuts(ushort event)
 			if( (OBACT->lay & G.vd->lay) && (BASACT->lay & G.vd->lay) );
 			else if( (OBACT->lay & G.vd->lay)==0 && (BASACT->lay & G.vd->lay)==0 );
 			else allqueue(REDRAWVIEW3D, 0);
-			
+
 			OBACT->lay= BASACT->lay;
 		}
 	}
@@ -741,10 +732,10 @@ void common_editbuts()
 	float min;
 	int xco, a, dx, dy;
 	char str[32];
-	
+
 	ob= OBACT;
 	if(ob==0) return;
-	
+
 	sprintf(str, "buttonswin %d", curarea->win);
 	block= uiNewBlock(&curarea->uiblocks, str, UI_EMBOSSX, UI_HELV, 0x808080, curarea->win);
 
@@ -763,7 +754,7 @@ void common_editbuts()
 
 	block->col= BUTGREY;
 	uiDefBut(block, LABEL, 0, "Drawtype",						28,200,100,18, 0, 0, 0, 0, 0, "");
-	uiDefBut(block, MENU|CHA, REDRAWVIEW3D, "Drawtype%t|Bounds %x1|Wire %x2|Solid %x3|Shaded %x4",	
+	uiDefBut(block, MENU|CHA, REDRAWVIEW3D, "Drawtype%t|Bounds %x1|Wire %x2|Solid %x3|Shaded %x4",
 																28,180,100,18, &ob->dt, 0, 0, 0, 0, "Drawtype menu");
 	uiDefBut(block, LABEL, 0, "Draw Extra",						28,160,100,18, 0, 0, 0, 0, 0, "");
 	uiDefBut(block, TOG|CHA|BIT|0, REDRAWVIEW3D, "Bounds",		28, 140, 100, 18, &ob->dtx, 0, 0, 0, 0, "");
@@ -772,12 +763,12 @@ void common_editbuts()
 	uiDefBut(block, TOG|CHA|BIT|1, REDRAWVIEW3D, "Axis",		28, 80, 100, 18, &ob->dtx, 0, 0, 0, 0, "");
 	uiDefBut(block, TOG|CHA|BIT|2, REDRAWVIEW3D, "TexSpace",	28, 60, 100, 18, &ob->dtx, 0, 0, 0, 0, "");
 	uiDefBut(block, TOG|CHA|BIT|3, REDRAWVIEW3D, "Name",		28, 40, 100, 18, &ob->dtx, 0, 0, 0, 0, "");
-	
+
 	block->col= BUTGREY;
-	
+
 	/* material en select swap en hide */
 	if ELEM4(ob->type, OB_MESH, OB_CURVE, OB_SURF, OB_FONT) {
-		
+
 			if(ob->type==OB_MESH) poin= &( ((Mesh *)ob->data)->texflag );
 			else poin= &( ((Curve *)ob->data)->texflag );
 			uiDefBut(block, TOG|INT|BIT|0, B_AUTOTEX, "AutoTexSpace",	143,180,130,19, poin, 0, 0, 0, 0, "To switch automatic calculation of texture space");
@@ -785,14 +776,14 @@ void common_editbuts()
 		sprintf(str,"%d Mat:", ob->totcol);
 		if(ob->totcol) min= 1.0; else min= 0.0;
 		ma= give_current_material(ob, ob->actcol);
-		
+
 		if(ma) {
 			uiDefBut(block, COL|FLO, 0, "",			291,123,24,30, &(ma->r), 0, 0, 0, 0, "");
 			uiDefBut(block, LABEL, 0, ma->id.name+2, 318,146, 103, 30, 0, 0, 0, 0, 0, "");
 		}
 		uiDefBut(block, NUM|CHA, B_REDR,	str,		318,123,103,30, &ob->actcol, min, (float)(ob->totcol), 0, 0, "Total indices, active index");
 		uiDefBut(block, BUT,B_MATWICH,	"?",		423,123,31,30, 0, 0, 0, 0, 0, "In EditMode, sets the active material index from selected faces");
-		
+
 		block->col= BUTSALMON;
 		uiDefBut(block, BUT,B_MATNEW,	"New",		292,101,80,21, 0, 0, 0, 0, 0, "Add a new Material index");
 		uiDefBut(block, BUT,B_MATDEL,	"Delete",	374,101,80,21, 0, 0, 0, 0, 0, "Delete this Material index");
@@ -801,7 +792,7 @@ void common_editbuts()
 		block->col= BUTGREY;
 		uiDefBut(block, BUT,B_MATSEL,	"Select",	292,76,79,22, 0, 0, 0, 0, 0, "In EditMode, select faces that have the active index");
 		uiDefBut(block, BUT,B_MATDESEL,	"Deselect",	373,76,79,21, 0, 0, 0, 0, 0, "");
-		
+
 		if(ob->type!=OB_FONT) {
 			uiDefBut(block, BUT,B_HIDE,		"Hide",		1091,152,77,18, 0, 0, 0, 0, 0, "Hide selected faces");
 			uiDefBut(block, BUT,B_REVEAL,	"Reveal",	1171,152,86,18, 0, 0, 0, 0, 0, "Reveal selected faces");
@@ -811,9 +802,9 @@ void common_editbuts()
 		uiDefBut(block, BUT,B_SETSOLID,	"Set Solid",	373,15,80,20, 0, 0, 0, 0, 0, "In EditMode: set 'solid' rendering of selected faces");
 
 	}
-	
+
 	if ELEM3(ob->type, OB_MESH, OB_SURF, OB_CURVE) {
-	
+
 		block->col= BUTSALMON;
 		but= uiDefBut(block, BUT,0, "Centre",				961, 115, 100, 19, 0, 0, 0, 0, 0, "Shift object data to be centered about object's origin");
 		but->func= (docentre);
@@ -823,9 +814,9 @@ void common_editbuts()
 		but->func= (docentre_cursor);
 	}
 
-	
+
 	uiDrawBlock(block);
-	
+
 }
 
 
@@ -844,13 +835,13 @@ void do_meshbuts(ushort event)
 
 	ob= OBACT;
 	if(ob && ob->type==OB_MESH) {
-		
+
 		me= get_mesh(ob);
 		if(me==0) return;
-		
+
 		switch(event) {
 		case B_DELSTICKY:
-		
+
 			if(me->msticky) freeN(me->msticky);
 			me->msticky= 0;
 			allqueue(REDRAWBUTSEDIT, 0);
@@ -878,20 +869,20 @@ void do_meshbuts(ushort event)
 			allqueue(REDRAWVIEW3D, 0);
 			allqueue(REDRAWIMAGE, 0);
 			break;
-			
+
 		case B_FLIPNORM:
 			if(G.obedit) {
 				flip_editnormals();
 			}
 			else flipnorm_mesh( get_mesh(ob) );
-			
+
 			allqueue(REDRAWVIEW3D, 0);
 			break;
 		}
 	}
-	
+
 	if(G.obedit==0 || (G.obedit->type!=OB_MESH)) return;
-	
+
 	switch(event) {
 	case B_SPIN:
 		if( select_area(SPACE_VIEW3D)) spin_mesh(step, degr, 0, 0);
@@ -959,15 +950,15 @@ void meshbuts()
 	uiBut *but;
 	float val;
 	char str[64];
-	
+
 	ob= OBACT;
 	if(ob==0) return;
-	
+
 	sprintf(str, "editbuttonswin %d", curarea->win);
 	block= uiNewBlock(&curarea->uiblocks, str, UI_EMBOSSX, UI_HELV, 0x808080, curarea->win);
 
 	me= get_mesh(ob);
-	
+
 	if(me) {
 		uiDefBut(block, TOG|SHO|BIT|1, REDRAWVIEW3D, "No V.Normal Flip",	143,160,130,18, &me->flag, 0, 0, 0, 0, "Disable flipping of vertexnormals during render");
 		block->col= BUTGREEN;
@@ -979,9 +970,9 @@ void meshbuts()
 		block->col= BUTGREY;
 		uiDefBut(block, NUM|SHO, B_MAKEDISP, "Subdiv:",					143, 80, 130, 18, &me->subdiv, 2, 12, 0, 0, "Level of subdivision");
 		uiDefBut(block, TOG|SHO|BIT|2, REDRAWVIEW3D, "Double Sided",	1090,184,164,19, &me->flag, 0, 0, 0, 0, "Drawmode flag,  not for rendering");
-		
+
 		block->col= BUTSALMON;
-		
+
 		if(me->msticky) val= 1.0; else val= 0.0;
 		uiDefBut(block, LABEL, 0, "Sticky", 137,55,70,20, 0, val, 0, 0, 0, "");
 		if(me->msticky==0) {
@@ -989,7 +980,7 @@ void meshbuts()
 			but->func= (make_sticky);
 		}
 		else uiDefBut(block, BUT, B_DELSTICKY, "Delete", 210,58,63,19, 0, 0, 0, 0, 0, "Delete sticky texture coords");
-	
+
 		if(me->mcol) val= 1.0; else val= 0.0;
 		uiDefBut(block, LABEL, 0, "VertCol", 140,33,70,20, 0, val, 0, 0, 0, "");
 		if(me->mcol==0) {
@@ -1004,12 +995,12 @@ void meshbuts()
 				uiDefBut(block, BUT, B_MAKE_TFACES, "Make",	209,14,64,20, 0, 0, 0, 0, 0, "");
 			}
 			else uiDefBut(block, BUT, B_DEL_TFACES, "Delete", 209,14,64,20, 0, 0, 0, 0, 0, "");
-		
+
 		block->col= BUTGREY;
-	
+
 		but= uiDefBut(block, IDPOIN, 0, "TexMesh:",		479,182,247,19, &me->texcomesh, 0, 0, 0, 0, "");
 		but->func= (test_meshpoin_but);
-	}		
+	}
 
 	/* EDIT */
 	block->col= BUTSALMON;
@@ -1018,7 +1009,7 @@ void meshbuts()
 	uiDefBut(block, BUT,B_SPIN, "Spin",		558,106,78,30, 0, 0, 0, 0, 0, "");
 	uiDefBut(block, BUT,B_SCREW,"Screw",		477,106,79,30, 0, 0, 0, 0, 0, "");
 	uiDefBut(block, BUT,B_EXTREP, "ExtrudeRepeat",477,25,128,27, 0, 0, 0, 0, 0, "");
-	
+
 	block->col= BUTGREY;
 	uiDefBut(block, NUM|SHO, B_DIFF, "Degr:",		477,82,78,19, &degr,10.0,360.0, 0, 0, "");
 	uiDefBut(block, NUM|SHO, B_DIFF, "Steps:",		558,82,78,19, &step,1.0,180.0, 0, 0, "");
@@ -1030,7 +1021,7 @@ void meshbuts()
 	block->col= BUTSALMON;
 		but= uiDefBut(block, BUT, B_DIFF, "Intersect",		749,171,94,34, 0, 0, 0, 0, 0, "");
 		but->func= (intersect_mesh);
-	
+
 	uiDefBut(block, BUT,B_SPLIT,"Split",			847,171,91,34, 0, 0, 0, 0, 0, "");
 	uiDefBut(block, BUT,B_TOSPHERE,"To Sphere",	749,133,94,34, 0, 0, 0, 0, 0, "");
 	uiDefBut(block, BUT,B_REMDOUB,"Rem Doubles",	958,173,101,32, 0, 0, 0, 0, 0, "");
@@ -1050,7 +1041,7 @@ void meshbuts()
 	uiDefBut(block, NUM|FLO, B_DIFF, "Limit:",			959,151,100,19, &doublimit, 0.0001, 1.0, 10, 0, "");
 
 	block->col= BUTSALMON;
-	
+
 	uiDefBut(block, BUT,B_FLIPNORM,"Flip Normals",		961,55,100,19, 0, 0, 0, 0, 0, "");
 
 	but= uiDefBut(block, BUT,0,"SlowerDraw",			961,35,100,19, 0, 0, 0, 0, 0, "");
@@ -1123,18 +1114,18 @@ char *give_vfontbutstr()
 		len+= strlen(fi)+4;
 		vf= vf->id.next;
 	}
-	
+
 	str= callocN(len+21, "vfontbutstr");
 	strcpy(str, "FONTS %t");
 	vf= G.main->vfont.first;
 	while(vf) {
-		
+
 		if(vf->id.us==0) strcat(str, "|0 ");
 		else strcat(str, "|   ");
-		
+
 		strcpy(di, vf->name);
 		splitdirstring(di, fi);
-		
+
 		strcat(str, fi);
 		vf= vf->id.next;
 	}
@@ -1145,20 +1136,20 @@ void load_buts_vfont(char *name)
 {
 	VFont *vf;
 	Curve *cu;
-	
+
 	if(OBACT && OBACT->type==OB_FONT) cu= OBACT->data;
 	else return;
-	
+
 	vf= exist_vfont(name);
 	if(vf==0) {
 		vf= load_vfont(name);
 		if(vf==0) return;
 	}
 	else id_us_plus((ID *)vf);
-	
+
 	if(cu->vfont) cu->vfont->id.us--;
 	cu->vfont= vf;
-	
+
 	text_to_curve(OBACT, 0);
 	makeDispList(OBACT);
 	allqueue(REDRAWVIEW3D, 0);
@@ -1172,9 +1163,9 @@ void do_fontbuts(ushort event)
 	Object *ob;
 	ScrArea *sa;
 	char str[80];
-	
+
 	ob= OBACT;
-	
+
 	switch(event) {
 	case B_MAKEFONT:
 		text_to_curve(ob, 0);
@@ -1188,7 +1179,7 @@ void do_fontbuts(ushort event)
 		vf= give_vfontpointer(G.buts->texnr);
 		if(vf && vf->id.prev!=vf->id.next) strcpy(str, vf->name);
 		else strcpy(str, U.fontdir);
-		
+
 		sa= closest_bigger_area();
 		areawinset(sa->win);
 
@@ -1208,7 +1199,7 @@ void do_fontbuts(ushort event)
 							packdummy = 1;
 						}
 					}
-					
+
 					if ((G.fileflags & G_AUTOPACK) == 0) {
 						if (unpackVFont(cu->vfont, PF_ASK) == RET_OK) {
 							text_to_curve(ob, 0);
@@ -1243,7 +1234,7 @@ void do_fontbuts(ushort event)
 				allqueue(REDRAWVIEW3D, 0);
 				allqueue(REDRAWBUTSEDIT, 0);
 			}
-		}	
+		}
 		break;
 	case B_TEXTONCURVE:
 		if(ob) {
@@ -1267,7 +1258,7 @@ void fontbuts()
 	uiBut *but;
 	uiBlock *block;
 	char *strp, str[64];
-	
+
 	if(OBACT==0) return;
 
 	sprintf(str, "editbuttonswin1 %d", curarea->win);
@@ -1297,29 +1288,29 @@ void fontbuts()
 
 	block->col= BUTSALMON;
 	uiDefBut(block, BUT, B_TOUPPER, "ToUpper",		623,163,103,23, 0, 0, 0, 0, 0, "");
-	
+
 	block->col= BUTGREY;
 
 	G.buts->texnr= give_vfontnr(cu->vfont);
-	
+
 	strp= give_vfontbutstr();
-	
+
 	uiDefBut(block, MENU|SHO, B_SETFONT, strp, 484,191,220,20, &G.buts->texnr, 0, 0, 0, 0, "");
-	
+
 	if (cu->vfont->packedfile) {
 		packdummy = 1;
 	} else {
 		packdummy = 0;
 	}
-	
+
 	block->col= BUTYELLOW;
 	uiDefBut(block, TOG|INT|BIT|0, B_PACKFONT, "ICON 0 1 9",	706,191,20,20, &packdummy, 0, 0, 0, 0, "Pack/Unpack this Vectorfont");
-	
+
 	freeN(strp);
-	
+
 	block->col= BUTSALMON;
 	uiDefBut(block, BUT,B_LOADFONT, "Load Font",	484,163,103,23, 0, 0, 0, 0, 0, "");
-	
+
 	uiDrawBlock(block);
 }
 
@@ -1332,11 +1323,11 @@ void do_curvebuts(ushort event)
 	Object *ob;
 	Curve *cu;
 	Nurb *nu;
-	
+
 	ob= OBACT;
 	if(ob==0) return;
-	
-	switch(event) {	
+
+	switch(event) {
 
 	case B_CONVERTPOLY:
 	case B_CONVERTBEZ:
@@ -1425,7 +1416,7 @@ void do_curvebuts(ushort event)
 		makeDispList(ob);
 		allqueue(REDRAWVIEW3D, 0);
 		break;
-	
+
 	case B_SUBDIVCURVE:
 		subdivideNurb();
 		break;
@@ -1463,14 +1454,14 @@ void do_curvebuts(ushort event)
 			cu= ob->data;
 			if(ob==G.obedit) nu= editNurb.first;
 			else nu= cu->nurb.first;
-			
+
 			while(nu) {
 				nu->resolu= cu->resolu;
 				nu= nu->next;
 			}
 		}
 		else if(ob->type==OB_FONT) text_to_curve(ob, 0);
-		
+
 		makeDispList(ob);
 		allqueue(REDRAWVIEW3D, 0);
 
@@ -1488,7 +1479,7 @@ void curvebuts()
 	uiBut *but;
 	short *sp;
 	char str[64];
-	
+
 	ob= OBACT;
 	if(ob==0) return;
 
@@ -1505,7 +1496,7 @@ void curvebuts()
 		uiDefBut(block, BUT,B_CONVERTBSPL,"Bspline",	467,112,72, 18, 0, 0, 0, 0, 0, "");
 		uiDefBut(block, BUT,B_CONVERTCARD,"Cardinal",	467,92,72, 18, 0, 0, 0, 0, 0, "");
 		uiDefBut(block, BUT,B_CONVERTNURB,"Nurb",		467,72,72, 18, 0, 0, 0, 0, 0, "");
-	
+
 		uiDefBut(block, LABEL, 0, "Make Knots",562,173,102, 18, 0, 0, 0, 0, 0, "");
 		uiDefBut(block, BUT,B_UNIFU,"Uniform U",	565,152,102, 18, 0, 0, 0, 0, 0, "");
 		uiDefBut(block, BUT,B_ENDPU,"Endpoint U",	565,132,102, 18, 0, 0, 0, 0, 0, "");
@@ -1513,7 +1504,7 @@ void curvebuts()
 		uiDefBut(block, BUT,B_UNIFV,"V",		670,152,50, 18, 0, 0, 0, 0, 0, "");
 		uiDefBut(block, BUT,B_ENDPV,"V",		670,132,50, 18, 0, 0, 0, 0, 0, "");
 		uiDefBut(block, BUT,B_BEZV,"V",		670,112,50, 18, 0, 0, 0, 0, 0, "");
-	
+
 		uiDefBut(block, BUT,B_SETWEIGHT,"Set Weight",	465,11,95,49, 0, 0, 0, 0, 0, "");
 		block->col= BUTGREY;
 		uiDefBut(block, NUM|FLO,0,"Weight:",	564,36,102,22, &editbutweight, 0.01, 10.0, 10, 0, "");
@@ -1521,20 +1512,20 @@ void curvebuts()
 		uiDefBut(block, BUT,B_SETW2,"sqrt(2)/4",	564,11,57,20, 0, 0, 0, 0, 0, "");
 		uiDefBut(block, BUT,B_SETW3,"0.25",		621,11,43,20, 0, 0, 0, 0, 0, "");
 		uiDefBut(block, BUT,B_SETW4,"sqrt(0.5)",	664,11,57,20, 0, 0, 0, 0, 0, "");
-		
+
 		if(ob==G.obedit) {
 			nu= lastnu;
 			if(nu==0) nu= editNurb.first;
-			if(nu) sp= &(nu->orderu); 
+			if(nu) sp= &(nu->orderu);
 			else sp= 0;
 			uiDefBut(block, NUM|SHO, B_SETORDER, "Order U:", 565,91,102, 18, sp, 2.0, 6.0, 0, 0, "");
-			if(nu) sp= &(nu->orderv); 
+			if(nu) sp= &(nu->orderv);
 			else sp= 0;
 			uiDefBut(block, NUM|SHO, B_SETORDER, "V:",	 670,91,50, 18, sp, 2.0, 6.0, 0, 0, "");
-			if(nu) sp= &(nu->resolu); 
+			if(nu) sp= &(nu->resolu);
 			else sp= 0;
 			uiDefBut(block, NUM|SHO, B_MAKEDISP, "Resol U:", 565,70,102, 18, sp, 1.0, 128.0, 0, 0, "");
-			if(nu) sp= &(nu->resolv); 
+			if(nu) sp= &(nu->resolv);
 			else sp= 0;
 			uiDefBut(block, NUM|SHO, B_MAKEDISP, "V:", 670,70,50, 18, sp, 1.0, 128.0, 0, 0, "");
 		}
@@ -1554,11 +1545,11 @@ void curvebuts()
 
 		block->col= BUTGREY;
 		uiDefBut(block, TOG|SHO|BIT|5, 0, "UV Orco",			143,160,130,18, &cu->flag, 0, 0, 0, 0, "");
-		
+
 		uiDefBut(block, NUM|SHO, B_MAKEDISP, "DefResolU:",	752,163,132,21, &cu->resolu, 1.0, 128.0, 0, 0, "");
 		block->col= BUTSALMON;
 		uiDefBut(block, BUT, B_SETRESOLU, "Set",				887,163,29,21, 0, 0, 0, 0, 0, "");
-		
+
 		block->col= BUTGREY;
 		uiDefBut(block, NUM|SHO, B_MAKEDISP, "BevResol:",	753,30,163,18, &cu->bevresol, 0.0, 10.0, 0, 0, "");
 		but= uiDefBut(block, IDPOIN, B_MAKEDISP, "BevOb:",		753,10,163,18, &cu->bevobj, 0, 0, 0, 0, "");
@@ -1594,16 +1585,16 @@ void camerabuts()
 	uiBlock *block;
 	float grid=0.0;
 	char str[64];
-	
-	if(G.vd) grid= G.vd->grid; 
+
+	if(G.vd) grid= G.vd->grid;
 	if(grid<1.0) grid= 1.0;
-	
+
 	ob= OBACT;
 	if(ob==0) return;
 
 	sprintf(str, "editbuttonswin %d", curarea->win);
 	block= uiNewBlock(&curarea->uiblocks, str, UI_EMBOSSX, UI_HELV, 0x808080, curarea->win);
-	
+
 	cam= ob->data;
 	uiDefBut(block, NUM|FLO,REDRAWVIEW3D, "Lens:", 470,178,160,20, &cam->lens, 1.0, 250.0, 100, 0, "");
 	uiDefBut(block, NUM|FLO,REDRAWVIEW3D, "ClipSta:", 470,147,160,20, &cam->clipsta, 0.001*grid, 100.0*grid, 10, 0, "");
@@ -1615,7 +1606,7 @@ void camerabuts()
 
 	uiDefBut(block, TOG|SHO|BIT|0,REDRAWVIEW3D, "ShowLimits", 533,69,97,20, &cam->flag, 0, 0, 0, 0, "");
 	uiDefBut(block, TOG|SHO|BIT|1,REDRAWVIEW3D, "Show Mist", 533,49,97,20, &cam->flag, 0, 0, 0, 0, "");
-	
+
 	if(G.special1 & G_HOLO) {
 		block->col= BUTGREY;
 		if(cam->netend==0.0) cam->netend= EFRA;
@@ -1625,7 +1616,7 @@ void camerabuts()
 		block->col= BUTGREEN;
 		uiDefBut(block, TOG|SHO|BIT|4, REDRAWVIEW3D, "Holo 1",	670,120,100,20, &cam->flag, 0.0, 0.0, 0, 0, "");
 		uiDefBut(block, TOG|SHO|BIT|5, REDRAWVIEW3D, "Holo 2",	670,100,100,20, &cam->flag, 0.0, 0.0, 0, 0, "");
-		
+
 	}
 	uiDrawBlock(block);
 }
@@ -1636,12 +1627,12 @@ void do_fpaintbuts(ushort event)
 {
 	Mesh *me;
 	Object *ob;
-	
+
 	ob= OBACT;
 	if(ob==0) return;
 
 	switch(event) {
-		
+
 	case B_VPGAMMA:
 		vpaint_dogamma();
 		break;
@@ -1654,10 +1645,10 @@ void do_fpaintbuts(ushort event)
 			extern TFace *lasttface;
 			TFace *tface= me->tface;
 			int a= me->totface;
-			
+
 			set_lasttface();
 			if(lasttface) {
-			
+
 				while(a--) {
 					if(tface!=lasttface && (tface->flag & SELECT)) {
 						if(event==B_COPY_TF_MODE) {
@@ -1668,10 +1659,10 @@ void do_fpaintbuts(ushort event)
 							memcpy(tface->uv, lasttface->uv, sizeof(tface->uv));
 							tface->tpage= lasttface->tpage;
 							tface->tile= lasttface->tile;
-							
+
 							if(lasttface->mode & TF_TILES) tface->mode |= TF_TILES;
 							else tface->mode &= ~TF_TILES;
-							
+
 						}
 						else if(event==B_COPY_TF_TEX) {
 							tface->tpage= lasttface->tpage;
@@ -1695,13 +1686,13 @@ void do_fpaintbuts(ushort event)
 		allqueue(REDRAWIMAGE, 0);
 		break;
 	case B_ASSIGNMESH:
-		
+
 		test_object_materials(ob->data);
 		allqueue(REDRAWVIEW3D, 0);
 		allqueue(REDRAWBUTSGAME, 0);
 		break;
-	
-	}	
+
+	}
 }
 
 void fpaintbuts()
@@ -1710,7 +1701,7 @@ void fpaintbuts()
 	Object *ob;
 	uiBlock *block;
 	char str[32];
-	
+
 	ob= OBACT;
 	if(ob==0) return;
 
@@ -1744,14 +1735,14 @@ void fpaintbuts()
 	block->col= BUTGREY;
 	uiDefBut(block, NUM|FLO, B_DIFF, "Mul:", 		1061,30,112,19, &Gvp.mul, 0.1, 50.0, 10, 0, "");
 	uiDefBut(block, NUM|FLO, B_DIFF, "Gamma:", 	1174,30,102,19, &Gvp.gamma, 0.1, 5.0, 10, 0, "");
-	
+
 	uiDefBut(block, LABEL, 0, "Face Select",	600,180,194,18, 0, 0, 0, 0, 0, "");
 	if(G.f & G_FACESELECT) {
 		extern TFace *lasttface;
-		
+
 		set_lasttface();
 		if(lasttface) {
-			
+
 			block->col= BUTGREEN;
 			uiDefBut(block, TOG|SHO|BIT|2, B_REDR_3D_IMA, "Tex",	600,160,60,19, &lasttface->mode, 0, 0, 0, 0, "");
 			uiDefBut(block, TOG|SHO|BIT|7, B_REDR_3D_IMA, "Tiles",	660,160,60,19, &lasttface->mode, 0, 0, 0, 0, "");
@@ -1788,10 +1779,10 @@ void do_radiobuts(short event)
 {
 	Radio *rad;
 	int phase;
-	
+
 	phase= rad_phase();
 	rad= G.scene->radio;
-	
+
 	switch(event) {
 	case B_RAD_ADD:
 		add_radio();
@@ -1911,7 +1902,7 @@ void radiobuts()
 		add_radio();
 		rad= G.scene->radio;
 	}
-	
+
 	flag= rad_phase();
 
 	sprintf(str, "buttonswin %d", curarea->win);
@@ -1929,7 +1920,7 @@ void radiobuts()
 	sprintf(str, "buttonswin1 %d", curarea->win);
 	block= uiNewBlock(&curarea->uiblocks, str, UI_EMBOSSX, UI_HELV, 0x808080, curarea->win);
 	uiAutoBlock(block, 210, 30, 230, 150, UI_BLOCK_ROWS);
-	
+
 	block->col= BUTGREEN;
 	uiDefBut(block,  ROW|SHO, B_RAD_DRAW, "Wire",			0, 0, 10, 10, &rad->drawtype, 0.0, 0.0, 0, 0, "");
 	uiDefBut(block,  ROW|SHO, B_RAD_DRAW, "Solid",			0, 0, 10, 10, &rad->drawtype, 0.0, 1.0, 0, 0, "");
@@ -1943,11 +1934,11 @@ void radiobuts()
 	uiDefBut(block,  NUM|SHO, B_RAD_LIMITS, "PaMax:", 		3, 0, 10, 10, &rad->pama, 10.0, 1000.0, 0, 0, "");
 	uiDefBut(block,  NUM|SHO, B_RAD_LIMITS, "PaMin:", 		3, 0, 10, 10, &rad->pami, 10.0, 1000.0, 0, 0, "");
 	uiDrawBlock(block);
-	
+
 	sprintf(str, "buttonswin2 %d", curarea->win);
 	block= uiNewBlock(&curarea->uiblocks, str, UI_EMBOSSX, UI_HELV, 0x808080, curarea->win);
 	uiAutoBlock(block, 450, 30, 180, 150, UI_BLOCK_ROWS);
-	
+
 	if(flag == RAD_PHASE_PATCHES) block->col= BUTSALMON;
 	else block->col= BUTGREY;
 	uiDefBut(block,  BUT, B_RAD_SHOOTE, "Subdiv Shoot Element", 0, 0, 12, 10, NULL, 0, 0, 0, 0, "");
@@ -1957,11 +1948,11 @@ void radiobuts()
 	uiDefBut(block,  NUM|INT, 0, "MaxEl:",						3, 0, 10, 10, &rad->maxnode, 1000.0, 250000.0, 0, 0, "");
 	uiDefBut(block,  NUM|SHO, B_RAD_LIMITS, "Hemires:", 		4, 0, 10, 10, &rad->hemires, 100.0, 1000.0, 100, 0, "");
 	uiDrawBlock(block);
-	
+
 	sprintf(str, "buttonswin3 %d", curarea->win);
 	block= uiNewBlock(&curarea->uiblocks, str, UI_EMBOSSX, UI_HELV, 0x808080, curarea->win);
 	uiAutoBlock(block, 640, 30, 200, 150, UI_BLOCK_ROWS);
-	
+
 	block->col= BUTGREY;
 	uiDefBut(block,  NUM|SHO, 0, "Max Iterations:", 	0, 0, 10, 10, &rad->maxiter, 0.0, 10000.0, 0, 0, "");
 	uiDefBut(block,  NUM|FLO, 0, "Convergence:", 		1, 0, 10, 10, &rad->convergence, 0.0, 1.0, 10, 0, "");
@@ -1970,7 +1961,7 @@ void radiobuts()
 	if(flag == RAD_PHASE_PATCHES) block->col= BUTSALMON;
 	uiDefBut(block,  BUT, B_RAD_GO, "GO",				3, 0, 10, 15, NULL, 0, 0, 0, 0, "");
 	uiDrawBlock(block);
-	
+
 	sprintf(str, "buttonswin4 %d", curarea->win);
 	block= uiNewBlock(&curarea->uiblocks, str, UI_EMBOSSX, UI_HELV, 0x808080, curarea->win);
 	uiAutoBlock(block, 850, 30, 200, 150, UI_BLOCK_ROWS);
@@ -1997,18 +1988,18 @@ void radiobuts()
 
 	if(flag & RAD_PHASE_PATCHES) block->col= BUTSALMON;
 	else block->col= BUTGREY;
-	uiDefBut(block,  BUT, B_RAD_FREE, "Free Radio Data",	0, 0, 10, 10, NULL, 0, 0, 0, 0, "");	
+	uiDefBut(block,  BUT, B_RAD_FREE, "Free Radio Data",	0, 0, 10, 10, NULL, 0, 0, 0, 0, "");
 	if(flag & RAD_PHASE_FACES) block->col= BUTSALMON;
 	else block->col= BUTGREY;
 	uiDefBut(block,  BUT, B_RAD_REPLACE, "Replace Meshes",	1, 0, 10, 10, NULL, 0, 0, 0, 0, "");
 	uiDefBut(block,  BUT, B_RAD_ADDMESH, "Add new Meshes",	2, 0, 10, 10, NULL, 0, 0, 0, 0, "");
 	uiDrawBlock(block);
-	
+
 	rad_status_str(str);
 	cpack(0);
 	glRasterPos2i(210, 189);
 	fmprstr(str);
-	
+
 }
 
 /* *************************** SCRIPT ******************************** */
@@ -2018,13 +2009,13 @@ static void extend_scriptlink(ScriptLink *slink)
 	void *stmp, *ftmp;
 
 	if (!slink) return;
-		
-	stmp= slink->scripts;		
+
+	stmp= slink->scripts;
 	slink->scripts= mallocN(sizeof(ID*)*(slink->totscript+1), "scriptlistL");
-	
-	ftmp= slink->flag;		
+
+	ftmp= slink->flag;
 	slink->flag= mallocN(sizeof(short*)*(slink->totscript+1), "scriptlistF");
-	
+
 	if (slink->totscript) {
 		memcpy(slink->scripts, stmp, sizeof(ID*)*(slink->totscript));
 		freeN(stmp);
@@ -2037,34 +2028,34 @@ static void extend_scriptlink(ScriptLink *slink)
 	slink->flag[slink->totscript]= SCRIPT_FRAMECHANGED;
 
 	slink->totscript++;
-				
+
 	if(slink->actscript<1) slink->actscript=1;
 }
 
 static void delete_scriptlink(ScriptLink *slink)
 {
 	int i;
-	
+
 	if (!slink) return;
-	
+
 	if (slink->totscript>0) {
 		for (i=slink->actscript-1; i<slink->totscript-1; i++) {
 			slink->flag[i]= slink->flag[i+1];
 			slink->scripts[i]= slink->scripts[i+1];
 		}
-		
+
 		slink->totscript--;
 	}
-		
+
 	CLAMP(slink->actscript, 1, slink->totscript);
-		
+
 	if (slink->totscript==0) {
 		if (slink->scripts) freeN(slink->scripts);
 		if (slink->flag) freeN(slink->flag);
 
 		slink->scripts= NULL;
 		slink->flag= NULL;
-		slink->totscript= slink->actscript= 0;			
+		slink->totscript= slink->actscript= 0;
 	}
 }
 
@@ -2074,7 +2065,7 @@ void do_scriptbuts(short event)
 	ScriptLink *script=NULL;
 	SpaceButs *buts;
 	Material *ma;
-	
+
 	switch (event) {
 	case B_SSCRIPT_ADD:
 		extend_scriptlink(&G.scene->scriptlink);
@@ -2082,7 +2073,7 @@ void do_scriptbuts(short event)
 	case B_SSCRIPT_DEL:
 		delete_scriptlink(&G.scene->scriptlink);
 		break;
-		
+
 	case B_SCRIPT_ADD:
 	case B_SCRIPT_DEL:
 		buts= curarea->spacedata.first;
@@ -2104,13 +2095,13 @@ void do_scriptbuts(short event)
 				script= &((Lamp *)ob->data)->scriptlink;
 
 		} else if (G.buts->scriptblock==ID_WO) {
-			if (G.scene->world) 
+			if (G.scene->world)
 				script= &(G.scene->world->scriptlink);
 		}
-		
+
 		if (event==B_SCRIPT_ADD) extend_scriptlink(script);
 		else delete_scriptlink(script);
-		
+
 		break;
 	default:
 		break;
@@ -2119,7 +2110,7 @@ void do_scriptbuts(short event)
 	allqueue(REDRAWBUTSSCRIPT, 0);
 }
 
-void draw_scriptlink(uiBlock *block, ScriptLink *script, int sx, int sy, int scene) 
+void draw_scriptlink(uiBlock *block, ScriptLink *script, int sx, int sy, int scene)
 {
 	uiBut *but;
 	char str[256];
@@ -2145,16 +2136,16 @@ void draw_scriptlink(uiBlock *block, ScriptLink *script, int sx, int sy, int sce
 	block->col= BUTSALMON;
 
 	if (scene) {
-		if (script->totscript<32767) 
+		if (script->totscript<32767)
 			uiDefBut(block, BUT, B_SSCRIPT_ADD, "New", sx+350, sy, 38, 19, 0, 0, 0, 0, 0, "Add a new Script link");
-		if (script->totscript) 
+		if (script->totscript)
 			uiDefBut(block, BUT, B_SSCRIPT_DEL, "Del", sx+390, sy, 38, 19, 0, 0, 0, 0, 0, "Delete the current Script link");
 	} else {
-		if (script->totscript<32767) 
+		if (script->totscript<32767)
 			uiDefBut(block, BUT, B_SCRIPT_ADD, "New", sx+350, sy, 38, 19, 0, 0, 0, 0, 0, "Add a new Script link");
-		if (script->totscript) 
+		if (script->totscript)
 			uiDefBut(block, BUT, B_SCRIPT_DEL, "Del", sx+390, sy, 38, 19, 0, 0, 0, 0, 0, "Delete the current Script link");
-	}		
+	}
 }
 
 void scriptbuts(void)
@@ -2164,7 +2155,7 @@ void scriptbuts(void)
 	Material *ma;
 	uiBlock *block;
 	char str[64];
-	
+
 	ob= OBACT;
 
 	sprintf(str, "buttonswin %d", curarea->win);
@@ -2172,15 +2163,15 @@ void scriptbuts(void)
 
 	if (ob && G.buts->scriptblock==ID_OB) {
 		script= &ob->scriptlink;
-		
+
 	} else if (ob && G.buts->scriptblock==ID_MA) {
 		ma= give_current_material(ob, ob->actcol);
 		if (ma)	script= &ma->scriptlink;
-		
+
 	} else if (ob && G.buts->scriptblock==ID_CA) {
 		if (ob->type==OB_CAMERA)
 			script= &((Camera *)ob->data)->scriptlink;
-			
+
 	} else if (ob && G.buts->scriptblock==ID_LA) {
 		if (ob->type==OB_LAMP)
 			script= &((Lamp *)ob->data)->scriptlink;
@@ -2190,130 +2181,13 @@ void scriptbuts(void)
 			script= &(G.scene->world->scriptlink);
 	}
 
-	if (script) draw_scriptlink(block, script, 25, 180, 0);			
-	
+	if (script) draw_scriptlink(block, script, 25, 180, 0);
+
 	/* EVENTS */
 	draw_buttons_edge(block->aspect, 540);
 
 	draw_scriptlink(block, &G.scene->scriptlink, 600, 180, 1);
 
-	uiDrawBlock(block);
-}
-
-/* *************************** IKA ******************************** */
-/* is this number used elsewhere? */
-static int ika_del_number;
-void do_ikabuts(ushort event)
-{
-	Base *base;
-	Object *ob;
-	
-	ob= OBACT;
-	
-	switch(event) {
-	case B_IKASETREF:
-		base= FIRSTBASE;
-		while(base) {
-			if TESTBASELIB(base) {
-				if(base->object->type==OB_IKA) init_defstate_ika(base->object);
-			}
-			base= base->next;
-		}
-		break;	
-	case B_IKARECALC:
-		itterate_ika(ob);
-		break;
-	}
-}
-
-void ikabuts()
-{
-	Ika *ika;
-	Object *ob;
-	Limb *li;
-	Deform *def;
-	uiBlock *block;
-	uiBut *but;
-	int nr, cury, max, nlimbs;
-	char str[32];
-	
-	ob= OBACT;
-	if(ob==0) return;
-
-	sprintf(str, "editbuttonswin %d", curarea->win);
-	block= uiNewBlock(&curarea->uiblocks, str, UI_EMBOSSX, UI_HELV, 0x808080, curarea->win);
-
-	ika= ob->data;
-	
-	block->col= BUTSALMON;
-	uiDefBut(block, BUT, B_IKASETREF,	"Set Reference",470,180,200,20, 0, 0, 0, 0, 0, "");
-
-	block->col= BUTGREEN;
-	uiDefBut(block, TOG|SHO|BIT|1, B_DIFF, "Lock XY Plane",	470,140,200,20, &ika->flag, 0.0, 1.0, 0, 0, "New IK option: allows both X and Y axes to rotate");
-	block->col= BUTGREY;
-	uiDefBut(block, NUM|FLO, B_DIFF, "XY constraint ",		470,120,200,20, &ika->xyconstraint, 0.0, 1.0, 100, 0, "Constrain in radians");
-
-	uiDefBut(block, NUMSLI|FLO, B_DIFF, "Mem ",				470,80,200,20, &ika->mem, 0.0, 1.0, 0, 0, "");
-	uiDefBut(block, NUM|SHO, B_DIFF, "Iter: ",				470,60,200,20, &ika->iter, 2.0, 16.0, 0, 0, "");
-
-
-	block->col= BUTGREY;
-
-	nlimbs= countlist(&ika->limbbase);
-	if (nlimbs>MAX_IKA_LINES) {
-		CLAMP(ika->limb_scroll, 0, nlimbs-MAX_IKA_LINES);
-		uiDefBut(block, SCROLL|INT, B_REDR, "",		835, 20, 19, 180, &ika->limb_scroll, 0, nlimbs-MAX_IKA_LINES, 20*nlimbs, 0, "");
-		max= ika->limb_scroll+MAX_IKA_LINES;
-	} else {
-		ika->limb_scroll= 0;
-		max= nlimbs;
-	}
-
-	uiDefBut(block, LABEL, 0, "Limb Weight",			680, 200, 150, 19, 0, 0, 0, 0, 0, "");
-	cury= 180;
-	li= ika->limbbase.first;
-
-	nr= ika->limb_scroll;
-	while(nr--) li= li->next;
-	
-	nr= ika->limb_scroll;
-	while(nr<max) {
-		sprintf(str, "Limb %d:", nr);
-		uiDefBut(block, NUM|FLO, B_DIFF, str,			680, cury, 150, 19, &li->fac, 0.01, 1.0, 10, 0, "");
-		nr++;
-		cury-= 20;
-		li= li->next;
-	}
-
-	
-	if (ika->totdef>MAX_IKA_LINES) {
-		CLAMP(ika->def_scroll, 0, ika->totdef-MAX_IKA_LINES);
-		uiDefBut(block, SCROLL|INT, B_REDR, "",		1240, 20, 19, 180, &ika->def_scroll, 0, ika->totdef-MAX_IKA_LINES, 20*ika->totdef, 0, "");
-		max= ika->def_scroll+MAX_IKA_LINES;
-	} else {
-		ika->def_scroll= 0;
-		max= ika->totdef;
-	}
-	
-	uiDefBut(block, LABEL, 0, "Deform Max Dist",	955, 200, 140, 19, 0, 0, 0, 0, 0, "");
-	uiDefBut(block, LABEL, 0, "Deform Weight",	1095, 200, 140, 19, 0, 0, 0, 0, 0, "");
-	
-
-	cury= 180;
-	def= ika->def;
-	for (nr= ika->def_scroll; nr<max; nr++) {
-		def= ika->def+nr;
-		if(def->ob) {
-			if(def->ob->type!=OB_IKA) sprintf(str, "%s   :", def->ob->id.name+2);
-			else sprintf(str, "%s (%d):", def->ob->id.name+2, def->par1);
-		}
-		
-		uiDefBut(block, LABEL, 0, str,			855,  cury, 100, 19, 0, 0.01, 0.0, 0, 0, "");
-		uiDefBut(block, NUM|FLO, B_DIFF, "",	955,  cury, 140, 19, &def->dist, 0.0, 40.0, 100, 0, "Beyond this distance the Limb doesn't influence deformation. '0.0' is global influence.");
-		uiDefBut(block, NUM|FLO, B_DIFF, "",	1095, cury, 140, 19, &def->fac, 0.01, 10.0, 10, 0, "");
-
-		cury-= 20;
-	}
 	uiDrawBlock(block);
 }
 
@@ -2324,9 +2198,9 @@ void do_latticebuts(ushort event)
 	Object *ob;
 	Lattice *lt;
 	Base *base;
-	
+
 	ob= OBACT;
-	
+
 	switch(event) {
 	case B_RESIZELAT:
 		if(ob) {
@@ -2340,17 +2214,17 @@ void do_latticebuts(ushort event)
 		allqueue(REDRAWVIEW3D, 0);
 		break;
 	case B_LATTCHANGED:
-		
+
 		lt= ob->data;
 		if(lt->flag & LT_OUTSIDE) outside_lattice(lt);
-		
+
 		base= FIRSTBASE;
 		while(base) {
 			if(base->object->parent==ob) makeDispList(base->object);
 			base= base->next;
 		}
 		allqueue(REDRAWVIEW3D, 0);
-		
+
 		break;
 	}
 }
@@ -2361,7 +2235,7 @@ void latticebuts()
 	Object *ob;
 	uiBlock *block;
 	char str[64];
-	
+
 	ob= OBACT;
 	if(ob==0) return;
 
@@ -2377,7 +2251,7 @@ void latticebuts()
 	uiDefBut(block, NUM|SHO, B_RESIZELAT,	"V:",			470,158,100,19, &lt->pntsv, 1.0, 64.0, 0, 0, "");
 	uiDefBut(block, NUM|SHO, B_RESIZELAT,	"W:",			470,138,100,19, &lt->pntsw, 1.0, 64.0, 0, 0, "");
 	uiClearButLock();
-	
+
 	block->col= BUTGREEN;
 	uiDefBut(block, ROW|CHA, B_LATTCHANGED,		"Lin",		572, 178, 40, 19, &lt->typeu, 1.0, (float)KEY_LINEAR, 0, 0, "");
 	uiDefBut(block, ROW|CHA, B_LATTCHANGED,		"Card",		612, 178, 40, 19, &lt->typeu, 1.0, (float)KEY_CARDINAL, 0, 0, "");
@@ -2390,7 +2264,7 @@ void latticebuts()
 	uiDefBut(block, ROW|CHA, B_LATTCHANGED,		"Lin",		572, 138, 40, 19, &lt->typew, 3.0, (float)KEY_LINEAR, 0, 0, "");
 	uiDefBut(block, ROW|CHA, B_LATTCHANGED,		"Card",		612, 138, 40, 19, &lt->typew, 3.0, (float)KEY_CARDINAL, 0, 0, "");
 	uiDefBut(block, ROW|CHA, B_LATTCHANGED,		"B",		652, 138, 40, 19, &lt->typew, 3.0, (float)KEY_BSPLINE, 0, 0, "");
-	
+
 	block->col= BUTSALMON;
 	uiDefBut(block, BUT, B_RESIZELAT,	"Make Regular",		470,101,99,32, 0, 0, 0, 0, 0, "");
 
@@ -2410,7 +2284,7 @@ void load_tex_image(char *str)	/* aangeroepen vanuit fileselect */
 {
 	Image *ima=0;
 	Tex *tex;
-	
+
 	tex= cur_imatex;
 	if(tex->type==TEX_IMAGE || tex->type==TEX_ENVMAP) {
 
@@ -2435,12 +2309,12 @@ void load_tex_image(char *str)	/* aangeroepen vanuit fileselect */
 void load_plugin_tex(char *str)	/* aangeroepen vanuit fileselect */
 {
 	Tex *tex;
-	
+
 	tex= cur_imatex;
 	if(tex->type!=TEX_PLUGIN) return;
-	
+
 	if(tex->plugin) free_plugin_tex(tex->plugin);
-	
+
 	tex->stype= 0;
 	tex->plugin= add_plugin_tex(str);
 
@@ -2463,11 +2337,11 @@ void save_env(char *name)
 {
 	Tex *tex;
 	char str[FILE_MAXFILE];
-	
+
 	strcpy(str, name);
 	convertstringcode(str);
 	tex= G.buts->lockpoin;
-	
+
 	if(tex && GS(tex->id.name)==ID_TE) {
 		if(tex->env && tex->env->ok && saveover(str)) {
 			waitcursor(1);
@@ -2476,7 +2350,7 @@ void save_env(char *name)
 			waitcursor(0);
 		}
 	}
-	
+
 }
 
 void drawcolorband(ColorBand *coba, float x1, float y1, float sizex, float sizey)
@@ -2484,9 +2358,9 @@ void drawcolorband(ColorBand *coba, float x1, float y1, float sizex, float sizey
 	CBData *cbd;
 	float v3[2], v1[2], v2[2];
 	int a;
-	
+
 	if(coba==0) return;
-	
+
 	/* outline */
 	v1[0]= x1; v1[1]= y1;
 	glLineWidth((GLfloat)(3));
@@ -2505,48 +2379,48 @@ void drawcolorband(ColorBand *coba, float x1, float y1, float sizex, float sizey
 
 	glShadeModel(GL_SMOOTH);
 	cbd= coba->data;
-	
+
 	v1[0]= v2[0]= x1;
 	v1[1]= y1;
 	v2[1]= y1+sizey;
-	
+
 	glBegin(GL_QUAD_STRIP);
-	
+
 	glColor3fv( &cbd->r );
 	glVertex2fv(v1); glVertex2fv(v2);
-	
+
 	for(a=0; a<coba->tot; a++, cbd++) {
-		
+
 		v1[0]=v2[0]= x1+ cbd->pos*sizex;
 
 		glColor3fv( &cbd->r );
 		glVertex2fv(v1); glVertex2fv(v2);
 	}
-	
+
 	v1[0]=v2[0]= x1+ sizex;
 	glVertex2fv(v1); glVertex2fv(v2);
-	
+
 	glEnd();
 	glShadeModel(GL_FLAT);
-	
+
 	/* hulplijntjes */
-	
+
 	v1[0]= v2[0]=v3[0]= x1;
 	v1[1]= y1;
 	v2[1]= y1+0.5*sizey;
 	v3[1]= y1+sizey;
-	
+
 	cbd= coba->data;
 	for(a=0; a<coba->tot; a++, cbd++) {
 		v1[0]=v2[0]=v3[0]= x1+ cbd->pos*sizex;
-		
+
 		if(a==coba->cur) glLineWidth((GLfloat)(3));
 		cpack(0x0);
 		LINE2F(v1, v2);
 
 		cpack(0xFFFFFF);
 		LINE2F(v2, v3);
-		
+
 		if(a==coba->cur) {
 			glLineWidth((GLfloat)(1));
 		}
@@ -2567,9 +2441,9 @@ void do_texbuts(ushort event)
 	int a, nr;
 	short mvalo[2], mval[2];
 	char *name, str[80];
-	
+
 	tex= G.buts->lockpoin;
-	
+
 	switch(event) {
 	case B_TEXCHANNEL:
 		addqueue(curarea->headwin, REDRAW, 1);
@@ -2594,24 +2468,24 @@ void do_texbuts(ushort event)
 		/* globals: even onthouden: we maken andere area fileselect */
 		cur_imatex= tex;
 		prv_win= curarea->win;
-		
+
 		sa= closest_bigger_area();
 		areawinset(sa->win);
 		if(tex->ima) name= tex->ima->name;
 		else name= U.textudir;
-		
+
 		if(event==B_LOADTEXIMA)
 			activate_imageselect(FILE_SPECIAL, "SELECT IMAGE", name, load_tex_image);
-		else 
+		else
 			activate_fileselect(FILE_SPECIAL, "SELECT IMAGE", name, load_tex_image);
-		
+
 		break;
 	case B_NAMEIMA:
 		if(tex==0) return;
 		if(tex->ima) {
 			cur_imatex= tex;
 			prv_win= curarea->win;
-			
+
 			/* naam in tex->ima is door button veranderd! */
 			strcpy(str, tex->ima->name);
 			if(tex->ima->ibuf) strcpy(tex->ima->name, tex->ima->ibuf->name);
@@ -2625,13 +2499,13 @@ void do_texbuts(ushort event)
 		break;
 	case B_TEXIMABROWSE:
 		if(tex) {
-		
+
 			if(G.buts->menunr== -2) {
 				activate_databrowse((ID *)tex->ima, ID_IM, 0, B_TEXIMABROWSE, do_texbuts);
 				return;
 			}
 			if(G.buts->menunr < 0) break;
-		
+
 			nr= 1;
 			id= (ID *)tex->ima;
 
@@ -2646,12 +2520,12 @@ void do_texbuts(ushort event)
 			if(idtest==0) {	/* geen new */
 				return;
 			}
-		
+
 			if(idtest!=id) {
 				tex->ima= (Image *)idtest;
 				id_us_plus(idtest);
 				if(id) id->us--;
-				
+
 				allqueue(REDRAWBUTSTEX, 0);
 				RE_preview_changed(curarea->win);
 			}
@@ -2664,7 +2538,7 @@ void do_texbuts(ushort event)
 				tex->imaflag -= TEX_MIPMAP;
 				allqueue(REDRAWBUTSTEX, 0);
 			}
-			
+
 			if(tex->ima && tex->ima->ibuf) {
 				ibuf= tex->ima->ibuf;
 				nr= 0;
@@ -2701,7 +2575,7 @@ void do_texbuts(ushort event)
 						packdummy = 1;
 					}
 				}
-				
+
 				if ((G.fileflags & G_AUTOPACK) == 0) {
 					if (unpackImage(tex->ima, PF_ASK) == RET_ERROR) {
 						packdummy = 1;
@@ -2722,7 +2596,7 @@ void do_texbuts(ushort event)
 		/* globals: even onthouden: we maken andere area fileselect */
 		cur_imatex= tex;
 		prv_win= curarea->win;
-			
+
 		sa= closest_bigger_area();
 		areawinset(sa->win);
 		if(tex->plugin) strcpy(str, tex->plugin->name);
@@ -2730,7 +2604,7 @@ void do_texbuts(ushort event)
 			strcpy(str, U.plugtexdir);
 		}
 		activate_fileselect(FILE_SPECIAL, "SELECT PLUGIN", str, load_plugin_tex);
-		
+
 		break;
 
 	case B_NAMEPLUGIN:
@@ -2742,27 +2616,27 @@ void do_texbuts(ushort event)
 		allqueue(REDRAWBUTSTEX, 0);
 		RE_preview_changed(curarea->win);
 		break;
-	
+
 	case B_COLORBAND:
 		if(tex==0) return;
 		if(tex->coba==0) tex->coba= add_colorband();
 		allqueue(REDRAWBUTSTEX, 0);
 		RE_preview_changed(curarea->win);
 		break;
-	
+
 	case B_ADDCOLORBAND:
 		if(tex==0 || tex->coba==0) return;
-		
+
 		if(tex->coba->tot < MAXCOLORBAND-1) tex->coba->tot++;
 		tex->coba->cur= tex->coba->tot-1;
-		
+
 		do_texbuts(B_CALCCBAND);
-		
+
 		break;
 
 	case B_DELCOLORBAND:
 		if(tex==0 || tex->coba==0 || tex->coba->tot<2) return;
-		
+
 		for(a=tex->coba->cur; a<tex->coba->tot; a++) {
 			tex->coba->data[a]= tex->coba->data[a+1];
 		}
@@ -2776,7 +2650,7 @@ void do_texbuts(ushort event)
 	case B_CALCCBAND:
 	case B_CALCCBAND2:
 		if(tex==0 || tex->coba==0 || tex->coba->tot<2) return;
-		
+
 		for(a=0; a<tex->coba->tot; a++) tex->coba->data[a].cur= a;
 		qsort(tex->coba->data, tex->coba->tot, sizeof(CBData), vergcband);
 		for(a=0; a<tex->coba->tot; a++) {
@@ -2787,15 +2661,15 @@ void do_texbuts(ushort event)
 			}
 		}
 		if(event==B_CALCCBAND2) return;
-		
+
 		allqueue(REDRAWBUTSTEX, 0);
 		RE_preview_changed(curarea->win);
-		
+
 		break;
-		
+
 	case B_DOCOLORBAND:
 		if(tex==0 || tex->coba==0) return;
-		
+
 		cbd= tex->coba->data + tex->coba->cur;
 		uiGetMouse(mvalo);
 
@@ -2811,26 +2685,26 @@ void do_texbuts(ushort event)
 				drawcolorband(tex->coba, 923,81,345,20);
 				/* uiSetButs(B_CALCCBAND, B_CALCCBAND); */
 				glDrawBuffer(GL_BACK);
-				
+
 				do_texbuts(B_CALCCBAND2);
 				cbd= tex->coba->data + tex->coba->cur;	/* ivm qsort */
-				
+
 				mvalo[0]= mval[0];
 			}
 			usleep(2);
 		}
 		allqueue(REDRAWBUTSTEX, 0);
 		RE_preview_changed(curarea->win);
-		
+
 		break;
-	
+
 	case B_REDRAWCBAND:
 		glDrawBuffer(GL_FRONT);
 		drawcolorband(tex->coba, 923,81,345,20);
 		glDrawBuffer(GL_BACK);
 		RE_preview_changed(curarea->win);
 		break;
-	
+
 	case B_ENV_DELETE:
 		if(tex->env) {
 			RE_free_envmap(tex->env);
@@ -2853,7 +2727,7 @@ void do_texbuts(ushort event)
 			save_image_filesel_str(str);
 			activate_fileselect(FILE_SPECIAL, str, G.ima, save_env);
 		}
-		break;	
+		break;
 	case B_ENV_OB:
 		if(tex->env && tex->env->object) {
 			RE_preview_changed(curarea->win);
@@ -2863,7 +2737,7 @@ void do_texbuts(ushort event)
 			}
 		}
 		break;
-		
+
 	default:
 		if(event>=B_PLUGBUT && event<=B_PLUGBUT+23) {
 			PluginTex *pit= tex->plugin;
@@ -2893,7 +2767,7 @@ void texbuts()
 	uiBut *but;
 	int a, xco, yco, loos, dx, dy, ok;
 	char str[30], *strp;
-	
+
 	sprintf(str, "buttonswin %d", curarea->win);
 	block= uiNewBlock(&curarea->uiblocks, str, UI_EMBOSSX, UI_HELV, 0x808080, curarea->win);
 
@@ -2903,9 +2777,9 @@ void texbuts()
 	uiDefBut(block, ROW|CHA, B_TEXREDR_PRV, "World",		240,172,52,20, &G.buts->texfrom, 3.0, 1.0, 0, 0, "");
 	uiDefBut(block, ROW|CHA, B_TEXREDR_PRV, "Lamp",		292,172,46,20, &G.buts->texfrom, 3.0, 2.0, 0, 0, "");
 	block->col= BUTGREY;
-	
+
 	ok= 0;
-	
+
 	if(G.buts->texfrom==0) {
 		ob= OBACT;
 		if(ob) {
@@ -2915,7 +2789,7 @@ void texbuts()
 				if(ma) ok= 1;
 			}
 		}
-		
+
 	}
 	else if(G.buts->texfrom==1) {
 		wrld= G.scene->world;
@@ -2934,12 +2808,12 @@ void texbuts()
 			}
 		}
 	}
-	
+
 	if(ok==0) {
 		uiDrawBlock(block);
 		return;
 	}
-	
+
 	uiSetButLock(id->lib!=0, "Can't edit library data");
 
 	/* CHANNELS */
@@ -2948,7 +2822,7 @@ void texbuts()
 		if(G.buts->texfrom==0) mtex= ma->mtex[a];
 		else if(G.buts->texfrom==1) mtex= wrld->mtex[a];
 		else if(G.buts->texfrom==2)  mtex= la->mtex[a];
-		
+
 		if(mtex && mtex->tex) splitIDname(mtex->tex->id.name+2, str, &loos);
 		else strcpy(str, "");
 		str[14]= 0;
@@ -2965,7 +2839,7 @@ void texbuts()
 		}
 		yco-= 19;
 	}
-	
+
 	if(G.buts->texfrom==0) {
 		but= uiDefBut(block, TEX, B_IDNAME, "MA:",					200,195,140,20, ma->id.name+2, 0.0, 18.0, 0, 0, "");
 		but->func= (test_idbutton);
@@ -2999,39 +2873,39 @@ void texbuts()
 		uiDefBut(block, ROW|SHO, B_TEXTYPE, texstr[TEX_BLEND],	xco+=75, 195, 75, 20, &tex->type, 1.0, (float)TEX_BLEND, 0, 0, "");
 		uiDefBut(block, ROW|SHO, B_TEXTYPE, texstr[TEX_STUCCI],	xco+=75, 195, 75, 20, &tex->type, 1.0, (float)TEX_STUCCI, 0, 0, "");
 		uiDefBut(block, ROW|SHO, B_TEXTYPE, texstr[TEX_NOISE],	xco+=75, 195, 75, 20, &tex->type, 1.0, (float)TEX_NOISE, 0, 0, "");
-		
+
 		/* TYPES */
-		block->col= BUTGREEN;	
+		block->col= BUTGREEN;
 		switch(tex->type) {
 		case TEX_CLOUDS:
-			uiDefBut(block, ROW|SHO, B_MATPRV, "Default",	350, 170, 75, 18, &tex->stype, 2.0, 0.0, 0, 0, ""); 
-			uiDefBut(block, ROW|SHO, B_MATPRV, "Color",		425, 170, 75, 18, &tex->stype, 2.0, 1.0, 0, 0, ""); 
-			block->col= BUTGREY;	
+			uiDefBut(block, ROW|SHO, B_MATPRV, "Default",	350, 170, 75, 18, &tex->stype, 2.0, 0.0, 0, 0, "");
+			uiDefBut(block, ROW|SHO, B_MATPRV, "Color",		425, 170, 75, 18, &tex->stype, 2.0, 1.0, 0, 0, "");
+			block->col= BUTGREY;
 			uiDefBut(block, NUM|FLO, B_MATPRV, "NoiseSize :",	350, 110, 150, 19, &tex->noisesize, 0.0001, 2.0, 10, 0, "");
 			uiDefBut(block, NUM|SHO, B_MATPRV, "NoiseDepth:",	350, 90, 150, 19, &tex->noisedepth, 0.0, 6.0, 0, 0, "");
 			block->col= BUTGREEN;
 			uiDefBut(block, ROW|SHO, B_MATPRV, "Soft noise",		350, 40, 100, 19, &tex->noisetype, 12.0, 0.0, 0, 0, "");
 			uiDefBut(block, ROW|SHO, B_MATPRV, "Hard noise",		450, 40, 100, 19, &tex->noisetype, 12.0, 1.0, 0, 0, "");
 			break;
-	
+
 		case TEX_WOOD:
-			uiDefBut(block, ROW|SHO, B_MATPRV, "Bands",		350, 170, 75, 18, &tex->stype, 2.0, 0.0, 0, 0, ""); 
-			uiDefBut(block, ROW|SHO, B_MATPRV, "Rings",		425, 170, 75, 18, &tex->stype, 2.0, 1.0, 0, 0, ""); 
-			uiDefBut(block, ROW|SHO, B_MATPRV, "BandNoise",	500, 170, 75, 18, &tex->stype, 2.0, 2.0, 0, 0, ""); 
-			uiDefBut(block, ROW|SHO, B_MATPRV, "RingNoise",	575, 170, 75, 18, &tex->stype, 2.0, 3.0, 0, 0, ""); 
-			block->col= BUTGREY;	
+			uiDefBut(block, ROW|SHO, B_MATPRV, "Bands",		350, 170, 75, 18, &tex->stype, 2.0, 0.0, 0, 0, "");
+			uiDefBut(block, ROW|SHO, B_MATPRV, "Rings",		425, 170, 75, 18, &tex->stype, 2.0, 1.0, 0, 0, "");
+			uiDefBut(block, ROW|SHO, B_MATPRV, "BandNoise",	500, 170, 75, 18, &tex->stype, 2.0, 2.0, 0, 0, "");
+			uiDefBut(block, ROW|SHO, B_MATPRV, "RingNoise",	575, 170, 75, 18, &tex->stype, 2.0, 3.0, 0, 0, "");
+			block->col= BUTGREY;
 			uiDefBut(block, NUM|FLO, B_MATPRV, "NoiseSize :",	350, 110, 150, 19, &tex->noisesize, 0.0001, 2.0, 10, 0, "");
 			uiDefBut(block, NUM|FLO, B_MATPRV, "Turbulence:",	350, 90, 150, 19, &tex->turbul, 0.0, 200.0, 10, 0, "");
 			block->col= BUTGREEN;
 			uiDefBut(block, ROW|SHO, B_MATPRV, "Soft noise",		350, 40, 100, 19, &tex->noisetype, 12.0, 0.0, 0, 0, "");
 			uiDefBut(block, ROW|SHO, B_MATPRV, "Hard noise",		450, 40, 100, 19, &tex->noisetype, 12.0, 1.0, 0, 0, "");
 			break;
-	
+
 		case TEX_MARBLE:
-			uiDefBut(block, ROW|SHO, B_MATPRV, "Soft",		350, 170, 75, 18, &tex->stype, 2.0, 0.0, 0, 0, ""); 
-			uiDefBut(block, ROW|SHO, B_MATPRV, "Sharp",		425, 170, 75, 18, &tex->stype, 2.0, 1.0, 0, 0, ""); 
-			uiDefBut(block, ROW|SHO, B_MATPRV, "Sharper",	500, 170, 75, 18, &tex->stype, 2.0, 2.0, 0, 0, ""); 
-			block->col= BUTGREY;	
+			uiDefBut(block, ROW|SHO, B_MATPRV, "Soft",		350, 170, 75, 18, &tex->stype, 2.0, 0.0, 0, 0, "");
+			uiDefBut(block, ROW|SHO, B_MATPRV, "Sharp",		425, 170, 75, 18, &tex->stype, 2.0, 1.0, 0, 0, "");
+			uiDefBut(block, ROW|SHO, B_MATPRV, "Sharper",	500, 170, 75, 18, &tex->stype, 2.0, 2.0, 0, 0, "");
+			block->col= BUTGREY;
 			uiDefBut(block, NUM|FLO, B_MATPRV, "NoiseSize :",	350, 110, 150, 19, &tex->noisesize, 0.0001, 2.0, 10, 0, "");
 			uiDefBut(block, NUM|SHO, B_MATPRV, "NoiseDepth:",	350, 90, 150, 19, &tex->noisedepth, 0.0, 6.0, 0, 0, "");
 			uiDefBut(block, NUM|FLO, B_MATPRV, "Turbulence:",	350, 70, 150, 19, &tex->turbul, 0.0, 200.0, 10, 0, "");
@@ -3039,49 +2913,49 @@ void texbuts()
 			uiDefBut(block, ROW|SHO, B_MATPRV, "Soft noise",		350, 40, 100, 19, &tex->noisetype, 12.0, 0.0, 0, 0, "");
 			uiDefBut(block, ROW|SHO, B_MATPRV, "Hard noise",		450, 40, 100, 19, &tex->noisetype, 12.0, 1.0, 0, 0, "");
 			break;
-	
+
 		case TEX_MAGIC:
 			block->col= BUTGREY;
 			uiDefBut(block, NUM|FLO, B_MATPRV, "Size :",			350, 110, 150, 19, &tex->noisesize, 0.0001, 2.0, 10, 0, "");
 			uiDefBut(block, NUM|SHO, B_MATPRV, "Depth:",			350, 90, 150, 19, &tex->noisedepth, 0.0, 10.0, 0, 0, "");
 			uiDefBut(block, NUM|FLO, B_MATPRV, "Turbulence:",	350, 70, 150, 19, &tex->turbul, 0.0, 200.0, 10, 0, "");
 			break;
-	
+
 		case TEX_BLEND:
-			uiDefBut(block, ROW|SHO, B_MATPRV, "Lin",		350, 170, 75, 18, &tex->stype, 2.0, 0.0, 0, 0, ""); 
-			uiDefBut(block, ROW|SHO, B_MATPRV, "Quad",		425, 170, 75, 18, &tex->stype, 2.0, 1.0, 0, 0, ""); 
-			uiDefBut(block, ROW|SHO, B_MATPRV, "Ease",		500, 170, 75, 18, &tex->stype, 2.0, 2.0, 0, 0, ""); 
+			uiDefBut(block, ROW|SHO, B_MATPRV, "Lin",		350, 170, 75, 18, &tex->stype, 2.0, 0.0, 0, 0, "");
+			uiDefBut(block, ROW|SHO, B_MATPRV, "Quad",		425, 170, 75, 18, &tex->stype, 2.0, 1.0, 0, 0, "");
+			uiDefBut(block, ROW|SHO, B_MATPRV, "Ease",		500, 170, 75, 18, &tex->stype, 2.0, 2.0, 0, 0, "");
 			uiDefBut(block, ROW|SHO, B_MATPRV, "Diag",		575, 170, 75, 18, &tex->stype, 2.0, 3.0, 0, 0, "");
 			uiDefBut(block, ROW|SHO, B_MATPRV, "Sphere",		650, 170, 75, 18, &tex->stype, 2.0, 4.0, 0, 0, "");
 			uiDefBut(block, ROW|SHO, B_MATPRV, "Halo",		725, 170, 75, 18, &tex->stype, 2.0, 5.0, 0, 0, "");
-			
+
 			uiDefBut(block, TOG|SHO|BIT|1, B_MATPRV, "Flip XY",	350, 130, 75, 18, &tex->flag, 0, 0, 0, 0, "");
 			break;
-			
+
 		case TEX_STUCCI:
 			uiDefBut(block, ROW|SHO, B_MATPRV, "Plastic",	350, 170, 75, 18, &tex->stype, 2.0, 0.0, 0, 0, "");
-			uiDefBut(block, ROW|SHO, B_MATPRV, "Wall In",	425, 170, 75, 18, &tex->stype, 2.0, 1.0, 0, 0, ""); 
-			uiDefBut(block, ROW|SHO, B_MATPRV, "Wall Out",	500, 170, 75, 18, &tex->stype, 2.0, 2.0, 0, 0, ""); 
-			block->col= BUTGREY;	
+			uiDefBut(block, ROW|SHO, B_MATPRV, "Wall In",	425, 170, 75, 18, &tex->stype, 2.0, 1.0, 0, 0, "");
+			uiDefBut(block, ROW|SHO, B_MATPRV, "Wall Out",	500, 170, 75, 18, &tex->stype, 2.0, 2.0, 0, 0, "");
+			block->col= BUTGREY;
 			uiDefBut(block, NUM|FLO, B_MATPRV, "NoiseSize :",	350, 110, 150, 19, &tex->noisesize, 0.0001, 2.0, 10, 0, "");
 			uiDefBut(block, NUM|FLO, B_MATPRV, "Turbulence:",	350, 90, 150, 19, &tex->turbul, 0.0, 200.0, 10, 0, "");
 			block->col= BUTGREEN;
 			uiDefBut(block, ROW|SHO, B_MATPRV, "Soft noise",		350, 40, 100, 19, &tex->noisetype, 12.0, 0.0, 0, 0, "");
 			uiDefBut(block, ROW|SHO, B_MATPRV, "Hard noise",		450, 40, 100, 19, &tex->noisetype, 12.0, 1.0, 0, 0, "");
-	
+
 			break;
-			
+
 		case TEX_NOISE:
 			break;
-			
+
 		case TEX_IMAGE:
-			
+
 			break;
 		}
-		
+
 		block->col= BUTSALMON;
 		uiDefBut(block, BUT, B_DEFTEXVAR, "Default Vars",	1180,169,93,47, 0, 0, 0, 0, 0, "");
-		
+
 		block->col= BUTGREY;
 		/* SPECIFIC */
 		if(tex->type==TEX_IMAGE) {
@@ -3089,24 +2963,24 @@ void texbuts()
 			uiDefBut(block, NUM|FLO, B_REDR, "MaxX ",		350,10,140,19, &tex->cropxmax, -10.0, 10.0, 10, 0, "");
 			uiDefBut(block, NUM|FLO, B_REDR, "MinY ",		494,30,140,19, &tex->cropymin, -10.0, 10.0, 10, 0, "");
 			uiDefBut(block, NUM|FLO, B_REDR, "MaxY ",		494,10,140,19, &tex->cropymax, -10.0, 10.0, 10, 0, "");
-	
-	
+
+
 			uiDefBut(block, ROW|SHO, 0, "Extend",			350,85,69,19, &tex->extend, 4.0, 1.0, 0, 0, "");
 			uiDefBut(block, ROW|SHO, 0, "Clip",				421,85,59,19, &tex->extend, 4.0, 2.0, 0, 0, "");
 			uiDefBut(block, ROW|SHO, 0, "Repeat",			565,85,68,19, &tex->extend, 4.0, 3.0, 0, 0, "");
 			uiDefBut(block, ROW|SHO, 0, "ClipCube",			482,85,82,19, &tex->extend, 4.0, 4.0, 0, 0, "");
-	
+
 			uiDefBut(block, NUM|FLO, B_MATPRV, "Filter :",	352,109,135,19, &tex->filtersize, 0.1, 25.0, 0, 0, "");
-			
+
 			uiDefBut(block, NUM|SHO, B_MATPRV, "Xrepeat:",	350,60,140,19, &tex->xrepeat, 1.0, 512.0, 0, 0, "");
 			uiDefBut(block, NUM|SHO, B_MATPRV, "Yrepeat:",	494,60,140,19, &tex->yrepeat, 1.0, 512.0, 0, 0, "");
-			
+
 			uiDefBut(block, NUM|SHO, B_MATPRV, "Frames :",	642,110,150,19, &tex->frames, 0.0, 18000.0, 0, 0, "");
 			uiDefBut(block, NUM|SHO, B_MATPRV, "Offset :",	642,90,150,19, &tex->offset, -9000.0, 9000.0, 0, 0, "");
 			uiDefBut(block, NUM|SHO, B_MATPRV, "Fie/Ima:",	642,60,98,19, &tex->fie_ima, 1.0, 200.0, 0, 0, "");
 			uiDefBut(block, NUM|SHO, B_MATPRV, "StartFr:",	642,30,150,19, &tex->sfra, 1.0, 9000.0, 0, 0, "");
 			uiDefBut(block, NUM|SHO, B_MATPRV, "Len:",		642,10,150,19, &tex->len, 0.0, 9000.0, 0, 0, "");
-	
+
 			uiDefBut(block, NUM|SHO, B_MATPRV, "Fra:",		802,70,73,19, &(tex->fradur[0][0]), 0.0, 18000.0, 0, 0, "");
 			uiDefBut(block, NUM|SHO, B_MATPRV, "",			879,70,37,19, &(tex->fradur[0][1]), 0.0, 250.0, 0, 0, "");
 			uiDefBut(block, NUM|SHO, B_MATPRV, "Fra:",		802,50,73,19, &(tex->fradur[1][0]), 0.0, 18000.0, 0, 0, "");
@@ -3115,22 +2989,22 @@ void texbuts()
 			uiDefBut(block, NUM|SHO, B_MATPRV, "",			879,30,37,19, &(tex->fradur[2][1]), 0.0, 250.0, 0, 0, "");
 			uiDefBut(block, NUM|SHO, B_MATPRV, "Fra:",		802,10,73,19, &(tex->fradur[3][0]), 0.0, 18000.0, 0, 0, "");
 			uiDefBut(block, NUM|SHO, B_MATPRV, "",			879,10,37,19, &(tex->fradur[3][1]), 0.0, 250.0, 0, 0, "");
-	
+
 			block->col= BUTGREEN;
 			uiDefBut(block, TOG|SHO|BIT|6, 0, "Cyclic",		743,60,48,19, &tex->imaflag, 0, 0, 0, 0, "");
-			
+
 			block->col= BUTSALMON;
 			uiDefBut(block, BUT, B_LOADTEXIMA, "Load Image", 350,137,132,24, 0, 0, 0, 0, 0, "");
 			block->col= BUTGREY;
 			uiDefBut(block, BUT, B_LOADTEXIMA1, "", 485,137,10,24, 0, 0, 0, 0, 0, "");
-	
+
 			id= (ID *)tex->ima;
 			IDnames_to_pupstring(&strp, &(G.main->image), id, &(G.buts->menunr));
 			if(strp[0]) {
 				uiDefBut(block, MENU|SHO, B_TEXIMABROWSE, strp, 496,137,23,24, &(G.buts->menunr), 0, 0, 0, 0, "");
 			}
 			freeN(strp);
-	
+
 			if(tex->ima) {
 				uiDefBut(block, TEX, B_NAMEIMA, "",			520,137,412,24, tex->ima->name, 0.0, 79.0, 0, 0, "");
 				sprintf(str, "%d", tex->ima->id.us);
@@ -3144,9 +3018,9 @@ void texbuts()
 				}
 				uiDefBut(block, TOG|INT|BIT|0, B_PACKIMA, "ICON 0 1 9",	960,137,24,24, &packdummy, 0, 0, 0, 0, "Pack/Unpack this Image");
 			}
-			
+
 			block->col= BUTGREEN;
-			
+
 			uiDefBut(block, TOG|SHO|BIT|0, 0, "InterPol",			350, 170, 75, 18, &tex->imaflag, 0, 0, 0, 0, "");
 			uiDefBut(block, TOG|SHO|BIT|1, B_MATPRV, "UseAlpha",	425, 170, 75, 18, &tex->imaflag, 0, 0, 0, 0, "");
 			uiDefBut(block, TOG|SHO|BIT|5, B_MATPRV, "CalcAlpha",	500, 170, 75, 18, &tex->imaflag, 0, 0, 0, 0, "");
@@ -3157,9 +3031,9 @@ void texbuts()
 			uiDefBut(block, TOG|SHO|BIT|7, B_RELOADIMA, "Movie",	850, 170, 50, 18, &tex->imaflag, 0, 0, 0, 0, "");
 			uiDefBut(block, TOG|SHO|BIT|8, 0, "Anti",				900, 170, 50, 18, &tex->imaflag, 0, 0, 0, 0, "");
 			uiDefBut(block, TOG|SHO|BIT|10, 0, "StField",			950, 170, 50, 18, &tex->imaflag, 0, 0, 0, 0, "");
-			
+
 			block->col= BUTGREY;
-	
+
 			/* printen aantal frames anim */
 			if(tex->ima && tex->ima->anim) {
 				sprintf(str, "%d frs  ", tex->ima->anim->duration);
@@ -3167,19 +3041,19 @@ void texbuts()
 				sprintf(str, "%d cur  ", tex->ima->lastframe);
 				uiDefBut(block, LABEL, 0, str,      834, 90, 90, 18, 0, 0, 0, 0, 0, "");
 			}
-			
-			
+
+
 		}
 		else if(tex->type==TEX_PLUGIN) {
 			if(tex->plugin && tex->plugin->doit) {
-				
+
 				pit= tex->plugin;
-	
+
 				block->col= BUTGREEN;
 				for(a=0; a<pit->stypes; a++) {
 					uiDefBut(block, ROW|SHO, B_MATPRV, pit->stnames+16*a, 350+75*a, 170, 75, 18, &tex->stype, 2.0, (float)a, 0, 0, "");
 				}
-				
+
 				block->col= BUTGREY;
 				varstr= pit->varstr;
 				if(varstr) {
@@ -3191,36 +3065,36 @@ void texbuts()
 				}
 				uiDefBut(block, TEX, B_NAMEPLUGIN, "",			520,137,412,24, pit->name, 0.0, 79.0, 0, 0, "");
 			}
-	
+
 			block->col= BUTSALMON;
 			uiDefBut(block, BUT, B_LOADPLUGIN, "Load Plugin", 350,137,137,24, 0, 0, 0, 0, 0, "");
-			
+
 		}
 		else if(tex->type==TEX_ENVMAP) {
-			
+
 			if(tex->env==0) tex->env= RE_add_envmap();
-				
+
 			if(tex->env) {
 				env= tex->env;
-				
+
 				block->col= BUTGREEN;
 				uiDefBut(block, ROW|SHO, B_REDR, 	"Static", 350, 170, 75, 18, &env->stype, 2.0, 0.0, 0, 0, "");
 				uiDefBut(block, ROW|SHO, B_REDR, 	"Anim", 425, 170, 75, 18, &env->stype, 2.0, 1.0, 0, 0, "");
 				uiDefBut(block, ROW|SHO, B_ENV_FREE, "Load", 500, 170, 75, 18, &env->stype, 2.0, 2.0, 0, 0, "");
-				
+
 				if(env->stype==ENV_LOAD) {
 					block->col= BUTSALMON;
 					uiDefBut(block, BUT, B_LOADTEXIMA, "Load Image", 350,137,132,24, 0, 0, 0, 0, 0, "");
 					block->col= BUTGREY;
 					uiDefBut(block, BUT, B_LOADTEXIMA1, "", 485,137,10,24, 0, 0, 0, 0, 0, "");
-					
+
 					id= (ID *)tex->ima;
 					IDnames_to_pupstring(&strp, &(G.main->image), id, &(G.buts->menunr));
 					if(strp[0]) {
 						uiDefBut(block, MENU|SHO, B_TEXIMABROWSE, strp, 496,137,23,24, &(G.buts->menunr), 0, 0, 0, 0, "");
 					}
 					freeN(strp);
-	
+
 					if(tex->ima) {
 						uiDefBut(block, TEX, B_NAMEIMA, "",			520,137,412,24, tex->ima->name, 0.0, 79.0, 0, 0, "");
 						sprintf(str, "%d", tex->ima->id.us);
@@ -3241,10 +3115,10 @@ void texbuts()
 				uiDefBut(block, NUM|FLO, REDRAWVIEW3D, 	"ClipSta", 350,68,122,24, &env->clipsta, 0.01, 50.0, 100, 0, "");
 				uiDefBut(block, NUM|FLO, 0, 	"ClipEnd", 475,68,142,24, &env->clipend, 0.1, 5000.0, 1000, 0, "");
 				if(env->stype!=ENV_LOAD) uiDefBut(block, NUM|INT, B_ENV_FREE, 	"CubeRes", 620,68,140,24, &env->cuberes, 50, 1000.0, 0, 0, "");
-	
+
 				uiDefBut(block, NUM|FLO, B_MATPRV, "Filter :",	558,95,201,24, &tex->filtersize, 0.1, 25.0, 0, 0, ""),
-	
-				uiDefBut(block, LABEL, 0, "Don't render layer:",		772,100,140,22, 0, 0.0, 0.0, 0, 0, "");	
+
+				uiDefBut(block, LABEL, 0, "Don't render layer:",		772,100,140,22, 0, 0.0, 0.0, 0, 0, "");
 				xco= 772;
 				dx= 28;
 				dy= 26;
@@ -3253,10 +3127,10 @@ void texbuts()
 					uiDefBut(block, TOG|INT|BIT|a, 0, "",	xco+a*(dx/2), 68+dy/2, dx/2, 1+dy/2, &env->notlay, 0, 0, 0, 0, "");
 					if(a==4) xco+= 5;
 				}
-	
+
 			}
 		}
-	
+
 		/* COLORBAND */
 		block->col= BUTSALMON;
 		uiDefBut(block, TOG|SHO|BIT|0, B_COLORBAND, "Colorband",		923,103,102,20, &tex->flag, 0, 0, 0, 0, "");
@@ -3265,12 +3139,12 @@ void texbuts()
 			uiDefBut(block, BUT, B_DELCOLORBAND, "Del",				1218,104,50,20, 0, 0, 0, 0, 0, "");
 			block->col= BUTPURPLE;
 			uiDefBut(block, NUM|SHO, B_REDR,		"Cur:",				1082,104,132,20, &tex->coba->cur, 0.0, (float)(tex->coba->tot-1), 0, 0, "");
-	
+
 			uiDefBut(block, LABEL, B_DOCOLORBAND, "", 923,81,345,20, 0, 0, 0, 0, 0, ""); /* alleen voor event! */
-			
+
 			drawcolorband(tex->coba, 923,81,345,20);
 			cbd= tex->coba->data + tex->coba->cur;
-			
+
 			uiDefBut(block, NUM|FLO, B_CALCCBAND, "Pos",			923,59,89,20, &cbd->pos, 0.0, 1.0, 10, 0, "");
 			block->col= BUTGREEN;
 			uiDefBut(block, ROW|SHO, B_REDRAWCBAND, "E",		1013,59,20,20, &tex->coba->ipotype, 5.0, 1.0, 0, 0, "");
@@ -3279,29 +3153,29 @@ void texbuts()
 			block->col= BUTPURPLE;
 			uiDefBut(block, COL|FLO, B_BANDCOL, "",					1076,59,28,20, &(cbd->r), 0, 0, 0, 0, "");
 			uiDefBut(block, NUMSLI|FLO, B_REDRAWCBAND, "A ",			1107,58,163,20, &cbd->a, 0.0, 1.0, 0, 0, "");
-			
+
 			uiDefBut(block, NUMSLI|FLO, B_REDRAWCBAND, "R ",			923,37,116,20, &cbd->r, 0.0, 1.0, B_BANDCOL, 0, "");
 			uiDefBut(block, NUMSLI|FLO, B_REDRAWCBAND, "G ",			1042,37,111,20, &cbd->g, 0.0, 1.0, B_BANDCOL, 0, "");
 			uiDefBut(block, NUMSLI|FLO, B_REDRAWCBAND, "B ",			1156,36,115,20, &cbd->b, 0.0, 1.0, B_BANDCOL, 0, "");
-			
+
 		}
-	
-	
+
+
 		/* RGB-BRICON */
 		block->col= BUTGREY;
 		uiDefBut(block, NUMSLI|FLO, B_MATPRV, "Bright",			923,11,166,20, &tex->bright, 0.0, 2.0, 0, 0, "");
-		
+
 		uiDefBut(block, NUMSLI|FLO, B_MATPRV, "Contr",			1093,11,180,20, &tex->contrast, 0.01, 2.0, 0, 0, "");
-	
+
 		if((tex->flag & TEX_COLORBAND)==0) {
 			uiDefBut(block, NUMSLI|FLO, B_MATPRV, "R ",			923,37,116,20, &tex->rfac, 0.0, 2.0, 0, 0, "");
 			uiDefBut(block, NUMSLI|FLO, B_MATPRV, "G ",			1042,37,111,20, &tex->gfac, 0.0, 2.0, 0, 0, "");
 			uiDefBut(block, NUMSLI|FLO, B_MATPRV, "B ",			1156,36,115,20, &tex->bfac, 0.0, 2.0, 0, 0, "");
 		}
 	}
-	
+
 	/* PREVIEW RENDER */
-	
+
 	previewdraw();
 
 	uiDrawBlock(block);
@@ -3317,7 +3191,7 @@ void do_matbuts(ushort event)
 	Material *ma;
 	MTex *mtex;
 
-	switch(event) {		
+	switch(event) {
 	case B_ACTCOL:
 		addqueue(curarea->headwin, REDRAW, 1);
 		allqueue(REDRAWBUTSMAT, 0);
@@ -3367,9 +3241,9 @@ void do_matbuts(ushort event)
 	case B_MTEXPASTE:
 		ma= G.buts->lockpoin;
 		if(ma && mtexcopied && mtexcopybuf.tex) {
-			if(ma->mtex[(int)ma->texact]==0 ) ma->mtex[(int)ma->texact]= mallocN(sizeof(MTex), "mtex"); 
+			if(ma->mtex[(int)ma->texact]==0 ) ma->mtex[(int)ma->texact]= mallocN(sizeof(MTex), "mtex");
 			memcpy(ma->mtex[(int)ma->texact], &mtexcopybuf, sizeof(MTex));
-			
+
 			id_us_plus((ID *)mtexcopybuf.tex);
 			notice("pasted!");
 			RE_preview_changed(curarea->win);
@@ -3396,7 +3270,7 @@ void matbuts()
 	float *colpoin, min;
 	int rgbsel = 0, a, xco, loos;
 	char str[30], *strp;
-	
+
 	ob= OBACT;
 	if(ob==0 || ob->data==0) return;
 
@@ -3404,7 +3278,7 @@ void matbuts()
 	block= uiNewBlock(&curarea->uiblocks, str, UI_EMBOSSX, UI_HELV, 0x808080, curarea->win);
 
 	if(ob->actcol==0) ob->actcol= 1;	/* ivm TOG|BIT button */
-	
+
 	/* aangeven waar het materiaal aan hangt */
 	block->col= BUTSALMON;
 	uiDefBut(block, TOG|SHO|BIT|(ob->actcol-1), B_MATFROM, "OB",	342, 195, 33, 20, &ob->colbits, 0, 0, 0, 0, "");
@@ -3414,7 +3288,7 @@ void matbuts()
 	block->col= BUTGREEN;
 	uiDefBut(block, TOGN|SHO|BIT|(ob->actcol-1), B_MATFROM, str,		380, 195, 33, 20, &ob->colbits, 0, 0, 0, 0, "");
 	block->col= BUTGREY;
-	
+
 	/* id is het blok waarvan materiaal wordt gepakt */
 	if( BTST(ob->colbits, ob->actcol-1) ) id= (ID *)ob;
 	else id= ob->data;
@@ -3422,9 +3296,9 @@ void matbuts()
 	sprintf(str, "%d Mat", ob->totcol);
 	if(ob->totcol) min= 1.0; else min= 0.0;
 	uiDefBut(block, NUM|CHA, B_ACTCOL, str,	415,195,140,20, &(ob->actcol), min, (float)ob->totcol, 0, 0, "");
-	
+
 	uiSetButLock(id->lib!=0, "Can't edit library data");
-	
+
 	strncpy(str, id->name, 2);
 	str[2]= ':'; str[3]= 0;
 	but= uiDefBut(block, TEX, B_IDNAME, str,		200,195,140,20, id->name+2, 0.0, 18.0, 0, 0, "");
@@ -3434,15 +3308,15 @@ void matbuts()
 		uiDrawBlock(block);
 		return;
 	}
-	
+
 	ma= give_current_material(ob, ob->actcol);
-	
+
 	if(ma==0) {
 		uiDrawBlock(block);
 		return;
 	}
 	uiSetButLock(ma->id.lib!=0, "Can't edit library data");
-	
+
 	block->col= BUTGREY;
 	uiDefBut(block, ROW|SHO, REDRAWBUTSMAT, "RGB",			200,166,44,22, &(ma->colormodel), 1.0, (float)MA_RGB, 0, 0, "");
 	uiDefBut(block, ROW|SHO, REDRAWBUTSMAT, "HSV",			200,143,44,22, &(ma->colormodel), 1.0, (float)MA_HSV, 0, 0, "");
@@ -3450,7 +3324,7 @@ void matbuts()
 
 	if((ma->mode & MA_HALO)==0)
 		uiDefBut(block, NUM|FLO, 0, "Zoffset:",		200,91,174,19, &(ma->zoffs), 0.0, 10.0, 0, 0, "");
-	
+
 	if(ma->dynamode & MA_DRAW_DYNABUTS) {
 		uiDefBut(block, NUMSLI|FLO, 0, "Reflect ",			380,168,175,21, &ma->reflect, 0.0, 1.0, 0, 0, "The factor a wall or floor reflects a collision");
 		uiDefBut(block, NUMSLI|FLO, 0, "Fh Frict ",			380,144,175,21, &ma->friction, 0.0, 1.0, 0, 0, "Inside the Fh dist, floor friction");
@@ -3466,7 +3340,7 @@ void matbuts()
 		uiDefBut(block, COL|FLO, B_MIRCOL, "",		246,143,37,45, &(ma->mirr), 0, 0, 0, 0, "");
 		uiDefBut(block, COL|FLO, B_SPECCOL, "",		287,143,37,45, &(ma->specr), 0, 0, 0, 0, "");
 		uiDefBut(block, COL|FLO, B_MATCOL, "",		326,143,47,45, &(ma->r), 0, 0, 0, 0, "");
-	
+
 		if(ma->mode & MA_HALO) {
 			uiDefBut(block, ROW|CHA, REDRAWBUTSMAT, "Ring",			246,120,37,22, &(ma->rgbsel), 2.0, 2.0, 0, 0, "");
 			uiDefBut(block, ROW|CHA, REDRAWBUTSMAT, "Line",			287,120,37,22, &(ma->rgbsel), 2.0, 1.0, 0, 0, "");
@@ -3480,7 +3354,7 @@ void matbuts()
 		if(ma->rgbsel==0) {colpoin= &(ma->r); rgbsel= B_MATCOL;}
 		else if(ma->rgbsel==1) {colpoin= &(ma->specr); rgbsel= B_SPECCOL;}
 		else if(ma->rgbsel==2) {colpoin= &(ma->mirr); rgbsel= B_MIRCOL;}
-		
+
 		if(ma->rgbsel==0 && (ma->mode & (MA_VERTEXCOLP|MA_FACETEXTURE) && !(ma->mode & MA_HALO)));
 		else if(ma->colormodel==MA_HSV) {
 			block->col= BUTPURPLE;
@@ -3502,12 +3376,12 @@ void matbuts()
 		uiDefBut(block, NUMSLI|FLO, B_MATPRV, "Alpha ",		200,50,175,18, &(ma->alpha), 0.0, 1.0, 0, 0, "");
 		uiDefBut(block, NUMSLI|SHO, B_MATPRV, "Hard ",		200,30,175,18, &(ma->har), 1.0, 127.0, 0, 0, "");
 		uiDefBut(block, NUMSLI|FLO, B_MATPRV, "Add  ",		200,10,175,18, &(ma->add), 0.0, 1.0, 0, 0, "");
-		
+
 		uiDefBut(block, NUM|SHO, B_MATPRV, "Rings: ",		380,90,85,18, &(ma->ringc), 0.0, 24.0, 0, 0, "");
 		uiDefBut(block, NUM|SHO, B_MATPRV, "Lines: ",		465,90,90,18, &(ma->linec), 0.0, 250.0, 0, 0, "");
 		uiDefBut(block, NUM|SHO, B_MATPRV, "Star: ",			380,70,85,18, &(ma->starc), 3.0, 50.0, 0, 0, "");
 		uiDefBut(block, NUM|CHA, B_MATPRV, "Seed: ",			465,70,90,18, &(ma->seed1), 0.0, 255.0, 0, 0, "");
-		
+
 		uiDefBut(block, NUM|FLO, B_MATPRV, "FlareSize: ",	380,50,85,18, &(ma->flaresize), 0.1, 25.0, 10, 0, "");
 		uiDefBut(block, NUM|FLO, B_MATPRV, "Sub Size: ",		465,50,90,18, &(ma->subsize), 0.1, 25.0, 10, 0, "");
 		uiDefBut(block, NUM|FLO, B_MATPRV, "FlareBoost: ",	380,30,175,18, &(ma->flareboost), 0.1, 10.0, 10, 0, "");
@@ -3515,13 +3389,13 @@ void matbuts()
 		uiDefBut(block, NUM|SHO, B_MATPRV, "Flares: ",		465,10,90,18, &(ma->flarec), 1.0, 32.0, 0, 0, "");
 
 		block->col= BUTBLUE;
-		
+
 		uiDefBut(block, TOG|INT|BIT|15, B_MATPRV, "Flare",		571, 181, 77, 36, &(ma->mode), 0, 0, 0, 0, "");
 		uiDefBut(block, TOG|INT|BIT|8, B_MATPRV, "Rings",		571, 143, 77, 18, &(ma->mode), 0, 0, 0, 0, "");
 		uiDefBut(block, TOG|INT|BIT|9, B_MATPRV, "Lines",		571, 124, 77, 18, &(ma->mode), 0, 0, 0, 0, "");
 		uiDefBut(block, TOG|INT|BIT|11, B_MATPRV, "Star",		571, 105, 77, 18, &(ma->mode), 0, 0, 0, 0, "");
 		uiDefBut(block, TOG|INT|BIT|5, B_MATPRV_DRAW, "Halo",	571, 86, 77, 18, &(ma->mode), 0, 0, 0, 0, "");
-		
+
 		uiDefBut(block, TOG|INT|BIT|12, B_MATPRV, "HaloTex",		571, 67, 77, 18, &(ma->mode), 0, 0, 0, 0, "");
 		uiDefBut(block, TOG|INT|BIT|13, B_MATPRV, "HaloPuno",	571, 48, 77, 18, &(ma->mode), 0, 0, 0, 0, "");
 		uiDefBut(block, TOG|INT|BIT|10, B_MATPRV, "X Alpha",		571, 28, 77, 18, &(ma->mode), 0, 0, 0, 0, "");
@@ -3532,16 +3406,16 @@ void matbuts()
 		uiDefBut(block, NUMSLI|SHO, B_MATPRV, "Hard ",		200,50,175,18, &(ma->har), 1.0, 255.0, 0, 0, "");
 		uiDefBut(block, NUMSLI|FLO, B_MATPRV, "SpTr ",		200,30,175,18, &(ma->spectra), 0.0, 1.0, 0, 0, "");
 		uiDefBut(block, NUMSLI|FLO, B_MATPRV, "Add  ",		200,10,175,18, &(ma->add), 0.0, 1.0, 0, 0, "Glow factor");
-	
+
 		uiDefBut(block, NUMSLI|FLO, B_MATPRV, "Ref   ",		380,70,175,18, &(ma->ref), 0.0, 1.0, 0, 0, "");
 		uiDefBut(block, NUMSLI|FLO, B_MATPRV, "Alpha ",		380,50,175,18, &(ma->alpha), 0.0, 1.0, 0, 0, "");
 		uiDefBut(block, NUMSLI|FLO, B_MATPRV, "Emit  ",		380,30,175,18, &(ma->emit), 0.0, 1.0, 0, 0, "");
 		uiDefBut(block, NUMSLI|FLO, B_MATPRV, "Amb   ",		380,10,175,18, &(ma->amb), 0.0, 1.0, 0, 0, "");
 		/* transparent solids : exponential dropoff */
 /*  		uiDefBut(block, NUMSLI|FLO, B_MATPRV, "K     ",		380,-10,175,18, &(ma->kfac), 0.0, 10.0, 0, 0, ""); */
-	
+
 		block->col= BUTBLUE;
-	
+
 		uiDefBut(block, TOG|INT|BIT|0, 0,	"Traceable",		571,200,77,18, &(ma->mode), 0, 0, 0, 0, "");
 		uiDefBut(block, TOG|INT|BIT|1, 0,	"Shadow",		571,181,77,18, &(ma->mode), 0, 0, 0, 0, "");
 		uiDefBut(block, TOG|INT|BIT|2, B_MATPRV, "Shadeless",	571, 162, 77, 18, &(ma->mode), 0, 0, 0, 0, "");
@@ -3560,7 +3434,7 @@ void matbuts()
 		uiDefBut(block, TOG|INT|BIT|11, B_REDR,	"TexFace",		398,95,77,18, &(ma->mode), 0, 0, 0, 0, "");
 	}
 	/* PREVIEW RENDER */
-	
+
 	previewdraw();
 
 	uiDefBut(block, ROW|CHA, B_MATPRV, "ICON 0 3 9",		10,195,25,20, &(ma->pr_type), 10, 0, 0, 0, "");
@@ -3568,7 +3442,7 @@ void matbuts()
 	uiDefBut(block, ROW|CHA, B_MATPRV, "ICON 0 5 9",		60,195,25,20, &(ma->pr_type), 10, 2, 0, 0, "");
 
 	uiDefBut(block, ICONTOG|SHO|BIT|0, B_MATPRV, "ICON 0 12 3",		95,195,25,20, &(ma->pr_back), 0, 0, 0, 0, "");
-	
+
 	uiDefBut(block, BUT, B_MATPRV, "ICON 0 0 7",		159,195,30,20, 0, 0, 0, 0, 0, "");
 
 	/* TEX CHANNELS */
@@ -3582,11 +3456,11 @@ void matbuts()
 		uiDefBut(block, ROW|CHA, B_MATPRV_DRAW, str,	xco, 195, 63, 20, &(ma->texact), 3.0, (float)a, 0, 0, "");
 		xco+= 65;
 	}
-	
+
 	uiDefBut(block, BUT, B_MTEXCOPY, "ICON 0 14 7",	xco,195,20,21, 0, 0, 0, 0, 0, "");
 	uiDefBut(block, BUT, B_MTEXPASTE, "ICON 0 13 7",	xco+20,195,20,21, 0, 0, 0, 0, 0, "");
 
-	
+
 	block->col= BUTGREEN;
 	uiDefBut(block, TOG|CHA, B_MATPRV, "SepT", xco+40, 195, 40, 20, &(ma->septex), 0, 0, 0, 0, "");
 	block->col= BUTGREY;
@@ -3596,7 +3470,7 @@ void matbuts()
 		mtex= &emptytex;
 		default_mtex(mtex);
 	}
-	
+
 	/* TEXCO */
 	block->col= BUTGREEN;
 	uiDefBut(block, ROW|SHO, B_MATPRV, "Object",		694,166,49,18, &(mtex->texco), 4.0, (float)TEXCO_OBJECT, 0, 0, "");
@@ -3610,9 +3484,9 @@ void matbuts()
 	uiDefBut(block, ROW|SHO, B_MATPRV, "Win",			779,146,31,18, &(mtex->texco), 4.0, (float)TEXCO_WINDOW, 0, 0, "");
 	uiDefBut(block, ROW|SHO, B_MATPRV, "Nor",			811,146,32,18, &(mtex->texco), 4.0, (float)TEXCO_NORM, 0, 0, "");
 	uiDefBut(block, ROW|SHO, B_MATPRV, "Refl",			844,146,33,18, &(mtex->texco), 4.0, (float)TEXCO_REFL, 0, 0, "");
-	
+
 	block->col= BUTGREY;
-	
+
 	/* COORDS */
 	uiDefBut(block, ROW|CHA, B_MATPRV, "Flat",			666,114,48,18, &(mtex->mapping), 5.0, (float)MTEX_FLAT, 0, 0, "");
 	uiDefBut(block, ROW|CHA, B_MATPRV, "Cube",			717,114,50,18, &(mtex->mapping), 5.0, (float)MTEX_CUBE, 0, 0, "");
@@ -3625,20 +3499,20 @@ void matbuts()
 		else if(a==1) strcpy(str, "X");
 		else if(a==2) strcpy(str, "Y");
 		else strcpy(str, "Z");
-		
+
 		uiDefBut(block, ROW|CHA, B_MATPRV, str,			xco, 50, 24, 18, &(mtex->projx), 6.0, (float)a, 0, 0, "");
 		uiDefBut(block, ROW|CHA, B_MATPRV, str,			xco, 30, 24, 18, &(mtex->projy), 7.0, (float)a, 0, 0, "");
 		uiDefBut(block, ROW|CHA, B_MATPRV, str,			xco, 10, 24, 18, &(mtex->projz), 8.0, (float)a, 0, 0, "");
 		xco+= 26;
 	}
-	
+
 	uiDefBut(block, NUM|FLO, B_MATPRV, "ofsX",		778,114,100,18, mtex->ofs, -10.0, 10.0, 10, 0, "");
 	uiDefBut(block, NUM|FLO, B_MATPRV, "ofsY",		778,94,100,18, mtex->ofs+1, -10.0, 10.0, 10, 0, "");
 	uiDefBut(block, NUM|FLO, B_MATPRV, "ofsZ",		778,74,100,18, mtex->ofs+2, -10.0, 10.0, 10, 0, "");
 	uiDefBut(block, NUM|FLO, B_MATPRV, "sizeX",	778,50,100,18, mtex->size, -100.0, 100.0, 10, 0, "");
 	uiDefBut(block, NUM|FLO, B_MATPRV, "sizeY",	778,30,100,18, mtex->size+1, -100.0, 100.0, 10, 0, "");
 	uiDefBut(block, NUM|FLO, B_MATPRV, "sizeZ",	778,10,100,18, mtex->size+2, -100.0, 100.0, 10, 0, "");
-	
+
 	/* TEXTUREBLOK SELECT */
 	if(G.main->tex.first==0) {
 		uiDefBut(block, MENU|SHO, B_EXTEXBROWSE, "ADD NEW %x 32767", 900,146,20,19, &(G.buts->texnr), 0, 0, 0, 0, "");
@@ -3659,18 +3533,18 @@ void matbuts()
 		uiDefBut(block, BUT, B_AUTOTEXNAME, "ICON 0 7 4", 1041,146,21,19, 0, 0, 0, 0, 0, "");
 		if(id->lib) {
 			if(ma->id.lib) uiDefBut(block, BUT, 0, "ICON 0 6 4",	1019,146,21,19, 0, 0, 0, 0, 0, "");
-			else uiDefBut(block, BUT, 0, "ICON 0 5 4",	1019,146,21,19, 0, 0, 0, 0, 0, "");		
+			else uiDefBut(block, BUT, 0, "ICON 0 5 4",	1019,146,21,19, 0, 0, 0, 0, 0, "");
 		}
 		block->col= BUTSALMON;
 		uiDefBut(block, BUT, B_TEXCLEAR, "Clear", 922, 146, 72, 19, 0, 0, 0, 0, 0, "");
 		block->col= BUTGREY;
 	}
-	
+
 	/* TEXTURE OUTPUT */
 	uiDefBut(block, TOG|SHO|BIT|1, B_MATPRV, "Stencil",	900,114,52,18, &(mtex->texflag), 0, 0, 0, 0, "");
 	uiDefBut(block, TOG|SHO|BIT|2, B_MATPRV, "Neg",		954,114,38,18, &(mtex->texflag), 0, 0, 0, 0, "");
 	uiDefBut(block, TOG|SHO|BIT|0, B_MATPRV, "No RGB",	994,114,69,18, &(mtex->texflag), 0, 0, 0, 0, "");
-	
+
 	uiDefBut(block, COL|FLO, B_MTEXCOL, "",				900,100,163,12, &(mtex->r), 0, 0, 0, 0, "");
 
 	if(ma->colormodel==MA_HSV) {
@@ -3687,9 +3561,9 @@ void matbuts()
 		uiDefBut(block, NUMSLI|FLO, B_MATPRV, "G ",			900,60,163,18, &(mtex->g), 0.0, 1.0, B_MTEXCOL, 0, "");
 		uiDefBut(block, NUMSLI|FLO, B_MATPRV, "B ",			900,40,163,18, &(mtex->b), 0.0, 1.0, B_MTEXCOL, 0, "");
 	}
-	
+
 	uiDefBut(block, NUMSLI|FLO, B_MATPRV, "DVar ",		900,10,163,18, &(mtex->def_var), 0.0, 1.0, 0, 0, "");
-	
+
 	/* MAP TO */
 	block->col= BUTGREEN;
 	uiDefBut(block, TOG|SHO|BIT|0, B_MATPRV, "Col",		1087,166,35,18, &(mtex->mapto), 0, 0, 0, 0, "");
@@ -3701,7 +3575,7 @@ void matbuts()
 	uiDefBut(block, TOG3|SHO|BIT|8, B_MATPRV, "Hard",	1126,146,44,18, &(mtex->mapto), 0, 0, 0, 0, "");
 	uiDefBut(block, TOG3|SHO|BIT|7, B_MATPRV, "Alpha",	1172,146,45,18, &(mtex->mapto), 0, 0, 0, 0, "");
 	uiDefBut(block, TOG3|SHO|BIT|6, B_MATPRV, "Emit",	1220,146,45,18, &(mtex->mapto), 0, 0, 0, 0, "");
-	
+
 /* 	uiDefBut(block, TOG|SHO|BIT|3, B_MATPRV, "Alpha Mix",1087,114,100,18, &(mtex->texflag), 0, 0, 0, 0); ,""*/
 
 	block->col= BUTGREY;
@@ -3709,11 +3583,11 @@ void matbuts()
 	uiDefBut(block, ROW|SHO, B_MATPRV, "Mul",			1136,94,44,18, &(mtex->blendtype), 9.0, (float)MTEX_MUL, 0, 0, "");
 	uiDefBut(block, ROW|SHO, B_MATPRV, "Add",			1182,94,41,18, &(mtex->blendtype), 9.0, (float)MTEX_ADD, 0, 0, "");
 	uiDefBut(block, ROW|SHO, B_MATPRV, "Sub",			1226,94,40,18, &(mtex->blendtype), 9.0, (float)MTEX_SUB, 0, 0, "");
-	
+
 	uiDefBut(block, NUMSLI|FLO, B_MATPRV, "Col ",		1087,50,179,18, &(mtex->colfac), 0.0, 1.0, 0, 0, "");
 	uiDefBut(block, NUMSLI|FLO, B_MATPRV, "Nor ",		1087,30,179,18, &(mtex->norfac), 0.0, 5.0, 0, 0, "");
 	uiDefBut(block, NUMSLI|FLO, B_MATPRV, "Var ",		1087,10,179,18, &(mtex->varfac), 0.0, 1.0, 0, 0, "");
-	
+
 	uiDrawBlock(block);
 }
 
@@ -3724,7 +3598,7 @@ void do_lampbuts(ushort event)
 {
 	Lamp *la;
 	MTex *mtex;
-		
+
 	switch(event) {
 	case B_LAMPREDRAW:
 		RE_preview_changed(curarea->win);
@@ -3743,7 +3617,7 @@ void do_lampbuts(ushort event)
 		}
 		break;
 	}
-	
+
 	if(event) freefastshade();
 }
 
@@ -3759,10 +3633,10 @@ void lampbuts()
 	float grid=0.0;
 	int loos, xco, a;
 	char *strp, str[32];
-	
-	if(G.vd) grid= G.vd->grid; 
+
+	if(G.vd) grid= G.vd->grid;
 	if(grid<1.0) grid= 1.0;
-	
+
 	ob= OBACT;
 	if(ob==0) return;
 	if(ob->type!=OB_LAMP) return;
@@ -3786,7 +3660,7 @@ void lampbuts()
 	uiDefBut(block, TOG|SHO|BIT|3, B_MATPRV,"Quad",		203,196,100,19,&la->mode, 0, 0, 0, 0, "");
 	uiDefBut(block, TOG|SHO|BIT|6, REDRAWVIEW3D,"Sphere",203,176,100,19,&la->mode, 0, 0, 0, 0, "");
 	uiDefBut(block, TOG|SHO|BIT|0, REDRAWVIEW3D, "Shadows", 203,156,100,19,&la->mode, 0, 0, 0, 0, "");
- 	uiDefBut(block, TOG|SHO|BIT|1, 0,"Halo",				203,136,100,19,&la->mode, 0, 0, 0, 0, ""); 
+ 	uiDefBut(block, TOG|SHO|BIT|1, 0,"Halo",				203,136,100,19,&la->mode, 0, 0, 0, 0, "");
 	uiDefBut(block, TOG|SHO|BIT|2, 0,"Layer",			203,116,100,19,&la->mode, 0, 0, 0, 0, "");
 	uiDefBut(block, TOG|SHO|BIT|4, B_MATPRV,"Negative",	203,96,100,19,&la->mode, 0, 0, 0, 0, "");
 	uiDefBut(block, TOG|SHO|BIT|5, 0,"OnlyShadow",		203,76,100,19,&la->mode, 0, 0, 0, 0, "");
@@ -3805,16 +3679,16 @@ void lampbuts()
 	uiDefBut(block, NUM|SHO,0,"Halo step:",	496,10,105,19,	&la->shadhalostep, 0.0, 12.0, 0, 0, "");
 	uiDefBut(block, NUM|FLO,0,"Bias:",		605,30,108,19,	&la->bias, 0.01, 5.0, 1, 0, "");
 	uiDefBut(block, NUM|FLO,0,"Soft:",		605,10,108,19,	&la->soft,1.0,100.0, 100, 0, "");
-	
+
 	block->col= BUTGREY;
 	uiDefBut(block, NUMSLI|FLO,B_MATPRV,"Energy ",	520,156,195,20, &(la->energy), 0.0, 10.0, 0, 0, "");
 
 	uiDefBut(block, NUMSLI|FLO,B_MATPRV,"R ",		520,128,194,20,&la->r, 0.0, 1.0, B_COLLAMP, 0, "");
 	uiDefBut(block, NUMSLI|FLO,B_MATPRV,"G ",		520,108,194,20,&la->g, 0.0, 1.0, B_COLLAMP, 0, "");
 	uiDefBut(block, NUMSLI|FLO,B_MATPRV,"B ",		520,88,194,20,&la->b, 0.0, 1.0, B_COLLAMP, 0, "");
-	
+
 	uiDefBut(block, COL|FLO, B_COLLAMP, "",			520,64,193,23, &la->r, 0, 0, 0, 0, "");
-	
+
 	uiDefBut(block, NUMSLI|FLO,B_LAMPREDRAW,"SpotSi ",317,157,192,19,&la->spotsize, 1.0, 180.0, 0, 0, "");
 	uiDefBut(block, NUMSLI|FLO,B_MATPRV,"SpotBl ",	316,136,192,19,&la->spotblend, 0.0, 1.0, 0, 0, "");
 	uiDefBut(block, NUMSLI|FLO,B_MATPRV,"Quad1 ",	316,106,192,19,&la->att1, 0.0, 1.0, 0, 0, "");
@@ -3833,14 +3707,14 @@ void lampbuts()
 		uiDefBut(block, ROW|SHO, B_REDR, str,	xco, 195, 83, 20, &(la->texact), 3.0, (float)a, 0, 0, "");
 		xco+= 85;
 	}
-	
+
 	mtex= la->mtex[ la->texact ];
 	if(mtex==0) {
 		mtex= &emptytex;
 		default_mtex(mtex);
 		mtex->texco= TEXCO_VIEW;
 	}
-	
+
 	/* TEXCO */
 	block->col= BUTGREEN;
 	uiDefBut(block, ROW|SHO, B_MATPRV, "Object",		745,146,49,18, &(mtex->texco), 4.0, (float)TEXCO_OBJECT, 0, 0, "");
@@ -3848,8 +3722,8 @@ void lampbuts()
 	but->func= (test_obpoin_but);
 	uiDefBut(block, ROW|SHO, B_MATPRV, "Glob",			795,146,45,18, &(mtex->texco), 4.0, (float)TEXCO_GLOB, 0, 0, "");
 	uiDefBut(block, ROW|SHO, B_MATPRV, "View",			839,146,39,18, &(mtex->texco), 4.0, (float)TEXCO_VIEW, 0, 0, "");
-	
-	block->col= BUTGREY;	
+
+	block->col= BUTGREY;
 	uiDefBut(block, NUM|FLO, B_MATPRV, "dX",		745,114,133,18, mtex->ofs, -20.0, 20.0, 10, 0, "");
 	uiDefBut(block, NUM|FLO, B_MATPRV, "dY",		745,94,133,18, mtex->ofs+1, -20.0, 20.0, 10, 0, "");
 	uiDefBut(block, NUM|FLO, B_MATPRV, "dZ",		745,74,133,18, mtex->ofs+2, -20.0, 20.0, 10, 0, "");
@@ -3862,10 +3736,10 @@ void lampbuts()
 	IDnames_to_pupstring(&strp, &(G.main->tex), id, &(G.buts->texnr));
 	if(strp[0]) strcat(strp, "|ADD NEW %x 32767");
 	else strcat(strp, "ADD NEW %x 32767");
-	
+
 	/* werkt niet omdat lockpoin op lamp staat, niet op texture */
 	uiDefBut(block, MENU|SHO, B_LTEXBROWSE, strp, 900,146,20,19, &(G.buts->texnr), 0, 0, 0, 0, "");
-	
+
 	freeN(strp);
 	if(id) {
 		uiDefBut(block, TEX, B_IDNAME, "TE:",	900,166,163,19, id->name+2, 0.0, 18.0, 0, 0, "");
@@ -3874,7 +3748,7 @@ void lampbuts()
 		uiDefBut(block, BUT, B_AUTOTEXNAME, "ICON 0 7 4", 1041,146,21,19, 0, 0, 0, 0, 0, "");
 		if(id->lib) {
 			if(la->id.lib) uiDefBut(block, BUT, 0, "ICON 0 6 4",	1019,146,21,19, 0, 0, 0, 0, 0, "");
-			else uiDefBut(block, BUT, 0, "ICON 0 5 4",	1019,146,21,19, 0, 0, 0, 0, 0, "");	
+			else uiDefBut(block, BUT, 0, "ICON 0 5 4",	1019,146,21,19, 0, 0, 0, 0, 0, "");
 		}
 		block->col= BUTSALMON;
 		uiDefBut(block, BUT, B_TEXCLEARLAMP, "Clear", 922, 146, 72, 19, 0, 0, 0, 0, 0, "");
@@ -3885,23 +3759,23 @@ void lampbuts()
 	uiDefBut(block, TOG|SHO|BIT|1, B_MATPRV, "Stencil",	900,114,52,18, &(mtex->texflag), 0, 0, 0, 0, "");
 	uiDefBut(block, TOG|SHO|BIT|2, B_MATPRV, "Neg",		954,114,38,18, &(mtex->texflag), 0, 0, 0, 0, "");
 	uiDefBut(block, TOG|SHO|BIT|0, B_MATPRV, "RGBtoInt",	994,114,69,18, &(mtex->texflag), 0, 0, 0, 0, "");
-	
+
 	uiDefBut(block, COL|FLO, B_MTEXCOL, "",				900,100,163,12, &(mtex->r), 0, 0, 0, 0, "");
 	uiDefBut(block, NUMSLI|FLO, B_MATPRV, "R ",			900,80,163,18, &(mtex->r), 0.0, 1.0, B_MTEXCOL, 0, "");
 	uiDefBut(block, NUMSLI|FLO, B_MATPRV, "G ",			900,60,163,18, &(mtex->g), 0.0, 1.0, B_MTEXCOL, 0, "");
 	uiDefBut(block, NUMSLI|FLO, B_MATPRV, "B ",			900,40,163,18, &(mtex->b), 0.0, 1.0, B_MTEXCOL, 0, "");
 	uiDefBut(block, NUMSLI|FLO, B_MATPRV, "DVar ",		900,10,163,18, &(mtex->def_var), 0.0, 1.0, 0, 0, "");
-	
+
 	/* MAP TO */
 	block->col= BUTGREEN;
 	uiDefBut(block, TOG|SHO|BIT|0, B_MATPRV, "Col",		1087,166,81,18, &(mtex->mapto), 0, 0, 0, 0, "");
-	
+
 	block->col= BUTGREY;
 	uiDefBut(block, ROW|SHO, B_MATPRV, "Blend",			1087,114,48,18, &(mtex->blendtype), 9.0, (float)MTEX_BLEND, 0, 0, "");
 	uiDefBut(block, ROW|SHO, B_MATPRV, "Mul",			1136,114,44,18, &(mtex->blendtype), 9.0, (float)MTEX_MUL, 0, 0, "");
 	uiDefBut(block, ROW|SHO, B_MATPRV, "Add",			1182,114,41,18, &(mtex->blendtype), 9.0, (float)MTEX_ADD, 0, 0, "");
 	uiDefBut(block, ROW|SHO, B_MATPRV, "Sub",			1226,114,40,18, &(mtex->blendtype), 9.0, (float)MTEX_SUB, 0, 0, "");
-	
+
 	uiDefBut(block, NUMSLI|FLO, B_MATPRV, "Col ",		1087,50,179,18, &(mtex->colfac), 0.0, 1.0, 0, 0, "");
 	uiDefBut(block, NUMSLI|FLO, B_MATPRV, "Nor ",		1087,30,179,18, &(mtex->norfac), 0.0, 1.0, 0, 0, "");
 	uiDefBut(block, NUMSLI|FLO, B_MATPRV, "Var ",		1087,10,179,18, &(mtex->varfac), 0.0, 1.0, 0, 0, "");
@@ -3920,11 +3794,11 @@ void do_animbuts(ushort event)
 	Base *base;
 	Effect *eff, *effn;
 	int type;
-	
+
 	ob= OBACT;
 
 	switch(event) {
-		
+
 	case B_RECALCPATH:
 		calc_curvepath(OBACT);
 		allqueue(REDRAWVIEW3D, 0);
@@ -4063,7 +3937,7 @@ void do_animbuts(ushort event)
 		ob= OBACT;
 		if(ob && ob->type==OB_CURVE) {
 			Curve *cu=ob->data;
-			
+
 			if(cu->path) prlen= cu->path->totdist; else prlen= -1.0;
 			addqueue(curarea->win, REDRAW, 1);
 		}
@@ -4073,18 +3947,18 @@ void do_animbuts(ushort event)
 		allqueue(REDRAWBUTSANIM, 0);
 		allqueue(REDRAWIPO, 0);
 		break;
-		
+
 	default:
 		if(event>=B_SELEFFECT && event<B_SELEFFECT+MAX_EFFECT) {
 			ob= OBACT;
 			if(ob) {
 				int a=B_SELEFFECT;
-				
+
 				eff= ob->effect.first;
 				while(eff) {
 					if(event==a) eff->flag |= SELECT;
 					else eff->flag &= ~SELECT;
-					
+
 					a++;
 					eff= eff->next;
 				}
@@ -4105,7 +3979,7 @@ void animbuts()
 	uiBlock *block;
 	int a, x, y, ok;
 	char str[32];
-	
+
 	sprintf(str, "buttonswin %d", curarea->win);
 	block= uiNewBlock(&curarea->uiblocks, str, UI_EMBOSSX, UI_HELV, 0x808080, curarea->win);
 
@@ -4116,37 +3990,37 @@ void animbuts()
 	uiDefBut(block, NUM|SHO,B_FRAMEMAP,"Map New:",	416,69,95,22,&G.scene->r.images,1.0,900.0, 0, 0, "");
 
 	uiDefBut(block, NUM|SHO, 0, "AnimSpeed:",	320,47,192,19, &G.animspeed, 1.0, 9.0, 0, 0, "");
-	
+
 	ob= OBACT;
 	if(ob) {
-	
+
 		block->col= BUTGREEN;
 /* 		uiDefBut(block, TOG|CHA|BIT|1, REDRAWVIEW3D, "Quaternions",	320,190,192,19, &ob->transflag, 0.0, 0.0, 0, 0, "Use quaternions for rotation"); */
 		block->col= BUTGREY;
 
 		uiDefBut(block, NUM|FLO, REDRAWALL, "TimeOffset:",				23,18,114,30, &ob->sf, -9000.0, 9000.0, 100, 0, "");
-	
+
 		block->col= BUTGREEN;
 		uiDefBut(block, TOG|CHA|BIT|0, REDRAWVIEW3D, "Draw Key",		25,144,84,19, &ob->ipoflag, 0, 0, 0, 0, "");
 		uiDefBut(block, TOG|CHA|BIT|1, REDRAWVIEW3D, "Draw Key Sel",	25,123,84,19, &ob->ipoflag, 0, 0, 0, 0, "");
-		
+
 		uiDefBut(block, TOG|CHA|BIT|2, REDRAWALL, "Offs Ob",			25,64,60,20, &ob->ipoflag, 0, 0, 0, 0, "");
 		uiDefBut(block, TOG|CHA|BIT|6, REDRAWALL, "Offs Par",		85,64,60,20, &ob->ipoflag, 0, 0, 0, 0, "");
 		uiDefBut(block, TOG|CHA|BIT|7, REDRAWALL, "Offs Parti",		145,64,60,20, &ob->ipoflag, 0, 0, 0, 0, "");
-	
+
 		uiDefBut(block, TOG|SHO|BIT|4, 0, "SlowPar",			205,64,60,20, &ob->partype, 0, 0, 0, 0, "");
-	
+
 		/* uiDefBut(block, TOG|CHA|BIT|5, REDRAWALL, "Offs Path",	85,64,60,20, &ob->ipoflag, 0, 0, 0, 0); ,""*/
 		/* uiDefBut(block, TOG|CHA|BIT|3, REDRAWALL, "Offs Mat",		145,64,60,20, &ob->ipoflag, 0, 0, 0, 0); ,""*/
 		/* uiDefBut(block, TOG|CHA|BIT|4, REDRAWALL, "Offs VertKey",	205,64,60,20, &ob->ipoflag, 0, 0, 0, 0); ,""*/
-	
-	
+
+
 		block->col= BUTGREY;
 		uiDefBut(block, CHA|TOG|BIT|3, REDRAWVIEW3D, "DupliFrames",	112,144,106,19, &ob->transflag, 0, 0, 0, 0, "");
 		uiDefBut(block, TOG|CHA|BIT|4, REDRAWVIEW3D, "DupliVerts",	112,123,80,19, &ob->transflag, 0, 0, 0, 0, "");
 		block->col= BUTGREEN;
 		uiDefBut(block, TOG|CHA|BIT|5, REDRAWVIEW3D, "Rot",	194,123,24,19, &ob->transflag, 0, 0, 0, 0, "");
-	
+
 		block->col= BUTGREY;
 		uiDefBut(block, NUM|SHO, REDRAWVIEW3D, "DupSta:",	220,144,93,19, &ob->dupsta, 1.0, 1500.0, 0, 0, "");
 		uiDefBut(block, NUM|SHO, REDRAWVIEW3D, "DupEnd",		315,144,93,19, &ob->dupend, 1.0, 2500.0, 0, 0, "");
@@ -4155,14 +4029,14 @@ void animbuts()
 		block->col= BUTGREEN;
 		uiDefBut(block, TOG|CHA|BIT|6, REDRAWVIEW3D, "No Speed",		410,144,93,19, &ob->transflag, 0, 0, 0, 0, "");
 		uiDefBut(block, TOG|CHA|BIT|7, REDRAWVIEW3D, "Powertrack",	410,123,93,19, &ob->transflag, 0, 0, 0, 0, "");
-	
+
 		block->col= BUTSALMON;
 		uiDefBut(block, BUT, B_AUTOTIMEOFS, "Automatic Time",		140,18,104,31, 0, 0, 0, 0, 0, "");
 		block->col= BUTGREY;
 		sprintf(str, "%.4f", prspeed);
 		uiDefBut(block, LABEL, 0, str,			247,40,63,31, 0, 1.0, 0, 0, 0, "");
 		uiDefBut(block, BUT, B_PRINTSPEED,	"PrSpeed",	247,18,63,31, 0, 0, 0, 0, 0, "");
-		
+
 		if(ob->type==OB_MESH) {
 			me= ob->data;
 			if(me->key) {
@@ -4183,7 +4057,7 @@ void animbuts()
 		}
 		if(ob->type==OB_SURF) {
 			cu= ob->data;
-			
+
 			if(cu->key) {
 				/* uiDefBut(block, NUM|SHO, B_DIFF, "Slurph:",				124,100,93,19, &(cu->key->slurph), -500.0, 500.0,0,0); ,""*/
 				uiDefBut(block, TOG|SHO, B_RELKEY, "Relative Keys",	220,100,93,19, &cu->key->type, 0, 0, 0, 0, "");
@@ -4196,7 +4070,7 @@ void animbuts()
 				uiDefBut(block, TOG|SHO, B_RELKEY, "Relative Keys",	370,190,133,19, &lt->key->type, 0, 0, 0, 0, "");
 			}
 		}
-		
+
 		block->col= BUTGREEN;
 		uiDefBut(block, ROW|CHA,REDRAWVIEW3D,"TrackX",	27,190,58,17, &ob->trackflag, 12.0, 0.0, 0, 0, "");
 		uiDefBut(block, ROW|CHA,REDRAWVIEW3D,"Y",		85,190,19,17, &ob->trackflag, 12.0, 1.0, 0, 0, "");
@@ -4207,84 +4081,84 @@ void animbuts()
 		uiDefBut(block, ROW|CHA,REDRAWVIEW3D,"UpX",		205,190,40,17, &ob->upflag, 13.0, 0.0, 0, 0, "");
 		uiDefBut(block, ROW|CHA,REDRAWVIEW3D,"Y",		245,190,20,17, &ob->upflag, 13.0, 1.0, 0, 0, "");
 		uiDefBut(block, ROW|CHA,REDRAWVIEW3D,"Z",		265,190,19,17, &ob->upflag, 13.0, 2.0, 0, 0, "");
-	
+
 		block->col= BUTSALMON;
-		
+
 		/* EFFECTS */
-		
+
 		draw_buttons_edge(block->aspect, 540);
 		draw_buttons_edge(block->aspect, 1010);
-		
+
 		uiDefBut(block, BUT, B_NEWEFFECT, "NEW Effect", 550,187,124,27, 0, 0, 0, 0, 0, "");
 		uiDefBut(block, BUT, B_DELEFFECT, "Delete", 676,187,62,27, 0, 0, 0, 0, 0, "");
 		block->col= BUTGREY;
-		
+
 		/* select effs */
 		eff= ob->effect.first;
 		a= 0;
 		while(eff) {
-			
+
 			x= 15*(a % 10) + 740;
 			y= 200 - 12*( abs(a/10) ) ;
 			uiDefBut(block, TOG|SHO|BIT|0, B_SELEFFECT+a, "", x, y, 15, 12, &eff->flag, 0, 0, 0, 0, "");
-			
+
 			a++;
 			if(a==MAX_EFFECT) break;
 			eff= eff->next;
 		}
-		
+
 		eff= ob->effect.first;
 		while(eff) {
 			if(eff->flag & SELECT) break;
 			eff= eff->next;
 		}
-		
+
 		if(eff) {
 			uiDefBut(block, MENU|SHO, B_CHANGEEFFECT, "Build %x0|Particles %x1|Wave %x2", 895,187,107,27, &eff->buttype, 0, 0, 0, 0, "");
-			
+
 			if(eff->type==EFF_BUILD) {
 				BuildEff *bld;
-				
+
 				bld= (BuildEff *)eff;
-				
+
 				uiDefBut(block, NUM|FLO, 0, "Len:",			649,138,95,21, &bld->len, 1.0, 9000.0, 100, 0, "");
 				uiDefBut(block, NUM|FLO, 0, "Sfra:",			746,138,94,22, &bld->sfra, 1.0, 9000.0, 100, 0, "");
 			}
 			else if(eff->type==EFF_WAVE) {
 				WaveEff *wav;
-				
+
 				wav= (WaveEff *)eff;
-				
+
 				block->col= BUTGREEN;
 				uiDefBut(block, TOG|SHO|BIT|1, B_CALCEFFECT, "X",		782,135,54,23, &wav->flag, 0, 0, 0, 0, "");
 				uiDefBut(block, TOG|SHO|BIT|2, B_CALCEFFECT, "Y",		840,135,47,23, &wav->flag, 0, 0, 0, 0, "");
 				uiDefBut(block, TOG|SHO|BIT|3, B_CALCEFFECT, "Cycl",		890,135,111,23, &wav->flag, 0, 0, 0, 0, "");
-				
+
 				block->col= BUTGREY;
 				uiDefBut(block, NUM|FLO, B_CALCEFFECT, "Sta x:",		550,135,113,24, &wav->startx, -100.0, 100.0, 100, 0, "");
 				uiDefBut(block, NUM|FLO, B_CALCEFFECT, "Sta y:",		665,135,104,24, &wav->starty, -100.0, 100.0, 100, 0, "");
-				
+
 				uiDefBut(block, NUMSLI|FLO, B_CALCEFFECT, "Speed:",	550,100,216,20, &wav->speed, -2.0, 2.0, 0, 0, "");
 				uiDefBut(block, NUMSLI|FLO, B_CALCEFFECT, "Heigth:",	550,80,216,20, &wav->height, -2.0, 2.0, 0, 0, "");
 				uiDefBut(block, NUMSLI|FLO, B_CALCEFFECT, "Width:",	550,60,216,20, &wav->width, 0.0, 5.0, 0, 0, "");
 				uiDefBut(block, NUMSLI|FLO, B_CALCEFFECT, "Narrow:",	550,40,216,20, &wav->narrow, 0.0, 10.0, 0, 0, "");
-	
+
 				uiDefBut(block, NUM|FLO, B_CALCEFFECT, "Time sta:",	780,100,219,20, &wav->timeoffs, -1000.0, 1000.0, 100, 0, "");
-	
+
 				uiDefBut(block, NUM|FLO, B_CALCEFFECT, "Lifetime:",	780,80,219,20, &wav->lifetime,  -1000.0, 1000.0, 100, 0, "");
 				uiDefBut(block, NUM|FLO, B_CALCEFFECT, "Damptime:",	780,60,219,20, &wav->damp,  -1000.0, 1000.0, 100, 0, "");
-	
+
 			}
 			else if(eff->type==EFF_PARTICLE) {
 				PartEff *paf;
-				
+
 				paf= (PartEff *)eff;
-				
+
 				uiDefBut(block, BUT, B_RECALCAL, "RecalcAll", 741,187,67,27, 0, 0, 0, 0, 0, "");
 				block->col= BUTGREEN;
 				uiDefBut(block, TOG|SHO|BIT|2, B_CALCEFFECT, "Static",	825,187,67,27, &paf->flag, 0, 0, 0, 0, "");
 				block->col= BUTGREY;
-				
+
 				uiDefBut(block, NUM|INT, B_CALCEFFECT, "Tot:",		550,152,91,20, &paf->totpart, 1.0, 100000.0, 0, 0, "");
 				if(paf->flag & PAF_STATIC) {
 					uiDefBut(block, NUM|SHO, REDRAWVIEW3D, "Step:",		644,152,84,20, &paf->staticstep, 1.0, 100.0, 10, 0, "");
@@ -4295,7 +4169,7 @@ void animbuts()
 				}
 				uiDefBut(block, NUM|FLO, B_CALCEFFECT, "Life:",		831,152,88,20, &paf->lifetime, 1.0, 9000.0, 100, 0, "");
 				uiDefBut(block, NUM|INT, B_CALCEFFECT, "Keys:",		922,152,80,20, &paf->totkey, 1.0, 32.0, 0, 0, "");
-				
+
 				block->col= BUTGREEN;
 				uiDefBut(block, NUM|SHO, B_REDR,		"CurMul:",		550,130,91,20, &paf->curmult, 0.0, 3.0, 0, 0, "");
 				block->col= BUTGREY;
@@ -4303,29 +4177,29 @@ void animbuts()
 				uiDefBut(block, NUM|FLO, B_CALCEFFECT, "Mult:",		730,130,98,20, paf->mult+paf->curmult, 0.0, 1.0, 10, 0, "");
 				uiDefBut(block, NUM|SHO, B_CALCEFFECT, "Child:",		922,130,80,20, paf->child+paf->curmult, 1.0, 600.0, 100, 0, "");
 				uiDefBut(block, NUM|FLO, B_CALCEFFECT, "Life:",		831,130,89,20, paf->life+paf->curmult, 1.0, 600.0, 100, 0, "");
-	
+
 				uiDefBut(block, NUM|FLO, B_CALCEFFECT, "Randlife:",	550,99,96,20, &paf->randlife, 0.0, 2.0, 10, 0, "");
 				uiDefBut(block, NUM|INT, B_CALCEFFECT, "Seed:",		652,99,80,20, &paf->seed, 0.0, 255.0, 0, 0, "");
-	
-				uiDefBut(block, NUM|FLO, B_DIFF,			"VectSize",		885,99,116,20, &paf->vectsize, 0.0, 1.0, 10, 0, "");	
+
+				uiDefBut(block, NUM|FLO, B_DIFF,			"VectSize",		885,99,116,20, &paf->vectsize, 0.0, 1.0, 10, 0, "");
 				block->col= BUTGREEN;
 				uiDefBut(block, TOG|SHO|BIT|3, B_CALCEFFECT, "Face",				735,99,46,20, &paf->flag, 0, 0, 0, 0, "");
 				uiDefBut(block, TOG|SHO|BIT|1, B_CALCEFFECT, "Bspline",			782,99,54,20, &paf->flag, 0, 0, 0, 0, "");
 				uiDefBut(block, TOG|SHO, REDRAWVIEW3D, "Vect",					837,99,45,20, &paf->stype, 0, 0, 0, 0, "");
-				
+
 				block->col= BUTPURPLE;
 				uiDefBut(block, NUM|FLO, B_CALCEFFECT, "Norm:",		550,67,96,20, &paf->normfac, -2.0, 2.0, 10, 0, "");
 				uiDefBut(block, NUM|FLO, B_CALCEFFECT, "Ob:",		649,67,86,20, &paf->obfac, -1.0, 1.0, 10, 0, "");
 				uiDefBut(block, NUM|FLO, B_CALCEFFECT, "Rand:",		738,67,86,20, &paf->randfac, 0.0, 2.0, 10, 0, "");
 				uiDefBut(block, NUM|FLO, B_CALCEFFECT, "Tex:",		826,67,85,20, &paf->texfac, 0.0, 2.0, 10, 0, "");
 				uiDefBut(block, NUM|FLO, B_CALCEFFECT, "Damp:",		913,67,89,20, &paf->damp, 0.0, 1.0, 10, 0, "");
-	
+
 				block->col= BUTGREY;
 				uiDefBut(block, NUM|FLO, B_CALCEFFECT, "X:",			550,31,72,20, paf->force, -1.0, 1.0, 1, 0, "");
 				uiDefBut(block, NUM|FLO, B_CALCEFFECT, "Y:",			624,31,78,20, paf->force+1,-1.0, 1.0, 1, 0, "");
 				uiDefBut(block, LABEL, 0, "Force:",						550,9,72,20, 0, 1.0, 0, 0, 0, "");
 				uiDefBut(block, NUM|FLO, B_CALCEFFECT, "Z:",			623,9,79,20, paf->force+2, -1.0, 1.0, 1, 0, "");
-	
+
 				uiDefBut(block, LABEL, 0, "Texture:",				722,9,74,20, 0, 1.0, 0, 0, 0, "");
 				block->col= BUTGREEN;
 				uiDefBut(block, ROW|SHO, B_CALCEFFECT, "Int",		875,9,32,43, &paf->texmap, 14.0, 0.0, 0, 0, "");
@@ -4336,11 +4210,11 @@ void animbuts()
 				uiDefBut(block, NUM|FLO, B_CALCEFFECT, "X:",			722,31,74,20, paf->defvec, -1.0, 1.0, 1, 0, "");
 				uiDefBut(block, NUM|FLO, B_CALCEFFECT, "Y:",			798,31,74,20, paf->defvec+1,-1.0, 1.0, 1, 0, "");
 				uiDefBut(block, NUM|FLO, B_CALCEFFECT, "Z:",			797,9,75,20, paf->defvec+2, -1.0, 1.0, 1, 0, "");
-	
+
 			}
 		}
 	}
-	
+
 	/* IPO BUTTONS ALS LAATSTE */
 	ok= 0;
 	if(G.sipo) {
@@ -4354,45 +4228,45 @@ void animbuts()
 			if(G.sipo->ipo && G.sipo->ipo->curve.first) ok= 1;
 		}
 	}
-	
+
 	block->col= BUTGREEN;
 	uiDefBut(block, ROW|CHA, B_REDR, "Ipo settings",			1020, 180, 100, 19, &G.buts->showgroup, 15.0, 0.0, 0, 0, "");
 	uiDefBut(block, ROW|CHA, B_REDR, "Group settings",			1120, 180, 100, 19, &G.buts->showgroup, 15.0, 1.0, 0, 0, "");
 	block->col= BUTGREY;
-	
+
 	if(ok && G.buts->showgroup==0) {
 		sprintf(str, "%.3f", G.sipo->v2d.tot.xmin);
 		uiDefBut(block, LABEL, 0, str,			1020, 140, 100, 19, 0, 0, 0, 0, 0, "");
 		sprintf(str, "%.3f", G.sipo->v2d.tot.xmax);
 		uiDefBut(block, LABEL, 0, str,			1120, 140, 100, 19, 0, 0, 0, 0, 0, "");
-	
+
 		uiDefBut(block, NUM|FLO, B_DIFF, "Xmin:",		1020, 120, 100, 19, &G.sipo->tot.xmin, -G.sipo->v2d.max[0], G.sipo->v2d.max[0], 100, 0, "");
 		uiDefBut(block, NUM|FLO, B_DIFF, "Xmax:",		1120, 120, 100, 19, &G.sipo->tot.xmax, -G.sipo->v2d.max[0], G.sipo->v2d.max[0], 100, 0, "");
-		
+
 		sprintf(str, "%.3f", G.sipo->v2d.tot.ymin);
 		uiDefBut(block, LABEL, 0, str,			1020, 100, 100, 19, 0, 0, 0, 0, 0, "");
 		sprintf(str, "%.3f", G.sipo->v2d.tot.ymax);
 		uiDefBut(block, LABEL, 0, str,			1120, 100, 100, 19, 0, 0, 0, 0, 0, "");
-	
+
 		uiDefBut(block, NUM|FLO, B_DIFF, "Ymin:",		1020, 80, 100, 19, &G.sipo->tot.ymin, -G.sipo->v2d.max[1], G.sipo->v2d.max[1], 100, 0, "");
 		uiDefBut(block, NUM|FLO, B_DIFF, "Ymax:",		1120, 80, 100, 19, &G.sipo->tot.ymax, -G.sipo->v2d.max[1], G.sipo->v2d.max[1], 100, 0, "");
-	
+
 		block->col= BUTSALMON;
 		uiDefBut(block, BUT, B_MUL_IPO,	"SET",		1220,79,50,62, 0, 0, 0, 0, 0, "");
-		
-		
+
+
 		/* SPEED BUTTON */
 		block->col= BUTGREY;
 		uiDefBut(block, NUM|FLO, B_DIFF, "Speed:",		1020,23,164,28, &hspeed, 0.0, 180.0, 1, 0, "");
-		
+
 		block->col= BUTSALMON;
 		uiDefBut(block, BUT, B_SETSPEED,	"SET",		1185,23,83,29, 0, 0, 0, 0, 0, "");
 	}
-	
+
 	if(G.buts->showgroup && G.scene->group) {
-		GroupKey *gk;	
+		GroupKey *gk;
 		short yco= 140;
-		
+
 		gk= G.scene->group->gkey.first;
 		while(gk) {
 			if(gk==G.scene->group->active) block->col= BUTPURPLE;
@@ -4404,7 +4278,7 @@ void animbuts()
 			gk= gk->next;
 		}
 	}
-	
+
 	uiDrawBlock(block);
 }
 
@@ -4417,7 +4291,7 @@ void do_worldbuts(ushort event)
 {
 	World *wrld;
 	MTex *mtex;
-	
+
 	switch(event) {
 	case B_TEXCLEARWORLD:
 		wrld= G.buts->lockpoin;
@@ -4476,7 +4350,7 @@ void worldbuts()
 	uiDefBut(block, ROW|SHO, B_DIFF, "Qua", 571, 170, 33, 19, &wrld->mistype, 1.0, 0.0, 0, 0, "");
 	uiDefBut(block, ROW|SHO, B_DIFF, "Lin", 604, 170, 33, 19, &wrld->mistype, 1.0, 1.0, 0, 0, "");
 	uiDefBut(block, ROW|SHO, B_DIFF, "Sqr", 637, 170, 33, 19, &wrld->mistype, 1.0, 2.0, 0, 0, "");
-	
+
 	uiDefBut(block, NUM|FLO,REDRAWVIEW3D, "Sta:",			571,150,100,19, &wrld->miststa, 0.0, 1000.0, 10, 0, "");
 	uiDefBut(block, NUM|FLO,REDRAWVIEW3D, "Di:",			571,130,100,19, &wrld->mistdist, 0.0,1000.0, 10, 00, "");
 	uiDefBut(block, NUM|FLO,B_DIFF,"Hi:",			571,110,100,19, &wrld->misthi,0.0,100.0, 10, 0, "");
@@ -4500,29 +4374,29 @@ void worldbuts()
 		uiDefBut(block, ROW|SHO, REDRAWBUTSWORLD, str,	xco, 195, 83, 20, &(wrld->texact), 3.0, (float)a, 0, 0, "");
 		xco+= 85;
 	}
-	
+
 	mtex= wrld->mtex[ wrld->texact ];
 	if(mtex==0) {
 		mtex= &emptytex;
 		default_mtex(mtex);
 		mtex->texco= TEXCO_VIEW;
 	}
-	
+
 	/* TEXCO */
 	block->col= BUTGREEN;
 	uiDefBut(block, ROW|SHO, B_MATPRV, "Object",		745,146,49,18, &(mtex->texco), 4.0, (float)TEXCO_OBJECT, 0, 0, "");
 	but= uiDefBut(block, IDPOIN, B_MATPRV, "",		745,166,133,18, &(mtex->object), 0, 0, 0, 0, "");
 	but->func= (test_obpoin_but);
 	uiDefBut(block, ROW|SHO, B_MATPRV, "View",			839,146,39,18, &(mtex->texco), 4.0, (float)TEXCO_VIEW, 0, 0, "");
-	
-	block->col= BUTGREY;	
+
+	block->col= BUTGREY;
 	uiDefBut(block, NUM|FLO, B_MATPRV, "dX",		745,114,133,18, mtex->ofs, -20.0, 20.0, 10, 0, "");
 	uiDefBut(block, NUM|FLO, B_MATPRV, "dY",		745,94,133,18, mtex->ofs+1, -20.0, 20.0, 10, 0, "");
 	uiDefBut(block, NUM|FLO, B_MATPRV, "dZ",		745,74,133,18, mtex->ofs+2, -20.0, 20.0, 10, 0, "");
 	uiDefBut(block, NUM|FLO, B_MATPRV, "sizeX",	745,50,133,18, mtex->size, -20.0, 20.0, 10, 0, "");
 	uiDefBut(block, NUM|FLO, B_MATPRV, "sizeY",	745,30,133,18, mtex->size+1, -20.0, 20.0, 10, 0, "");
 	uiDefBut(block, NUM|FLO, B_MATPRV, "sizeZ",	745,10,133,18, mtex->size+2, -20.0, 20.0, 10, 0, "");
-	
+
 	/* TEXTUREBLOK SELECT */
 	id= (ID *)mtex->tex;
 	IDnames_to_pupstring(&strp, &(G.main->tex), id, &(G.buts->texnr));
@@ -4537,37 +4411,37 @@ void worldbuts()
 		uiDefBut(block, BUT, B_AUTOTEXNAME, "ICON 0 7 4", 1041,146,21,19, 0, 0, 0, 0, 0, "");
 		if(id->lib) {
 			if(wrld->id.lib) uiDefBut(block, BUT, 0, "ICON 0 6 4",	1019,146,21,19, 0, 0, 0, 0, 0, "");
-			else uiDefBut(block, BUT, 0, "ICON 0 5 4",	1019,146,21,19, 0, 0, 0, 0, 0, "");	
+			else uiDefBut(block, BUT, 0, "ICON 0 5 4",	1019,146,21,19, 0, 0, 0, 0, 0, "");
 		}
 		block->col= BUTSALMON;
 		uiDefBut(block, BUT, B_TEXCLEARWORLD, "Clear", 922, 146, 72, 19, 0, 0, 0, 0, 0, "");
 		block->col= BUTGREY;
 	}
-	
+
 	/* TEXTURE OUTPUT */
 	uiDefBut(block, TOG|SHO|BIT|1, B_MATPRV, "Stencil",	900,114,52,18, &(mtex->texflag), 0, 0, 0, 0, "");
 	uiDefBut(block, TOG|SHO|BIT|2, B_MATPRV, "Neg",		954,114,38,18, &(mtex->texflag), 0, 0, 0, 0, "");
 	uiDefBut(block, TOG|SHO|BIT|0, B_MATPRV, "RGBtoInt",	994,114,69,18, &(mtex->texflag), 0, 0, 0, 0, "");
-	
+
 	uiDefBut(block, COL|FLO, B_MTEXCOL, "",				900,100,163,12, &(mtex->r), 0, 0, 0, 0, "");
 	uiDefBut(block, NUMSLI|FLO, B_MATPRV, "R ",			900,80,163,18, &(mtex->r), 0.0, 1.0, B_MTEXCOL, 0, "");
 	uiDefBut(block, NUMSLI|FLO, B_MATPRV, "G ",			900,60,163,18, &(mtex->g), 0.0, 1.0, B_MTEXCOL, 0, "");
 	uiDefBut(block, NUMSLI|FLO, B_MATPRV, "B ",			900,40,163,18, &(mtex->b), 0.0, 1.0, B_MTEXCOL, 0, "");
 	uiDefBut(block, NUMSLI|FLO, B_MATPRV, "DVar ",		900,10,163,18, &(mtex->def_var), 0.0, 1.0, 0, 0, "");
-	
+
 	/* MAP TO */
 	block->col= BUTGREEN;
 	uiDefBut(block, TOG|SHO|BIT|0, B_MATPRV, "Blend",		1087,166,81,18, &(mtex->mapto), 0, 0, 0, 0, "");
 	uiDefBut(block, TOG|SHO|BIT|1, B_MATPRV, "Hori",		1172,166,81,18, &(mtex->mapto), 0, 0, 0, 0, "");
 	uiDefBut(block, TOG|SHO|BIT|2, B_MATPRV, "ZenUp",		1087,147,81,18, &(mtex->mapto), 0, 0, 0, 0, "");
 	uiDefBut(block, TOG|SHO|BIT|3, B_MATPRV, "ZenDo",		1172,147,81,18, &(mtex->mapto), 0, 0, 0, 0, "");
-	
+
 	block->col= BUTGREY;
 	uiDefBut(block, ROW|SHO, B_MATPRV, "Blend",			1087,114,48,18, &(mtex->blendtype), 9.0, (float)MTEX_BLEND, 0, 0, "");
 	uiDefBut(block, ROW|SHO, B_MATPRV, "Mul",			1136,114,44,18, &(mtex->blendtype), 9.0, (float)MTEX_MUL, 0, 0, "");
 	uiDefBut(block, ROW|SHO, B_MATPRV, "Add",			1182,114,41,18, &(mtex->blendtype), 9.0, (float)MTEX_ADD, 0, 0, "");
 	uiDefBut(block, ROW|SHO, B_MATPRV, "Sub",			1226,114,40,18, &(mtex->blendtype), 9.0, (float)MTEX_SUB, 0, 0, "");
-	
+
 	uiDefBut(block, NUMSLI|FLO, B_MATPRV, "Col ",		1087,50,179,18, &(mtex->colfac), 0.0, 1.0, 0, 0, "");
 	uiDefBut(block, NUMSLI|FLO, B_MATPRV, "Nor ",		1087,30,179,18, &(mtex->norfac), 0.0, 1.0, 0, 0, "");
 	uiDefBut(block, NUMSLI|FLO, B_MATPRV, "Var ",		1087,10,179,18, &(mtex->varfac), 0.0, 1.0, 0, 0, "");
@@ -4585,26 +4459,26 @@ void load_bgpic_image(char *name)
 {
 	Image *ima;
 	View3D *vd;
-	
+
 	vd= curarea->spacedata.first;
 	while(vd) {
 		if(vd->spacetype==SPACE_VIEW3D) break;
 		vd= vd->next;
 	}
 	if(vd==0 || vd->bgpic==0) return;
-	
+
 	ima= add_image(name);
 	if(ima) {
 		if(vd->bgpic->ima) {
 			vd->bgpic->ima->id.us--;
 		}
 		vd->bgpic->ima= ima;
-		
+
 		free_image_buffers(ima);	/* forceer opnieuw inlezen */
 		ima->ok= 1;
 	}
 	allqueue(REDRAWBUTSVIEW, 0);
-	
+
 }
 
 void do_viewbuts(ushort event)
@@ -4613,20 +4487,20 @@ void do_viewbuts(ushort event)
 	ID *id, *idtest;
 	int nr=1;
 	char *name;
-	
+
 	vd= curarea->spacedata.first;
 	while(vd) {
 		if(vd->spacetype==SPACE_VIEW3D) break;
 		vd= vd->next;
 	}
-	
+
 	if(vd==0) return;
 
 	switch(event) {
 	case B_LOADBGPIC:
 		if(vd->bgpic && vd->bgpic->ima) name= vd->bgpic->ima->name;
 		else name= G.ima;
-		
+
 		activate_imageselect(FILE_SPECIAL, "SELECT IMAGE", name, load_bgpic_image);
 		break;
 	case B_BLENDBGPIC:
@@ -4636,7 +4510,7 @@ void do_viewbuts(ushort event)
 		if(vd->bgpic) {
 			nr= 1;
 			id= (ID *)vd->bgpic->ima;
-			
+
 			idtest= G.main->image.first;
 			while(idtest) {
 				if(nr==G.buts->menunr) {
@@ -4652,7 +4526,7 @@ void do_viewbuts(ushort event)
 				vd->bgpic->ima= (Image *)idtest;
 				id_us_plus(idtest);
 				if(id) id->us--;
-				
+
 				/* redraw forceren */
 				if(vd->bgpic->rect) freeN(vd->bgpic->rect);
 				vd->bgpic->rect= 0;
@@ -4661,7 +4535,7 @@ void do_viewbuts(ushort event)
 		}
 		break;
 	case B_BGPICTEX:
-		
+
 		idtest= G.main->tex.first;
 		while(idtest) {
 			if(nr==G.buts->texnr) {
@@ -4672,9 +4546,9 @@ void do_viewbuts(ushort event)
 		}
 		if(G.vd->bgpic) G.vd->bgpic->tex= (Tex *)idtest;
 		allqueue(REDRAWBUTSVIEW, 0);
-		
+
 		break;
-		
+
 	}
 }
 
@@ -4684,16 +4558,16 @@ void viewbuts()
 	ID *id;
 	uiBlock *block;
 	char *strp, str[64];
-	
+
 	/* op zoek naar spacedata */
 	vd= curarea->spacedata.first;
 	while(vd) {
 		if(vd->spacetype==SPACE_VIEW3D) break;
 		vd= vd->next;
 	}
-	
+
 	if(vd==0) return;
-	
+
 	sprintf(str, "buttonswin %d", curarea->win);
 	block= uiNewBlock(&curarea->uiblocks, str, UI_EMBOSSX, UI_HELV, 0x808080, curarea->win);
 
@@ -4704,11 +4578,11 @@ void viewbuts()
 			vd->bgpic->blend= 0.5;
 		}
 	}
-	
+
 	uiDefBut(block, TOG|SHO|BIT|1, REDRAWBUTSVIEW, "BackGroundPic",	347,160,127,29 , &vd->flag, 0, 0, 0, 0, "");
 	if(vd->bgpic) {
 		uiDefBut(block, NUM|FLO, B_DIFF, "Size:",					478,160,82,29, &vd->bgpic->size, 0.1, 250.0, 100, 0, "");
-		
+
 		id= (ID *)vd->bgpic->ima;
 		IDnames_to_pupstring(&strp, &(G.main->image), id, &(G.buts->menunr));
 		if(strp[0]) {
@@ -4717,26 +4591,26 @@ void viewbuts()
 		freeN(strp);
 		uiDefBut(block, BUT,	    B_LOADBGPIC, "LOAD",		370,112,189,19, 0, 0, 0, 0, 0, "");
 		uiDefBut(block, NUMSLI|FLO, B_BLENDBGPIC, "Blend:",	347,84,213,19,&vd->bgpic->blend, 0.0,1.0, 0, 0, "");
-		
-		if(vd->bgpic->ima) 
+
+		if(vd->bgpic->ima)
 			uiDefBut(block, TEX,	    0,"BGpic: ",			347,136,211,19,&vd->bgpic->ima->name,0.0,100.0, 0, 0, "");
 
 		/* textureblok: */
 		id= (ID *)vd->bgpic->tex;
 		IDnames_to_pupstring(&strp, &(G.main->tex), id, &(G.buts->texnr));
 		if(strp[0]) strcat(strp, "|CLEAR %x 32767");
-		
+
 		uiDefBut(block, MENU|SHO, B_BGPICTEX, strp,		347, 20, 20,19, &(G.buts->texnr), 0, 0, 0, 0, "");
 		freeN(strp);
 		uiDefBut(block, LABEL, 0, "Select texture for animated backgroundimage", 370, 20, 300,19, 0, 0, 0, 0, 0, "");
-		
+
 		if(id) uiDefBut(block, TEX, B_IDNAME, "TE:",	347,0,211,19, id->name+2, 0.0, 18.0, 0, 0, "");
 	}
 
 	uiDefBut(block, NUM|FLO, B_DIFF, "Grid:",			347, 60, 105, 19, &vd->grid, 0.001, 1000.0, 100, 0, "");
 	uiDefBut(block, NUM|SHO, B_DIFF, "GridLines:",	452, 60, 105, 19, &vd->gridlines, 0.0, 100.0, 100, 0, "");
 	uiDefBut(block, NUM|FLO, B_DIFF, "Lens:",			557, 60, 105, 19, &vd->lens, 10.0, 120.0, 100, 0, "");
-	
+
 	uiDefBut(block, NUM|FLO, B_DIFF, "ClipStart:",			347, 40, 105, 19, &vd->clipsta, 0.1*vd->grid, 100.0, 100, 0, "");
 	uiDefBut(block, NUM|FLO, B_DIFF, "ClipEnd:",			452, 40, 105, 19, &vd->clipend, 1.0, 1000.0*vd->grid, 100, 0, "");
 
@@ -4746,7 +4620,7 @@ void viewbuts()
 	/* 	} */
 	/* } */
 	/* DefBut(BUT, 1001, "print",	50,100,50,20, 0, 0, 0, 0,0); */
-	
+
 	uiDrawBlock(block);
 }
 
@@ -4759,7 +4633,7 @@ void output_pic(char *name)
 void backbuf_pic(char *name)
 {
 	Image *ima;
-	
+
 	strcpy(G.scene->r.backbuf, name);
 	allqueue(REDRAWBUTSRENDER, 0);
 
@@ -4815,11 +4689,11 @@ void do_renderbuts(ushort event)
 			else errorstr("can't find image", str+len, 0);
 		}
 		break;
-		
+
 	case B_DOANIM:
 		RE_do_renderfg(1);
 		break;
-	
+
 	case B_FS_PIC:
 		sa= closest_bigger_area();
 		areawinset(sa->win);
@@ -4845,7 +4719,7 @@ void do_renderbuts(ushort event)
 		areawinset(sa->win);
 		activate_imageselect(FILE_SPECIAL, "SELECT FTYPE", G.scene->r.ftype, ftype_pic);
 		break;
-	
+
 	case B_FS_MOVIE:
 		sa= closest_bigger_area();
 		areawinset(sa->win);
@@ -4863,7 +4737,7 @@ void do_renderbuts(ushort event)
 			sa= sa->next;
 		}
 		break;
-	
+
 	case B_PR_PAL:
 		G.scene->r.xsch= 720;
 		G.scene->r.ysch= 576;
@@ -4872,7 +4746,7 @@ void do_renderbuts(ushort event)
 		G.scene->r.size= 100;
 		G.scene->r.mode &= ~R_PANORAMA;
 		G.scene->r.xparts=  G.scene->r.yparts= 1;
-		
+
 		init_rctf(&G.scene->r.safety, 0.1, 0.9, 0.1, 0.9);
 		allqueue(REDRAWBUTSRENDER, 0);
 		allqueue(REDRAWVIEWCAM, 0);
@@ -5015,20 +4889,20 @@ void do_renderbuts(ushort event)
 			error("Not allowed");
 			return;
 		}
-		
+
 		if(idtest!=id) {
 			G.scene->set= (Scene *)idtest;
 			/* scene heeft geen users of usernummers! */
-			
+
 			allqueue(REDRAWBUTSRENDER, 0);
 			allqueue(REDRAWVIEW3D, 0);
 		}
 		break;
 	case B_CLEARSET:
 		if(G.scene->set) {
-			
+
 			G.scene->set= 0;
-			
+
 			allqueue(REDRAWBUTSRENDER, 0);
 			allqueue(REDRAWVIEW3D, 0);
 		}
@@ -5058,10 +4932,10 @@ void renderbuts()
 	uiBut *but;
 	char *strp;
 	char str[64];
-	
+
 	sprintf(str, "buttonswin %d", curarea->win);
 	block= uiNewBlock(&curarea->uiblocks, str, UI_EMBOSSX, UI_HELV, 0x808080, curarea->win);
-	
+
 	uiDefBut(block, TEX,0,"",				34,172,257,19,G.scene->r.pic, 0.0,79.0, 0, 0, "Directory/name to save rendered Pics to");
 	uiDefBut(block, BUT,B_FS_PIC," ",		10,172,22,19, 0, 0, 0, 0, 0, "Open Fileselect to get Pics dir/name");
 	uiDefBut(block, TEX,0,"",				34,149,257,19,G.scene->r.backbuf, 0.0,79.0, 0, 0, "Image to use as background for rendering");
@@ -5094,12 +4968,12 @@ void renderbuts()
 	block->col= BUTGREY;
 
 	uiDefBut(block, LABEL,0,"Pics",				295,172,63,19, 0, 0, 0, 0, 0, "");
-	uiDefBut(block, TOG|SHO|BIT|0, 0,"Backbuf",	295,149,63,19, &G.scene->r.bufflag, 0, 0, 0, 0, "Enable/Disable use of Backbuf image");	
+	uiDefBut(block, TOG|SHO|BIT|0, 0,"Backbuf",	295,149,63,19, &G.scene->r.bufflag, 0, 0, 0, 0, "Enable/Disable use of Backbuf image");
 	uiDefBut(block, LABEL,0,"Ftype",				295,126,63,19, 0, 0, 0, 0, 0, "");
-	
+
 	block->col= BUTGREY;
-			
-	for(b=0; b<3; b++) 
+
+	for(b=0; b<3; b++)
 		for(a=0; a<3; a++)
 			uiDefBut(block, TOG|SHO|BIT|(3*b+a),800,"",	34+18*a,11+12*b,16,10, &R.winpos, 0, 0, 0, 0, "Render window placement on screen");
 
@@ -5109,27 +4983,27 @@ void renderbuts()
 	uiDefBut(block, TOG|SHO|BIT|4, 0, "Extensions",	190,10,95,18, &G.scene->r.scemode, 0.0, 0.0, 0, 0, "Adds extensions to the output when rendering animations");
 
 	block->col= BUTSALMON;
-	
+
  	uiDefBut(block, BUT,B_DORENDER,"RENDER",	369,142,192,47, 0, 0, 0, 0, 0, "");
-	
+
 	block->col= BUTGREY;
 	uiDefBut(block, TOG|SHO|BIT|1,0,"Shadows",	565,167,122,22, &G.scene->r.mode, 0, 0, 0, 0, "Enable shadow calculation");
 	uiDefBut(block, TOG|SHO|BIT|10,0,"Panorama",565,144,122,20, &G.scene->r.mode, 0, 0, 0, 0, "Enable panorama rendering (output width is multiplied by Xparts)");
-	
+
 	uiDefBut(block, ROW|SHO,B_DIFF,"100%",			565,114,121,20,&G.scene->r.size,1.0,100.0, 0, 0, "Set render size to defined size");
 	uiDefBut(block, ROW|SHO,B_DIFF,"75%",			565,90,36,20,&G.scene->r.size,1.0,75.0, 0, 0, "Set render size to 3/4 of defined size");
 	uiDefBut(block, ROW|SHO,B_DIFF,"50%",			604,90,40,20,&G.scene->r.size,1.0,50.0, 0, 0, "Set render size to 1/2 of defined size");
 	uiDefBut(block, ROW|SHO,B_DIFF,"25%",			647,90,39,20,&G.scene->r.size,1.0,25.0, 0, 0, "Set render size to 1/4 of defined size");
-	
+
 	uiDefBut(block, TOG|SHO|BIT|0, B_OSA_BLUR1, "OSA",		369,114,124,20,&G.scene->r.mode, 0, 0, 0, 0, "Enables Oversampling (Anti-aliasing)");
 	uiDefBut(block, NUM|FLO,B_DIFF,"Bf:",							495,90,65,20,&G.scene->r.blurfac, 0.01, 5.0, 10, 0, "Sets motion blur factor");
 	uiDefBut(block, TOG|SHO|BIT|14, B_OSA_BLUR2, "MBLUR",	495,114,66,20,&G.scene->r.mode, 0, 0, 0, 0, "Enables Motion Blur calculation");
-	
+
 	uiDefBut(block, ROW|SHO,B_DIFF,"5",			369,90,29,20,&G.scene->r.osa,2.0,5.0, 0, 0, "Sets oversample level to 5");
 	uiDefBut(block, ROW|SHO,B_DIFF,"8",			400,90,29,20,&G.scene->r.osa,2.0,8.0, 0, 0, "Sets oversample level to 8 (Recommended)");
 	uiDefBut(block, ROW|SHO,B_DIFF,"11",			431,90,33,20,&G.scene->r.osa,2.0,11.0, 0, 0, "Sets oversample level to 11");
 	uiDefBut(block, ROW|SHO,B_DIFF,"16",			466,90,28,20,&G.scene->r.osa,2.0,16.0, 0, 0, "Sets oversample level to 16");
-		
+
 	uiDefBut(block, NUM|SHO,B_DIFF,"Xparts:",		369,42,99,31,&G.scene->r.xparts,1.0, 64.0, 0, 0, "Sets the number of horizontal parts to render image in (For panorama sets number of camera slices)");
 	uiDefBut(block, NUM|SHO,B_DIFF,"Yparts:",		472,42,86,31,&G.scene->r.yparts,1.0, 64.0, 0, 0, "Sets the number of vertical parts to render image in");
 
@@ -5151,18 +5025,18 @@ void renderbuts()
 	uiDefBut(block, TOG|INT, 0,"All",	295,10,70,19,
 			 &G.notonlysolid, 0, 0, 0, 0, "For unified renderer: also consider transparent faces for toon shading");
 
-	
+
 	uiDefBut(block, TOG|SHO|BIT|9,REDRAWVIEWCAM, "Border",	565,11,58,24, &G.scene->r.mode, 0, 0, 0, 0, "");
 	uiDefBut(block, TOG|SHO|BIT|2,0, "Gamma",	626,11,58,24, &G.scene->r.mode, 0, 0, 0, 0, "");
 
 	block->col= BUTSALMON;
 	uiDefBut(block, BUT,B_DOANIM,"ANIM",		692,142,192,47, 0, 0, 0, 0, 0, "");
-	
+
 	block->col= BUTBLUE;
 
 	uiDefBut(block, TOG|SHO|BIT|0, 0, "Do Sequence",	692,112,192,24, &G.scene->r.scemode, 0, 0, 0, 0, "Enables sequence output rendering (Default: 3D rendering)");
 	uiDefBut(block, TOG|SHO|BIT|1, 0, "Render Daemon",	692,88,192,24, &G.scene->r.scemode, 0, 0, 0, 0, "");
-	
+
 	block->col= BUTGREY;
 	uiDefBut(block, BUT,B_PLAYANIM, "PLAY",	692,40,94,33, 0, 0, 0, 0, 0, "Play animation of rendered images/avi (searches Pics: field)");
 
@@ -5231,7 +5105,7 @@ void renderbuts()
 	uiDefBut(block, TOG|INT, B_USE_G_SCALE, "h",		240,66,20,18, &G.Ghisto, 0, 0, 0, 0, "Make histogram of green colours");
 	uiDefBut(block, TOG|INT, B_USE_B_SCALE, "h",		240,48,20,18, &G.Bhisto, 0, 0, 0, 0, "Make histogram of blue colours");
 	*/
-	
+
 	uiDrawBlock(block);
 }
 
@@ -5249,18 +5123,18 @@ void drawbutspace()
 	ID *id;
 	Object *ob;
 	float vec[2];
-	
+
 	if(curarea->headertype==0) {
 		ID *id, *idfrom;
-		
+
 		buttons_active_id(&id, &idfrom);
 		G.buts->lockpoin= id;
 	}
-	
+
 	ob= OBACT;
-	
+
 	ortho2(G.v2d->cur.xmin, G.v2d->cur.xmax, G.v2d->cur.ymin, G.v2d->cur.ymax);
-	
+
 	glShadeModel(GL_SMOOTH);
 	glBegin(GL_QUADS);
 	cpack(0x909090);
@@ -5276,13 +5150,13 @@ void drawbutspace()
 	glVertex2fv(vec);
 	glEnd();
 	glShadeModel(GL_FLAT);
-	
+
 	cpack(0x909090);
 	glRectf(G.v2d->cur.xmin,  G.v2d->cur.ymin,  G.v2d->cur.xmax,  G.v2d->cur.ymax-15);
 
-	uiSetButLock(G.scene->id.lib!=0, "Can't edit library data");	
+	uiSetButLock(G.scene->id.lib!=0, "Can't edit library data");
 	uiFreeBlocksWin(&curarea->uiblocks, curarea->win);
- 
+
 	switch(G.buts->mainb) {
 	case BUTS_VIEW:
 		viewbuts();
@@ -5293,10 +5167,10 @@ void drawbutspace()
 	case BUTS_MAT:
 		if(ob==0) return;
 		if(ob->type>=OB_LAMP) return;
-		
+
 		matbuts();
 		break;
-	case BUTS_TEX:		
+	case BUTS_TEX:
 		texbuts();
 		break;
 	case BUTS_ANIM:
@@ -5322,7 +5196,7 @@ void drawbutspace()
 		break;
 	case BUTS_EDIT:
 		if(ob==0) return;
-		
+
 		common_editbuts();
 
 		id= ob->data;
@@ -5335,22 +5209,21 @@ void drawbutspace()
 		}
 		else if(ob->type==OB_CAMERA) camerabuts();
 		else if(ob->type==OB_LATTICE) latticebuts();
-		else if(ob->type==OB_IKA) ikabuts();
-			
+
 		break;
 	}
-	
+
 	uiClearButLock();
-	
+
 	test_butspace();
-	
+
 	curarea->win_swap= WIN_BACK_OK;
 }
 
 void do_blenderbuttons(ushort event)
 {
 	SpaceButs *buts;
-	
+
 	/* teken ook de soortgelijke windows? */
 	buts= curarea->spacedata.first;
 	if(buts->mainb==BUTS_VIEW) allqueue(REDRAWBUTSVIEW, curarea->win);
@@ -5366,7 +5239,7 @@ void do_blenderbuttons(ushort event)
 	else if(buts->mainb==BUTS_FPAINT) allqueue(REDRAWBUTSGAME, curarea->win);
 	else if(buts->mainb==BUTS_RADIO) allqueue(REDRAWBUTSRADIO, curarea->win);
 	else if(buts->mainb==BUTS_SCRIPT) allqueue(REDRAWBUTSSCRIPT, curarea->win);
-	
+
 	if(event<=100) {
 		do_global_buttons(event);
 	}
@@ -5403,9 +5276,6 @@ void do_blenderbuttons(ushort event)
 	else if(event<=B_FONTBUTS) {
 		do_fontbuts(event);
 	}
-	else if(event<=B_IKABUTS) {
-		do_ikabuts(event);
-	}
 	else if(event<=B_CAMBUTS) {
 		;
 	}
@@ -5432,12 +5302,12 @@ void redraw_test_buttons(Base *new)
 {
 	ScrArea *sa;
 	SpaceButs *buts;
-	
+
 	sa= G.curscreen->areabase.first;
 	while(sa) {
 		if(sa->spacetype==SPACE_BUTS) {
 			buts= sa->spacedata.first;
-			
+
 			if(buts->mainb==BUTS_LAMP) {
 				allqueue(REDRAWBUTSLAMP, 0);
 				RE_preview_changed(sa->win);
@@ -5454,19 +5324,19 @@ void redraw_test_buttons(Base *new)
 			}
 			else if(buts->mainb==BUTS_ANIM) {
 				allqueue(REDRAWBUTSANIM, 0);
-			}			
+			}
 			else if(buts->mainb==BUTS_EDIT) {
 				allqueue(REDRAWBUTSEDIT, 0);
-			}			
+			}
 			else if(buts->mainb==BUTS_GAME) {
 				allqueue(REDRAWBUTSGAME, 0);
-			}			
+			}
 			else if(buts->mainb==BUTS_FPAINT) {
 				allqueue(REDRAWBUTSGAME, 0);
 			}
 			else if(buts->mainb==BUTS_SCRIPT) {
 				allqueue(REDRAWBUTSSCRIPT, 0);
-			}			
+			}
 		}
 		sa= sa->next;
 	}

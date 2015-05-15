@@ -22,9 +22,9 @@
 
 
 /*  toets.c   mei 94     GRAPHICS
- * 
+ *
  *  Algemene toetsen, bijzondere in de space.c
- * 
+ *
  * Version: $Id: toets.c,v 1.12 2000/09/24 20:22:11 ton Exp $
  */
 
@@ -42,7 +42,7 @@ void persptoetsen(ushort event)
 	float zoom, phi, si, q1[4], vec[3], dx=0, dy=0;
 	static int perspo=1;
 	int ok=0;
-	
+
 	short mval[2],rt2,rt3;
 
 	if(G.qual & LR_SHIFTKEY) {
@@ -88,7 +88,7 @@ void persptoetsen(ushort event)
 		else {
 
 			initgrabz(0.0, 0.0, 0.0);
-			
+
 			if(event==PAD6) window_to_3d(vec, -32, 0);
 			else if(event==PAD4) window_to_3d(vec, 32, 0);
 			else if(event==PAD8) window_to_3d(vec, 0, -25);
@@ -155,15 +155,15 @@ void persptoetsen(ushort event)
 						base= base->next;
 					}
 				}
-				
+
 				handle_view3d_lock();
 			}
 			else if(BASACT) {
 				if(G.qual & LR_CTRLKEY) {
 					if(G.vd->camera != OBACT) {
-						
+
 						if(G.vd->camera && G.vd->camera->type==OB_CAMERA) oldcamera= G.vd->camera;
-						
+
 						G.vd->camera= OBACT;
 						handle_view3d_lock();
 					}
@@ -177,18 +177,17 @@ void persptoetsen(ushort event)
 				G.vd->camera= find_camera();
 				handle_view3d_lock();
 			}
-			
+
 			if(G.vd->camera) {
 				G.vd->persp= 2;
 				G.vd->view= 0;
 			}
-			
+
 		}
 		else if(event==PAD9) {
 			countall();
 			do_all_ipos();
 			do_all_keys();
-			do_all_ikas();
 			reset_slowparents();	/* editobject.c */
 		}
 		else if(G.vd->persp<2) {
@@ -204,10 +203,10 @@ void persptoetsen(ushort event)
 				G.vd->view= 0;
 			}
 			if(event==PAD2 || event==PAD8) {
-				
+
 				/* liggende as */
 				VECCOPY(q1+1, G.vd->viewinv[0]);
-				
+
 				Normalise(q1+1);
 				phi= M_PI/24.0;
 				if(event==PAD2) phi= -phi;
@@ -231,7 +230,7 @@ int untitled(char * name)
 {
 	if (G.save_over == 0 ) {
 		char * c;
-		
+
 		c= last_slash(name);
 		if (c) c[1] = 0;
 		strcat(name, "untitled.blend");
@@ -259,7 +258,7 @@ int save_image_filesel_str(char *str)
 		strcpy(str, "SAVE JPEG"); return 1;
 	default:
 		strcpy(str, "SAVE IMAGE"); return 0;
-	}	
+	}
 }
 
 int blenderqread(ushort event, short val)
@@ -276,7 +275,7 @@ int blenderqread(ushort event, short val)
 	uint *temp;
 	int ok, textspace=0;
 	char dir[FILE_MAXDIR], str[FILE_MAXFILE];
-	
+
 	if(val==0) return 1;
 	if(event==MOUSEY || event==MOUSEX) return 1;
 
@@ -291,7 +290,7 @@ int blenderqread(ushort event, short val)
 				sa= closest_bigger_area();
 				areawinset(sa->win);
 			}
-			
+
 			activate_fileselect(FILE_BLENDER, "LOAD FILE", G.sce, read_file);
 			return 0;
 		}
@@ -326,16 +325,16 @@ int blenderqread(ushort event, short val)
 					splitdirstring(dir, str);
 					strcpy(G.ima, dir);
 				}
-				
+
 				R.r.imtype= G.scene->r.imtype;
 				R.r.quality= G.scene->r.quality;
 				R.r.planes= G.scene->r.planes;
-			
+
 				if(!save_image_filesel_str(str)) {
 					error("Select an image type in DisplayButtons(F10)");
 					return 0;
 				}
-			
+
 				activate_fileselect(FILE_SPECIAL, str, G.ima, RE_write_image);
 				return 0;
 			}
@@ -355,7 +354,7 @@ int blenderqread(ushort event, short val)
 			return 0;
 		}
 		else extern_set_butspace(event);
-		
+
 		break;
 	case F5KEY:
 		if(G.qual & LR_SHIFTKEY) {
@@ -425,16 +424,16 @@ int blenderqread(ushort event, short val)
 		RE_do_renderfg(0);
 		return 0;
 		break;
-	
+
 	case LEFTARROWKEY:
 	case DOWNARROWKEY:
 		if(textediting==0 && textspace==0) {
 			if(event==DOWNARROWKEY) CFRA-= 10;
 			else CFRA--;
-			
+
 			if(G.qual & 3) CFRA= SFRA;
 			if(CFRA<1) CFRA=1;
-	
+
 			do_global_buttons(B_NEWFRAME);
 			return 0;
 		}
@@ -446,15 +445,15 @@ int blenderqread(ushort event, short val)
 			if(event==UPARROWKEY) CFRA+= 10;
 			else CFRA++;
 			if(G.qual & 3) CFRA= EFRA;
-			
+
 			do_global_buttons(B_NEWFRAME);
 		}
 		break;
-	
+
 	case ESCKEY:
 		/* event doorgeven aan filesel? */
 		if(G.curscreen->winakt!=R.win && curarea->spacetype==SPACE_FILE) return 1;
-		
+
 		if(R.win && R.winpop==0) {
 			RE_toggle_render_display();
 			return 0;
@@ -491,7 +490,7 @@ int blenderqread(ushort event, short val)
 		}
 		else if(G.f & G_DEBUG) {
 			printf("swap\n");
-			
+
 			glutSwapBuffers();
 		}
 		else if(G.qual & LR_SHIFTKEY) {
@@ -519,7 +518,7 @@ int blenderqread(ushort event, short val)
 				if(G.obedit==0) enter_editmode();
 				else exit_editmode(1);
 				return 0;
-			}			
+			}
 		}
 		break;
 	case IKEY:
@@ -533,7 +532,7 @@ int blenderqread(ushort event, short val)
 	case JKEY:
 		if(textediting==0 && textspace==0) {
 			if(R.rectot && G.qual==0) {
-				
+
 				if(R.rectspare==0) {
 					R.rectspare= (uint *)callocN(sizeof(int)*R.rectx*R.recty, "rectot");
 					R.sparex= R.rectx;
@@ -541,19 +540,19 @@ int blenderqread(ushort event, short val)
 				}
 				else if(R.sparex!=R.rectx || R.sparey!=R.recty) {
 					temp= (uint *)callocN(sizeof(int)*R.rectx*R.recty, "rectot");
-					
+
 					scalefastrect(R.rectspare, temp, R.sparex, R.sparey, R.rectx, R.recty);
 					freeN(R.rectspare);
 					R.rectspare= temp;
-					
+
 					R.sparex= R.rectx;
 					R.sparey= R.recty;
 				}
-				
+
 				SWAP(uint *, R.rectspare, R.rectot);
-				
+
 				RE_render_display(0, R.recty-1);
-				
+
 				return 0;
 			}
 		}
@@ -568,12 +567,12 @@ int blenderqread(ushort event, short val)
 			}
 		}
 		break;
-		
+
 	case OKEY:
 		if(textediting==0) {
 			if(G.qual & LR_CTRLKEY) {
 				sprintf(str, "Open file: %s", G.sce);
-			
+
 				if(okee(str)) {
 					strcpy(dir, G.sce);
 					read_file(dir);
@@ -582,7 +581,7 @@ int blenderqread(ushort event, short val)
 			}
 		}
 		break;
-		
+
 	case SKEY:
 		if(G.obedit==0) {
 			if(G.qual & LR_CTRLKEY) {
@@ -596,33 +595,33 @@ int blenderqread(ushort event, short val)
 			}
 		}
 		break;
-	
+
 	case TKEY:
 		if(G.qual & LR_ALTKEY) {
 		if(G.qual & LR_CTRLKEY) {
 			int a, time, event;
 			char tmpstr[128];
 
-			
+
 			event= pupmenu("10 Timer%t|draw|draw+swap");
-			
+
 			if(event>0) {
 			PRINT(d, event);
 				printf("start timer\n");
 				waitcursor(1);
-				
+
 				RE_start_timer();
-					
+
 				for(a=0; a<10; a++) {
 					curarea->windraw();
 					if(event==2) screen_swapbuffers();
 				}
-				
+
 				RE_end_timer(&time, 0);
-				
+
 				if(event==1) sprintf(tmpstr, "draw %%t|%d", time);
 				if(event==2) sprintf(tmpstr, "d+sw %%t|%d", time);
-				
+
 				waitcursor(0);
 				pupmenu(tmpstr);
 
@@ -630,9 +629,9 @@ int blenderqread(ushort event, short val)
 			return 0;
 		}}
 		break;
-				
+
 	case UKEY:
-		
+
 		if(textediting==0) {
 			if(G.qual & LR_CTRLKEY) {
 				if(okee("SAVE USER DEFAULTS")) {
@@ -642,7 +641,7 @@ int blenderqread(ushort event, short val)
 			}
 		}
 		break;
-		
+
 	case WKEY:
 		if(textediting==0) {
 			if(G.qual & LR_CTRLKEY) {
@@ -663,7 +662,7 @@ int blenderqread(ushort event, short val)
 			}
 		}
 		break;
-		
+
 	case XKEY:
 		if(G.qual & LR_CTRLKEY) {
 			if(okee("ERASE ALL")) {
@@ -671,7 +670,7 @@ int blenderqread(ushort event, short val)
 			}
 			return 0;
 		}
-		
+
 		break;
 	case ZKEY:
 		if(R.win && R.win==G.curscreen->winakt) {
@@ -679,7 +678,7 @@ int blenderqread(ushort event, short val)
 			return 0;
 		}
 	}
-	
+
 	return 1;
 }
 

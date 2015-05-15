@@ -21,18 +21,18 @@
 
 /*  writefile.c       MIXED MODEL
 
- * 
+ *
  *  jan feb maart 95
  *  Version: $Id: writefile.c,v 1.21 2000/09/25 22:02:55 ton Exp $
- * 
- * 
+ *
+ *
  *	FILEFORMAAT: IFF-achtige structuur  (niet meer IFF compatible!)
- 
+
 	start file:
 		BLENDER_V100	12 bytes  (versie 1.00)
 						V = big endian, v = little endian
 						_ = 4 byte pointer, - = 8 byte pointer
-						
+
 	datablokken:		zie ook struct BHead
 		<bh.code>			4 chars
 		<bh.len>			int,  len data achter BHead
@@ -40,18 +40,18 @@
 		<bh.SDNAnr>			int
 		<bh.nr>				int, bij array: aantal structs
 
-		data			
+		data
 		...
 		...
-	
+
 	Vrijwel alle data in blender zijn structs. Elke struct krijgt een BHead header mee.
 	Met BHead kan de struktuur weer worden gelinkt en wordt met StructDNA vergeleken.
-	
+
 	SCHRIJVEN
-	
+
 	Voorkeur volgorde schrijven: (waarschijnlijk mag ook door elkaar, maar waarom zou je? )
 	In ieder geval MOET indirekte data ACHTER LibBlock
-	
+
 	(Locale data)
 	- voor elk LibBlock
 		- schrijf LibBlock
@@ -64,7 +64,7 @@
 	- schrijf FileGlobal (een selectie uit globale data )
 	- schrijf SDNA
 	- schrijf USER als aangegeven (~/.B.blend)
-		
+
  */
 
 #include "blender.h"
@@ -73,7 +73,6 @@
 #include "screen.h"
 #include "sequence.h"
 #include "effect.h"
-#include "ika.h"
 #include "oops.h"
 #include "imasel.h"
 #include "text.h"
@@ -145,9 +144,9 @@ void writeBlog()
 {
 	int file;
 	char name[FILE_MAXDIR+FILE_MAXFILE], *home;
-	
+
 	if(noBlog) return;
-	
+
 	home = gethome();
 	if (home) {
 		make_file_string (name, home, ".Blog");
@@ -179,7 +178,7 @@ void readBlog()
 		}
 
 		make_file_string (name, home, ".Bfs");
-		
+
 		fp= fopen(name, "r");
 		if(fp==NULL) {
 			return;
@@ -191,31 +190,31 @@ void readBlog()
 			DWORDLONG tmp;
 			char tmps[4];
 			int i;
-			
+
 			tmp= GetLogicalDrives();
-			
+
 			for (i=0; i < 26; i++) {
 				if ((tmp>>i) & 1) {
 					tmps[0]='a'+i;
 					tmps[1]=':';
 					tmps[2]='\\';
 					tmps[3]=0;
-					
+
 					addfilename_to_fsmenu(tmps);
 				}
 			}
-			
+
 		}
 
 #endif
-		
+
 		end= 1;
 		while(end>0) {
 			end= fscanf(fp, "%s", name);
 			if(end<=0) break;
 			addfilename_to_fsmenu(name);
 		}
-		
+
 		fclose(fp);
 	}
 }
@@ -227,7 +226,7 @@ void writestruct(int filecode, char *structname, int nr, void *adr)
 {
 	BHead bh;
 	short *sp;
-	
+
 	if(adr==0 || nr==0) return;
 
 	/* BHead vullen met data */
@@ -241,20 +240,20 @@ void writestruct(int filecode, char *structname, int nr, void *adr)
 		return;
 	}
 	sp= cur_sdna.structs[bh.SDNAnr];
-	
+
 	bh.len= nr*cur_sdna.typelens[sp[0]];
 
 	if(bh.len==0) return;
-		
+
 	mywrite(&bh, sizeof(BHead));
 	mywrite(adr, bh.len);
-	
+
 }
 
 void writedata(int filecode, int len, void *adr)	/* geen struct */
 {
 	BHead bh;
-	
+
 	if(adr==0) return;
 	if(len==0) return;
 
@@ -265,33 +264,33 @@ void writedata(int filecode, int len, void *adr)	/* geen struct */
 	bh.code= filecode;
 	bh.old= adr;
 	bh.nr= 1;
-	bh.SDNAnr= 0;	
+	bh.SDNAnr= 0;
 	bh.len= len;
-	
+
 	mywrite(&bh, sizeof(BHead));
 	if(len) mywrite(adr, len);
-	
+
 }
 
 void write_scriptlink(ScriptLink *slink)
 {
-	writedata(DATA, sizeof(void *)*slink->totscript, slink->scripts);	
-	writedata(DATA, sizeof(short)*slink->totscript, slink->flag);	
+	writedata(DATA, sizeof(void *)*slink->totscript, slink->scripts);
+	writedata(DATA, sizeof(short)*slink->totscript, slink->flag);
 }
 
 void write_renderinfo()		/* alleen voor renderdaemon */
 {
 	Scene *sce;
 	int data[8];
-	
+
 	sce= G.main->scene.first;
 	while(sce) {
 		if(sce->id.lib==0  && ( sce==G.scene || (sce->r.scemode & R_BG_RENDER)) ) {
 			data[0]= sce->r.sfra;
 			data[1]= sce->r.efra;
-			
+
 			strncpy((char *)(data+2), sce->id.name+2, 23);
-			
+
 			writedata(REND, 32, data);
 		}
 		sce= sce->id.next;
@@ -305,7 +304,7 @@ void write_userdef()
 	home = gethome();
 	if (home) {
 		make_file_string(name, home, ".B.blend");
-		
+
 		if(strcmp(G.sce, name)==0) {
 			writestruct(USER, "UserDef", 1, &U);
 		}
@@ -315,24 +314,24 @@ void write_userdef()
 void write_effects(ListBase *lb)
 {
 	Effect *eff;
-	
+
 	eff= lb->first;
 	while(eff) {
-		
+
 		switch(eff->type) {
 		case EFF_BUILD:
 			writestruct(DATA, "BuildEff", 1, eff);
-			break;	
+			break;
 		case EFF_PARTICLE:
 			writestruct(DATA, "PartEff", 1, eff);
-			break;	
+			break;
 		case EFF_WAVE:
 			writestruct(DATA, "WaveEff", 1, eff);
-			break;	
+			break;
 		default:
 			writedata(DATA, alloc_len(eff), eff);
 		}
-		
+
 		eff= eff->next;
 	}
 }
@@ -340,12 +339,12 @@ void write_effects(ListBase *lb)
 void write_properties(ListBase *lb)
 {
 	bProperty *prop;
-	
+
 	prop= lb->first;
 	while(prop) {
 		writestruct(DATA, "bProperty", 1, prop);
 
-		if(prop->poin && prop->poin != &prop->data) 
+		if(prop->poin && prop->poin != &prop->data)
 			writedata(DATA, alloc_len(prop->poin), prop->poin);
 
 		prop= prop->next;
@@ -355,13 +354,13 @@ void write_properties(ListBase *lb)
 void write_sensors(ListBase *lb)
 {
 	bSensor *sens;
-	
+
 	sens= lb->first;
 	while(sens) {
 		writestruct(DATA, "bSensor", 1, sens);
-		
+
 		writedata(DATA, sizeof(void *)*sens->totlinks, sens->links);
-		
+
 		switch(sens->type) {
 		case SENS_NEAR:
 			writestruct(DATA, "bNearSensor", 1, sens->data);
@@ -393,7 +392,7 @@ void write_sensors(ListBase *lb)
 void write_controllers(ListBase *lb)
 {
 	bController *cont;
-	
+
 	cont= lb->first;
 	while(cont) {
 		writestruct(DATA, "bController", 1, cont);
@@ -416,7 +415,7 @@ void write_controllers(ListBase *lb)
 void write_actuators(ListBase *lb)
 {
 	bActuator *act;
-	
+
 	act= lb->first;
 	while(act) {
 		writestruct(DATA, "bActuator", 1, act);
@@ -455,13 +454,13 @@ void write_actuators(ListBase *lb)
 void write_objects(ListBase *idbase)
 {
 	Object *ob;
-	
+
 	ob= idbase->first;
 	while(ob) {
 		if(ob->id.us>0) {
 			/* schrijf LibData */
 			writestruct(ID_OB, "Object", 1, ob);
-			
+
 			/* alle direkte data */
 			writedata(DATA, sizeof(void *)*ob->totcol, ob->mat);
 			write_effects(&ob->effect);
@@ -479,22 +478,22 @@ void write_vfonts(ListBase *idbase)
 {
 	VFont *vf;
 	PackedFile * pf;
-	
+
 	vf= idbase->first;
 	while(vf) {
 		if(vf->id.us>0) {
 			/* schrijf LibData */
 			writestruct(ID_VF, "VFont", 1, vf);
-		
+
 			/* alle direkte data */
-			
+
 			if (vf->packedfile) {
 				pf = vf->packedfile;
 				writestruct(DATA, "PackedFile", 1, pf);
 				writedata(DATA, pf->size, pf->data);
 			}
 		}
-		
+
 		vf= vf->id.next;
 	}
 }
@@ -503,13 +502,13 @@ void write_ipos(ListBase *idbase)
 {
 	Ipo *ipo;
 	IpoCurve *icu;
-	
+
 	ipo= idbase->first;
 	while(ipo) {
 		if(ipo->id.us>0) {
 			/* schrijf LibData */
 			writestruct(ID_IP, "Ipo", 1, ipo);
-		
+
 			/* alle direkte data */
 			icu= ipo->curve.first;
 			while(icu) {
@@ -524,7 +523,7 @@ void write_ipos(ListBase *idbase)
 				icu= icu->next;
 			}
 		}
-		
+
 		ipo= ipo->id.next;
 	}
 }
@@ -533,13 +532,13 @@ void write_keys(ListBase *idbase)
 {
 	Key *key;
 	KeyBlock *kb;
-	
+
 	key= idbase->first;
 	while(key) {
 		if(key->id.us>0) {
 			/* schrijf LibData */
 			writestruct(ID_KE, "Key", 1, key);
-		
+
 			/* alle direkte data */
 			kb= key->block.first;
 			while(kb) {
@@ -548,7 +547,7 @@ void write_keys(ListBase *idbase)
 				kb= kb->next;
 			}
 		}
-		
+
 		key= key->id.next;
 	}
 }
@@ -556,17 +555,17 @@ void write_keys(ListBase *idbase)
 void write_cameras(ListBase *idbase)
 {
 	Camera *cam;
-	
+
 	cam= idbase->first;
 	while(cam) {
 		if(cam->id.us>0) {
 			/* schrijf LibData */
 			writestruct(ID_CA, "Camera", 1, cam);
-		
+
 			/* alle direkte data */
 			write_scriptlink(&cam->scriptlink);
 		}
-		
+
 		cam= cam->id.next;
 	}
 }
@@ -575,16 +574,16 @@ void write_curves(ListBase *idbase)
 {
 	Curve *cu;
 	Nurb *nu;
-	
+
 	cu= idbase->first;
 	while(cu) {
 		if(cu->id.us>0) {
 			/* schrijf LibData */
 			writestruct(ID_CU, "Curve", 1, cu);
-			
+
 			/* alle direkte data */
 			writedata(DATA, sizeof(void *)*cu->totcol, cu->mat);
-			
+
 			if(cu->vfont) {
 				writedata(DATA, cu->len+1, cu->str);
 			}
@@ -597,7 +596,7 @@ void write_curves(ListBase *idbase)
 				}
 				nu= cu->nurb.first;
 				while(nu) {
-					if( (nu->type & 7)==CU_BEZIER) 
+					if( (nu->type & 7)==CU_BEZIER)
 						writestruct(DATA, "BezTriple", nu->pntsu, nu->bezt);
 					else {
 						writestruct(DATA, "BPoint", nu->pntsu*nu->pntsv, nu->bp);
@@ -615,13 +614,13 @@ void write_curves(ListBase *idbase)
 void write_meshs(ListBase *idbase)
 {
 	Mesh *mesh;
-	
+
 	mesh= idbase->first;
 	while(mesh) {
 		if(mesh->id.us>0) {
 			/* schrijf LibData */
 			writestruct(ID_ME, "Mesh", 1, mesh);
-			
+
 			/* alle direkte data */
 			writedata(DATA, sizeof(void *)*mesh->totcol, mesh->mat);
 			writestruct(DATA, "MVert", mesh->totvert, mesh->mvert);
@@ -638,7 +637,7 @@ void write_images(ListBase *idbase)
 {
 	Image *ima;
 	PackedFile * pf;
-	
+
 	ima= idbase->first;
 	while(ima) {
 		if(ima->id.us>0) {
@@ -658,13 +657,13 @@ void write_images(ListBase *idbase)
 void write_textures(ListBase *idbase)
 {
 	Tex *tex;
-	
+
 	tex= idbase->first;
 	while(tex) {
 		if(tex->id.us>0) {
 			/* schrijf LibData */
 			writestruct(ID_TE, "Tex", 1, tex);
-			
+
 			/* alle direkte data */
 			if(tex->plugin) writestruct(DATA, "PluginTex", 1, tex->plugin);
 			if(tex->coba) writestruct(DATA, "ColorBand", 1, tex->coba);
@@ -678,13 +677,13 @@ void write_materials(ListBase *idbase)
 {
 	Material *ma;
 	int a;
-	
+
 	ma= idbase->first;
 	while(ma) {
 		if(ma->id.us>0) {
 			/* schrijf LibData */
 			writestruct(ID_MA, "Material", 1, ma);
-			
+
 			for(a=0; a<8; a++) {
 				if(ma->mtex[a]) writestruct(DATA, "MTex", 1, ma->mtex[a]);
 			}
@@ -699,7 +698,7 @@ void write_worlds(ListBase *idbase)
 {
 	World *wrld;
 	int a;
-	
+
 	wrld= idbase->first;
 	while(wrld) {
 		if(wrld->id.us>0) {
@@ -720,13 +719,13 @@ void write_lamps(ListBase *idbase)
 {
 	Lamp *la;
 	int a;
-	
+
 	la= idbase->first;
 	while(la) {
 		if(la->id.us>0) {
 			/* schrijf LibData */
 			writestruct(ID_LA, "Lamp", 1, la);
-		
+
 			/* alle direkte data */
 			for(a=0; a<8; a++) {
 				if(la->mtex[a]) writestruct(DATA, "MTex", 1, la->mtex[a]);
@@ -741,41 +740,17 @@ void write_lamps(ListBase *idbase)
 void write_lattices(ListBase *idbase)
 {
 	Lattice *lt;
-	
+
 	lt= idbase->first;
 	while(lt) {
 		if(lt->id.us>0) {
 			/* schrijf LibData */
 			writestruct(ID_LT, "Lattice", 1, lt);
-		
+
 			/* alle direkte data */
 			writestruct(DATA, "BPoint", lt->pntsu*lt->pntsv*lt->pntsw, lt->def);
 		}
 		lt= lt->id.next;
-	}
-}
-
-void write_ikas(ListBase *idbase)
-{
-	Ika *ika;
-	Limb *li;
-	
-	ika= idbase->first;
-	while(ika) {
-		if(ika->id.us>0) {
-			/* schrijf LibData */
-			writestruct(ID_IK, "Ika", 1, ika);
-			
-			/* alle direkte data */
-			li= ika->limbbase.first;
-			while(li) {
-				writestruct(DATA, "Limb", 1, li);
-				li= li->next;
-			}
-			
-			writestruct(DATA, "Deform", ika->totdef, ika->def);
-		}
-		ika= ika->id.next;
 	}
 }
 
@@ -786,22 +761,22 @@ void write_scenes(ListBase *scebase)
 	Editing *ed;
 	Sequence *seq;
 	Strip *strip;
-	
+
 	sce= scebase->first;
 	while(sce) {
 		/* schrijf LibData */
 		writestruct(ID_SCE, "Scene", 1, sce);
-		
+
 		/* alle direkte data */
 		base= sce->base.first;
 		while(base) {
 			writestruct(DATA, "Base", 1, base);
 			base= base->next;
 		}
-		
+
 		writestruct(DATA, "Radio", 1, sce->radio);
 		writestruct(DATA, "FreeCamera", 1, sce->fcam);
-		
+
 		ed= sce->ed;
 		if(ed) {
 			writestruct(DATA, "Editing", 1, ed);
@@ -812,21 +787,21 @@ void write_scenes(ListBase *scebase)
 				writestruct(DATA, "Sequence", 1, seq);
 			}
 			END_SEQ
-			
+
 			WHILE_SEQ(&ed->seqbase) {
 				if(seq->strip && seq->strip->done==0) {
 					/* strip wegschrijven met done op 0 ivm readfile */
-					
+
 					if(seq->plugin) writestruct(DATA, "PluginSeq", 1, seq->plugin);
-					
+
 					strip= seq->strip;
 					writestruct(DATA, "Strip", 1, strip);
-					
-					if(seq->type==SEQ_IMAGE) 
+
+					if(seq->type==SEQ_IMAGE)
 						writestruct(DATA, "StripElem", strip->len, strip->stripdata);
 					else if(seq->type==SEQ_MOVIE)
 						writestruct(DATA, "StripElem", 1, strip->stripdata);
-						
+
 					strip->done= 1;
 				}
 			}
@@ -834,7 +809,7 @@ void write_scenes(ListBase *scebase)
 		}
 
 		write_scriptlink(&sce->scriptlink);
-		
+
 		sce= sce->id.next;
 	}
 }
@@ -847,12 +822,12 @@ void write_screens(ListBase *scrbase)
 	ScrEdge *se;
 	View3D *v3d;
 	Oops *oops, *oopsn;
-	
+
 	sc= scrbase->first;
 	while(sc) {
 		/* schrijf LibData */
 		writestruct(ID_SCR, "Screen", 1, sc);
-		
+
 		/* alle direkte data */
 		sv= sc->vertbase.first;
 		while(sv) {
@@ -869,7 +844,7 @@ void write_screens(ListBase *scrbase)
 		sa= sc->areabase.first;
 		while(sa) {
 			writestruct(DATA, "ScrArea", 1, sa);
-			
+
 			v3d= sa->spacedata.first; /* v3d als algemeen voorbeeld */
 			while(v3d) {
 				if(v3d->spacetype==SPACE_VIEW3D) {
@@ -891,7 +866,7 @@ void write_screens(ListBase *scrbase)
 				}
 				else if(v3d->spacetype==SPACE_OOPS) {
 					SpaceOops *so= (SpaceOops *)v3d;
-					
+
 					/* cleanup */
 					oops= so->oops.first;
 					while(oops) {
@@ -903,9 +878,9 @@ void write_screens(ListBase *scrbase)
 						oops= oopsn;
 					}
 
-					/* NA de cleanup, ivm listbase! */					
+					/* NA de cleanup, ivm listbase! */
 					writestruct(DATA, "SpaceOops", 1, so);
-					
+
 					oops= so->oops.first;
 					while(oops) {
 						writestruct(DATA, "Oops", 1, oops);
@@ -926,7 +901,7 @@ void write_screens(ListBase *scrbase)
 				}
 				v3d= v3d->next;
 			}
-			
+
 			sa= sa->next;
 		}
 
@@ -957,23 +932,23 @@ void write_libraries(Main *main)
 			}
 			if(foundone) break;
 		}
-		
-		if(foundone) {	
+
+		if(foundone) {
 
 			writestruct(ID_LI, "Library", 1, main->curlib);
-	
+
 			while(a--) {
 				id= lbarray[a]->first;
 				while(id) {
 					if(id->us>0 && (id->flag & LIB_EXTERN)) {
-						
+
 						writestruct(ID_ID, "ID", 1, id);
 					}
 					id= id->next;
 				}
 			}
 		}
-		
+
 		main= main->next;
 	}
 }
@@ -982,16 +957,16 @@ void write_texts(ListBase *idbase)
 {
 	Text *text;
 	TextLine *tmp;
-	
+
 	text= idbase->first;
 	while(text) {
 		if ( (text->flags & TXT_ISMEM) && (text->flags & TXT_ISEXT)) text->flags &= ~TXT_ISEXT;
-		
+
 		/* write LibData */
 		writestruct(ID_TXT, "Text", 1, text);
 		if(text->name) writedata(DATA, strlen(text->name)+1, text->name);
 
-		if(!(text->flags & TXT_ISEXT)) {			
+		if(!(text->flags & TXT_ISEXT)) {
 			/* now write the text data, in two steps for optimization in the readfunction */
 			tmp= text->lines.first;
 			while (tmp) {
@@ -1015,13 +990,13 @@ void write_groups(ListBase *idbase)
 	GroupKey *gk;
 	GroupObject *go;
 	ObjectKey *ok;
-	
+
 	group= idbase->first;
 	while(group) {
 		if(group->id.us>0) {
 			/* write LibData */
 			writestruct(ID_GR, "Group", 1, group);
-			
+
 			gk= group->gkey.first;
 			while(gk) {
 				writestruct(DATA, "GroupKey", 1, gk);
@@ -1042,7 +1017,7 @@ void write_groups(ListBase *idbase)
 				}
 				go= go->next;
 			}
-			
+
 		}
 		group= group->id.next;
 	}
@@ -1051,12 +1026,12 @@ void write_groups(ListBase *idbase)
 void write_global()
 {
 	FileGlobal fg;
-	
+
 	fg.curscreen= G.curscreen;
 	fg.displaymode= R.displaymode;
 	fg.winpos= R.winpos;
 	fg.fileflags = G.fileflags;
-	
+
 	writestruct(GLOB, "FileGlobal", 1, &fg);
 
 }
@@ -1065,22 +1040,22 @@ void do_history(char *name)
 {
 	int hisnr= U.versions, len;
 	char tempname1[FILE_MAXDIR+FILE_MAXFILE], tempname2[FILE_MAXDIR+FILE_MAXFILE];
-	
+
 	if(U.versions==0 || noBlog) return;
-		
+
 	len= strlen(name);
 	if(len<2) return;
-		
+
 	while(  hisnr > 1) {
 		sprintf(tempname1, "%s%d", name, hisnr-1);
 		sprintf(tempname2, "%s%d", name, hisnr);
 
 		if(fop_rename(tempname1, tempname2))
 			error("Unable to make version backup");
-			
+
 		hisnr--;
 	}
-		
+
 	/* lijkt dubbelop: maar deze is nodig als hisnr==1 */
 	sprintf(tempname1, "%s%d", name, hisnr);
 
@@ -1111,14 +1086,14 @@ void write_file(char *dir)
 		}
 		li= li->id.next;
 	}
-	
+
 	file= open(di,O_BINARY+O_RDONLY);
 	close(file);
 	if(file>-1) {
 		if(!saveover(di))
-			return; 
+			return;
 	}
-	
+
 	if( (G.f & G_DISABLE_OK)==0) {	/* schrijf tempfile, niet met U.tempdir vergelijken */
 		if(G.obedit) {
 			exit_editmode(0);	/* 0 = geen freedata */
@@ -1127,8 +1102,8 @@ void write_file(char *dir)
 
 	/* BEVEILIGING */
 	strcpy(tempname, di);
-	strcat(tempname, "@"); 
-	
+	strcat(tempname, "@");
+
 	file= open(tempname,O_BINARY+O_WRONLY+O_CREAT+O_TRUNC, 0666);
 	if(file== -1) {
 		errorstr("Can't write file", di, 0);
@@ -1136,16 +1111,16 @@ void write_file(char *dir)
 	}
 
 	waitcursor(1);
-	
+
 	G.save_over = TRUE;
-	
+
 	// if auto_packing is on, now is the time to pack all files...
 
 	if (G.fileflags & B_PACKFILE)
 	{
 		packAll();
 	}
-	
+
 	bgnwrite(file);
 	strcpy(G.sce, di);
 	strcpy(G.main->name, di);	/* is gegarandeerd current file */
@@ -1154,10 +1129,10 @@ void write_file(char *dir)
 	mywrite(versionfstr, 12);
 
 	split_main();
-/*----------------*/						
-	
+/*----------------*/
+
 	write_renderinfo();
-	
+
 	write_screens(&G.main->screen);
 	write_scenes(&G.main->scene);
 	write_objects(&G.main->object);
@@ -1169,7 +1144,6 @@ void write_file(char *dir)
 	write_cameras(&G.main->camera);
 	write_lamps(&G.main->lamp);
 	write_lattices(&G.main->latt);
-	write_ikas(&G.main->ika);
 	write_vfonts(&G.main->vfont);
 	write_ipos(&G.main->ipo);
 	write_keys(&G.main->key);
@@ -1179,12 +1153,12 @@ void write_file(char *dir)
 	write_groups(&G.main->group);
 	write_global();
 	write_userdef();
-	
+
 		/* dna als laatste i.v.m. (nog te schrijven) test op welke gebruikt zijn */
 	writedata(DNA1, cur_sdna.datalen, cur_sdna.data);
-	
+
 	endwrite();
-/*----------------*/						
+/*----------------*/
 	join_main();
 
 	/* testen of alles goed is gelopen */
@@ -1200,17 +1174,17 @@ void write_file(char *dir)
 
 	/* EINDE BEVEILIGING */
 	if(!fout) {
-		
+
 		do_history(di);	/* doet alleen renames, geen delete */
-		
+
 		if(fop_rename(tempname, di) < 0) {
 			error("Can't change old file. File saved with @");
 		}
-		
+
 		writeBlog();
 	}
 	else remove(tempname);
-	
+
 	waitcursor(0);
 }
 
@@ -1218,11 +1192,11 @@ int write_homefile()
 {
 	char *home, tstr[FILE_MAXDIR+FILE_MAXFILE], scestr[FILE_MAXDIR+FILE_MAXFILE];
 	int save_over;
-	
+
 	home = gethome();
 	if (home) {
 		make_file_string(tstr, home, ".B.blend");
-		
+
 		noBlog= 1;
 		strcpy(scestr, G.sce);	/* even bewaren */
 		save_over = G.save_over;
@@ -1240,8 +1214,8 @@ void write_autosave()
 {
 	char scestr[FILE_MAXDIR+FILE_MAXFILE], tstr[FILE_MAXDIR+FILE_MAXFILE], tmp2[32];
 	int save_over;
-	
-	noBlog= 1;		
+
+	noBlog= 1;
 	strcpy(scestr, G.sce);	/* even bewaren */
 	G.f |= G_DISABLE_OK;
 
@@ -1262,15 +1236,15 @@ void delete_autosave()
 {
 	int file;
 	char tstr[FILE_MAXDIR+FILE_MAXFILE], str[FILE_MAXDIR+FILE_MAXFILE], tmpfile[FILE_MAXFILE];
-	
+
 	sprintf(tmpfile, "%d.blend", abs(getpid()));
-	
+
 	make_file_string(tstr, U.tempdir, tmpfile);
 
 	file= open(tstr, O_BINARY|O_RDONLY);
 	if(file>0) {
 		close(file);
-		
+
 		make_file_string(str, U.tempdir, "quit.blend");
 		fop_move (tstr, str);
 	}
@@ -1285,11 +1259,11 @@ short le_floatangshort(float ftemp)
 	int temp;
 	short new;
 	char *rt=(char *)&temp, *rtn=(char *)&new;
-	
+
 	temp= ffloor(4096.0*ftemp/(2.0*M_PI));
 	if(temp > 0) temp= temp % 4096;
 	else temp= - ( (abs(temp) % 4096));
-	
+
 	rtn[0]= rt[3];
 	rtn[1]= rt[2];
 

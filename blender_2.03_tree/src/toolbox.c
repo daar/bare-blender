@@ -22,7 +22,7 @@
 
 
 /*		toolbox.c	GRAPHICS
- * 
+ *
  *		feb 93
  *		dec 93 voor blender
  * Version: $Id: toolbox.c,v 1.14 2000/09/26 09:20:42 frank Exp $
@@ -37,25 +37,25 @@
 
 
 /*   ********  NOTES  ***********	*****************************
-	
+
 	- Toolbox items zelf invullen
 	- de colormap kleuren staan met comments in de bgntoolbox()
 	- de funktie extern_qread eventueel vervangen
-	- let op de benaming van bijzondere toetsen (NumL etc) 
+	- let op de benaming van bijzondere toetsen (NumL etc)
 	- meelinken: Button.c,  ivm rawcodes
-	
+
 	*****************************	*****************************
-*/	
+*/
 
 
 float tbwinmat[4][4], tbprojmat[4][4];
 int tbx1, tbx2, tby1, tby2, tbfontyofs, tbmain=0;
 int tbmemx=TBOXX/2, tbmemy=(TBOXEL-0.5)*TBOXH, tboldwin, addmode= 0;
-ushort tbpat[16]; 
+ushort tbpat[16];
 short oldcursor=0, oldmap[4][3];
 
 	/* variabelen per item */
-char *tbstr, *tbstr1;		
+char *tbstr, *tbstr1;
 void (*tbfunc)();
 int tbval;
 
@@ -110,7 +110,7 @@ void tbox_setinfo(int x, int y)
 	if(x==0) {
 
 		switch(y) {
-			case 0:		
+			case 0:
 				if(addmode==OB_MESH) tbstr= "  MESH";
 				else if(addmode==OB_CURVE) tbstr= "  CURVE";
 				else if(addmode==OB_SURF) tbstr= "  SURF";
@@ -127,11 +127,11 @@ void tbox_setinfo(int x, int y)
 			case 9:		tbstr= "FILE";		break;
 		}
 	}
-	
+
 /* TOPICS */
 	else {
-		
-		
+
+
 /* VIEW TOPICS */
 		if(tbmain==1) {
 			switch(y) {
@@ -181,7 +181,6 @@ void tbox_setinfo(int x, int y)
 					case 6: tbstr= "";			tbstr1= "";		tbval=0; break;
 					case 7: tbstr= "Camera";	tbstr1= "A";	tbval=OB_CAMERA; break;
 					case 8: tbstr= "Lamp";		tbstr1= "A";	tbval=OB_LAMP; break;
-					case 9: tbstr= "Ika";		tbstr1= "A";	tbval=OB_IKA; break;
 					case 10: tbstr= "";			tbstr1= "A";	tbval=0; break;
 					case 11: tbstr= "";			tbstr1= "A";	tbval=0; break;
 					case 12: tbstr= "";			tbstr1= "";		tbval=0; break;
@@ -189,7 +188,7 @@ void tbox_setinfo(int x, int y)
 				}
 				if(tbstr1 && tbstr1[0]=='A') tbfunc= (void (*)() )add_object_draw;
 			}
-			else if(addmode==OB_MESH) {		
+			else if(addmode==OB_MESH) {
 				switch(y) {
 					case 0: tbstr= ">Plane";	tbstr1= "A";	tbval=0; break;
 					case 1: tbstr= ">Cube";		tbstr1= "A";	tbval=1; break;
@@ -241,7 +240,7 @@ void tbox_setinfo(int x, int y)
 				if(tbstr1 && tbstr1[0]=='A') tbfunc= add_primitiveCurve;
 			}
 		}
-		
+
 /* OB TOPICS 1 */
 		else if(tbmain==3) {
 			switch(y) {
@@ -259,7 +258,7 @@ void tbox_setinfo(int x, int y)
 				case 11: tbstr= "Image Aspect";	tbstr1= "a|v";	break;
 			}
 		}
-		
+
 /* OB TOPICS 2 */
 		else if(tbmain==4) {
 			switch(y) {
@@ -295,7 +294,7 @@ void tbox_setinfo(int x, int y)
 				case 11: tbstr= "";	tbstr1= "";	break;
 			}
 		}
-	
+
 /* CURVE TOPICS */
 		else if(tbmain==6) {
 			switch(y) {
@@ -313,7 +312,7 @@ void tbox_setinfo(int x, int y)
 				case 11: tbstr= "Specials";	tbstr1= "w";	break;
 			}
 		}
-	
+
 /* KEY TOPICS */
 		else if(tbmain==7) {
 			switch(y) {
@@ -349,7 +348,7 @@ void tbox_setinfo(int x, int y)
 				case 11: tbstr= "";	tbstr1= "";	break;
 			}
 		}
-	
+
 /* FILE TOPICS */
 		else if(tbmain==9) {
 			switch(y) {
@@ -376,7 +375,7 @@ void tbox_setinfo(int x, int y)
 
 void dummy()
 {
-	
+
 }
 
 void bgnpupdraw(int startx, int starty, int endx, int endy)
@@ -390,9 +389,9 @@ void bgnpupdraw(int startx, int starty, int endx, int endy)
 	tboldwin= winget();
 
 	winset(G.curscreen->mainwin);
-	
+
 	/* pietsje groter, 1 pixel aan de rand */
-	
+
 	glReadBuffer(GL_FRONT);
 	glDrawBuffer(GL_FRONT);
 
@@ -403,17 +402,17 @@ void bgnpupdraw(int startx, int starty, int endx, int endy)
 	mygetcursor(&oldcursor);
 	glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
 	fmsetfont(G.font);
-	
+
 	tbfontyofs= (TBOXH-11)/2;	/* toolbox, hier stond ooit getheigh */
 }
 
 void endpupdraw()
 {
 	int x;
-	
+
 	glFinish();
 	my_put_frontbuffer_image();
-	
+
 	if(tboldwin) {
 		winset(tboldwin);
 		glutSetCursor(oldcursor);
@@ -428,12 +427,12 @@ void endpupdraw()
 void asciitoraw(int ch, ushort *event, ushort *qual)
 {
 	if( isalpha(ch)==0 ) return;
-	
+
 	if( isupper(ch) ) {
 		*qual= LEFTSHIFTKEY;
 		ch= tolower(ch);
 	}
-	
+
 	switch(ch) {
 	case 'a': *event= AKEY; break;
 	case 'b': *event= BKEY; break;
@@ -493,11 +492,11 @@ void tbox_execute()
 			event= F2KEY;
 		}
 		else if(strlen(tbstr1)<4 || (strlen(tbstr1)==4 && tbstr1[2]=='F')) {
-				
+
 			if(tbstr1[1]=='|') {
 				if(tbstr1[0]=='c') qual1= LEFTCTRLKEY;
 				else if(tbstr1[0]=='a') qual1= LEFTALTKEY;
-				
+
 				if (tbstr1[2]=='F') {
 					switch(tbstr1[3]) {
 					case '1': event= F1KEY; break;
@@ -534,7 +533,7 @@ void tbox_execute()
 				}
 			}
 		}
-		
+
 		if(event) {
 			if(qual1) qenter(qual1, 1);
 			if(qual2) qenter(qual2, 1);
@@ -545,7 +544,7 @@ void tbox_execute()
 			if(qual2) qenter(qual2, 0);
 		}
 	}
-	
+
 }
 
 void tbox_getmouse(mval)
@@ -569,12 +568,12 @@ void bgntoolbox()
 {
 	extern int displaysizex, displaysizey;
 	short xmax, ymax, mval[2];
-	
+
 	xmax = G.curscreen->sizex;
 	ymax = G.curscreen->sizey;
 
 	tbox_getmouse(mval);
-	
+
 	if(mval[0]<95) mval[0]= 95;
 	if(mval[0]>xmax-95) mval[0]= xmax-95;
 
@@ -584,7 +583,7 @@ void bgntoolbox()
 	tby1= mval[1]-tbmemy;
 	if(tbx1<10) tbx1= 10;
 	if(tby1<10) tby1= 10;
-	
+
 	tbx2= tbx1+TBOXX;
 	tby2= tby1+TBOXY;
 	if(tbx2>xmax) {
@@ -602,22 +601,22 @@ void bgntoolbox()
 void endtoolbox()
 {
 	short mval[2];
-	
+
 	tbox_getmouse(mval);
 	if(mval[0]>tbx1 && mval[0]<tbx2)
 		if(mval[1]>tby1 && mval[1]<tby2) {
 			tbmemx= mval[0]-(tbx1);
 			tbmemy= mval[1]-(tby1);
 	}
-	
+
 	endpupdraw();
 }
 
 
-void tbox_embossbox(short x1, short y1, short x2, short y2, short type)	
+void tbox_embossbox(short x1, short y1, short x2, short y2, short type)
 /* type: 0=menu, 1=menusel, 2=topic, 3=topicsel */
 {
-	
+
 	if(type==0) {
 		glColor3ub(160, 160, 160);
 		glRects(x1+1, y1+1, x2-1, y2-1);
@@ -634,7 +633,7 @@ void tbox_embossbox(short x1, short y1, short x2, short y2, short type)
 		cpack(0xc07070);
 		glRects(x1+1, y1+1, x2-1, y2-1);
 	}
-	
+
 	if(type & 1) cpack(0xFFFFFF);
 	else cpack(0x0);
 }
@@ -643,7 +642,7 @@ void tbox_embossbox(short x1, short y1, short x2, short y2, short type)
 void tbox_drawelem_body(x, y, type)
 {
 	int x1, y1, x2, y2, len1, len2;
-	
+
 	if(x==0) {
 		x1= tbx1; x2= tbx1+TBOXXL;
 	}
@@ -651,18 +650,18 @@ void tbox_drawelem_body(x, y, type)
 		x1= tbx1+TBOXXL;
 		x2= x1+ TBOXXR-1;
 	}
-	
+
 	y1= tby1+ (TBOXEL-y-1)*TBOXH;
 	y2= y1+TBOXH-1;
-	
+
 	tbox_embossbox(x1, y1, x2, y2, type);
-	
+
 }
 
 void tbox_drawelem_text(x, y, type)
 {
 	int x1, y1, x2, y2, len1, len2;
-	
+
 	if(x==0) {
 		x1= tbx1; x2= tbx1+TBOXXL;
 	}
@@ -670,39 +669,39 @@ void tbox_drawelem_text(x, y, type)
 		x1= tbx1+TBOXXL;
 		x2= x1+ TBOXXR-1;
 	}
-	
+
 	y1= tby1+ (TBOXEL-y-1)*TBOXH;
 	y2= y1+TBOXH-1;
-	
+
 	if(type==0 || type==2) {
 		ColorFunc(TBOXBLACK);
 	}
 	else {
 		glColor3ub(240, 240, 240);
 	}
-	
+
 	/* tekst */
 	tbox_setinfo(x, y);
 	if(tbstr && tbstr[0]) {
-	
+
 		len1= 5+fmgetstrwidth(G.font, tbstr);
 		if(tbstr1) len2= 5+fmgetstrwidth(G.font, tbstr1); else len2= 0;
-		
+
 		while(len1>0 && (len1+len2+5>x2-x1) ) {
 			tbstr[strlen(tbstr)-1]= 0;
 			len1= fmgetstrwidth(G.font, tbstr);
 		}
-		
+
 		if(type<2) fmsetfont(GLUT_BITMAP_HELVETICAB_12);
 		else fmsetfont(G.font);
-		
+
 		glRasterPos2i(x1+5, y1+tbfontyofs);
 		fmprstr(tbstr);
-		
+
 		if(tbstr1 && tbstr1[0]) {
 			if(type & 1) {
 				ColorFunc(TBOXBLACK);
-	
+
 				glRecti(x2-len2-2,  y1+2,  x2-3,  y2-2);
 				ColorFunc(TBOXWHITE);
 				glRasterPos2i(x2-len2,  y1+tbfontyofs);
@@ -715,38 +714,38 @@ void tbox_drawelem_text(x, y, type)
 			}
 		}
 	}
-	
+
 
 }
 
 
 void tbox_drawelem(x, y, type)
-int x, y, type;	
+int x, y, type;
 {
 	/* type: 0=menu, 1=menusel, 2=topic, 3=topicsel */
 
 	tbox_drawelem_body(x, y, type);
 	tbox_drawelem_text(x, y, type);
-	
+
 }
 
 void tbox_getactive(x, y)
 int *x, *y;
 {
 	short mval[2];
-	
+
 	tbox_getmouse(mval);
-	
+
 	mval[0]-=tbx1;
 	if(mval[0]<TBOXXL) *x= 0;
 	else *x= 1;
-	
+
 	*y= mval[1]-tby1;
 	*y/= TBOXH;
 	*y= TBOXEL- *y-1;
 	if(*y<0) *y= 0;
 	if(*y>TBOXEL-1) *y= TBOXEL-1;
-	
+
 }
 
 void drawtoolbox()
@@ -757,37 +756,37 @@ void drawtoolbox()
 
 	/* de background */
 	for(x=0; x<2; x++) {
-		
+
 		for(y=0; y<TBOXEL; y++) {
-			
-			if(x==0) type= 0; 
+
+			if(x==0) type= 0;
 			else type= 2;
-			
+
 			if(actx==x && acty==y) type++;
 			if(type==0) {
 				if(tbmain==y) type= 1;
 			}
-			
+
 			tbox_drawelem_body(x, y, type);
-			
+
 		}
 	}
 
 	/* de text */
 	for(x=0; x<2; x++) {
-		
+
 		for(y=0; y<TBOXEL; y++) {
-			
-			if(x==0) type= 0; 
+
+			if(x==0) type= 0;
 			else type= 2;
-			
+
 			if(actx==x && acty==y) type++;
 			if(type==0) {
 				if(tbmain==y) type= 1;
 			}
-			
+
 			tbox_drawelem_text(x, y, type);
-			
+
 		}
 	}
 }
@@ -798,15 +797,15 @@ void toolbox()
 	int actx, acty, x, y;
 	ushort event;
 	short val, mval[2], xo= -1, yo=0;
-	
+
 	/* geen overdraw, dus... */
 	if( R.win && R.win==G.curscreen->winakt) return;
 
 	bgntoolbox();
 	uiDrawMenuBox(0xB0B0B0, (float)tbx1, (float)tby1-1, (float)tbx2, (float)tby2);
 	drawtoolbox();
-	
-	/* 
+
+	/*
 	 *	De aktieve window wordt in queue terug gestopt.
 	 */
 
@@ -818,7 +817,7 @@ void toolbox()
 					if(val==1) {
 						tbox_getactive(&actx, &acty);
 						tbox_setinfo(actx, acty);
-						
+
 						if(event==RIGHTMOUSE) {
 							if(addmode) {
 								addmode= 0;
@@ -845,20 +844,20 @@ void toolbox()
 			}
 		}
 		else usleep(2);
-		
+
 		tbox_getmouse(mval);
 		if(mval[0]<tbx1-10 || mval[0]>tbx2+10 || mval[1]<tby1-10 || mval[1]>tby2+10) break;
-		
+
 		tbox_getactive(&actx, &acty);
-		
+
 		/* muisafhandeling en redraw */
 		if(xo!=actx || yo!=acty) {
 			if(actx==0) {
 				if (acty==0) addmode=0;
-				
+
 				tbox_drawelem(0, tbmain, 0);
 				tbox_drawelem(0, acty, 1);
-				
+
 				tbmain= acty;
 				addmode= 0;
 				for(y=0; y<TBOXEL; y++) tbox_drawelem(1, y, 2);
@@ -882,13 +881,13 @@ short confirm(char *title, char *item)
 {
 	short ret;
 	char *str;
-	
+
 	if(item[0]==0) return 0;
-	
+
 	str= mallocN( strlen(title)+strlen(item)+4, "confirm");
 	if(title[0]==0) sprintf(str, "%s", item);
 	else sprintf(str, "%s%%t|%s", title, item);
-	
+
 	ret= pupmenu(str);
 	freeN(str);
 
@@ -905,14 +904,14 @@ void notice(char *str)
 int saveover(char *str)
 {
 	int file;
-	
+
 	if(G.f & G_DISABLE_OK) return 1;
-	
+
 	file= open(str, O_BINARY|O_RDONLY);
 	close(file);
 	if(file==-1) return 1;
 	else if(confirm("SAVE OVER", str)) return 1;
-	
+
 	return 0;
 }
 
@@ -925,22 +924,22 @@ short okee(char *str)
 void error(char *str)
 {
 	char str1[100];
-	
+
 	if(G.background || G.curscreen==0) {
 		printf("ERROR %s\n", str);
 		return;
 	}
-	
+
 	if(strlen(str)>90) str[90]= 0;
 	sprintf(str1, "ERROR: %s", str);
 	confirm("", str1);
-	
+
 }
 
 void errorstr(char *str1, char *str2, char *str3)
 {
 	char str[256];
-	
+
 	if(str1 && strlen(str1)>79) str1[79]= 0;
 	if(str2 && strlen(str2)>79) str2[79]= 0;
 	if(str3 && strlen(str3)>79) str3[79]= 0;
@@ -956,9 +955,9 @@ void errorstr(char *str1, char *str2, char *str3)
 		printf("ERROR %s\n", str);
 		return;
 	}
-	
+
 	confirm("", str);
-	
+
 }
 
 /* ****************** EXTRAATJE **************** */
@@ -973,7 +972,7 @@ short button(short *var, short min, short max, char *str)
 	if(min>max) min= max;
 
 	getmouseco_sc(mval);
-	
+
 	if(mval[0]<150) mval[0]=150;
 	if(mval[1]<30) mval[1]=30;
 	if(mval[0]>G.curscreen->sizex) mval[0]= G.curscreen->sizex-10;
@@ -984,11 +983,11 @@ short button(short *var, short min, short max, char *str)
 	block->aspect= 1.0;
 	uiSetCurFont(block, block->font);
 
-	x1=mval[0]-150; 
-	x2=mval[0]+20; 
-	y1=mval[1]-20; 
+	x1=mval[0]-150;
+	x2=mval[0]+20;
+	y1=mval[1]-20;
 	y2=mval[1]+20;
-	
+
 	uiDefBut(block, NUM|SHO, 0, str,	x1+5,y1+10,125,20, var,(float)min,(float)max, 0, 0, "");
 	uiDefBut(block, BUT, 1, "OK",	x1+136,y1+10,25,20, NULL, 0, 0, 0, 0, "");
 
@@ -1010,7 +1009,7 @@ short fbutton(float *var, float min, float max, char *str)
 	if(min>max) min= max;
 
 	getmouseco_sc(mval);
-	
+
 	if(mval[0]<150) mval[0]=150;
 	if(mval[1]<30) mval[1]=30;
 	if(mval[0]>G.curscreen->sizex) mval[0]= G.curscreen->sizex-10;
@@ -1021,11 +1020,11 @@ short fbutton(float *var, float min, float max, char *str)
 	block->aspect= 1.0;
 	uiSetCurFont(block, block->font);
 
-	x1=mval[0]-150; 
-	x2=mval[0]+20; 
-	y1=mval[1]-20; 
+	x1=mval[0]-150;
+	x2=mval[0]+20;
+	y1=mval[1]-20;
 	y2=mval[1]+20;
-	
+
 	uiDefBut(block, NUM|FLO, 0, str,	x1+5,y1+10,125,20, var, min, max, 0, 0, "");
 	uiDefBut(block, BUT, 1, "OK",	x1+136, y1+10, 35, 20, NULL, 0, 0, 0, 0, "");
 
@@ -1047,34 +1046,34 @@ int movetolayer_buts(uint *lay)
 	ushort toets;
 	short oldmap[4][3], val, mval[2], ret=0;
 	char str[12];
-	
+
 	if(G.vd->localview) {
 		error("Not in localview ");
 		return ret;
 	}
 
 	getmouseco_sc(mval);
-	
+
 	if(mval[0]<sizex/2) mval[0]=sizex/2;
 	if(mval[1]<sizey/2) mval[0]=sizey/2;
 	if(mval[0]>G.curscreen->sizex -sizex/2) mval[0]= G.curscreen->sizex -sizex/2;
 	if(mval[1]>G.curscreen->sizey -sizey/2) mval[1]= G.curscreen->sizey -sizey/2;
 
 	winset(G.curscreen->mainwin);
-	
-	x1= mval[0]-sizex+10; 
-	x2= mval[0]+10; 
-	y1= mval[1]-sizey/2; 
+
+	x1= mval[0]-sizex+10;
+	x2= mval[0]+10;
+	y1= mval[1]-sizey/2;
 	y2= mval[1]+sizey/2;
-	
+
 	block= uiNewBlock(&listb, "button", UI_EMBOSSX, UI_HELV, 0x808080, G.curscreen->mainwin);
 	block->flag= UI_BLOCK_LOOP|UI_BLOCK_REDRAW|UI_BLOCK_NUMSELECT|UI_BLOCK_ENTER_OK;
 	block->aspect= 1.0;
 	uiSetCurFont(block, block->font);
-	
+
 	dx= (sizex-5)/12;
 	dy= sizey/2;
-	
+
 	for(a=0; a<10; a++) {
 		uiDefBut(block, TOGR|INT|BIT|a, 0, "",	x1+a*dx, y1+dy, dx, dy, lay, 0, 0, 0, 0, "");
 		if(a==4) x1+= 5;
@@ -1086,7 +1085,7 @@ int movetolayer_buts(uint *lay)
 		if(a==4) x1+= 5;
 	}
 	x1-= 5;
-	
+
 	uiDefBut(block, BUT, 1, "OK", x1+10*dx+10, y1, 3*dx, 2*dy, NULL, 0, 0, 0, 0, "");
 
 	ui_boundsblock(block, 2);
@@ -1109,7 +1108,7 @@ void draw_numbuts_tip(char *str, int x1, int y1, int x2, int y2)
 {
 	static char *last=0;	/* avoid ugly updates! */
 	int temp;
-	
+
 	if(str==last) return;
 	last= str;
 	if(str==0) return;
@@ -1134,7 +1133,7 @@ int do_clever_numbuts(char *name, int tot, int winevent)
 	int a, bit, sizex, sizey, x1, x2, y1, y2;
 	short mval[2], event;
 	char *str;
-	
+
 	if(tot<=0 || tot>MAXNUMBUTS) return 0;
 
 	getmouseco_sc(mval);
@@ -1142,7 +1141,7 @@ int do_clever_numbuts(char *name, int tot, int winevent)
 	/* size */
 	sizex= 235;
 	sizey= 30+20*(tot+1);
-	
+
 	/* midden */
 	if(mval[0]<sizex/2) mval[0]=sizex/2;
 	if(mval[1]<sizey/2) mval[1]=sizey/2;
@@ -1150,27 +1149,27 @@ int do_clever_numbuts(char *name, int tot, int winevent)
 	if(mval[1]>G.curscreen->sizey -sizey/2) mval[1]= G.curscreen->sizey -sizey/2;
 
 	winset(G.curscreen->mainwin);
-	
-	x1= mval[0]-sizex/2; 
-	x2= mval[0]+sizex/2; 
-	y1= mval[1]-sizey/2; 
+
+	x1= mval[0]-sizex/2;
+	x2= mval[0]+sizex/2;
+	y1= mval[1]-sizey/2;
 	y2= mval[1]+sizey/2;
-	
+
 	block= uiNewBlock(&listb, "numbuts", UI_EMBOSSX, UI_HELV, 0x808080, G.curscreen->mainwin);
 	block->flag= UI_BLOCK_LOOP|UI_BLOCK_REDRAW|UI_BLOCK_RET_1;
 	block->aspect= 1.0;
 	uiSetCurFont(block, block->font);
-	
+
 	/* LET OP: TEX BUTTON UITZONDERING */
 	/* WAARSCHUWING: ALLEEN EEN ENKELE BITJES-BUTTON MOGELIJK: ER WORDT OP KOPIEDATA GEWERKT! */
 
-	uiDefBut(block, LABEL, 0, name,	x1+15, y2-35, sizex-60, 19, 0, 1.0, 0.0, 0, 0, ""); 
+	uiDefBut(block, LABEL, 0, name,	x1+15, y2-35, sizex-60, 19, 0, 1.0, 0.0, 0, 0, "");
 
 	if(name[0]=='A' && name[7]=='O') {
 		y2 -= 20;
 		uiDefBut(block, LABEL, 0, "Rotations in degrees!",	x1+15, y2-35, sizex-60, 19, 0, 0.0, 0.0, 0, 0, "");
 	}
-	
+
 	varstr= &numbuts[0];
 	for(a=0; a<tot; a++, varstr++) {
 		if(varstr->type==TEX) {
@@ -1188,33 +1187,33 @@ int do_clever_numbuts(char *name, int tot, int winevent)
 	event= uiDoBlocks(&listb, 0);
 
 	areawinset(curarea->win);
-	
+
 	if(event & UI_RETURN_OK) {
-		
+
 		varstr= &numbuts[0];
 		for(a=0; a<tot; a++, varstr++) {
 			if(varstr->type==TEX);
 			else if ELEM( (varstr->type & BUTPOIN), FLO, INT ) memcpy(numbpoin[a], numbdata+a, 4);
 			else if((varstr->type & BUTPOIN)==SHO ) *((short *)(numbpoin[a]))= *( (short *)(numbdata+a));
-			
+
 			if( strncmp(varstr->name, "Rot", 3)==0 ) {
 				float *fp;
-				
+
 				fp= numbpoin[a];
 				fp[0]= M_PI*fp[0]/180.0;
 			}
 		}
-		
+
 		if(winevent) {
 			ScrArea *sa;
-		
+
 			sa= G.curscreen->areabase.first;
 			while(sa) {
 				if(sa->spacetype==curarea->spacetype) addqueue(sa->win, winevent, 1);
 				sa= sa->next;
 			}
 		}
-		
+
 		return 1;
 	}
 	return 0;
@@ -1229,17 +1228,17 @@ void add_numbut(int nr, int type, char *str, float min, float max, void *poin, c
 	numbuts[nr].min= min;
 	numbuts[nr].max= max;
 	if(tip) strcpy(numbuts[nr].tip, tip);
-	
+
 	/* LET OP: TEX BUTTON UITZONDERING */
-	
+
 	numbpoin[nr]= poin;
-	
+
 	if ELEM( (type & BUTPOIN), FLO, INT ) memcpy(numbdata+nr, poin, 4);
 	if((type & BUTPOIN)==SHO ) *((short *)(numbdata+nr))= *( (short *)poin);
-	
+
 	if( strncmp(numbuts[nr].name, "Rot", 3)==0 ) {
 		float *fp;
-		
+
 		fp= (float *)(numbdata+nr);
 		fp[0]= 180.0*fp[0]/M_PI;
 	}
@@ -1251,26 +1250,26 @@ void clever_numbuts()
 	Object *ob;
 	float lim;
 	char str[128];
-	
+
 	if(curarea->spacetype==SPACE_VIEW3D) {
 		lim= 1000.0*MAX2(1.0, G.vd->grid);
 
 		if(G.obedit==0) {
 			ob= OBACT;
 			if(ob==0) return;
-			
+
 			add_numbut(0, NUM|FLO, "LocX:", -lim, lim, ob->loc, 0);
 			add_numbut(1, NUM|FLO, "LocY:", -lim, lim, ob->loc+1, 0);
 			add_numbut(2, NUM|FLO, "LocZ:", -lim, lim, ob->loc+2, 0);
-			
+
 			add_numbut(3, NUM|FLO, "RotX:", -10.0*lim, 10.0*lim, ob->rot, 0);
 			add_numbut(4, NUM|FLO, "RotY:", -10.0*lim, 10.0*lim, ob->rot+1, 0);
 			add_numbut(5, NUM|FLO, "RotZ:", -10.0*lim, 10.0*lim, ob->rot+2, 0);
-			
+
 			add_numbut(6, NUM|FLO, "SizeX:", -lim, lim, ob->size, 0);
 			add_numbut(7, NUM|FLO, "SizeY:", -lim, lim, ob->size+1, 0);
 			add_numbut(8, NUM|FLO, "SizeZ:", -lim, lim, ob->size+2, 0);
-			
+
 			sprintf(str, "Active Object: %s", ob->id.name+2);
 			do_clever_numbuts(str, 9, REDRAW);
 		}
@@ -1283,8 +1282,8 @@ void clever_numbuts()
 	else if(curarea->spacetype==SPACE_SEQ) {
 		clever_numbuts_seq();
 	}
-	
-	
+
+
 }
 
 
@@ -1293,38 +1292,38 @@ void replace_names_but()
 	Image *ima= G.main->image.first;
 	short len, tot=0;
 	char old[64], new[64], temp[80];
-	
+
 	strcpy(old, "/");
 	strcpy(new, "/");
-	
+
 	add_numbut(0, TEX, "Old:", 0, 63, old, 0);
 	add_numbut(1, TEX, "New:", 0, 63, new, 0);
 
 	if (do_clever_numbuts("Replace image name", 2, REDRAW) ) {
-		
+
 		len= strlen(old);
-		
+
 		while(ima) {
-			
+
 			if(strncmp(old, ima->name, len)==0) {
-				
+
 				strcpy(temp, new);
 				strcat(temp, ima->name+len);
 				strncpy(ima->name, temp, 79);
-				
+
 				if(ima->ibuf) freeImBuf(ima->ibuf);
 				ima->ibuf= 0;
 				ima->ok= 1;
-				
+
 				tot++;
 			}
-			
+
 			ima= ima->id.next;
 		}
 
 		sprintf(temp, "Replaced %d names", tot);
 		notice(temp);
 	}
-	
+
 }
 

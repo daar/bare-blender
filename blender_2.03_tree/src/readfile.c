@@ -21,18 +21,18 @@
 
 /*  readfile.c   juni 94     MIXED MODEL
 
- * 
+ *
  *  jan 95
  *  maart 95
  *  Version: $Id: readfile.c,v 1.47 2000/09/24 20:22:10 ton Exp $
- * 
+ *
  *   ZWAK PUNT: newadres berekening en meerdere files: oplossen
- *   bijvoorbeeld door per file aparte newadresarrays te maken? 
- *   
- * 
- * 
+ *   bijvoorbeeld door per file aparte newadresarrays te maken?
+ *
+ *
+ *
 	LEZEN
-	
+
 	- Bestaande Library (Main) pushen of vrijgeven
 	- Nieuwe Main alloceren
 	- file inlezen
@@ -42,7 +42,7 @@
 		- als Library
 			- nieuwe Main maken
 			- ID's eraan hangen
-		- else 
+		- else
 			- lees bijhorende direkte data
 			- link direkte data (intern en aan LibBlock)
 	- lees FileGlobal
@@ -73,7 +73,7 @@
 	- alle Main's samenvoegen
 	- alle LibBlocks linken en indirekte pointers naar libblocks
 	- FileGlobal goedzetten en pointers naar Global kopieeren
-	
+
  *
  *
  *
@@ -88,7 +88,6 @@
 #include "render.h"
 #include "sequence.h"
 #include "effect.h"
-#include "ika.h"
 #include "oops.h"
 #include "imasel.h"
 #include "datatoc.h"
@@ -130,7 +129,7 @@ void *disable_newlibadr;
 extern char bprogname[]; /* usiblender.c */
 
 char *gethome(void) {
-	
+
 	#ifdef __BeOS
 		return "/boot/home/";		/* BeOS 4.5: doubleclick at icon doesnt give home env */
 
@@ -145,23 +144,23 @@ char *gethome(void) {
 			if (fop_exists(ret)) return ret;
 			if (G.f&G_DEBUG) printf ("Unable to find home at: %s\n", ret);
 		}
-		
-		ret= getenv("WINDOWS");		
+
+		ret= getenv("WINDOWS");
 		if (ret) {
 			if (G.f&G_DEBUG) printf ("WINDOWS == %s\n", ret);
 			if(fop_exists(ret)) return ret;
 			if (G.f&G_DEBUG) printf ("Unable to find home at: %s\n", ret);
 		}
 
-		ret= getenv("WINDIR");	
+		ret= getenv("WINDIR");
 		if(ret) {
 			if (G.f&G_DEBUG) printf ("WINDIR == %s\n", ret);
 			if(fop_exists(ret)) return ret;
 			if (G.f&G_DEBUG) printf ("Unable to find home at: %s\n", ret);
 		}
-		
+
 		if (G.f&G_DEBUG) printf ("Unable to find home\n");
-		return "C:\\Temp";	
+		return "C:\\Temp";
 	#endif
 }
 
@@ -178,7 +177,7 @@ int testextensie(char *str, char *ext)
 	if(a==0 || b==0 || b>=a) {
 		retval = 0;
 	} else if (strcasecmp(ext, str + a - b)) {
-		retval = 0;	
+		retval = 0;
 	} else {
 		retval = 1;
 	}
@@ -193,7 +192,7 @@ int convertstringcode(char *str)
 
 	if (str[0] == '/' && str[1] == '/') {
 		strcpy(temp, G.sce);
-		
+
 		/* Find the last slash */
 		slash= (strrchr(temp, '/')>strrchr(temp, '\\'))?strrchr(temp, '/'):strrchr(temp, '\\');
 		if (slash) {
@@ -239,10 +238,10 @@ void makestringcode(char *str)
 void splitdirstring(char *di,char *fi)
 {
 	char *slash;
-	
+
 	/* Find the last slash */
 	slash= (strrchr(di, '/')>strrchr(di, '\\'))?strrchr(di, '/'):strrchr(di, '\\');
-	
+
 	if (slash) {
 		strcpy(fi, slash+1);
 		*(slash+1)=0;
@@ -261,12 +260,12 @@ void splitdirstring(char *di,char *fi)
 void add_data_adr(void *old, void *new)
 /* met dynamische malloc
  * (0, 1) doorgeven herinitialiseert en geeft ongebruikte blokken vrij
- * (0, 0) doorgeven geeft alles vrij 
+ * (0, 0) doorgeven geeft alles vrij
  */
 {
 	OldNew *temp;
 	int a;
-	
+
 	if(old==0) {	/* ongebruikte vrijgeven */
 		temp= datablocks;
 		for(a=0; a<datacount; a++, temp++) {
@@ -290,12 +289,12 @@ void add_data_adr(void *old, void *new)
 			freeN(datablocks);
 			datablocks= temp;
 		}
-		
+
 		temp= datablocks+datacount;
 		temp->old= old;
 		temp->newp= new;
 		temp->nr= 0;
-		
+
 		datacount++;
 	}
 }
@@ -303,7 +302,7 @@ void add_data_adr(void *old, void *new)
 void add_glob_adr(void *old, void *new)
 /* met dynamische malloc
  * (0, 1) doorgeven herinitialiseert en geeft ongebruikte blokken vrij
- * (0, 0) doorgeven geeft alles vrij 
+ * (0, 0) doorgeven geeft alles vrij
  */
 {
 	OldNew *temp;
@@ -329,12 +328,12 @@ void add_glob_adr(void *old, void *new)
 			freeN(globblocks);
 			globblocks= temp;
 		}
-		
+
 		temp= globblocks+globcount;
 		temp->old= old;
 		temp->newp= new;
 		temp->nr= 0;
-		
+
 		globcount++;
 	}
 }
@@ -346,19 +345,19 @@ void add_lib_adr(void *old, void *new)
  */
 {
 	OldNew *temp=0;
-	
+
 	/* onderscheid tussen twee gevallen:
-	 * 
+	 *
 	 * 1. lib obj's in locale scene, ob->parent		(old is uit library)
 	 * 2. lib obj's in locale scene: base->object   (old is uit locale scene)
-	 * 
+	 *
 	 */
-	
+
 	if(disable_newlibadr) {
 		disable_newlibadr= new;
-		
+
 	}
-	
+
 	if(old==0) {	/* alles vrijgeven */
 		if(libblocks) freeN(libblocks);
 		libblocks= 0;
@@ -376,15 +375,15 @@ void add_lib_adr(void *old, void *new)
 			freeN(libblocks);
 			libblocks= temp;
 		}
-		
+
 		temp= libblocks+libcount;
 		temp->old= old;
 		temp->newp= new;
 		temp->nr= 1;
-		
+
 		libcount++;
 	}
-	
+
 }
 
 void *newadr(void *adr)		/* only direct databocks */
@@ -402,7 +401,7 @@ void *newadr(void *adr)		/* only direct databocks */
 				return onew->newp;
 			}
 		}
-		
+
 		lastone= 0;
 		onew= datablocks;
 		while(lastone<datacount) {
@@ -414,7 +413,7 @@ void *newadr(void *adr)		/* only direct databocks */
 			lastone++;
 		}
 	}
-	
+
 	return 0;
 }
 
@@ -433,7 +432,7 @@ void *newglobadr(void *adr)		/* direct datablocks with global linking */
 				return onew->newp;
 			}
 		}
-		
+
 		lastone= 0;
 		onew= globblocks;
 		while(lastone<globcount) {
@@ -445,7 +444,7 @@ void *newglobadr(void *adr)		/* direct datablocks with global linking */
 			lastone++;
 		}
 	}
-	
+
 	return 0;
 }
 
@@ -454,11 +453,11 @@ void *newlibadr(void *lib, void *adr)		/* only lib data */
 	static int lastone= 0;
 	struct OldNew *onew;
 	ID *id;
-	
+
 	/* ook testen op lib: lib==id->lib) */
-	
+
 	if(adr) {
-	
+
 		/* op goed geluk: eerst het volgende blok doen */
 		/* als je dit weglaat gaat newcarou.blend mis */
 		if(lastone<libcount-1) {
@@ -474,13 +473,13 @@ void *newlibadr(void *lib, void *adr)		/* only lib data */
 				}
 			}
 		}
-		
+
 		lastone= 0;
 		onew= libblocks;
 		while(lastone<libcount) {
 			if(onew->old==adr) {
 				id= onew->newp;
-				
+
 				if(id && id->lib==0 && lib);
 				else {
 					onew->nr++;
@@ -499,12 +498,12 @@ void *newlibadr(void *lib, void *adr)		/* only lib data */
 void *newlibadr_us(void *lib, void *adr)		/* hoogt usernummer op */
 {
 	ID *id;
-	
+
 	id= newlibadr(lib, adr);
 	if(id) {
 		id->us++;
 	}
-	
+
 	return id;
 }
 
@@ -513,9 +512,9 @@ void *newlibadr_us_type(short type, void *adr)		/* alleen Lib datablokken */
 	static int lastone= 0;
 	struct OldNew *onew;
 	ID *id;
-	
+
 	if(adr) {
-	
+
 		/* op goed geluk: eerst het volgende blok doen */
 		/* als je dit weglaat gaat newcarou.blend mis */
 
@@ -531,13 +530,13 @@ void *newlibadr_us_type(short type, void *adr)		/* alleen Lib datablokken */
 				}
 			}
 		}
-		
+
 		lastone= 0;
 		onew= libblocks;
 		while(lastone<libcount) {
 			if(onew->old==adr) {
 				id= onew->newp;
-				
+
 				if( GS(id->name) == type ) {
 					id->us++;
 					onew->nr++;
@@ -558,23 +557,23 @@ void change_libadr(void *old, void *new)
 	struct OldNew *onew;
 	ID *id;
 	int lastone= 0;
-	
+
 	onew= libblocks;
 	while(lastone<libcount) {
-		
+
 		id= onew->newp;
 		if(id && id->lib) {
 			if(onew->newp==old) {
 				onew->newp= new;
-				
+
 				/* geen return; blijkbaar kunnen er meer zijn? */
 			}
 		}
-		
+
 		onew++;
 		lastone++;
 	}
-	
+
 }
 
 
@@ -587,10 +586,10 @@ void switch_endian_structs(BHead *bhead)
 	int oldlen, blocks;
 	short *spo;
 	char *data;
-	
+
 	blocks= bhead->nr;
 	data= (char *)(bhead+1);
-	
+
 	spo= old_sdna.structs[bhead->SDNAnr];
 	oldlen= old_sdna.typelens[ spo[0] ];
 
@@ -603,23 +602,23 @@ void switch_endian_structs(BHead *bhead)
 void read_struct(BHead *bh)
 {
 	void *temp= 0;
-	
+
 	if(bh->len) {
-		
+
 		if(bh->SDNAnr && switch_endian) switch_endian_structs(bh);
 
 		if(compflags[bh->SDNAnr]) {		/* flag==0: bestaat niet meer */
-			
+
 			/* dit hele ingewikkelde spul is de naam van de struct, let op: old_sdna! */
 			temp= mallocN(bh->len, old_sdna.types[ *old_sdna.structs[bh->SDNAnr] ]);
-			
+
 			/* temp= mallocN(bh->len, "read_struct"); */
 			memcpy(temp, (bh+1), bh->len);
-			
+
 			if(compflags[bh->SDNAnr]==2) reconstruct(bh->SDNAnr, bh->nr, &temp);
 		}
 	}
-	
+
 	add_data_adr(bh->old, temp);
 }
 
@@ -627,7 +626,7 @@ void newstructname(BHead *bh)
 {
 	/* rijtje hardcoded uitzonderingen */
 	short *sp;
-	
+
 	sp= old_sdna.structs[bh->SDNAnr];
 	if( strcmp("Screen", old_sdna.types[sp[0]])==0 ) {
 		bh->SDNAnr= findstruct_nr(&old_sdna, "bScreen");
@@ -640,9 +639,9 @@ void *read_libstruct(BHead *bh)
 	void *temp= 0;
 
 	if(bh->len) {
-	
+
 		if(switch_endian) switch_endian_structs(bh);
-		
+
 		if(compflags[bh->SDNAnr]) {		/* flag==0: bestaat niet meer */
 
 			temp= mallocN(bh->len, "read_libstruct");
@@ -657,19 +656,19 @@ void *read_libstruct(BHead *bh)
 	return temp;
 }
 
-void read_struct_expl(BHead *bh, void **data)	
+void read_struct_expl(BHead *bh, void **data)
 		/* dubbele pointer ivm reconstruct */
 {
 
 	if(bh->len) {
 
 		if(bh->SDNAnr && switch_endian) switch_endian_structs(bh);
-		
+
 		if(compflags[bh->SDNAnr]) {		/* flag==0: bestaat niet meer */
-			
+
 			*data= mallocN(bh->len, "read_struct_expl");
 			memcpy(*data, (bh+1), bh->len);
-			
+
 			if(compflags[bh->SDNAnr]==2) reconstruct(bh->SDNAnr, bh->nr, data);
 		}
 	}
@@ -678,22 +677,22 @@ void read_struct_expl(BHead *bh, void **data)
 void link_list(ListBase *lb)		/* alleen direkte data */
 {
 	Link *ln, *prev;
-	
+
 	if(lb->first==0) return;
 
 	lb->first= newadr(lb->first);
-	
+
 	ln= lb->first;
 	prev= 0;
 	while(ln) {
-		
+
 		ln->next= newadr(ln->next);
 		ln->prev= prev;
-		
+
 		prev= ln;
 		ln= ln->next;
 	}
-	
+
 	lb->last= prev;
 }
 
@@ -701,26 +700,26 @@ void link_glob_list(ListBase *lb)		/* for glob data */
 {
 	Link *ln, *prev;
 	void *poin;
-    
+
 	if(lb->first==0) return;
-	
+
     poin= newadr(lb->first);
 	if(lb->first) add_glob_adr(lb->first, poin);
 	lb->first= poin;
-	
+
 	ln= lb->first;
 	prev= 0;
 	while(ln) {
-		
+
         poin= newadr(ln->next);
         if(ln->next) add_glob_adr(ln->next, poin);
 		ln->next= poin;
 		ln->prev= prev;
-		
+
 		prev= ln;
 		ln= ln->next;
 	}
-	
+
 	lb->last= prev;
 }
 
@@ -736,7 +735,7 @@ void test_pointer_array(void **mat)
 	/* mat is still 'old_sdna' */
 	if(*mat) {
 		len= alloc_len(*mat)/old_sdna.pointerlen;
-		
+
 		if(old_sdna.pointerlen==8 && cur_sdna.pointerlen==4) {
 			ipoin=imat= mallocN( len*4, "newmatar");
 			lpoin= *mat;
@@ -750,7 +749,7 @@ void test_pointer_array(void **mat)
 			freeN(*mat);
 			*mat= imat;
 		}
-		
+
 		if(old_sdna.pointerlen==4 && cur_sdna.pointerlen==8) {
 			lpoin=lmat= mallocN( len*8, "newmatar");
 			ipoin= *mat;
@@ -775,82 +774,42 @@ void lib_link_scriptlink(ID *id, ScriptLink *slink)
 	for(i=0; i<slink->totscript; i++) {
 		slink->scripts[i]= newlibadr(id->lib, slink->scripts[i]);
 	}
-}		
+}
 
 void direct_link_scriptlink(ScriptLink *slink)
 {
-	slink->scripts= newadr(slink->scripts);	
-	slink->flag= newadr(slink->flag);	
+	slink->scripts= newadr(slink->scripts);
+	slink->flag= newadr(slink->flag);
 
 	if(switch_endian) {
 		int a;
-		
+
 		for(a=0; a<slink->totscript; a++) {
 			SWITCH_SHORT(slink->flag[a]);
 		}
 	}
-	
+
 }
-
-/* ************ READ IKA ***************** */
-
-void lib_link_ika(Main *main)
-{
-	Ika *ika;
-	int a;
-	Deform *def;
-	
-	ika= main->ika.first;
-	while(ika) {
-		if(ika->id.flag & LIB_NEEDLINK) {
-			
-			ika->parent= newlibadr(ika->id.lib, ika->parent);
-			
-			a= ika->totdef;
-			def= ika->def;
-			while(a--) {
-				def->ob=  newlibadr(ika->id.lib, def->ob);
-				def++;
-			}
-			
-			ika->id.flag -= LIB_NEEDLINK;
-		}
-		ika= ika->id.next;
-	}
-	
-}
-
-void direct_link_ika(Ika *ika)
-{
-	
-	link_list(&ika->limbbase);
-
-	ika->def= newadr(ika->def);
-
-	/* afvangen fout uit V.138 en ouder */
-	if(ika->def==0) ika->totdef= 0;
-}
-
 
 /* ************ READ CAMERA ***************** */
 
 void lib_link_camera(Main *main)
 {
 	Camera *ca;
-	
+
 	ca= main->camera.first;
 	while(ca) {
 		if(ca->id.flag & LIB_NEEDLINK) {
-			
+
 			ca->ipo= newlibadr_us(ca->id.lib, ca->ipo);
 
 			lib_link_scriptlink(&ca->id, &ca->scriptlink);
-			
+
 			ca->id.flag -= LIB_NEEDLINK;
 		}
 		ca= ca->id.next;
 	}
-	
+
 }
 
 void direct_link_camera(Camera *ca)
@@ -859,25 +818,25 @@ void direct_link_camera(Camera *ca)
 }
 
 
-	
+
 /* ************ READ LATTICE ***************** */
 
 void lib_link_latt(Main *main)
 {
 	Lattice *lt;
-	
+
 	lt= main->latt.first;
 	while(lt) {
 		if(lt->id.flag & LIB_NEEDLINK) {
-			
+
 			lt->ipo= newlibadr_us(lt->id.lib, lt->ipo);
 			lt->key= newlibadr_us(lt->id.lib, lt->key);
-			
+
 			lt->id.flag -= LIB_NEEDLINK;
 		}
 		lt= lt->id.next;
 	}
-	
+
 }
 
 void direct_link_latt(Lattice *lt)
@@ -893,7 +852,7 @@ void lib_link_lamp(Main *main)
 	Lamp *la;
 	MTex *mtex;
 	int a;
-	
+
 	la= main->lamp.first;
 	while(la) {
 		if(la->id.flag & LIB_NEEDLINK) {
@@ -905,11 +864,11 @@ void lib_link_lamp(Main *main)
 					mtex->object= newlibadr(la->id.lib, mtex->object);
 				}
 			}
-		
+
 			la->ipo= newlibadr_us(la->id.lib, la->ipo);
-			
+
 			lib_link_scriptlink(&la->id, &la->scriptlink);
-			
+
 			la->id.flag -= LIB_NEEDLINK;
 		}
 		la= la->id.next;
@@ -921,7 +880,7 @@ void direct_link_lamp(Lamp *la)
 	int a;
 
 	direct_link_scriptlink(&la->scriptlink);
-		
+
 	for(a=0; a<8; a++) {
 		la->mtex[a]= newadr(la->mtex[a]);
 	}
@@ -932,36 +891,36 @@ void direct_link_lamp(Lamp *la)
 void lib_link_key(Main *main)
 {
 	Key *key;
-	
+
 	key= main->key.first;
 	while(key) {
 		if(key->id.flag & LIB_NEEDLINK) {
-			
+
 			key->ipo= newlibadr_us(key->id.lib, key->ipo);
 			key->from= newlibadr(key->id.lib, key->from);
-			
+
 			key->id.flag -= LIB_NEEDLINK;
 		}
 		key= key->id.next;
 	}
-	
+
 }
 
 void direct_link_key(Key *key)
 {
 	KeyBlock *kb;
-	
+
 	link_list(&(key->block));
-	
+
 	key->refkey= newadr(key->refkey);
-	
+
 	kb= key->block.first;
 	while(kb) {
-		
+
 		kb->data= newadr(kb->data);
-		
+
 		if(switch_endian) switch_endian_keyblock(key, kb);
-			
+
 		kb= kb->next;
 	}
 }
@@ -973,13 +932,13 @@ void lib_link_world(Main *main)
 	World *wrld;
 	MTex *mtex;
 	int a;
-	
+
 	wrld= main->world.first;
 	while(wrld) {
 		if(wrld->id.flag & LIB_NEEDLINK) {
-		
+
 			wrld->ipo= newlibadr_us(wrld->id.lib, wrld->ipo);
-			
+
 			for(a=0; a<8; a++) {
 				mtex= wrld->mtex[a];
 				if(mtex) {
@@ -989,12 +948,12 @@ void lib_link_world(Main *main)
 			}
 
 			lib_link_scriptlink(&wrld->id, &wrld->scriptlink);
-			
+
 			wrld->id.flag -= LIB_NEEDLINK;
 		}
 		wrld= wrld->id.next;
 	}
-	
+
 }
 
 void direct_link_world(World *wrld)
@@ -1002,7 +961,7 @@ void direct_link_world(World *wrld)
 	int a;
 
 	direct_link_scriptlink(&wrld->scriptlink);
-	
+
 	for(a=0; a<8; a++) {
 		wrld->mtex[a]= newadr(wrld->mtex[a]);
 	}
@@ -1014,22 +973,22 @@ void direct_link_world(World *wrld)
 void lib_link_ipo(Main *main)
 {
 	Ipo *ipo;
-	
+
 	ipo= main->ipo.first;
 	while(ipo) {
 		if(ipo->id.flag & LIB_NEEDLINK) {
-			
+
 			ipo->id.flag -= LIB_NEEDLINK;
 		}
 		ipo= ipo->id.next;
 	}
-	
+
 }
 
 void direct_link_ipo(Ipo *ipo)
 {
 	IpoCurve *icu;
-	
+
 	link_list(&(ipo->curve));
 	icu= ipo->curve.first;
 	while(icu) {
@@ -1057,27 +1016,27 @@ void direct_link_vfont(VFont *vf)
 void lib_link_text(Main *main)
 {
 	Text *text;
-	
+
 	text= main->text.first;
 	while(text) {
 		if(text->id.flag & LIB_NEEDLINK) {
 			text->id.flag -= LIB_NEEDLINK;
 		}
 		text= text->id.next;
-	}	
+	}
 }
 
 void print_text(Text *text)
 {
 	TextLine *line;
-	
+
 	printf ("-- Text: %s (%d)--\n", text->id.name, text->nlines);
 	line= text->lines.first;
 	while (line) {
 		printf ("%x %x %x %d: <%s>\n", line->prev, line, line->next, line->len, line->line);
 		line= line->next;
 	}
-	
+
 	printf ("Main cursor: %x %d\n", text->curl, text->curc);
 	printf ("Selection cursor: %x %d\n", text->sell, text->selc);
 }
@@ -1085,42 +1044,42 @@ void print_text(Text *text)
 void direct_link_text(Text *text)
 {
 	TextLine *ln;
-	
+
 	text->name= newadr(text->name);
-	
+
 	text->undo_pos= -1;
 	text->undo_len= TXT_INIT_UNDO;
 	text->undo_buf= mallocN(text->undo_len, "undo buf");
-	
+
 	text->compiled= NULL;
-		
+
 	if(text->flags & TXT_ISEXT) {
 		reopen_text(text);
 	} else {
 
 		if(text->lines.first==0) return;
-	
+
 		link_list(&text->lines);
-	
+
 		text->curl= newadr(text->curl);
 		text->sell= newadr(text->sell);
-	
+
 		ln= text->lines.first;
 		while(ln) {
 			ln->line= newadr(ln->line);
-	
+
 			if (ln->len != strlen(ln->line)) {
 				printf ("Error loading text, line lengths differ\n");
 				ln->len = strlen(ln->line);
 			}
-	
+
 			ln= ln->next;
 		}
-			
+
 		text->flags |= TXT_ISTMP;
 	}
 /* 	print_text (text); */
-	
+
 	text->id.us= 1;
 }
 
@@ -1129,37 +1088,37 @@ void direct_link_text(Text *text)
 void lib_link_image(Main *main)
 {
 	Image *ima;
-	
+
 	ima= main->image.first;
 	while (ima) {
 		if(ima->id.flag & LIB_NEEDLINK) {
-			
+
 			ima->id.flag -= LIB_NEEDLINK;
 		}
 		ima= ima->id.next;
 	}
-	
+
 }
 
 void direct_link_image(Image *ima)
 {
 	int a;
-	
+
 	ima->ibuf= 0;
 	ima->anim= 0;
 	for(a=0; a<MAXMIPMAP; a++) ima->mipmap[a]= 0;
 	ima->repbind= 0;
 	ima->bindcode= 0;
 
-		
+
 	ima->packedfile = newadr(ima->packedfile);
 	if (ima->packedfile) {
 		ima->packedfile->data = newadr(ima->packedfile->data);
 	}
 
-		
+
 	ima->ok= 1;
-	
+
 }
 
 
@@ -1169,11 +1128,11 @@ void lib_link_curve(Main *main)
 {
 	Curve *cu;
 	int a;
-	
+
 	cu= main->curve.first;
 	while(cu) {
 		if(cu->id.flag & LIB_NEEDLINK) {
-		
+
 			for(a=0; a<cu->totcol; a++) cu->mat[a]= newlibadr_us(cu->id.lib, cu->mat[a]);
 
 			cu->bevobj= newlibadr(cu->id.lib, cu->bevobj);
@@ -1182,18 +1141,18 @@ void lib_link_curve(Main *main)
 
 			cu->ipo= newlibadr_us(cu->id.lib, cu->ipo);
 			cu->key= newlibadr_us(cu->id.lib, cu->key);
-			
+
 			cu->id.flag -= LIB_NEEDLINK;
 		}
 		cu= cu->id.next;
 	}
-	
+
 }
 
 void direct_link_curve(Curve *cu)
 {
 	Nurb *nu;
-	
+
 	cu->mat= newadr(cu->mat);
 	test_pointer_array((void **)&cu->mat);
 	cu->str= newadr(cu->str);
@@ -1202,11 +1161,11 @@ void direct_link_curve(Curve *cu)
 	else {
 		cu->nurb.first=cu->nurb.last= 0;
 	}
-	
+
 	cu->bev.first=cu->bev.last= 0;
 	cu->disp.first=cu->disp.last= 0;
 	cu->path= 0;
-	
+
 	nu= cu->nurb.first;
 	while(nu) {
 		nu->bezt= newadr(nu->bezt);
@@ -1217,7 +1176,7 @@ void direct_link_curve(Curve *cu)
 		if(switch_endian) {
 			switch_endian_knots(nu);
 		}
-		
+
 		nu= nu->next;
 	}
 	cu->bb= 0;
@@ -1228,20 +1187,20 @@ void direct_link_curve(Curve *cu)
 void lib_link_texture(Main *main)
 {
 	Tex *tex;
-	
+
 	tex= main->tex.first;
 	while(tex) {
 		if(tex->id.flag & LIB_NEEDLINK) {
-		
+
 			tex->ima= newlibadr_us(tex->id.lib, tex->ima);
 			tex->ipo= newlibadr_us(tex->id.lib, tex->ipo);
 			if(tex->env) tex->env->object= newlibadr(tex->id.lib, tex->env->object);
-			
+
 			tex->id.flag -= LIB_NEEDLINK;
 		}
 		tex= tex->id.next;
 	}
-	
+
 }
 
 void direct_link_texture(Tex *tex)
@@ -1269,13 +1228,13 @@ void lib_link_material(Main *main)
 	Material *ma;
 	MTex *mtex;
 	int a;
-	
+
 	ma= main->mat.first;
 	while(ma) {
 		if(ma->id.flag & LIB_NEEDLINK) {
-		
+
 			ma->ipo= newlibadr_us(ma->id.lib, ma->ipo);
-			
+
 			for(a=0; a<8; a++) {
 				mtex= ma->mtex[a];
 				if(mtex) {
@@ -1285,20 +1244,20 @@ void lib_link_material(Main *main)
 			}
 
 			lib_link_scriptlink(&ma->id, &ma->scriptlink);
-			
+
 			ma->id.flag -= LIB_NEEDLINK;
 		}
 		ma= ma->id.next;
 	}
-	
+
 }
 
 void direct_link_material(Material *ma)
 {
 	int a;
-	
+
 	direct_link_scriptlink(&ma->scriptlink);
-	
+
 	for(a=0; a<8; a++) {
 		ma->mtex[a]= newadr(ma->mtex[a]);
 	}
@@ -1313,16 +1272,16 @@ void lib_link_mesh(Main *main)
 	TFace *tface;
 	Image *ima;
 	int a;
-	
+
 	me= main->mesh.first;
 	while(me) {
 		if(me->id.flag & LIB_NEEDLINK) {
-		
+
 			for(a=0; a<me->totcol; a++) me->mat[a]= newlibadr_us(me->id.lib, me->mat[a]);
 			me->ipo= newlibadr_us(me->id.lib, me->ipo);
 			me->key= newlibadr_us(me->id.lib, me->key);
 			me->texcomesh= newlibadr_us(me->id.lib, me->texcomesh);
-			
+
 			if(me->tface) {
 				a= me->totface;
 				tface= me->tface;
@@ -1340,7 +1299,7 @@ void lib_link_mesh(Main *main)
 						SWITCH_INT(tface->col[2]);
 						SWITCH_INT(tface->col[3]);
 					}
-					
+
 					tface++;
 				}
 			}
@@ -1359,7 +1318,7 @@ void direct_link_mesh(Mesh *mesh)
 	mesh->tface= newadr(mesh->tface);
 	mesh->mcol= newadr(mesh->mcol);
 	mesh->msticky= newadr(mesh->msticky);
-	
+
 	mesh->disp.first= mesh->disp.last= 0;
 	mesh->bb= 0;
 	mesh->oc= 0;
@@ -1418,22 +1377,22 @@ void lib_link_object(Main *main)
 	bActuator *act;
 	void *poin;
 	int warn=0, a;
-	
+
 	ob= main->object.first;
 	while(ob) {
 		if(ob->id.flag & LIB_NEEDLINK) {
-	
+
 			ob->parent= newlibadr(ob->id.lib, ob->parent);
 			ob->track= newlibadr(ob->id.lib, ob->track);
 			ob->ipo= newlibadr_us(ob->id.lib, ob->ipo);
-			
+
 			poin= ob->data;
-		
+
 			ob->data= newlibadr_us(ob->id.lib, ob->data);
-			
-			if(ob->type==OLD_OB_LIFE || ob->type==OLD_OB_SECTOR) 
+
+			if(ob->type==OLD_OB_LIFE || ob->type==OLD_OB_SECTOR)
 				link_sector_or_life(ob);
-			
+
 			if(ob->data==NULL && poin!=NULL) {
 				ob->type= OB_EMPTY;
 				warn= 1;
@@ -1441,12 +1400,12 @@ void lib_link_object(Main *main)
 				else printf("Object %s lost data. Lib:%x\n", ob->id.name+2, ob->id.lib);
 			}
 			for(a=0; a<ob->totcol; a++) ob->mat[a]= newlibadr_us(ob->id.lib, ob->mat[a]);
-			
+
 			ob->id.flag -= LIB_NEEDLINK;
 			/* dit stond er eerst: weggehaald omdat de fie give_base_to... er niet meer is */
 			/* if(ob->id.us) ob->id.flag -= LIB_NEEDLINK; */
 			/* als us==0 wordt verderop nog een base gemaakt */
-			
+
 			sens= ob->sensors.first;
 			while(sens) {
 				for(a=0; a<sens->totlinks; a++) {
@@ -1458,7 +1417,7 @@ void lib_link_object(Main *main)
 				}
 				sens= sens->next;
 			}
-			
+
 			cont= ob->controllers.first;
 			while(cont) {
 				for(a=0; a<cont->totlinks; a++) {
@@ -1470,10 +1429,10 @@ void lib_link_object(Main *main)
 				}
 				cont->slinks= NULL;
 				cont->totslinks= 0;
-				
+
 				cont= cont->next;
 			}
-			
+
 			act= ob->actuators.first;
 			while(act) {
 				if(act->type==ACT_CAMERA) {
@@ -1504,12 +1463,12 @@ void lib_link_object(Main *main)
 				}
 				act= act->next;
 			}
-			
+
 			lib_link_scriptlink(&ob->id, &ob->scriptlink);
 		}
 		ob= ob->id.next;
 	}
-	
+
 	if(warn) error("WARNING IN CONSOLE");
 }
 
@@ -1520,7 +1479,7 @@ void direct_link_object(Object *ob)
 	bSensor *sens;
 	bController *cont;
 	bActuator *act;
-	
+
 	ob->disp.first=ob->disp.last= 0;
 
 	direct_link_scriptlink(&ob->scriptlink);
@@ -1534,13 +1493,13 @@ void direct_link_object(Object *ob)
 			paf->keys= 0;
 		}
 		if(paf->type==EFF_WAVE) {
-			
+
 		}
 		paf= paf->next;
 	}
 
 	link_list(&ob->network);
-	
+
 	link_list(&ob->prop);
 	prop= ob->prop.first;
 	while(prop) {
@@ -1552,7 +1511,7 @@ void direct_link_object(Object *ob)
 	link_list(&ob->sensors);
 	sens= ob->sensors.first;
 	while(sens) {
-		sens->data= newadr(sens->data);	
+		sens->data= newadr(sens->data);
 		sens->links= newadr(sens->links);
 		test_pointer_array((void **)&sens->links);
 		sens= sens->next;
@@ -1585,7 +1544,7 @@ void lib_link_scene(Main *main)
 	Base *base, *next;
 	Editing *ed;
 	Sequence *seq;
-	
+
 	sce= main->scene.first;
 	while(sce) {
 		if(sce->id.flag & LIB_NEEDLINK) {
@@ -1595,15 +1554,15 @@ void lib_link_scene(Main *main)
 			sce->set= newlibadr(sce->id.lib, sce->set);
 			sce->ima= newlibadr_us(sce->id.lib, sce->ima);
 			sce->group= newlibadr_us(sce->id.lib, sce->group);
-			
+
 			base= sce->base.first;
 			while(base) {
 				next= base->next;
-				
+
 				/* base->object= newlibadr_us(sce->id.lib, base->object); */
 
 				base->object= newlibadr_us_type(ID_OB, base->object);
-				
+
 				if(base->object==0) {
 					printf("LIB ERROR: base removed\n");
 					remlink(&sce->base, base);
@@ -1612,7 +1571,7 @@ void lib_link_scene(Main *main)
 				}
 				base= next;
 			}
-			
+
 			ed= sce->ed;
 			if(ed) {
 				WHILE_SEQ(ed->seqbasep) {
@@ -1624,9 +1583,9 @@ void lib_link_scene(Main *main)
 			}
 			sce->id.flag -= LIB_NEEDLINK;
 		}
-		
+
 		lib_link_scriptlink(&sce->id, &sce->scriptlink);
-		
+
 		sce= sce->id.next;
 	}
 }
@@ -1649,43 +1608,43 @@ void direct_link_scene(Scene *sce)
 	Sequence *seq;
 	StripElem *se;
 	int a;
-	
+
 	link_list( &(sce->base) );
 
 	sce->basact= newadr(sce->basact);
 
 	sce->radio= newadr(sce->radio);
 	sce->fcam= newadr(sce->fcam);
-	
+
 	if(sce->ed) {
 		ed= sce->ed= newadr(sce->ed);
-		
+
 		ed->metastack.first= ed->metastack.last= 0;
-		
+
 		/* recursief sequenties linken, ook lb wordt goedgezet */
 		link_recurs_seq(&ed->seqbase);
-		
+
 		ed->seqbasep= &ed->seqbase;
-		
+
 		WHILE_SEQ(ed->seqbasep) {
-			
+
 			seq->seq1= newadr(seq->seq1);
 			seq->seq2= newadr(seq->seq2);
 			seq->seq3= newadr(seq->seq3);
 			/* eigenlijk een patch: na invoering drie-seq effects */
 			if(seq->seq3==0) seq->seq3= seq->seq2;
-			
+
 			seq->curelem= 0;
-			
+
 			seq->plugin= newadr(seq->plugin);
 			if(seq->plugin) open_plugin_seq(seq->plugin, seq->name+2);
-	
+
 			seq->strip= newadr(seq->strip);
 			if(seq->strip && seq->strip->done==0) {
 				seq->strip->done= 1;
-				
+
 				/* standaard: strips van effecten/meta's worden niet weggeschreven, wel malloccen */
-				
+
 				if(seq->type==SEQ_IMAGE) {
 					seq->strip->stripdata= newadr(seq->strip->stripdata);
 					se= seq->strip->stripdata;
@@ -1699,14 +1658,14 @@ void direct_link_scene(Scene *sce)
 				else if(seq->type==SEQ_MOVIE) {
 					/* alleen eerste stripelem zit in file */
 					se= newadr(seq->strip->stripdata);
-					
+
 					if(se) {
 						seq->strip->stripdata= callocN(seq->len*sizeof(StripElem), "stripelem");
 						*seq->strip->stripdata= *se;
 						freeN(se);
-						
+
 						se= seq->strip->stripdata;
-					
+
 						for(a=0; a<seq->strip->len; a++, se++) {
 							se->ok= 1;
 							se->ibuf= 0;
@@ -1714,14 +1673,14 @@ void direct_link_scene(Scene *sce)
 						}
 					}
 				}
-				else if(seq->len>0) 
+				else if(seq->len>0)
 					seq->strip->stripdata= callocN(seq->len*sizeof(StripElem), "stripelem");
 
 			}
 		}
 		END_SEQ
 	}
-	
+
 	direct_link_scriptlink(&sce->scriptlink);
 }
 
@@ -1736,24 +1695,24 @@ void lib_link_screen(Main *main)
 	SpaceButs *buts;
 	SpaceFile *sfile;
 	Oops *oops;
-	
+
 	sc= main->screen.first;
 	while(sc) {
 		if(sc->id.flag & LIB_NEEDLINK) {
 			sc->id.us= 1;
 			sc->scene= newlibadr(sc->id.lib, sc->scene);
-			
+
 			sa= sc->areabase.first;
 			while(sa) {
-				
+
 				sa->full= newlibadr(sc->id.lib, sa->full);
-	
+
 				v3d= sa->spacedata.first;	/* v3d als voorbeeld */
 				while(v3d) {
 					if(v3d->spacetype==SPACE_VIEW3D) {
 
 						v3d->camera= newlibadr(sc->id.lib, v3d->camera);
-						
+
 						if(v3d->bgpic) {
 							v3d->bgpic->ima= newlibadr_us(sc->id.lib, v3d->bgpic->ima);
 							v3d->bgpic->tex= newlibadr_us(sc->id.lib, v3d->bgpic->tex);
@@ -1778,7 +1737,7 @@ void lib_link_screen(Main *main)
 					}
 					else if(v3d->spacetype==SPACE_FILE) {
 						sfile= (SpaceFile *)v3d;
-						
+
 						sfile->filelist= 0;
 						sfile->libfiledata= 0;
 						sfile->returnfunc= 0;
@@ -1790,24 +1749,24 @@ void lib_link_screen(Main *main)
 					}
 					else if(v3d->spacetype==SPACE_IMAGE) {
 						SpaceImage *sima= (SpaceImage *)v3d;
-						
+
 						sima->image= newlibadr_us(sc->id.lib, sima->image);
 					}
 					else if(v3d->spacetype==SPACE_TEXT) {
 						SpaceText *st= (SpaceText *)v3d;
-				
+
 						st->text= newlibadr(sc->id.lib, st->text);
-						
+
 						st->py_draw= NULL;
 						st->py_event= NULL;
 						st->py_button= NULL;
 					}
 					else if(v3d->spacetype==SPACE_OOPS) {
 						SpaceOops *so= (SpaceOops *)v3d;
-						
+
 						/* patch als deze in oude files zit */
 						if(so->v2d.cur.xmin==so->v2d.cur.xmax) {
-							init_v2d_oops(&so->v2d);		
+							init_v2d_oops(&so->v2d);
 						}
 						oops= so->oops.first;
 						while(oops) {
@@ -1815,7 +1774,7 @@ void lib_link_screen(Main *main)
 							oops= oops->next;
 						}
 						so->lockpoin= 0;
-					}					
+					}
 					v3d= v3d->next;
 				}
 				sa= sa->next;
@@ -1850,7 +1809,7 @@ void direct_link_screen(bScreen *sc)
 			se->v1= se->v2;
 			se->v2= sv;
 		}
-		
+
 		if(se->v1==NULL) {
 			printf("error reading screen... file corrupt\n");
 			se->v1= se->v2;
@@ -1861,13 +1820,13 @@ void direct_link_screen(bScreen *sc)
 	/* areas */
 	sa= sc->areabase.first;
 	while(sa) {
-	
+
 		link_list( &(sa->spacedata) );
 
 		v3d= sa->spacedata.first;
 		while(v3d) {
 			if(v3d->spacetype==SPACE_VIEW3D) {
-				
+
 				v3d->bgpic= newadr(v3d->bgpic);
 				v3d->localvd= newadr(v3d->localvd);
 			}
@@ -1882,26 +1841,26 @@ void direct_link_screen(bScreen *sc)
 			}
 			v3d= v3d->next;
 		}
-		
+
 		sa->v1= newadr(sa->v1);
 		sa->v2= newadr(sa->v2);
 		sa->v3= newadr(sa->v3);
 		sa->v4= newadr(sa->v4);
-		
+
 		sa->win= sa->headwin= 0;
 		sa->cursor= CURSOR_STD;
 		sa->headqueue= sa->hq= sa->winqueue= sa->wq= NULL;
 
 		set_func_space(sa);	/* space.c */
-		
+
 		sa->uiblocks.first= sa->uiblocks.last= NULL;
-		
+
 		sa= sa->next;
 	}
 
 	/* vertices en offset */
 	test_scale_screen(sc);
-} 
+}
 
 /* ********** READ LIBRARY *************** */
 
@@ -1909,7 +1868,7 @@ void direct_link_screen(bScreen *sc)
 void direct_link_library(Library *lib)
 {
 	Main *newmain;
-	
+
 	/* nieuwe main */
 	newmain= callocN(sizeof(Main), "directlink");
 	addtail(&G.mainbase, newmain);
@@ -1920,7 +1879,7 @@ void direct_link_library(Library *lib)
 void lib_link_library(Main *main)
 {
 	Library *lib;
-	
+
 	lib= main->library.first;
 	while(lib) {
 		lib->id.us= 1;
@@ -1935,11 +1894,11 @@ void direct_link_group(Group *group)
 {
 	GroupObject *go;
 	ObjectKey *ok;
-	
+
 	link_list(&group->gobject);
 	link_list(&group->gkey);
 	group->active= newadr(group->active);
-	
+
 	go= group->gobject.first;
 	while(go) {
 		link_list(&go->okey);
@@ -1950,7 +1909,7 @@ void direct_link_group(Group *group)
 		}
 		go= go->next;
 	}
-	
+
 }
 
 void lib_link_group(Main *main)
@@ -1958,19 +1917,19 @@ void lib_link_group(Main *main)
 	Group *group= main->group.first;
 	GroupObject *go;
 	ObjectKey *ok;
-	
+
 	while(group) {
 		if(group->id.flag & LIB_NEEDLINK) {
 			group->id.flag -= LIB_NEEDLINK;
-	
+
 			go= group->gobject.first;
 			while(go) {
 				go->ob= newlibadr(group->id.lib, go->ob);
 				ok= go->okey.first;
 				while(ok) {
 					ok->parent= newlibadr(group->id.lib, ok->parent);
-					ok->track= newlibadr(group->id.lib, ok->track);	
-					ok->ipo= newlibadr_us(group->id.lib, ok->ipo);	
+					ok->track= newlibadr(group->id.lib, ok->track);
+					ok->ipo= newlibadr_us(group->id.lib, ok->ipo);
 					ok= ok->next;
 				}
 				go= go->next;
@@ -1987,7 +1946,7 @@ int read_libblock(Main *main, BHead *bhead, int flag)
 	/* deze routine leest libblock en direkte data. Met linkfunkties
 	 * alles aan elkaar hangen.
 	 */
-	
+
 	ID *id;
 	ListBase *lb;
 	int skipdata;
@@ -2003,18 +1962,18 @@ int read_libblock(Main *main, BHead *bhead, int flag)
 	}
 
 	if(lb==0) {
-		
+
 		/* PRINT2(s, d, ((char *)&(bhead->code))+2, bhead->len); */
-		
+
 		/* temporal: read the libstruct to fetch the old sector and life of the prototype */
 		/* see link_sector_or_life(); */
 		read_libstruct(bhead);
-		
+
 		return bhead->len+sizeof(BHead);
 	}
-	
+
 	fd= (char *)bhead;
-	
+
 	/* libblock inlezen */
 	id= read_libstruct(bhead);
 	addtail(lb, id);
@@ -2023,26 +1982,26 @@ int read_libblock(Main *main, BHead *bhead, int flag)
 	id->lib= main->curlib;
 	if(id->flag & LIB_FAKEUSER) id->us= 1;
 	else id->us= 0;
-	
+
 	/* deze mag niet door de direct_link molen: is alleen het ID deel */
 	if(bhead->code==ID_ID) {
 		skipdata= bhead->len+sizeof(BHead);
-		return skipdata;	
+		return skipdata;
 	}
 
 	skipdata= bhead->len+sizeof(BHead);
 	fd+= bhead->len+sizeof(BHead);
 	bhead= (BHead *)fd;
 
-	
+
 	/* alle data inlezen */
 	while(bhead->code==DATA) {
-		
+
 		read_struct(bhead);
-		
+
 		skipdata+= bhead->len+sizeof(BHead);
 		fd+= bhead->len+sizeof(BHead);
-		bhead= (BHead *)fd;		
+		bhead= (BHead *)fd;
 	}
 
 	/* pointers directe data goedzetten */
@@ -2089,9 +2048,6 @@ int read_libblock(Main *main, BHead *bhead, int flag)
 		case ID_LT:
 			direct_link_latt((Lattice *)id);
 			break;
-		case ID_IK:
-			direct_link_ika((Ika *)id);
-			break;
 		case ID_WO:
 			direct_link_world((World *)id);
 			break;
@@ -2105,10 +2061,10 @@ int read_libblock(Main *main, BHead *bhead, int flag)
 			direct_link_group((Group *)id);
 			break;
 	}
-	
+
 	/* vrijgeven, herinitialiseren */
-	add_data_adr(0, (void *)1);	
-	
+	add_data_adr(0, (void *)1);
+
 	return skipdata;
 }
 
@@ -2118,7 +2074,7 @@ void link_global(FileGlobal *fg)
 	R.displaymode= fg->displaymode;
 	R.winpos= fg->winpos;
 	G.fileflags = fg->fileflags;
-	
+
 	G.curscreen= newlibadr(0, fg->curscreen);
 	if(G.curscreen==0) G.curscreen= G.main->screen.first;
 	G.scene= G.curscreen->scene;
@@ -2129,7 +2085,7 @@ void link_global(FileGlobal *fg)
 	G.soops= 0;
 	G.sima= 0;
 	G.sipo= 0;
-	
+
 }
 
 void vcol_to_fcol(Mesh *me)
@@ -2139,7 +2095,7 @@ void vcol_to_fcol(Mesh *me)
 	int a;
 
 	if(me->totface==0 || me->mcol==0) return;
-	
+
 	mcoln= mcolmain= mallocN(4*sizeof(int)*me->totface, "mcoln");
 	mcol = (uint *)me->mcol;
 	mface= me->mface;
@@ -2166,11 +2122,11 @@ void do_versions(Main *main)
 	if(main->versionfile == 100) {
 
 		/* tex->extend en tex->imageflag veranderd: */
-		
+
 		tex= main->tex.first;
 		while(tex) {
 			if(tex->id.flag & LIB_NEEDLINK) {
-				
+
 				if(tex->extend==0) {
 					if(tex->xrepeat || tex->yrepeat) tex->extend= TEX_REPEAT;
 					else {
@@ -2178,7 +2134,7 @@ void do_versions(Main *main)
 						tex->xrepeat= tex->yrepeat= 1;
 					}
 				}
-	
+
 				if(tex->imaflag & TEX_ANIM5) {
 					tex->imaflag |= TEX_MORKPATCH;
 					tex->imaflag |= TEX_ANTIALI;
@@ -2246,35 +2202,35 @@ void do_versions(Main *main)
 			if(me->mcol) vcol_to_fcol(me);
 			me= me->id.next;
 		}
-		
+
 	}
 	if(main->versionfile <= 107) {
 		sce= main->scene.first;
 		while(sce) {
 			sce->r.mode |= R_GAMMA;
 			sce= sce->id.next;
-		}		
+		}
 		ob= main->object.first;
 		while(ob) {
 			ob->ipoflag |= OB_OFFS_PARENT;
 			if(ob->dt==0) ob->dt= 3;
 			ob= ob->id.next;
 		}
-		
+
 	}
 	if(main->versionfile <= 109) {
 		bScreen *sc;
 		ScrArea *sa;
 		View3D *vd;
-		
+
 		/* nieuwe variabele: gridlines */
-		
+
 		sc= main->screen.first;
 		while(sc) {
-			
+
 			sa= sc->areabase.first;
 			while(sa) {
-	
+
 				vd= sa->spacedata.first;
 				while(vd) {
 					if(vd->spacetype==SPACE_VIEW3D) {
@@ -2286,7 +2242,7 @@ void do_versions(Main *main)
 			}
 			sc= sc->id.next;
 		}
-		
+
 		}
 	if(main->versionfile <= 112) {
 		Mesh *me= main->mesh.first;
@@ -2308,9 +2264,9 @@ void do_versions(Main *main)
 		Mesh *me= main->mesh.first;
 		MFace *mface;
 		int a;
-		
+
 		/* edge drawflags veranderd */
-		
+
 		while(me) {
 			a= me->totface;
 			mface= me->mface;
@@ -2326,7 +2282,7 @@ void do_versions(Main *main)
 	}
 
 	/* eentje overgeslagen voor bug in freeware versie */
-	
+
 	if(main->versionfile <= 121) {
 		/* O2 versie gemaakt. */
 	}
@@ -2360,10 +2316,10 @@ void do_versions(Main *main)
 
 		bScreen *sc;
 		ScrArea *sa;
-		
+
 		sc= main->screen.first;
 		while(sc) {
-			
+
 			sa= sc->areabase.first;
 			while(sa) {
 				if(sa->cursor==0) sa->cursor= CURSOR_STD;
@@ -2441,7 +2397,7 @@ void do_versions(Main *main)
 		/* Metaballs convert to Mesh, normals error fixed. */
 	}
 	if(main->versionfile <=137) {
-		
+
 	}
 	if(main->versionfile <=138) {
 		/* fixed: z buffer draw and Mesh with no materials: coredump! */
@@ -2457,7 +2413,7 @@ void do_versions(Main *main)
 	if(main->versionfile <=140) {
 		Tex *tex;
 		/* r-g-b-fac in texure */
-		
+
 		tex= main->tex.first;
 		while(tex) {
 			if(tex->rfac==0.0 && tex->gfac==0.0 && tex->bfac==0.0) {
@@ -2487,7 +2443,7 @@ void do_versions(Main *main)
 	}
 	if(main->versionfile <=164) {
 		Mesh *me= main->mesh.first;
-		
+
 		while(me) {
 			me->smoothresh= 30;
 			me= me->id.next;
@@ -2497,23 +2453,9 @@ void do_versions(Main *main)
 	if(main->versionfile <=165) {
 		Mesh *me= main->mesh.first;
 		TFace *tface;
-		Ika *ika= main->ika.first;
-		Deform *def;
 		int nr;
 		char *cp;
-		
-		while(ika) {
-			ika->xyconstraint= .5;
-			
-			def= ika->def;
-			nr= ika->totdef;
-			while(nr--) {
-				if(def->fac==0.0) def->fac= 1.0;
-				def++;
-			}
-			ika= ika->id.next;
-		}
-		
+
 		while(me) {
 			if(me->tface) {
 				nr= me->totface;
@@ -2535,7 +2477,7 @@ void do_versions(Main *main)
 					if(cp[1]>126) cp[1]= 255; else cp[1]*=2;
 					if(cp[2]>126) cp[2]= 255; else cp[2]*=2;
 					if(cp[3]>126) cp[3]= 255; else cp[3]*=2;
-					
+
 					tface++;
 				}
 			}
@@ -2545,22 +2487,22 @@ void do_versions(Main *main)
 
 	if(main->versionfile <=169) {
 		Mesh *me= main->mesh.first;
-		
+
 		while(me) {
 			if(me->subdiv==0) me->subdiv= 4;
 			me= me->id.next;
 		}
 	}
-	
+
 	if(main->versionfile <= 169) {
 		bScreen *sc= main->screen.first;
 		ScrArea *sa;
 		SpaceIpo *sipo;
 		while(sc) {
-			
+
 			sa= sc->areabase.first;
 			while(sa) {
-	
+
 				sipo= sa->spacedata.first;
 				while(sipo) {
 					if(sipo->spacetype==SPACE_IPO) {
@@ -2577,7 +2519,7 @@ void do_versions(Main *main)
 	if(main->versionfile <=170) {
 		Object *ob= main->object.first;
 		PartEff *paf;
-	
+
 		while(ob) {
 			paf = give_parteff(ob);
 			if( paf ) {
@@ -2591,12 +2533,12 @@ void do_versions(Main *main)
 		bScreen *sc= main->screen.first;
 		ScrArea *sa;
 		SpaceText *st;
-		
+
 		while(sc) {
-			
+
 			sa= sc->areabase.first;
 			while(sa) {
-	
+
 				st= sa->spacedata.first;
 				while(st) {
 					if(st->spacetype==SPACE_TEXT) {
@@ -2612,14 +2554,14 @@ void do_versions(Main *main)
 			sc= sc->id.next;
 		}
 	}
-	
+
 	if(main->versionfile <=173) {
 		Mesh *me= main->mesh.first;
-		
+
 		while(me) {
 			if(me->tface) {
 				TFace *tface= me->tface;
-				
+
 				for(a=0; a<me->totface; a++, tface++) {
 					for(b=0; b<4; b++) {
 						tface->uv[b][0]/= 32767.0;
@@ -2637,7 +2579,7 @@ void do_versions(Main *main)
 		bScreen *sc= G.main->screen.first;
 		Object *ob= G.main->object.first;
 		ma = G.main->mat.first;
-		
+
 		/* let faces have default add factor of 0.0 */
 		while(ma) {
 		  if (!(ma->mode & MA_HALO)) ma->add = 0.0;
@@ -2647,7 +2589,7 @@ void do_versions(Main *main)
 		while(ob) {
 			ob->mass= 1.0;
 			ob->damping= 0.1;
-			ob->quat[1]= 1.0;		
+			ob->quat[1]= 1.0;
 			ob= ob->id.next;
 		}
 
@@ -2665,13 +2607,13 @@ void do_versions(Main *main)
 			}
 			sc= sc->id.next;
 		}
-		
+
 		strcpy(U.plugtexdir, U.textudir);
 	}
-	
+
 	if(main->versionfile <=193) {
 		Object *ob= G.main->object.first;
-		
+
 		while(ob) {
 			ob->inertia= 1.0;
 			ob->rdamping= 0.1;
@@ -2681,11 +2623,11 @@ void do_versions(Main *main)
 
 	if(main->versionfile <=196) {
 		Mesh *me= G.main->mesh.first;
-		
+
 		while(me) {
 			if(me->tface) {
 				TFace *tface= me->tface;
-				
+
 				for(a=0; a<me->totface; a++, tface++) {
 					for(b=0; b<4; b++) {
 						tface->mode |= TF_DYNAMIC;
@@ -2696,10 +2638,10 @@ void do_versions(Main *main)
 			me= me->id.next;
 		}
 	}
-		
+
 	if(main->versionfile <=200) {
 		Object *ob= G.main->object.first;
-		
+
 		while(ob) {
 			ob->scaflag= ob->gameflag & (64+128+256+512+1024+2048);
 			ob->gameflag &= ~(128+256+512+1024+2048);	/* 64 is do_fh */
@@ -2714,9 +2656,9 @@ void do_versions(Main *main)
 		bIpoActuator *ia;
 		bEditObjectActuator *eoa;
 		bAddObjectActuator *aoa;
-		
+
 		/* add-object and end-object are joined to edit-object actuator */
-		
+
 		while(ob) {
 			act= ob->actuators.first;
 			while(act) {
@@ -2753,9 +2695,9 @@ void do_versions(Main *main)
 		Object *ob= G.main->object.first;
 		bActuator *act;
 		bObjectActuator *oa;
-		
+
 		/* add-object and end-object are joined to edit-object actuator */
-		
+
 		while(ob) {
 			act= ob->actuators.first;
 			while(act) {
@@ -2789,12 +2731,11 @@ void lib_link_all(Main *main)
 	lib_link_world(main);
 	lib_link_lamp(main);
 	lib_link_latt(main);
-	lib_link_ika(main);
 	lib_link_camera(main);
 	lib_link_group(main);
 
 	// No lib_link_vfont ???
-	
+
 	lib_link_mesh(main);	/* als laatste: tpage images met users op nul */
 
 	lib_link_library(main);	/* alleen users goedzetten */
@@ -2806,12 +2747,12 @@ int read_file_dna(char *filedata, int filelen)
 	BHead *bhead;
 	int afbreek=0;
 	char *fd;
-	
+
 	freestructDNA(&old_sdna);
 
 	fd= filedata;
 	while(filelen>0 && afbreek!=3) {
-		
+
 		bhead= (BHead *)fd;
 
 		if(bhead->code==ENDB) afbreek+= 2;
@@ -2821,7 +2762,7 @@ int read_file_dna(char *filedata, int filelen)
 			memcpy(old_sdna.data, fd+sizeof(BHead), bhead->len);
 			afbreek+= 1;
 		}
-		
+
 		fd+= bhead->len+sizeof(BHead);
 		filelen -= bhead->len+sizeof(BHead);
 	}
@@ -2843,10 +2784,10 @@ void convert_dos_newlines(char *filedata, int filelen)
 {
 	char *out= filedata, *s= filedata;
 	char c;
-	
+
 	while (filelen--) {
 		c= *s++;
-		
+
 		if (!(c==13 && *s=='\n'))
 			*out++= c;
 	}
@@ -2863,99 +2804,99 @@ void reconstruct_bheads(char **filedata, int *filelen)
 	BHead4 *bhead4;
 	int totbh=0, len, filelenn;
 	char *fd, *fdn, *filedatan;
-	
+
 	if(pointerlen==4) {
 		/* count bheads */
 		len= *filelen;
 		fd= *filedata;
-		
+
 		while(len>0) {
-			
+
 			bhead4= (BHead4 *)fd;
 			totbh++;
-			
+
 			if(bhead4->code==ENDB) break;
-			
+
 			fd+= bhead4->len+sizeof(BHead4);
 			len -= bhead4->len+sizeof(BHead4);
 		}
-		
+
 		filelenn= *filelen + 4*totbh;
 	}
 	else {
 		/* count bheads */
 		len= *filelen;
 		fd= *filedata;
-		
+
 		while(len>0) {
-			
+
 			bhead8= (BHead8 *)fd;
 			totbh++;
-			
+
 			if(bhead8->code==ENDB) break;
-			
+
 			fd+= bhead8->len+sizeof(BHead8);
 			len -= bhead8->len+sizeof(BHead8);
 		}
 		/* + 4: ENDB */
 		filelenn= *filelen - 4*totbh + 4;
 	}
-	
+
 	fdn= filedatan= mallocN(filelenn, "filedatan");
 	fd= *filedata;
-	
+
 	if(pointerlen==4) {
-	
+
 		len= *filelen;
 		while(len>0) {
-		
+
 			bhead4= (BHead4 *)fd;
 			bhead8= (BHead8 *)fdn;
-		
+
 			bhead8->code= bhead4->code;
 			bhead8->len= bhead4->len;
 
 			if(bhead8->code==ENDB) break;
-			
+
 			bhead8->old= bhead4->old;
 			bhead8->SDNAnr= bhead4->SDNAnr;
 			bhead8->nr= bhead4->nr;
-			
+
 			if(bhead4->len) memcpy(bhead8+1, bhead4+1, bhead4->len);
-			
+
 			fd+= bhead4->len+sizeof(BHead4);
 			fdn+= bhead8->len+sizeof(BHead8);
 			len -= bhead4->len+sizeof(BHead4);
 		}
 	}
 	else {
-	
+
 		len= *filelen;
 		while(len>0) {
-		
+
 			bhead4= (BHead4 *)fdn;
 			bhead8= (BHead8 *)fd;
-		
+
 			bhead4->code= bhead8->code;
 			bhead4->len= bhead8->len;
 
 			if(bhead4->code==ENDB) break;
-			
+
 			if(switch_endian) {
 				SWITCH_LONGINT(bhead8->old);
 			}
-			
+
 			/* this patch is to avoid a long long being read from not-eight aligned positions
 			   is necessary on SGI with -n32 compiling */
 			memcpy(&old, &bhead8->old, 8);
 			bhead4->old= old>>3;
-			
+
 			/* bhead4->old= bhead8->old>>3; */
-			
+
 			bhead4->SDNAnr= bhead8->SDNAnr;
 			bhead4->nr= bhead8->nr;
 			if(bhead8->len) memcpy(bhead4+1, bhead8+1, bhead8->len);
-			
+
 			fdn+= bhead4->len+sizeof(BHead4);
 			fd+= bhead8->len+sizeof(BHead8);
 			len -= bhead8->len+sizeof(BHead8);
@@ -2971,12 +2912,12 @@ void switch_endian_bhead4(char *filedata, int filelen)
 {
 	BHead4 *bhead;
 	char *fd, str[5];
-	
+
 	str[4]= 0;
-	
+
 	fd= filedata;
 	while(filelen>0) {
-		
+
 		bhead= (BHead4 *)fd;
 
 		/* de ID_.. codes */
@@ -2997,12 +2938,12 @@ void switch_endian_bhead8(char *filedata, int filelen)
 {
 	BHead8 *bhead;
 	char *fd, str[5];
-	
+
 	str[4]= 0;
-	
+
 	fd= filedata;
 	while(filelen>0) {
-		
+
 		bhead= (BHead8 *)fd;
 
 		/* de ID_.. codes */
@@ -3020,9 +2961,9 @@ void switch_endian_bhead8(char *filedata, int filelen)
 
 char *openblenderfile(char *name, int *filelen)
 {
-	int len, file;	
+	int len, file;
 	char *filedata, str[16];
-	
+
 	len= strlen(name);
 	if(len<6) return 0;
 	if( name[len-1]=='/' || name[len-1]=='\\') return 0;
@@ -3033,51 +2974,51 @@ char *openblenderfile(char *name, int *filelen)
 			errorstr("Can't find file", name, 0);
 			return 0;
 		}
-		
+
 		*filelen= filesize(file);
 
 		read(file, str, 12);
-		
+
 		if(strncmp(str, "BLENDER", 7)!=0) {
 			close(file);
 			errorstr("Not a Blender file: ", name, 0);
 			return 0;
 		}
-		
+
 		/* long pointer test */
 		if(str[7]=='_') pointerlen= 4;
 		else pointerlen= 8;
-		
+
 		/* endian test */
 		switch_endian= 0;
-		
+
 		if( str[8]=='V' && G.order==L_ENDIAN) {
 			switch_endian= 1;
 		}
 		else if( str[8]=='v' && G.order==B_ENDIAN) {
 			switch_endian= 1;
 		}
-		
+
 		str[12]= 0;
 		G.versionfile= atoi(str+9);
-		
+
 		/* hele file inlezen */
 		(*filelen) -= 12;
 		filedata= mallocN(*filelen + 12, "filedata");	/* + 12: anders errors bij Little endina files. waarom??? */
 		read(file, filedata, *filelen);
 		close(file);
-		
+
 		/* reconstruct_bheads doet ook de pointer endian switchen */
 		if(switch_endian) {
 			if(pointerlen==4)
 				switch_endian_bhead4(filedata, *filelen);
-			else 
+			else
 				switch_endian_bhead8(filedata, *filelen);
 		}
 
 		if(pointerlen!=sizeof(void *)) reconstruct_bheads(&filedata, filelen);
 
-		
+
 		/* op zoek naar SDNA */
 		if( read_file_dna(filedata, *filelen) ) {
 			return filedata;
@@ -3098,7 +3039,7 @@ char *openblenderfile(char *name, int *filelen)
 	else {
 		read_exotic(name);
 	}
-	
+
 	return 0;
 }
 
@@ -3113,19 +3054,19 @@ void read_file(char *dir)
 	VFont *vf;
 	int ok, len, filelen, skipdata;
 	char *filedata, *fd;
-	
+
 	waitcursor(1);
 
 	filedata= openblenderfile(dir, &filelen);
 
 	if (filedata) {
 		G.save_over = TRUE;
-		
+
 		strcpy(G.sce, dir);
 		strcpy(G.main->name, dir);	/* is gegarandeerd current file */
-		
+
 		/* er is maar 1 Main, dus alleen inhoud vrijgeven */
-		
+
 		freeAllRad();
 		free_main(0, G.main);
 		G.curscreen= 0;
@@ -3142,11 +3083,11 @@ void read_file(char *dir)
 		fd= filedata;
 		ok= 0;
 		main= G.main;
-		
+
 		while(filelen>0) {
-			
+
 			bhead= (BHead *)fd;
-			
+
 			switch(bhead->code) {
 			case GLOB:
 				read_struct_expl(bhead, (void **)&fg);
@@ -3184,7 +3125,7 @@ void read_file(char *dir)
 			default:
 				skipdata= read_libblock(G.main, bhead, LIB_LOCAL);
 			}
-			
+
 			if(ok) break;
 
 			fd+= skipdata;
@@ -3195,9 +3136,9 @@ void read_file(char *dir)
 
 		do_versions(G.main);	/* voor read_libraries */
 		read_libraries();
-		
+
 		/* LibData linken */
-		
+
 		lib_link_all(G.main);
 		link_global(fg);	/* als laatste */
 
@@ -3206,20 +3147,20 @@ void read_file(char *dir)
 		add_data_adr(0, 0);
 		add_lib_adr(0, 0);
 		add_glob_adr(0, 0);
-        
+
 		/* VECTORFONTS */
 		vf= G.main->vfont.first;
-		
+
 		/* afvangen: .Bfont van ander systeem */
 		if (vf) {
 			len= strlen(vf->name);
 
 			if (len > 5 && strcmp(vf->name+len-5, "Bfont")==0) {
 				char tempname[FILE_MAXDIR + FILE_MAXFILE];
-				
+
 				// ignore this rule if font exists....
 				// first expand the name to an abolute filename...
-				
+
 				strcpy(tempname, vf->name);
 				convertstringcode(tempname);
 				if (vf->packedfile == NULL && !fop_exists(tempname)) {
@@ -3231,7 +3172,7 @@ void read_file(char *dir)
 			reload_vfont(vf);
 			vf= vf->id.next;
 		}
-		
+
 		/* weinig DispListen, wel text_to_curve */
 		ob= G.main->object.first;
 		while(ob) {
@@ -3246,31 +3187,31 @@ void read_file(char *dir)
 
 			ob= ob->id.next;
 		}
-		
+
 		freeN(fg);
 		if(G.background==0) {
 			setscreen(G.curscreen);
 			countall();
 		}
 		set_scene_bg(G.scene);	/* baseflags */
-		
+
 		reset_autosave();
 		clear_obact_names();	/* voor add object */
 		set_obact_names(OBACT);
 	}
-	
+
 	if(G.background==0) waitcursor(0);
 
 	/* do_pyscript may not be executed if there is no valid file, and    */
 	/* we run in background. 'normal' mode handles the error differently */
-	if ( ( (!G.background) || filedata ) 
+	if ( ( (!G.background) || filedata )
 		 && (G.f & G_SCENESCRIPT)) {
 		extern char ext_load_str[256];
-		
+
 		if (ext_load_str[0]) force_draw_all();
 
 		do_pyscript(G.scene, SCRIPT_ONLOAD);
-	}	
+	}
 }
 
 void inst_file(char *name, char *data, int size) {
@@ -3287,7 +3228,7 @@ void inst_file(char *name, char *data, int size) {
 	}
 
 	fwrite(data, size, 1, fp);
-	
+
 	fclose(fp);
 }
 
@@ -3299,15 +3240,15 @@ int read_homefile()
 
 	home = gethome();
 	if (home) {
-		
+
 		/* a vectorfont can't be read from memory... so has to be saved in $HOME */
-		
+
 		make_file_string (tstr, home, ".Bfont");
 		file= open(tstr, O_BINARY|O_RDONLY);
 		if (file < 0) inst_file(".Bfont", datatoc_Bfont, datatoc_Bfont_size);
 		else close(file);
 
-		make_file_string (tstr, home, ".Bfs");		
+		make_file_string (tstr, home, ".Bfs");
 		file= open(tstr, O_BINARY|O_RDONLY);
 		if (file < 0) inst_file(".Bfs", datatoc_Bfs, datatoc_Bfs_size);
 		else close(file);
@@ -3322,25 +3263,25 @@ int read_homefile()
 		if(file >=0 ) {
 			/* bestand gevonden */
 			close(file);
-			
+
 			strcpy(scestr, G.sce);	/* even bewaren */
 			read_file(tstr);
 			strcpy(G.sce, scestr);
-			
+
 			G.save_over = FALSE;
-			
+
 			/* nog wat afhandelen? */
 			disable_capslock(U.flag & NO_CAPSLOCK);
-			
+
 			/* holobutton */
 			if(strcmp(G.scene->r.ftype, "*@&#")==0) G.special1= G_HOLO;
-			
+
 			if(U.tempdir[0]=='/' && U.tempdir[1]==0) {
 				str= getenv("TEMP");
 				if(str) strcpy(U.tempdir, str);
 				else strcpy(U.tempdir, "/tmp/");
 			}
-			
+
 			return 1;
 		}
 	}
@@ -3352,10 +3293,10 @@ void read_autosavefile()
 {
 	char tstr[FILE_MAXDIR], scestr[FILE_MAXDIR], tmp2[32];
 	int save_over;
-	
+
 
 	strcpy(scestr, G.sce);	/* even bewaren */
-	
+
 	sprintf(tmp2, "%d.blend", abs(getpid()));
 	make_file_string(tstr, U.tempdir, tmp2);
 
@@ -3363,7 +3304,7 @@ void read_autosavefile()
 	read_file(tstr);
 	G.save_over = save_over;
 	strcpy(G.sce, scestr);
-			
+
 }
 
 
@@ -3376,13 +3317,13 @@ BHead *find_bhead(void *old, char *filedata)
 	BHead *bhead;
 	int afbreek=0;
 	char *fd;
-	
+
 	bheadlib= 0;
 	if(old==0) return 0;
-	
+
 	fd= filedata;
 	while(afbreek==0) {
-		
+
 		bhead= (BHead *)fd;
 
 		if(bhead->code==ID_LI) {
@@ -3390,7 +3331,7 @@ BHead *find_bhead(void *old, char *filedata)
 		}
 		if(bhead->code==ENDB) afbreek= 1;
 		else if(bhead->old==old) return bhead;
-		
+
 		fd+= bhead->len+sizeof(BHead);
 	}
 	return 0;
@@ -3400,7 +3341,7 @@ ID *is_yet_read(Main *main, BHead *bhead)
 {
 	ListBase *lb;
 	ID *idtest, *id;
-	
+
 	idtest= (ID *)(bhead +1);
 	lb= wich_libbase(main, GS(idtest->name));
 	if(lb) {
@@ -3423,25 +3364,25 @@ void expand_doit(Main *main, char *filedata, void *old)
 	if(bhead) {
 
 		/* andere library? */
-		
+
 		if(bhead->code==ID_ID) {
 			if(bheadlib) {
 				lib= (Library *)(bheadlib+1);
 				main= find_main(lib->name);
 
 				id= is_yet_read(main, bhead);
-		
+
 				if(id==0) {
 					read_libblock(main, bhead, LIB_READ+LIB_INDIRECT);
 					printf("expand: other lib %s\n", lib->name);
 				}
 				else {
 					printf("expand: already linked: %s lib: %s\n", id->name, lib->name);
-					
+
 					/* if(id->lib==0) add_lib_adr(bhead->old, id); */
 					/* bovenstaand is niet nodig! Kan toch niet misgaan? */
 					add_lib_adr(bhead->old, id);
-					
+
 				}
 			}
 		}
@@ -3473,7 +3414,7 @@ void expand_texture(Main *main, char *filedata, Tex *tex)
 void expand_material(Main *main, char *filedata, Material *ma)
 {
 	int a;
-	
+
 	for(a=0; a<8; a++) {
 		if(ma->mtex[a]) {
 			expand_doit(main, filedata, ma->mtex[a]->tex);
@@ -3486,7 +3427,7 @@ void expand_material(Main *main, char *filedata, Material *ma)
 void expand_lamp(Main *main, char *filedata, Lamp *la)
 {
 	int a;
-	
+
 	for(a=0; a<8; a++) {
 		if(la->mtex[a]) {
 			expand_doit(main, filedata, la->mtex[a]->tex);
@@ -3506,7 +3447,7 @@ void expand_lattice(Main *main, char *filedata, Lattice *lt)
 void expand_world(Main *main, char *filedata, World *wrld)
 {
 	int a;
-	
+
 	for(a=0; a<8; a++) {
 		if(wrld->mtex[a]) {
 			expand_doit(main, filedata, wrld->mtex[a]->tex);
@@ -3519,7 +3460,7 @@ void expand_world(Main *main, char *filedata, World *wrld)
 void expand_curve(Main *main, char *filedata, Curve *cu)
 {
 	int a;
-	
+
 	for(a=0; a<cu->totcol; a++) {
 		expand_doit(main, filedata, cu->mat[a]);
 	}
@@ -3534,14 +3475,14 @@ void expand_mesh(Main *main, char *filedata, Mesh *me)
 {
 	int a;
 	TFace *tface;
-	
+
 	for(a=0; a<me->totcol; a++) {
 		expand_doit(main, filedata, me->mat[a]);
 	}
-	
+
 	expand_doit(main, filedata, me->key);
 	expand_doit(main, filedata, me->texcomesh);
-	
+
 	if(me->tface) {
 		tface= me->tface;
 		a= me->totface;
@@ -3555,7 +3496,7 @@ void expand_mesh(Main *main, char *filedata, Mesh *me)
 void expand_object(Main *main, char *filedata, Object *ob)
 {
 	int a;
-	
+
 	expand_doit(main, filedata, ob->data);
 	expand_doit(main, filedata, ob->ipo);
 	for(a=0; a<ob->totcol; a++) {
@@ -3566,7 +3507,7 @@ void expand_object(Main *main, char *filedata, Object *ob)
 void expand_scene(Main *main, char *filedata, Scene *sce)
 {
 	Base *base;
-	
+
 	base= sce->base.first;
 	while(base) {
 		expand_doit(main, filedata, base->object);
@@ -3574,7 +3515,7 @@ void expand_scene(Main *main, char *filedata, Scene *sce)
 	}
 	expand_doit(main, filedata, sce->camera);
 	expand_doit(main, filedata, sce->world);
-	
+
 }
 
 void expand_camera(Main *main, char *filedata, Camera *ca)
@@ -3585,7 +3526,7 @@ void expand_camera(Main *main, char *filedata, Camera *ca)
 
 void expand_text(Main *main, char *filedata, Text *txt)
 {
-	
+
 }
 
 void expand_main(Main *main, char *filedata)
@@ -3593,21 +3534,21 @@ void expand_main(Main *main, char *filedata)
 	ListBase *lbarray[30];
 	ID *id;
 	int a, doit= 1;
-	
+
 	if(filedata==0) return;
-	
+
 	while(doit) {
 		doit= 0;
-		
+
 		a= set_listbasepointers(main, lbarray);
 		while(a--) {
 			id= lbarray[a]->first;
 
 			while(id) {
 				if(id->flag & LIB_TEST) {
-					
+
 					switch(GS(id->name)) {
-						
+
 					case ID_OB:
 						expand_object(main, filedata, (Object *)id);
 						break;
@@ -3648,7 +3589,7 @@ void expand_main(Main *main, char *filedata)
 
 					doit= 1;
 					id->flag -= LIB_TEST;
-					
+
 				}
 				id= id->next;
 			}
@@ -3660,7 +3601,7 @@ void give_base_to_objects(Scene *sce, ListBase *lb)
 {
 	Object *ob;
 	Base *base;
-	
+
 	/* alle objects die LIB_EXTERN en LIB_NEEDLINK zijn, een base geven */
 	ob= lb->first;
 	while(ob) {
@@ -3668,17 +3609,17 @@ void give_base_to_objects(Scene *sce, ListBase *lb)
 		if(ob->id.us==0) {
 
 			if(ob->id.flag & LIB_NEEDLINK) {
-			
+
 				ob->id.flag -= LIB_NEEDLINK;
-				
+
 				if( ob->id.flag & LIB_INDIRECT ) {
-					
+
 					base= callocN( sizeof(Base), "add_ext_base");
 					addtail(&(sce->base), base);
 					base->lay= ob->lay;
 					base->object= ob;
 					ob->id.us= 1;
-					
+
 					ob->id.flag -= LIB_INDIRECT;
 					ob->id.flag |= LIB_EXTERN;
 
@@ -3698,17 +3639,17 @@ void append_named_part(SpaceFile *sfile, Main *main, char *name, int idcode)
 	ID *id;
 	int afbreek=0;
 	char *fd;
-	
+
 	fd= sfile->libfiledata;
 	while(afbreek==0) {
-		
+
 		bhead= (BHead *)fd;
-		
+
 		if(bhead->code==ENDB) afbreek= 1;
 		else if(bhead->code==idcode) {
 			id= (ID *)(bhead+1);
 			if(strcmp(id->name+2, name)==0) {
-				
+
 				id= is_yet_read(main, bhead);
 				if(id==0) {
 					read_libblock(main, bhead, LIB_TESTEXT);
@@ -3721,14 +3662,14 @@ void append_named_part(SpaceFile *sfile, Main *main, char *name, int idcode)
 						id->flag |= LIB_EXTERN;
 					}
 				}
-				
+
 				if(idcode==ID_OB) {	/* los object: base geven */
 					base= callocN( sizeof(Base), "app_nam_part");
 					addtail(&(G.scene->base), base);
-					
+
 					if(id==0) ob= main->object.last;
 					else ob= (Object *)id;
-					
+
 					base->lay= ob->lay;
 					base->object= ob;
 					ob->id.us++;
@@ -3736,7 +3677,7 @@ void append_named_part(SpaceFile *sfile, Main *main, char *name, int idcode)
 				afbreek= 1;
 			}
 		}
-		
+
 		fd+= bhead->len+sizeof(BHead);
 	}
 }
@@ -3747,16 +3688,16 @@ void append_id_part(char *filedata, Main *main, ID *id)
 	ID *idread;
 	int afbreek=0;
 	char *fd;
-	
+
 	fd= filedata;
 	while(afbreek==0) {
-		
+
 		bhead= (BHead *)fd;
-		
+
 		if(bhead->code==ENDB) afbreek= 1;
 		else if(bhead->code== GS(id->name)) {
 			idread= (ID *)(bhead+1);
-			
+
 			if(strcmp(id->name, idread->name)==0) {
 				id->flag -= LIB_READ;
 				id->flag |= LIB_TEST;
@@ -3764,7 +3705,7 @@ void append_id_part(char *filedata, Main *main, ID *id)
 				afbreek= 1;
 			}
 		}
-		
+
 		fd+= bhead->len+sizeof(BHead);
 	}
 }
@@ -3778,7 +3719,7 @@ void library_append(SpaceFile *sfile)	/* append aan G.scene */
 	Curve *cu;
 	int a, totsel=0, idcode;
 	char dir[FILE_MAXDIR], group[32];
-	
+
 	/* is er sprake van een library? */
 	if( is_a_library(sfile, dir, group)==0 ) {
 		error("Not a library");
@@ -3796,14 +3737,14 @@ void library_append(SpaceFile *sfile)	/* append aan G.scene */
 		error("Cannot use current file as library");
 		return;
 	}
-	
+
 	/* zijn er geselecteerde files? */
 	for(a=0; a<sfile->totfile; a++) {
 		if(sfile->filelist[a].flags & ACTIVE) {
 			totsel++;
 		}
 	}
-	
+
 	if(totsel==0) {
 		/* is de aangegeven file in de filelist? */
 		if(sfile->file[0]) {
@@ -3821,15 +3762,15 @@ void library_append(SpaceFile *sfile)	/* append aan G.scene */
 		}
 	}
 	/* nu hebben OF geselecteerde, OF 1 aangegeven file */
-	
+
 	/* mains maken */
 	split_main();
-	
+
 	/* welke moeten wij hebben? */
 	mainptr= find_main(dir);
 
 	idcode= groupname_to_code(group);
-	
+
 	if(totsel==0) {
 		append_named_part(sfile, mainptr, sfile->file, idcode);
 	}
@@ -3840,13 +3781,13 @@ void library_append(SpaceFile *sfile)	/* append aan G.scene */
 			}
 		}
 	}
-	
+
 	/* de main consistent maken */
 	expand_main(mainptr, sfile->libfiledata);
-	
+
 	/* als expand nog andere libs gevonden heeft: */
 	read_libraries();
-	
+
 	lib_link_all(G.main);
 
 	/* losse objects aan G.scene hangen deze hebben nog een linkflag
@@ -3864,7 +3805,7 @@ void library_append(SpaceFile *sfile)	/* append aan G.scene */
 		if(vf->id.lib && vf->flag==1) reload_vfont(vf);
 		vf= vf->id.next;
 	}
-	
+
 	/* DISPLISTEN */
 	ob= G.main->object.first;
 	set_displist_onlyzero(1);
@@ -3877,7 +3818,7 @@ void library_append(SpaceFile *sfile)	/* append aan G.scene */
 			makeDispList(ob);
 		}
 		else if(ob->type==OB_MESH && ob->parent && ob->parent->type==OB_LATTICE ) makeDispList(ob);
-		
+
 		ob= ob->id.next;
 	}
 	set_displist_onlyzero(0);
@@ -3885,10 +3826,10 @@ void library_append(SpaceFile *sfile)	/* append aan G.scene */
 	/* losslingerende blokken vrijgeven */
 	add_data_adr(0, 0);
 	add_lib_adr(0, 0);
-	
+
 	/* in sfile->dir staat de HELE libnaam */
 	strcpy(G.lib, sfile->dir);
-	
+
 		if((sfile->flag & FILE_LINK)==0) all_local();
 
 	/* voorlopige patch om te voorkomen dat de switch_endian 2x gebeurt */
@@ -3909,17 +3850,17 @@ void read_libraries()
 	ListBase *lbarray[30];
 	int a, doit=1, tot, filelen;
 	char *filedata;
-	
+
 	while(doit) {
 		doit= 0;
-		
+
 		/* test 1: inlezen libdata */
 		mainptr= G.main->next;
-		
+
 		while(mainptr) {
 
 			disable_newlibadr= (void *)1;
-		
+
 			tot= count_mainblocks_flag(mainptr, LIB_READ);
 			if(tot) {
 				filedata= mainptr->curlib->filedata;
@@ -3937,7 +3878,7 @@ void read_libraries()
 							idn= id->next;
 							if(id->flag & LIB_READ) {
 								remlink(lbarray[a], id);
-								
+
 								append_id_part(filedata, mainptr, id);
 								/* printf("change adr: %s %x\n", id->name, disable_newlibadr); */
 								if(disable_newlibadr==(void *)1) {
@@ -3945,7 +3886,7 @@ void read_libraries()
 									change_libadr(id, 0);
 								}
 								else change_libadr(id, disable_newlibadr);
-								
+
 								freeN(id);
 							}
 							id= idn;
@@ -3957,7 +3898,7 @@ void read_libraries()
 			disable_newlibadr= 0;
 
 			expand_main(mainptr, mainptr->curlib->filedata);
-			
+
 			mainptr= mainptr->next;
 		}
 	}
@@ -3965,7 +3906,7 @@ void read_libraries()
 	while(mainptr) {
 		if(mainptr->curlib->filedata) freeN(mainptr->curlib->filedata);
 		mainptr->curlib->filedata= 0;
-		
+
 		/* test of er libblocken niet zijn gelezen */
 		a= set_listbasepointers(mainptr, lbarray);
 		while(a--) {
@@ -3974,22 +3915,22 @@ void read_libraries()
 				idn= id->next;
 				if(id->flag & LIB_READ) {
 					remlink(lbarray[a], id);
-										
+
 					printf("LIB ERROR: can't find %s\n", id->name);
 					change_libadr(id, 0);
-					
+
 					freeN(id);
 				}
 				id= idn;
 			}
 		}
-		
+
 		/* sommige mains moeten nog worden ingelezen, dan is versionfile nog nul! */
 		if(mainptr->versionfile) do_versions(mainptr);
 
 		mainptr= mainptr->next;
 	}
-	
+
 	join_main();
 }
 

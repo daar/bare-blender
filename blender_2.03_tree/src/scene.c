@@ -22,16 +22,15 @@
 
 
 /*  scene.c      MIXED MODEL
- * 
+ *
  *  jan 95
- *  
- * 
+ *
+ *
  * Version: $Id: scene.c,v 1.7 2000/09/17 21:16:25 ton Exp $
  */
 
 #include "blender.h"
 #include "group.h"
-#include "ika.h"
 
 
 /* niet scene zelf vrijgeven */
@@ -51,14 +50,14 @@ void free_scene(Scene *sce)
 	if(sce->radio) freeN(sce->radio);
 	if(sce->fcam) freeN(sce->fcam);
 	sce->radio= 0;
-	
+
 	free_scriptlink(&sce->scriptlink);
 }
 
 Scene *add_scene(char *name)
 {
 	Scene *sce;
-	
+
 	sce= alloc_libblock(&G.main->scene, ID_SCE, name);
 	sce->lay= 1;
 
@@ -79,14 +78,14 @@ Scene *add_scene(char *name)
 	sce->r.images= 100;
 	sce->r.framelen= 1.0;
 	sce->r.frs_sec= 25;
-	
+
 	strcpy(sce->r.backbuf, "//backbuf");
 	strcpy(sce->r.pic, U.renderdir);
 	strcpy(sce->r.ftype, "//ftype");
-	
+
 	init_rctf(&sce->r.safety, 0.1, 0.9, 0.1, 0.9);
 	sce->r.osa= 8;
-	
+
 	return sce;
 }
 
@@ -106,38 +105,38 @@ Scene *copy_scene(Scene *sce, int level)
 	Material *ma;
 	Lamp *la;
 	int a;
-	
+
 	/* level 0 */
 	scen= copy_libblock(sce);
 	duplicatelist(&(scen->base), &(sce->base));
-	
+
 	clear_id_newpoins();
-	
+
 	id_us_plus((ID *)scen->world);
 	id_us_plus((ID *)scen->set);
-	
+
 	scen->ed= 0;
 	scen->radio= 0;
-	
+
 	obase= sce->base.first;
 	base= scen->base.first;
 	while(base) {
 		base->object->id.us++;
 		if(obase==sce->basact) scen->basact= base;
-		
+
 		obase= obase->next;
 		base= base->next;
 	}
-	
+
 	if(level==0) return scen;
-	
+
 	/* level 1 */
 	G.scene= scen;
 	single_object_users(0);
 
 	/*  camera */
 	ID_NEW(G.scene->camera);
-		
+
 	/* level 2 */
 	if(level>=2) {
 		if(scen->world) {
@@ -159,7 +158,7 @@ Scene *copy_scene(Scene *sce, int level)
 int object_in_scene(Object *ob, Scene *sce)
 {
 	Base *base;
-	
+
 	base= sce->base.first;
 	while(base) {
 		if(base->object == ob) return 1;
@@ -175,11 +174,11 @@ void sort_baselist(Scene *sce)
 	Base *base, *test;
 	Object *par;
 	int doit, domore= 0, lastdomore=1;
-	
-	
+
+
 	/* volgorde gelijk houden als er niets veranderd is! */
 	/* hier waren problemen met campos array's: volgorde camera's is van belang */
-	
+
 	while(domore!=lastdomore) {
 
 		lastdomore= domore;
@@ -187,43 +186,39 @@ void sort_baselist(Scene *sce)
 		tempbase.first= tempbase.last= 0;
 		noparentbase.first= noparentbase.last= 0;
 		notyetbase.first= notyetbase.last= 0;
-		
+
 		while(base= sce->base.first) {
 			remlink(&sce->base, base);
-			
-			par= 0;
-			if(base->object->type==OB_IKA) {
-				Ika *ika= base->object->data;
-				par= ika->parent;
-			}
 
-			if(par || base->object->parent || base->object->track) {
-				
+			par= 0;
+
+			if(base->object->parent || base->object->track) {
+
 				doit= 0;
 				if(base->object->parent) doit++;
 				if(base->object->track) doit++;
 				if(par) doit++;
-				
+
 				test= tempbase.first;
 				while(test) {
-					
+
 					if(test->object==base->object->parent) doit--;
 					if(test->object==base->object->track) doit--;
 					if(test->object==par) doit--;
-					
+
 					if(doit==0) break;
 					test= test->next;
 				}
-				
+
 				if(test) insertlink(&tempbase, test, base);
 				else {
 					addhead(&tempbase, base);
 					domore++;
 				}
-				
+
 			}
 			else addtail(&noparentbase, base);
-			
+
 		}
 		sce->base= noparentbase;
 		addlisttolist(&sce->base, &tempbase);
@@ -240,9 +235,9 @@ void set_scene_bg(Scene *sce)
 	Group *group;
 	GroupObject *go;
 	int flag;
-	
+
 	G.scene= sce;
-	
+
 	/* objecten deselecteren (voor dataselect) */
 	ob= G.main->object.first;
 	while(ob) {
@@ -267,13 +262,13 @@ void set_scene_bg(Scene *sce)
 	/* layers en flags uit bases naar objecten kopieeren */
 	base= FIRSTBASE;
 	while(base) {
-		
+
 		base->object->lay= base->lay;
-		
+
 		base->flag &= ~OB_FROMGROUP;
 		flag= base->object->flag & OB_FROMGROUP;
 		base->flag |= flag;
-		
+
 		base->object->ctime= -1234567.0;	/* forceer ipo */
 		base= base->next;
 	}
@@ -281,15 +276,14 @@ void set_scene_bg(Scene *sce)
 	do_all_ipos();	/* layers/materials */
 	do_all_scripts(SCRIPT_FRAMECHANGED);
 	do_all_keys();
-	do_all_ikas();
 }
 
 void set_scene_name(char *name)
 {
 	Scene *sce;
 	char str[128];
-	
-	
+
+
 	sce= G.main->scene.first;
 	while(sce) {
 		if(strcmp(name, sce->id.name+2)==0) {
@@ -299,7 +293,7 @@ void set_scene_name(char *name)
 		sce= sce->id.next;
 	}
 	sprintf(str, "Can't find scene: %s", name);
-	
+
 	error(str);
 }
 
@@ -312,20 +306,20 @@ int next_object(int val, Base **base, Object **ob)
 	static Object *dupob;
 	static int fase;
 	int run_again=1;
-	
+
 	/* init */
 	if(val==0) {
 		fase= F_START;
 		dupob= 0;
 	}
 	else {
-		
+
 		/* run_again is set when a duplilist has been ended */
 		while(run_again) {
 			run_again= 0;
-			
-				
-				
+
+
+
 			/* de eerste base */
 			if(fase==F_START) {
 				*base= FIRSTBASE;
@@ -358,23 +352,23 @@ int next_object(int val, Base **base, Object **ob)
 					}
 				}
 			}
-			
+
 			if(*base == 0) fase= F_START;
 			else {
 				if(fase!=F_DUPLI) {
 					if( (*base)->object->transflag & OB_DUPLI) {
-						
+
 						make_duplilist(G.scene, (*base)->object);
 						dupob= duplilist.first;
-						
+
 					}
 				}
 				/* dupli's afhandelen */
 				if(dupob) {
-					
+
 					*ob= dupob;
 					fase= F_DUPLI;
-					
+
 					dupob= dupob->id.next;
 				}
 				else if(fase==F_DUPLI) {
@@ -382,11 +376,11 @@ int next_object(int val, Base **base, Object **ob)
 					free_duplilist();
 					run_again= 1;
 				}
-				
+
 			}
 		}
 	}
-	
+
 	return fase;
 }
 
