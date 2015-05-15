@@ -702,11 +702,6 @@ void enter_editmode()
 		ok= 1;
 		make_editText();
 	}
-	else if(ob->type==OB_MBALL) {
-		G.obedit= ob;
-		ok= 1;
-		make_editMball();
-	}
 	else if(ob->type==OB_LATTICE) {
 		G.obedit= ob;
 		ok= 1;
@@ -763,10 +758,6 @@ void exit_editmode(int freedata)	/* freedata==0 bij render */
 	else if(G.obedit->type==OB_LATTICE) {
 		load_editLatt();
 		if(freedata) free_editLatt();
-	}
-	else if(G.obedit->type==OB_MBALL) {
-		load_editMball();
-		if(freedata) freelistN(&editelems);
 	}
 
 	ob= G.obedit;
@@ -1283,10 +1274,6 @@ void convertmenu()
 		nr= pupmenu("Convert Font to%t|Curve");
 		if(nr>0) ok= 1;
 	}
-	else if(ob->type==OB_MBALL) {
-		nr= pupmenu("Convert MetaBall to%t|Mesh (keep orginal)");
-		if(nr>0) ok= 1;
-	}
 	else if(ob->type==OB_CURVE) {
 		nr= pupmenu("Convert Curve to%t|Mesh");
 		if(nr>0) ok= 1;
@@ -1353,40 +1340,6 @@ void convertmenu()
 					enter_editmode();
 					exit_editmode(1);
 					BASACT= basact;
-				}
-			}
-			else if(ob->type==OB_MBALL) {
-			
-				if(nr==1) {
-					
-					if(ob->disp.first) {
-					
-						ob->flag |= OB_DONE;
-
-						ob1= copy_object(ob);
-
-						basen= mallocN(sizeof(Base), "duplibase");
-						*basen= *base;
-						addhead(&G.scene->base, basen);	/* addhead: anders oneindige lus */
-						basen->object= ob1;
-						basen->flag &= ~SELECT;
-						
-						mb= ob1->data;
-						mb->id.us--;
-						
-						ob1->data= add_mesh();
-						G.totmesh++;
-						ob1->type= OB_MESH;
-						
-						me= ob1->data;
-						if(ob1->totcol) {
-							me->mat= dupallocN(mb->mat);
-							for(a=0; a<ob1->totcol; a++) id_us_plus((ID *)me->mat[a]);
-						}
-						
-						mball_to_mesh(&ob->disp, ob1->data);
-						
-					}
 				}
 			}
 		}
@@ -1488,11 +1441,10 @@ void copymenu()
 	if(ob->type==OB_CAMERA) camera= ob->data;
 	else camera= 0;
 	
-	if ELEM5(ob->type, OB_MESH, OB_CURVE, OB_SURF, OB_FONT, OB_MBALL) {
+	if ELEM4(ob->type, OB_MESH, OB_CURVE, OB_SURF, OB_FONT) {
 		strcat(str, "|Tex Space%x17");
 		if(ob->type==OB_MESH) poin2= &(((Mesh *)ob->data)->texflag);
 		else if ELEM3(ob->type, OB_CURVE, OB_SURF, OB_FONT) poin2= &(((Curve *)ob->data)->texflag);
-		else if(ob->type==OB_MBALL) poin2= &(((MetaBall *)ob->data)->texflag);
 	}	
 	
 	if(ob->type == OB_FONT) strcat(str, "|Font Settings%x18|Bevel Settings%x19");
@@ -1555,13 +1507,11 @@ void copymenu()
 					poin1= 0;
 					if(obt->type==OB_MESH) poin1= &(((Mesh *)obt->data)->texflag);
 					else if ELEM3(obt->type, OB_CURVE, OB_SURF, OB_FONT) poin1= &(((Curve *)obt->data)->texflag);
-					else if(obt->type==OB_MBALL) poin1= &(((MetaBall *)obt->data)->texflag);					
 					
 					if(poin1) {
 						memcpy(poin1, poin2, 4+12+12+12);
 					
 						if(obt->type==OB_MESH) tex_space_mesh(obt->data);
-						else if(obt->type==OB_MBALL) tex_space_mball(obt);
 						else tex_space_curve(obt->data);
 					}
 				}
@@ -1702,8 +1652,6 @@ void linkmenu()
 		strcat(str, "|Font data%x2|Materials%x3");
 	else if(ob->type==OB_SURF)
 		strcat(str, "|Surf data%x2|Materials%x3");
-	else if(ob->type==OB_MBALL)
-		strcat(str, "|Materials%x3");
 	else if(ob->type==OB_CAMERA)
 		strcat(str, "|Camera data%x2");
 	else if(ob->type==OB_LAMP)
@@ -2166,18 +2114,6 @@ void setbaseflags_for_editing(int mode)	/* 0,'g','r','s' */
 				
 				if( give_parteff(ob) ) base->flag |= BA_DISP_UPDATE;
 				
-				if(ob->type==OB_MBALL) {
-					
-					tr= find_basis_mball(ob);
-					tbase= FIRSTBASE;
-					while(tbase) {
-						if(tbase->object==tr) break;
-						tbase= tbase->next;
-					}
-					if(tbase) {
-						tbase->flag |= BA_DISP_UPDATE;
-					}
-				}
 			}
 		}
 		base= base->next;
@@ -2300,13 +2236,6 @@ void ob_to_tex_transob(Object *ob, TransOb *tob)
 		tob->loc= cu->loc;
 		tob->rot= cu->rot;
 		tob->size= cu->size;
-	}
-	else if( GS(id->name)==ID_MB) {
-		mb= ob->data;
-		mb->texflag &= ~AUTOSPACE;
-		tob->loc= mb->loc;
-		tob->rot= mb->rot;
-		tob->size= mb->size;
 	}
 	
 	VECCOPY(tob->oldloc, tob->loc);
@@ -2563,21 +2492,6 @@ void make_trans_verts(float *min, float *max, int mode)
 			nu= nu->next;
 		}
 	}
-	else if(G.obedit->type==OB_MBALL) {
-		ml= editelems.first;
-		while(ml) {
-			if(ml->flag & SELECT) {
-				tv->loc= &ml->x;
-				VECCOPY(tv->oldloc, tv->loc);
-				tv->val= &(ml->rad);
-				tv->oldval= ml->rad;
-				tv->flag= 1;
-				tv++;
-				tottrans++;
-			}
-			ml= ml->next;
-		}
-	}
 	else if(G.obedit->type==OB_LATTICE) {
 		bp= editLatt->def;
 		
@@ -2748,11 +2662,7 @@ void special_aftertrans_update(char mode, int flip)
 	/* displaylisten e.d. */
 	
 	if(G.obedit) {
-		if(G.obedit->type==OB_MBALL) {
-			mb= G.obedit->data;
-			if(mb->flag != MB_UPDATE_ALWAYS) makeDispList(G.obedit);
-		}
-		else if(G.obedit->type==OB_MESH) {
+		if(G.obedit->type==OB_MESH) {
 			if(flip) flip_editnormals();
 
 			recalc_editnormals();
@@ -2777,10 +2687,6 @@ void special_aftertrans_update(char mode, int flip)
 				}
 			}
 			if(base->flag & BA_DISP_UPDATE) {
-				if(ob->type==OB_MBALL) {
-					mb= ob->data;
-					if(mb->flag != MB_UPDATE_ALWAYS) makeDispList(ob);
-				}
 				if( give_parteff(ob) ) build_particle_system(ob);
 			}
 			if(base->flag & BA_DO_IPO) redrawipo= 1;
@@ -2840,7 +2746,6 @@ void calc_trans_verts()
 		}
 		makeDispList(G.obedit);
 	}
-	else if(G.obedit->type==OB_MBALL) makeDispList(G.obedit);
 }
 
 
@@ -3785,7 +3690,6 @@ void transform(int mode)	/* 'g' 'G' 'r' 'R' 's' 'S' 't' or 'w' */
 							Mat3MulVecfl(smat, vec);
 							VecAddf(tv->loc, vec, centre);
 							
-							if(G.obedit->type==OB_MBALL) *(tv->val)= size[0]*tv->oldval;
 						}
 					}
 					if(mode=='s') 
@@ -4167,9 +4071,6 @@ void single_obdata_users(int flag)
 				case OB_MESH:
 					ob->data= copy_mesh(ob->data);
 					break;
-				case OB_MBALL:
-					ob->data= copy_mball(ob->data);
-					break;
 				case OB_CURVE:
 				case OB_SURF:
 				case OB_FONT:
@@ -4389,14 +4290,6 @@ void single_mat_users_expand()
 		cu= cu->id.next;
 	}
 
-	mb= G.main->mball.first;
-	while(mb) {
-		if(mb->id.flag & LIB_NEW) {
-			new_id_matar(mb->mat, mb->totcol);
-		}
-		mb= mb->id.next;
-	}
-
 	/* material imats  */
 	ma= G.main->mat.first;
 	while(ma) {
@@ -4519,9 +4412,6 @@ void make_local()
 				case OB_MESH:
 					make_local_mesh((Mesh *)id);
 					make_local_key( ((Mesh *)id)->key );
-					break;
-				case OB_MBALL:
-					make_local_mball((MetaBall *)id);
 					break;
 				case OB_CURVE:
 				case OB_SURF:
@@ -4700,16 +4590,6 @@ void adduplicate(float *dtrans)
 					else {
 						obn->data= copy_curve(obn->data);
 						makeDispList(ob);
-						didit= 1;
-					}
-					id->us--;
-				}
-				break;
-			case OB_MBALL:
-				if(dupflag & DUPMBALL) {
-					ID_NEW_US2(obn->data )
-					else {
-						obn->data= copy_mball(obn->data);
 						didit= 1;
 					}
 					id->us--;

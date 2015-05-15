@@ -1048,29 +1048,6 @@ void do_global_buttons2(short event)
 		}
 		break;
 
-	case B_MBALLALONE:
-		if(ob && ob->id.lib==0) {
-			mb= ob->data;
-			if(mb->id.us>1) {
-				if(okee("Single user")) {
-					ob->data= copy_mball(mb);
-					mb->id.us--;
-					if(ob==G.obedit) allqueue(REDRAWVIEW3D, 0);
-				}
-			}
-		}
-		break;
-	case B_MBALLLOCAL:
-		if(ob && ob->id.lib==0) {
-			mb= ob->data;
-			if(mb->id.lib) {
-				if(okee("Make local")) {
-					make_local_mball(mb);
-				}
-			}
-		}
-		break;
-
 	case B_CURVEALONE:
 		if(ob && ob->id.lib==0) {
 			cu= ob->data;
@@ -2704,10 +2681,6 @@ void buts_buttons()
 				alone= B_MESHALONE;
 				local= B_MESHLOCAL;
 				uiSetButLock(G.obedit!=0, "Unable to perform function in EditMode");
-			}
-			else if(ob->type==OB_MBALL) {
-				alone= B_MBALLALONE;
-				local= B_MBALLLOCAL;
 			}
 			else if ELEM3(ob->type, OB_CURVE, OB_FONT, OB_SURF) {
 				alone= B_CURVEALONE;

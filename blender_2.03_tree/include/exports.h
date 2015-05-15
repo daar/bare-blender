@@ -245,10 +245,6 @@ extern void calc_latt_deform(float *co);
 extern int object_deform(Object *ob);
 extern void resizelattice(Lattice *lt);
 
-	/* editmball.c */
-extern ListBase editelems;
-extern void add_primitiveMball(void);
-
 	/* editmesh.c-> edit.h */
 
 	/* editobject.c */
@@ -458,20 +454,6 @@ extern    void new_material_to_objectdata(Object *ob);
 extern    void replace_material(Material *, Material *);
 extern    void test_object_materials(ID *id);
 
-	/* mball.c */
-extern       void accum_mballfaces(int i1, int i2, int i3, int i4);
-extern       MetaBall *add_mball();
-extern       void calc_mballco(MetaElem *ml, float *vec);
-extern       MetaBall *copy_mball(MetaBall *mb);
-extern       Object *find_basis_mball(Object *ob);
-extern       void free_mball(MetaBall *mb);
-extern       float init_meta(Object *ob);
-extern       void make_local_mball(MetaBall *mb);
-extern       void make_orco_mball(Object *ob);
-extern       void metaball_polygonize(Object *ob);
-extern       void tex_space_mball(Object *ob);
-extern       void unlink_mball(MetaBall *mb);
-
 	/* mesh.c */
 extern        Mesh *add_mesh();
 extern        void boundbox_mesh(Mesh *me, float *loc, float *size);
@@ -483,7 +465,6 @@ extern        Mesh *get_other_mesh(Object *ob);
 extern        void make_local_mesh(Mesh *me);
 extern        void make_local_tface(Mesh *me);
 extern        void make_orco_mesh(Mesh *me);
-extern        void mball_to_mesh(ListBase *lb, Mesh *me);
 extern        void nurbs_to_mesh(Object *ob);
 extern        void set_mesh(Object *ob, Mesh *me);
 extern        void test_index_mface(MFace *mface, int nr);

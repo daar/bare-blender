@@ -177,7 +177,6 @@ void tbox_setinfo(int x, int y)
 					case 1: tbstr= "Curve";		tbstr1= ">>";	tbval=OB_CURVE; break;
 					case 2: tbstr= "Surface";	tbstr1= ">>";	tbval=OB_SURF; break;
 					case 3: tbstr= "Text";		tbstr1= "";		tbval=OB_FONT; tbfunc= add_primitiveFont; break;
-					case 4: tbstr= "MetaBall";	tbstr1= "";		tbval=OB_MBALL; tbfunc= add_primitiveMball; break;
 					case 5: tbstr= "Empty";		tbstr1= "A";	tbval=OB_EMPTY; break;
 					case 6: tbstr= "";			tbstr1= "";		tbval=0; break;
 					case 7: tbstr= "Camera";	tbstr1= "A";	tbval=OB_CAMERA; break;
@@ -240,23 +239,6 @@ void tbox_setinfo(int x, int y)
 					case 11: tbstr= ">Duplicate";tbstr1= "D";	break;
 				}
 				if(tbstr1 && tbstr1[0]=='A') tbfunc= add_primitiveCurve;
-			}
-			else if(addmode==OB_MBALL) {
-				switch(y) {
-					case 0: tbstr= "Ball";		tbstr1= "A";	tbval=1; break;
-					case 1: tbstr= "";			tbstr1= "";		break;
-					case 2: tbstr= "";			tbstr1= "";		break;
-					case 3: tbstr= "";			tbstr1= "";		break;
-					case 4: tbstr= "";			tbstr1= "";		break;
-					case 5: tbstr= "";			tbstr1= "";		break;
-					case 6: tbstr= "";			tbstr1= "";		break;
-					case 7: tbstr= "";			tbstr1= "";		break;
-					case 8: tbstr= "";			tbstr1= "";		break;
-					case 9: tbstr= "";			tbstr1= "";		break;
-					case 10: tbstr= "";			tbstr1= "";		break;
-					case 11: tbstr= "Duplicate";tbstr1= "D";	break;
-				}
-				if(tbstr1 && tbstr1[0]=='A') tbfunc= add_primitiveMball;
 			}
 		}
 		

@@ -2595,103 +2595,6 @@ void init_render_mesh(Object *ob)
 
 }
 
-
-void init_render_mball(Object *ob)
-{
-	DispList *dl, *dlo;
-	VertRen *ver;
-	VlakRen *vlr, *vlr1;
-	Material *ma;
-	float *data, *nors, mat[4][4], imat[3][3], xn, yn, zn;
-	int a, need_orco, startvlak, startvert, *index;
-
-	MTC_Mat4MulMat4(mat, ob->obmat, R.viewmat);
-	MTC_Mat4Invert(ob->imat, mat);
-	MTC_Mat3CpyMat4(imat, ob->imat);
-
-	if( has_id_number((ID *)ob) ) return;
-
-	ma= give_render_material(ob, 1);
-	if(ma==0) ma= &defmaterial;
-
-	need_orco= 0;
-	if(ma->ren->texco & TEXCO_ORCO) {
-		need_orco= 1;
-	}
-
-	dlo= ob->disp.first;
-	if(dlo) remlink(&ob->disp, dlo);
-
-	makeDispList(ob);
-	dl= ob->disp.first;
-	if(dl==0) return;
-
-	startvert= R.totvert;
-	data= dl->verts;
-	nors= dl->nors;
-
-	for(a=0; a<dl->nr; a++, data+=3, nors+=3) {
-
-		ver= addvert(R.totvert++);
-		VECCOPY(ver->co, data);
-		MTC_Mat4MulVecfl(mat, ver->co);
-
-		/* rendernormalen zijn omgekeerd */
-		xn= -nors[0];
-		yn= -nors[1];
-		zn= -nors[2];
-
-		/* transpose ! */
-		ver->n[0]= imat[0][0]*xn+imat[0][1]*yn+imat[0][2]*zn;
-		ver->n[1]= imat[1][0]*xn+imat[1][1]*yn+imat[1][2]*zn;
-		ver->n[2]= imat[2][0]*xn+imat[2][1]*yn+imat[2][2]*zn;
-		Normalise(ver->n);
-
-		if(need_orco) ver->orco= data;
-	}
-
-	startvlak= R.totvlak;
-	index= dl->index;
-	for(a=0; a<dl->parts; a++, index+=4) {
-
-		vlr= addvlak(R.totvlak++);
-		vlr->v1= addvert(startvert+index[0]);
-		vlr->v2= addvert(startvert+index[1]);
-		vlr->v3= addvert(startvert+index[2]);
-		vlr->v4= 0;
-
-		/* rendernormalen zijn omgekeerd */
-		vlr->len= CalcNormFloat(vlr->v3->co, vlr->v2->co, vlr->v1->co, vlr->n);
-
-		vlr->mface= 0;
-		vlr->mat= ma;
-		vlr->puno= 0;
-		vlr->flag= ME_SMOOTH+R_NOPUNOFLIP;
-		vlr->ec= 0;
-		vlr->lay= ob->lay;
-
-		/* mball -helaas- altijd driehoeken maken omdat vierhoeken erg onregelmatig zijn */
-		if(index[3]) {
-			vlr1= addvlak(R.totvlak++);
-			*vlr1= *vlr;
-			vlr1->v2= vlr1->v3;
-			vlr1->v3= addvert(startvert+index[3]);
-			vlr->len= CalcNormFloat(vlr1->v3->co, vlr1->v2->co, vlr1->v1->co, vlr1->n);
-		}
-	}
-
-	if(need_orco) {
-		/* displist bewaren en scalen */
-		make_orco_mball(ob);
-		if(dlo) addhead(&ob->disp, dlo);
-
-	}
-	else {
-		freedisplist(&ob->disp);
-		if(dlo) addtail(&ob->disp, dlo);
-	}
-}
-
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 int panotestclip(float *v)
@@ -3343,14 +3246,6 @@ void freeroteerscene()
 				me->orco= 0;
 			}
 		}
-		else if(ob->type==OB_MBALL) {
-			if(ob->disp.first && ob->disp.first!=ob->disp.last) {
-				dl= ob->disp.first;
-				remlink(&ob->disp, dl);
-				freedisplist(&ob->disp);
-				addtail(&ob->disp, dl);
-			}
-		}
 		ob= ob->id.next;
 	}
 
@@ -3525,8 +3420,6 @@ void init_render_object(Object *ob)
 		init_render_surf(ob);
 	else if(ob->type==OB_MESH)
 		init_render_mesh(ob);
-	else if(ob->type==OB_MBALL)
-		init_render_mball(ob);
 	else {
 		MTC_Mat4MulMat4(mat, ob->obmat, R.viewmat);
 		MTC_Mat4Invert(ob->imat, mat);
@@ -3687,10 +3580,7 @@ void roteerscene()
 
 					/* exception: mballs! */
 					make_duplilist(sce, ob);
-					if(ob->type==OB_MBALL) {
-						init_render_object(ob);
-					}
-					else {
+					{
 						obd= duplilist.first;
 						if(obd) {
 							/* exception, in background render it doesnt make the displist */
@@ -3704,12 +3594,6 @@ void roteerscene()
 									obd->flag |= OB_FROMDUPLI;
 								}
 							}
-						}
-					
-						obd= duplilist.first;
-						while(obd) {
-							if(obd->type!=OB_MBALL) init_render_object(obd);
-							obd= obd->id.next;
 						}
 					}
 					free_duplilist();

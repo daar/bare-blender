@@ -2005,7 +2005,6 @@ int groupname_to_code(char *group)
 	if(strncmp(group, "Object", 6)==0) return ID_OB;
 	if(strncmp(group, "Mesh", 4)==0) return ID_ME;
 	if(strncmp(group, "Curve", 5)==0) return ID_CU;
-	if(strncmp(group, "Metaball", 8)==0) return ID_MB;
 	if(strncmp(group, "Material", 8)==0) return ID_MA;
 	if(strncmp(group, "Texture", 7)==0) return ID_TE;
 	if(strncmp(group, "Image", 5)==0) return ID_IM;
@@ -2032,7 +2031,6 @@ char *code_to_groupname(int code)
 		case ID_OB: str= "Object/"; break;
 		case ID_ME: str= "Mesh/"; break;
 		case ID_CU: str= "Curve/"; break;
-		case ID_MB: str= "Metaball/"; break;
 		case ID_MA: str= "Material/"; break;
 		case ID_TE: str= "Texture/"; break;
 		case ID_IM: str= "Image/"; break;
@@ -2199,7 +2197,6 @@ void library_to_filelist(SpaceFile *sfile)
 					case ID_OB: str= "Object"; break;
 					case ID_ME: str= "Mesh"; break;
 					case ID_CU: str= "Curve"; break;
-					case ID_MB: str= "Metaball"; break;
 					case ID_MA: str= "Material"; break;
 					case ID_TE: str= "Texture"; break;
 					case ID_IP: str= "Ipo"; break;

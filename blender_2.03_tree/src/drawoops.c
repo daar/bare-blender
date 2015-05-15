@@ -144,8 +144,6 @@ void draw_icon_oops(float *co, short type)
 		rect+= 40; break;
 	case ID_CU:
 		rect+= 60; break;
-	case ID_MB:
-		rect+= 80; break;
 	case ID_LT:
 		rect+= 100; break;
 	case ID_LA:

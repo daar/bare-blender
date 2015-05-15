@@ -98,7 +98,6 @@ void free_object(Object *ob)
 		if(id->us==0) {
 			if(ob->type==OB_MESH) unlink_mesh(ob->data);
 			else if(ob->type==OB_CURVE) unlink_curve(ob->data);
-			else if(ob->type==OB_MBALL) unlink_mball(ob->data);
 		}
 		ob->data= 0;
 	}
@@ -250,13 +249,7 @@ void free_object_fromscene(Object *ob)
 		}
 		tex= tex->id.next;
 	}
-	
-	/* mballs */
-	if(ob->type==OB_MBALL) {
-		obt= find_basis_mball(ob);
-		if(obt) freedisplist(&obt->disp);
-	}
-	
+		
 	/* worlds */
 	wrld= G.main->world.first;
 	while(wrld) {
@@ -530,7 +523,7 @@ void *add_wave()
 
 /* **************** VOORKEUR NAMEN ************** */
 
-char *n_mesh=0, *n_curve=0, *n_mball=0, *n_surf=0, *n_font=0, *n_lamp=0, *n_camera=0;
+char *n_mesh=0, *n_curve=0, *n_surf=0, *n_font=0, *n_lamp=0, *n_camera=0;
 
 void set_obact_names(Object *ob)
 {
@@ -541,8 +534,6 @@ void set_obact_names(Object *ob)
 		n_mesh= ob->id.name+2; break;
 	case OB_CURVE:
 		n_curve= ob->id.name+2; break;
-	case OB_MBALL:
-		n_mball= ob->id.name+2; break;
 	case OB_SURF:
 		n_surf= ob->id.name+2; break;
 	case OB_FONT:
@@ -556,7 +547,7 @@ void set_obact_names(Object *ob)
 
 void clear_obact_names()
 {
-	 n_mesh= n_curve= n_mball= n_surf= n_font= n_lamp= n_camera= 0;
+	 n_mesh= n_curve= n_surf= n_font= n_lamp= n_camera= 0;
 }
 
 
@@ -586,7 +577,6 @@ Object *add_object(int type)
 		case OB_CURVE: if(n_curve) strcpy(name, n_curve); else strcpy(name, "Curve"); break;
 		case OB_SURF: if(n_surf) strcpy(name, n_surf); else strcpy(name, "Surf"); break;
 		case OB_FONT: if(n_font) strcpy(name, n_font); else strcpy(name, "Text"); break;
-		case OB_MBALL: if(n_mball) strcpy(name, n_mball); else strcpy(name, "Mball"); break;
 		case OB_CAMERA: if(n_camera) strcpy(name, n_camera); else strcpy(name, "Camera"); break;
 		case OB_LAMP: if(n_lamp) strcpy(name, n_lamp); else strcpy(name, "Lamp"); break;
 		case OB_IKA: strcpy(name, "Ika"); break;
@@ -647,7 +637,6 @@ Object *add_object(int type)
 		case OB_CURVE: ob->data= add_curve(OB_CURVE); G.totcurve++; break;
 		case OB_SURF: ob->data= add_curve(OB_SURF); G.totcurve++; break;
 		case OB_FONT: ob->data= add_curve(OB_FONT); break;
-		case OB_MBALL: ob->data= add_mball(); break;
 		case OB_CAMERA: ob->data= add_camera(); break;
 		case OB_LAMP: ob->data= add_lamp(); G.totlamp++; break;
 		case OB_IKA: ob->data= add_ika(); ob->dt= OB_WIRE; break;

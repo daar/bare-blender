@@ -966,42 +966,6 @@ void direct_link_key(Key *key)
 	}
 }
 
-/* ************ READ mball ***************** */
-
-void lib_link_mball(Main *main)
-{
-	MetaBall *mb;
-	int a;
-	
-	mb= main->mball.first;
-	while(mb) {
-		if(mb->id.flag & LIB_NEEDLINK) {
-			
-			for(a=0; a<mb->totcol; a++) mb->mat[a]= newlibadr_us(mb->id.lib, mb->mat[a]);
-
-			mb->ipo= newlibadr_us(mb->id.lib, mb->ipo);
-
-			mb->id.flag -= LIB_NEEDLINK;
-		}
-		mb= mb->id.next;
-	}
-	
-}
-
-void direct_link_mball(MetaBall *mb)
-{
-
-	mb->mat= newadr(mb->mat);
-	test_pointer_array((void **)&mb->mat);
-
-	link_list(&(mb->elems));
-	
-	mb->disp.first= mb->disp.last= 0;
-	
-	mb->bb= 0;
-
-}
-
 /* ************ READ WORLD ***************** */
 
 void lib_link_world(Main *main)
@@ -2098,9 +2062,6 @@ int read_libblock(Main *main, BHead *bhead, int flag)
 		case ID_CU:
 			direct_link_curve((Curve *)id);
 			break;
-		case ID_MB:
-			direct_link_mball((MetaBall *)id);
-			break;
 		case ID_MA:
 			direct_link_material((Material *)id);
 			break;
@@ -2820,7 +2781,6 @@ void lib_link_all(Main *main)
 	lib_link_scene(main);
 	lib_link_object(main);
 	lib_link_curve(main);
-	lib_link_mball(main);
 	lib_link_material(main);
 	lib_link_texture(main);
 	lib_link_image(main);
@@ -3556,16 +3516,6 @@ void expand_world(Main *main, char *filedata, World *wrld)
 	expand_doit(main, filedata, wrld->ipo);
 }
 
-
-void expand_mball(Main *main, char *filedata, MetaBall *mb)
-{
-	int a;
-	
-	for(a=0; a<mb->totcol; a++) {
-		expand_doit(main, filedata, mb->mat[a]);
-	}
-}
-
 void expand_curve(Main *main, char *filedata, Curve *cu)
 {
 	int a;
@@ -3666,9 +3616,6 @@ void expand_main(Main *main, char *filedata)
 						break;
 					case ID_CU:
 						expand_curve(main, filedata, (Curve *)id);
-						break;
-					case ID_MB:
-						expand_mball(main, filedata, (MetaBall *)id);
 						break;
 					case ID_SCE:
 						expand_scene(main, filedata, (Scene *)id);

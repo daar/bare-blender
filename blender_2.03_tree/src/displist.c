@@ -549,9 +549,6 @@ void shadeDispList(Object *ob)
 	dldeform= find_displist(&ob->disp, DL_VERTS);
 	if(dldeform) remlink(&ob->disp, dldeform);
 	
-	/* Metaballs hebben de standaard displist aan het Object zitten */
-	if(ob->type!=OB_MBALL) freedisplist(&ob->disp);
-
 	if((R.flag & R_RENDERING)==0) {
 		need_orco= 0;
 		for(a=0; a<ob->totcol; a++) {
@@ -807,45 +804,6 @@ void shadeDispList(Object *ob)
 			dl= dl->next;
 		}
 	}
-	else if(ob->type==OB_MBALL) {
-		/* normalen zijn er al */
-		mb= ob->data;
-		dl= ob->disp.first;
-		
-		while(dl) {
-			
-			if(dl->type==DL_INDEX4) {
-				if(dl->nors) {
-					
-					if(dl->col1) freeN(dl->col1);
-					col1= dl->col1= mallocN(sizeof(int)*dl->nr, "col1");
-			
-					ma= give_current_material(ob, dl->col+1);
-					if(ma==0) ma= &defmaterial;
-	
-					fp= dl->verts;
-					nor= dl->nors;
-					
-					a= dl->nr;		
-					while(a--) {
-						VECCOPY(vec, fp);
-						Mat4MulVecfl(mat, vec);
-						
-						/* transpose ! */
-						n1[0]= imat[0][0]*nor[0]+imat[0][1]*nor[1]+imat[0][2]*nor[2];
-						n1[1]= imat[1][0]*nor[0]+imat[1][1]*nor[1]+imat[1][2]*nor[2];
-						n1[2]= imat[2][0]*nor[0]+imat[2][1]*nor[1]+imat[2][2]*nor[2];
-						Normalise(n1);
-					
-						fastshade(vec, n1, fp, ma, (char *)col1, 0, 0);
-						
-						fp+= 3; col1++; nor+= 3;
-					}
-				}
-			}
-			dl= dl->next;
-		}
-	}
 	
 	if((R.flag & R_RENDERING)==0) {
 		for(a=0; a<ob->totcol; a++) {
@@ -877,8 +835,7 @@ void reshadeall_displist()
 			if(dldeform) remlink(&ob->disp, dldeform);
 			
 			/* Metaballs hebben de standaard displist aan het Object zitten */
-			if(ob->type==OB_MBALL) shadeDispList(ob);
-			else freedisplist(&ob->disp);
+			freedisplist(&ob->disp);
 			
 			if(dldeform) addtail(&ob->disp, dldeform);
 		}
@@ -1172,21 +1129,6 @@ void makeDispList(Object *ob)
 			}
 			else if(me->flag & ME_SMESH) {
 				make_s_mesh(ob);
-		}
-	}
-	else if(ob->type==OB_MBALL) {
-
-		if( has_id_number((ID *)ob)==0 ) {
-			
-			metaball_polygonize(ob);
-			tex_space_mball(ob);
-		}
-		else if(ob==G.obedit) {
-			ob= find_basis_mball(ob);
-			if(ob==0) return;
-
-			metaball_polygonize(ob);
-			tex_space_mball(ob);
 		}
 	}
 	else if(ob->type==OB_SURF) {
@@ -1857,10 +1799,7 @@ void test_all_displists()
 		if(base->lay & lay) {
 			ob= base->object;
 			
-			if(ob->type==OB_MBALL && ob->ipo) {
-				if(ob->disp.first) makeDispList(ob);
-			}
-			else if(ob->parent) {
+			if(ob->parent) {
 				if ELEM(ob->parent->type, OB_LATTICE, OB_IKA) makeDispList(ob);
 			}
 

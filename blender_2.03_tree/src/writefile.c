@@ -571,30 +571,6 @@ void write_cameras(ListBase *idbase)
 	}
 }
 
-void write_mballs(ListBase *idbase)
-{
-	MetaBall *mb;
-	MetaElem *ml;
-	
-	mb= idbase->first;
-	while(mb) {
-		if(mb->id.us>0) {
-			/* schrijf LibData */
-			writestruct(ID_MB, "MetaBall", 1, mb);
-			
-			/* alle direkte data */
-			writedata(DATA, sizeof(void *)*mb->totcol, mb->mat);
-			
-			ml= mb->elems.first;
-			while(ml) {
-				writestruct(DATA, "MetaElem", 1, ml);
-				ml= ml->next;
-			}
-		}
-		mb= mb->id.next;
-	}
-}
-
 void write_curves(ListBase *idbase)
 {
 	Curve *cu;
@@ -1187,7 +1163,6 @@ void write_file(char *dir)
 	write_objects(&G.main->object);
 	write_meshs(&G.main->mesh);
 	write_curves(&G.main->curve);
-	write_mballs(&G.main->mball);
 	write_materials(&G.main->mat);
 	write_textures(&G.main->tex);
 	write_images(&G.main->image);

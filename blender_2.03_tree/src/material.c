@@ -164,19 +164,6 @@ void make_local_material(Material *ma)
 		}
 		cu= cu->id.next;
 	}
-	/* test mballs */
-	mb= G.main->mball.first;
-	while(mb) {
-		if(mb->mat) {
-			for(a=0; a<mb->totcol; a++) {
-				if(mb->mat[a]==ma) {
-					if(mb->id.lib) lib= 1;
-					else local= 1;
-				}
-			}
-		}
-		mb= mb->id.next;
-	}
 	
 	if(local && lib==0) {
 		ma->id.lib= 0;
@@ -240,22 +227,6 @@ void make_local_material(Material *ma)
 			}
 			cu= cu->id.next;
 		}
-		/* do mballs */
-		mb= G.main->mball.first;
-		while(mb) {
-			if(mb->mat) {
-				for(a=0; a<mb->totcol; a++) {
-					if(mb->mat[a]==ma) {
-						if(mb->id.lib==0) {
-							mb->mat[a]= man;
-							man->id.us++;
-							ma->id.us--;
-						}
-					}
-				}
-			}
-			mb= mb->id.next;
-		}
 	}
 }
 
@@ -273,10 +244,6 @@ Material ***give_matarar(Object *ob)
 		cu= ob->data;
 		return &(cu->mat);
 	}
-	else if(ob->type==OB_MBALL) {
-		mb= ob->data;
-		return &(mb->mat);
-	}
 	return 0;
 }
 
@@ -293,10 +260,6 @@ short *give_totcolp(Object *ob)
 	else if ELEM3(ob->type, OB_CURVE, OB_FONT, OB_SURF) {
 		cu= ob->data;
 		return &(cu->totcol);
-	}
-	else if(ob->type==OB_MBALL) {
-		mb= ob->data;
-		return &(mb->totcol);
 	}
 	return 0;
 }
@@ -359,10 +322,6 @@ void test_object_materials(ID *id)
 	else if( GS(id->name)==ID_CU ) {
 		cu= (Curve *)id;
 		totcol= cu->totcol;
-	}
-	else if( GS(id->name)==ID_MB ) {
-		mb= (MetaBall *)id;
-		totcol= mb->totcol;
 	}
 	else return;
 

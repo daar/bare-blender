@@ -1895,29 +1895,7 @@ void drawDispList(Object *ob, int dt)
 			drawDispListwire(lb);
 		}
 		break;
-	case OB_MBALL:
-
-		lb= &ob->disp;
-		if(lb->first==0) makeDispList(ob);
-
-		if(solid) {
-			
-			if(dt==OB_SHADED) {
-				dl= lb->first;
-				if(dl && dl->col1==0) shadeDispList(ob);
-				drawDispListshaded(lb, ob);
-			}
-			else {
-				init_gl_materials(ob);
-				two_sided(0);
-			
-				drawDispListsolid(lb, ob);
-			}
-		}
-		else drawDispListwire(lb);
-		break;
 	}
-	
 }
 
 /* ******************************** */
@@ -2670,48 +2648,6 @@ void drawcircball(float *cent, float rad, float tmat[][4])
 	glEnd();
 }
 
-void drawmball(Object *ob, int dt)
-{
-	MetaBall *mb;
-	MetaElem *ml;
-	float imat[4][4], tmat[4][4];
-	int code= 1;
-	
-	mb= ob->data;
-
-	if(ob==G.obedit) {
-		cpack(0x0);
-		if((G.f & G_PICKSEL)==0 ) drawDispList(ob, dt);
-		ml= editelems.first;
-	}
-	else {
-		drawDispList(ob, dt);
-		ml= mb->elems.first;
-	}
-
-	getmatrix(tmat);
-	Mat4Invert(imat, tmat);
-	Normalise(imat[0]);
-	Normalise(imat[1]);
-	
-	while(ml) {
-		
-		if(ob==G.obedit) {
-			if(ml->flag & SELECT) cpack(0xA0A0F0);
-			else cpack(0x3030A0);
-			
-			if(G.f & G_PICKSEL) {
-				ml->selcol= code;
-				glLoadName(code++);
-			}
-		}
-		drawcircball(&(ml->x), ml->rad, imat);
-		
-		ml= ml->next;
-	}
-
-}
-
 void draw_bb_box(BoundBox *bb)
 {
 	float *vec;
@@ -2753,9 +2689,7 @@ void get_local_bounds(Object *ob, float *centre, float *size)
 	else if ELEM3(ob->type, OB_CURVE, OB_SURF, OB_FONT) {
 		bb= ( (Curve *)ob->data )->bb;
 	}
-	else if(ob->type==OB_MBALL) {
-		bb= ob->bb;
-	}
+	
 	if(bb==NULL) {
 		centre[0]= centre[1]= centre[2]= 0.0;
 		VECCOPY(size, ob->size);
@@ -2829,13 +2763,6 @@ void draw_bounding_volume(Object *ob)
 			bb= ( (Curve *)ob->data )->bb;
 		}
 	}
-	else if(ob->type==OB_MBALL) {
-		bb= ob->bb;
-		if(bb==0) {
-			makeDispList(ob);
-			bb= ob->bb;
-		}
-	}
 	else {
 		drawcube();
 		return;
@@ -2865,11 +2792,6 @@ void drawtexspace(Object *ob)
 		cu= ob->data;
 		size= cu->size;
 		loc= cu->loc;
-	}
-	else if(ob->type==OB_MBALL) {
-		mb= ob->data;
-		size= mb->size;
-		loc= mb->loc;
 	}
 	else return;
 	
@@ -3069,11 +2991,6 @@ void draw_object(Base *base)
 
 	if( (G.f & G_DRAW_EXT) && dt>OB_WIRE) {
 		
-		switch( ob->type) {
-		case OB_MBALL:
-			drawmball(ob, dt);
-			break;
-		}
 	}
 	else {
 
@@ -3143,11 +3060,6 @@ void draw_object(Base *base)
 			else if(dt==OB_BOUNDBOX) draw_bounding_volume(ob);
 			else if(boundbox_clip(ob->obmat, cu->bb)) drawDispList(ob, dt);
 			
-			break;
-		case OB_MBALL:
-			if(ob==G.obedit) drawmball(ob, dt);
-			else if(dt==OB_BOUNDBOX) draw_bounding_volume(ob);
-			else drawmball(ob, dt);
 			break;
 		case OB_EMPTY:
 			drawaxes(1.0);

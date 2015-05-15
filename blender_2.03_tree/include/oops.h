@@ -67,7 +67,6 @@ extern void mysbox(float x1, float y1, float x2, float y2);
 extern        void add_curve_oopslinks(Curve *cu, Oops *oops, short flag);
 extern        void add_from_link(Oops *from, Oops *oops);
 extern        void add_material_oopslinks(Material *ma, Oops *oops, short flag);
-extern        void add_mball_oopslinks(MetaBall *mb, Oops *oops, short flag);
 extern        void add_mesh_oopslinks(Mesh *me, Oops *oops, short flag);
 extern        void add_object_oopslinks(Object *ob, Oops *oops, short flag);
 extern        Oops *add_oops(void *id);

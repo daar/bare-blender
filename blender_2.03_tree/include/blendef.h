@@ -326,7 +326,6 @@ typedef struct {
 #define B_WORLDLOCAL	28
 #define B_WORLDALONE	29
 #define B_LATTLOCAL		30
-#define B_MBALLLOCAL	31
 #define B_CAMERALOCAL	32
 #define B_OBLOCAL		33
 #define B_IPOLOCAL		34
@@ -337,7 +336,6 @@ typedef struct {
 #define B_CURVELOCAL	39
 
 #define B_LATTALONE		40
-#define B_MBALLALONE	41
 #define B_CAMERAALONE	42
 #define B_OBALONE		43
 #define B_IPOALONE		44
@@ -568,7 +566,6 @@ typedef struct {
 #define OOPS_OB		2
 #define OOPS_ME		4
 #define OOPS_CU		8
-#define OOPS_MB		16
 #define OOPS_LT		32
 #define OOPS_LA		64
 #define OOPS_MA		128
@@ -601,7 +598,6 @@ typedef struct {
 #define ID_OB	MAKE_ID2('O', 'B')
 #define ID_ME	MAKE_ID2('M', 'E')
 #define ID_CU	MAKE_ID2('C', 'U')
-#define ID_MB	MAKE_ID2('M', 'B')
 #define ID_MA	MAKE_ID2('M', 'A')
 #define ID_TE	MAKE_ID2('T', 'E')
 #define ID_IM	MAKE_ID2('I', 'M')
@@ -659,7 +655,6 @@ typedef struct {
 #define OB_CURVE		2
 #define OB_SURF			3
 #define OB_FONT			4
-#define OB_MBALL		5
 
 #define OB_LAMP			10
 #define OB_CAMERA		11
@@ -1291,7 +1286,6 @@ typedef struct {
 #define DUPCURVE		2
 #define DUPSURF			4
 #define DUPFONT			8
-#define DUPMBALL		16
 #define DUPLAMP			32
 #define DUPIPO			64
 #define DUPMAT			128

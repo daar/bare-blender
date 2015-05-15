@@ -22,12 +22,12 @@
 
 
 /*  library.c   aug 94     MIXED MODEL
- * 
+ *
  *  jan 95
- * 
+ *
  *  afhandeling ID's en libraries
  *  allocceren en vrijgeven alle library data
- * 
+ *
  * Version: $Id: library.c,v 1.10 2000/09/17 19:07:20 ton Exp $
  */
 
@@ -49,12 +49,12 @@ void id_lib_extern(ID *id)
 			id->flag |= LIB_EXTERN;
 		}
 	}
-	
+
 }
 
 void id_us_plus(ID *id)
 {
-	
+
 	if(id) {
 		id->us++;
 		if(id->flag & LIB_INDIRECT) {
@@ -68,7 +68,7 @@ void id_us_plus(ID *id)
 ListBase *wich_libbase(Main *main, short type)
 {
 	switch( type ) {
-	
+
 		case ID_SCE:
 			return &(main->scene);
 		case ID_LI:
@@ -79,8 +79,6 @@ ListBase *wich_libbase(Main *main, short type)
 			return &(main->mesh);
 		case ID_CU:
 			return &(main->curve);
-		case ID_MB:
-			return &(main->mball);
 		case ID_MA:
 			return &(main->mat);
 		case ID_TE:
@@ -126,29 +124,28 @@ int set_listbasepointers(Main *main, ListBase **lb)
 	lb[3]= &(main->tex);
 	lb[4]= &(main->mat);
 	lb[5]= &(main->vfont);
-	
+
 	lb[6]= &(main->mesh);
 	lb[7]= &(main->curve);
-	lb[8]= &(main->mball);
-	lb[9]= &(main->ika);
-	lb[10]= &(main->wave);
-	lb[11]= &(main->latt);
-	lb[12]= &(main->lamp);
-	lb[13]= &(main->camera);
+	lb[8]= &(main->ika);
+	lb[9]= &(main->wave);
+	lb[10]= &(main->latt);
+	lb[11]= &(main->lamp);
+	lb[12]= &(main->camera);
 
-	lb[14]= &(main->world);
-	lb[15]= &(main->screen);
-	lb[16]= &(main->object);
-	lb[17]= &(main->scene);
-	lb[18]= &(main->library);
+	lb[13]= &(main->world);
+	lb[14]= &(main->screen);
+	lb[15]= &(main->object);
+	lb[16]= &(main->scene);
+	lb[17]= &(main->library);
 
-	lb[19]= &(main->text);
-	lb[20]= &(main->group);
-	return 21;
+	lb[18]= &(main->text);
+	lb[19]= &(main->group);
+	return 19;
 }
 
 /* *********** ALLOC EN FREE *****************
-  
+
 free_libblock(ListBase *lb, ID *id )
 	lijstbasis en datablok geven, alleen ID wordt uitgelezen
 
@@ -164,7 +161,7 @@ int new_id(ListBase *lb, ID *id, char *name);
 ID *alloc_libblock_notest(short type)
 {
 	ID *id= 0;
-	
+
 	switch( type ) {
 		case ID_SCE:
 			id= callocN(sizeof(Scene), "scene");
@@ -180,9 +177,6 @@ ID *alloc_libblock_notest(short type)
 			break;
 		case ID_CU:
 			id= callocN(sizeof(Curve), "curve");
-			break;
-		case ID_MB:
-			id= callocN(sizeof(MetaBall), "mball");
 			break;
 		case ID_MA:
 			id= callocN(sizeof(Material), "mat");
@@ -236,7 +230,7 @@ ID *alloc_libblock_notest(short type)
 void *alloc_libblock(ListBase *lb, short type, char *name)
 {
 	ID *id= 0, *idtest;
-	
+
 	id= alloc_libblock_notest(type);
 	if(id) {
 		addtail(lb, id);
@@ -245,7 +239,7 @@ void *alloc_libblock(ListBase *lb, short type, char *name)
 		new_id(lb, id, name);
 
 		/* alfabetisch opnieuw invoegen: zit in new_id */
-		
+
 	}
 	return id;
 }
@@ -256,12 +250,12 @@ void *copy_libblock(void *rt)
 	ID *idn, *id;
 	ListBase *lb;
 	char *cp, *cpn;
-	
+
 	id= rt;
 
 	lb= wich_libbase(G.main, GS(id->name));
 	idn= alloc_libblock(lb, GS(id->name), id->name+2);
-	
+
 	memh= (MemHead *)idn;
 	memh--;
 	if(memh->len - sizeof(ID) > 0) {
@@ -269,10 +263,10 @@ void *copy_libblock(void *rt)
 		cpn= (char *)idn;
 		memcpy(cpn+sizeof(ID), cp+sizeof(ID), memh->len - sizeof(ID));
 	}
-	
+
 	id->newid= idn;
 	idn->flag |= LIB_NEW;
-	
+
 	return idn;
 }
 
@@ -285,7 +279,7 @@ void free_library(Library *lib)
 void free_libblock(ListBase *lb, void *idv)
 {
 	ID *id= idv;
-	
+
 	switch( GS(id->name) ) {	/* GetShort uit util.h */
 		case ID_SCE:
 			free_scene((Scene *)id);
@@ -301,9 +295,6 @@ void free_libblock(ListBase *lb, void *idv)
 			break;
 		case ID_CU:
 			free_curve((Curve *)id);
-			break;
-		case ID_MB:
-			free_mball((MetaBall *)id);
 			break;
 		case ID_MA:
 			free_material((Material *)id);
@@ -361,7 +352,7 @@ void free_libblock(ListBase *lb, void *idv)
 void free_libblock_us(ListBase *lb, void *idv)		/* test users */
 {
 	ID *id= idv;
-	
+
 	id->us--;
 
 	if(id->us<0) {
@@ -378,13 +369,13 @@ void free_libblock_us(ListBase *lb, void *idv)		/* test users */
 void free_liblist(ListBase *lb)
 {
 	ID *id, *nid;
-	
+
 	id= lb->first;
 	while(id) {
 		nid= id->next;
 
 		free_libblock(lb, id);
-		
+
 		id= nid;
 	}
 }
@@ -410,10 +401,10 @@ void free_main(ListBase *lb, Main *main)
 	/* extra: copybuf vrijgeven */
 	free_matcopybuf();
 
-	/* hangende vars voorkomen */	
+	/* hangende vars voorkomen */
 	R.backbuf= 0;
 	G.scene= 0;
-	
+
 	/* force all queues to be left */
 	winqueue_break= 1;
 }
@@ -421,13 +412,13 @@ void free_main(ListBase *lb, Main *main)
 void free_mainlist()
 {
 	struct Main *main, *nmain;
-	
+
 	main= G.mainbase.first;
 	while(main) {
 		nmain= main->next;
-		
+
 		free_main(&G.mainbase, main);
-		
+
 		main= nmain;
 	}
 
@@ -437,7 +428,7 @@ void add_main_to_main(Main *main, Main *from)
 {
 	ListBase *lbarray[30], *fromarray[30];
 	int a;
-	
+
 	a= set_listbasepointers(main, lbarray);
 	a= set_listbasepointers(from, fromarray);
 	while(a--) {
@@ -448,7 +439,7 @@ void add_main_to_main(Main *main, Main *from)
 void join_main()
 {
 	Main *main, *nmain;
-	
+
 	main= G.main->next;
 	while(main) {
 		nmain= main->next;
@@ -457,7 +448,7 @@ void join_main()
 		freeN(main);
 		main= nmain;
 	}
-	
+
 }
 
 void split_libdata(ListBase *lb, Main *first)
@@ -465,7 +456,7 @@ void split_libdata(ListBase *lb, Main *first)
 	ListBase *lbn;
 	ID *id, *idnext;
 	Main *main;
-	
+
 	id= lb->first;
 	while(id) {
 		idnext= id->next;
@@ -492,24 +483,24 @@ void split_main()
 	Main *main, *next;
 	Library *lib;
 	int a;
-	
+
 	if(G.mainbase.first!=G.mainbase.last) {
 		printf("error split main\n");
 		return;
 	}
-	
+
 	lib= G.main->library.first;
 	if(lib) {
-	
+
 		while(lib) {
 			main= callocN(sizeof(Main), "newmain");
 			addtail(&G.mainbase, main);
 			main->curlib= lib;
 			lib= lib->id.next;
 		}
-		
+
 		next= G.main->next;
-		
+
 		a= set_listbasepointers(G.main, lbarray);
 		while(a--) {
 			split_libdata(lbarray[a], next);
@@ -521,20 +512,20 @@ Main *find_main(char *dir)
 {
 	Main *main;
 	Library *lib;
-	
+
 	main= G.mainbase.first;
 	while(main) {
 		if(main->curlib) {
 			if(strcmp(dir, main->curlib->name)==0) return main;
 		}
 		else if(strcmp(dir, main->name)==0) return main;
-		
+
 		main= main->next;
 	}
 
 	main= callocN(sizeof(Main), "findmain");
 	addtail(&G.mainbase, main);
-	
+
 	lib= alloc_libblock(&(main->library), ID_LI, "lib");
 	strcpy(lib->name, dir);
 	main->curlib= lib;
@@ -564,9 +555,9 @@ ID *find_id(char *type, char *name)		/* type: "OB" of "MA" etc */
 {
 	ID *id;
 	ListBase *lb;
-	
+
 	lb= wich_libbase(G.main, GS(type));
-	
+
 	id= lb->first;
 	while(id) {
 		if( strcmp(id->name+2, name)==0 ) return id;
@@ -581,12 +572,12 @@ void IDnames_to_pupstring_nr(char **str, ListBase *lb, ID *link, short *nr, shor
 	ID *id;
 	int fake, len=50, count;
 	char extra[8];
-	
+
 	*nr= -1;
-	
+
 	/* sym[0]= 171; sym[1]= 0; */
 	extra[3]= 0;
-	
+
 	/* lengte berekenen, doe er 30 bij voor evt extra item */
 	id= lb->first;
 	count= 0;
@@ -596,23 +587,23 @@ void IDnames_to_pupstring_nr(char **str, ListBase *lb, ID *link, short *nr, shor
 		if(count>maxpup) break;
 		id= id->next;
 	}
-	
+
 	if(count>maxpup) {
 		*str= mallocN(40, "IDnames_pup");
 		strcpy(*str, "DataBrowse %x-2");
 		return;
 	}
-	
+
 	*str= mallocN(len, "IDnames_pup");
 	(*str)[0]= 0;
-	
+
 	id= lb->first;
 	count= 1;
 	while(id) {
 		if(id==link) *nr= count;
-		
+
 		fake= id->flag & LIB_FAKEUSER;
-		
+
 		if(id->lib && id->us==0) strcat(*str, "L0 ");
 		else if(id->lib && fake) strcat(*str, "LF ");
 		else if(id->lib) strcat(*str, "L   ");
@@ -620,11 +611,11 @@ void IDnames_to_pupstring_nr(char **str, ListBase *lb, ID *link, short *nr, shor
 		else if(id->us==0) strcat(*str, "  0 ");
 		else if(id->us<0) strcat(*str, "-1W ");
 		else strcat(*str, "     ");
-		
+
 		strcat(*str, id->name+2);
-		
+
 		if(id->next) strcat(*str, "|");
-		
+
 		count++;
 		if(count>45) break;
 		id= id->next;
@@ -648,9 +639,9 @@ void IDnames_to_pupstring_title(char *title, char **str, ListBase *lb, ID *link,
 	if(*str) {
 		int len= strlen(title)+strlen(*str);
 		char *nstr;
-		
+
 		nstr= mallocN(len+32, "pup title");
-		
+
 		strcpy(nstr, title);
 		strcat(nstr, "%t|");
 		strcat(nstr, *str);
@@ -666,10 +657,10 @@ void IPOnames_to_pupstring(char **str, ListBase *lb, ID *link, short *nr, int bl
 	Ipo *ipo;
 	int fake, len=30, count;
 	char extra[8];
-		
+
 	*nr= -1;
 	extra[5]= 0;
-	
+
 	/* lengte berekenen, doe er 30 bij voor evt extra item */
 	id= lb->first;
 	count= 0;
@@ -691,16 +682,16 @@ void IPOnames_to_pupstring(char **str, ListBase *lb, ID *link, short *nr, int bl
 
 	*str= mallocN(len, "IPOnames_pup");
 	(*str)[0]= 0;
-	
+
 	id= lb->first;
 	count= 1;
 	while(id) {
 		ipo= (Ipo *)id;
 		if(blocktype==ipo->blocktype) {
 			if(id==link) *nr= count;
-			
+
 			fake= id->flag & LIB_FAKEUSER;
-			
+
 			if(id->lib && id->us==0) strcat(*str, "L0 ");
 			else if(id->lib && fake) strcat(*str, "L F ");
 			else if(id->lib) strcat(*str, "L   ");
@@ -708,16 +699,16 @@ void IPOnames_to_pupstring(char **str, ListBase *lb, ID *link, short *nr, int bl
 			else if(id->us==0) strcat(*str, "  0 ");
 			else if(id->us<0) strcat(*str, "-1W ");
 			else strcat(*str, "     ");
-			
+
 			strcat(*str, id->name+2);
-			
+
 			if(id->next) strcat(*str, "|");
-			
+
 			count++;
 		}
 		id= id->next;
 	}
-	
+
 	/* verwijderen laatste OR teken */
 	len= strlen(*str);
 	if(len && (*str)[len-1]=='|') (*str)[len-1]= 0;
@@ -727,12 +718,12 @@ int has_id_number(ID *id)
 {
 	int a, len;
 	char *name;
-	
+
 	name= id->name+2;
 	len= strlen(name);
 	if(len<2) return 0;
 	if(name[len-1]=='.') return 0;
-	
+
 	while(--len) {
 		if( name[len]=='.') return 1;
 		if( isdigit( name[len] )==0 ) return 0;
@@ -743,13 +734,13 @@ int has_id_number(ID *id)
 void splitIDname(char *name, char *left, int *nr)
 {
 	int len, a;
-	
+
 	*nr= 0;
 	strncpy(left, name, 21);
-	
+
 	a=len= strlen(name);
 	if(a>1 && name[a-1]=='.') return;
-	
+
 	while(a--) {
 		if( name[a]=='.' ) {
 			left[a]= 0;
@@ -757,20 +748,20 @@ void splitIDname(char *name, char *left, int *nr)
 			return;
 		}
 		if( isdigit(name[a])==0 ) break;
-		
+
 		left[a]= 0;
 	}
-	strcpy(left, name);	
+	strcpy(left, name);
 }
 
 void sort_alpha_id(ListBase *lb,  ID *id)
 {
 	ID *idtest;
-	
+
 	/* alfabetisch opnieuw invoegen */
 	if(lb->first!=lb->last) {
 		remlink(lb, id);
-		
+
 		idtest= lb->first;
 		while(idtest) {
 
@@ -785,7 +776,7 @@ void sort_alpha_id(ListBase *lb,  ID *id)
 			addtail(lb, id);
 		}
 	}
-	
+
 }
 
 int new_id(ListBase *lb, ID *id, char *tname)
@@ -795,7 +786,7 @@ int new_id(ListBase *lb, ID *id, char *tname)
 	ID *idtest;
 	int nr= 0, nrtest, maxtest=32, a;
 	char aname[32], *name, left[24], leftest[24], in_use[32];
-	
+
 	/* - naam splitsen
 	 * - zoeken
 	 */
@@ -807,7 +798,7 @@ int new_id(ListBase *lb, ID *id, char *tname)
 		/* tname can be const */
 		strncpy(aname, tname, 21);
 		name= aname;
-		
+
 		if( strlen(name) > 21 ) name[21]= 0;
 	}
 
@@ -816,25 +807,25 @@ int new_id(ListBase *lb, ID *id, char *tname)
 	/* eerste fase: bestaat de id al? */
 	idtest= lb->first;
 	while(idtest) {
-	
+
 		if(id!=idtest && idtest->lib==0) {
-			
+
 			/* niet alphabetic testen! */
 			/* optim */
 			if( idtest->name[2] == name[0] ) {
 				if(strcmp(name, idtest->name+2)==0) break;
 			}
 		}
-		
+
 		idtest= idtest->next;
-	}	
+	}
 
 	/* if there is no double return */
 	if(idtest==0) {
 		strcpy(id->name+2, name);
 		return 0;
 	}
-	
+
 	bzero(in_use, maxtest);
 
 	splitIDname(name, left, &nr);
@@ -844,20 +835,20 @@ int new_id(ListBase *lb, ID *id, char *tname)
 
 	idtest= lb->first;
 	while(idtest) {
-	
+
 		if(id!=idtest && idtest->lib==0) {
-			
+
 			splitIDname(idtest->name+2, leftest, &nrtest);
 			if(strcmp(left, leftest)==0) {
-				
+
 				if(nrtest<maxtest) in_use[nrtest]= 1;
 				if(nr <= nrtest) nr= nrtest+1;
 			}
 		}
-		
+
 		idtest= idtest->next;
 	}
-	
+
 	for(a=0; a<maxtest; a++) {
 		if(a>=nr) break;
 		if( in_use[a]==0 ) {
@@ -865,13 +856,13 @@ int new_id(ListBase *lb, ID *id, char *tname)
 			break;
 		}
 	}
-	
+
 	if(nr==0) sprintf(id->name+2, "%s", left);
 	else {
 		sprintf(id->name+2, "%s.%0.3d", left, nr);
 	}
-	
-	sort_alpha_id(lb, id);	
+
+	sort_alpha_id(lb, id);
 
 	return 1;
 }
@@ -902,11 +893,11 @@ void all_local()
 	a= set_listbasepointers(G.main, lbarray);
 	while(a--) {
 		id= lbarray[a]->first;
-		
+
 		while(id) {
 			id->newid= 0;
 			id->flag &= ~(LIB_EXTERN|LIB_INDIRECT|LIB_NEW);
-			
+
 			idn= id->next;		/* id wordt mogelijk opnieuw ingevoegd */
 			if(id->lib) {
 				id->lib= 0;
@@ -929,12 +920,12 @@ void all_local()
 						}
 					}
 				}
-*/				
+*/
 			}
-			
+
 			id= idn;
 		}
-		
+
 		/* patch2: zorgen dat de zaak wel alphabetisch is */
 		while(id=tempbase.first) {
 			remlink(&tempbase, id);
@@ -950,11 +941,11 @@ void test_idbutton(char *name)
 	/* vanuit buttons: als naam al bestaat: new_id aanroepen */
 	ListBase *lb;
 	ID *id, *idtest;
-	
+
 
 	lb= wich_libbase(G.main, GS(name-2) );
 	if(lb==0) return;
-	
+
 	/* zoek welke id */
 	idtest= lb->first;
 	while(idtest) {
@@ -969,11 +960,11 @@ void rename_id(ID *id, char *name)
 {
 	ListBase *lb;
 	ID *idtest;
-	
+
 	strncpy(id->name+2, name, 21);
 	lb= wich_libbase(G.main, GS(id->name) );
-	
-	new_id(lb, id, name);				
+
+	new_id(lb, id, name);
 
 }
 

@@ -485,57 +485,6 @@ void set_mesh(Object *ob, Mesh *me)
 	test_object_materials((ID *)me);
 }
 
-void mball_to_mesh(ListBase *lb, Mesh *me)
-{
-	DispList *dl;
-	MVert *mvert;
-	MFace *mface;
-	float *nors, *verts, nor[3];
-	int a, *index;
-	
-	dl= lb->first;
-	if(dl==0) return;
-
-	if(dl->type==DL_INDEX4) {
-		me->flag= ME_NOPUNOFLIP;
-		me->totvert= dl->nr;
-		me->totface= dl->parts;
-		
-		me->mvert=mvert= callocN(dl->nr*sizeof(MVert), "mverts");
-		a= dl->nr;
-		nors= dl->nors;
-		verts= dl->verts;
-		while(a--) {
-			VECCOPY(mvert->co, verts);
-			VECCOPY(nor, nors);
-			VecMulf(nor, 32767.0);
-			VECCOPY(mvert->no, nor);
-			mvert++;
-			nors+= 3;
-			verts+= 3;
-		}
-		
-		me->mface=mface= callocN(dl->parts*sizeof(MFace), "mface");
-		a= dl->parts;
-		index= dl->index;
-		while(a--) {
-			mface->v1= index[0];
-			mface->v2= index[1];
-			mface->v3= index[2];
-			mface->v4= index[3];
-
-			mface->puno= 15;
-			mface->edcode= ME_V1V2+ME_V2V3;
-			mface->flag = ME_SMOOTH;
-			
-			mface++;
-			index+= 4;
-		}
-
-		test_object_materials((ID *)me);
-	}	
-}
-
 void nurbs_to_mesh(Object *ob)
 {
 	Object *ob1;

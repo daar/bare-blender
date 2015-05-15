@@ -697,10 +697,7 @@ short selectprojektie(IGLuint *buffer, short x1, short y1, short x2, short y2)
 	glPushName(-1);
 	code= 1;
 	
-	if(G.obedit && G.obedit->type==OB_MBALL) {
-		draw_object(BASACT);
-	}
-	else {
+	{
 		base= G.scene->base.first;
 		while(base) {
 			if(base->lay & G.vd->lay) {

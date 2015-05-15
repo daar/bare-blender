@@ -172,7 +172,6 @@ typedef struct Main {
 	ListBase object;
 	ListBase mesh;
 	ListBase curve;
-	ListBase mball;
 	ListBase mat;
 	ListBase tex;
 	ListBase image;

@@ -14,7 +14,7 @@ set(OB_GRAPHICS buttons.c drawimage.c
 	drawobject.c drawoops.c drawscene.c 
 	drawseq.c drawtext.c drawview.c 
 	editika.c editimasel.c editkey.c editlattice.c 
-	editmball.c editoops.c drawmesh.c 
+	editoops.c drawmesh.c 
 	editseq.c editsima.c editview.c filesel.c 
 	headerbuttons.c mywindow.c os_specific.c playanim.c 
 	screen.c space.c toets.c 
@@ -28,7 +28,7 @@ set(OB_STANDALONE keyval.c imageprocess.c noise.c psfont.c rct.c)
 
 set(OB_MIXMODEL anim.c arithb.c blender.c curve.c effect.c 
 	exotic.c font.c ika.c image.c imasel.c ipo.c 
-	key.c library.c material.c mball.c mesh.c object.c oops.c 
+	key.c library.c material.c mesh.c object.c oops.c 
 	scene.c sequence.c text.c world.c property.c sca.c group.c)
 
 set(OB_RENDER writeavi.c writemovie.c)

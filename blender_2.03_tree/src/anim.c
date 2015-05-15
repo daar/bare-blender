@@ -276,9 +276,6 @@ void frames_duplilist(Object *ob)
 			newob= mallocN(sizeof(Object), "newobobj dupli");
 			memcpy(newob, ob, sizeof(Object));
 			
-			/* alleen de basis-ball behoeft een displist */
-			if(newob->type==OB_MBALL) newob->disp.first= newob->disp.last= 0;
-
 			addtail(&duplilist, newob);
 			do_ob_ipo(newob);
 			where_is_object(newob);
@@ -323,9 +320,7 @@ void vertex_duplilist(Scene *sce, Object *par)
 				if(ob==par) {
 				
 					ob= base->object;
-					/* mballs have a different dupli handling */
-					if(ob->type!=OB_MBALL) ob->flag |= OB_DONE;	/* doesnt render */
-					
+
 					me= par->data;
 					mvert= me->mvert;
 					mvert+= (me->totvert-1);
@@ -347,9 +342,6 @@ void vertex_duplilist(Scene *sce, Object *par)
 						memcpy(newob, ob, sizeof(Object));
 						newob->flag |= OB_FROMDUPLI;
 						newob->id.newid= (ID *)par;	/* duplicator bewaren */
-						
-						/* alleen de basis-ball behoeft een displist */
-						if(newob->type==OB_MBALL) newob->disp.first= newob->disp.last= 0;
 						
 						VECCOPY(newob->obmat[3], vec);
 						
@@ -428,9 +420,6 @@ void particle_duplilist(Scene *sce, Object *par, PartEff *paf)
 								newob->flag |= OB_FROMDUPLI;
 								newob->id.newid= (ID *)par;	/* duplicator bewaren */
 
-								/* alleen de basis-ball behoeft een displist */
-								if(newob->type==OB_MBALL) newob->disp.first= newob->disp.last= 0;
-								
 								where_is_particle(paf, pa, ctime, vec);
 								if(paf->stype==PAF_VECT) {
 									where_is_particle(paf, pa, ctime+1.0, vec1);

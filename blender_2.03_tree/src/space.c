@@ -246,7 +246,6 @@ void winqread3d(ushort event, short val)
 				if(G.obedit && (G.qual & LR_CTRLKEY)==0) {
 					if(G.obedit->type==OB_MESH) mouse_mesh();
 					else if ELEM(G.obedit->type, OB_CURVE, OB_SURF) mouse_nurb();
-					else if(G.obedit->type==OB_MBALL) mouse_mball();
 					else if(G.obedit->type==OB_LATTICE) mouse_lattice();
 				}
 				else if( G.qual & LR_CTRLKEY ) mouse_select();
@@ -292,7 +291,6 @@ void winqread3d(ushort event, short val)
 					if(G.obedit) {
 						if(G.obedit->type==OB_MESH) deselectall_mesh();
 						else if ELEM(G.obedit->type, OB_CURVE, OB_SURF) deselectall_nurb();
-						else if(G.obedit->type==OB_MBALL) deselectall_mball();
 						else if(G.obedit->type==OB_LATTICE) deselectall_Latt();
 					}
 					else {
@@ -336,7 +334,6 @@ void winqread3d(ushort event, short val)
 				if(G.qual & LR_SHIFTKEY) {
 					if(G.obedit) {
 						if(G.obedit->type==OB_MESH) adduplicate_mesh();
-						else if(G.obedit->type==OB_MBALL) adduplicate_mball();
 						else if ELEM(G.obedit->type, OB_CURVE, OB_SURF) adduplicate_nurb();
 					}
 					else adduplicate(0);
@@ -580,7 +577,6 @@ void winqread3d(ushort event, short val)
 				if(G.obedit) {
 					if(G.obedit->type==OB_MESH) delete_mesh();
 					else if ELEM(G.obedit->type, OB_CURVE, OB_SURF) delNurb();
-					else if(G.obedit->type==OB_MBALL) delete_mball();
 				}
 				else delete_obj(0);
 				break;
@@ -953,7 +949,6 @@ void drawinfospace()
 	uiDefBut(block, TOG|SHO|BIT|1, 0, "Curve",		995,32,50,20, &(U.dupflag), 0, 0, 0, 0, "Causes Curve data to be duplicated with CTRL+d");
 	uiDefBut(block, TOG|SHO|BIT|2, 0, "Surf",		995,10,50,20, &(U.dupflag), 0, 0, 0, 0, "Causes Surface data to be duplicated with CTRL+d");
 	uiDefBut(block, TOG|SHO|BIT|3, 0, "Text",		1048,32,50,20, &(U.dupflag), 0, 0, 0, 0, "Causes Text data to be duplicated with CTRL+d");
-	uiDefBut(block, TOG|SHO|BIT|4, 0, "MBall",		1048,10,50,20, &(U.dupflag), 0, 0, 0, 0, "Causes Metaball data to be duplicated with CTRL+d");
 	uiDefBut(block, TOG|SHO|BIT|5, 0, "Lamp",		1101,32,50,20, &(U.dupflag), 0, 0, 0, 0, "Causes Lamp data to be duplicated with CTRL+d");
 	uiDefBut(block, TOG|SHO|BIT|6, 0, "Ipo",			1101,10,50,20, &(U.dupflag), 0, 0, 0, 0, "Causes Ipo data to be duplicated with CTRL+d");
 	uiDefBut(block, TOG|SHO|BIT|7, 0, "Material",	1153,32,70,20, &(U.dupflag), 0, 0, 0, 0, "Causes Material data to be duplicated with CTRL+d");

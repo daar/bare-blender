@@ -77,7 +77,6 @@ void info_file(Object *ob);
 void init_def_material(void);
 void init_render_curve(Object *ob);
 void init_render_jit(int nr);
-void init_render_mball(Object *ob);
 void init_render_mesh(Object *ob);
 void init_render_object(Object *ob);
 void init_render_surf(Object *ob);

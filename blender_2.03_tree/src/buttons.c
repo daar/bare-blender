@@ -279,11 +279,6 @@ char texstr[15][8]= {"None","Clouds","Wood","Marble","Magic","Blend","Stucci","N
 #define B_CAMBUTS		2500
 
 /* *********************** */
-#define B_MBALLBUTS		2600
-
-#define B_RECALCMBALL	2501
-
-/* *********************** */
 #define B_LATTBUTS		2700
 
 #define B_RESIZELAT		2601
@@ -658,7 +653,6 @@ void do_common_editbuts(ushort event)
 		ob= OBACT;
 		if(ob && G.obedit==0) {
 			if(ob->type==OB_MESH) tex_space_mesh(ob->data);
-			else if(ob->type==OB_MBALL) ;
 			else tex_space_curve(ob->data);
 		}
 		break;
@@ -782,10 +776,9 @@ void common_editbuts()
 	block->col= BUTGREY;
 	
 	/* material en select swap en hide */
-	if ELEM5(ob->type, OB_MESH, OB_CURVE, OB_SURF, OB_FONT, OB_MBALL) {
+	if ELEM4(ob->type, OB_MESH, OB_CURVE, OB_SURF, OB_FONT) {
 		
 			if(ob->type==OB_MESH) poin= &( ((Mesh *)ob->data)->texflag );
-			else if(ob->type==OB_MBALL) poin= &( ((MetaBall *)ob->data)->texflag );
 			else poin= &( ((Curve *)ob->data)->texflag );
 			uiDefBut(block, TOG|INT|BIT|0, B_AUTOTEX, "AutoTexSpace",	143,180,130,19, poin, 0, 0, 0, 0, "To switch automatic calculation of texture space");
 
@@ -2016,67 +2009,6 @@ void radiobuts()
 	glRasterPos2i(210, 189);
 	fmprstr(str);
 	
-}
-
-
-/* *************************** MBALL ******************************** */
-
-void do_mballbuts(ushort event)
-{
-	extern MetaElem *lastelem;
-
-	switch(event) {
-	case B_RECALCMBALL:
-		makeDispList(OBACT);
-		allqueue(REDRAWVIEW3D, 0);
-		break;
-	}
-}
-
-void mballbuts()
-{
-	extern MetaElem *lastelem;
-	MetaBall *mb;
-	Object *ob;
-	uiBlock *block;
-	uiBut *but;
-	char str[64];
-	
-	ob= OBACT;
-	if(ob==0) return;
-
-	sprintf(str, "editbuttonswin %d", curarea->win);
-	block= uiNewBlock(&curarea->uiblocks, str, UI_EMBOSSX, UI_HELV, 0x808080, curarea->win);
-	
-	mb= ob->data;
-	
-	if( has_id_number((ID *)ob)==0 ) {
-		uiDefBut(block, NUMSLI|FLO, B_RECALCMBALL, "Wiresize:",	470,178,250,19, &mb->wiresize, 0.05, 1.0, 0, 0, "");
-		uiDefBut(block, NUMSLI|FLO, 0, "Rendersize:",			470,158,250,19, &mb->rendersize, 0.05, 1.0, 0, 0, "");
-		uiDefBut(block, NUMSLI|FLO, B_RECALCMBALL, "Threshold:", 470,138,250,19, &mb->thresh, 0.0001, 5.0, 0, 0, "");
-
-		block->col= BUTBLUE;
-		uiDefBut(block, LABEL, 0, "Update:",		471,108,120,19, 0, 0, 0, 0, 0, "");
-		uiDefBut(block, ROW|SHO, B_DIFF, "Always",	471, 85, 120, 19, &mb->flag, 0.0, 0.0, 0, 0, "");
-		uiDefBut(block, ROW|SHO, B_DIFF, "Half Res",	471, 65, 120, 19, &mb->flag, 0.0, 1.0, 0, 0, "");
-		uiDefBut(block, ROW|SHO, B_DIFF, "Fast",		471, 45, 120, 19, &mb->flag, 0.0, 2.0, 0, 0, "");
-		block->col= BUTGREY;
-	}
-	
-	if(ob==G.obedit && lastelem) {
-		uiDefBut(block, NUMSLI|FLO, B_RECALCMBALL, "Stiffness:", 750,178,250,19, &lastelem->s, 0.0, 10.0, 0, 0, "");
-		uiDefBut(block, NUMSLI|FLO, B_RECALCMBALL, "Len:",		750,158,250,19, &lastelem->len, 0.0, 20.0, 0, 0, "");
-
-		block->col= BUTGREEN;
-		uiDefBut(block, TOG|SHO|BIT|1, B_RECALCMBALL, "Negative",752,116,60,19, &lastelem->flag, 0, 0, 0, 0, "");
-
-		uiDefBut(block, ROW|SHO, B_RECALCMBALL, "Ball",			753,83,60,19, &lastelem->type, 1.0, 0.0, 0, 0, "");
-		uiDefBut(block, ROW|SHO, B_RECALCMBALL, "TubeX",			753,62,60,19, &lastelem->type, 1.0, 1.0, 0, 0, "");
-		uiDefBut(block, ROW|SHO, B_RECALCMBALL, "TubeY",			814,62,60,19, &lastelem->type, 1.0, 2.0, 0, 0, "");
-		uiDefBut(block, ROW|SHO, B_RECALCMBALL, "TubeZ",			876,62,60,19, &lastelem->type, 1.0, 3.0, 0, 0, "");
-
-	}
-	uiDrawBlock(block);
 }
 
 /* *************************** SCRIPT ******************************** */
@@ -5402,7 +5334,6 @@ void drawbutspace()
 			if(ob->type==OB_FONT) fontbuts();
 		}
 		else if(ob->type==OB_CAMERA) camerabuts();
-		else if(ob->type==OB_MBALL) mballbuts();
 		else if(ob->type==OB_LATTICE) latticebuts();
 		else if(ob->type==OB_IKA) ikabuts();
 			
@@ -5477,9 +5408,6 @@ void do_blenderbuttons(ushort event)
 	}
 	else if(event<=B_CAMBUTS) {
 		;
-	}
-	else if(event<=B_MBALLBUTS) {
-		do_mballbuts(event);
 	}
 	else if(event<=B_LATTBUTS) {
 		do_latticebuts(event);

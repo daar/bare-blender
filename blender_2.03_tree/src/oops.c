@@ -642,9 +642,6 @@ void add_object_oopslinks(Object *ob, Oops *oops, short flag)
 		case ID_CU:
 			if(flag & OOPS_CU) add_oopslink("data", oops, ID_CU, &ob->data, .5*OOPSX, OOPSY);
 			break;
-		case ID_MB:
-			if(flag & OOPS_MB) add_oopslink("data", oops, ID_MB, &ob->data, .5*OOPSX, OOPSY);
-			break;
 		case ID_LT:
 			if(flag & OOPS_LT) add_oopslink("data", oops, ID_LT, &ob->data, .5*OOPSX, OOPSY);
 			break;
@@ -701,19 +698,6 @@ void add_curve_oopslinks(Curve *cu, Oops *oops, short flag)
 	
 }
 
-void add_mball_oopslinks(MetaBall *mb, Oops *oops, short flag)
-{
-	int a;
-	
-	if(flag & OOPS_MA) {
-		for(a=0; a<mb->totcol; a++) {
-			if(mb->mat[a]) {
-				add_oopslink("ma", oops, ID_MA, mb->mat+a, 0.0, 0.5*OOPSY);
-			}
-		}
-	}
-}
-
 Oops *add_test_oops(void *id)	/* incl links */
 {
 	Oops *oops;
@@ -752,9 +736,6 @@ Oops *add_test_oops(void *id)	/* incl links */
 		break;
 	case ID_CU:
 		add_curve_oopslinks((Curve *)id, oops, G.soops->visiflag);
-		break;
-	case ID_MB:
-		add_mball_oopslinks((MetaBall *)id, oops, G.soops->visiflag);
 		break;
 	case ID_LA:
 		/* textures nog doen */
@@ -866,14 +847,6 @@ void build_oops()
 				cu= cu->id.next;
 			}
 		}
-
-		if(G.soops->visiflag & OOPS_MB) {
-			MetaBall *mb= G.main->mball.first;
-			while(mb) {
-				oops= add_test_oops(mb);
-				mb= mb->id.next;
-			}
-		}
 	
 		if(G.soops->visiflag & OOPS_LA) {
 			Lamp *la= G.main->lamp.first;
@@ -973,19 +946,6 @@ void build_oops()
 						if(G.soops->visiflag & OOPS_IP) {
 							if(cu->ipo) oops= add_test_oops(cu->ipo);
 							if(cu->key) oops= add_test_oops(cu->key->ipo);
-						}
-					}
-					else if(type==ID_MB && G.soops->visiflag & OOPS_MB) {
-						oops= add_test_oops(ob->data);
-						
-						if(G.soops->visiflag & OOPS_MA) {
-							MetaBall *mb= ob->data;
-							for(a=0; a<mb->totcol; a++) {
-								if(mb->mat[a]) {
-									oops= add_test_oops(mb->mat[a]);
-									if(G.soops->visiflag & OOPS_TE) add_texture_oops(mb->mat[a]);
-								}
-							}
 						}
 					}
 					else if(type==ID_LA && G.soops->visiflag & OOPS_LA) {

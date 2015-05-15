@@ -494,16 +494,6 @@ void count_object(Object *ob, int sel)
 			G.totfacesel+= totf;
 		}
 		break;
-	case OB_MBALL:
-		count_displist( &ob->disp, &tot, &totf);
-		G.totvert+= tot;
-		G.totface+= totf;
-		if(sel) {
-			G.totvertsel+= tot;
-			G.totfacesel+= totf;
-		}
-		
-		break;
 	}
 	
 }
@@ -579,14 +569,6 @@ void countall()
 					}
 				}
 				nu= nu->next;
-			}
-		}
-		else if(G.obedit->type==OB_MBALL) {
-			ml= editelems.first;
-			while(ml) {
-				G.totvert++;
-				if(ml->flag & SELECT) G.totvertsel++;
-				ml= ml->next;
 			}
 		}
 		else if(G.obedit->type==OB_LATTICE) {

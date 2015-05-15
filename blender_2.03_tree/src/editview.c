@@ -785,23 +785,6 @@ void borderselect()
 				}
 				allqueue(REDRAWVIEW3D, 0);
 			}
-			else if(G.obedit->type==OB_MBALL) {
-				hits= selectprojektie(buffer, rect.xmin, rect.ymin, rect.xmax, rect.ymax);
-				
-				ml= editelems.first;
-				
-				while(ml) {
-					for(a=0; a<hits; a++) {
-						if(ml->selcol==buffer[ SELBUFFER_INDEX(a) ]) {
-							if(val==LEFTMOUSE) ml->flag |= SELECT;
-							else ml->flag &= ~SELECT;
-							break;
-						}
-					}
-					ml= ml->next;
-				}
-				allqueue(REDRAWVIEW3D, 0);
-			}
 			else if(G.obedit->type==OB_LATTICE) {
 				
 				calc_lattverts_ext();

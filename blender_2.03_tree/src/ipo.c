@@ -1479,7 +1479,6 @@ void do_all_ipos()
 		if(base->object->ipo) {
 			/* per object ipo ook de calc_ipo doen: ivm mogelijke timeoffs */
 			do_ob_ipo(base->object);
-			if(base->object->type==OB_MBALL) where_is_object(base->object);
 		}
 		base= base->next;
 		
